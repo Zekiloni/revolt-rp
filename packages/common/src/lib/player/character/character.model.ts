@@ -60,7 +60,7 @@ export class Character {
   })
   defaultSpawn!: CharacterSpawn;
 
-  @Prop(({ enum: Object.values(CharacterGender), type: String }))
+  @Prop(({ type: String }))
   gender!: CharacterGender;
 
   @prop({ default: [] })

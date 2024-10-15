@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Button } from 'primeng/button';
-import { Character } from '@bc-rp-rage/shared/lib/character/character.model';
+import { Character } from '@bcrp-rage/common';
 
 @Component({
   selector: 'app-character-selector',
@@ -21,6 +21,5 @@ export class CharacterSelectorComponent {
   ];
 
   selectCharacter(id: string) {
-
   }
 }

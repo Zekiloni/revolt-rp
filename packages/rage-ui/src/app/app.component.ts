@@ -7,8 +7,8 @@ import { GameUiActions, hideGameInterface, showGameInterface } from './store/gam
 import { isGameInterfaceActive } from './store/game-ui/game-ui.selector';
 import { AuthComponent } from './component/auth';
 import { CharacterSelectorComponent } from './component/character-selector';
-import { GameUiKey } from '@bc-rp-rage/shared/lib/game-ui/game-ui-key.enum';
-import { ProcedureKey } from '@bc-rp-rage/shared/lib/enums/procedure.enums';
+import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+
 
 @Component({
   standalone: true,

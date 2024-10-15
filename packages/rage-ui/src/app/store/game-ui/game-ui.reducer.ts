@@ -1,11 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 import { hideGameInterface, showGameInterface } from './game-ui.actions';
-import { IGameInterface } from '@bc-rp-rage/shared/lib/game-ui/game-ui.model';
-import { GameUiKey } from '@bc-rp-rage/shared/lib/game-ui/game-ui-key.enum';
-import { gameUiConfig } from '@bc-rp-rage/shared/lib/game-ui/game-ui.config';
+import { gameUiConfig, GameUiKey, GameInterface } from '@bcrp-rage/common';
 
 
-export type GameInterfaceState = Record<GameUiKey, IGameInterface>;
+export type GameInterfaceState = Record<GameUiKey, GameInterface>;
 
 const initialState: GameInterfaceState = gameUiConfig;
 

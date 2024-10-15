@@ -6,7 +6,7 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RageClientService } from '../../domain/service/rage-client.service';
-import { ProcedureKey } from '@bc-rp-rage/shared/lib/enums/procedure.enums';
+import { ProcedureKey } from '@bcrp-rage/common';
 
 enum AuthOption {
   LOGIN,

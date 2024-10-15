@@ -1,4 +1,4 @@
-export interface IGameInterface {
+export interface GameInterface {
   isActive: boolean;
   mouse?: true;
 }

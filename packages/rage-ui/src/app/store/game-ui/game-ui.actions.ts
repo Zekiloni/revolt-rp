@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
-import { GameUiKey } from '@bc-rp-rage/shared/lib/game-ui/game-ui-key.enum';
+import { GameUiKey } from '@bcrp-rage/common';
 
 export type GameUiActions = typeof showGameInterface | typeof hideGameInterface;
 

@@ -1,7 +1,7 @@
-import { IGameInterface } from './game-ui.model';
+import { GameInterface } from './game-ui.model';
 import { GameUiKey } from './game-ui-key.enum';
 
-export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
+export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   playerAuthorization: {
     isActive: true
   },
