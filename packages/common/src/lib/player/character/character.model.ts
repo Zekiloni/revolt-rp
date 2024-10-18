@@ -45,9 +45,9 @@ export class Character {
   @prop({ ref: () => Account, type: () => String })
   account!: Ref<(Account)>;
 
-  firstName!: string;
+  firstName: string;
 
-  lastName!: string;
+  lastName: string;
 
   birthday!: Date;
 
@@ -71,8 +71,4 @@ export class Character {
   maxVehicles!: number;
 
   position!: Vector3;
-
-  get fullName() {
-    return `${this.firstName} ${this.lastName}`;
-  }
 }

@@ -25,7 +25,7 @@ export class Account {
 	password!: string;
 
 	@prop({ default: false })
-	isEmailVerified: boolean = false;
+	isEmailVerified: boolean;
 
 	@prop()
 	lastIpAddress!: string;

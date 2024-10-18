@@ -1,3 +1,5 @@
+import { triggerClient } from '@libertymp/rage-rpc';
+import { ProcedureKey } from '@bcrp-rage/common';
 
 mp.events.add({
   incomingConnection: incomingConnectionHandler,
@@ -6,6 +8,7 @@ mp.events.add({
 });
 
 function playerJoinHandler(player: PlayerMp) {
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION);
 }
 
 function playerReadyHandler(player: PlayerMp) {

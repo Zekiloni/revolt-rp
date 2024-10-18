@@ -1,0 +1,21 @@
+<div class="grid p-3 w-full" [formGroup]="characterCreateForm">
+  <div class="field mb-4 col-12 md:col-8">
+    <label for="first-name" class="font-medium text-900">First Name</label>
+    <input id="first-name" type="text" pInputText formControlName="firstName">
+  </div>
+
+  <div class="field mb-4 col-12 md:col-8">
+    <label for="last-name" class="font-medium text-900">Last Name</label>
+    <input id="last-name" type="text" pInputText formControlName="lastName">
+  </div>
+
+  <div class="field mb-4 col-12 md:col-8">
+    <label for="birthday" class="font-medium text-900">Birthday</label>
+    <p-calendar id="birthday" formControlName="birthday" [showIcon]="true" placeholder="mm/dd/yyyy" />
+  </div>
+
+  <div class="field mb-4 col-12 md:col-8">
+    <label for="origin" class="font-medium text-900">Origin</label>
+    <input id="origin" type="text" pInputText formControlName="origin" placeholder="Los Santos, San Andreas">
+  </div>
+</div>

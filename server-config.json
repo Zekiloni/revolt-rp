@@ -1,0 +1,10 @@
+{
+	"maxplayers" : 100,
+	"name" : "Blaine County Roleplay - Dev",
+	"gamemode" : "roleplay",
+  "language": "sr",
+	"stream-distance" : 300.0,
+	"announce" : false,
+	"csharp" : "disabled",
+	"port": 22005
+}

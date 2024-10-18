@@ -1,0 +1,35 @@
+# Ignore VS Code settings
+.vscode/
+.vscode-*
+
+# Ignore IntelliJ IDEA project files
+.idea/
+*.iml
+
+# Ignore Node.js modules
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular / NX
+.nx/
+.angular/
+
+# Ignore build artifacts
+build/
+coverage/
+
+# Ignore temp
+tmp/
+server-files/
+
+# Ignore Docker-related files
+Dockerfile*
+docker-compose.yml
+
+# Ignore OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log

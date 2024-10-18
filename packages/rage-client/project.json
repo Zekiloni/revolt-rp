@@ -11,8 +11,7 @@
       "options": {
         "outputPath": "dist/packages/rage-client",
         "main": "packages/rage-client/src/index.ts",
-        "tsConfig": "packages/rage-client/tsconfig.lib.json",
-        "assets": []
+        "tsConfig": "packages/rage-client/tsconfig.lib.json"
       }
     }
   }
