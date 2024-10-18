@@ -14,6 +14,7 @@ export enum AdminType {
 
 export class Account {
 	id!: string;
+
 	@prop({ required: true, unique: true })
 	username!: string;
 

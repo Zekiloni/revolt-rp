@@ -1,12 +1,10 @@
-<div class="absolute absolute-center surface-card p-4 shadow-2 border-round w-full lg:w-3 md:w-5">
+<div class="absolute-center surface-card p-4 shadow-2 border-round w-full lg:w-3 md:w-5">
   <div class="text-center mb-5">
-    <img ngSrc="/assets/images/lsc-rp-logo-4.png" alt="Image" class="mb-3" width="115" height="115" [priority]="true">
+    <img ngSrc="/assets/images/logo-3.png" alt="Image" class="mb-3" width="115" height="115" [priority]="true">
 
     <div class="text-900 text-2xl font-medium mb-3">Welcome to <br> Los Santos County Roleplay</div>
-    <span class="text-600 font-medium line-height-3">Don't have an account?</span>
-
-    <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
-       (click)="switchAuthOptions()">{{ ctaLabel }}</a>
+    <span class="text-600 font-medium line-height-3">Don't have an account? Create one on</span>
+    <a class="block font-medium no-underline ml-2 text-blue-500 cursor-pointer">{{ WEBSITE_URL }}</a>
   </div>
 
   <form [formGroup]="authForm" (ngSubmit)="submitAuthForm()">
@@ -14,11 +12,6 @@
     <input id="username" type="text" placeholder="Username" pInputText class="w-full mb-3"
            formControlName="username">
 
-    @if (selectedAuthOption === AuthOption.REGISTER) {
-      <label for="email1" class="block text-900 font-medium mb-2">Email</label>
-      <input id="email1" type="text" placeholder="Email address" pInputText class="w-full mb-3"
-             formControlName="emailAddress">
-    }
 
     <label for="password" class="block text-900 font-medium mb-2">Password</label>
     <input id="password" type="password" placeholder="Password" pInputText class="w-full mb-3"

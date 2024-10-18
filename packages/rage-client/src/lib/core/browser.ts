@@ -1,35 +1,15 @@
-export class Browser {
-  private instance: BrowserMp;
+import { triggerBrowser } from '@libertymp/rage-rpc';
+import { ProcedureKey } from '@bcrp-rage/common';
 
-  private constructor() {
-    mp.gui.chat.show(false);
+export const browser = mp.browsers.new('http://localhost:4200');
 
-    this.instance = mp.browsers.new('http://localhost:4200');
-    this.instance.active = true;
+browser.markAsChat();
 
-    this.instance.markAsChat();
-  }
-
-  call(type: 'native', eventName: string, ...args: any[]) {
-    switch (type) {
-      case 'native':
-        this.instance.call(eventName, ...args);
-        break;
-      default:
-        break;
-    }
-  }
-
-  showInterface(interfaceKey: string) {
-
-
-  }
-
-  hideInterface(interfaceKey: string) {
-
-  }
-
-  static initialize() {
-    return new Browser();
-  }
+export function showInterface(interfaceKey: string) {
+  triggerBrowser(browser, ProcedureKey.BROWSER_SHOW_GAME_INTERFACE, interfaceKey);
 }
+
+export function hideInterface(interfaceKey: string) {
+  triggerBrowser(browser, ProcedureKey.BROWSER_HIDE_GAME_INTERFACE, interfaceKey);
+}
+

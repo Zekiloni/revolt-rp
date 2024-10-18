@@ -1,4 +1,4 @@
-import log4js, { Log4js } from 'log4js';
+import log4js from 'log4js';
 
 log4js.configure({
   appenders: {

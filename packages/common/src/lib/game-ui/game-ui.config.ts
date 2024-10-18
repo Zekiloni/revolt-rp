@@ -2,15 +2,19 @@ import { GameInterface } from './game-ui.model';
 import { GameUiKey } from './game-ui-key.enum';
 
 export const gameUiConfig: Record<GameUiKey, GameInterface> = {
-  playerAuthorization: {
+  [GameUiKey.Authorization]: {
     isActive: true
   },
 
-  characterSelector: {
+  [GameUiKey.CharacterSelector]: {
     isActive: false
   },
 
-  playerInventory: {
+  [GameUiKey.CharacterCreator]: {
+    isActive: true
+  },
+
+  [GameUiKey.Inventory]: {
     isActive: false
   }
 };

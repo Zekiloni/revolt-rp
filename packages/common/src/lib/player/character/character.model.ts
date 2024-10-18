@@ -1,17 +1,17 @@
 import { Prop, prop, Ref } from '@typegoose/typegoose';
-import { Vector3 } from '../../core.interface';
-import { characterConfig } from './character.config';
 import { CharacterGender, CharacterSpawnType } from './character.enums';
+import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
+import { Vector3 } from '../../core.interface';
 
 export interface HeadBlendData {
   headBlendData: {
-    shapeFirstID: number,
-    shapeSecondID: number,
-    shapeThirdID: number,
-    skinFirstID: number,
-    skinSecondID: number,
-    skinThirdID: number,
+    shapeFirstId: number,
+    shapeSecondId: number,
+    shapeThirdId: number,
+    skinFirstId: number,
+    skinSecondId: number,
+    skinThirdId: number,
     shapeMix: number,
     skinMix: number,
     thirdMix: number,
@@ -34,12 +34,10 @@ export interface CharacterAppearance extends HeadBlendData, FaceFeature {
   hairHighlightColor: number;
 }
 
-
 export interface CharacterSpawn {
   type: CharacterSpawnType;
   propertyId?: string;
 }
-
 
 export class Character {
   id!: string;

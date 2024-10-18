@@ -2,11 +2,11 @@ import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { getModelForClass } from '@typegoose/typegoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
+import { Account, AccountCreate } from '@bcrp-rage/common';
 import { getCharactersByAccountId } from '../character/character.service';
-import { Account } from '@bc-rp-rage/shared/lib/account/account.model';
-import { AccountCreate } from '@bc-rp-rage/shared/lib/account/account-create.model';
 
-const AccountModel = getModelForClass(Account);
+
+export const AccountModel = getModelForClass(Account);
 
 export const getAccountByUsername = async (username: string) => {
 	return AccountModel.findOne({ username }).exec();
@@ -19,7 +19,6 @@ export const getAccountByUsernameOrEmail = async (username: string, email: strin
 		]
 	}).exec();
 };
-
 
 export const createAccount = async (accountCreate: AccountCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
 	const alreadyExist = await getAccountByUsernameOrEmail(accountCreate.username, accountCreate.emailAddress);
@@ -47,3 +46,5 @@ export const authorizeAccount = async (username: string, password: string) => {
 
 	return [account, characters];
 };
+
+

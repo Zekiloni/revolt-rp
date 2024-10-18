@@ -5,17 +5,19 @@ import { on } from '@libertymp/rage-rpc';
 import { GameInterfaceState } from './store/game-ui/game-ui.reducer';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { isGameInterfaceActive } from './store/game-ui/game-ui.selector';
-import { AuthComponent } from './component/auth';
+import { AuthorizationComponent } from './component/authorization';
 import { CharacterSelectorComponent } from './component/character-selector';
 import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+import { CharacterCreatorComponent } from './component/character-creator';
 
 
 @Component({
   standalone: true,
   imports: [
     AsyncPipe,
-    AuthComponent,
-    CharacterSelectorComponent
+    AuthorizationComponent,
+    CharacterSelectorComponent,
+    CharacterCreatorComponent
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -28,7 +30,7 @@ export class AppComponent {
   interfaces = {
     'login': {
       tggle: false,
-      component: AuthComponent
+      component: AuthorizationComponent
     }
   }
 

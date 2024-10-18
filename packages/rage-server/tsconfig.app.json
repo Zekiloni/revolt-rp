@@ -2,8 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
+    "target": "esnext",
     "module": "commonjs",
     "moduleDetection": "force",
+    "resolveJsonModule": true,
     "types": ["node", "../../node_modules/@ragempcommunity/types-server"]
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],

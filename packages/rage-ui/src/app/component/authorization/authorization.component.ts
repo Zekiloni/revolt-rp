@@ -7,11 +7,8 @@ import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { ProcedureKey } from '@bcrp-rage/common';
+import { environment } from '../../../environments/environment';
 
-enum AuthOption {
-  LOGIN,
-  REGISTER
-}
 
 type AuthForm = {
   username: FormControl<string | null>;
@@ -20,7 +17,7 @@ type AuthForm = {
 }
 
 @Component({
-  selector: 'app-auth',
+  selector: 'app-authorization',
   standalone: true,
   imports: [
     CheckboxModule,
@@ -31,18 +28,12 @@ type AuthForm = {
     ReactiveFormsModule
   ],
   providers: [RageClientService],
-  templateUrl: './auth.component.html',
-  styleUrl: './auth.component.css'
+  templateUrl: './authorization.component.html',
+  styleUrl: './authorization.component.css'
 })
-export class AuthComponent implements OnInit, OnDestroy {
-  protected readonly AuthOption = AuthOption;
-
-  selectedAuthOption: AuthOption = AuthOption.REGISTER;
+export class AuthorizationComponent implements OnInit, OnDestroy {
+  WEBSITE_URL = environment.WEBSITE_URL;
   authForm: FormGroup<AuthForm>;
-
-  get ctaLabel() {
-    return this.selectedAuthOption == AuthOption.LOGIN ? 'Sign up' : 'Sing in';
-  }
 
   constructor(private formBuilder: FormBuilder,
               private rageClientService: RageClientService) {
@@ -55,15 +46,10 @@ export class AuthComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required])
     };
 
-    if (this.selectedAuthOption === AuthOption.REGISTER) {
-      controls.emailAddress = new FormControl('', [Validators.required, Validators.email]);
-    }
-
     return this.formBuilder.group(controls) as FormGroup<AuthForm>;
   }
 
   private handleUsernameSuggestion = (usernameSuggestion: string) => {
-    this.selectedAuthOption = AuthOption.LOGIN;
     this.authForm.controls.username.setValue(usernameSuggestion);
   };
 
@@ -81,25 +67,14 @@ export class AuthComponent implements OnInit, OnDestroy {
     );
   }
 
-  switchAuthOptions() {
-    this.selectedAuthOption = this.selectedAuthOption === AuthOption.LOGIN ?
-      AuthOption.REGISTER : AuthOption.LOGIN;
-
-    this.authForm = this.buildAuthForm();
-  }
 
   submitAuthForm() {
     if (this.authForm && this.authForm.invalid) {
       return;
     }
 
-    console.log(this.authForm);
-
-    const procedureKey = this.selectedAuthOption === AuthOption.LOGIN
-      ? ProcedureKey.SERVER_PLAYER_AUTHORIZE : ProcedureKey.SERVER_PLAYER_CREATE_ACCOUNT;
-
     const payload = this.authForm.getRawValue();
 
-    this.rageClientService.callServer(procedureKey, payload);
+    this.rageClientService.callServer(ProcedureKey.SERVER_PLAYER_AUTHORIZE, payload);
   }
 }

@@ -1,4 +1,4 @@
-@import 'primeng/resources/themes/arya-orange/theme.css';
+@import 'primeng/resources/themes/arya-green/theme.css';
 @import 'primeng/resources/primeng.css';
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
@@ -17,4 +17,11 @@ html, body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.absolute-left-center {
+  position: absolute;;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
 }
