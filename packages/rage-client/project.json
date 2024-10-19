@@ -2,16 +2,24 @@
   "name": "rage-client",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "packages/rage-client/src",
-  "projectType": "library",
+  "projectType": "application",
   "tags": [],
   "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "dependsOn": ["build"],
       "options": {
-        "outputPath": "dist/packages/rage-client",
-        "main": "packages/rage-client/src/index.ts",
-        "tsConfig": "packages/rage-client/tsconfig.lib.json"
+        "buildTarget": "rage-client:build",
+        "runBuildTargetDependencies": false
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "rage-client:build:development"
+        },
+        "production": {
+          "buildTarget": "rage-client:build:production"
+        }
       }
     }
   }

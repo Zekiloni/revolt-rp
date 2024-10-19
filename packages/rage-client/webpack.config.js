@@ -3,10 +3,11 @@ const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/packages/rage-server'),
+    path: join(__dirname, '../../dist/packages/rage-client'),
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    fallback: { "util": false }
   },
   module: {
     rules: [
@@ -19,18 +20,17 @@ module.exports = {
             configFile: join(__dirname, 'tsconfig.app.json')
           }
         },
-        exclude: [/node_modules/]
+        exclude: /node_modules/,
       }
     ]
   },
   plugins: [
     new NxAppWebpackPlugin({
-      target: 'node',
       compiler: 'tsc',
-      main: './src/main.ts',
-      generatePackageJson: true,
+      main: './src/index.ts',
       tsConfig: './tsconfig.app.json',
       optimization: false,
+      runtimeChunk: false,
       outputHashing: 'none',
     }),
   ],

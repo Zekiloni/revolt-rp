@@ -1,1 +1,4 @@
-export * from './lib/rage-client';
+import './core/browser';
+import './authorization/authorization';
+
+
