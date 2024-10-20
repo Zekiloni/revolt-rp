@@ -19,10 +19,10 @@ export enum ItemType {
    HUNTING_LICENSE,
    WEAPON_LICENSE,
 
-   /* Weaponn types */
+   /* Weapon types */
    WEAPON_MELEE,
    WEAPON_HANDGUN,
-   WEAPON_SUBMACHINE,
+   WEAPON_SUB_MACHINE,
    WEAPON_SHOTGUN,
    WEAPON_ASSAULT_RIFLE,
    WEAPON_SNIPER,
@@ -38,6 +38,7 @@ export enum ItemType {
    UTILITY,
    TOOL,
    ELECTRONIC_DEVICE,
+   DEVICE_PHONE,
    DEVICE_SMARTPHONE,
    DEVICE_HANDHELD_RADIO,
 

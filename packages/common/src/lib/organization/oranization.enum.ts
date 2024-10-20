@@ -1,0 +1,16 @@
+export enum OrganizationType {
+  LAW = 'law',
+  EMS = 'ems',
+  Gang = 'gang',
+  Mafia = 'mafia',
+  Cartel = 'cartel',
+  Moto_club = 'moto_club',
+  Company = 'company',
+  Charity = 'charity',
+  Military = 'military',
+  Religious = 'religious',
+  Cult = 'cult',
+  Syndicate = 'syndicate',
+  Network = 'network',
+  Other = 'other',
+}

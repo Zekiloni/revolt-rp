@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Button } from 'primeng/button';
-import { ICharacter } from '@bcrp-rage/common';
+import { IAccount, ICharacter } from '@bcrp-rage/common';
+
 
 @Component({
   selector: 'app-character-selector',
@@ -9,18 +10,27 @@ import { ICharacter } from '@bcrp-rage/common';
     Button
   ],
   templateUrl: './character-selector.component.html',
-  styleUrl: './character-selector.component.css',
+  styleUrl: './character-selector.component.css'
 })
 export class CharacterSelectorComponent {
-  characters: Partial<ICharacter>[] = [
-    {
-      firstName: 'Zachary',
-      lastName: 'Parker',
-      id: 'ada'
-    }
-  ];
+  account: Partial<IAccount> = {
+    username: 'Zekiloni',
+    characters: []
+  };
+
+
+  get characters(): Partial<ICharacter>[] {
+    return [
+      {
+        firstName: 'Zachary',
+        lastName: 'Parker',
+        level: 1,
+        lastSessionAt: new Date
+      }
+    ];
+  }
 
   selectCharacter(id: string) {
-    console.log('id')
+    console.log('id');
   }
 }

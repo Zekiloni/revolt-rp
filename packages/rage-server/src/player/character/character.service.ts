@@ -1,20 +1,20 @@
 import { getModelForClass } from '@typegoose/typegoose';
 import {
-  CharacterAppearance,
+  ICharacterApperance,
   CharacterGender,
-  CharacterSpawn,
+  ICharacterSpawn,
   ICharacter,
-  InventoryItem
+  IInventoryItem
 } from '@bcrp-rage/common';
 
 export class Character implements ICharacter {
-  appearance: CharacterAppearance;
+  appearance: ICharacterApperance;
   birthday: Date;
-  defaultSpawn: CharacterSpawn;
+  defaultSpawn: ICharacterSpawn;
   firstName: string;
   gender: CharacterGender;
   id: string;
-  inventory: InventoryItem[];
+  inventory: IInventoryItem[];
   lastName: string;
   maxProperties: number;
   maxVehicles: number;

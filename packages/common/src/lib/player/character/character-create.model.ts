@@ -1,5 +1,5 @@
 import { CharacterGender } from './character.enums';
-import { CharacterAppearance } from './character.model';
+import { ICharacterApperance } from './character.model';
 
 export interface ICharacterCreate {
 	firstName: string;
@@ -7,5 +7,5 @@ export interface ICharacterCreate {
 	birthday: Date;
 	origin: string;
 	gender: CharacterGender;
-	appearance: CharacterAppearance;
+	appearance: ICharacterApperance;
 }
