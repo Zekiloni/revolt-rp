@@ -3,15 +3,19 @@ import { GameUiKey } from './game-ui-key.enum';
 
 export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.Authorization]: {
-    isActive: true
+    isActive: false,
+    freezeControls: true,
+    mouse: true
   },
 
   [GameUiKey.CharacterSelector]: {
-    isActive: false
+    isActive: false,
+    mouse: true,
+    freezeControls: true
   },
 
   [GameUiKey.CharacterCreator]: {
-    isActive: true
+    isActive: false
   },
 
   [GameUiKey.Inventory]: {

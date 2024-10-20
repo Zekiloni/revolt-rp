@@ -8,11 +8,12 @@ mp.events.add({
 });
 
 function playerJoinHandler(player: PlayerMp) {
-  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION);
+  player.dimension = (player.id + 100);
+  player.alpha = 0;
 }
 
 function playerReadyHandler(player: PlayerMp) {
-
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, true);
 }
 
 function incomingConnectionHandler(ip: string, serial: string, rgscName: string, rgscId: string, gameType: string) {

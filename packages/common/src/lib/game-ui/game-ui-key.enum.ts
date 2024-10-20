@@ -1,4 +1,4 @@
-export const enum GameUiKey {
+export enum GameUiKey {
   Authorization = 'authorization',
   CharacterSelector = "characterSelector",
   CharacterCreator = "characterCreator",

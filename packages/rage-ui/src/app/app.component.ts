@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { on } from '@libertymp/rage-rpc';
 import { GameInterfaceState } from './store/game-ui/game-ui.reducer';
@@ -23,23 +23,17 @@ import { CharacterCreatorComponent } from './component/character-creator';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
+  protected readonly GameUiKey = GameUiKey;
+
   title = 'client-gui';
-
-
-  interfaces = {
-    'login': {
-      tggle: false,
-      component: AuthorizationComponent
-    }
-  }
 
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
   constructor(@Inject(Store) private store: Store<GameInterfaceState>) {
   }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
       const gameInterfaceEvents: Record<string, GameUiActions> = {
         [ProcedureKey.BROWSER_SHOW_GAME_INTERFACE]: showGameInterface,
@@ -59,6 +53,4 @@ export class AppComponent {
       this.store.dispatch(handler(gameInterfaceKey));
     });
   }
-
-  protected readonly GameUiKey = GameUiKey;
 }

@@ -1,3 +1,3 @@
-mkdir -p ../server-files/packages/core && cp ../dist/packages/rage-server/main.js ../server-files/packages/core/index.js
-mkdir -p ../server-files/client_packages && cp ../dist/packages/rage-client/main.js ../server-files/client_packages/index.js
+mkdir -p ../dev-server/packages/core && cp ../dist/packages/rage-server/main.js ../dev-server/packages/core/index.js
+mkdir -p ../dev-server/client_packages && cp ../dist/packages/rage-client/main.js ../dev-server/client_packages/index.js
 
