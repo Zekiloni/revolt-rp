@@ -1,10 +1,27 @@
 import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { getModelForClass } from '@typegoose/typegoose';
+import { getModelForClass, Ref } from '@typegoose/typegoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
-import { Account, AccountCreate } from '@bcrp-rage/common';
+import { IAccount, AccountCreate, AdminType, ICharacter } from '@bcrp-rage/common';
 import { getCharactersByAccountId } from '../character/character.service';
 
+
+export class Account implements IAccount{
+  administrator: AdminType;
+  characters: Ref<ICharacter>[];
+  createdAt: Date;
+  emailAddress: string;
+  id: string;
+  isEmailVerified: boolean;
+  lastIpAddress: string;
+  maxCharacters: number;
+  password: string;
+  socialClubId: string;
+  socialClubUsername: string;
+  updatedAt: Date;
+  username: string;
+
+}
 
 export const AccountModel = getModelForClass(Account);
 
@@ -30,9 +47,9 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
 	return AccountModel.create({
 		...accountCreate,
 		password: hashSync(accountCreate.password, genSaltSync(12)),
-		lastIpAddress: player!.ip,
-		socialClubId: player!.socialClub,
-		socialClubUsername: player!.rgscId
+		lastIpAddress: player.ip,
+		socialClubId: player.socialClub,
+		socialClubUsername: player.rgscId
 	});
 };
 

@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { ChipsModule } from 'primeng/chips';
-import { CharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import { CreateCharacterForm, characterCreateFormConfig } from '../../domain/model/character';
 import { CharacterDetailsComponent } from './component/character-details';
 import { RageClientService } from '../../domain/service/rage-client.service';
@@ -31,7 +31,7 @@ export class CharacterCreatorComponent {
   }
 
   submitCreateCharacterForm() {
-    const characterCreate: CharacterCreate = this.createCharacterForm.getRawValue() as CharacterCreate;
+    const characterCreate: ICharacterCreate = this.createCharacterForm.getRawValue() as ICharacterCreate;
     this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CREATE_CHARACTER, characterCreate);
   }
 }

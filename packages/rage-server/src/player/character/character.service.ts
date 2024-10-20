@@ -1,5 +1,28 @@
-import { getModelForClass } from '@typegoose/typegoose';
-import { Character } from '@bcrp-rage/common';
+import { getModelForClass, Ref } from '@typegoose/typegoose';
+import {
+  CharacterAppearance,
+  CharacterGender,
+  CharacterSpawn,
+  IAccount,
+  ICharacter,
+  InventoryItem
+} from '@bcrp-rage/common';
+
+export class Character implements ICharacter {
+  account: Ref<IAccount>;
+  appearance: CharacterAppearance;
+  birthday: Date;
+  defaultSpawn: CharacterSpawn;
+  firstName: string;
+  gender: CharacterGender;
+  id: string;
+  inventory: InventoryItem[];
+  lastName: string;
+  maxProperties: number;
+  maxVehicles: number;
+  position: Vector3;
+
+}
 
 const CharacterModel = getModelForClass(Character)
 

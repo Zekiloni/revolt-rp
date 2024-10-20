@@ -1,6 +1,6 @@
 // import { togglePlayerPreviewCamera } from '@/player-util/player-preview-camera';
 // import { triggerServer } from 'rage-rpc';
-// import { ICharacterCreate } from '@shared/lib/model/character.interfaces';
+// import { IICharacterCreate } from '@shared/lib/model/character.interfaces';
 //
 // export function toggleCharacterCreator(toggle: boolean) {
 //    togglePlayerPreviewCamera(toggle);
@@ -14,7 +14,7 @@
 //    }
 // }
 //
-// export function createCharacter(characterCreate: ICharacterCreate) {
+// export function createCharacter(characterCreate: IICharacterCreate) {
 //
 //    triggerServer('');
 // }

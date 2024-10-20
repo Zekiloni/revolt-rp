@@ -1,74 +1,70 @@
-import { Prop, prop, Ref } from '@typegoose/typegoose';
-import { CharacterGender, CharacterSpawnType } from './character.enums';
-import { characterConfig } from './character.config';
-import { Account } from '../account/account.model';
-import { Vector3 } from '../../core.interface';
+import {Ref} from '@typegoose/typegoose';
+import {CharacterGender, CharacterSpawnType} from './character.enums';
+import {IAccount} from '../account/account.model';
+import {Vector3} from '../../core.interface';
 
 export interface HeadBlendData {
-  headBlendData: {
-    shapeFirstId: number,
-    shapeSecondId: number,
-    shapeThirdId: number,
-    skinFirstId: number,
-    skinSecondId: number,
-    skinThirdId: number,
-    shapeMix: number,
-    skinMix: number,
-    thirdMix: number,
-    isParent: boolean
-  };
+    headBlendData: {
+        shapeFirstId: number,
+        shapeSecondId: number,
+        shapeThirdId: number,
+        skinFirstId: number,
+        skinSecondId: number,
+        skinThirdId: number,
+        shapeMix: number,
+        skinMix: number,
+        thirdMix: number,
+        isParent: boolean
+    };
 }
 
 export interface FaceFeature {
-  faceFeature: [
-    number, number, number, number, number, number, number, number,
-    number, number, number, number, number, number, number, number,
-    number, number, number, number
-  ];
+    faceFeature: [
+        number, number, number, number, number, number, number, number,
+        number, number, number, number, number, number, number, number,
+        number, number, number, number
+    ];
 }
 
 export interface CharacterAppearance extends HeadBlendData, FaceFeature {
-  eyeColor: number;
-  hairStyle: number;
-  hairColor: number;
-  hairHighlightColor: number;
+    eyeColor: number;
+    hairStyle: number;
+    hairColor: number;
+    hairHighlightColor: number;
 }
 
 export interface CharacterSpawn {
-  type: CharacterSpawnType;
-  propertyId?: string;
+    type: CharacterSpawnType;
+    propertyId?: string;
 }
 
-export class Character {
-  id!: string;
+export interface InventoryItem {
+    item: string;
+    localSlot?: number
+}
 
-  @prop({ ref: () => Account, type: () => String })
-  account!: Ref<(Account)>;
+export interface ICharacter {
+    id: string;
 
-  firstName: string;
+    account: Ref<(IAccount)>;
 
-  lastName: string;
+    firstName: string;
 
-  birthday!: Date;
+    lastName: string;
 
-  appearance!: CharacterAppearance;
+    birthday: Date;
 
-  @Prop({
-    default: () => ({ type: CharacterSpawnType.LAST_POSITION })
-  })
-  defaultSpawn!: CharacterSpawn;
+    appearance: CharacterAppearance;
 
-  @Prop(({ type: String }))
-  gender!: CharacterGender;
+    defaultSpawn: CharacterSpawn;
 
-  @prop({ default: [] })
-  inventory!: { item: string; localSlot: number }[];
+    gender: CharacterGender;
 
-  @prop({ default: characterConfig.DEFAULT_MAX_PROPERTIES })
-  maxProperties!: number;
+    inventory: InventoryItem[];
 
-  @prop({ default: characterConfig.DEFAULT_MAX_VEHICLES })
-  maxVehicles!: number;
+    maxProperties: number;
 
-  position!: Vector3;
+    maxVehicles: number;
+
+    position: Vector3;
 }
