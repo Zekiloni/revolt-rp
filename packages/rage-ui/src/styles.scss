@@ -12,6 +12,10 @@ html, body {
 }
 
 
+* {
+  user-select: none;
+}
+
 .absolute-center {
   position: absolute;
   top: 50%;

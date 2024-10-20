@@ -1,6 +1,6 @@
 
 
 export const authConfig = {
-   cameraCoords: new mp.Vector3(-426.49, 6647.66, 25.74),
-   cameraLookAtCoords: new mp.Vector3(-316.11, 6612.09, 30.97),
+   cameraCoords: new mp.Vector3(1693.59, 3535.44, 37.16),
+   cameraLookAtCoords: new mp.Vector3(1693.97, 3540.15, 37.16),
 };

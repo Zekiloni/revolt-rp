@@ -4,15 +4,19 @@ import { authorizeAccount, createAccount } from './account.service';
 
 
 async function playerCreateAccountHandler(accountCreate: AccountCreate, info: ProcedureListenerInfo) {
-	return createAccount(accountCreate, info)
-		.then(account => account)
-		.catch(reason => reason);
+  return createAccount(accountCreate, info)
+    .then(account => account)
+    .catch(reason => reason);
 }
 
 async function playerAuthorizeAccountHandler(authorize: AccountAuthorize) {
-	return authorizeAccount(authorize.username, authorize.password)
-		.then(result => result)
-		.catch(reason => reason);
+  console.log('playerAuthorizeAccountHandler');
+  return authorizeAccount(authorize.username, authorize.password)
+    .then(result => result)
+    .catch(reason => {
+      console.log(reason);
+      return reason;
+    });
 }
 
 register(ProcedureKey.SERVER_PLAYER_CREATE_ACCOUNT, playerCreateAccountHandler);

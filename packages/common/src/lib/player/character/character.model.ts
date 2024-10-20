@@ -46,8 +46,6 @@ export interface InventoryItem {
 export interface ICharacter {
     id: string;
 
-    account: Ref<(IAccount)>;
-
     firstName: string;
 
     lastName: string;

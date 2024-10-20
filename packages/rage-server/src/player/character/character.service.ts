@@ -1,15 +1,13 @@
-import { getModelForClass, Ref } from '@typegoose/typegoose';
+import { getModelForClass } from '@typegoose/typegoose';
 import {
   CharacterAppearance,
   CharacterGender,
   CharacterSpawn,
-  IAccount,
   ICharacter,
   InventoryItem
 } from '@bcrp-rage/common';
 
 export class Character implements ICharacter {
-  account: Ref<IAccount>;
   appearance: CharacterAppearance;
   birthday: Date;
   defaultSpawn: CharacterSpawn;
@@ -24,8 +22,8 @@ export class Character implements ICharacter {
 
 }
 
-const CharacterModel = getModelForClass(Character)
+const CharacterModel = getModelForClass(Character);
 
 export const getCharactersByAccountId = (accountId: string) => {
-	return CharacterModel.find({ accountId }).exec();
+  return CharacterModel.find({ accountId }).exec();
 };

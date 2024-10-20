@@ -11,6 +11,7 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimations(),
+    MessageService,
     provideStore({ gameInterface: gameInterfaceReducer }),
     provideEffects(),
   ],

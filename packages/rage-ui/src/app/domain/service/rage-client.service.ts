@@ -51,7 +51,7 @@ export class RageClientService {
   }
 
   off(name: string, callback: ProcedureListener) {
-    rpcOff(name, callback)
+    rpcOff(name, callback);
   }
 
   register(name: string, callback: ProcedureListener) {
@@ -59,7 +59,7 @@ export class RageClientService {
   }
 
   unregister(name: string) {
-    rpcUnregister(name)
+    rpcUnregister(name);
   }
 
   triggerBrowsers(name: string, args: unknown) {
@@ -74,6 +74,7 @@ export class RageClientService {
           observer.complete();
         })
         .catch((error: unknown) => {
+          console.log('error', JSON.stringify(error));
           observer.error(error);
         });
     });

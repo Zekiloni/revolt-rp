@@ -6,8 +6,10 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RageClientService } from '../../domain/service/rage-client.service';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { IAccount, ProcedureKey } from '@bcrp-rage/common';
 import { environment } from '../../../environments/environment';
+import { AutoFocus } from 'primeng/autofocus';
+import { MessageService } from 'primeng/api';
 
 
 type AuthForm = {
@@ -25,7 +27,8 @@ type AuthForm = {
     Ripple,
     ChipsModule,
     NgOptimizedImage,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AutoFocus
   ],
   providers: [RageClientService],
   templateUrl: './authorization.component.html',
@@ -36,7 +39,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   authForm: FormGroup<AuthForm>;
 
   constructor(private formBuilder: FormBuilder,
-              private rageClientService: RageClientService) {
+              private rageClientService: RageClientService,
+              private messageService: MessageService) {
     this.authForm = this.buildAuthForm();
   }
 
@@ -75,6 +79,15 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
     const payload = this.authForm.getRawValue();
 
-    this.rageClientService.callServer(ProcedureKey.SERVER_PLAYER_AUTHORIZE, payload);
+    this.rageClientService.callServer<IAccount>(ProcedureKey.SERVER_PLAYER_AUTHORIZE, payload)
+      .subscribe({ next: this.handleSuccessfulAuth, error: this.handleAuthError });
   }
+
+  private handleSuccessfulAuth = (account: IAccount) => {
+    console.log('account', JSON.stringify(account));
+  };
+
+  private handleAuthError = (error: Error) => {
+    this.messageService.add({ severity: 'error', detail: error.message });
+  };
 }

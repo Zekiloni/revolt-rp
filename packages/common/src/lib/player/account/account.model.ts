@@ -2,7 +2,6 @@ import { Ref } from '@typegoose/typegoose';
 import { ICharacter } from '../character/character.model';
 
 export enum AdminType {
-	NONE = 0,
 	TRIAL_ADMIN = 1,
 	JUNIOR_ADMIN = 2,
 	ADMINISTRATOR = 3,
@@ -19,7 +18,7 @@ export interface IAccount {
 	isEmailVerified: boolean;
 	lastIpAddress?: string;
 	socialClubUsername?: string;
-	administrator: AdminType;
+	administrator?: AdminType;
 	maxCharacters: number;
 	socialClubId?: string;
 	updatedAt?: Date;

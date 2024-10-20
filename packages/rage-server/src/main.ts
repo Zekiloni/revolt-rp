@@ -4,7 +4,8 @@ import './player/account/account.api';
 import './player/character/character.api';
 import './player/player-join.api';
 
-import { AccountModel, getAccountByUsername } from './player/account/account.service';
+import { getAccountByUsername } from './player/account/account.service';
+import { AccountModel } from './player/account/account.model';
 
 
 (async () => {
@@ -13,7 +14,8 @@ import { AccountModel, getAccountByUsername } from './player/account/account.ser
     {
       username: 'Zekiloni',
       password: 'test',
-      emailAddress: 'zekilonii@gmail.com'
+      emailAddress: 'zekilonii@gmail.com',
+      characters: []
     }
   ];
 
@@ -24,7 +26,8 @@ import { AccountModel, getAccountByUsername } from './player/account/account.ser
         AccountModel.create({
           username: adminAccount.username,
           password: adminAccount.password,
-          emailAddress: adminAccount.emailAddress
+          emailAddress: adminAccount.emailAddress,
+          characters: adminAccount.characters
         });
       }
     });

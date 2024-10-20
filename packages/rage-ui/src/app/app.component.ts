@@ -9,6 +9,7 @@ import { AuthorizationComponent } from './component/authorization';
 import { CharacterSelectorComponent } from './component/character-selector';
 import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
 import { CharacterCreatorComponent } from './component/character-creator';
+import { ToastModule } from 'primeng/toast';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { CharacterCreatorComponent } from './component/character-creator';
     AsyncPipe,
     AuthorizationComponent,
     CharacterSelectorComponent,
-    CharacterCreatorComponent
+    CharacterCreatorComponent,
+    ToastModule
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
