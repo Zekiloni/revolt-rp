@@ -42,9 +42,7 @@ export const authorizeAccount = async (username: string, password: string) => {
   if (!account)
     throw new Error(t('account_doesnt_exist', { username }));
 
-  console.log(account);
-
-  if (!compareSync(account.password, password))
+  if (!compareSync(password, account.password))
     throw new Error(t('incorrect_password'));
 
   return account;

@@ -10,6 +10,7 @@ import { ApiError, IAccount, ProcedureKey } from '@bcrp-rage/common';
 import { environment } from '../../../environments/environment';
 import { AutoFocus } from 'primeng/autofocus';
 import { MessageService } from 'primeng/api';
+import { CharacterSelectorComponent } from '../character-selector';
 
 
 type AuthForm = {
@@ -28,7 +29,8 @@ type AuthForm = {
     ChipsModule,
     NgOptimizedImage,
     ReactiveFormsModule,
-    AutoFocus
+    AutoFocus,
+    CharacterSelectorComponent
   ],
   providers: [RageClientService],
   templateUrl: './authorization.component.html',
@@ -37,6 +39,8 @@ type AuthForm = {
 export class AuthorizationComponent implements OnInit, OnDestroy {
   WEBSITE_URL = environment.WEBSITE_URL;
   authForm: FormGroup<AuthForm>;
+
+  account: IAccount | null = null;
 
   constructor(private formBuilder: FormBuilder,
               private rageClientService: RageClientService,
@@ -84,10 +88,11 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   }
 
   private handleSuccessfulAuth = (account: IAccount) => {
-    console.log('account', JSON.stringify(account));
+    this.account = account;
   };
 
   private handleAuthError = (error: ApiError) => {
     this.messageService.add({ severity: 'error', detail: error.message });
+
   };
 }

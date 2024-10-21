@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IAccount, ICharacter } from '@bcrp-rage/common';
 
@@ -13,11 +13,7 @@ import { IAccount, ICharacter } from '@bcrp-rage/common';
   styleUrl: './character-selector.component.css'
 })
 export class CharacterSelectorComponent {
-  account: Partial<IAccount> = {
-    username: 'Zekiloni',
-    characters: []
-  };
-
+  @Input() account!: IAccount;
 
   get characters(): Partial<ICharacter>[] {
     return [
