@@ -25,7 +25,7 @@ COPY ./dist/packages/rage-server/package.json /ragemp-srv/package.json
 COPY ./dist/packages/rage-server/main.js /ragemp-srv/packages/core/index.js
 
 # Copy the main client packages
-COPY ./dist/packages/rage-client/src /ragemp-srv/client_packages/
+COPY ./dist/packages/rage-client /ragemp-srv/client_packages/
 
 # Install Node Dependencies
 RUN apt-get install --yes nodejs npm
