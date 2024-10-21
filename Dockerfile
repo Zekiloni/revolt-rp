@@ -2,10 +2,7 @@
 FROM debian:bookworm-slim AS build
 
 # Install necessary dependencies and download RAGEMP server files
-RUN apt update && apt install -y wget liblocal-lib-perl libjson-perl libatomic1 procps && \
-    apt clean autoclean && \
-    apt autoremove --yes && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/
+RUN apt update && apt install -y libstdc++6 wget tar nodejs npm
 
 # Download and extract RAGEMP linux server files
 RUN wget https://cdn.rage.mp/updater/prerelease/server-files/linux_x64.tar.gz
@@ -25,10 +22,7 @@ COPY ./dist/packages/rage-server/package.json /ragemp-srv/package.json
 COPY ./dist/packages/rage-server/main.js /ragemp-srv/packages/core/index.js
 
 # Copy the main client packages
-COPY ./dist/packages/rage-client /ragemp-srv/client_packages/
-
-# Install Node Dependencies
-RUN apt-get install --yes nodejs npm
+COPY ./dist/packages/rage-client/main.js /ragemp-srv/client_packages/index.js
 
 # Install npm dependencies
 RUN npm install

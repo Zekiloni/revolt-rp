@@ -1,22 +1,18 @@
 import { ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { AccountAuthorize, AccountCreate, ProcedureKey } from '@bcrp-rage/common';
+import { AccountAuthorize, AccountCreate, ProcedureKey, catchError } from '@bcrp-rage/common';
 import { authorizeAccount, createAccount } from './account.service';
 
 
 async function playerCreateAccountHandler(accountCreate: AccountCreate, info: ProcedureListenerInfo) {
   return createAccount(accountCreate, info)
     .then(account => account)
-    .catch(reason => reason);
+    .catch(catchError);
 }
 
 async function playerAuthorizeAccountHandler(authorize: AccountAuthorize) {
-  console.log('playerAuthorizeAccountHandler');
   return authorizeAccount(authorize.username, authorize.password)
     .then(result => result)
-    .catch(reason => {
-      console.log(reason);
-      return reason;
-    });
+    .catch(catchError);
 }
 
 register(ProcedureKey.SERVER_PLAYER_CREATE_ACCOUNT, playerCreateAccountHandler);

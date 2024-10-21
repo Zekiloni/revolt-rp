@@ -30,8 +30,10 @@ module.exports = {
       main: './src/main.ts',
       generatePackageJson: true,
       tsConfig: './tsconfig.app.json',
-      optimization: process.env['NODE_ENV'] === 'production',
-      outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none'
+      optimization: false,
+      outputHashing: 'none'
+      // optimization: process.env['NODE_ENV'] === 'production',
+      // outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none'
     })
   ]
 };

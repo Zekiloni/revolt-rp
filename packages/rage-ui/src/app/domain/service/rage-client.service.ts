@@ -13,6 +13,7 @@ import {
   triggerBrowsers as rpcTriggerBrowsers,
   ProcedureListener
 } from '@libertymp/rage-rpc';
+import { ApiError } from '@bcrp-rage/common';
 
 @Injectable()
 export class RageClientService {
@@ -70,13 +71,16 @@ export class RageClientService {
     return new Observable((observer: Observer<T>) => {
       rpcCallServer(name, args)
         .then((result: T) => {
+          if ((result as ApiError).error) {
+            observer.error(result);
+            console.log(result)
+            console.log(JSON.stringify(result))
+            return;
+          }
           observer.next(result);
           observer.complete();
         })
-        .catch((error: unknown) => {
-          console.log('error', JSON.stringify(error));
-          observer.error(error);
-        });
+        .catch((err) => observer.error(err));
     });
   }
 

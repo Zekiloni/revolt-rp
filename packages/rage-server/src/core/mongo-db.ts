@@ -11,7 +11,7 @@ const handleDatabaseConnectionError = (error: any) => {
   dbLogger.log('error', error);
 };
 
-mongoose.connect('mongodb://localhost:27017/bcrp_rage')
+mongoose.connect('mongodb://host.docker.internal:27017/bcrp_rage')
   .then(handleDatabaseConnection)
   .catch(handleDatabaseConnectionError);
 

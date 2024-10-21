@@ -6,7 +6,7 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RageClientService } from '../../domain/service/rage-client.service';
-import { IAccount, ProcedureKey } from '@bcrp-rage/common';
+import { ApiError, IAccount, ProcedureKey } from '@bcrp-rage/common';
 import { environment } from '../../../environments/environment';
 import { AutoFocus } from 'primeng/autofocus';
 import { MessageService } from 'primeng/api';
@@ -87,7 +87,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     console.log('account', JSON.stringify(account));
   };
 
-  private handleAuthError = (error: Error) => {
+  private handleAuthError = (error: ApiError) => {
     this.messageService.add({ severity: 'error', detail: error.message });
   };
 }

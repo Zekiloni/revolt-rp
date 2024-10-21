@@ -37,9 +37,7 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
 };
 
 export const authorizeAccount = async (username: string, password: string) => {
-  console.log('input username', username);
   const account = await getAccountByUsername(username);
-  console.log('authorizeAccount 1');
 
   if (!account)
     throw new Error(t('account_doesnt_exist', { username }));

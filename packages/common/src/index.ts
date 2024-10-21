@@ -15,4 +15,6 @@ export * from './lib/player/character/character.model';
 export * from './lib/player/character/character-create.model';
 export * from './lib/player/character/character.enums';
 
+export * from './lib/util/error.util';
+
 export { enUS };
