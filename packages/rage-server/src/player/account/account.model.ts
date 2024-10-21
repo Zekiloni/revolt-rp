@@ -14,6 +14,12 @@ import { genSaltSync, hashSync } from 'bcryptjs';
 export class Account implements IAccount {
   @prop({ required: true })
   username: string;
+  coins: number;
+  lastLoginAt: Date;
+  referer: string;
+  referralCode: string;
+  serial: string;
+  updatedBy: string;
 
   @prop({ required: true })
   emailAddress: string;

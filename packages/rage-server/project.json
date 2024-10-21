@@ -21,6 +21,12 @@
           "buildTarget": "rage-server:build:production"
         }
       }
+    },
+    "build": {
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
     }
   }
 }
