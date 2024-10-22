@@ -27,9 +27,6 @@ jobs:
      - name: Install dependencies
        run: npm install
 
-     - name: Install dependencies
-       run: npm install
-
      - name: Build server
        run: nx run rage-server:build
 
