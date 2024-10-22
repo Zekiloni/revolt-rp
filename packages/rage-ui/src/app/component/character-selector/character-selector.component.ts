@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
-import { IAccount, ICharacter } from '@bcrp-rage/common';
+import { IAccount, ICharacter, ProcedureKey } from '@bcrp-rage/common';
+import { RageClientService } from '../../domain/service/rage-client.service';
 
 
 @Component({
@@ -15,18 +16,19 @@ import { IAccount, ICharacter } from '@bcrp-rage/common';
 export class CharacterSelectorComponent {
   @Input() account!: IAccount;
 
-  get characters(): Partial<ICharacter>[] {
-    return [
-      {
-        firstName: 'Zachary',
-        lastName: 'Parker',
-        level: 1,
-        lastSessionAt: new Date
-      }
-    ];
+
+  constructor(private rageClientService: RageClientService) {
+  }
+
+  get characters() {
+    return this.account.characters as ICharacter[];
   }
 
   selectCharacter(id: string) {
     console.log('id');
+  }
+
+  createCharacter() {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, true)
   }
 }

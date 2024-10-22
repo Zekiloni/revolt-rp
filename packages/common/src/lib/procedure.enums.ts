@@ -9,7 +9,8 @@ export const enum ProcedureKey {
   SERVER_PLAYER_SELECT_CHARACTER = 'server_playerSelectCharacter',
 
   CLIENT_TOGGLE_PLAYER_AUTHORIZATION = 'client_togglePlayerAuthorization',
+  CLIENT_TOGGLE_CHARACTER_CREATOR = "client_toggleCharacterCreator",
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 
-  BROWSER_AUTH_SUGGEST = 'browser_authSuggestion'
+  BROWSER_AUTH_SUGGEST = 'browser_authSuggestion',
 }

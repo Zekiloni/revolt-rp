@@ -12,6 +12,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { MessageService } from 'primeng/api';
+import { RageClientService } from './domain/service/rage-client.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     MessageService,
+    RageClientService,
     provideStore({ gameInterface: gameInterfaceReducer }),
     provideEffects(),
   ],

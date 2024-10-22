@@ -5,18 +5,18 @@ const [minFov, maxFov] = [10, 100];
 let currentFov = 0;
 
 let [cursorPreviousX, cursorPreviousY] = mp.gui.cursor.position;
-let zPos = 0;
+const zPos = 0;
 let movableCamera: CameraMp;
 let handleControlsInterval: ReturnType<typeof setInterval>;
 let headingPosition = 0;
 let timeBetweenAnimChecks = Date.now() + 100;
 
-
-let isActive: boolean = false;
+let isPlayerPreviewCameraActive = false;
 let basePosition: Vector3 | undefined;
 
+
 async function handlePreviewCameraControls() {
-   if (!isActive)
+   if (!isPlayerPreviewCameraActive)
       return;
 
    if (Date.now() > timeBetweenAnimChecks) {
@@ -79,7 +79,7 @@ async function handlePreviewCameraControls() {
 }
 
 export function togglePlayerPreviewCamera(toggle: boolean) {
-   isActive = toggle;
+   isPlayerPreviewCameraActive = toggle;
 
    if (toggle) {
       basePosition = mp.players.local.getCoords(true);

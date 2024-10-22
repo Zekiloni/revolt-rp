@@ -8,12 +8,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     mouse: true
   },
 
-  [GameUiKey.CharacterSelector]: {
-    isActive: false,
-    mouse: true,
-    freezeControls: true
-  },
-
   [GameUiKey.CharacterCreator]: {
     isActive: false,
     mouse: true,

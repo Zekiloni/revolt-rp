@@ -1,5 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { CharacterGender } from '@bcrp-rage/common';
+import { BloodType, CharacterGender } from '@bcrp-rage/common';
 
 interface CharacterAppearanceForm {
   eyeColor: FormControl<number>;
@@ -27,5 +27,6 @@ export interface CreateCharacterForm {
   gender: FormControl<CharacterGender>;
   birthday: FormControl<Date | null>;
   origin: FormControl<string>;
+  bloodType: FormControl<BloodType>;
   appearance: FormGroup<CharacterAppearanceForm>;
 }

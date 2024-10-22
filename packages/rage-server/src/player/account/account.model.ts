@@ -1,7 +1,7 @@
 import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
 import { getModelForClass, pre, prop, Ref } from '@typegoose/typegoose';
-import { Character } from '../character/character.service';
 import { genSaltSync, hashSync } from 'bcryptjs';
+import { Character } from '../character/character.model';
 
 @pre<Account>('save', function (next) {
   console.log(this.isNew, ' isNew')
@@ -12,6 +12,8 @@ import { genSaltSync, hashSync } from 'bcryptjs';
   }
 })
 export class Account implements IAccount {
+  id: string;
+
   @prop({ required: true })
   username: string;
   coins: number;

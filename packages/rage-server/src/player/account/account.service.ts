@@ -6,7 +6,10 @@ import { AccountModel } from './account.model';
 
 
 export const getAccountByUsername = async (username: string) => {
-  return AccountModel.findOne({ username }).populate('characters').exec();
+  return AccountModel.findOne({ username }).populate({
+    path: 'characters',
+    select: '-account'
+  }).exec();
 };
 
 export const getAccountByUsernameOrEmail = async (username: string, email: string) => {
@@ -36,7 +39,7 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
   });
 };
 
-export const authorizeAccount = async (username: string, password: string) => {
+export const authorizeAccount = async (player: PlayerMp, username: string, password: string) => {
   const account = await getAccountByUsername(username);
 
   if (!account)
@@ -44,6 +47,8 @@ export const authorizeAccount = async (username: string, password: string) => {
 
   if (!compareSync(password, account.password))
     throw new Error(t('incorrect_password'));
+
+  player.account = account;
 
   return account;
 };

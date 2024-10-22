@@ -11,7 +11,7 @@ export enum CharacterSpawnType {
 }
 
 
-export const enum BloodType {
+export enum BloodType {
   A_POSITIVE = "A+",
   A_NEGATIVE = "A-",
   B_POSITIVE = "B+",
