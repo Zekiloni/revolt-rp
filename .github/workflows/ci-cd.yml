@@ -58,16 +58,6 @@ jobs:
       steps:
         - name: Deploy to VPS
           uses: appleboy/ssh-action@master
-          id: ssh_test
-          with:
-            host: ${{ secrets.SERVER_HOST }}
-            username: ${{ secrets.SERVER_USERNAME }}
-            key: ${{ secrets.SERVER_KEY }}
-            debug: true
-            script: whoami
-
-        - name: Deploy to VPS
-          uses: appleboy/ssh-action@master
           with:
             host: ${{ secrets.SERVER_HOST }}
             username: ${{ secrets.SERVER_USERNAME }}
@@ -75,6 +65,7 @@ jobs:
             debug: true
             script: |
               echo "Running commands on VPS"
+              echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
               docker pull zekiloni2/bcrp_ragemp:latest
 
               docker stop ragemp_server || true
@@ -88,5 +79,5 @@ jobs:
                 docker run -d --name mongo_container -p 27017:27017 -v mongo_data:/data/db mongo:latest
               fi
 
-              docker run -d --name ragemp_server-p 22005:22005/udp -p 22006:22006/tcp zekiloni2/bcrp_ragemp:latest
+              docker run -d --name ragemp_server -p 22005:22005/udp -p 22005:22005/tcp -p 22006:22006/tcp zekiloni2/bcrp_ragemp:latest
               echo "Deployment finished."
