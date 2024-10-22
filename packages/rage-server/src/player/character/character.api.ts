@@ -4,7 +4,6 @@ import { createCharacter, spawnPlayerCharacter } from './character.service';
 
 
 const playerCreateCharacterHandler = async (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
-
   createCharacter(player, characterCreate)
     .then((character) => {
 
