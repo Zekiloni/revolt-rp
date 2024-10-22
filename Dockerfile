@@ -23,6 +23,7 @@ COPY ./dist/packages/rage-server/main.js /ragemp-srv/packages/core/index.js
 
 # Copy the main client packages
 COPY ./dist/packages/rage-client/main.js /ragemp-srv/client_packages/index.js
+COPY ./dist/packages/rage-ui/browser/. /ragemp-srv/client_packages/ui/
 
 # Install npm dependencies
 RUN npm install
