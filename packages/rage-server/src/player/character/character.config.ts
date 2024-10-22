@@ -1,6 +1,11 @@
 
 export const characterConfig = {
-
   defaultPosition: new mp.Vector3(1962.62, 3841.2, 32.73),
-  defaultDimension: 0
+  defaultDimension: 0,
+  defaultHeading: 90,
+  defaultMaxVehicles: 3,
+  maxProperties: 3,
+  defaultLevel: 1,
+  defaultCash: 5000,
+  defaultHealth: 100
 }

@@ -32,7 +32,6 @@ type AuthForm = {
     AutoFocus,
     CharacterSelectorComponent
   ],
-  providers: [RageClientService],
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css'
 })

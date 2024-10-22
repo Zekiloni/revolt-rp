@@ -2,7 +2,7 @@ import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
 import { AccountCreate } from '@bcrp-rage/common';
-import { AccountModel } from './account.model';
+import { AccountModel } from '../account-character.ref';
 
 
 export const getAccountByUsername = async (username: string) => {

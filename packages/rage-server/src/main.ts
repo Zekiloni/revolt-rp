@@ -5,7 +5,7 @@ import './player/character/character.api';
 import './player/player-join.api';
 
 import { getAccountByUsername } from './player/account/account.service';
-import { AccountModel } from './player/account/account.model';
+import { AccountModel } from './player/account-character.ref';
 
 
 (async () => {

@@ -53,4 +53,3 @@ export class Account implements IAccount {
 }
 
 
-export const AccountModel = getModelForClass(Account);

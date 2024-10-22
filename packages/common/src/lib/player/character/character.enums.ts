@@ -1,4 +1,4 @@
-export const enum CharacterGender {
+export enum CharacterGender {
    MALE = 'male',
    FEMALE = 'female',
 }

@@ -2,7 +2,7 @@
 FROM debian:bookworm-slim AS build
 
 # Install necessary dependencies and download RAGEMP server files
-RUN apt update && apt install -y libstdc++6 wget tar nodejs npm
+RUN apt update --fix-missing && apt upgrade -y && apt install -y libstdc++6 wget tar nodejs npm
 
 # Download and extract RAGEMP linux server files
 RUN wget https://cdn.rage.mp/updater/prerelease/server-files/linux_x64.tar.gz

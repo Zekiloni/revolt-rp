@@ -17,12 +17,10 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
   selector: 'app-character-creator',
   standalone: true,
   imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule],
-  providers: [RageClientService],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
 export class CharacterCreatorComponent {
-  activeStepIdx = 0;
   createCharacterForm!: FormGroup<CreateCharacterForm>;
 
   constructor(private formBuilder: FormBuilder, private rageClientService: RageClientService) {
@@ -35,6 +33,7 @@ export class CharacterCreatorComponent {
 
   submitCreateCharacterForm() {
     const characterCreate: ICharacterCreate = this.createCharacterForm.getRawValue() as ICharacterCreate;
+    console.log(JSON.stringify(characterCreate));
     this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CREATE_CHARACTER, characterCreate);
   }
 }
