@@ -1,4 +1,4 @@
-import { ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { CharacterSpawnType, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
 import { triggerClient } from '@libertymp/rage-rpc';
 import { AccountModel, CharacterModel } from '../account-character.ref';
@@ -37,12 +37,29 @@ export const getCharacterById = (characterId: string) => {
 export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
   if (!player.character) return;
 
-  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
 
   if (initialSpawn) {
+    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
+
     player.character.position = characterConfig.defaultPosition;
     player.character.dimension = characterConfig.defaultDimension;
+  } else {
+    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
+
+    switch (player.character.defaultSpawn.type) {
+      case CharacterSpawnType.LAST_POSITION:
+        break;
+
+      case CharacterSpawnType.INITIAL_SPAWN: {
+        player.character.position = characterConfig.defaultPosition;
+        player.character.dimension = characterConfig.defaultDimension;
+        break;
+      }
+    }
+
+    console.log('player spawn pos', player.character.position);
     player.spawn(player.character.position);
+    player.dimension = player.character.dimension;
   }
 };
 
@@ -52,8 +69,6 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
     .then((character) => {
       if (!character)
         return;
-
-      triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
       player.character = character;
       spawnPlayerCharacter(player);

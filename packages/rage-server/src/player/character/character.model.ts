@@ -6,7 +6,7 @@ import {
   ICharacterOrganization,
   ICharacterSpawn, IInventoryItem
 } from '@bcrp-rage/common';
-import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { prop, Ref } from '@typegoose/typegoose';
 import { Account } from '../account/account.model';
 import { characterConfig } from './character.config';
 import { nanoid } from 'nanoid';
@@ -24,7 +24,13 @@ export class Character implements ICharacter {
   @prop({ type: Date, required: true })
   birthday: Date;
 
-  @prop({ type: Object, default: () => ({ type: CharacterSpawnType.INITIAL_SPAWN }) })
+  @prop({
+    type: () => ({
+      type: String,
+      propertyId: { type: String, required: false }
+    }),
+    default: () => ({ type: CharacterSpawnType.INITIAL_SPAWN })
+  })
   defaultSpawn: ICharacterSpawn;
 
   @prop({ required: false })
