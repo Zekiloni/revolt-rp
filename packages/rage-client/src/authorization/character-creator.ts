@@ -14,11 +14,12 @@ async function toggleCharacterCreator(toggle: boolean) {
     mp.players.local.freezePosition(true);
   } else {
     hideGameInterface(GameUiKey.CharacterCreator);
+    mp.players.local.freezePosition(false);
+    mp.players.local.clearTasks();
   }
 
   togglePlayerPreviewCamera(toggle);
 }
-
 
 
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);

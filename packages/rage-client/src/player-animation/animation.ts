@@ -1,4 +1,3 @@
-
 export const enum AnimationFlags {
    NORMAL = 0,
    REPEAT = 1,
@@ -8,7 +7,7 @@ export const enum AnimationFlags {
    UPPERBODY_ONLY_CONTROLLABLE = 49,
    UPPERBODY_STOP_ON_LAST_FRAME_CONTROLLABLE = 50,
    CANCELABLE = 120
-};
+}
 
 
 export default interface iPlayerAnimation {
@@ -33,7 +32,7 @@ export function loadAnimDictionary(animationDictionary: string): Promise<boolean
       }
       resolve(true);
    });
-};
+}
 
 
 export async function playAnimation(
@@ -59,7 +58,7 @@ export async function playAnimation(
    }
 
    entity.taskPlayAnim(dict, name, 8.0, -1, duration, flag, 0, false, false, false);
-};
+}
 
 
 export function stopAnimation(entity: EntityMp, dictionary: string, name: string) {
@@ -69,8 +68,7 @@ export function stopAnimation(entity: EntityMp, dictionary: string, name: string
 
 export function isAnimationFinished (entity: EntityMp, dictionary: string, name: string) {
    return entity.hasAnimFinished(dictionary, name, 3);
-};
-
+}
 
 export function isPlayingAnimation(entity: EntityMp, dictionary: string, name: string) {
    const animTime = entity.getAnimCurrentTime(dictionary,name);

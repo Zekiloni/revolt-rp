@@ -28,6 +28,7 @@ export async function toggleAuthorization(toggle: boolean) {
   } else {
     hideGameInterface(GameUiKey.Authorization);
     mp.players.local.setAlpha(255);
+    mp.players.local.freezePosition(false);
 
     if (authCamera && mp.cameras.exists(authCamera.handle)) {
       authCamera.destroy();
