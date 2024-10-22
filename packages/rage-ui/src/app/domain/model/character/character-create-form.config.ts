@@ -1,15 +1,19 @@
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { CharacterGender } from '@bcrp-rage/common';
+import { BloodType, CharacterGender } from '@bcrp-rage/common';
 
 const NAME_VALIDATORS = [Validators.required, Validators.minLength(2), Validators.maxLength(25)];
 
 export const characterCreateFormConfig = (formBuilder: FormBuilder): FormGroup =>
   formBuilder.group({
     firstName: new FormControl<string>('', NAME_VALIDATORS),
+    middleName: new FormControl<string>('', [Validators.minLength(2)]),
     lastName: new FormControl<string>('', NAME_VALIDATORS),
     gender: new FormControl<CharacterGender>(CharacterGender.MALE, [Validators.required]),
     birthday: new FormControl<Date | null>(null!, [Validators.required]),
     origin: new FormControl<string>('', [Validators.required]),
+    bloodType: new FormControl<BloodType>(BloodType.O_POSITIVE, [Validators.required]),
+    accent: new FormControl<string>(''),
+    description: new FormControl<string>(''),
     appearance: formBuilder.group({
       eyeColor: new FormControl<number>(0, [Validators.required]),
       hairStyle: new FormControl<number>(0, [Validators.required]),

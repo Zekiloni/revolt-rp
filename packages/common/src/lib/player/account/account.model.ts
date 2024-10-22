@@ -11,7 +11,7 @@ export enum AdminType {
 }
 
 export interface IAccount {
-  id?: string;
+  id: string;
   username: string;
   emailAddress: string;
   password: string;

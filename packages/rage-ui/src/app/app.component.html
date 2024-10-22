@@ -1,11 +1,6 @@
 <main class="w-full h-screen">
-
   @if ($isGameInterfaceActive(GameUiKey.Authorization) | async) {
     <app-authorization />
-  }
-
-  @if ($isGameInterfaceActive(GameUiKey.CharacterSelector) | async) {
-    <app-character-selector />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.CharacterCreator) | async) {

@@ -1,56 +1,37 @@
-import { getModelForClass, Ref } from '@typegoose/typegoose';
-import {
-  ICharacterApperance,
-  CharacterGender,
-  ICharacterSpawn,
-  ICharacter,
-  IInventoryItem, BloodType, ICharacterInjury, ICharacterOrganization, CharacterStateType, CharacterStatus
-} from '@bcrp-rage/common';
+import { CharacterModel } from './character.model';
+import { ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { AccountModel } from '../account/account.model';
+import { characterConfig } from './character.config';
+import { triggerClient } from '@libertymp/rage-rpc';
 
-export class Character implements ICharacter {
-  appearance: ICharacterApperance;
-  birthday: Date;
-  defaultSpawn: ICharacterSpawn;
-  accent: string;
-  adminJailTime: number;
-  bloodType: BloodType;
-  cash: number;
-  createdAt: Date;
-  deletedAt: Date;
-  description: string;
-  dimension: number;
-  dnaId: string;
-  heading: number;
-  health: number;
-  hours: number;
-  injuries: ICharacterInjury[];
-  isRestrained: boolean;
-  lastSessionAt: Date;
-  level: number;
-  marriedTo: Ref<ICharacter>;
-  maskId: string;
-  middleName: string;
-  minutes: number;
-  organization: ICharacterOrganization;
-  origin: string;
-  paycheck: number;
-  prisonTime: number;
-  state: CharacterStateType;
-  status: CharacterStatus;
-  updatedAt: Date;
-  firstName: string;
-  gender: CharacterGender;
-  id: string;
-  inventory: IInventoryItem[];
-  lastName: string;
-  maxProperties: number;
-  maxVehicles: number;
-  position: Vector3;
 
-}
+export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
+  const character = await CharacterModel.create({
+    ...characterCreate,
+    cash: 5000
+  });
 
-const CharacterModel = getModelForClass(Character);
+  await AccountModel.updateOne(
+    { id: player.account.id },
+    { $push: { characters: character._id } }
+  );
+
+  return character;
+};
 
 export const getCharactersByAccountId = (accountId: string) => {
   return CharacterModel.find({ accountId }).exec();
+};
+
+
+export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
+  if (!player.character) return;
+
+  triggerClient(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
+
+  if (initialSpawn) {
+    player.character.position = characterConfig.defaultPosition;
+    player.character.dimension = characterConfig.defaultDimension;
+    player.spawn(player.character.position);
+  }
 };

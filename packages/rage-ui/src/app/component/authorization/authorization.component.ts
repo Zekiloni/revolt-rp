@@ -75,7 +75,6 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     );
   }
 
-
   submitAuthForm() {
     if (this.authForm && this.authForm.invalid) {
       return;
@@ -93,6 +92,5 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
   private handleAuthError = (error: ApiError) => {
     this.messageService.add({ severity: 'error', detail: error.message });
-
   };
 }

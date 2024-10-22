@@ -43,7 +43,7 @@ export class RageClientService {
     rpcTriggerServer(name, args);
   }
 
-  triggerClient(name: string, args: unknown) {
+  triggerClient(name: string, args?: unknown) {
     rpcTriggerClient(name, args);
   }
 
@@ -88,12 +88,16 @@ export class RageClientService {
     return new Observable((observer: Observer<T>) => {
       rpcCallClient(name, args)
         .then((result: T) => {
+          if ((result as ApiError).error) {
+            observer.error(result);
+            console.log(result)
+            console.log(JSON.stringify(result))
+            return;
+          }
           observer.next(result);
           observer.complete();
         })
-        .catch((error: unknown) => {
-          observer.error(error);
-        });
+        .catch((err) => observer.error(err));
     });
   }
 

@@ -9,8 +9,8 @@ async function playerCreateAccountHandler(accountCreate: AccountCreate, info: Pr
     .catch(catchError);
 }
 
-async function playerAuthorizeAccountHandler(authorize: AccountAuthorize) {
-  return authorizeAccount(authorize.username, authorize.password)
+async function playerAuthorizeAccountHandler(authorize: AccountAuthorize, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return authorizeAccount(player, authorize.username, authorize.password)
     .then(result => result)
     .catch(catchError);
 }
