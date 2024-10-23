@@ -1,19 +1,20 @@
-import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
+import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import { createCharacter, selectCharacter, spawnPlayerCharacter } from './character.service';
 
 
-const playerCreateCharacterHandler = async (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
+const playerCreateCharacterHandler = (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
   createCharacter(player, characterCreate)
     .then((character) => {
+      console.log('created', characterCreate)
       player.character = character;
-      spawnPlayerCharacter(player);
+      spawnPlayerCharacter(player, true);
     })
     .catch(e => console.log(e));
 };
 
 const playerSelectCharacterHandler = (characterId: string, { player }: ProcedureListenerInfo<PlayerMp>) => {
-  return selectCharacter(player, characterId);
+  selectCharacter(player, characterId);
 };
 
 on(ProcedureKey.SERVER_PLAYER_CREATE_CHARACTER, playerCreateCharacterHandler);

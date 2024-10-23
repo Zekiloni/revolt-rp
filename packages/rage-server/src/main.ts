@@ -21,9 +21,9 @@ import { AccountModel } from './player/account-character.ref';
 
   adminAccounts.forEach((adminAccount) => {
 
-    getAccountByUsername(adminAccount.username).then((alreadyExist) => {
+    getAccountByUsername(adminAccount.username).then(async (alreadyExist) => {
       if (!alreadyExist) {
-        AccountModel.create({
+        await AccountModel.create({
           username: adminAccount.username,
           password: adminAccount.password,
           emailAddress: adminAccount.emailAddress,

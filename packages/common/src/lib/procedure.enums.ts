@@ -10,7 +10,8 @@ export const enum ProcedureKey {
 
   CLIENT_TOGGLE_PLAYER_AUTHORIZATION = 'client_togglePlayerAuthorization',
   CLIENT_TOGGLE_CHARACTER_CREATOR = "client_toggleCharacterCreator",
-  CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
+  CLIENT_CREATOR_CHANGE_PED_MODEL = "client_creatorChangePedModel",
 
+  CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
   BROWSER_AUTH_SUGGEST = 'browser_authSuggestion',
 }

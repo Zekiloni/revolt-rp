@@ -10,6 +10,7 @@ import { CharacterSelectorComponent } from './component/character-selector';
 import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
 import { CharacterCreatorComponent } from './component/character-creator';
 import { ToastModule } from 'primeng/toast';
+import { TextChatComponent } from './component/text-chat';
 
 
 @Component({
@@ -19,7 +20,8 @@ import { ToastModule } from 'primeng/toast';
     AuthorizationComponent,
     CharacterSelectorComponent,
     CharacterCreatorComponent,
-    ToastModule
+    ToastModule,
+    TextChatComponent
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',

@@ -24,8 +24,9 @@ export class CharacterSelectorComponent {
     return this.account.characters as ICharacter[];
   }
 
-  selectCharacter(id: string) {
-    this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_SELECT_CHARACTER, id);
+  selectCharacter(character: ICharacter) {
+    console.log('select char id is ' + JSON.stringify(character));
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_SELECT_CHARACTER, character.id);
   }
 
   createCharacter() {

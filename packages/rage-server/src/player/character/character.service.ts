@@ -1,4 +1,4 @@
-import { CharacterSpawnType, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { CharacterGender, CharacterSpawnType, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
 import { triggerClient } from '@libertymp/rage-rpc';
 import { AccountModel, CharacterModel } from '../account-character.ref';
@@ -6,18 +6,15 @@ import { AccountModel, CharacterModel } from '../account-character.ref';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
-    console.log('createCharacter 1');
     const character = await CharacterModel.create({
       ...characterCreate,
       cash: 5000
     });
-    console.log('createCharacter 2');
 
     await AccountModel.updateOne(
       { id: player.account.id },
       { $push: { characters: character._id } }
     );
-    console.log('createCharacter 3');
 
     return character;
   } catch (e) {
@@ -31,15 +28,22 @@ export const getCharactersByAccountId = (accountId: string) => {
 
 
 export const getCharacterById = (characterId: string) => {
-  return CharacterModel.findById(characterId).exec();
+  return CharacterModel.findById(characterId);
+};
+
+const loadCharacterAppearance = (player: PlayerMp) => {
+  player.setClothes(RageEnums.ClothesComponent.HAIR, player.character.appearance.hairColor, 0, 0);
+  player.setHairColor(player.character.appearance.hairColor, player.character.appearance.hairHighlightColor);
 };
 
 export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
+  console.log('spawnPlayerCharacter 1')
   if (!player.character) return;
-
+  console.log('spawnPlayerCharacter 2')
 
   if (initialSpawn) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
+    console.log('spawnPlayerCharacter 3, initial spawn')
 
     player.character.position = characterConfig.defaultPosition;
     player.character.dimension = characterConfig.defaultDimension;
@@ -57,15 +61,20 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
       }
     }
 
-    console.log('player spawn pos', player.character.position);
+    player.model = player.character.gender == CharacterGender.FEMALE ?
+      RageEnums.Hashes.Ped.MP_F_FREEMODE_01 : RageEnums.Hashes.Ped.MP_M_FREEMODE_01;
+
+    console.log(player.character.position)
+    //loadCharacterAppearance(player);
     player.spawn(player.character.position);
     player.dimension = player.character.dimension;
+    console.log('spawnPlayerCharacter last')
   }
 };
 
 
 export const selectCharacter = (player: PlayerMp, characterId: string) => {
-  CharacterModel.findById(characterId)
+  getCharacterById(characterId)
     .then((character) => {
       if (!character)
         return;
