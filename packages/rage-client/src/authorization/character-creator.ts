@@ -1,5 +1,5 @@
 import { on } from '@libertymp/rage-rpc';
-import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+import { CharacterGender, GameUiKey, ProcedureKey } from '@bcrp-rage/common';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
@@ -15,12 +15,15 @@ async function toggleCharacterCreator(toggle: boolean) {
   } else {
     hideGameInterface(GameUiKey.CharacterCreator);
     mp.players.local.freezePosition(false);
-    mp.players.local.clearTasks();
+    mp.players.local.clearTasksImmediately();
   }
 
   togglePlayerPreviewCamera(toggle);
 }
 
+function handlePedModelChange(gender: CharacterGender) {
+  mp.players.local.model = (gender == CharacterGender.FEMALE ? RageEnums.Ped.Hash.MP_F_FREEMODE_01 : RageEnums.Ped.Hash.MP_M_FREEMODE_01);
+}
 
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
-
+on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);

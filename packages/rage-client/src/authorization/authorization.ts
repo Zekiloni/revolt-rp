@@ -5,12 +5,7 @@ import { authConfig } from './auth.config';
 
 let authCamera: CameraMp | null = null;
 
-mp.console.logInfo('auth loaded');
-
 export async function toggleAuthorization(toggle: boolean) {
-  mp.gui.chat.push(`togglePlayerAuthorization is  ${toggle}`);
-  mp.console.logInfo('togglePlayerAuthorization is' + toggle);
-
   if (toggle) {
     showGameInterface(GameUiKey.Authorization);
     mp.players.local.position = authConfig.cameraCoords;
@@ -30,10 +25,9 @@ export async function toggleAuthorization(toggle: boolean) {
     mp.players.local.setAlpha(255);
     mp.players.local.freezePosition(false);
 
-    if (authCamera && mp.cameras.exists(authCamera.handle)) {
+    if (authCamera && mp.cameras.exists(authCamera)) {
       authCamera.destroy();
-      await mp.game.waitAsync(0);
-      authCamera = null;
+      mp.game.cam.renderScriptCams(false, false, 0, false, false, 0);
     }
   }
 }

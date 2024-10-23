@@ -1,17 +1,27 @@
+import { nanoid } from 'nanoid';
+import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
-  BloodType, CharacterGender, CharacterSpawnType, CharacterStateType, CharacterStatus, IAccount,
+  BloodType, CharacterGender, CharacterStateType, CharacterStatus,
   ICharacter,
   ICharacterAppearance,
   ICharacterInjury,
   ICharacterOrganization,
   ICharacterSpawn, IInventoryItem
 } from '@bcrp-rage/common';
-import { prop, Ref } from '@typegoose/typegoose';
-import { Account } from '../account/account.model';
 import { characterConfig } from './character.config';
-import { nanoid } from 'nanoid';
+import { Account } from '../account/account.model';
+import { Types } from 'mongoose';
 
+@modelOptions({
+  schemaOptions: {
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+  }
+})
 export class Character implements ICharacter {
+  _id!: Types.ObjectId;
+  id!: string;
+
   @prop({ required: true })
   firstName: string;
 
@@ -25,11 +35,8 @@ export class Character implements ICharacter {
   birthday: Date;
 
   @prop({
-    type: () => ({
-      type: String,
-      propertyId: { type: String, required: false }
-    }),
-    default: () => ({ type: CharacterSpawnType.INITIAL_SPAWN })
+    type: Object,
+    default: characterConfig.defaultSpawn
   })
   defaultSpawn: ICharacterSpawn;
 
@@ -39,7 +46,7 @@ export class Character implements ICharacter {
   @prop({ default: 0 })
   adminJailTime: number;
 
-  @prop({ required: true, enum: Object.values(BloodType) })
+  @prop({ required: true, enum: Object.values(BloodType), type: String })
   bloodType: BloodType;
 
   @prop({ default: characterConfig.defaultCash })
@@ -73,9 +80,9 @@ export class Character implements ICharacter {
 
   @prop({ type: Date, default: null })
   lastSessionAt: Date;
-
-  @prop({ ref: () => Character, default: null })
-  marriedTo: Ref<Character>;
+  //
+  // @prop({ ref: () => Character, default: null })
+  // marriedTo: Ref<Character>;
 
   @prop({ default: () => nanoid(6) })
   maskId: string;

@@ -1,5 +1,6 @@
 import { Ref } from '@typegoose/typegoose';
 import { ICharacter } from '../character/character.model';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export enum AdminType {
   TRIAL_ADMIN = 1,
@@ -10,8 +11,7 @@ export enum AdminType {
   SUPER_ADMIN = 6,
 }
 
-export interface IAccount {
-  id: string;
+export interface IAccount extends Base {
   username: string;
   emailAddress: string;
   password: string;

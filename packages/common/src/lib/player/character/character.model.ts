@@ -4,6 +4,7 @@ import { Vector3 } from '../../core.interface';
 import { IOrganization, IOrganizationRank } from '../../organization/organization.model';
 import { ICharacterAppearance } from './char-appeaarance.model';
 import { IAccount } from '../account/account.model';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 
 export interface ICharacterSpawn {
@@ -39,8 +40,7 @@ export interface ICharacterOrganization {
   rank?: Ref<IOrganizationRank>;
 }
 
-export interface ICharacter {
-  id?: string;
+export interface ICharacter extends Base {
   firstName: string;
   middleName?: string;
   lastName: string;

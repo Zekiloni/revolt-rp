@@ -1,21 +1,31 @@
 import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
-import { getModelForClass, pre, prop, Ref } from '@typegoose/typegoose';
+import { modelOptions, pre, prop, Ref } from '@typegoose/typegoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { Character } from '../character/character.model';
+import { Types } from 'mongoose';
 
-@pre<Account>('save', function (next) {
-  console.log(this.isNew, ' isNew')
+@pre<Account>('save', function(next) {
+  console.log(this.isNew, ' isNew');
   if (this.isModified('password') || this.isNew) {
-    console.log(this)
+    console.log(this);
     this.password = hashSync(this.password, genSaltSync(12));
     return next();
   }
 })
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+  }
+})
 export class Account implements IAccount {
-  id: string;
+  _id!: Types.ObjectId;
+  id!: string;
 
   @prop({ required: true })
   username: string;
+
   coins: number;
   lastLoginAt: Date;
   referer: string;
@@ -47,9 +57,9 @@ export class Account implements IAccount {
   @prop({ ref: () => Character, default: [] })
   characters: Ref<Character>[];
 
-  createdAt: Date;
+  createdAt!: Date;
 
-  updatedAt: Date;
+  updatedAt!: Date;
 }
 
 
