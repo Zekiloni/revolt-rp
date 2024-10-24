@@ -7,6 +7,7 @@ import { togglePlayerPreviewCamera } from '../player-util/player-preview-camera'
 
 async function toggleCharacterCreator(toggle: boolean) {
   if (toggle) {
+    mp.gui.chat.show(false);
     await toggleAuthorization(false);
     showGameInterface(GameUiKey.CharacterCreator);
     mp.players.local.position = characterCreatorConfig.position;

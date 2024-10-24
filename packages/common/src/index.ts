@@ -4,6 +4,8 @@ export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
 export * from './lib/game-ui/game-ui.config';
 
+export * from './lib/hex-colors';
+
 import * as enUS from './lib/locales/en-US.json';
 
 export * from './lib/player/account/account.config';
