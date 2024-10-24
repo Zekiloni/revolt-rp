@@ -1,6 +1,6 @@
 import i18next from 'i18next';
-import { logger } from './logger.config';
 import { enUS } from '@bcrp-rage/common';
+import { logger } from './logger.config';
 
 export const translationConfig = {
 	lng: 'en-US',

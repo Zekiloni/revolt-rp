@@ -1,6 +1,6 @@
 import { Ref } from '@typegoose/typegoose';
-import { ICharacter } from '../character/character.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { ICharacter } from '../character/character.model';
 
 export enum AdminType {
   TRIAL_ADMIN = 1,

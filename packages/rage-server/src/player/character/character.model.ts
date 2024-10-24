@@ -135,5 +135,10 @@ export class Character implements ICharacter {
 
   @prop({ ref: () => Account })
   account: Ref<Account>;
-}
 
+  get fullName(): string {
+    return this.middleName
+      ? `${this.firstName} ${this.middleName} ${this.lastName}`
+      : `${this.firstName} ${this.lastName}`;
+  }
+}

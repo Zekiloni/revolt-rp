@@ -2,5 +2,6 @@
   "welcome": "Welcome {name}, have fun.",
   "account_doesnt_exist": "Account with {username} doesn't exist.",
   "account_already_exist": "Username {username} or {email} is already in use.",
-  "incorrect_password": "Incorrect password."
+  "incorrect_password": "Incorrect password.",
+  "says": "{person} says: {text}"
 }
