@@ -1,16 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ChipsModule } from 'primeng/chips';
-import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { ChipsModule } from 'primeng/chips';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
 
-interface ChatApi {
-  push: (text: string) => void;
-  clear: () => void;
-  activate: (toggle: boolean) => void;
-  show: (toggle: boolean) => void;
-}
 
 @Component({
   selector: 'app-text-chat',
@@ -18,7 +13,7 @@ interface ChatApi {
   imports: [
     ChipsModule,
     DatePipe,
-    FormsModule
+    FormsModule,
   ],
   templateUrl: './text-chat.component.html',
   styleUrl: './text-chat.component.scss'
@@ -34,10 +29,13 @@ export class TextChatComponent implements OnInit {
   inputContent: string | null = null;
 
   messageCount = 0;
-  messages: { id: number, content: string, createdAt: Date }[] = [];
+  messages: { id: number, content: SafeHtml, createdAt: Date }[] = [];
 
   inputHistory: string[] = [];
   historyShiftIdx = -1;
+
+  constructor(private sanitizer: DomSanitizer) {
+  }
 
   ngOnInit(): void {
     const events: Record<string, ChatApiFn> = {
@@ -55,20 +53,18 @@ export class TextChatComponent implements OnInit {
 
     window.addEventListener('keydown', async (event: KeyboardEvent) => {
       if (event.key === 't' && this.isActive && !this.isTyping) {
-        await this.enableInput(true);
+        this.enableInput(true);
         event.preventDefault();
       }
     });
 
 
-    const chatApi: ChatApi = {
+    window.chatAPI = {
       activate: this.activateChat,
       clear: this.clearChat,
       show: this.showChat,
       push: this.pushInput
     };
-
-    window.chatAPI = chatApi;
   }
 
   setFocus(enable: boolean): void {
@@ -81,7 +77,7 @@ export class TextChatComponent implements OnInit {
 
   activateChat = async (toggle: boolean) => {
     if (!toggle && (this.inputContent != null)) {
-      await this.enableInput(false);
+      this.enableInput(false);
     }
 
     this.isActive = toggle;
@@ -93,7 +89,7 @@ export class TextChatComponent implements OnInit {
 
   async sendInput() {
     let content = this.inputContent;
-    await this.enableInput(false);
+    this.enableInput(false);
 
     if (content && content.length > 0) {
       this.inputHistory.unshift(content);
@@ -105,14 +101,13 @@ export class TextChatComponent implements OnInit {
           mp.invoke('command', content);
         }
       } else if (content.includes('timestamp')) {
-        this.showTimestamps = true;
+        this.showTimestamps = !this.showTimestamps;
       } else {
         if (window.mp && !window.mp.fake) {
           mp.invoke('chatMessage', content);
         }
       }
 
-      await this.pushInput(content);
       this.historyShiftIdx = -1;
     }
   }
@@ -124,7 +119,7 @@ export class TextChatComponent implements OnInit {
 
   pushInput = async (content: string) => {
     this.messageCount++;
-
+    console.log('new text content', content);
     if (content.includes('color')) {
       const span = content.split('"');
       const color = span[1].split(' ');
@@ -134,7 +129,7 @@ export class TextChatComponent implements OnInit {
     this.messages.push({
       id: this.messageCount,
       createdAt: new Date(),
-      content: content
+      content: this.sanitizer.bypassSecurityTrustHtml(content)
     });
 
     await this.scrollToBottom();
@@ -142,7 +137,7 @@ export class TextChatComponent implements OnInit {
 
   async closeChat() {
     if (this.isActive && this.isTyping) {
-      await this.enableInput(false);
+      this.enableInput(false);
     }
   }
 
@@ -155,8 +150,10 @@ export class TextChatComponent implements OnInit {
     this.isTyping = toggle;
 
     if (toggle) {
-      this.chatInput.nativeElement.focus();
-      this.inputContent = null;
+      setTimeout(() => {
+        this.chatInput.nativeElement.focus();
+        this.inputContent = null;
+      });
     } else {
       this.chatInput.nativeElement.blur();
       this.inputContent = null;

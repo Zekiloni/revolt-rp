@@ -5,17 +5,12 @@ interface CommandValidator {
   message: string;
 }
 
-interface CommandParam {
-  name: string;
-  type: 'string' | 'number' | 'boolean';
-}
-
 export interface ICommand {
   name: string;
   description: string;
   aliases?: string[];
   administrator?: AdminType;
-  params?: CommandParam[];
+  params?: string[];
   validators?: CommandValidator[];
 
   handle(player: PlayerMp, ...args: never[]): void;

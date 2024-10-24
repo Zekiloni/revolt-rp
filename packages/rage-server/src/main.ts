@@ -7,6 +7,8 @@ import './player/player-join.api';
 import './player/player-chat.api';
 import './player/player-command.api';
 import './player/player-command';
+import './player/admin/player-admin-command';
+
 
 import { getAccountByUsername } from './player/account/account.service';
 import { AccountModel } from './player/account-character.ref';

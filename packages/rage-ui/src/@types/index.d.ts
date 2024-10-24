@@ -24,10 +24,15 @@ declare global {
 
   interface Window {
     mp: Mp;
-    chatAPI: any;
+    chatAPI: {
+      push: (text: string) => void;
+      clear: () => void;
+      activate: (toggle: boolean) => void;
+      show: (toggle: boolean) => void;
+    };
   }
 
   let mp: Mp;
 }
 
-export {}
+export {};
