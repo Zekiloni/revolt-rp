@@ -4,10 +4,11 @@ import { sendProximityMessage } from './player.util';
 
 registerCommand({
   name: 'me',
-  params: [{ name: 'action', type: 'string'}],
+  params: ['action'],
   description: 'action',
   handle(player: PlayerMp, ...args) {
-    const content = [...args].join(' ');
+    console.log('me', ...args);
+    const content = `* ${player.name} ${[...args].join(' ')}`;
     sendProximityMessage(content, player.position, 10, hexColors.PURPLE);
   }
-})
+});

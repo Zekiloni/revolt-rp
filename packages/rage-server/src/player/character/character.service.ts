@@ -37,13 +37,10 @@ const loadCharacterAppearance = (player: PlayerMp) => {
 };
 
 export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
-  console.log('spawnPlayerCharacter 1')
   if (!player.character) return;
-  console.log('spawnPlayerCharacter 2')
 
   if (initialSpawn) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
-    console.log('spawnPlayerCharacter 3, initial spawn')
 
     player.character.position = characterConfig.defaultPosition;
     player.character.dimension = characterConfig.defaultDimension;
@@ -64,11 +61,11 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
     player.model = player.character.gender == CharacterGender.FEMALE ?
       RageEnums.Hashes.Ped.MP_F_FREEMODE_01 : RageEnums.Hashes.Ped.MP_M_FREEMODE_01;
 
-    console.log(player.character.position)
+    player.name = player.character.fullName;
+
     //loadCharacterAppearance(player);
     player.spawn(player.character.position);
     player.dimension = player.character.dimension;
-    console.log('spawnPlayerCharacter last')
   }
 };
 

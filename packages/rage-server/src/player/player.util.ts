@@ -1,6 +1,14 @@
+export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
+  if (!Number.isNaN(+nameOrId))
+    return mp.players.at(+nameOrId);
 
+  nameOrId = nameOrId.replace(' ', '_').toLowerCase();
 
-export const sendProximityMessage = function (message: string, position: Vector3, radius: number, colors: string[]) {
+  return mp.players.toArray()
+    .find((player) => player.name.toLowerCase().includes(nameOrId) || player.name.toLowerCase() === nameOrId);
+};
+
+export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[]) {
   mp.players.forEachInRange(position, radius, (target) => {
     const distanceGap = radius / (colors.length + 1);
     const distance = target.dist(position);
