@@ -20,6 +20,9 @@ export * from './lib/player/character/character.enums';
 
 export * from './lib/player/ped/parentNames';
 export * from './lib/player/ped/makeupColors';
+export * from './lib/player/ped/faceFeatureNames'
+export * from './lib/player/ped/hairColors'
+export * from './lib/player/ped/eyeColors'
 
 export * from './lib/util/error.util';
 

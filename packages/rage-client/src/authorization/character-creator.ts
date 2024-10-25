@@ -1,5 +1,5 @@
 import { on } from '@libertymp/rage-rpc';
-import { CharacterGender, GameUiKey, HeadBlendData, ProcedureKey } from '@bcrp-rage/common';
+import { CharacterGender, faceFeatureNames, GameUiKey, HeadBlendData, ProcedureKey } from '@bcrp-rage/common';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
@@ -41,6 +41,13 @@ function handleHeadBlendDataChange(headBlendData: HeadBlendData) {
   );
 }
 
+function handleFaceFeatureChange(value: number[]) {
+  faceFeatureNames.forEach((_name, i) => {
+    mp.players.local.setFaceFeature(i, value[i]);
+  });
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange)
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange)
