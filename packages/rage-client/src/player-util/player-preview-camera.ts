@@ -1,3 +1,4 @@
+import { HexKeyCodes } from '@bcrp-rage/common';
 import { AnimationFlags, isPlayingAnimation, playAnimation, stopAnimation } from '../player-animation/animation';
 
 
@@ -35,7 +36,7 @@ async function handlePreviewCameraControls() {
 
       const [deltaX, deltaY] = [mp.gui.cursor.position[0] - x, mp.gui.cursor.position[1] - y];
 
-      if (!mp.keys.isDown(0x02))
+      if (!mp.keys.isDown(HexKeyCodes.RightMouse))
          return;
 
       // scroll up / zoom in

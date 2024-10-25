@@ -1,4 +1,5 @@
 export * from './lib/procedure.enums';
+export * from './lib/key.enums';
 
 export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
@@ -20,9 +21,9 @@ export * from './lib/player/character/character.enums';
 
 export * from './lib/player/ped/parentNames';
 export * from './lib/player/ped/makeupColors';
-export * from './lib/player/ped/faceFeatureNames'
-export * from './lib/player/ped/hairColors'
-export * from './lib/player/ped/eyeColors'
+export * from './lib/player/ped/faceFeatureNames';
+export * from './lib/player/ped/hairColors';
+export * from './lib/player/ped/eyeColors';
 
 export * from './lib/util/error.util';
 
