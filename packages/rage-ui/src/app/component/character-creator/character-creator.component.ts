@@ -54,6 +54,7 @@ export class CharacterCreatorComponent {
 
   private handleGenderValueChange(value: CharacterGender) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, value);
+    this.handleHeadBlendDataValueChange(this.headBlendData.getRawValue());
   }
 
   private handleHeadBlendDataValueChange(value: HeadBlendData) {
