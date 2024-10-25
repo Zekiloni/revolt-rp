@@ -19,7 +19,9 @@ export const characterCreateFormConfig = (formBuilder: FormBuilder): FormGroup =
       hairStyle: new FormControl<number>(0, [Validators.required]),
       hairColor: new FormControl<number>(0, [Validators.required]),
       hairHighlightColor: new FormControl<number>(0, [Validators.required]),
-      faceFeature: new FormArray<FormControl<number>>([]),
+      faceFeature: new FormArray<FormControl<number | null>>(
+        Array.from({ length: 20 }, () => new FormControl<number>(0.0))
+      ),
       headBlendData: formBuilder.group({
         shapeFirstId: new FormControl<number>(0, [Validators.required]),
         shapeSecondId: new FormControl<number>(0, [Validators.required]),

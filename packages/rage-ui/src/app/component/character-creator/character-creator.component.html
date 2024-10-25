@@ -46,12 +46,10 @@
           <div class="flex flex-column">
             <p-accordion [activeIndex]="0">
               <p-accordionTab header="Heritage Appearance Settings">
-                <app-head-blend-data [headBlendData]="headBlendData"/>
+                <app-head-blend-data [headBlendData]="headBlendData" />
               </p-accordionTab>
-              <p-accordionTab header="Header II">
-                <p>
-                  Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
-                </p>
+              <p-accordionTab header="Face Structure">
+                <app-face-feature [appearanceFormGroup]="appearance"  />
               </p-accordionTab>
               <p-accordionTab header="Header III">
                 <p>
