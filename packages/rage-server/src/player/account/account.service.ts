@@ -41,8 +41,8 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
 };
 
 function onAccountAuthorized(player: PlayerMp, account: Account) {
-  player.account.lastIpAddress = player.ip;
-  player.account.lastLoginAt = new Date();
+  account.lastIpAddress = player.ip;
+  account.lastLoginAt = new Date();
   player.account = account;
 }
 
