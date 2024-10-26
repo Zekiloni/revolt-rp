@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid';
+import { Document, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
   BloodType, CharacterGender, CharacterStateType, CharacterStatus,
@@ -10,7 +11,6 @@ import {
 } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
-import { Document, Types } from 'mongoose';
 
 @modelOptions({
   schemaOptions: {

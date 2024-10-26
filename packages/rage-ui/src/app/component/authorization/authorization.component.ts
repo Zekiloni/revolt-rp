@@ -1,6 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Ripple } from 'primeng/ripple';
 import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
@@ -16,7 +16,6 @@ import { CharacterSelectorComponent } from '../character-selector';
 type AuthForm = {
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-  rememberMe: FormControl<boolean | null>
 }
 
 @Component({
@@ -30,7 +29,8 @@ type AuthForm = {
     NgOptimizedImage,
     ReactiveFormsModule,
     AutoFocus,
-    CharacterSelectorComponent
+    CharacterSelectorComponent,
+    FormsModule
   ],
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css'
@@ -38,6 +38,7 @@ type AuthForm = {
 export class AuthorizationComponent implements OnInit, OnDestroy {
   WEBSITE_URL = environment.WEBSITE_URL;
   authForm: FormGroup<AuthForm>;
+  rememberMe = false;
 
   account: IAccount | null = null;
 
@@ -51,7 +52,6 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     const controls: Partial<AuthForm> = {
       username: new FormControl('', [Validators.required]),
       password: new FormControl('', [Validators.required]),
-      rememberMe: new FormControl<boolean | null>(false)
     };
 
     return this.formBuilder.group(controls) as FormGroup<AuthForm>;
@@ -89,11 +89,10 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   private handleSuccessfulAuth = (account: IAccount) => {
     this.account = account;
 
-    if (this.authForm.getRawValue().rememberMe) {
+    if (this.rememberMe) {
       this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username);
     }
   };
-
   private handleAuthError = (error: ApiError) => {
     this.messageService.add({ severity: 'error', detail: error.message });
   };

@@ -5,12 +5,11 @@ import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
 import { Character } from '../character/character.model';
 
 @pre<Account>('save', function(next) {
-  console.log(this.isNew, ' isNew');
   if (this.isModified('password') || this.isNew) {
-    console.log(this);
     this.password = hashSync(this.password, genSaltSync(12));
-    return next();
   }
+
+  return next();
 })
 @modelOptions({
   schemaOptions: {
