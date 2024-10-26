@@ -96,7 +96,7 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   minutes: number;
 
-  organization: ICharacterOrganization;
+  member: ICharacterOrganization;
 
   @prop({ required: true })
   origin: string;

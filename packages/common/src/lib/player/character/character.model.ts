@@ -44,6 +44,7 @@ export interface ICharacter extends Base {
   firstName: string;
   middleName?: string;
   lastName: string;
+  fullName: string;
   gender: CharacterGender;
   account: Ref<IAccount>;
   birthday: Date;
@@ -54,7 +55,7 @@ export interface ICharacter extends Base {
   health: number;
   accent?: string;
   state: CharacterStateType;
-  organization?: ICharacterOrganization;
+  member?: ICharacterOrganization;
   injuries: ICharacterInjury[];
   isRestrained: boolean;
   appearance: ICharacterAppearance;

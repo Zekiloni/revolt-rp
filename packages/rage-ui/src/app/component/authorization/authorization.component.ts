@@ -90,7 +90,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     this.account = account;
 
     if (this.authForm.getRawValue().rememberMe) {
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username)
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username);
     }
   };
 

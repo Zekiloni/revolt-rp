@@ -2,19 +2,26 @@ import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IAccount, ICharacter, ProcedureKey } from '@bcrp-rage/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
+import { KnobModule } from 'primeng/knob';
+import { FormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { calculateLevelUpQuota } from '../../../../../common/src/lib/util/player-level.util';
 
 
 @Component({
   selector: 'app-character-selector',
   standalone: true,
   imports: [
-    Button
+    Button,
+    KnobModule,
+    FormsModule,
+    DatePipe
   ],
   templateUrl: './character-selector.component.html',
   styleUrl: './character-selector.component.css'
 })
 export class CharacterSelectorComponent {
-  @Input() account!: IAccount;
+  @Input() account!: Partial<IAccount>;
 
 
   constructor(private rageClientService: RageClientService) {
@@ -32,4 +39,6 @@ export class CharacterSelectorComponent {
   createCharacter() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, true)
   }
+
+  protected readonly calculateLevelUpQuota = calculateLevelUpQuota;
 }
