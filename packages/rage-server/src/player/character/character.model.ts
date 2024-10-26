@@ -79,7 +79,8 @@ export class Character extends Document implements ICharacter {
   isRestrained: boolean;
 
   @prop({ type: Date, default: null })
-  lastSessionAt: Date;
+  lastSessionAt?: Date;
+
   //
   // @prop({ ref: () => Character, default: null })
   // marriedTo: Ref<Character>;
