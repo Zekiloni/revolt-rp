@@ -27,7 +27,10 @@ export class Account extends Document implements IAccount {
   username: string;
 
   coins: number;
-  lastLoginAt: Date;
+
+  @prop({ required: false })
+  lastLoginAt?: Date;
+
   referer: string;
   referralCode: string;
   serial: string;
@@ -38,9 +41,12 @@ export class Account extends Document implements IAccount {
 
   socialClubUsername: string;
 
+  socialClubId: string;
+
   @prop({ required: true })
   password: string;
 
+  @prop({ required: false })
   lastIpAddress?: string;
 
   @prop({ default: false })
@@ -48,8 +54,6 @@ export class Account extends Document implements IAccount {
 
   @prop()
   administrator?: AdminType;
-
-  socialClubId: string;
 
   @prop({ default: accountConfig.DEFAULT_MAX_CHARACTERS })
   maxCharacters: number;
