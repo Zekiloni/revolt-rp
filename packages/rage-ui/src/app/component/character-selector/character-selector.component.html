@@ -8,9 +8,18 @@
         <li
           class="flex surface-section flex-column md:flex-row p-3 md:align-items-center md:justify-content-between mb-4 border-2 border-dashed surface-border border-round">
           <div class="flex">
-            <div class="mr-0 md:mr-8"><span
-              class="block text-900 font-medium mb-1">{{ character.firstName }} {{ character.middleName }} {{ character.lastName }}</span>
-              <div class="text-600">Los Santos Sheriff's department</div>
+            <div class="mr-0 flex">
+              <p-knob [(ngModel)]="character.hours" size='45' [max]="calculateLevelUpQuota(character.level + 1)"
+                      [readonly]="true" valueTemplate="{{character.level}}" />
+
+            </div>
+            <div class="mr-0 ml-4 md:mr-8 flex flex-column ">
+              <span class="block text-900 font-medium mb-1">{{ character.fullName }}</span>
+
+              @if (character.lastSessionAt) {
+                <div class="text-600">Last session {{ character.lastSessionAt | date: 'EEEE, MMMM d, y, HH:mm:ss' }}
+                </div>
+              }
             </div>
           </div>
           <div class="mt-2 md:mt-0 flex flex-nowrap">
