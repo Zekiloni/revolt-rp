@@ -1,19 +1,14 @@
 import { on, triggerBrowser } from '@libertymp/rage-rpc';
 import { GameUiKey, ProcedureKey, StorageDataKey } from '@bcrp-rage/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
-import { authConfig } from './auth.config';
 import { getStorage, saveStorage } from '../core/storage-manager';
+import { authConfig } from './auth.config';
 
 let authCamera: CameraMp | null = null;
 
 export async function toggleAuthorization(toggle: boolean) {
   if (toggle) {
     showGameInterface(GameUiKey.Authorization);
-
-    const savedUsername = getStorage<string | undefined>(StorageDataKey.Username);
-    if (savedUsername) {
-      triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER, savedUsername);
-    }
 
     mp.players.local.position = authConfig.cameraCoords;
     mp.game.ui.displayRadar(false);
@@ -27,6 +22,11 @@ export async function toggleAuthorization(toggle: boolean) {
     );
     authCamera.setActive(true);
     mp.game.cam.renderScriptCams(true, false, 0, true, false, 0);
+
+    const savedUsername = getStorage<string | undefined>(StorageDataKey.Username);
+    if (savedUsername) {
+      triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER, savedUsername);
+    }
   } else {
     hideGameInterface(GameUiKey.Authorization);
 
