@@ -44,6 +44,10 @@ export class CharacterCreatorComponent {
     this.listenToAppearanceChanges();
   }
 
+  get gender(){
+    return this.createCharacterForm.get(this._gender)?.value;
+  }
+
   get appearance() {
     return this.createCharacterForm.get(this._appearance) as FormGroup<CharacterAppearanceForm>;
   }
