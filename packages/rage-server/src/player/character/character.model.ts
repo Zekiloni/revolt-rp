@@ -10,7 +10,7 @@ import {
 } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 @modelOptions({
   schemaOptions: {
@@ -18,9 +18,9 @@ import { Types } from 'mongoose';
     toJSON: { virtuals: true }
   }
 })
-export class Character implements ICharacter {
-  _id!: Types.ObjectId;
-  id!: string;
+export class Character extends Document implements ICharacter {
+  declare _id: Types.ObjectId;
+  declare id: string;
 
   @prop({ required: true })
   firstName: string;

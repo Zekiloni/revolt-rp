@@ -76,7 +76,9 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
       if (!character)
         return;
 
+      character.lastSessionAt = new Date();
       player.character = character;
+
       spawnPlayerCharacter(player);
     });
 };

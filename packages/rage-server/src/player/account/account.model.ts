@@ -1,8 +1,8 @@
-import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
-import { modelOptions, pre, prop, Ref } from '@typegoose/typegoose';
+import { Document, Types } from 'mongoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
+import { modelOptions, pre, prop, Ref } from '@typegoose/typegoose';
+import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
 import { Character } from '../character/character.model';
-import { Types } from 'mongoose';
 
 @pre<Account>('save', function(next) {
   console.log(this.isNew, ' isNew');
@@ -19,9 +19,9 @@ import { Types } from 'mongoose';
     toJSON: { virtuals: true }
   }
 })
-export class Account implements IAccount {
-  _id!: Types.ObjectId;
-  id!: string;
+export class Account extends Document implements IAccount {
+  declare _id: Types.ObjectId;
+  declare id: string;
 
   @prop({ required: true })
   username: string;
