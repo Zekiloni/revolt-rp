@@ -14,6 +14,7 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA = 'client_creatorUpdateHeadBlendData',
   CLIENT_CREATOR_CHANGE_PED_MODEL = 'client_creatorChangePedModel',
   CLIENT_CREATOR_UPDATE_FACE_FEATURE = 'client_creatorUpdateFaceFeature',
+  CLIENT_CREATOR_CHANGE_EYE_COLOR = "client_creatorChangeEyeColor",
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 }

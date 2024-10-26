@@ -47,7 +47,13 @@ function handleFaceFeatureChange(value: number[]) {
   });
 }
 
+function handleEyeColorChange(value: number) {
+  mp.players.local.setEyeColor(value);
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange)
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange)
+
+on(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, handleEyeColorChange)

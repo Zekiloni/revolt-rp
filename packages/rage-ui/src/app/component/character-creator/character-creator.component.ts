@@ -34,6 +34,7 @@ export class CharacterCreatorComponent {
   private readonly _appearance = 'appearance';
   public readonly _faceFeature = 'faceFeature';
   private readonly _headBlendData = 'headBlendData';
+  private readonly _eyeColor = 'eyeColor';
 
 
   createCharacterForm!: FormGroup<CreateCharacterForm>;
@@ -64,6 +65,7 @@ export class CharacterCreatorComponent {
     this.createCharacterForm.get(this._gender)?.valueChanges.subscribe((value) => this.handleGenderValueChange(value));
     this.headBlendData.valueChanges.subscribe((value) => this.handleHeadBlendDataValueChange((<HeadBlendData>value)));
     this.appearance.get(this._faceFeature)?.valueChanges.subscribe(value => this.handleFaceFeatureValueChanges(value))
+    this.appearance.get(this._eyeColor)?.valueChanges.subscribe(value => this.handleEyeColorValueChange(value))
   }
 
   private handleGenderValueChange(value: CharacterGender) {
@@ -77,5 +79,9 @@ export class CharacterCreatorComponent {
 
   private handleFaceFeatureValueChanges(value: number[]) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, value);
+  }
+
+  private handleEyeColorValueChange(value: number) {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, value);
   }
 }
