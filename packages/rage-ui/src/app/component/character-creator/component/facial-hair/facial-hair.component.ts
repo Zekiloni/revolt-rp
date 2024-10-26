@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SliderModule } from 'primeng/slider';
+import { SliderChangeEvent, SliderModule } from 'primeng/slider';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { CharacterGender, hairStyleNames, hairStyles } from '@bcrp-rage/common';
 import { CharacterAppearanceForm } from '../../../../domain/model/character';
 
 @Component({
@@ -12,5 +13,21 @@ import { CharacterAppearanceForm } from '../../../../domain/model/character';
   styleUrl: './facial-hair.component.css'
 })
 export class FacialHairComponent {
+  private readonly _hairStyle = 'hairStyle';
+
+  @Input() gender!: CharacterGender;
   @Input() appearanceFormGroup!: FormGroup<CharacterAppearanceForm>;
+
+  get hairStyles() {
+    return this.gender == CharacterGender.MALE ? hairStyles.male : hairStyles.female;
+  }
+
+  getHairStyleName(hairStyle: number) {
+    return this.gender == CharacterGender.MALE ?
+      hairStyleNames.male[hairStyle] : hairStyleNames.female[hairStyle];
+  }
+
+  handleHairStyleChange(event: SliderChangeEvent) {
+    this.appearanceFormGroup.get(this._hairStyle)?.setValue(this.hairStyles[(<number>event.value)]);
+  }
 }
