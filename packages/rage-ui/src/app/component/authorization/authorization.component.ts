@@ -16,7 +16,7 @@ import { CharacterSelectorComponent } from '../character-selector';
 type AuthForm = {
   username: FormControl<string | null>;
   password: FormControl<string | null>;
-  emailAddress?: FormControl<string | null>;
+  rememberMe: FormControl<boolean | null>
 }
 
 @Component({
@@ -50,7 +50,8 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   private buildAuthForm() {
     const controls: Partial<AuthForm> = {
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required])
+      password: new FormControl('', [Validators.required]),
+      rememberMe: new FormControl<boolean | null>(false)
     };
 
     return this.formBuilder.group(controls) as FormGroup<AuthForm>;
@@ -62,14 +63,14 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.rageClientService.off(
-      ProcedureKey.BROWSER_AUTH_SUGGEST,
+      ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER,
       this.handleUsernameSuggestion
     );
   }
 
   ngOnInit() {
     this.rageClientService.on(
-      ProcedureKey.BROWSER_AUTH_SUGGEST,
+      ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER,
       this.handleUsernameSuggestion
     );
   }
@@ -87,6 +88,10 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
   private handleSuccessfulAuth = (account: IAccount) => {
     this.account = account;
+
+    if (this.authForm.getRawValue().rememberMe) {
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username)
+    }
   };
 
   private handleAuthError = (error: ApiError) => {

@@ -1,4 +1,6 @@
 export * from './lib/procedure.enums';
+export * from './lib/storage-data-key';
+
 export * from './lib/key.enums';
 
 export * from './lib/game-ui/game-ui.model';
