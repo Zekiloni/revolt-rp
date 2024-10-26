@@ -4,6 +4,7 @@ import './core/i18next.config';
 import './player/account/account.api';
 import './player/character/character.api';
 import './player/player-join.api';
+import './player/player-quit.api';
 import './player/player-chat.api';
 import './player/player-command.api';
 import './player/player-command';

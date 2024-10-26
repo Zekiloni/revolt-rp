@@ -3,6 +3,7 @@ import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
 import { AccountCreate } from '@bcrp-rage/common';
 import { AccountModel } from '../account-character.ref';
+import { Account } from './account.model';
 
 
 export const getAccountByUsername = async (username: string) => {
@@ -39,6 +40,12 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
   });
 };
 
+function onAccountAuthorized(player: PlayerMp, account: Account) {
+  player.account.lastIpAddress = player.ip;
+  player.account.lastLoginAt = new Date();
+  player.account = account;
+}
+
 export const authorizeAccount = async (player: PlayerMp, username: string, password: string) => {
   const account = await getAccountByUsername(username);
 
@@ -48,7 +55,7 @@ export const authorizeAccount = async (player: PlayerMp, username: string, passw
   if (!compareSync(password, account.password))
     throw new Error(t('incorrect_password'));
 
-  player.account = account;
+  onAccountAuthorized(player, account);
 
   return account;
 };
