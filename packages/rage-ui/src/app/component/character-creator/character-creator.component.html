@@ -18,14 +18,14 @@
         <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                      let-index="index">
           <div class="flex flex-column">
-            <div class="grid py-4">
+            <div class="formgrid grid py-4 px-4">
               <div class="field col-12 md:col-12" [formGroup]="createCharacterForm">
                 <label for="character-description" class="font-medium text-900">Description</label>
                 <textarea
                   id="character-description"
                   rows="5"
                   cols="30"
-                  class="block"
+                  class="block w-full"
                   pInputTextarea
                   formControlName="description">
               </textarea>
@@ -44,17 +44,15 @@
         <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
                      let-index="index">
           <div class="flex flex-column">
-            <p-accordion [activeIndex]="0">
+            <p-accordion [activeIndex]="0" class="py-4 px-4">
               <p-accordionTab header="Heritage Appearance Settings">
                 <app-head-blend-data [headBlendData]="headBlendData" />
               </p-accordionTab>
               <p-accordionTab header="Face Structure">
-                <app-face-feature [appearanceFormGroup]="appearance"  />
+                <app-face-feature [appearanceFormGroup]="appearance" />
               </p-accordionTab>
-              <p-accordionTab header="Header III">
-                <p>
-                  At vero eos et accusamus et iusto odio dignissimos...
-                </p>
+              <p-accordionTab header="Facial Hair">
+                <app-facial-hair [appearanceFormGroup]="appearance" />
               </p-accordionTab>
             </p-accordion>
             <div class="flex py-4 gap-2">
@@ -64,7 +62,7 @@
           </div>
         </ng-template>
       </p-stepperPanel>
-      <p-stepperPanel header="Header III">
+      <p-stepperPanel header="Character Outfit">
         <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
           <div class="flex flex-column h-12rem">
             <div

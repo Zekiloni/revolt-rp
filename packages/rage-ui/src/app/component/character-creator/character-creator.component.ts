@@ -19,12 +19,13 @@ import { RageClientService } from '../../domain/service/rage-client.service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HeadBlendDataComponent } from './component/head-blend-data';
 import { FaceFeatureComponent } from './component/face-feature';
+import { FacialHairComponent } from './component/facial-hair';
 
 
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent],
+  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, FacialHairComponent],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
