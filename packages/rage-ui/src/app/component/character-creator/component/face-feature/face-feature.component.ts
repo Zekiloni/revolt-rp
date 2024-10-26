@@ -20,6 +20,10 @@ export class FaceFeatureComponent {
 
   @Input() appearanceFormGroup!: FormGroup<CharacterAppearanceForm>;
 
+  get selectedEyeColor() {
+    return this.appearanceFormGroup.get(this._eyeColor)?.value;
+  }
+
   getFormControl(idx: number) {
     const formArray = this.appearanceFormGroup.get(this._faceFeature) as FormArray<FormControl<number>>;
     return formArray.at(idx);

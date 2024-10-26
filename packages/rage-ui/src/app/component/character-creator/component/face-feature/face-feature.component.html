@@ -1,10 +1,11 @@
 <div class="formgrid grid py-4 px-4 max-h-15rem overflow-auto" [formGroup]="appearanceFormGroup">
   <div class="field mb-4 col-12 md:col-12">
     <label class="font-medium text-900">Eye Color</label>
-    <ul class="list-none p-0 flex flex-wrap gap-2">
+    <ul class="list-none p-0 flex flex-wrap gap-3">
       @for (color of eyeColors; track color) {
         <li
-          class="w-1rem h-1rem border-circle cursor-pointer border-100 hover:border-primary-50 transition-duration-150 transition-colors"
+          class="w-2rem h-2rem border-circle cursor-pointer border-3 border-transparent hover:border-white-alpha-90 transition-duration-150 transition-colors"
+          [ngClass]="{ 'border-white-alpha-90': color === selectedEyeColor }"
           (click)="setEyeColor(color)"
           [style]="{ background: getEyeColor(color) }"></li>
       }
