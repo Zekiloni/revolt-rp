@@ -13,8 +13,9 @@ import { CharacterAppearanceForm } from '../../../../domain/model/character';
   styleUrl: './face-feature.component.css'
 })
 export class FaceFeatureComponent {
-  protected readonly faceFeatureNames = faceFeatureNames;
+  private readonly _eyeColor = 'eyeColor';
   public readonly _faceFeature = 'faceFeature';
+  protected readonly faceFeatureNames = faceFeatureNames;
   protected readonly eyeColors = eyeColors;
 
   @Input() appearanceFormGroup!: FormGroup<CharacterAppearanceForm>;
@@ -26,5 +27,9 @@ export class FaceFeatureComponent {
 
   getEyeColor(idx: number) {
     return hairColors[idx];
+  }
+
+  setEyeColor(color: number) {
+    this.appearanceFormGroup.get(this._eyeColor)?.setValue(color);
   }
 }

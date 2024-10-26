@@ -3,7 +3,10 @@
     <label class="font-medium text-900">Eye Color</label>
     <ul class="list-none p-0 flex flex-wrap gap-2">
       @for (color of eyeColors; track color) {
-        <li class="w-1rem h-1rem border-circle cursor-pointer border-100 hover:border-primary-50 transition-duration-150 transition-colors" [style]="{ background: getEyeColor(color) }"></li>
+        <li
+          class="w-1rem h-1rem border-circle cursor-pointer border-100 hover:border-primary-50 transition-duration-150 transition-colors"
+          (click)="setEyeColor(color)"
+          [style]="{ background: getEyeColor(color) }"></li>
       }
     </ul>
   </div>
