@@ -1,5 +1,12 @@
 import { on } from '@libertymp/rage-rpc';
-import { CharacterGender, faceFeatureNames, GameUiKey, HeadBlendData, ProcedureKey } from '@bcrp-rage/common';
+import {
+  CharacterGender,
+  faceFeatureNames,
+  GameUiKey,
+  HeadBlendData,
+  HeadOverlayComponent,
+  ProcedureKey
+} from '@bcrp-rage/common';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
@@ -51,9 +58,20 @@ function handleEyeColorChange(value: number) {
   mp.players.local.setEyeColor(value);
 }
 
+function handleBeardChange(value: [number, number, number]) {
+  const [style, color, opacity] = value;
+  mp.players.local.setHeadOverlay(RageEnums.HeadOverlays.FacialHair, style, opacity, color, color);
+}
+
+function handleHeadOverlayChange(component: [number, HeadOverlayComponent]) {
+  const [overlayId, data] = component;
+  mp.players.local.setHeadOverlay(overlayId, data.value, data.opacity, data.color, data.color);
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);
-on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange)
-on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange)
-
-on(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, handleEyeColorChange)
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange);
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange);
+on(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, handleEyeColorChange);
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_BEARD, handleBeardChange);
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, handleHeadOverlayChange);

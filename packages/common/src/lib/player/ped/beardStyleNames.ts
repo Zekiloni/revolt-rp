@@ -1,4 +1,4 @@
-export const facialHairNames = [
+export const beardStyleNames = [
   'Stubble',
   'Balbo',
   'Circle Beard',

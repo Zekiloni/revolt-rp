@@ -21,11 +21,17 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
 
   if (keydown && holdTime) {
     mp.keys.bind(keycode, keydown, () => {
+      if (mp.players.local.isTypingInTextChat)
+        return;
+
       keyBind.startTime = Date.now();
       handler();
     });
   } else {
     mp.keys.bind(keycode, keydown, () => {
+      if (mp.players.local.isTypingInTextChat)
+        return;
+
       const startTime = keyBind.startTime;
       delete keyBind.startTime;
 

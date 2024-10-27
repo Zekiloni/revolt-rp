@@ -13,8 +13,8 @@ export const hairStyles = {
 
 export const hairStyleNames = {
   male: [
-    'Close Shave',
-    'Buzz cut',
+   'Close Shave',
+    'Buzzcut',
     'Faux Hawk',
     'Shaved Sides Slicked Back',
     'Raised Front Same Length',
@@ -87,7 +87,9 @@ export const hairStyleNames = {
     'Center Parted Bob',
     'Shaved Sides Flat Top',
     'Shaved Sides Short Top',
-    'Elvis'
+    'Elvis',
+    'High-top fade',
+    'Disconnected undercut'
   ],
   female: [
     'Close Shave', 'Short Bob', 'Bob', 'Pigtails',
@@ -165,6 +167,8 @@ export const hairStyleNames = {
     'Pixie Bob',
     'Tight Pony Tail Bun',
     'Pixie Cut',
-    'Elvis'
+    'Elvis',
+    'Afro',
+    'Caesar'
   ]
 };

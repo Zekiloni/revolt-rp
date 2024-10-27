@@ -14,13 +14,36 @@ export interface HeadBlendDataForm {
   isParent: FormControl<boolean>;
 }
 
+export interface HeadOverlayComponentForm {
+  value: FormControl<number>
+  color: FormControl<number>
+  opacity: FormControl<number>;
+}
+
+interface HeadOverlaysForm {
+  blemishes: FormGroup<HeadOverlayComponentForm>;
+  eyebrows: FormGroup<HeadOverlayComponentForm>;
+  ageing: FormGroup<HeadOverlayComponentForm>;
+  makeup: FormGroup<HeadOverlayComponentForm>;
+  blush: FormGroup<HeadOverlayComponentForm>;
+  complexion: FormGroup<HeadOverlayComponentForm>;
+  sunDamage: FormGroup<HeadOverlayComponentForm>;
+  lipstick: FormGroup<HeadOverlayComponentForm>;
+  molesFreckles: FormGroup<HeadOverlayComponentForm>;
+  chestHair: FormGroup<HeadOverlayComponentForm>;
+}
+
 export interface CharacterAppearanceForm {
   eyeColor: FormControl<number>;
   hairStyle: FormControl<number>;
   hairColor: FormControl<number>;
   hairHighlightColor: FormControl<number>;
+  beardStyle: FormControl<number>;
+  beardColor: FormControl<number>;
+  beardOpacity: FormControl<number>
   faceFeature: FormArray<FormControl<number>>
   headBlendData: FormGroup<HeadBlendDataForm>;
+  headOverlays: FormGroup<HeadOverlaysForm>
 }
 
 export interface CreateCharacterForm {

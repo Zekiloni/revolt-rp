@@ -1,41 +1,51 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
 import { ChipsModule } from 'primeng/chips';
 import { TagModule } from 'primeng/tag';
 import { MessagesModule } from 'primeng/messages';
 import { AccordionModule } from 'primeng/accordion';
-import { CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { headOverlays, CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import {
   CreateCharacterForm,
   characterCreateFormConfig,
   HeadBlendDataForm,
-  CharacterAppearanceForm
+  CharacterAppearanceForm, HeadOverlayComponentForm
 } from '../../domain/model/character';
 import { CharacterDetailsComponent } from './component/character-details';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HeadBlendDataComponent } from './component/head-blend-data';
 import { FaceFeatureComponent } from './component/face-feature';
-import { FacialHairComponent } from './component/facial-hair';
+import { HairComponent } from './component/hair';
+import { BeardComponent } from './component/beard';
+import { combineLatestWith, map, startWith } from 'rxjs';
+import { PanelModule } from 'primeng/panel';
+import { HeadOverlayComponent } from './component/head-overlay';
 
 
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, FacialHairComponent],
+  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
 export class CharacterCreatorComponent {
+  protected readonly CharacterGender = CharacterGender;
+  protected readonly headOverlays = headOverlays;
+
   private readonly _gender = 'gender';
   private readonly _appearance = 'appearance';
   public readonly _faceFeature = 'faceFeature';
   private readonly _headBlendData = 'headBlendData';
   private readonly _eyeColor = 'eyeColor';
-
+  private readonly _beardStyle = 'beardStyle';
+  private readonly _beardColor = 'beardColor';
+  private readonly _beardOpacity = 'beardOpacity';
+  private readonly _headOverlays = 'headOverlays';
 
   createCharacterForm!: FormGroup<CreateCharacterForm>;
 
@@ -44,12 +54,16 @@ export class CharacterCreatorComponent {
     this.listenToAppearanceChanges();
   }
 
-  get gender(){
+  get gender() {
     return this.createCharacterForm.get(this._gender)?.value;
   }
 
   get appearance() {
     return this.createCharacterForm.get(this._appearance) as FormGroup<CharacterAppearanceForm>;
+  }
+
+  getHeadOverlayComponentForm(name: string) {
+    return this.appearance.get(this._headOverlays)?.get(name) as FormGroup<HeadOverlayComponentForm>;
   }
 
   get headBlendData() {
@@ -68,8 +82,24 @@ export class CharacterCreatorComponent {
   private listenToAppearanceChanges() {
     this.createCharacterForm.get(this._gender)?.valueChanges.subscribe((value) => this.handleGenderValueChange(value));
     this.headBlendData.valueChanges.subscribe((value) => this.handleHeadBlendDataValueChange((<HeadBlendData>value)));
-    this.appearance.get(this._faceFeature)?.valueChanges.subscribe(value => this.handleFaceFeatureValueChanges(value))
-    this.appearance.get(this._eyeColor)?.valueChanges.subscribe(value => this.handleEyeColorValueChange(value))
+    this.appearance.get(this._faceFeature)?.valueChanges.subscribe(value => this.handleFaceFeatureValueChanges(value));
+    this.appearance.get(this._eyeColor)?.valueChanges.subscribe(value => this.handleEyeColorValueChange(value));
+
+    this.appearance.markAsTouched();
+    this.appearance.markAsDirty();
+
+    this.appearance.get(this._beardStyle)?.valueChanges.pipe(
+      combineLatestWith([
+        this.appearance.get(this._beardColor)?.valueChanges.pipe(startWith(this.appearance.get(this._beardStyle)?.value)),
+        this.appearance.get(this._beardOpacity)?.valueChanges.pipe(startWith(this.appearance.get(this._beardOpacity)?.value))
+      ]),
+      map((a) => a)
+    ).subscribe((value) => this.handleBeardValueChange((<number[]>value)));
+
+    this.headOverlays.forEach((headOverlay) => {
+      this.getHeadOverlayComponentForm(headOverlay.key).valueChanges
+        .subscribe((value) => this.handleHeadOverlayValueChange(headOverlay.overlayId, value));
+    });
   }
 
   private handleGenderValueChange(value: CharacterGender) {
@@ -87,5 +117,14 @@ export class CharacterCreatorComponent {
 
   private handleEyeColorValueChange(value: number) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, value);
+  }
+
+
+  private handleBeardValueChange(value: number[]) {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_BEARD, value);
+  }
+
+  private handleHeadOverlayValueChange(overlayId: number, value: Partial<{ value: number, opacity: number, color: number }>) {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, [overlayId, value]);
   }
 }

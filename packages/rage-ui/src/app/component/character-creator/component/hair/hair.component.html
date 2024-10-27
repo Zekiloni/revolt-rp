@@ -1,0 +1,41 @@
+
+<div class="formgrid grid py-4 px-4 max-h-15rem overflow-auto" [formGroup]="appearanceFormGroup">
+  <div class="field mb-4 col-12 md:col-12">
+    <label class="font-medium text-900">Hair Style</label>
+    <p-dropdown
+      formControlName="hairStyle"
+      [options]="availableHairStyles"
+      optionLabel="label"
+      appendTo="body"
+      [filter]="true"
+      styleClass="w-25rem"
+      optionValue="value"
+      placeholder="Select a Hairstyle" />
+  </div>
+
+  <div class="field mb-4 col-12 md:col-12">
+    <label class="font-medium text-900">Hair Color</label>
+    <ul class="list-none p-0 flex flex-wrap gap-3">
+      @for (color of hairColors; track color; let idx = $index) {
+        <li
+          class="border-circle cursor-pointer border-3 border-transparent hover:border-white-alpha-90 transition-duration-150 transition-colors"
+          [ngClass]="{ 'border-white-alpha-90': idx === hairColor }"
+          (click)="hairColor = idx"
+          [style]="{ background: color, width: '22px', height: '22px' }"></li>
+      }
+    </ul>
+  </div>
+
+  <div class="field mb-4 col-12 md:col-12">
+    <label class="font-medium text-900">Hair Highlight Color</label>
+    <ul class="list-none p-0 flex flex-wrap gap-3">
+      @for (color of hairColors; track color; let idx = $index) {
+        <li
+          class="border-circle cursor-pointer border-3 border-transparent hover:border-white-alpha-90 transition-duration-150 transition-colors"
+          [ngClass]="{ 'border-white-alpha-90': idx === hairHighlightColor }"
+          (click)="hairHighlightColor = idx"
+          [style]="{ background: color, width: '22px', height: '22px' }"></li>
+      }
+    </ul>
+  </div>
+</div>

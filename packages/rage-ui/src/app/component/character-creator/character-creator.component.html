@@ -45,14 +45,27 @@
                      let-index="index">
           <div class="flex flex-column">
             <p-accordion [activeIndex]="0" class="py-4 px-4">
-              <p-accordionTab header="Heritage Appearance Settings">
+              <p-accordionTab header="Heritage">
                 <app-head-blend-data [headBlendData]="headBlendData" />
               </p-accordionTab>
-              <p-accordionTab header="Face Structure">
+              <p-accordionTab header="Face Features">
                 <app-face-feature [appearanceFormGroup]="appearance" />
               </p-accordionTab>
-              <p-accordionTab header="Facial Hair">
-                <app-facial-hair [gender]="gender!" [appearanceFormGroup]="appearance" />
+              <p-accordionTab header="Hair">
+                <app-hair [gender]="gender!" [appearanceFormGroup]="appearance" />
+              </p-accordionTab>
+              <p-accordionTab header="Beard" [disabled]="gender === CharacterGender.FEMALE">
+                <app-beard [appearanceFormGroup]="appearance" />
+              </p-accordionTab>
+              <p-accordionTab header="Other">
+                <div class="max-h-15rem overflow-auto">
+                  @for (headOverlay of headOverlays; track headOverlay.overlayId) {
+                    <p-panel [header]="headOverlay.label" [toggleable]="true" [collapsed]="true">
+                      <app-head-overlay [headOverlayInfo]="headOverlay"
+                                        [headOverlayForm]="getHeadOverlayComponentForm(headOverlay.key)" />
+                    </p-panel>
+                  }
+                </div>
               </p-accordionTab>
             </p-accordion>
             <div class="flex py-4 gap-2">
