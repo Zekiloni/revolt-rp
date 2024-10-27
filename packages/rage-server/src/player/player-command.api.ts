@@ -1,4 +1,6 @@
+import { t } from 'i18next';
 import { getCommand } from './player-command.service';
+import { notifyPlayer } from './util/player-notify.util';
 
 
 function playerCommandHandler(player: PlayerMp, fullCommand: string) {
@@ -8,7 +10,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   const command = getCommand(commandKey);
 
   if (!command)
-    return; // MSG command not found
+    return notifyPlayer(player, { severity: 'error', detail: t('command_not_found'), summary: t('not_found') })
 
   if (command.administrator && player.account.administrator < command.administrator) {
     // if player.administrator < command.administrator

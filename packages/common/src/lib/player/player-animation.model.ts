@@ -1,6 +1,6 @@
 import { AnimationFlag } from './animation.enums';
 
-export default interface IPlayerAnimation {
+export interface IPlayerAnimation {
    name: string;
    dictionary: string;
    flag: AnimationFlag;

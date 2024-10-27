@@ -11,6 +11,7 @@ import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
 import { CharacterCreatorComponent } from './component/character-creator';
 import { ToastModule } from 'primeng/toast';
 import { TextChatComponent } from './component/text-chat';
+import { Message, MessageService } from 'primeng/api';
 
 
 @Component({
@@ -27,34 +28,47 @@ import { TextChatComponent } from './component/text-chat';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   protected readonly GameUiKey = GameUiKey;
 
   title = 'client-gui';
 
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
-  constructor(@Inject(Store) private store: Store<GameInterfaceState>) {
+  constructor(
+    @Inject(Store) private store: Store<GameInterfaceState>,
+    private messageService: MessageService) {
   }
 
   ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
-      const gameInterfaceEvents: Record<string, GameUiActions> = {
-        [ProcedureKey.BROWSER_SHOW_GAME_INTERFACE]: showGameInterface,
-        [ProcedureKey.BROWSER_HIDE_GAME_INTERFACE]: hideGameInterface
-      };
-
-      for (const eventKey in gameInterfaceEvents) {
-        this.toggleGameInterface(eventKey, gameInterfaceEvents[eventKey]);
-      }
+      this.listenToToggleGameInterfaceEvents();
+      this.listenToNotificationEvents();
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
+    }
+  }
+
+  private listenToToggleGameInterfaceEvents() {
+    const gameInterfaceEvents: Record<string, GameUiActions> = {
+      [ProcedureKey.BROWSER_SHOW_GAME_INTERFACE]: showGameInterface,
+      [ProcedureKey.BROWSER_HIDE_GAME_INTERFACE]: hideGameInterface
+    };
+
+    for (const eventKey in gameInterfaceEvents) {
+      this.toggleGameInterface(eventKey, gameInterfaceEvents[eventKey]);
     }
   }
 
   private toggleGameInterface(eventKey: string, handler: GameUiActions): void {
     on(eventKey, (gameInterfaceKey: GameUiKey) => {
       this.store.dispatch(handler(gameInterfaceKey));
+    });
+  }
+
+  private listenToNotificationEvents() {
+    on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
+      this.messageService.add(message);
     });
   }
 }
