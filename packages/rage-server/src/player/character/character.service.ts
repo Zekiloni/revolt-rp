@@ -1,6 +1,12 @@
-import { CharacterGender, CharacterSpawnType, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
-import { characterConfig } from './character.config';
 import { triggerClient } from '@libertymp/rage-rpc';
+import {
+  CharacterGender,
+  CharacterSpawnType,
+  HeadOverlayComponent, headOverlays as headOverlayInfo,
+  ICharacterCreate,
+  ProcedureKey
+} from '@bcrp-rage/common';
+import { characterConfig } from './character.config';
 import { AccountModel, CharacterModel } from '../account-character.ref';
 
 
@@ -22,18 +28,52 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
   }
 };
 
-export const getCharactersByAccountId = (accountId: string) => {
-  return CharacterModel.find({ accountId }).exec();
-};
-
-
 export const getCharacterById = (characterId: string) => {
   return CharacterModel.findById(characterId);
 };
 
 const loadCharacterAppearance = (player: PlayerMp) => {
-  player.setClothes(RageEnums.ClothesComponent.HAIR, player.character.appearance.hairColor, 0, 0);
-  player.setHairColor(player.character.appearance.hairColor, player.character.appearance.hairHighlightColor);
+  player.model = player.character.gender == CharacterGender.FEMALE ?
+    RageEnums.Hashes.Ped.MP_F_FREEMODE_01 : RageEnums.Hashes.Ped.MP_M_FREEMODE_01;
+
+  const {
+    headBlendData,
+    hairStyle,
+    hairColor,
+    hairHighlightColor,
+    beardStyle,
+    beardColor,
+    beardOpacity,
+    headOverlays,
+    faceFeature
+  } = player.character.appearance;
+
+  player.setHeadBlend(
+    headBlendData.shapeFirstId,
+    headBlendData.shapeSecondId,
+    0,
+    headBlendData.skinFirstId,
+    headBlendData.skinSecondId,
+    0,
+    headBlendData.shapeMix,
+    headBlendData.skinMix,
+    0
+  );
+
+  player.setClothes(RageEnums.ClothesComponent.HAIR, hairStyle, 0, 2);
+  player.setHairColor(hairColor, hairHighlightColor);
+
+  player.setHeadOverlay(RageEnums.HeadOverlays.FacialHair, [beardStyle, beardOpacity, beardColor, beardColor]);
+
+  faceFeature.forEach(
+    (value, index) => player.setFaceFeature(index, value));
+
+  headOverlayInfo.forEach(({ key, overlayId }) => {
+    const headOverlay = headOverlays[key] as HeadOverlayComponent;
+
+    if (headOverlay)
+      player.setHeadOverlay(overlayId, [headOverlay.value, headOverlay.opacity, headOverlay.color, headOverlay.color]);
+  });
 };
 
 export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
@@ -57,16 +97,14 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
         break;
       }
     }
-
-    player.model = player.character.gender == CharacterGender.FEMALE ?
-      RageEnums.Hashes.Ped.MP_F_FREEMODE_01 : RageEnums.Hashes.Ped.MP_M_FREEMODE_01;
-
-    player.name = player.character.fullName;
-
-    //loadCharacterAppearance(player);
-    player.spawn(player.character.position);
-    player.dimension = player.character.dimension;
   }
+
+  player.name = player.character.fullName;
+
+  loadCharacterAppearance(player);
+
+  player.spawn(player.character.position);
+  player.dimension = player.character.dimension;
 };
 
 
