@@ -1,15 +1,14 @@
 export * from './lib/procedure.enums';
 export * from './lib/storage-data-key';
 
+import * as enUS from './lib/locales/en-US.json';
+
 export * from './lib/key.enums';
+export * from './lib/hex-colors';
 
 export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
 export * from './lib/game-ui/game-ui.config';
-
-export * from './lib/hex-colors';
-
-import * as enUS from './lib/locales/en-US.json';
 
 export * from './lib/player/account/account.config';
 export * from './lib/player/account/account.model';

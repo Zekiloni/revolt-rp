@@ -3,5 +3,7 @@
   "account_doesnt_exist": "Account with {username} doesn't exist.",
   "account_already_exist": "Username {username} or {email} is already in use.",
   "incorrect_password": "Incorrect password.",
-  "says": "{person} says: {text}"
+  "says": "{person} says: {text}",
+  "not_found": "Oops, not found",
+  "command_not_found": "Command /{command} not found, Please try /help for list of available commands."
 }

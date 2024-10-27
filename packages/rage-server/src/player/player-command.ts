@@ -1,6 +1,6 @@
 import { hexColors } from '@bcrp-rage/common';
 import { registerCommand } from './player-command.service';
-import { sendProximityMessage } from './player.util';
+import { sendProximityMessage } from './util/player.util';
 
 registerCommand({
   name: 'me',
