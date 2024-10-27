@@ -11,7 +11,6 @@ html, body {
   background: transparent;
 }
 
-
 * {
   user-select: none;
 }
@@ -45,7 +44,16 @@ html, body {
   scrollbar-width: none;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
 
-p-slider {
-  margin-top: 0.5rem;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #575757;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #7f7f7f;
 }

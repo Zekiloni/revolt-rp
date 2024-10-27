@@ -1,6 +1,6 @@
 export enum JobKey {
    Unemployed = 'unemployed',
-   Mechanican = 'mechanican',
+   Mechanic = 'mechanic',
    Electrician = 'electrician',
    Trucker = 'trucker',
    Postman = 'postman',
