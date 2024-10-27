@@ -65,7 +65,7 @@ function handleBeardChange(value: [number, number, number]) {
 
 function handleHeadOverlayChange(component: [number, HeadOverlayComponent]) {
   const [overlayId, data] = component;
-  mp.players.local.setHeadOverlay(overlayId, data.value, data.opacity, data.color, data.color);
+  mp.players.local.setHeadOverlay(overlayId, data.value == null ? 255 : data.value, data.opacity, data.color, data.color);
 }
 
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);

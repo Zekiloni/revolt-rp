@@ -3,7 +3,9 @@
     <label class="font-medium text-900">{{ headOverlayInfo.label }}</label>
     <p-dropdown
       formControlName="value"
-      [options]="headOverlayInfo.values"
+      [options]="values"
+      optionValue="value"
+      optionLabel="label"
       appendTo="body"
       [filter]="true"
       styleClass="w-25rem"

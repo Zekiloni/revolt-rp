@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeadOverlayComponentDef } from '@bcrp-rage/common';
-import { HeadOverlayComponentForm } from '../../../../domain/model/character';
 import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { HeadOverlayComponentDef } from '@bcrp-rage/common';
+import { HeadOverlayComponentForm } from '../../../../domain/model/character';
 
 @Component({
   selector: 'app-head-overlay',
@@ -22,5 +22,9 @@ export class HeadOverlayComponent {
 
   onHeadOverlayClear() {
     this.headOverlayForm.get(this._headOverlayValue)?.setValue(255);
+  }
+
+  get values() {
+    return this.headOverlayInfo.values.map((val, index) => ({ label: val, value: index }));
   }
 }

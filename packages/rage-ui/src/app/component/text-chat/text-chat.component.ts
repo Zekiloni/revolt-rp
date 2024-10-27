@@ -161,10 +161,12 @@ export class TextChatComponent implements OnInit {
   }
 
   async scrollToBottom() {
-    this.messagesRef.nativeElement.scroll({
-      top: this.messagesRef.nativeElement.scrollHeight,
-      behavior: 'smooth'
-    });
+    if (this.messagesRef && this.messagesRef.nativeElement) {
+      this.messagesRef.nativeElement.scroll({
+        top: this.messagesRef.nativeElement.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
   }
 
   shiftHistory(direction: 'up' | 'down') {
