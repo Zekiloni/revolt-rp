@@ -1,6 +1,6 @@
 import { hexColors } from '@bcrp-rage/common';
 import { t } from 'i18next';
-import { sendProximityMessage } from './player.util';
+import { sendProximityMessage } from './util/player.util';
 
 const IC_CHAT_RADIUS = 10.0;
 
