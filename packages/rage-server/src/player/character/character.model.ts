@@ -55,7 +55,8 @@ export class Character extends Document implements ICharacter {
   @prop({ required: true, default: () => new Date() })
   createdAt: Date;
 
-  deletedAt: Date;
+  @prop({ default: null })
+  deletedAt: Date | null;
 
   @prop()
   description: string;
@@ -66,13 +67,13 @@ export class Character extends Document implements ICharacter {
   @prop({ default: () => nanoid(8) })
   dnaId: string;
 
-  @prop({ default: characterConfig.defaultHeading })
+  @prop({ default: characterConfig.defaultHeading, type: Number })
   heading: number;
 
-  @prop({ default: characterConfig.defaultHealth })
+  @prop({ default: characterConfig.defaultHealth, type: Number })
   health: number;
 
-  @prop({ default: [] })
+  @prop({ type: [Object], default: [] })
   injuries: ICharacterInjury[];
 
   @prop({ default: false })
@@ -108,7 +109,7 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   prisonTime: number;
 
-  @prop({ default: CharacterStateType.ALIVE })
+  @prop({ default: CharacterStateType.ALIVE, type: String })
   state: CharacterStateType;
 
   @prop({ default: null })
@@ -116,7 +117,7 @@ export class Character extends Document implements ICharacter {
 
   updatedAt: Date;
 
-  @prop({ enum: Object.values(CharacterGender) })
+  @prop({ enum: Object.values(CharacterGender), type: String })
   gender: CharacterGender;
 
   @prop()

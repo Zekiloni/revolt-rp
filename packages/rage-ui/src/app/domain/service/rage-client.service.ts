@@ -73,8 +73,6 @@ export class RageClientService {
         .then((result: T) => {
           if ((result as ApiError).error) {
             observer.error(result);
-            console.log(result)
-            console.log(JSON.stringify(result))
             return;
           }
           observer.next(result);
@@ -90,8 +88,6 @@ export class RageClientService {
         .then((result: T) => {
           if ((result as ApiError).error) {
             observer.error(result);
-            console.log(result)
-            console.log(JSON.stringify(result))
             return;
           }
           observer.next(result);

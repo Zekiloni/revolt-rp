@@ -3,11 +3,8 @@ async function playerQuitHandler(player: PlayerMp, exitType: string, reason?: st
 
   const { account, character, position, heading, dimension } = player;
 
-  console.log('player quit');
   if (account) {
-    console.log('before', account);
     await account.save();
-    console.log('player after account save');
 
     if (character) {
 
@@ -19,8 +16,6 @@ async function playerQuitHandler(player: PlayerMp, exitType: string, reason?: st
       character.lastSessionAt = new Date();
 
       await character.save();
-      console.log('player after character save', character);
-
     }
   }
   mp.events.delayTermination = false;

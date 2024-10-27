@@ -6,7 +6,6 @@ import { createCharacter, selectCharacter, spawnPlayerCharacter } from './charac
 const playerCreateCharacterHandler = (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
   createCharacter(player, characterCreate)
     .then((character) => {
-      console.log('created', characterCreate)
       player.character = character;
       spawnPlayerCharacter(player, true);
     })

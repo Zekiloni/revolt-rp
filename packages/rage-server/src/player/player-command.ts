@@ -7,7 +7,6 @@ registerCommand({
   params: ['action'],
   description: 'action',
   handle(player: PlayerMp, ...args) {
-    console.log('me', ...args);
     const content = `* ${player.name} ${[...args].join(' ')}`;
     sendProximityMessage(content, player.position, 10, hexColors.PURPLE);
   }
