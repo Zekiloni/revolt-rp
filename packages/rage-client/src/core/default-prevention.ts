@@ -8,6 +8,8 @@ const weaponKnockControls = [
   264
 ];
 
+mp.game.audio.setAudioFlag('DisableFlightMusic', true);
+
 function defaultGamePrevents() {
   // Disabling melee attack with weapon
   if (mp.players.local.weapon != RageEnums.Weapons.Hash.UNARMED) {
