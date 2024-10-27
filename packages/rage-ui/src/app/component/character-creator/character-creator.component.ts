@@ -1,3 +1,4 @@
+import { combineLatestWith, map, startWith } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +8,7 @@ import { ChipsModule } from 'primeng/chips';
 import { TagModule } from 'primeng/tag';
 import { MessagesModule } from 'primeng/messages';
 import { AccordionModule } from 'primeng/accordion';
+import { PanelModule } from 'primeng/panel';
 import { headOverlays, CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
 import {
   CreateCharacterForm,
@@ -21,8 +23,6 @@ import { HeadBlendDataComponent } from './component/head-blend-data';
 import { FaceFeatureComponent } from './component/face-feature';
 import { HairComponent } from './component/hair';
 import { BeardComponent } from './component/beard';
-import { combineLatestWith, map, startWith } from 'rxjs';
-import { PanelModule } from 'primeng/panel';
 import { HeadOverlayComponent } from './component/head-overlay';
 
 
@@ -46,6 +46,9 @@ export class CharacterCreatorComponent {
   private readonly _beardColor = 'beardColor';
   private readonly _beardOpacity = 'beardOpacity';
   private readonly _headOverlays = 'headOverlays';
+  private readonly _hairStyle = 'hairStyle';
+  private readonly _hairColor = 'hairColor';
+  private readonly _hairHighlightColor = 'hairHighlightColor';
 
   createCharacterForm!: FormGroup<CreateCharacterForm>;
 
@@ -88,6 +91,15 @@ export class CharacterCreatorComponent {
     this.appearance.markAsTouched();
     this.appearance.markAsDirty();
 
+    this.appearance.get(this._hairStyle)?.valueChanges.pipe(
+      combineLatestWith([
+        this.appearance.get(this._hairColor)?.valueChanges.pipe(startWith(this.appearance.get(this._hairColor)?.value)),
+        this.appearance.get(this._hairHighlightColor)?.valueChanges.pipe(startWith(this.appearance.get(this._hairHighlightColor)?.value))
+      ]),
+      map((a) => a)
+    ).subscribe((value) => this.handleHairValueChange((<number[]>value)));
+
+
     this.appearance.get(this._beardStyle)?.valueChanges.pipe(
       combineLatestWith([
         this.appearance.get(this._beardColor)?.valueChanges.pipe(startWith(this.appearance.get(this._beardStyle)?.value)),
@@ -126,5 +138,9 @@ export class CharacterCreatorComponent {
 
   private handleHeadOverlayValueChange(overlayId: number, value: Partial<{ value: number, opacity: number, color: number }>) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, [overlayId, value]);
+  }
+
+  private handleHairValueChange(value1: number[]) {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_HAIR, value1);
   }
 }

@@ -68,6 +68,12 @@ function handleHeadOverlayChange(component: [number, HeadOverlayComponent]) {
   mp.players.local.setHeadOverlay(overlayId, data.value == null ? 255 : data.value, data.opacity, data.color, data.color);
 }
 
+function handleHairChange(value: [number, number, number]) {
+  const [style, color, highlightColor] = value;
+  mp.players.local.setComponentVariation(RageEnums.Clothes.HAIR_STYLE, style, 0, 2);
+  mp.players.local.setHairColor(color, highlightColor);
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange);
@@ -75,3 +81,4 @@ on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, handleEyeColorChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_BEARD, handleBeardChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, handleHeadOverlayChange);
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_HAIR, handleHairChange)
