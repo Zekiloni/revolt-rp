@@ -1,3 +1,5 @@
+import { getForwardVector } from '../../util/vector3.util';
+
 export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
   if (!Number.isNaN(+nameOrId))
     return mp.players.at(+nameOrId);
@@ -27,3 +29,23 @@ export const sendProximityMessage = function(message: string, position: Vector3,
     target.outputChatBox(`!{${color}}${message}`);
   });
 };
+
+
+
+export const p2pTeleport = (player: PlayerMp, target: PlayerMp) => {
+  if (player.vehicle) {
+    player.dimension = target.dimension;
+
+    player.vehicle.dimension = target.dimension;
+    player.vehicle.position = getForwardVector(target.position, target.heading, target.vehicle ? 3 : 2);
+    const occupants = player.vehicle.getOccupants().entries();
+
+    for (const [seat, occupant] of occupants) {
+      occupant.dimension = target.dimension;
+      occupant.putIntoVehicle(player.vehicle, seat);
+    }
+  } else {
+    player.position = getForwardVector(target.position, target.heading, 2);
+    player.dimension = target.dimension;
+  }
+}
