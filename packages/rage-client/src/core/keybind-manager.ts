@@ -1,14 +1,18 @@
 type KeyBindHandler = () => void;
 
+
+type KeyBindValidatorFn = () => boolean;
+
 interface KeyBind {
   handler: KeyBindHandler;
   holdTime?: number;
   startTime?: number;
+  validators?: KeyBindValidatorFn[];
 }
 
 const activeKeyBinds: Map<number, Map<boolean, KeyBind>> = new Map();
 
-export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyBindHandler, holdTime = 0): void {
+export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyBindHandler, holdTime = 0, validators?: KeyBindValidatorFn[]): void {
   if (isKeyBindRegistered(keycode, keydown, handler)) return;
 
   const keyBind: KeyBind = { handler, holdTime };
@@ -24,6 +28,12 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
       if (mp.players.local.isTypingInTextChat)
         return;
 
+      if (validators && validators.length) {
+        validators.forEach(validator => {
+          if (!validator()) return;
+        });
+      }
+
       keyBind.startTime = Date.now();
       handler();
     });
@@ -31,6 +41,12 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
     mp.keys.bind(keycode, keydown, () => {
       if (mp.players.local.isTypingInTextChat)
         return;
+
+      if (validators && validators.length) {
+        validators.forEach(validator => {
+          if (!validator()) return;
+        });
+      }
 
       const startTime = keyBind.startTime;
       delete keyBind.startTime;
