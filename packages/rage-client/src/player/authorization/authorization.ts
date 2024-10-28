@@ -1,7 +1,7 @@
 import { on, triggerBrowser } from '@libertymp/rage-rpc';
 import { GameUiKey, ProcedureKey, StorageDataKey } from '@bcrp-rage/common';
-import { browser, hideGameInterface, showGameInterface } from '../core/browser';
-import { getStorage, saveStorage } from '../core/storage-manager';
+import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
+import { getStorage, saveStorage } from '../../core/storage-manager';
 import { authConfig } from './auth.config';
 
 let authCamera: CameraMp | null = null;

@@ -3,7 +3,7 @@ import {
   CharacterGender,
   CharacterSpawnType,
   HeadOverlayComponent, headOverlays as headOverlayInfo,
-  ICharacterCreate,
+  ICharacterCreate, PlayerSharedDataType,
   ProcedureKey
 } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
@@ -30,6 +30,14 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
 
 export const getCharacterById = (characterId: string) => {
   return CharacterModel.findById(characterId);
+};
+
+
+const loadTemporaryVariables = (player: PlayerMp) => {
+  player.setVariables({
+    [PlayerSharedDataType.IsSpawned]: true,
+    [PlayerSharedDataType.Cash]: player.character.cash
+  });
 };
 
 const loadCharacterAppearance = (player: PlayerMp) => {
@@ -105,6 +113,7 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
 
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
+
 };
 
 

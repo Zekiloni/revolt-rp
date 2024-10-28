@@ -1,7 +1,7 @@
 import { Vector3 } from '../core.interface';
-import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 
-export interface IItem extends Base {
+export interface IItem extends Base, TimeStamps {
   name: string;
   dropped: boolean;
   position?: Vector3;
@@ -15,4 +15,7 @@ export interface IItem extends Base {
   purity?: number;
   buildProgress?: number;
   percentageOfDamage?: number;
+
+  createdAt: Date;
+  updatedAt?: Date;
 }

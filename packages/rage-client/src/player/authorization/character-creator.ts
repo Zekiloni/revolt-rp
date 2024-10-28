@@ -7,10 +7,10 @@ import {
   HeadOverlayComponent,
   ProcedureKey
 } from '@bcrp-rage/common';
-import { hideGameInterface, showGameInterface } from '../core/browser';
+import { hideGameInterface, showGameInterface } from '../../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
-import { togglePlayerPreviewCamera } from '../player-util/player-preview-camera';
+import { togglePlayerPreviewCamera } from '../util/player-preview-camera';
 
 async function toggleCharacterCreator(toggle: boolean) {
   if (toggle) {

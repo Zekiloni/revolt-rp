@@ -5,5 +5,9 @@
   "incorrect_password": "Incorrect password.",
   "says": "{person} says: {text}",
   "not_found": "404 Not found",
+  "character_description_not_set": "Character description/look is not set.",
+  "player_target_not_found": "Player target is not connected or spawned.",
+  "private_message_from": "!{color}(( PM from {name} [{id}]: {message} ))",
+  "private_message_to": "!{color}(( PM to {name} [{id}]: {message} ))",
   "command_not_found": "Command /{command} not found, Please try /help for list of available commands."
 }

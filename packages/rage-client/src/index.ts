@@ -1,7 +1,10 @@
-import './core/player-hud';
 import './core/browser';
 import './core/default-prevention';
 
-import './authorization/authorization';
-import './authorization/character-creator';
-import './authorization/player-spawn';
+import './player/authorization/authorization';
+import './player/authorization/character-creator';
+import './player/authorization/player-spawn';
+
+import './player/player-hud';
+import './player/text-bubble';
+import './player/player-inventory';

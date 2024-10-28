@@ -13,9 +13,11 @@ import './player/admin/player-admin-command';
 
 import { getAccountByUsername } from './player/account/account.service';
 import { AccountModel } from './player/account-character.ref';
+import { WeaponItem } from './item/registry/weapon-item.model';
 
 
 (async () => {
+  new WeaponItem();
   const adminAccounts = [
     {
       username: 'Zekiloni',

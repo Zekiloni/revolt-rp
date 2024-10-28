@@ -17,7 +17,7 @@ export abstract class BaseItem implements IBaseItem {
 
   stopUse?(player: PlayerMp, item: IItem): void;
 
-  protected constructor() {
+  constructor() {
     itemRegistry.set(this.name, this);
   }
 }
