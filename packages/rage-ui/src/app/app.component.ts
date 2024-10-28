@@ -12,6 +12,7 @@ import { CharacterCreatorComponent } from './component/character-creator';
 import { ToastModule } from 'primeng/toast';
 import { TextChatComponent } from './component/text-chat';
 import { Message, MessageService } from 'primeng/api';
+import { InventoryComponent } from './component/inventory';
 
 
 @Component({
@@ -22,7 +23,8 @@ import { Message, MessageService } from 'primeng/api';
     CharacterSelectorComponent,
     CharacterCreatorComponent,
     ToastModule,
-    TextChatComponent
+    TextChatComponent,
+    InventoryComponent
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
