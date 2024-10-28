@@ -4,6 +4,7 @@ import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
 export interface IItem extends Base, TimeStamps {
   name: string;
   dropped: boolean;
+  localSlot: number;
   position?: Vector3;
   rotation?: Vector3;
   dimension?: number;
