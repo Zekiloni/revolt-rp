@@ -68,3 +68,74 @@ registerCommand({
     }));
   }
 });
+
+
+registerCommand({
+  name: 'whisper',
+  aliases: ['w'],
+  description: 'todo',
+  params: ['target', 'message'],
+  handle(player: PlayerMp, targetQuery: string, ...content: string[]) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    const text = [...content].join(' ');
+
+    [player, target].forEach(_target => _target.outputChatBox(`!${hexColors.GREY85}` + t('whisper_say', {
+      name: player.character.fullName,
+      text
+    })));
+
+    sendProximityMessage(`> ` + t('whispers_to', {
+      name: player.character.fullName,
+      target: target.character.fullName
+    }), player.position, 10, hexColors.PURPLE);
+  }
+});
+
+
+registerCommand({
+  name: 'low',
+  aliases: ['l'],
+  params: ['content'],
+  description: 'todo',
+  handle(player: PlayerMp, ...args) {
+    const content = [...args].join(' ');
+    sendProximityMessage(t('says_low', {
+      name: player.character.fullName,
+      text: content
+    }), player.position, 5, hexColors.WHITE);
+  }
+});
+
+
+registerCommand({
+  name: 'shout',
+  aliases: ['s'],
+  params: ['content'],
+  description: 'todo',
+  handle(player: PlayerMp, ...args) {
+    const content = [...args].join(' ');
+    sendProximityMessage(t('shouts', {
+      name: player.character.fullName,
+      text: content
+    }), player.position, 20, hexColors.WHITE);
+  }
+});
+
+
+registerCommand({
+  name: 'coin',
+  description: 'todo',
+  handle(player: PlayerMp) {
+    const results = t('coin_flip');
+    const randomIndex = Math.floor(Math.random() * results.length);
+
+    sendProximityMessage(t('throws_a_coin', {
+      name: player.character.fullName,
+      result: results[randomIndex]
+    }), player.position, 10, hexColors.PURPLE);
+  }
+});
