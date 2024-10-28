@@ -1,7 +1,7 @@
 import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
-import { AccountCreate } from '@bcrp-rage/common';
+import { AccountCreate, AdminType, PlayerSharedDataType } from '@bcrp-rage/common';
 import { AccountModel } from '../account-character.ref';
 import { Account } from './account.model';
 
@@ -60,4 +60,10 @@ export const authorizeAccount = async (player: PlayerMp, username: string, passw
   return account;
 };
 
+
+export const setPlayerAdmin = async (player: PlayerMp, adminLevel: AdminType) => {
+  player.setVariable(PlayerSharedDataType.Administrator, adminLevel);
+  player.account.administrator = adminLevel;
+  await player.account.save();
+}
 
