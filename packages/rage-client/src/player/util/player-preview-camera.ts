@@ -1,5 +1,5 @@
 import { HexKeyCodes } from '@bcrp-rage/common';
-import { AnimationFlags, isPlayingAnimation, playAnimation, stopAnimation } from '../player-animation/animation';
+import { AnimationFlags, isPlayingAnimation, playAnimation, stopAnimation } from '../animation';
 
 
 const [minFov, maxFov] = [10, 100];

@@ -26,7 +26,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
     })
   }
 
-  command.handle(player, ...args as never[]);
+  command.handle(player);
 }
 
 mp.events.add({

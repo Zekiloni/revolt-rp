@@ -6,7 +6,7 @@ module.exports = {
     path: join(__dirname, '../../dist/packages/rage-server')
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
   },
   module: {
     rules: [
@@ -31,7 +31,7 @@ module.exports = {
       generatePackageJson: true,
       tsConfig: './tsconfig.app.json',
       optimization: false,
-      outputHashing: 'none'
+      outputHashing: 'none',
       // optimization: process.env['NODE_ENV'] === 'production',
       // outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none'
     })

@@ -1,6 +1,6 @@
+import { PlayerSharedDataType } from '@bcrp-rage/common';
+
 type KeyBindHandler = () => void;
-
-
 type KeyBindValidatorFn = () => boolean;
 
 interface KeyBind {
@@ -15,7 +15,7 @@ const activeKeyBinds: Map<number, Map<boolean, KeyBind>> = new Map();
 export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyBindHandler, holdTime = 0, validators?: KeyBindValidatorFn[]): void {
   if (isKeyBindRegistered(keycode, keydown, handler)) return;
 
-  const keyBind: KeyBind = { handler, holdTime };
+  const keyBind: KeyBind = { handler, holdTime, startTime: undefined };
 
   if (!activeKeyBinds.has(keycode)) {
     activeKeyBinds.set(keycode, new Map());
@@ -23,9 +23,9 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
 
   activeKeyBinds.get(keycode)?.set(keydown, keyBind);
 
-  if (keydown && holdTime) {
+  if (keydown) {
     mp.keys.bind(keycode, keydown, () => {
-      if (mp.players.local.isTypingInTextChat)
+      if (!mp.players.local.getVariable(PlayerSharedDataType.IsSpawned) || mp.players.local.isTypingInTextChat)
         return;
 
       if (validators && validators.length) {
@@ -39,7 +39,7 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
     });
   } else {
     mp.keys.bind(keycode, keydown, () => {
-      if (mp.players.local.isTypingInTextChat)
+      if (!mp.players.local.getVariable(PlayerSharedDataType.IsSpawned) || mp.players.local.isTypingInTextChat)
         return;
 
       if (validators && validators.length) {

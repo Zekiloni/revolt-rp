@@ -4,8 +4,10 @@
     "outDir": "../../dist/out-tsc",
     "target": "esnext",
     "module": "commonjs",
+    "moduleResolution": "node",
     "moduleDetection": "force",
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "types": ["node", "../../node_modules/@ragempcommunity/types-server"]
   },
   "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
