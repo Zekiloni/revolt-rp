@@ -8,6 +8,7 @@ const weaponKnockControls = [
   264
 ];
 
+mp.game.audio.setFlag('DisableFlightMusic', true);
 mp.game.audio.setAudioFlag('DisableFlightMusic', true);
 
 function defaultGamePrevents() {

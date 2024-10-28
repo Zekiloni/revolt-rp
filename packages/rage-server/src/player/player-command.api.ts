@@ -10,7 +10,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   const command = getCommand(commandKey);
 
   if (!command)
-    return notifyPlayer(player, { severity: 'error', detail: t('command_not_found'), summary: t('not_found') })
+    return notifyPlayer(player, { severity: 'error', detail: t('command_not_found', { command: commandKey}), summary: t('not_found') })
 
   if (command.administrator && player.account.administrator < command.administrator) {
     // if player.administrator < command.administrator

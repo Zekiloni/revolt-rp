@@ -1,7 +1,7 @@
 import { Vector3 } from '../core.interface';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
-export interface IItem {
-  id?: string;
+export interface IItem extends Base {
   name: string;
   dropped: boolean;
   position?: Vector3;

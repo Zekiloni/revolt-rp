@@ -7,7 +7,7 @@
             @if (showTimestamps) {
               <span class="font-light text-700">[{{ message.createdAt | date: 'M/d/yy @ HH:mm:ss' }}] </span>
             }
-            <span class="font-medium" [innerHTML]="message.content"> </span>
+            <span class="font-medium" [innerHTML]="message.content | safeHtml"> </span>
           </p>
         </li>
       }

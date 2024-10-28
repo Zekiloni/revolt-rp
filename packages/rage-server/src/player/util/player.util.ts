@@ -9,16 +9,20 @@ export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
 };
 
 export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[]) {
+  const distanceGap = radius / (colors.length + 1);
+
+  const distanceThresholds = colors.map((_color, index) => distanceGap * (index + 1));
+
   mp.players.forEachInRange(position, radius, (target) => {
-    const distanceGap = radius / (colors.length + 1);
     const distance = target.dist(position);
+    let color = colors[0];
 
-    const colorIndex = colors.findIndex((_color, index) => {
-      const distanceThreshold = distanceGap * (index + 1);
-      return distance <= distanceThreshold;
-    });
-
-    const color = (colorIndex >= 0) ? colors[colorIndex] : colors[0];
+    for (let i = 0; i < distanceThresholds.length; i++) {
+      if (distance <= distanceThresholds[i]) {
+        color = colors[i];
+        break;
+      }
+    }
 
     target.outputChatBox(`!{${color}}${message}`);
   });
