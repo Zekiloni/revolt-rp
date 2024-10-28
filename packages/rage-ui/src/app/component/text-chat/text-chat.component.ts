@@ -2,7 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
+import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
 
@@ -13,6 +14,7 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
   imports: [
     ChipsModule,
     DatePipe,
+    SafeHtmlPipe,
     FormsModule,
   ],
   templateUrl: './text-chat.component.html',
@@ -29,7 +31,7 @@ export class TextChatComponent implements OnInit {
   inputContent: string | null = null;
 
   messageCount = 0;
-  messages: { id: number, content: SafeHtml, createdAt: Date }[] = [];
+  messages: { id: number, content: string, createdAt: Date }[] = [];
 
   inputHistory: string[] = [];
   historyShiftIdx = -1;
@@ -53,7 +55,7 @@ export class TextChatComponent implements OnInit {
 
     window.addEventListener('keydown', async (event: KeyboardEvent) => {
       if (event.key === 't' && this.isActive && !this.isTyping) {
-        this.enableInput(true);
+        await this.enableInput(true);
         event.preventDefault();
       }
     });
@@ -77,7 +79,7 @@ export class TextChatComponent implements OnInit {
 
   activateChat = async (toggle: boolean) => {
     if (!toggle && (this.inputContent != null)) {
-      this.enableInput(false);
+      await this.enableInput(false);
     }
 
     this.isActive = toggle;
@@ -89,7 +91,7 @@ export class TextChatComponent implements OnInit {
 
   async sendInput() {
     let content = this.inputContent;
-    this.enableInput(false);
+    await this.enableInput(false);
 
     if (content && content.length > 0) {
       this.inputHistory.unshift(content);
@@ -100,8 +102,6 @@ export class TextChatComponent implements OnInit {
         if (window.mp && !window.mp.fake) {
           mp.invoke('command', content);
         }
-      } else if (content.includes('timestamp')) {
-        this.showTimestamps = !this.showTimestamps;
       } else {
         if (window.mp && !window.mp.fake) {
           mp.invoke('chatMessage', content);
@@ -119,7 +119,7 @@ export class TextChatComponent implements OnInit {
 
   pushInput = async (content: string) => {
     this.messageCount++;
-    console.log('new text content', content);
+
     if (content.includes('color')) {
       const span = content.split('"');
       const color = span[1].split(' ');
@@ -129,7 +129,7 @@ export class TextChatComponent implements OnInit {
     this.messages.push({
       id: this.messageCount,
       createdAt: new Date(),
-      content: this.sanitizer.bypassSecurityTrustHtml(content)
+      content: content
     });
 
     await this.scrollToBottom();
@@ -137,7 +137,7 @@ export class TextChatComponent implements OnInit {
 
   async closeChat() {
     if (this.isActive && this.isTyping) {
-      this.enableInput(false);
+      await this.enableInput(false);
     }
   }
 

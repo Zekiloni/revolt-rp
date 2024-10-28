@@ -29,6 +29,10 @@ export * from './lib/player/ped/hairColors';
 export * from './lib/player/ped/eyeColorNames';
 export * from './lib/player/ped/headOverlays';
 
+export * from './lib/item/registry/base-item.model';
+export * from './lib/item/registry/item-type';
+export * from './lib/item/item.model';
+
 export * from './lib/util/error.util';
 
 export { enUS };
