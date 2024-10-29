@@ -5,13 +5,15 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.Authorization]: {
     isActive: false,
     freezeControls: true,
-    mouse: true
+    mouse: true,
+    disableChat: true,
   },
 
   [GameUiKey.CharacterCreator]: {
     isActive: false,
     mouse: true,
-    freezeControls: true
+    freezeControls: true,
+    disableChat: true
   },
 
   [GameUiKey.Inventory]: {

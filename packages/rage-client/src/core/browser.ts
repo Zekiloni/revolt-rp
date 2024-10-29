@@ -29,6 +29,7 @@ export function showGameInterface(interfaceKey: GameUiKey) {
 
   if (gameUiConfigElement.disableChat) {
     mp.gui.chat.activate(false);
+    mp.console.logInfo('chat activate is false')
   }
 
   activeGameInterfaces.add(interfaceKey);

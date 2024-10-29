@@ -1,4 +1,3 @@
-
 type KeyBindHandler = () => void;
 type KeyBindValidatorFn = () => boolean;
 
@@ -24,7 +23,7 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
 
   if (keydown) {
     mp.keys.bind(keycode, keydown, () => {
-      if ( mp.players.local.isTypingInTextChat)
+      if (mp.players.local.isTypingInTextChat)
         return;
 
       if (validators && validators.length) {
@@ -38,7 +37,7 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
     });
   } else {
     mp.keys.bind(keycode, keydown, () => {
-      if ( mp.players.local.isTypingInTextChat)
+      if (mp.players.local.isTypingInTextChat)
         return;
 
       if (validators && validators.length) {
