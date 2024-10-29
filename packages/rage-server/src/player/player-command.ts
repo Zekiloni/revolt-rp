@@ -55,14 +55,14 @@ registerCommand({
 
     target.outputChatBox(t('private_message_from', {
       color: hexColors.YELLOW_LIGHT,
-      name: player.character.fullName,
+      name: player.name,
       id: player.id,
       message
     }));
 
     player.outputChatBox(t('private_message_to', {
       color: hexColors.YELLOW,
-      name: target.character.fullName,
+      name: target.name,
       id: target.id,
       message
     }));
@@ -84,13 +84,13 @@ registerCommand({
     const text = [...content].join(' ');
 
     [player, target].forEach(_target => _target.outputChatBox(`!${hexColors.GREY85}` + t('whisper_say', {
-      name: player.character.fullName,
+      name: player.name,
       text
     })));
 
     sendProximityMessage(`> ` + t('whispers_to', {
-      name: player.character.fullName,
-      target: target.character.fullName
+      name: player.name,
+      target: target.name
     }), player.position, 10, hexColors.PURPLE);
   }
 });
@@ -104,7 +104,7 @@ registerCommand({
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendProximityMessage(t('says_low', {
-      name: player.character.fullName,
+      name: player.name,
       text: content
     }), player.position, 5, hexColors.WHITE);
   }
@@ -119,7 +119,7 @@ registerCommand({
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendProximityMessage(t('shouts', {
-      name: player.character.fullName,
+      name: player.name,
       text: content
     }), player.position, 20, hexColors.WHITE);
   }
@@ -134,7 +134,7 @@ registerCommand({
     const randomIndex = Math.floor(Math.random() * results.length);
 
     sendProximityMessage(t('throws_a_coin', {
-      name: player.character.fullName,
+      name: player.name,
       result: results[randomIndex]
     }), player.position, 10, hexColors.PURPLE);
   }
