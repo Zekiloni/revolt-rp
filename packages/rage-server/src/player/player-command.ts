@@ -59,7 +59,7 @@ registerCommand({
       message
     }));
 
-    player.outputChatBox(`!{${hexColors.YELLOW}}` +t('private_message_to', {
+    player.outputChatBox(`!{${hexColors.YELLOW}}` + t('private_message_to', {
       name: target.name,
       id: target.id,
       message
@@ -128,7 +128,7 @@ registerCommand({
   name: 'coin',
   description: 'todo',
   handle(player: PlayerMp) {
-    const results = t('coin_flip');
+    const results = [t('coin_flip_head'), t('coin_flip_tail')];
     const randomIndex = Math.floor(Math.random() * results.length);
 
     sendProximityMessage(t('throws_a_coin', {
