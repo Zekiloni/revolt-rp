@@ -38,5 +38,6 @@ export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';
 
 export * from './lib/util/error.util';
+export * from './lib/util/number.util';
 
 export { enUS };

@@ -6,7 +6,7 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
   );
 
   const object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(newPos.x, newPos.y, newPos.z),
-    { alpha: 255, rotation: new mp.Vector3(rotation.x, rotation.y, rotation.z), dimension }
+    { alpha: 255, rotation: rotation, dimension }
   );
 
   while (object.handle === 0) {
