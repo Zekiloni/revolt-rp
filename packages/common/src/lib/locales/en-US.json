@@ -16,7 +16,8 @@
   "whispers_to": "{name} whispers to {target}.",
   "says_low": "{name} says low: {text}",
   "shouts": "{name} shouts: {text}",
-  "coin_flip": ["head", "tail"],
+  "coin_flip_head": "head",
+  "coin_flip_tail": "tail",
   "throws_a_coin": "{name} throws a coin and it lands on {result}.",
   "command_not_found": "Command /{command} not found, Please try /help for list of available commands."
 }
