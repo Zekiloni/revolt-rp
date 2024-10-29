@@ -1,6 +1,6 @@
 import { IBaseItem, ItemType, IItem } from '@bcrp-rage/common';
 
-const itemRegistry: Map<string, BaseItem> = new Map();
+export const itemRegistry: Map<string, BaseItem> = new Map();
 
 export abstract class BaseItem implements IBaseItem {
   description: string;

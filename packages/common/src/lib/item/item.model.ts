@@ -1,7 +1,8 @@
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { Vector3 } from '../core.interface';
-import { Base, TimeStamps } from '@typegoose/typegoose/lib/defaultClasses';
+import { IBaseItem } from './registry/base-item.model';
 
-export interface IItem extends Base, TimeStamps {
+export interface IItem extends Base {
   name: string;
   dropped: boolean;
   localSlot: number;
@@ -19,4 +20,6 @@ export interface IItem extends Base, TimeStamps {
 
   createdAt: Date;
   updatedAt?: Date;
+
+  data: IBaseItem;
 }
