@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
@@ -39,6 +39,14 @@ export class TextChatComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) {
   }
 
+  @HostListener('window:keydown', ['$event'])
+  async keyEvent(event: KeyboardEvent) {
+    if (event.key === 't' && this.isActive && !this.isTyping) {
+      await this.enableInput(true);
+      event.preventDefault();
+    }
+  }
+
   ngOnInit(): void {
     const events: Record<string, ChatApiFn> = {
       'chat:push': this.pushInput,
@@ -52,14 +60,6 @@ export class TextChatComponent implements OnInit {
         mp.events.add(fn, events[fn]);
       }
     }
-
-    window.addEventListener('keydown', async (event: KeyboardEvent) => {
-      if (event.key === 't' && this.isActive && !this.isTyping) {
-        await this.enableInput(true);
-        event.preventDefault();
-      }
-    });
-
 
     window.chatAPI = {
       activate: this.activateChat,
