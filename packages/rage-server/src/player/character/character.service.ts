@@ -96,14 +96,13 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
     switch (player.character.defaultSpawn.type) {
-      case CharacterSpawnType.LAST_POSITION:
-        break;
-
       case CharacterSpawnType.INITIAL_SPAWN: {
         player.character.position = characterConfig.defaultPosition;
         player.character.dimension = characterConfig.defaultDimension;
         break;
       }
+
+      default:
     }
   }
 
@@ -114,6 +113,7 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
 
+  player.account.depopulate('characters');
 };
 
 
@@ -124,7 +124,6 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
         return;
 
       player.character = character;
-
       spawnPlayerCharacter(player);
     });
 };
