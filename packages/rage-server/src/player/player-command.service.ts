@@ -13,7 +13,7 @@ export interface ICommand {
   params?: string[];
   validators?: CommandValidator[];
 
-  handle(player: PlayerMp, ...args: never[]): void;
+  handle(player: PlayerMp, ...args: string[]): void;
 }
 
 const commands: Map<string, ICommand> = new Map();

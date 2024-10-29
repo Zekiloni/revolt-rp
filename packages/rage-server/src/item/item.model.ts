@@ -26,10 +26,10 @@ export class Item extends Document implements IItem {
   @prop({ type: Boolean, default: false })
   dropped: boolean;
 
-  @prop({ required: false, type: Vector3 })
+  @prop({ required: false, type: Object })
   position?: Vector3;
 
-  @prop({ required: false, type: Vector3 })
+  @prop({ required: false, type: Object })
   rotation?: Vector3;
 
   @prop({ required: false, type: Number })
