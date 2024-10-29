@@ -9,6 +9,7 @@ import './player/player-chat.api';
 import './player/player-command.api';
 import './player/player-command';
 import './player/admin/player-admin-command';
+import './player/inventory/player-inventory.api';
 
 
 import { getAccountByUsername } from './player/account/account.service';

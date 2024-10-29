@@ -1,16 +1,21 @@
-<div class="absolute-center ml-5 surface-card p-4 shadow-2 border-round w-full lg:w-3 md:w-5">
+<div class="absolute-center ml-5 surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-5">
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
     <h2 class="text-lg font-bold mb-2">Inventory</h2>
 
-    <div class="flex flex-wrap gap-2 justify-content-between relative">
+    <div class="flex flex-wrap gap-4 justify-content-between">
       @for (item of inventory; let idx = $index; track idx) {
         <div class="w-5rem h-5rem surface-ground border-round w-full" pDroppable (onDrop)="dragDropItem(idx)">
           @if (item) {
             <div pDraggable
+                 pBadge
+                 class="p-overlay-badge"
+                 severity="info"
+                 [value]="item.quantity"
                  (onDragStart)="dragItemStart(item)"
-                 (onDragEnd)="dragItemEnd()"
-                 (mouseover)="itemInfoPanel.show($event)"
+                 (onDragEnd)="dragItemEnd($event)"
+                 (mouseover)="showItemInfoPanel($event)"
                  (mouseleave)="itemInfoPanel.hide()"
+                 (contextmenu)="onContextMenu($event, item)"
             >
               <h3>{{ item.name }}</h3>
             </div>
@@ -20,10 +25,11 @@
         </div>
       }
     </div>
-    <p-overlayPanel #itemInfoPanel [style]="{ width: '350px' }" >
+    <p-overlayPanel #itemInfoPanel [style]="{ width: '350px' }">
       <ng-template pTemplate="content">
       </ng-template>
     </p-overlayPanel>
 
+    <p-contextMenu #itemOptionMenu [model]="itemOptionMenuItems" appendTo="body" (onHide)="closeItemOptionMenu()" />
   </div>
 </div>

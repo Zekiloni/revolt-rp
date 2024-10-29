@@ -1,9 +1,9 @@
-// import { Item, ItemModel } from './item.model';
-//
-//
-// export const createItem = () => {
-//   return ItemModel.create();
-// };
+import { ItemModel } from './item.model';
+
+export const getItemById = (id: string) => {
+  return ItemModel.findById(id);
+}
+
 //
 //
 // export const destroyItem = async (item: Item) => {
@@ -15,13 +15,4 @@
 // };
 //
 //
-// export const dropItem = async (item: Item, position: Vector3, rotation: Vector3, dimension: number) => {
-//   item.dropped = true;
-//   item.rotation = rotation;
-//   item.position = position;
-//   item.dimension = dimension;
-//   item.object = mp.objects.new('ada', position, { rotation, dimension });
-//
-//   await item.save();
-// };
-//
+
