@@ -11,12 +11,17 @@ import { itemRegistry } from './registry/base-item.model';
   }
 })
 export class Item extends Document implements IItem {
-  localSlot: number;
   declare _id: Types.ObjectId;
   declare id: string;
 
+  @prop({ required: true, type: String })
   name: string;
+
+  @prop({ required: false, type: Number, default: 1 })
   quantity: number;
+
+  @prop({ required: false, type: Number })
+  localSlot: number;
 
   @prop({ type: Boolean, default: false })
   dropped: boolean;
@@ -34,11 +39,16 @@ export class Item extends Document implements IItem {
   serialNo?: string;
 
   ammoInClip?: number;
+
   buildProgress?: number;
+
   durability: number;
+
   expiringAt?: Date;
+
   percentageOfDamage: number;
-  purity: number;
+
+  purity?: number;
 
   createdAt!: Date;
 

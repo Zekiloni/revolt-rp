@@ -23,7 +23,9 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_CHANGE_EYE_COLOR = 'client_creatorChangeEyeColor',
   CLIENT_CREATOR_UPDATE_HAIR = 'client_creatorChangeHair',
 
+  CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
+  SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 }

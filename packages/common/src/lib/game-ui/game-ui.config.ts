@@ -16,6 +16,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
 
   [GameUiKey.Inventory]: {
     isActive: true,
+    mouse: true,
     disableChat: true
   }
 };

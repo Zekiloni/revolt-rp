@@ -5,6 +5,7 @@ import { IOrganization, IOrganizationRank } from '../../organization/organizatio
 import { ICharacterAppearance } from './char-appeaarance.model';
 import { IAccount } from '../account/account.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import type { IItem } from '../../item/item.model';
 
 
 export interface ICharacterSpawn {
@@ -12,10 +13,6 @@ export interface ICharacterSpawn {
   propertyId?: string;
 }
 
-export interface IInventoryItem {
-  item: string;
-  localSlot?: number;
-}
 
 export interface CharacterStatus {
   status: 'locked' | 'character-kill';
@@ -61,7 +58,7 @@ export interface ICharacter extends Base {
   appearance: ICharacterAppearance;
   bloodType: BloodType;
   defaultSpawn: ICharacterSpawn;
-  inventory: IInventoryItem[];
+  inventory: Ref<IItem>[];
   maskId: string;
   dnaId: string;
   position: Vector3;

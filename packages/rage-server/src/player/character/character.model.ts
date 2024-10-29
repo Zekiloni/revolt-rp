@@ -7,10 +7,11 @@ import {
   ICharacterAppearance,
   ICharacterInjury,
   ICharacterOrganization,
-  ICharacterSpawn, IInventoryItem
+  ICharacterSpawn
 } from '@bcrp-rage/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
+import { Item } from '../../item/item.model';
 
 @modelOptions({
   schemaOptions: {
@@ -120,8 +121,8 @@ export class Character extends Document implements ICharacter {
   @prop({ enum: Object.values(CharacterGender), type: String })
   gender: CharacterGender;
 
-  @prop()
-  inventory: IInventoryItem[];
+  @prop({ ref: () => Item })
+  inventory: Ref<Item>[];
 
   @prop({ default: characterConfig.maxProperties })
   maxProperties: number;
