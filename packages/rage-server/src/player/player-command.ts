@@ -53,15 +53,13 @@ registerCommand({
 
     const message = [...content].join(' ');
 
-    target.outputChatBox(t('private_message_from', {
-      color: hexColors.YELLOW_LIGHT,
+    target.outputChatBox(`!{${hexColors.YELLOW_LIGHT}}` + t('private_message_from', {
       name: player.name,
       id: player.id,
       message
     }));
 
-    player.outputChatBox(t('private_message_to', {
-      color: hexColors.YELLOW,
+    player.outputChatBox(`!{${hexColors.YELLOW}}` +t('private_message_to', {
       name: target.name,
       id: target.id,
       message
@@ -106,7 +104,7 @@ registerCommand({
     sendProximityMessage(t('says_low', {
       name: player.name,
       text: content
-    }), player.position, 5, hexColors.WHITE);
+    }), player.position, 5, [hexColors.WHITE[2], hexColors.WHITE[3], hexColors.whitesmoke[4]]);
   }
 });
 
