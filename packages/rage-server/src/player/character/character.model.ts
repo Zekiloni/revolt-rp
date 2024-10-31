@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
-  BloodType, CharacterGender, CharacterStateType, CharacterStatus,
+  BloodType, CharacterGender, CharacterSpawnType, CharacterStateType, ICharacterStatus,
   ICharacter,
   ICharacterAppearance,
   ICharacterInjury,
@@ -12,6 +12,12 @@ import {
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';
+
+
+export class CharacterSpawnOption {
+  type: CharacterSpawnType;
+  propertyId?: string;
+}
 
 @modelOptions({
   schemaOptions: {
@@ -113,8 +119,8 @@ export class Character extends Document implements ICharacter {
   @prop({ default: CharacterStateType.ALIVE, type: String })
   state: CharacterStateType;
 
-  @prop({ default: null })
-  status: CharacterStatus;
+  @prop({ type: Object, default: null })
+  status: ICharacterStatus;
 
   updatedAt: Date;
 

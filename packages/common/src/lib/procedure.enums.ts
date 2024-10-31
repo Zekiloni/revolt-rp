@@ -26,6 +26,7 @@ export const enum ProcedureKey {
   CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
   SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
+  SERVER_PLAYER_GET_INVENTORY = 'server_playerGetInventory',
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 }

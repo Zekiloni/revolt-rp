@@ -33,10 +33,14 @@ export const getCharacterById = (characterId: string) => {
 };
 
 
-const loadTemporaryVariables = (player: PlayerMp) => {
+const loadPlayerVariables = (player: PlayerMp) => {
   player.setVariables({
     [PlayerSharedDataType.IsSpawned]: true,
-    [PlayerSharedDataType.Cash]: player.character.cash
+    [PlayerSharedDataType.Cash]: player.character.cash,
+    [PlayerSharedDataType.State]: player.character.state,
+    [PlayerSharedDataType.Administrator]: player.account.administrator,
+    [PlayerSharedDataType.TextBubble]: null,
+    [PlayerSharedDataType.IsRestrained]: player.character.isRestrained
   });
 };
 
@@ -84,7 +88,7 @@ const loadCharacterAppearance = (player: PlayerMp) => {
   });
 };
 
-export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => {
+export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = false) => {
   if (!player.character) return;
 
   if (initialSpawn) {
@@ -112,6 +116,10 @@ export const spawnPlayerCharacter = (player: PlayerMp, initialSpawn = false) => 
 
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
+
+  await player.character.populate('inventory');
+
+  loadPlayerVariables(player);
 
   player.account.depopulate('characters');
 };

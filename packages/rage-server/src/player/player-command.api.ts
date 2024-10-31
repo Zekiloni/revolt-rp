@@ -10,7 +10,17 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   const command = getCommand(commandKey);
 
   if (!command)
-    return notifyPlayer(player, { severity: 'error', detail: t('command_not_found', { command: commandKey}), summary: t('not_found') })
+    return notifyPlayer(player, {
+      severity: 'error',
+      detail: t('command_not_found', { command: commandKey }),
+      summary: t('not_found')
+    });
+
+
+  if (command.params && args && args.length < command.params.length) {
+    const usage = `${command.name} [${command.params.join('] [')}]`;
+    return notifyPlayer(player, { severity: 'warn', summary: t('bad_request'), detail: t('command_usage', { usage }) });
+  }
 
   if (command.administrator && player.account.administrator < command.administrator) {
     // if player.administrator < command.administrator
@@ -23,7 +33,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
         // throw commandValidator.message
         return;
       }
-    })
+    });
   }
 
   command.handle(player, ...args);

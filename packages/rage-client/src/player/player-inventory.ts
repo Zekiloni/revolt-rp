@@ -1,12 +1,12 @@
-import { on, triggerServer } from '@libertymp/rage-rpc';
+import { callServer, register, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@bcrp-rage/common';
 import { registerKeyBind } from '../core/keybind-manager';
 import { getObjectGroundPosition } from '../util/object.util';
 import { hideGameInterface, showGameInterface } from '../core/browser';
-import { getIsAlive, getIsCuffed, getIsSpawned } from './util/player-data.util';
+import { getIsAlive, getIsNotCuffed, getIsSpawned } from './util/player-data.util';
 
 
-const INVENTORY_VALIDATORS = [getIsSpawned, getIsCuffed, getIsAlive];
+const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive];
 const PICKUP_ITEM_MAX_DISTANCE = 1.25;
 
 let inventoryActive = false;
@@ -33,7 +33,7 @@ async function dropItemHandler(item: IItem) {
     mp.players.local.dimension
   );
 
-  triggerServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
+  return callServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
 }
 
 function pickupItem() {
@@ -59,4 +59,4 @@ function pickupItem() {
 
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);
-on(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);
+register(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);

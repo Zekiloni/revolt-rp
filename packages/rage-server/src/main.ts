@@ -1,4 +1,4 @@
-import { AdminType } from '@bcrp-rage/common';
+import { AdminType, ItemType } from '@bcrp-rage/common';
 import './core/mongo-db';
 import './core/i18next.config';
 import './player/account/account.api';
@@ -18,7 +18,7 @@ import { WeaponItem } from './item/registry/weapon-item.model';
 
 
 (async () => {
-  new WeaponItem();
+  new WeaponItem('Type 56', 'description', 'weapon_assaultrifle', 'w_ar_assaultrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 3.2);
   const adminAccounts = [
     {
       username: 'Zekiloni',

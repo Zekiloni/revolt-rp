@@ -67,7 +67,7 @@ export class RageClientService {
     rpcTriggerBrowsers(name, args);
   }
 
-  callServer<T>(name: string, args: unknown): Observable<T> {
+  callServer<T>(name: string, args?: unknown): Observable<T> {
     return new Observable((observer: Observer<T>) => {
       rpcCallServer(name, args)
         .then((result: T) => {

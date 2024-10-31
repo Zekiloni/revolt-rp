@@ -17,7 +17,13 @@ export abstract class BaseItem implements IBaseItem {
 
   stopUse?(player: PlayerMp, item: IItem): void;
 
-  constructor() {
+  protected constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
+    this.name = name;
+    this.description = description;
+    this.model = model;
+    this.type = type;
+    this.weight = weight;
+
     itemRegistry.set(this.name, this);
   }
 }

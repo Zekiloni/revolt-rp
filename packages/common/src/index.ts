@@ -1,7 +1,7 @@
 export * from './lib/procedure.enums';
 export * from './lib/storage-data-key';
 
-import * as enUS from './lib/locales/en-US.json';
+export * from './lib/locales/en-Us';
 
 export * from './lib/key.enums';
 export * from './lib/hex-colors';
@@ -40,4 +40,3 @@ export * from './lib/item/item.model';
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
 
-export { enUS };
