@@ -1,19 +1,19 @@
 import i18next from 'i18next';
-import { enUS } from '@bcrp-rage/common';
+import { enUs } from '@bcrp-rage/common';
 import { logger } from './logger.config';
 
 export const translationConfig = {
-	lng: 'en-US',
-	resources: {
-		'en-US': {
-			translation: enUS
-		}
-	},
-	interpolation: {
-		prefix: '{',
-		suffix: '}'
-	}
+  lng: 'en-US',
+  resources: {
+    'en-US': {
+      translation: enUs
+    }
+  },
+  interpolation: {
+    prefix: '{',
+    suffix: '}'
+  }
 };
 
 i18next.init(translationConfig)
-	.then(() => logger('localization loaded'));
+  .then(() => logger('localization').log('success', 'loaded'));

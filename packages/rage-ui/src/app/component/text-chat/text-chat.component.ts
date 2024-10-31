@@ -2,8 +2,8 @@ import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
-import { DomSanitizer } from '@angular/platform-browser';
 import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
+
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
 
@@ -15,7 +15,7 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
     ChipsModule,
     DatePipe,
     SafeHtmlPipe,
-    FormsModule,
+    FormsModule
   ],
   templateUrl: './text-chat.component.html',
   styleUrl: './text-chat.component.scss'
@@ -36,12 +36,11 @@ export class TextChatComponent implements OnInit {
   inputHistory: string[] = [];
   historyShiftIdx = -1;
 
-  constructor(private sanitizer: DomSanitizer) {
-  }
-
   @HostListener('window:keydown', ['$event'])
   async keyEvent(event: KeyboardEvent) {
+    console.log('t pressed, chat isActive ? ' + this.isActive);
     if (event.key === 't' && this.isActive && !this.isTyping) {
+      console.log('enableChatInput true');
       await this.enableInput(true);
       event.preventDefault();
     }
@@ -82,12 +81,14 @@ export class TextChatComponent implements OnInit {
       await this.enableInput(false);
     }
 
+    console.log('activateChat, ' + toggle);
     this.isActive = toggle;
   };
 
   showChat = (toggle: boolean) => {
+    console.log('showChat ' + toggle);
     this.isActive = toggle;
-  }
+  };
 
   async sendInput() {
     let content = this.inputContent;
@@ -133,7 +134,7 @@ export class TextChatComponent implements OnInit {
     });
 
     await this.scrollToBottom();
-  }
+  };
 
   async closeChat() {
     if (this.isActive && this.isTyping) {

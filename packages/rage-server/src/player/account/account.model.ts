@@ -51,7 +51,7 @@ export class Account extends Document implements IAccount {
   @prop({ default: false })
   isEmailVerified: boolean;
 
-  @prop()
+  @prop({ enum: AdminType, type: Number, default: AdminType.NONE })
   administrator?: AdminType;
 
   @prop({ default: accountConfig.DEFAULT_MAX_CHARACTERS })

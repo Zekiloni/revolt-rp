@@ -2,11 +2,16 @@ import { createItem, getItemById } from '../../item/item.service';
 import { Types } from 'mongoose';
 
 
+export const playerGetInventory = (player: PlayerMp) => {
+  return player.character.inventory;
+}
+
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number) => {
   const item = await createItem(itemName, quantity);
 
-  player.character.inventory.push(item.id);
-  await player.character.save();
+  await player.character.update(
+    { $push: { inventory: item._id } }
+  );
 
   return item;
 };
@@ -41,6 +46,8 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
   );
 
   await item.save();
+
+  return true;
 };
 
 

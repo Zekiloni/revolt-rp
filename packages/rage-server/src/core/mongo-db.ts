@@ -4,7 +4,7 @@ import { logger } from './logger.config';
 const dbLogger = logger('database');
 
 const handleDatabaseConnection = () => {
-  dbLogger.log('success', 'Database connected successfully');
+  dbLogger.log('info', 'Database connected successfully');
 };
 
 const handleDatabaseConnectionError = (error: any) => {

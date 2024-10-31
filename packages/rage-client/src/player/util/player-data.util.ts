@@ -14,11 +14,15 @@ export const getAdministrator = (target?: PlayerMp) => {
 }
 
 export const getIsSpawned = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.IsSpawned);
+  return getTarget(target).getVariable(PlayerSharedDataType.IsSpawned) ?? false;
 }
 
 export const getIsCuffed = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.IsCuffed);
+  return getTarget(target).getVariable(PlayerSharedDataType.IsRestrained);
+}
+
+export const getIsNotCuffed = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.IsRestrained) == false;
 }
 
 export const getIsAlive = (target?: PlayerMp) => {

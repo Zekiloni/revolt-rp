@@ -27,9 +27,10 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
         return;
 
       if (validators && validators.length) {
-        validators.forEach(validator => {
-          if (!validator()) return;
-        });
+        const validation = validators.every(validator => validator());
+
+        if (!validation)
+          return;
       }
 
       keyBind.startTime = Date.now();
@@ -41,9 +42,10 @@ export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyB
         return;
 
       if (validators && validators.length) {
-        validators.forEach(validator => {
-          if (!validator()) return;
-        });
+        const validation = validators.every(validator => validator());
+
+        if (!validation)
+          return;
       }
 
       const startTime = keyBind.startTime;

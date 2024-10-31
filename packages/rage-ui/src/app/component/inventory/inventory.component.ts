@@ -1,18 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
-import { DragDropModule } from 'primeng/dragdrop';
+import { BadgeModule } from 'primeng/badge';
+import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
-import { IItem, characterConfig } from '@bcrp-rage/common';
-import { DialogService } from 'primeng/dynamicdialog';
+import { IItem, characterConfig, ProcedureKey } from '@bcrp-rage/common';
 import { SplitItemComponent } from './component/split-item';
-import { BadgeModule } from 'primeng/badge';
+import { DraggableDirective } from '../../domain/drag-drop/draggable.directive';
+import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
+import { RageClientService } from '../../domain/service/rage-client.service';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, DragDropModule, OverlayPanelModule, ContextMenuModule, BadgeModule],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective],
   providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
@@ -35,33 +37,32 @@ export class InventoryComponent implements OnInit {
       label: 'Drop Item',
       icon: 'pi pi-arrow-down'
     },
-
     {
       label: 'Give Item',
       icon: 'pi pi-share-alt'
     }
   ];
 
-  constructor(private dialogService: DialogService) {
+  constructor(
+    private rageClientService: RageClientService,
+    private dialogService: DialogService) {
   }
 
   ngOnInit(): void {
-    const items: Partial<IItem>[] = [
-      {
-        name: 'test',
-        localSlot: 3,
-        quantity: 3
-      },
-      {
-        name: 'test',
-        localSlot: 7,
-        quantity: 1
-      }
-    ];
+    this.rageClientService.callServer<IItem[]>(ProcedureKey.SERVER_PLAYER_GET_INVENTORY)
+      .subscribe({ next: (items) => this.handleGetInventory(items) });
+  }
 
+  private handleGetInventory(items: IItem[]) {
     items.forEach(item => {
       if (item.localSlot) {
-        this.inventory[(item.localSlot)] = item as IItem;
+        this.inventory[(item.localSlot)] = item;
+      } else {
+        const availableSlot = this.inventory.findIndex(a => a == null);
+
+        if (availableSlot != -1) {
+          this.inventory[availableSlot] = item;
+        }
       }
     });
   }
@@ -82,6 +83,7 @@ export class InventoryComponent implements OnInit {
   }
 
   dragDropItem(slot: number) {
+    console.log(slot);
     if (this.draggingItem) {
       if (this.inventory[slot]) {
         const currentItem = this.inventory[slot];
@@ -125,9 +127,16 @@ export class InventoryComponent implements OnInit {
   };
 
   private dropItem(draggingItem: IItem) {
-    const idx = this.inventory.indexOf(draggingItem);
-    if (idx != -1) {
-      this.inventory[idx] = null;
-    }
+    this.rageClientService.callClient<true | undefined>(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem)
+      .subscribe({
+        next: (response?: true) => {
+          if (response) {
+            const idx = this.inventory.indexOf(draggingItem);
+            if (idx != -1) {
+              this.inventory[idx] = null;
+            }
+          }
+        }
+      });
   }
 }

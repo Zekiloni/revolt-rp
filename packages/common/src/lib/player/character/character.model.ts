@@ -13,8 +13,7 @@ export interface ICharacterSpawn {
   propertyId?: string;
 }
 
-
-export interface CharacterStatus {
+export interface ICharacterStatus {
   status: 'locked' | 'character-kill';
   statusChangeDate: Date;
 }
@@ -75,6 +74,6 @@ export interface ICharacter extends Base {
   lastSessionAt?: Date;
   updatedAt?: Date;
   createdAt: Date;
-  status?: CharacterStatus;
+  status?: ICharacterStatus;
   deletedAt?: Date;
 }

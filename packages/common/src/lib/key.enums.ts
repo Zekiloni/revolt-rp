@@ -8,6 +8,7 @@ export enum HexKeyCodes {
   Control = 0x11,
   Alt = 0x12,
   Pause = 0x13,
+  Backtick = 0xC0,
   CapsLock = 0x14,
   Escape = 0x1b,
   Space = 0x20,

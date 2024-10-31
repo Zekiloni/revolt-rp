@@ -20,6 +20,7 @@ export enum ItemType {
    WEAPON_LICENSE,
 
    /* Weapon types */
+   WEAPON,
    WEAPON_MELEE,
    WEAPON_HANDGUN,
    WEAPON_SUB_MACHINE,
