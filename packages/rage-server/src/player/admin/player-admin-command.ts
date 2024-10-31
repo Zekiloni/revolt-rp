@@ -98,7 +98,7 @@ registerCommand({
     if (!target || !target.account)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
-    if (isNumber(quantity))
+    if (!isNumber(quantity))
       return notifyPlayer(player, {
         severity: 'error',
         summary: t('bad_request'),
