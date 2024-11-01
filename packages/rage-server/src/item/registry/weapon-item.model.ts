@@ -1,5 +1,6 @@
 import { BaseItem } from './base-item.model';
-import { IItem, ItemType } from '@bcrp-rage/common';
+import { ItemType } from '@bcrp-rage/common';
+import { Item } from '../item.model';
 
 
 export class WeaponItem extends BaseItem {
@@ -10,10 +11,16 @@ export class WeaponItem extends BaseItem {
     this.weaponModel = weaponModel;
   }
 
-  select(player: PlayerMp, item: IItem): void {
+  select(player: PlayerMp, item: Item): void {
+    player.giveWeapon(mp.joaat(this.weaponModel), item.ammoInClip ?? 0);
   }
 
-  use(player: PlayerMp, item: IItem): void {
+  deselect(player: PlayerMp, item: Item) {
+    player.removeWeapon(mp.joaat(this.weaponModel));
+  }
+
+  use(player: PlayerMp, item: Item): void {
+    item.ammoInClip --;
   }
 
 }

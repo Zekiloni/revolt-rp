@@ -1,4 +1,4 @@
-import { callServer, register, triggerServer } from '@libertymp/rage-rpc';
+import { on, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@bcrp-rage/common';
 import { registerKeyBind } from '../core/keybind-manager';
 import { getObjectGroundPosition } from '../util/object.util';
@@ -33,7 +33,7 @@ async function dropItemHandler(item: IItem) {
     mp.players.local.dimension
   );
 
-  return callServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
+  return triggerServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
 }
 
 function pickupItem() {
@@ -59,4 +59,4 @@ function pickupItem() {
 
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);
-register(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);
+on(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);

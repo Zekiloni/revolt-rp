@@ -3,27 +3,29 @@
     <h2 class="text-lg font-bold mb-2">Inventory</h2>
 
     <div class="flex flex-wrap gap-4 justify-content-between">
-      @for (item of inventory; let idx = $index; track idx) {
-        <div class="w-5rem h-5rem surface-ground border-round w-full" appDroppable (dragDrop)="dragDropItem(idx)">
-          @if (item) {
-            <div
-              pBadge
-              class="p-overlay-badge"
-              severity="info"
-              [value]="item.quantity"
-              appDraggable
-              (dragStart)="dragItemStart(item)"
-              (dragEnd)="dragItemEnd($event)"
-              (mouseover)="showItemInfoPanel($event)"
-              (mouseleave)="itemInfoPanel.hide()"
-              (contextmenu)="onContextMenu($event, item)"
-            >
-              <h3>{{ item.name }}</h3>
-            </div>
-          } @else {
-            <p>empty </p>
-          }
-        </div>
+      @if ($inventory | async; as inventory) {
+        @for (item of inventory; let idx = $index; track idx) {
+          <div class="w-5rem h-5rem surface-ground border-round w-full" appDroppable (dragDrop)="dragDropItem(idx)">
+            @if (item) {
+              <div
+                pBadge
+                class="p-overlay-badge"
+                severity="info"
+                [value]="item.quantity"
+                appDraggable
+                (dragStart)="dragItemStart(item)"
+                (dragEnd)="dragItemEnd($event)"
+                (mouseover)="showItemInfoPanel($event)"
+                (mouseleave)="itemInfoPanel.hide()"
+                (contextmenu)="onContextMenu($event, item)"
+              >
+                <h3>{{ item.name }}</h3>
+              </div>
+            } @else {
+              <p>empty </p>
+            }
+          </div>
+        }
       }
     </div>
     <p-overlayPanel #itemInfoPanel [style]="{ width: '350px' }">

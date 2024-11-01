@@ -1,10 +1,9 @@
-import { createItem, getItemById } from '../../item/item.service';
 import { Types } from 'mongoose';
+import { createItem, getItemById } from '../../item/item.service';
+import { Item } from '../../item/item.model';
+import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { ProcedureKey } from '@bcrp-rage/common';
 
-
-export const playerGetInventory = (player: PlayerMp) => {
-  return player.character.inventory;
-}
 
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number) => {
   const item = await createItem(itemName, quantity);
@@ -45,9 +44,9 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
     { $pull: { inventory: item._id } }
   );
 
-  await item.save();
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
 
-  return true;
+  await item.save();
 };
 
 
@@ -75,5 +74,26 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
     { $push: { inventory: item._id } }
   );
 
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
   await item.save();
+};
+
+
+export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slot: number) => {
+  const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
+  const itemOnSlot = player.character.inventory.find((item: Item) => item.localSlot == slot) as (Item | undefined);
+
+  if (!item)
+    return;
+
+  if (itemOnSlot) {
+    itemOnSlot.localSlot = item.localSlot;
+    await itemOnSlot.save();
+    triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, itemOnSlot);
+  }
+
+  item.localSlot = slot;
+  await item.save();
+
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
 };

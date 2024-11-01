@@ -4,7 +4,6 @@ import { findPlayer, p2pTeleport } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { t } from 'i18next';
 import { setPlayerAdmin } from '../account/account.service';
-import { getForwardVector } from '../../util/vector3.util';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 
