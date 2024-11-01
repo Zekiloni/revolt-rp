@@ -23,10 +23,13 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_CHANGE_EYE_COLOR = 'client_creatorChangeEyeColor',
   CLIENT_CREATOR_UPDATE_HAIR = 'client_creatorChangeHair',
 
+  BROWSER_INVENTORY_UPDATE_ITEM = 'browser_inventoryUpdateItem',
+  BROWSER_INVENTORY_ADD_ITEM = 'browser_inventoryAddItem',
+  BROWSER_INVENTORY_REMOVE_ITEM = 'browser_inventoryRemoveItem',
   CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
   SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
-  SERVER_PLAYER_GET_INVENTORY = 'server_playerGetInventory',
+  SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 }

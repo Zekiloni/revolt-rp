@@ -1,15 +1,19 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
-import { IItem, characterConfig, ProcedureKey } from '@bcrp-rage/common';
+import { IItem, ProcedureKey } from '@bcrp-rage/common';
 import { SplitItemComponent } from './component/split-item';
 import { DraggableDirective } from '../../domain/drag-drop/draggable.directive';
 import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
+import { InventoryState } from '../../store/inventory/inventory.reducer';
+import { selectInventory } from '../../store/inventory/inventory.selectors';
 
 @Component({
   selector: 'app-inventory',
@@ -19,13 +23,15 @@ import { RageClientService } from '../../domain/service/rage-client.service';
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent {
   @ViewChild('itemInfoPanel') itemInfoPanel!: OverlayPanel;
   @ViewChild('itemOptionMenu') itemOptionMenu!: ContextMenu;
 
-  inventory: (IItem | null)[] = Array(characterConfig.maxInventoryItems).fill(null);
+  $inventory: Observable<(IItem | null)[]>;
   draggingItem: IItem | null = null;
   selectedItem: IItem | null = null;
+
+  lastEvent: MouseEvent | null = null;
 
   itemOptionMenuItems: MenuItem[] = [
     {
@@ -44,27 +50,10 @@ export class InventoryComponent implements OnInit {
   ];
 
   constructor(
+    @Inject(Store) private store: Store<InventoryState>,
     private rageClientService: RageClientService,
     private dialogService: DialogService) {
-  }
-
-  ngOnInit(): void {
-    this.rageClientService.callServer<IItem[]>(ProcedureKey.SERVER_PLAYER_GET_INVENTORY)
-      .subscribe({ next: (items) => this.handleGetInventory(items) });
-  }
-
-  private handleGetInventory(items: IItem[]) {
-    items.forEach(item => {
-      if (item.localSlot) {
-        this.inventory[(item.localSlot)] = item;
-      } else {
-        const availableSlot = this.inventory.findIndex(a => a == null);
-
-        if (availableSlot != -1) {
-          this.inventory[availableSlot] = item;
-        }
-      }
-    });
+    this.$inventory = this.store.select(selectInventory);
   }
 
   dragItemStart(item: IItem) {
@@ -79,23 +68,13 @@ export class InventoryComponent implements OnInit {
     if (this.draggingItem) {
       this.dropItem(this.draggingItem);
       this.draggingItem = null;
+      this.lastEvent = event;
     }
   }
 
   dragDropItem(slot: number) {
-    console.log(slot);
     if (this.draggingItem) {
-      if (this.inventory[slot]) {
-        const currentItem = this.inventory[slot];
-
-      } else {
-        console.log('aa');
-        // call server slot change
-        delete this.inventory[this.draggingItem.localSlot!];
-        this.draggingItem!.localSlot = slot;
-        this.inventory[slot] = this.draggingItem;
-      }
-
+      this.changeSlot(this.draggingItem, slot);
       this.draggingItem = null;
     }
   }
@@ -127,16 +106,17 @@ export class InventoryComponent implements OnInit {
   };
 
   private dropItem(draggingItem: IItem) {
-    this.rageClientService.callClient<true | undefined>(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem)
-      .subscribe({
-        next: (response?: true) => {
-          if (response) {
-            const idx = this.inventory.indexOf(draggingItem);
-            if (idx != -1) {
-              this.inventory[idx] = null;
-            }
-          }
-        }
+    if (draggingItem.id)
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem);
+
+    this.draggingItem = null;
+  }
+
+  private changeSlot(draggingItem: IItem, slot: number) {
+    if (draggingItem && draggingItem.id)
+      this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, {
+        itemId: draggingItem.id,
+        slot
       });
   }
 }
