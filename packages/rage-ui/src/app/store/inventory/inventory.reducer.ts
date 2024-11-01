@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
-import { setInventory, addItem, updateItem, removeItem } from './inventory.actions';
 import { IItem } from '@bcrp-rage/common';
+import { setInventory, addItem, updateItem, removeItem } from './inventory.actions';
 
 export interface InventoryState {
   items: (IItem | null)[];
