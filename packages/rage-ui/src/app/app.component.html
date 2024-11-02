@@ -7,6 +7,14 @@
     <app-character-creator />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.Hud) | async) {
+    <app-hud />
+  }
+
+  @if ($isGameInterfaceActive(GameUiKey.VehicleHud) | async) {
+    <app-vehicle-hud />
+  }
+
   @if ($isGameInterfaceActive(GameUiKey.Inventory) | async) {
     <app-inventory />
   }

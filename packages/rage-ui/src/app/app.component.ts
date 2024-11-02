@@ -13,6 +13,9 @@ import { ToastModule } from 'primeng/toast';
 import { TextChatComponent } from './component/text-chat';
 import { Message, MessageService } from 'primeng/api';
 import { InventoryComponent } from './component/inventory';
+import { HudComponent } from './component/hud';
+import { VehicleHudComponent } from './component/vehicle/vehicle-hud';
+import { InventoryListenerService } from './domain/service/inventory-listener.service';
 
 
 @Component({
@@ -24,7 +27,9 @@ import { InventoryComponent } from './component/inventory';
     CharacterCreatorComponent,
     ToastModule,
     TextChatComponent,
-    InventoryComponent
+    InventoryComponent,
+    HudComponent,
+    VehicleHudComponent
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -39,6 +44,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Inject(Store) private store: Store<GameInterfaceState>,
+    private inventoryListenerService: InventoryListenerService,
     private messageService: MessageService) {
   }
 
@@ -46,6 +52,7 @@ export class AppComponent implements OnInit {
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
       this.listenToNotificationEvents();
+      this.inventoryListenerService.listenToInventoryEvents();
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
     }

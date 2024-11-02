@@ -29,10 +29,28 @@ html, body {
   transform: translate(0, -50%);
 }
 
-.absolute-left-top {
+.absolute-top-left {
   position: absolute;;
   top: 0;
   left: 0;
+}
+
+.absolute-top-right {
+  position: absolute;;
+  top: 0;
+  right: 0;
+}
+
+.absolute-bottom-left {
+  position: absolute;;
+  left: 0;
+  bottom: 0;
+}
+
+.absolute-bottom-right {
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .hidden-scroll::-webkit-scrollbar {
@@ -56,4 +74,8 @@ html, body {
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #7f7f7f;
+}
+
+.text-shadow {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }

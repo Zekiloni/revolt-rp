@@ -1,4 +1,4 @@
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   CharacterGender,
   CharacterSpawnType,
@@ -110,14 +110,14 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
     }
   }
 
-  player.name = player.character.fullName;
-
   loadCharacterAppearance(player);
 
+  player.name = player.character.fullName;
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
 
   await player.character.populate('inventory');
+  triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
 
   loadPlayerVariables(player);
 

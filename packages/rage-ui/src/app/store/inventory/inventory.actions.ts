@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 import { IItem } from '@bcrp-rage/common';
 
+export type InventoryActions = typeof setInventory | typeof addItem | typeof updateItem | typeof removeItem
+
 export const setInventory = createAction(
   '[Inventory] Set Inventory',
   props<{ items: IItem[] }>()

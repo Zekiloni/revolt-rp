@@ -23,6 +23,7 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_CHANGE_EYE_COLOR = 'client_creatorChangeEyeColor',
   CLIENT_CREATOR_UPDATE_HAIR = 'client_creatorChangeHair',
 
+  BROWSER_SET_INVENTORY = 'browser_setInventory',
   BROWSER_INVENTORY_UPDATE_ITEM = 'browser_inventoryUpdateItem',
   BROWSER_INVENTORY_ADD_ITEM = 'browser_inventoryAddItem',
   BROWSER_INVENTORY_REMOVE_ITEM = 'browser_inventoryRemoveItem',
