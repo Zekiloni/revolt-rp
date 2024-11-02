@@ -1,17 +1,17 @@
+import { t } from 'i18next';
 import { AdminType, hexColors, isNumber } from '@bcrp-rage/common';
 import { registerCommand } from '../player-command.service';
 import { findPlayer, p2pTeleport } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
-import { t } from 'i18next';
 import { setPlayerAdmin } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 
 
-// TODO: add admin
 registerCommand({
   name: 'veh',
   description: 'temporary veh',
+  administrator: AdminType.ADMINISTRATOR,
   params: ['model', 'primary color', 'secondary color'],
   handle(player: PlayerMp, model: string, primaryColor: string, secondaryColor: string) {
     const vehicle = mp.vehicles.new(mp.joaat(model), player.position);

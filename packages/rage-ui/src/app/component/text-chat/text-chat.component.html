@@ -1,4 +1,4 @@
-<div class="text-chat absolute-left-top mt-3 ml-3 lg:w-4 flex flex-column" tabindex="-1">
+<div class="text-chat absolute-top-left mt-3 ml-3 lg:w-4 flex flex-column" tabindex="-1">
   @if (isActive) {
     <ul #messagesList class="list-none messages h-16rem overflow-y-auto overflow-x-hidden p-0 hidden-scroll">
       @for (message of messages; track message.id) {

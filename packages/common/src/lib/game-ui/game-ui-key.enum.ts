@@ -1,5 +1,7 @@
 export enum GameUiKey {
   Authorization = 'authorization',
-  CharacterCreator = "characterCreator",
+  CharacterCreator = 'characterCreator',
+  Hud = 'hud',
+  VehicleHud = 'vehicleHud',
   Inventory = 'inventory',
 }

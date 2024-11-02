@@ -1,0 +1,14 @@
+<div class="absolute-bottom-right mr-5 mb-5 text-shadow flex flex-column">
+
+
+  <div class="card flex flex-column align-items-center gap-3">
+    <p-knob [(ngModel)]="speed" [strokeWidth]="10" size="145" [max]="maxSpeed" valueTemplate="{value}"
+            [valueColor]="speedValueColor" [readonly]="true" styleClass="font-italic"  />
+    <p class="-mt-8">km/h</p>
+  </div>
+
+  <div class="fuel mt-4">
+    <p-progressBar [value]="fuel" [style]="{ height: '9px' }" [showValue]="false" />
+  </div>
+
+</div>

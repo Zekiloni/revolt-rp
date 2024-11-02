@@ -16,6 +16,14 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     disableChat: true
   },
 
+  [GameUiKey.Hud]: {
+    isActive: true
+  },
+
+  [GameUiKey.VehicleHud]: {
+    isActive: true
+  },
+
   [GameUiKey.Inventory]: {
     isActive: false,
     mouse: true,
