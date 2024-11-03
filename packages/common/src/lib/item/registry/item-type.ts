@@ -2,7 +2,6 @@ export enum ItemType {
    /* Basic */
    CONSUMABLE,
    EQUIPABLE,
-   STACKABLE,
    MISCELLANEOUS,
    DEPLOYABLE,
 
@@ -22,7 +21,7 @@ export enum ItemType {
    /* Weapon types */
    WEAPON,
    WEAPON_MELEE,
-   WEAPON_HANDGUN,
+   WEAPON_PISTOL,
    WEAPON_SUB_MACHINE,
    WEAPON_SHOTGUN,
    WEAPON_ASSAULT_RIFLE,

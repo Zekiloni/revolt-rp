@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
 import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
+import { RageClientService } from '../../domain/service/rage-client.service';
 
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
@@ -36,11 +37,12 @@ export class TextChatComponent implements OnInit {
   inputHistory: string[] = [];
   historyShiftIdx = -1;
 
+  constructor(private rageClientService: RageClientService) {
+  }
+
   @HostListener('window:keydown', ['$event'])
   async keyEvent(event: KeyboardEvent) {
-    console.log('t pressed, chat isActive ? ' + this.isActive);
     if (event.key === 't' && this.isActive && !this.isTyping) {
-      console.log('enableChatInput true');
       await this.enableInput(true);
       event.preventDefault();
     }
@@ -56,7 +58,7 @@ export class TextChatComponent implements OnInit {
 
     if (window.mp && !window.mp.fake) {
       for (const fn in events) {
-        mp.events.add(fn, events[fn]);
+        this.rageClientService.addEvent(fn, events[fn] as any);
       }
     }
 
@@ -69,11 +71,11 @@ export class TextChatComponent implements OnInit {
   }
 
   setFocus(enable: boolean): void {
-    mp.invoke('focus', enable);
+    this.rageClientService.invoke('focus', enable);
   }
 
   setTypingState(enable: boolean): void {
-    mp.invoke('setTypingInChatState', enable);
+    this.rageClientService.invoke('setTypingInChatState', enable);
   }
 
   activateChat = async (toggle: boolean) => {
@@ -81,12 +83,10 @@ export class TextChatComponent implements OnInit {
       await this.enableInput(false);
     }
 
-    console.log('activateChat, ' + toggle);
     this.isActive = toggle;
   };
 
   showChat = (toggle: boolean) => {
-    console.log('showChat ' + toggle);
     this.isActive = toggle;
   };
 
@@ -101,11 +101,11 @@ export class TextChatComponent implements OnInit {
         content = content.substr(1);
 
         if (window.mp && !window.mp.fake) {
-          mp.invoke('command', content);
+          this.rageClientService.invoke('command', content);
         }
       } else {
         if (window.mp && !window.mp.fake) {
-          mp.invoke('chatMessage', content);
+          this.rageClientService.invoke('chatMessage', content);
         }
       }
 

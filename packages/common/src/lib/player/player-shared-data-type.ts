@@ -4,5 +4,6 @@ export const enum PlayerSharedDataType {
   IsRestrained = 'is_cuffed',
   Cash = 'cash',
   State = 'state',
+  SelectedItemId = 'selected_item_id',
   Administrator = 'administrator',
 }

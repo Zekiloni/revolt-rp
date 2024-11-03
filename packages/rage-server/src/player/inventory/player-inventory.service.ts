@@ -2,15 +2,39 @@ import { Types } from 'mongoose';
 import { createItem, getItemById } from '../../item/item.service';
 import { Item } from '../../item/item.model';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { characterConfig, ProcedureKey } from '@bcrp-rage/common';
 
+export const playerGetAvailableItemSlot = (player: PlayerMp) => {
+  let localSlot = -1;
+
+  for (let i = 0; i < characterConfig.maxInventoryItems; i++) {
+    if (!player.character.inventory[i]) {
+      localSlot = i;
+      break;
+    }
+  }
+
+  return localSlot;
+};
 
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number) => {
-  const item = await createItem(itemName, quantity);
+  const startTime = Date.now(); // Start timing
 
-  await player.character.update(
-    { $push: { inventory: item._id } }
-  );
+  const availableItemSlot = playerGetAvailableItemSlot(player);
+
+  if (availableItemSlot == -1)
+    return;
+
+  const item = await createItem(itemName, quantity, { localSlot: availableItemSlot });
+
+  player.character.inventory.push(item)
+  await player.character.save();
+
+  console.log(player.character.inventory)
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
+
+  const endTime = Date.now();
+  console.log(`Total execution time: ${endTime - startTime}ms`);
 
   return item;
 };
@@ -40,13 +64,16 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
     rotation, dimension: item.dimension, alpha: 255
   });
 
-  await player.character.update(
-    { $pull: { inventory: item._id } }
-  );
+  await item.save();
+
+  const idx = player.character.inventory.findIndex((item: Item) => item.id == itemId);
+
+  if (idx != -1) {
+    player.character.inventory.splice(idx, 1);
+    await player.character.save();
+  }
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
-
-  await item.save();
 };
 
 
@@ -70,12 +97,12 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
     object.destroy();
   }
 
-  await player.character.update(
-    { $push: { inventory: item._id } }
-  );
+  await item.save();
+
+  player.character.inventory.push(item)
+  await player.character.save();
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
-  await item.save();
 };
 
 

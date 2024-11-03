@@ -36,6 +36,7 @@ export * from './lib/item/registry/base-item.model';
 export * from './lib/item/registry/item-type';
 export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';
+export * from './lib/item/registry/caliber-type';
 
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';

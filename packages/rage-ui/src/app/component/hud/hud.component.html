@@ -1,5 +1,5 @@
-<div id="location" class="absolute-bottom-left flex align-items-center gap-3 ml-5 mb-5 text-shadow">
-  <p class="text-2xl font-bold text-yellow-300">{{ headingTo }}</p>
+<div id="location" class="absolute-bottom-left flex align-items-center gap-3 ml-5 mb-auto h-23rem text-shadow">
+  <p class="text-2xl font-bold text-yellow-300 w-3rem text-center">{{ headingTo }}</p>
   <div class="flex flex-column">
     <p class="m-0 font-semibold">{{ streetName }}</p>
     <p class="m-0">{{ zoneName }}</p>
@@ -8,5 +8,18 @@
 
 
 <div class="absolute-top-right flex flex-column text-shadow">
-  <h2 class="text-green-300 mr-5">{{ money | currency }}</h2>
+  <h2 class="text-green-300 mr-5">{{ cash | currency }}</h2>
 </div>
+
+@if ($quickSlots | async; as quickSlots) {
+  <div class="absolute-bottom-center flex gap-4 justify-content-between">
+    @for (item of quickSlots; let idx = $index; track idx) {
+      <div class="w-5rem h-5rem surface-ground border-round w-full">
+        @if (item) {
+        } @else {
+          <i class="pi pi pi-ban text-200"></i>
+        }
+      </div>
+    }
+  </div>
+}

@@ -40,6 +40,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.State]: player.character.state,
     [PlayerSharedDataType.Administrator]: player.account.administrator,
     [PlayerSharedDataType.TextBubble]: null,
+    [PlayerSharedDataType.SelectedItemId]: null,
     [PlayerSharedDataType.IsRestrained]: player.character.isRestrained
   });
 };
@@ -91,6 +92,8 @@ const loadCharacterAppearance = (player: PlayerMp) => {
 export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = false) => {
   if (!player.character) return;
 
+  loadPlayerVariables(player);
+
   if (initialSpawn) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
 
@@ -118,8 +121,6 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
 
   await player.character.populate('inventory');
   triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
-
-  loadPlayerVariables(player);
 
   player.account.depopulate('characters');
 };

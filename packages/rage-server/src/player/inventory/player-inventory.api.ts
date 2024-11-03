@@ -15,9 +15,11 @@ const playerPickupItemHandler = async (itemId: string, { player }: ProcedureList
   await playerPickupItem(player, itemId);
 };
 
-const playerChangeItemSlotHandler = async ([itemId, slot]: [string, number], { player }: ProcedureListenerInfo<PlayerMp>) => {
+const playerChangeItemSlotHandler = async (data: [string, number], { player }: ProcedureListenerInfo<PlayerMp>) => {
+  const [itemId, slot] = data;
   await playerChangeItemSlot(player, itemId, slot);
 }
+
 
 on(ProcedureKey.SERVER_PLAYER_DROP_ITEM, playerDropItemHandler);
 on(ProcedureKey.SERVER_PLAYER_PICKUP_ITEM, playerPickupItemHandler);

@@ -37,6 +37,12 @@ export const inventoryReducer = createReducer(
   on(updateItem, (state, { item }) => {
     const updatedItems = [...state.items];
 
+    const currentSlot = updatedItems.findIndex(existingItem => existingItem && existingItem.id === item.id);
+
+    if (currentSlot !== -1) {
+      updatedItems[currentSlot] = null;
+    }
+
     updatedItems[item.localSlot] = item;
 
     return { ...state, items: updatedItems };

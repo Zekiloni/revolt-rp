@@ -17,11 +17,11 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.Hud]: {
-    isActive: true
+    isActive: false
   },
 
   [GameUiKey.VehicleHud]: {
-    isActive: true
+    isActive: false
   },
 
   [GameUiKey.Inventory]: {

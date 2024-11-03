@@ -85,9 +85,11 @@ export class InventoryComponent {
     this.itemOptionMenu.show(event);
   }
 
-  showItemInfoPanel($event: MouseEvent) {
+  showItemInfoPanel($event: MouseEvent, item: IItem) {
     if (this.itemOptionMenu.visible())
       return;
+
+    this.selectedItem = item;
 
     this.itemInfoPanel.show($event);
   }
@@ -114,9 +116,6 @@ export class InventoryComponent {
 
   private changeSlot(draggingItem: IItem, slot: number) {
     if (draggingItem && draggingItem.id)
-      this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, {
-        itemId: draggingItem.id,
-        slot
-      });
+      this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, [draggingItem.id, slot]);
   }
 }

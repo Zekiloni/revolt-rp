@@ -1,8 +1,8 @@
-<div class="text-chat absolute-top-left mt-3 ml-3 lg:w-4 flex flex-column" tabindex="-1">
+<div class="text-chat absolute-top-left mt-3 ml-3 lg:w-4 flex flex-column" >
   @if (isActive) {
-    <ul #messagesList class="list-none messages h-16rem overflow-y-auto overflow-x-hidden p-0 hidden-scroll">
+    <ul #messagesList class="list-none messages h-16rem overflow-y-auto overflow-x-hidden p-0 hidden-scroll" tabindex="-1" (keydown.space)="$event.preventDefault()">
       @for (message of messages; track message.id) {
-        <li class="text-lg">
+        <li class="text-base">
           <p class="m-1">
             @if (showTimestamps) {
               <span class="font-light text-700">[{{ message.createdAt | date: 'M/d/yy @ HH:mm:ss' }}] </span>
