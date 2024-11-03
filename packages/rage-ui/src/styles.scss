@@ -47,6 +47,13 @@ html, body {
   bottom: 0;
 }
 
+.absolute-bottom-center {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .absolute-bottom-right {
   position: absolute;
   right: 0;

@@ -1,6 +1,17 @@
 import { IBaseItem, ItemType } from '@bcrp-rage/common';
 import { Item } from '../item.model';
 
+export const NOT_STACKABLE_ITEM_TYPES = [
+  ItemType.WEAPON,
+  ItemType.EQUIPABLE,
+  ItemType.IDENTITY_DOCUMENT,
+  ItemType.DRIVING_LICENSE,
+  ItemType.WEAPON_LICENSE,
+  ItemType.FISHING_LICENSE,
+  ItemType.HUNTING_LICENSE,
+  ItemType.SAILING_LICENSE
+];
+
 export const itemRegistry: Map<string, BaseItem> = new Map();
 
 export abstract class BaseItem implements IBaseItem {
@@ -26,5 +37,9 @@ export abstract class BaseItem implements IBaseItem {
     this.weight = weight;
 
     itemRegistry.set(this.name, this);
+  }
+
+  get isStackable() {
+    return this.type.some(type => NOT_STACKABLE_ITEM_TYPES.includes(type));
   }
 }

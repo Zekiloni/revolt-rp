@@ -1,21 +1,21 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { on } from '@libertymp/rage-rpc';
-import { GameInterfaceState } from './store/game-ui/game-ui.reducer';
-import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
-import { isGameInterfaceActive } from './store/game-ui/game-ui.selector';
-import { AuthorizationComponent } from './component/authorization';
-import { CharacterSelectorComponent } from './component/character-selector';
-import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
-import { CharacterCreatorComponent } from './component/character-creator';
 import { ToastModule } from 'primeng/toast';
-import { TextChatComponent } from './component/text-chat';
 import { Message, MessageService } from 'primeng/api';
+import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
+import { InventoryListenerService } from './domain/service/inventory-listener.service';
+import { CharacterSelectorComponent } from './component/character-selector';
+import { CharacterCreatorComponent } from './component/character-creator';
+import { RageClientService } from './domain/service/rage-client.service';
+import { isGameInterfaceActive } from './store/game-ui/game-ui.selector';
+import { VehicleHudComponent } from './component/vehicle/vehicle-hud';
+import { GameInterfaceState } from './store/game-ui/game-ui.reducer';
+import { AuthorizationComponent } from './component/authorization';
+import { TextChatComponent } from './component/text-chat';
 import { InventoryComponent } from './component/inventory';
 import { HudComponent } from './component/hud';
-import { VehicleHudComponent } from './component/vehicle/vehicle-hud';
-import { InventoryListenerService } from './domain/service/inventory-listener.service';
 
 
 @Component({
@@ -31,6 +31,7 @@ import { InventoryListenerService } from './domain/service/inventory-listener.se
     HudComponent,
     VehicleHudComponent
   ],
+  providers: [InventoryListenerService],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
   constructor(
+    private rageClientService: RageClientService,
     @Inject(Store) private store: Store<GameInterfaceState>,
     private inventoryListenerService: InventoryListenerService,
     private messageService: MessageService) {
@@ -70,13 +72,13 @@ export class AppComponent implements OnInit {
   }
 
   private toggleGameInterface(eventKey: string, handler: GameUiActions): void {
-    on(eventKey, (gameInterfaceKey: GameUiKey) => {
+    this.rageClientService.on(eventKey, (gameInterfaceKey: GameUiKey) => {
       this.store.dispatch(handler(gameInterfaceKey));
     });
   }
 
   private listenToNotificationEvents() {
-    on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
+    this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
       this.messageService.add(message);
     });
   }

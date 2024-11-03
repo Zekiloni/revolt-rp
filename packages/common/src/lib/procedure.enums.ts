@@ -32,5 +32,9 @@ export const enum ProcedureKey {
   SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
 
+  BROWSER_UPDATE_LOCATION = 'browser_updateLocation',
+  BROWSER_UPDATE_CASH = 'browser_updateCash',
+  BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
+
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
 }

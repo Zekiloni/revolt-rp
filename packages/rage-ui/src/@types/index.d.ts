@@ -12,10 +12,7 @@ declare global {
   interface EventMpPool {
     callProc<T = any>(procName: string, ...args: any[]): Promise<T>;
 
-    add: {
-      (name: string, ...args: any[]): void;
-      (names: { [name: string]: (...args: any[]) => void }): void;
-    };
+    add(eventName: string, callback: (...args: any[]) => void): void;
 
     remove(name: string, handler?: Function): void;
 

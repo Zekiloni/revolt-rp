@@ -9,9 +9,10 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { MessageService } from 'primeng/api';
 
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
-import { MessageService } from 'primeng/api';
+import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
 
 export const appConfig: ApplicationConfig = {
@@ -24,7 +25,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     MessageService,
     RageClientService,
-    provideStore({ gameInterface: gameInterfaceReducer }),
+    provideStore({ gameInterface: gameInterfaceReducer, inventory: inventoryReducer }),
     provideEffects(),
   ],
 };

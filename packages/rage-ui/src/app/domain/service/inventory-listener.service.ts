@@ -1,10 +1,9 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { IItem, ProcedureKey } from '@bcrp-rage/common';
 import { RageClientService } from './rage-client.service';
 import {
   addItem,
-  InventoryActions,
   removeItem,
   setInventory,
   updateItem
@@ -22,17 +21,15 @@ export class InventoryListenerService {
   }
 
   listenToInventoryEvents() {
-    const inventoryEvents: Record<string, InventoryActions> = {
-      [ProcedureKey.BROWSER_SET_INVENTORY]: setInventory,
-      [ProcedureKey.BROWSER_INVENTORY_ADD_ITEM]: addItem,
-      [ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM]: updateItem,
-      [ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM]: removeItem
+    const inventoryEvents = {
+      [ProcedureKey.BROWSER_SET_INVENTORY]: (items: IItem[]) => this.store.dispatch(setInventory({ items })),
+      [ProcedureKey.BROWSER_INVENTORY_ADD_ITEM]: (item: IItem) => this.store.dispatch(addItem({ item })),
+      [ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM]: (item: IItem) => this.store.dispatch(updateItem({ item })),
+      [ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM]: (itemId: string) => this.store.dispatch(removeItem({ itemId }))
     };
 
-    for (const eventKey in inventoryEvents) {
-      this.rageClientService.on(eventKey, (payload: NonNullable<any>) => {
-        this.store.dispatch(inventoryEvents[eventKey](payload));
-      });
+    for (const [eventKey, handler] of Object.entries(inventoryEvents)) {
+      this.rageClientService.on(eventKey, (payload: NonNullable<any>) => handler(payload));
     }
   }
 }

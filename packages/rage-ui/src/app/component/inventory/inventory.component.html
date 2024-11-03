@@ -15,21 +15,30 @@
                 appDraggable
                 (dragStart)="dragItemStart(item)"
                 (dragEnd)="dragItemEnd($event)"
-                (mouseover)="showItemInfoPanel($event)"
+                (mouseover)="showItemInfoPanel($event, item)"
                 (mouseleave)="itemInfoPanel.hide()"
                 (contextmenu)="onContextMenu($event, item)"
               >
                 <h3>{{ item.name }}</h3>
               </div>
             } @else {
-              <p>empty </p>
+              <i class="pi pi pi-ban text-200"></i>
             }
           </div>
         }
       }
     </div>
+
     <p-overlayPanel #itemInfoPanel [style]="{ width: '350px' }">
       <ng-template pTemplate="content">
+        <div class="flex flex-column">
+          <span class="text-900 font-medium text-xl">
+            {{ selectedItem!.data.name }}
+          </span>
+          <p class="text-600">
+            {{ selectedItem!.data.description }}
+          </p>
+        </div>
       </ng-template>
     </p-overlayPanel>
 

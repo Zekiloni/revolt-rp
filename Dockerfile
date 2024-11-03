@@ -2,6 +2,7 @@
 FROM debian:bookworm-slim AS build
 
 # Install necessary dependencies and download RAGEMP server files
+RUN echo 'deb http://httpredir.debian.org/debian testing main contrib non-free' > /etc/apt/sources.list
 RUN apt update --fix-missing && apt upgrade -y && apt install -y libstdc++6 wget tar nodejs npm
 
 # Download and extract RAGEMP linux server files

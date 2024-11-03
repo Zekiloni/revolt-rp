@@ -22,6 +22,11 @@ export class RageClientService {
     mp.trigger(name, ...args);
   }
 
+  addEvent(name: string, callback: (...args: any[]) => void) {
+    mp.events.add(name, callback);
+  }
+
+
   callEvent(name: string, ...args: unknown[]) {
     mp.events.call(name, ...args);
   }
