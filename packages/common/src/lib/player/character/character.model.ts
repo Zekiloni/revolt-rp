@@ -71,6 +71,8 @@ export interface ICharacter extends Base {
   marriedTo?: Ref<ICharacter>;
   adminJailTime?: number;
   prisonTime?: number;
+  drunk: number;
+  thirst: number;
   lastSessionAt?: Date;
   updatedAt?: Date;
   createdAt: Date;

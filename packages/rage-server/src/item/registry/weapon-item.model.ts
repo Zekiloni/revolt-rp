@@ -18,6 +18,9 @@ export class WeaponItem extends BaseItem {
   }
 
   deselect(player: PlayerMp, item: Item) {
+    console.log('weapon deselect')
+    console.log(player.weapon);
+    console.log(this.weaponHash)
     if (player.weapon != this.weaponHash)
       return;
 
@@ -28,5 +31,4 @@ export class WeaponItem extends BaseItem {
   use(player: PlayerMp, item: Item): void {
     item.ammoInClip--;
   }
-
 }

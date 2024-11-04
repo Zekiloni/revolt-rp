@@ -1,6 +1,6 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@bcrp-rage/common';
-import { playerChangeItemSlot, playerDropItem, playerPickupItem } from './player-inventory.service';
+import { playerChangeItemSlot, playerDropItem, playerPickupItem, playerSelectItem } from './player-inventory.service';
 
 
 const playerDropItemHandler = async ({ itemId, position, rotation }: {
@@ -18,9 +18,13 @@ const playerPickupItemHandler = async (itemId: string, { player }: ProcedureList
 const playerChangeItemSlotHandler = async (data: [string, number], { player }: ProcedureListenerInfo<PlayerMp>) => {
   const [itemId, slot] = data;
   await playerChangeItemSlot(player, itemId, slot);
-}
+};
 
+function playerSelectItemHandler(slot: number, { player }: ProcedureListenerInfo<PlayerMp>) {
+  playerSelectItem(player, slot);
+}
 
 on(ProcedureKey.SERVER_PLAYER_DROP_ITEM, playerDropItemHandler);
 on(ProcedureKey.SERVER_PLAYER_PICKUP_ITEM, playerPickupItemHandler);
-on(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, playerChangeItemSlotHandler)
+on(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, playerChangeItemSlotHandler);
+on(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, playerSelectItemHandler);

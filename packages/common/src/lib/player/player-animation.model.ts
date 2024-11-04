@@ -1,4 +1,4 @@
-import { AnimationFlag } from './animation.enums';
+import { AnimationFlag } from './animation.enum';
 
 export interface IPlayerAnimation {
    name: string;

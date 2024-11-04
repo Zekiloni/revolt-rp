@@ -142,6 +142,12 @@ export class Character extends Document implements ICharacter {
   @prop({ type: Object })
   position: Vector3;
 
+  @prop({ type: Number, default: 0 })
+  drunk: number;
+
+  @prop({ type: Number, default: 0 })
+  thirst: number;
+
   @prop({ ref: () => Account })
   account: Ref<Account>;
 

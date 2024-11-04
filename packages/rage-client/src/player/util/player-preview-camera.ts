@@ -1,5 +1,5 @@
-import { HexKeyCodes } from '@bcrp-rage/common';
-import { AnimationFlags, isPlayingAnimation, playAnimation, stopAnimation } from '../animation';
+import { AnimationFlag, HexKeyCodes } from '@bcrp-rage/common';
+import { isPlayingAnimation, playAnimation, stopAnimation } from './player-animation.util';
 
 
 const [minFov, maxFov] = [10, 100];
@@ -24,7 +24,7 @@ async function handlePreviewCameraControls() {
       timeBetweenAnimChecks = Date.now() + 1500;
       const isPlaying = isPlayingAnimation(mp.players.local, 'nm@hands', 'hands_up');
       if (!isPlaying) {
-         await playAnimation(mp.players.local, 'nm@hands', 'hands_up', AnimationFlags.STOP_LAST_FRAME, -1);
+         await playAnimation(mp.players.local, 'nm@hands', 'hands_up', AnimationFlag.STOP_LAST_FRAME, -1);
       }
    }
 
