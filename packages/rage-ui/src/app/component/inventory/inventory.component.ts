@@ -1,7 +1,7 @@
+import { Component, Inject, ViewChild } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Component, Inject, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { DialogService } from 'primeng/dynamicdialog';
@@ -14,16 +14,19 @@ import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
+import { getItemIcon } from '../../domain/util/item.util';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage],
   providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })
 export class InventoryComponent {
+  protected readonly getItemIcon = getItemIcon;
+
   @ViewChild('itemInfoPanel') itemInfoPanel!: OverlayPanel;
   @ViewChild('itemOptionMenu') itemOptionMenu!: ContextMenu;
 

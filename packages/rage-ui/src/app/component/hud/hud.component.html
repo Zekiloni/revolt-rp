@@ -12,10 +12,13 @@
 </div>
 
 @if ($quickSlots | async; as quickSlots) {
-  <div class="absolute-bottom-center flex gap-4 justify-content-between">
+  <div class="absolute-bottom-center flex gap-4 justify-content-between mb-3">
     @for (item of quickSlots; let idx = $index; track idx) {
-      <div class="w-5rem h-5rem surface-ground border-round w-full">
+      <div
+        class="w-5rem h-5rem surface-ground border-1 border-transparent border-round w-full flex justify-content-center align-items-center"
+        [ngClass]="{ 'border-primary': item && isItemSelected(item.id) }">
         @if (item) {
+          <img [ngSrc]="getItemIcon(item.data)" alt="item icon" width="45" height="45">
         } @else {
           <i class="pi pi pi-ban text-200"></i>
         }

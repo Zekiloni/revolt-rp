@@ -1,8 +1,10 @@
 import { Types } from 'mongoose';
-import { createItem, getItemById } from '../../item/item.service';
-import { Item } from '../../item/item.model';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { characterConfig, ProcedureKey } from '@bcrp-rage/common';
+import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@bcrp-rage/common';
+import { createItem, getItemById } from '../../item/item.service';
+import { playAnimation } from '../util/player-animation.util';
+import { Item } from '../../item/item.model';
+
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
   let localSlot = -1;
@@ -27,10 +29,10 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
 
   const item = await createItem(itemName, quantity, { localSlot: availableItemSlot });
 
-  player.character.inventory.push(item)
+  player.character.inventory.push(item);
   await player.character.save();
 
-  console.log(player.character.inventory)
+  console.log(player.character.inventory);
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
 
   const endTime = Date.now();
@@ -47,13 +49,24 @@ export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId) => {
 
 
 export const playerDropItem = async (player: PlayerMp, itemId: string, position: Vector3, rotation: Vector3) => {
-  const item = await getItemById(itemId);
+  const item: Item = await getItemById(itemId);
 
   if (!item)
     return;
 
+  const itemHandler = item.data;
+
   if (!isPlayerItemOwner(player, item._id))
     return;
+
+  const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+
+  if (item.id === selectedItemId) {
+    player.setVariable(PlayerSharedDataType.SelectedItemId, null);
+    if (itemHandler && itemHandler.deselect) {
+      itemHandler.deselect(player, item);
+    }
+  }
 
   item.dropped = true;
   item.position = position;
@@ -74,6 +87,7 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
   }
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
+  playAnimation(player, 'random@domestic', 'pickup_low', AnimationFlag.NORMAL);
 };
 
 
@@ -99,7 +113,7 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
 
   await item.save();
 
-  player.character.inventory.push(item)
+  player.character.inventory.push(item);
   await player.character.save();
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
@@ -123,4 +137,32 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
   await item.save();
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
+};
+
+
+export const playerSelectItem = (player: PlayerMp, slot: number) => {
+  const selectedItem = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+
+  if (selectedItem != null) {
+    const alreadySelectedItem = player.character.inventory.find((item: Item) => item.id === selectedItem) as Item | undefined;
+
+    if (alreadySelectedItem) {
+      player.setVariable(PlayerSharedDataType.SelectedItemId, null);
+      if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
+        alreadySelectedItem.data.deselect(player, alreadySelectedItem);
+      }
+    }
+  }
+
+  const item = player.character.inventory.find((item: Item) => item.localSlot === slot) as Item | undefined;
+
+  if (!item)
+    return;
+
+  const itemHandler = item.data;
+
+  if (itemHandler && itemHandler.select) {
+    player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
+    itemHandler.select(player, item);
+  }
 };

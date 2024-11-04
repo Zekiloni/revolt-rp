@@ -1,4 +1,5 @@
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { ItemFlag } from './item-flag';
 import { Vector3 } from '../core.interface';
 import { IBaseItem } from './registry/base-item.model';
 
@@ -12,14 +13,14 @@ export interface IItem extends Base {
   quantity: number;
   ammoInClip?: number;
   serialNo?: string;
+  usability?: number;
   durability?: number;
   expiringAt?: Date;
   purity?: number;
   buildProgress?: number;
+  flag?: ItemFlag;
   percentageOfDamage?: number;
-
   createdAt: Date;
   updatedAt?: Date;
-
   data: IBaseItem;
 }

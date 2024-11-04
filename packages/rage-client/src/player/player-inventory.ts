@@ -6,10 +6,20 @@ import { hideGameInterface, showGameInterface } from '../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from './util/player-data.util';
 
 
-const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive];
-const PICKUP_ITEM_MAX_DISTANCE = 1.25;
+const SELECT_ITEM_KEYBINDINGS = [
+  HexKeyCodes.One,
+  HexKeyCodes.Two,
+  HexKeyCodes.Three,
+  HexKeyCodes.Four,
+  HexKeyCodes.Five
+];
 
-let inventoryActive = false;
+const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive],
+  PICKUP_ITEM_MAX_DISTANCE = 1.25,
+  ITEM_SELECT_COOLDOWN_MS = 1500;
+
+let inventoryActive = false,
+  lastSelectTimestamp: null | number = null;
 
 function toggleInventory() {
   inventoryActive = !inventoryActive;
@@ -57,6 +67,20 @@ function pickupItem() {
   triggerServer(ProcedureKey.SERVER_PLAYER_PICKUP_ITEM, itemId);
 }
 
+function selectItem(slot: number) {
+  const now = Date.now();
+
+  if (lastSelectTimestamp && now - lastSelectTimestamp < ITEM_SELECT_COOLDOWN_MS) {
+    return;
+  }
+
+  triggerServer(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, slot);
+  lastSelectTimestamp = now;
+}
+
+SELECT_ITEM_KEYBINDINGS.forEach((hexKeyCode, index) =>
+  registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, INVENTORY_VALIDATORS));
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);
+
 on(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);

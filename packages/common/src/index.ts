@@ -30,12 +30,16 @@ export * from './lib/player/ped/hairColors';
 export * from './lib/player/ped/eyeColorNames';
 export * from './lib/player/ped/headOverlays';
 
+export * from './lib/player/player-animation.model';
+export * from './lib/player/animation.enum';
+
 export * from './lib/player/player-shared-data-type';
 
 export * from './lib/item/registry/base-item.model';
 export * from './lib/item/registry/item-type';
 export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';
+export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
 
 export * from './lib/util/error.util';

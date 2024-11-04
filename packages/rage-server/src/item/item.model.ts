@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
-import { IItem, ItemSharedDataType } from '@bcrp-rage/common';
+import { IItem, ItemFlag, ItemSharedDataType } from '@bcrp-rage/common';
 import { itemRegistry } from './registry/base-item.model';
 
 @modelOptions({
@@ -42,6 +42,7 @@ export class Item extends Document implements IItem {
 
   buildProgress?: number;
 
+  usability: number;
   durability: number;
 
   expiringAt?: Date;
@@ -49,6 +50,8 @@ export class Item extends Document implements IItem {
   percentageOfDamage: number;
 
   purity?: number;
+
+  flag?: ItemFlag;
 
   createdAt!: Date;
 

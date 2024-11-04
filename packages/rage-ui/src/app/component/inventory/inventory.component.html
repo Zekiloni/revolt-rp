@@ -5,7 +5,8 @@
     <div class="flex flex-wrap gap-4 justify-content-between">
       @if ($inventory | async; as inventory) {
         @for (item of inventory; let idx = $index; track idx) {
-          <div class="w-5rem h-5rem surface-ground border-round w-full" appDroppable (dragDrop)="dragDropItem(idx)">
+          <div class="w-5rem h-5rem surface-ground border-round w-full flex justify-content-center align-items-center"
+               appDroppable (dragDrop)="dragDropItem(idx)">
             @if (item) {
               <div
                 pBadge
@@ -19,7 +20,7 @@
                 (mouseleave)="itemInfoPanel.hide()"
                 (contextmenu)="onContextMenu($event, item)"
               >
-                <h3>{{ item.name }}</h3>
+                <img [ngSrc]="getItemIcon(item.data)" alt="item icon" width="45" height="45">
               </div>
             } @else {
               <i class="pi pi pi-ban text-200"></i>

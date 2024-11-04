@@ -6,4 +6,6 @@ export const enum PlayerSharedDataType {
   State = 'state',
   SelectedItemId = 'selected_item_id',
   Administrator = 'administrator',
+  Animation = 'animation',
+  Attachments = 'attachments',
 }
