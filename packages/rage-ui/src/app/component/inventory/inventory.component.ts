@@ -15,6 +15,7 @@ import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
+import { GiveItemComponent } from './component/give-item';
 
 @Component({
   selector: 'app-inventory',
@@ -48,7 +49,8 @@ export class InventoryComponent {
     },
     {
       label: 'Give Item',
-      icon: 'pi pi-share-alt'
+      icon: 'pi pi-share-alt',
+      command: () => this.opeGiveItemMenu()
     }
   ];
 
@@ -57,6 +59,11 @@ export class InventoryComponent {
     private rageClientService: RageClientService,
     private dialogService: DialogService) {
     this.$inventory = this.store.select(selectInventory);
+    this.dialogService.open(GiveItemComponent, {
+      header: `Give aaa`,
+      width: '25%',
+      closeOnEscape: true
+    });
   }
 
   dragItemStart(item: IItem) {
@@ -108,7 +115,7 @@ export class InventoryComponent {
     if (!this.selectedItem) return;
 
     const dialogRef = this.dialogService.open(SplitItemComponent, {
-      header: `Split ${this.selectedItem.name}`,
+      header: `Split ${this.selectedItem.name}`
     });
 
     dialogRef.onClose.subscribe((splitQuantity?: number) => {
@@ -137,5 +144,15 @@ export class InventoryComponent {
       event.clientX > inventoryRect.right ||
       event.clientY < inventoryRect.top ||
       event.clientY > inventoryRect.bottom;
+  }
+
+  private opeGiveItemMenu() {
+    if (!this.selectedItem)
+      return;
+
+    this.dialogService.open(GiveItemComponent, {
+      header: `Give ${this.selectedItem.name}`,
+      closeOnEscape: true
+    });
   }
 }
