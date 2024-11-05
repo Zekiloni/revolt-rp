@@ -47,7 +47,7 @@ export class DraggableDirective {
       moveListener();
       upListener();
       this.renderer.removeChild(document.body, clone);
-      this.dragEnd.emit();
+      this.dragEnd.emit(upEvent);
     });
 
     this.dragStart.emit();
