@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
@@ -8,13 +8,13 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { IItem, ProcedureKey } from '@bcrp-rage/common';
+import { getItemIcon } from '../../domain/util/item.util';
 import { SplitItemComponent } from './component/split-item';
 import { DraggableDirective } from '../../domain/drag-drop/draggable.directive';
 import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
-import { getItemIcon } from '../../domain/util/item.util';
 
 @Component({
   selector: 'app-inventory',
@@ -27,14 +27,13 @@ import { getItemIcon } from '../../domain/util/item.util';
 export class InventoryComponent {
   protected readonly getItemIcon = getItemIcon;
 
+  @ViewChild('inventory') inventory!: ElementRef<HTMLElement>;
   @ViewChild('itemInfoPanel') itemInfoPanel!: OverlayPanel;
   @ViewChild('itemOptionMenu') itemOptionMenu!: ContextMenu;
 
   $inventory: Observable<(IItem | null)[]>;
   draggingItem: IItem | null = null;
   selectedItem: IItem | null = null;
-
-  lastEvent: MouseEvent | null = null;
 
   itemOptionMenuItems: MenuItem[] = [
     {
@@ -44,7 +43,8 @@ export class InventoryComponent {
     },
     {
       label: 'Drop Item',
-      icon: 'pi pi-arrow-down'
+      icon: 'pi pi-arrow-down',
+      command: () => this.dropItem()
     },
     {
       label: 'Give Item',
@@ -69,9 +69,12 @@ export class InventoryComponent {
 
   dragItemEnd(event: DragEvent) {
     if (this.draggingItem) {
-      this.dropItem(this.draggingItem);
+      const isOutsideInventory = this.isPointOutsideInventoryElement(event);
+
+      if (isOutsideInventory)
+        this.dropItem(this.draggingItem);
+
       this.draggingItem = null;
-      this.lastEvent = event;
     }
   }
 
@@ -104,21 +107,35 @@ export class InventoryComponent {
   openSplitItemMenu = () => {
     if (!this.selectedItem) return;
 
-    this.dialogService.open(SplitItemComponent, {
+    const dialogRef = this.dialogService.open(SplitItemComponent, {
       header: `Split ${this.selectedItem.name}`,
-      width: '300px'
     });
+
+    dialogRef.onClose.subscribe((splitQuantity?: number) => {
+      if (splitQuantity && this.selectedItem)
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, [this.selectedItem.id, splitQuantity]);
+    });
+
+    this.selectedItem = null;
   };
 
-  private dropItem(draggingItem: IItem) {
-    if (draggingItem.id)
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem);
+  private dropItem(draggingItem?: IItem) {
+    const itemToDrop = draggingItem ?? this.selectedItem;
 
-    this.draggingItem = null;
+    if (itemToDrop && itemToDrop.id)
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem);
   }
 
   private changeSlot(draggingItem: IItem, slot: number) {
     if (draggingItem && draggingItem.id)
       this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, [draggingItem.id, slot]);
+  }
+
+  private isPointOutsideInventoryElement(event: DragEvent) {
+    const inventoryRect = this.inventory.nativeElement.getBoundingClientRect();
+    return event.clientX < inventoryRect.left ||
+      event.clientX > inventoryRect.right ||
+      event.clientY < inventoryRect.top ||
+      event.clientY > inventoryRect.bottom;
   }
 }

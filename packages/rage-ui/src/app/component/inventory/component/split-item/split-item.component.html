@@ -1,1 +1,20 @@
-<p>split-item works!</p>
+<div class="field mb-4 flex-auto">
+  <div class="block">
+    <label class="font-medium text-900 block" for="splitQuantity">Quantity</label>
+    <small class="text-600">Quantity in grams for drugs, pieces for other items.</small>
+  </div>
+  <p-inputNumber
+    [(ngModel)]="splitQuantity"
+    [showButtons]="true"
+    buttonLayout="horizontal"
+    class="mt-1"
+    id="splitQuantity"
+    [step]="1"
+    decrementButtonClass="p-button-outlined"
+    incrementButtonClass="p-button-outlined"
+    incrementButtonIcon="pi pi-plus"
+    decrementButtonIcon="pi pi-minus"
+  />
+</div>
+
+<p-button class="block" label="Split" [disabled]="!splitQuantity" (onClick)="submitSplit()" />
