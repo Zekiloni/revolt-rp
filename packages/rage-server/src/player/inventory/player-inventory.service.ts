@@ -4,6 +4,8 @@ import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } fr
 import { createItem, getItemById } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { Item } from '../../item/item.model';
+import { notifyPlayer } from '../util/player-notify.util';
+import { t } from 'i18next';
 
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
@@ -165,4 +167,35 @@ export const playerSelectItem = (player: PlayerMp, slot: number) => {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
     itemHandler.select(player, item);
   }
+};
+
+
+export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQuantity: number) => {
+  const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
+
+  const itemHandler = item.data;
+
+  if (!itemHandler)
+    return;
+
+  if (!itemHandler.isStackable)
+    return notifyPlayer(player, {
+      severity: 'error',
+      summary: t('bad_request'),
+      detail: t('item_not_stackable', { name: itemHandler.name })
+    });
+
+  if ((item.quantity - 1) < splitQuantity)
+    return notifyPlayer(player, {
+      severity: 'error',
+      summary: t('bad_request'),
+      detail: t('not_enough_quantity')
+    });
+
+  item.quantity = (item.quantity - splitQuantity);
+  await item.save();
+
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
+
+  await playerGiveItem(player, item.name, splitQuantity);
 };
