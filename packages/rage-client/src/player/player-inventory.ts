@@ -1,9 +1,10 @@
-import { on, triggerServer } from '@libertymp/rage-rpc';
+import { on, register, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@bcrp-rage/common';
 import { registerKeyBind } from '../core/keybind-manager';
 import { getObjectGroundPosition } from '../util/object.util';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from './util/player-data.util';
+import { distance } from '../util/vector.util';
 
 
 const SELECT_ITEM_KEYBINDINGS = [
@@ -16,6 +17,7 @@ const SELECT_ITEM_KEYBINDINGS = [
 
 const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive],
   PICKUP_ITEM_MAX_DISTANCE = 1.25,
+  P2P_GIVE_ITEM_MAX_DISTANCE = 2.0,
   ITEM_SELECT_COOLDOWN_MS = 1500;
 
 let inventoryActive = false,
@@ -78,9 +80,23 @@ function selectItem(slot: number) {
   lastSelectTimestamp = now;
 }
 
+function isPlayerNearPlayer(target: PlayerMp) {
+  return distance(mp.players.local.position, target.position) < P2P_GIVE_ITEM_MAX_DISTANCE && mp.players.local.dimension === target.dimension;
+}
+
+function getNearbyPlayersHandler() {
+  if (!mp.players.length)
+    return [];
+
+  return mp.players.toArray()
+    .filter(target => getIsSpawned(target) && isPlayerNearPlayer(target))
+    .map(target => ({ value: target.remoteId, label: target.name }));
+}
+
 SELECT_ITEM_KEYBINDINGS.forEach((hexKeyCode, index) =>
   registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, INVENTORY_VALIDATORS));
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);
 
 on(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, dropItemHandler);
+register(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS, getNearbyPlayersHandler);

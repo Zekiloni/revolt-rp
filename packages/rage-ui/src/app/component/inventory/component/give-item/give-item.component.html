@@ -1,8 +1,30 @@
-<p-dropdown
-  [options]="nearbyPlayers"
-  [(ngModel)]="selectedTarget"
-  optionLabel="label"
-  optionValue="value"
-  [filter]="true"
-  appendTo="body"
-  placeholder="Select a player" />
+<div class="field mb-4 flex-auto">
+  <label class="font-medium text-900 block" for="target">Target player</label>
+  <p-dropdown
+    [options]="nearbyPlayers"
+    [(ngModel)]="selectedTarget"
+    optionLabel="label"
+    id="target"
+    optionValue="value"
+    [filter]="true"
+    appendTo="body"
+    placeholder="Select a player" />
+</div>
+
+<div class="field mb-4 flex-auto">
+  <label class="font-medium text-900 block" for="target">Quantity</label>
+  <p-inputNumber
+    [(ngModel)]="inputQuantity"
+    [showButtons]="true"
+    buttonLayout="horizontal"
+    class="mt-1"
+    id="splitQuantity"
+    [step]="1"
+    decrementButtonClass="p-button-outlined"
+    incrementButtonClass="p-button-outlined"
+    incrementButtonIcon="pi pi-plus"
+    decrementButtonIcon="pi pi-minus"
+  />
+</div>
+
+<p-button class="block" label="Split" [disabled]="!selectedTarget" (onClick)="submitGive()" />
