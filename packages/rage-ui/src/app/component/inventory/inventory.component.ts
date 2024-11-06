@@ -61,7 +61,7 @@ export class InventoryComponent {
     this.$inventory = this.store.select(selectInventory);
     this.dialogService.open(GiveItemComponent, {
       header: `Give aaa`,
-      width: '25%',
+      data: 1,
       closeOnEscape: true
     });
   }
@@ -152,7 +152,8 @@ export class InventoryComponent {
 
     this.dialogService.open(GiveItemComponent, {
       header: `Give ${this.selectedItem.name}`,
-      closeOnEscape: true
-    });
+      width: '25%',
+      data: this.selectedItem.quantity,
+      closeOnEscape: true    });
   }
 }

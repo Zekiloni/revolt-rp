@@ -28,6 +28,7 @@ export const enum ProcedureKey {
   BROWSER_INVENTORY_ADD_ITEM = 'browser_inventoryAddItem',
   BROWSER_INVENTORY_REMOVE_ITEM = 'browser_inventoryRemoveItem',
   CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
+  CLIENT_GET_NEARBY_PLAYERS = 'client_getNearbyPlayers',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
   SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',

@@ -87,7 +87,7 @@ export class RageClientService {
     });
   }
 
-  callClient<T>(name: string, args: unknown): Observable<T> {
+  callClient<T>(name: string, args?: unknown): Observable<T> {
     return new Observable((observer: Observer<T>) => {
       rpcCallClient(name, args)
         .then((result: T) => {
