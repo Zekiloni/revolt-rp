@@ -34,6 +34,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
   SERVER_PLAYER_SELECT_ITEM = 'server_playerSelectItem',
   SERVER_PLAYER_SPLIT_ITEM = 'server_playerSplitItem',
+  SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
 
   BROWSER_UPDATE_LOCATION = 'browser_updateLocation',
   BROWSER_UPDATE_CASH = 'browser_updateCash',

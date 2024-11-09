@@ -30,23 +30,23 @@ export class DrinkItemModel extends BaseItem {
   }
 
   async use(player: PlayerMp, item: Item) {
-    if (item.usability <= 1) {
-      item.usability = 0;
+    if (item.usage <= 1) {
+      item.usage = 0;
       item.flag = ItemFlag.EMPTY_BOTTLE;
       return;
     }
 
-    item.usability! -= 5;
+    item.usage -= 5;
 
     playAnimation(player, 'amb@world_human_drinking@beer@male@idle_a', 'idle_a', AnimationFlag.UPPER_BODY_ONLY_CONTROLLABLE);
 
     if (this.alcohol) {
-      player.character!.drunk += this.alcohol / 2;
+      player.character.drunk += this.alcohol / 2;
     }
 
-    player.character!.thirst = (player.character!.thirst + this.volume);
+    player.character.thirst = (player.character.thirst + this.volume);
 
-    await player.character!.save();
+    await player.character.save();
     await item.save();
 
     triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);

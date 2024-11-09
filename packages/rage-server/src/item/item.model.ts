@@ -38,23 +38,25 @@ export class Item extends Document implements IItem {
   @prop({ required: false, type: String })
   serialNo?: string;
 
+  @prop({ type: Number, required: false })
   ammoInClip?: number;
 
+  @prop({ type: Number, required: false })
   buildProgress?: number;
 
-  usability: number;
-  durability: number;
+  @prop({ default: 100 })
+  usage: number;
 
+  @prop({ type: Date, required: false })
   expiringAt?: Date;
 
-  percentageOfDamage: number;
-
+  @prop({ type: Number, required: false })
   purity?: number;
 
+  @prop({ enum: ItemFlag, type: Number, required: false })
   flag?: ItemFlag;
 
   createdAt!: Date;
-
   updatedAt?: Date;
 
   get data() {

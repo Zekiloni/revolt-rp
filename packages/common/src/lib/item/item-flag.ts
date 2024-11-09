@@ -1,12 +1,12 @@
 
-export const enum ItemFlag {
-  IMPORTANT,
+export enum ItemFlag {
+  IMPORTANT= 'important',
 
   /* Food flags */
-  COOKED,
+  COOKED= 'cooked',
 
   /* Drink Flags */
-  EMPTY_BOTTLE,
+  EMPTY_BOTTLE = 'empty_bottle',
 
   /* Rarity */
   UNCOMMON = 'uncommon',

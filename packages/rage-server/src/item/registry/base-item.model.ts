@@ -1,4 +1,5 @@
 import { IBaseItem, ItemType } from '@bcrp-rage/common';
+import { WeaponItem } from './weapon-item.model';
 import { Item } from '../item.model';
 
 export const NOT_STACKABLE_ITEM_TYPES = [
@@ -29,7 +30,8 @@ export abstract class BaseItem implements IBaseItem {
 
   stopUse?(player: PlayerMp, item: Item): void;
 
-  protected constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
+  protected constructor(name: string, description: string,
+                        model: string, type: ItemType[], weight: number) {
     this.name = name;
     this.description = description;
     this.model = model;
@@ -40,6 +42,11 @@ export abstract class BaseItem implements IBaseItem {
   }
 
   get isStackable() {
-    return this.type.some(type => NOT_STACKABLE_ITEM_TYPES.includes(type));
+    return this.type.some(type =>
+      NOT_STACKABLE_ITEM_TYPES.includes(type));
+  }
+
+  get isWeapon() {
+    return this instanceof WeaponItem;
   }
 }

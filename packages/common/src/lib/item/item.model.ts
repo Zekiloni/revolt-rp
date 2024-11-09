@@ -13,13 +13,11 @@ export interface IItem extends Base {
   quantity: number;
   ammoInClip?: number;
   serialNo?: string;
-  usability?: number;
-  durability?: number;
+  usage?: number;
   expiringAt?: Date;
   purity?: number;
   buildProgress?: number;
   flag?: ItemFlag;
-  percentageOfDamage?: number;
   createdAt: Date;
   updatedAt?: Date;
   data: IBaseItem;
