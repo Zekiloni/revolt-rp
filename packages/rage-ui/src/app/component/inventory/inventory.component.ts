@@ -15,7 +15,7 @@ import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
-import { GiveItemComponent } from './component/give-item';
+import { GiveItemComponent, GiveItemDialogOutput } from './component/give-item';
 
 @Component({
   selector: 'app-inventory',
@@ -150,10 +150,17 @@ export class InventoryComponent {
     if (!this.selectedItem)
       return;
 
-    this.dialogService.open(GiveItemComponent, {
+    const dialogRef = this.dialogService.open(GiveItemComponent, {
       header: `Give ${this.selectedItem.name}`,
       width: '25%',
       data: this.selectedItem.quantity,
-      closeOnEscape: true    });
+      closeOnEscape: true
+    });
+
+    dialogRef.onClose.subscribe((payload?: GiveItemDialogOutput) => {
+      if (payload) {
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_P2P_GIVE_ITEM, [payload.targetId, this.selectedItem, payload.quantity]);
+      }
+    });
   }
 }

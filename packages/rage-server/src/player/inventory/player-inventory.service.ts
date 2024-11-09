@@ -1,11 +1,12 @@
 import { Types } from 'mongoose';
+import { t } from 'i18next';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@bcrp-rage/common';
 import { createItem, getItemById } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
-import { Item } from '../../item/item.model';
 import { notifyPlayer } from '../util/player-notify.util';
-import { t } from 'i18next';
+import { Item } from '../../item/item.model';
+import { P2P_MAX_DISTANCE } from '../player-interaction';
 
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
@@ -34,7 +35,6 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
   player.character.inventory.push(item);
   await player.character.save();
 
-  console.log(player.character.inventory);
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
 
   const endTime = Date.now();
@@ -173,10 +173,10 @@ export const playerSelectItem = (player: PlayerMp, slot: number) => {
 export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQuantity: number) => {
   const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
 
-  const itemHandler = item.data;
-
-  if (!itemHandler)
+  if (!item)
     return;
+
+  const itemHandler = item.data;
 
   if (!itemHandler.isStackable)
     return notifyPlayer(player, {
@@ -185,7 +185,7 @@ export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQua
       detail: t('item_not_stackable', { name: itemHandler.name })
     });
 
-  if ((item.quantity - 1) < splitQuantity)
+  if (splitQuantity >= item.quantity)
     return notifyPlayer(player, {
       severity: 'error',
       summary: t('bad_request'),
@@ -198,4 +198,58 @@ export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQua
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
 
   await playerGiveItem(player, item.name, splitQuantity);
+};
+
+
+export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number, itemId: string, quantity: number) => {
+  const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
+
+  if (!item)
+    return;
+
+  const target = mp.players.at(targetId);
+
+  if (!target || !target.character)
+    return notifyPlayer(player, {
+      severity: 'error',
+      summary: t('not_found'),
+      detail: t('player_not_online', { query: targetId })
+    });
+
+  if (player.dist(target.position) > P2P_MAX_DISTANCE)
+    return notifyPlayer(player, { severity: 'error', detail: t('bad_request'), summary: t('target_not_close') });
+
+  const itemHandler = item.data;
+
+  if (quantity == item.quantity) {
+    const idx = player.character.inventory.findIndex((item: Item) => item.id == itemId);
+
+    if (idx != -1) {
+      player.character.inventory.splice(idx, 1);
+      await player.character.save();
+
+      triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
+
+      target.character.inventory.push(item);
+      await target.character.save();
+
+      triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
+    }
+  } else {
+    if (!itemHandler.isStackable )
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('item_not_stackable', { name: itemHandler.name })
+      });
+
+    if (quantity > item.quantity)
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('not_enough_quantity')
+      });
+  }
+
+
 };
