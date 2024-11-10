@@ -8,4 +8,5 @@ export const enum PlayerSharedDataType {
   Administrator = 'administrator',
   Animation = 'animation',
   Attachments = 'attachments',
+  Frozen = 'frozen',
 }
