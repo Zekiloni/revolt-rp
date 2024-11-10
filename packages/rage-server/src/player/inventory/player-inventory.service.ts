@@ -1,5 +1,5 @@
-import { Types } from 'mongoose';
 import { t } from 'i18next';
+import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@bcrp-rage/common';
 import { createItem, getItemById } from '../../item/item.service';
@@ -8,6 +8,11 @@ import { notifyPlayer } from '../util/player-notify.util';
 import { Item } from '../../item/item.model';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
 
+
+export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
+  player.character.inventory = player.character.inventory.filter(element => element.id === itemId);
+  await player.character.save();
+}
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
   let localSlot = -1;
@@ -81,12 +86,7 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
 
   await item.save();
 
-  const idx = player.character.inventory.findIndex((item: Item) => item.id == itemId);
-
-  if (idx != -1) {
-    player.character.inventory.splice(idx, 1);
-    await player.character.save();
-  }
+  await playerRemoveItemFromInventory(player, item.id);
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
   playAnimation(player, 'random@domestic', 'pickup_low', AnimationFlag.NORMAL);
@@ -222,28 +222,23 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
   const itemHandler = item.data;
 
   if (quantity == item.quantity) {
-    const idx = player.character.inventory.findIndex((item: Item) => item.id == itemId);
+    await playerRemoveItemFromInventory(player, item.id);
 
-    if (idx != -1) {
-      player.character.inventory.splice(idx, 1);
-      await player.character.save();
+    triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
 
-      triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
+    target.character.inventory.push(item);
+    await target.character.save();
 
-      target.character.inventory.push(item);
-      await target.character.save();
-
-      triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
-    }
+    triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
   } else {
-    if (!itemHandler.isStackable )
+    if (!itemHandler.isStackable)
       return notifyPlayer(player, {
         severity: 'error',
         summary: t('bad_request'),
         detail: t('item_not_stackable', { name: itemHandler.name })
       });
 
-    if (quantity > item.quantity)
+    if (quantity >= item.quantity)
       return notifyPlayer(player, {
         severity: 'error',
         summary: t('bad_request'),
