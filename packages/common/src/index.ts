@@ -42,6 +42,8 @@ export * from './lib/item/item.model';
 export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
 
+export * from './lib/vehicle/vehicle.model';
+
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
 

@@ -1,5 +1,6 @@
-import { ObjectId } from 'mongoose';
 import { Vector3 } from '../core.interface';
+import { ICharacter } from '../player/character/character.model';
+import { Ref } from '@typegoose/typegoose';
 
 export interface IVehicleMod {
   type: number;
@@ -21,7 +22,7 @@ export interface IVehicleExtra {
 export interface IVehicle {
   id?: string;
   model: string;
-  owner?: string | ObjectId;
+  owner?: Ref<ICharacter>;
   fuel: number;
   mileage: number;
   price?: number;
