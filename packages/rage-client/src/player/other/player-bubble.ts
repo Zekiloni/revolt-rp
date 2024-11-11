@@ -1,7 +1,7 @@
 import { getScreenResolution } from '../../util/game.util';
 import { getTextBubble } from '../util/player-data.util';
 
-const TEXT_BUBBLE_RENDER_DISTANCE = 15;
+const TEXT_BUBBLE_RENDER_DISTANCE = 20.0;
 
 function textBubbleRenderHandler() {
   const { position } = mp.players.local;
@@ -25,7 +25,7 @@ function textBubbleRenderHandler() {
       const textBubble = getTextBubble(target);
 
       if (textBubble && textBubble.content && textBubble.content.length) {
-        if (distance < TEXT_BUBBLE_RENDER_DISTANCE && mp.players.local.id != target.id) {
+        if (distance < textBubble.distance && mp.players.local.id != target.id) {
           if (mp.players.local.hasClearLosTo(target.handle, 17)) {
             if (target.getAlpha() != 0) {
               const boneIndex = target.getBoneIndex(RageEnums.Ped.Bones.IK_HEAD);

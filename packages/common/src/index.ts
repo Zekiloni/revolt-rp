@@ -5,6 +5,7 @@ export * from './lib/locales/en-Us';
 
 export * from './lib/key.enums';
 export * from './lib/hex-colors';
+export * from './lib/rgb-colors';
 
 export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
@@ -30,6 +31,7 @@ export * from './lib/player/ped/hairColors';
 export * from './lib/player/ped/eyeColorNames';
 export * from './lib/player/ped/headOverlays';
 
+export * from './lib/player/player-text-bubble.model';
 export * from './lib/player/player-animation.model';
 export * from './lib/player/animation.enum';
 
