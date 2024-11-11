@@ -1,8 +1,8 @@
-import { hexColors } from '@bcrp-rage/common';
-import { registerCommand } from './player-command.service';
-import { findPlayer, sendProximityMessage } from './util/player.util';
-import { isCharacterDescriptionSet } from './character/character.util';
 import { t } from 'i18next';
+import { hexColors, rgbColors } from '@bcrp-rage/common';
+import { findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
+import { isCharacterDescriptionSet } from './character/character.util';
+import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 
 registerCommand({
@@ -12,6 +12,23 @@ registerCommand({
   handle(player: PlayerMp, ...args) {
     const content = `* ${player.name} ${[...args].join(' ')}`;
     sendProximityMessage(content, player.position, 10, hexColors.PURPLE);
+  }
+});
+
+
+registerCommand({
+  name: 'ame',
+  params: ['action'],
+  description: 'todo',
+  handle(player: PlayerMp, ...args) {
+    const content = `* ${player.name} ${[...args].join(' ')}`;
+    setPlayerTextBubble(player, {
+      content,
+      duration: 5000,
+      color: [...rgbColors.PURPLE, 255],
+      testLos: false,
+      distance: 12.5
+    });
   }
 });
 
