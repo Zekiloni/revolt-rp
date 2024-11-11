@@ -1,4 +1,5 @@
 import { CharacterStateType, PlayerSharedDataType } from '@bcrp-rage/common';
+import { IPlayerTextBubble } from '../../../../common/src/lib/player/player-text-bubble.model';
 
 
 function getTarget(target: PlayerMp) {
@@ -31,5 +32,9 @@ export const getIsAlive = (target?: PlayerMp) => {
 
 export const getIsFrozen = (target?: PlayerMp): boolean => {
   return getTarget(target).getVariable(PlayerSharedDataType.Frozen);
+}
 
+
+export const getTextBubble = (target?: PlayerMp): IPlayerTextBubble | undefined | null => {
+  return getTarget(target).getVariable(PlayerSharedDataType.TextBubble);
 }
