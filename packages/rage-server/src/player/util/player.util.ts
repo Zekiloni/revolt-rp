@@ -1,4 +1,8 @@
+import { IPlayerTextBubble, PlayerSharedDataType } from '@bcrp-rage/common';
 import { getForwardVector } from '../../util/vector3.util';
+
+
+const textBubbleTimer: Map<number, NodeJS.Timeout> = new Map();
 
 export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
   if (!Number.isNaN(+nameOrId))
@@ -31,6 +35,28 @@ export const sendProximityMessage = function(message: string, position: Vector3,
 };
 
 
+export const setPlayerTextBubble = (player: PlayerMp, bubble: IPlayerTextBubble | null) => {
+  if (textBubbleTimer.has(player.id)) {
+    const timeout = textBubbleTimer.get(player.id);
+
+    if  (timeout)
+      clearTimeout(timeout);
+
+    textBubbleTimer.delete(player.id);
+  }
+
+  player.setVariable(PlayerSharedDataType.TextBubble, bubble);
+
+  if (bubble) {
+    const timer = setTimeout(() => {
+      player.setVariable(PlayerSharedDataType.TextBubble, null);
+      textBubbleTimer.delete(player.id);
+    }, bubble.duration);
+
+    textBubbleTimer.set(player.id, timer);
+  }
+};
+
 
 export const p2pTeleport = (player: PlayerMp, target: PlayerMp) => {
   if (player.vehicle) {
@@ -48,4 +74,4 @@ export const p2pTeleport = (player: PlayerMp, target: PlayerMp) => {
     player.position = getForwardVector(target.position, target.heading, 2);
     player.dimension = target.dimension;
   }
-}
+};
