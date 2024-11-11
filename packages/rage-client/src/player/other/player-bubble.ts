@@ -1,5 +1,5 @@
-import { getScreenResolution } from '../util/game.util';
-import { getTextBubble } from './util/player-data.util';
+import { getScreenResolution } from '../../util/game.util';
+import { getTextBubble } from '../util/player-data.util';
 
 const TEXT_BUBBLE_RENDER_DISTANCE = 15;
 
