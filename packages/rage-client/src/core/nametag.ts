@@ -11,7 +11,7 @@ const nameTagsConfig = {
 };
 
 
-function drawNameTags(nametags: NametagsMp) {
+function drawNameTags() {
   const { position } = mp.players.local;
 
   if (showNameTags) {
@@ -56,4 +56,6 @@ function drawNameTags(nametags: NametagsMp) {
 }
 
 
-mp.events.add('render', drawNameTags);
+mp.events.add({
+  render: drawNameTags
+});

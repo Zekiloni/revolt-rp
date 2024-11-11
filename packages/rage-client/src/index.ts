@@ -7,5 +7,7 @@ import './player/authorization/player-spawn';
 
 import './player/player-animation';
 import './player/player-hud';
-import './player/text-bubble';
+import './player/player-bubble';
 import './player/player-inventory';
+
+import './player/other/player-freeze';
