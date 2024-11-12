@@ -1,8 +1,13 @@
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 
 
-on('clientPlayerEnterVehicle', playerEnterVehicle);
 
-function playerEnterVehicle(args: unknown, info: ProcedureListenerInfo) {
-   throw new Error('Function not implemented.');
+function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
+  if (vehicle && seat == -1) {
+    mp.game.vehicle.defaultEngineBehaviour = false;
+    mp.players.local.setConfigFlag(429, true);
+  }
 }
+
+mp.events.add({
+  playerEnterVehicle: playerEnterVehicleHandler
+})

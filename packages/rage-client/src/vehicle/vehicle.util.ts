@@ -1,19 +1,16 @@
+const VEHICLE_CLASS_PREFIX = 'VEH_CLASS_';
+
 export const isVehicleModelValid = (modelHash: number) => {
   return mp.game.streaming.isModelValid(modelHash);
 };
 
-/**
- * Return vehicle model max speed, convert to kmh
- *
- * @return {*}
- */
-export const getVehicleMaxSpeed = (modelHash: number): number => {
-  return mp.game.vehicle.getVehicleModelMaxSpeed(modelHash);
+export const getVehicleMaxSpeed = (modelHash: number) => {
+  return mp.game.vehicle.getVehicleModelMaxSpeed(modelHash) * 3.6;
 };
 
 
 export const getVehicleClassName = (modelHash: number) => {
-  const vehicleClassLabel = (`VEH_CLASS_${mp.game.invoke(RageEnums.Natives.VEHICLE.GET_VEHICLE_CLASS_FROM_NAME, modelHash)}`);
+  const vehicleClassLabel = (VEHICLE_CLASS_PREFIX + mp.game.invoke(RageEnums.Natives.VEHICLE.GET_VEHICLE_CLASS_FROM_NAME, modelHash));
   return mp.game.ui.getLabelText(vehicleClassLabel);
 };
 
