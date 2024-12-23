@@ -6,7 +6,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     freezeControls: true,
     mouse: true,
-    disableChat: true,
+    disableChat: true
   },
 
   [GameUiKey.CharacterCreator]: {
@@ -24,8 +24,12 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false
   },
 
+  [GameUiKey.PlayerMenu]: {
+    isActive: true
+  },
+
   [GameUiKey.Inventory]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
     freezeControls: true,
     disableChat: true

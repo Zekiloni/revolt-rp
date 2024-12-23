@@ -59,11 +59,6 @@ export class InventoryComponent {
     private rageClientService: RageClientService,
     private dialogService: DialogService) {
     this.$inventory = this.store.select(selectInventory);
-    this.dialogService.open(GiveItemComponent, {
-      header: `Give aaa`,
-      data: 1,
-      closeOnEscape: true
-    });
   }
 
   dragItemStart(item: IItem) {

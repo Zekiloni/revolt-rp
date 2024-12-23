@@ -16,6 +16,7 @@ import { AuthorizationComponent } from './component/authorization';
 import { TextChatComponent } from './component/text-chat';
 import { InventoryComponent } from './component/inventory';
 import { HudComponent } from './component/hud';
+import { PlayerMenuComponent } from './component/player-menu';
 
 
 @Component({
@@ -29,7 +30,8 @@ import { HudComponent } from './component/hud';
     TextChatComponent,
     InventoryComponent,
     HudComponent,
-    VehicleHudComponent
+    VehicleHudComponent,
+    PlayerMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

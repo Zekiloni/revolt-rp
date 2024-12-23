@@ -10,8 +10,8 @@ export const translationConfig = {
     }
   },
   interpolation: {
-    prefix: '{',
-    suffix: '}'
+    prefix: '{{',
+    suffix: '}}'
   }
 };
 
