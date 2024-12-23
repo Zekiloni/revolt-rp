@@ -4,13 +4,16 @@ import { Character } from '../player/character/character.model';
 
 declare global {
 
+
   interface PlayerMp {
     account: Account;
     character: Character;
   }
 
-  declare namespace RageEnums {
+  interface VehicleMp {
+  }
 
+  declare namespace RageEnums {
     export const enum HeadOverlays {
       Blemishes = 0,
       FacialHair = 1,

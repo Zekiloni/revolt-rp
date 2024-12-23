@@ -1,5 +1,6 @@
 import './core/browser';
 import './core/default-prevention';
+import './core/nametag';
 
 import './player/authorization/authorization';
 import './player/authorization/character-creator';

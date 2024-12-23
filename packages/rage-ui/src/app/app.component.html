@@ -19,6 +19,9 @@
     <app-inventory />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.PlayerMenu) | async) {
+    <app-player-menu />
+  }
 
   <app-text-chat />
 

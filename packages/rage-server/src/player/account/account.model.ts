@@ -25,14 +25,19 @@ export class Account extends Document implements IAccount {
   @prop({ required: true })
   username: string;
 
+  @prop({ default: 0 })
   coins: number;
 
   @prop({ required: false })
   lastLoginAt?: Date;
 
-  referer: string;
+  @prop({ required: false })
+  referer?: string;
+
   referralCode: string;
+
   serial: string;
+
   updatedBy: string;
 
   @prop({ required: true })
