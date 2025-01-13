@@ -18,6 +18,10 @@ declare global {
       AddBodyBlemishes = 12
     }
   }
+
+  declare interface DiscordMp {
+    requestOAuth2(applicationId: string): Promise<string>;
+  }
 }
 
-export {}
+export {};
