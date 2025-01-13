@@ -1,4 +1,4 @@
-import { IBaseItem, ItemType } from '@bcrp-rage/common';
+import { IBaseItem, ItemType } from '@revolt-rp/common';
 import { WeaponItem } from './weapon-item.model';
 import { Item } from '../item.model';
 

@@ -5,7 +5,7 @@ import {
   HeadOverlayComponent, headOverlays as headOverlayInfo,
   ICharacterCreate, PlayerSharedDataType,
   ProcedureKey
-} from '@bcrp-rage/common';
+} from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { AccountModel, CharacterModel } from '../account-character.ref';
 

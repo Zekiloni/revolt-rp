@@ -1,5 +1,5 @@
 import { getScreenResolution } from '../util/game.util';
-import { rgbColors } from '@bcrp-rage/common';
+import { rgbColors } from '@revolt-rp/common';
 
 mp.nametags.enabled = false;
 

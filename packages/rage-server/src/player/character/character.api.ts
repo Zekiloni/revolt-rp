@@ -1,5 +1,5 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
 import { createCharacter, selectCharacter, spawnPlayerCharacter } from './character.service';
 
 

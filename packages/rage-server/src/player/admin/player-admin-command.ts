@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { AdminType, hexColors, isNumber } from '@bcrp-rage/common';
+import { AdminType, hexColors, isNumber } from '@revolt-rp/common';
 import { registerCommand } from '../player-command.service';
 import { findPlayer, p2pTeleport } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';

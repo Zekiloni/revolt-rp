@@ -1,4 +1,4 @@
-import { AdminType } from '@bcrp-rage/common';
+import { AdminType } from '@revolt-rp/common';
 import './core/mongo-db';
 import './core/i18next.config';
 import './item/registry/item.factory';

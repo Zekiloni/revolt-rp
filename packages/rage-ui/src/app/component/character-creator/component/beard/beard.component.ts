@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CharacterAppearanceForm } from '../../../../domain/model/character';
-import { beardStyleNames, hairColors } from '@bcrp-rage/common';
+import { beardStyleNames, hairColors } from '@revolt-rp/common';
 import { SliderModule } from 'primeng/slider';
 
 @Component({

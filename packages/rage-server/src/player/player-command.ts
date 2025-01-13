@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { hexColors, rgbColors } from '@bcrp-rage/common';
+import { hexColors, rgbColors } from '@revolt-rp/common';
 import { findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';

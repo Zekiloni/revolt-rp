@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { GameInterfaceState } from './game-ui.reducer';
-import { GameUiKey } from '@bcrp-rage/common';
+import { GameUiKey } from '@revolt-rp/common';
 
 export const selectGameInterfaceState =
   createFeatureSelector<GameInterfaceState>('gameInterface');

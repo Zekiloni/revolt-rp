@@ -5,7 +5,7 @@ import { Button } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { ProcedureKey } from '@revolt-rp/common';
 
 
 export interface GiveItemDialogOutput {

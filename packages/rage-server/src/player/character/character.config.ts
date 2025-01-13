@@ -1,4 +1,4 @@
-import { CharacterSpawnType } from '@bcrp-rage/common';
+import { CharacterSpawnType } from '@revolt-rp/common';
 
 export const characterConfig = {
   defaultPosition: new mp.Vector3(1962.62, 3841.2, 32.73),

@@ -9,7 +9,7 @@ import { TagModule } from 'primeng/tag';
 import { MessagesModule } from 'primeng/messages';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelModule } from 'primeng/panel';
-import { headOverlays, CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@bcrp-rage/common';
+import { headOverlays, CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
 import {
   CreateCharacterForm,
   characterCreateFormConfig,

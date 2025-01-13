@@ -1,5 +1,5 @@
 import { createAction } from '@ngrx/store';
-import { GameUiKey } from '@bcrp-rage/common';
+import { GameUiKey } from '@revolt-rp/common';
 
 export type GameUiActions = typeof showGameInterface | typeof hideGameInterface;
 

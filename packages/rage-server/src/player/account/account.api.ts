@@ -1,5 +1,5 @@
 import { ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { AccountAuthorize, AccountCreate, ProcedureKey, catchError } from '@bcrp-rage/common';
+import { AccountAuthorize, AccountCreate, ProcedureKey, catchError } from '@revolt-rp/common';
 import { authorizeAccount, createAccount } from './account.service';
 
 

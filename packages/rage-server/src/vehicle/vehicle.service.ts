@@ -1,4 +1,4 @@
-// import { IVehicle } from '@bcrp-rage/common';
+// import { IVehicle } from '@revolt-rp/common';
 //
 //
 // export const createVehicle = (model: string, position: Vector3, temporary: boolean, options: IVehicle) => {
@@ -8,7 +8,7 @@
 // }
 
 
-import { VehicleSharedDataType } from '@bcrp-rage/common';
+import { VehicleSharedDataType } from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
 
 

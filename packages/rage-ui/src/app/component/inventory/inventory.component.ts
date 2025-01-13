@@ -7,7 +7,7 @@ import { BadgeModule } from 'primeng/badge';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
-import { IItem, ProcedureKey } from '@bcrp-rage/common';
+import { IItem, ProcedureKey } from '@revolt-rp/common';
 import { getItemIcon } from '../../domain/util/item.util';
 import { SplitItemComponent } from './component/split-item';
 import { DraggableDirective } from '../../domain/drag-drop/draggable.directive';

@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IItem } from '@bcrp-rage/common';
+import { IItem } from '@revolt-rp/common';
 
 export type InventoryActions = typeof setInventory | typeof addItem | typeof updateItem | typeof removeItem
 

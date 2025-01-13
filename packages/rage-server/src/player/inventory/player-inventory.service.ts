@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@bcrp-rage/common';
+import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { createItem, getItemById } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';

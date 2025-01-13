@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { modelOptions, pre, prop, Ref } from '@typegoose/typegoose';
-import { accountConfig, AdminType, IAccount } from '@bcrp-rage/common';
+import { accountConfig, AdminType, IAccount } from '@revolt-rp/common';
 import { Character } from '../character/character.model';
 
 @pre<Account>('save', function(next) {

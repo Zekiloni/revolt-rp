@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { enUs } from '@bcrp-rage/common';
+import { enUs } from '@revolt-rp/common';
 import { logger } from './logger.config';
 
 export const translationConfig = {

@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SliderModule } from 'primeng/slider';
 import { DropdownModule } from 'primeng/dropdown';
-import { eyeColorNames, faceFeatureNames } from '@bcrp-rage/common';
+import { eyeColorNames, faceFeatureNames } from '@revolt-rp/common';
 import { CharacterAppearanceForm } from '../../../../domain/model/character';
 
 @Component({

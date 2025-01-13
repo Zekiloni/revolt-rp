@@ -1,4 +1,4 @@
-import { AnimationFlag, IPlayerAnimation, PlayerSharedDataType } from '@bcrp-rage/common';
+import { AnimationFlag, IPlayerAnimation, PlayerSharedDataType } from '@revolt-rp/common';
 
 
 export function playAnimation(

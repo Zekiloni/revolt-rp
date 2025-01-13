@@ -1,5 +1,5 @@
 import { triggerClient } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { ProcedureKey } from '@revolt-rp/common';
 
 mp.events.add({
   playerJoin: playerJoinHandler,

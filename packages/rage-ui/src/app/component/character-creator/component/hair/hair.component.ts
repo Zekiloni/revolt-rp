@@ -3,7 +3,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SliderModule } from 'primeng/slider';
 import { DropdownModule } from 'primeng/dropdown';
-import { CharacterGender, hairColors, hairStyleNames, hairStyles } from '@bcrp-rage/common';
+import { CharacterGender, hairColors, hairStyleNames, hairStyles } from '@revolt-rp/common';
 import { CharacterAppearanceForm } from '../../../../domain/model/character';
 
 @Component({

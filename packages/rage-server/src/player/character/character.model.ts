@@ -8,7 +8,7 @@ import {
   ICharacterInjury,
   ICharacterOrganization,
   ICharacterSpawn
-} from '@bcrp-rage/common';
+} from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';

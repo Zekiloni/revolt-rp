@@ -1,4 +1,4 @@
-import { PlayerSharedDataType } from '@bcrp-rage/common';
+import { PlayerSharedDataType } from '@revolt-rp/common';
 import { getIsFrozen } from '../util/player-data.util';
 
 
