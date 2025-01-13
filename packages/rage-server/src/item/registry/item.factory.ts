@@ -1,5 +1,5 @@
 import { WeaponItem } from './weapon-item.model';
-import { CaliberType, ItemType } from '@bcrp-rage/common';
+import { CaliberType, ItemType } from '@revolt-rp/common';
 import { DrinkItemModel } from './drink-item.model';
 
 new DrinkItemModel("Water Bottle", "Flow water bottle, contains 0.3l of pure taste of water.", [], 'prop_ld_flow_bottle', 0.3)

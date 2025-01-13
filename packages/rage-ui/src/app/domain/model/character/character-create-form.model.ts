@@ -1,5 +1,5 @@
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
-import { BloodType, CharacterGender } from '@bcrp-rage/common';
+import { BloodType, CharacterGender } from '@revolt-rp/common';
 
 export interface HeadBlendDataForm {
   shapeFirstId: FormControl<number>;

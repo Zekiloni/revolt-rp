@@ -1,5 +1,5 @@
 import { triggerBrowser } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, PlayerSharedDataType, ProcedureKey } from '@bcrp-rage/common';
+import { gameUiConfig, GameUiKey, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { defaultHiddenHudComponents } from './player-hud.config';
 import { getHeadingTo } from '../util/vector.util';

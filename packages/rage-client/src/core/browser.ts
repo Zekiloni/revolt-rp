@@ -1,5 +1,5 @@
 import { triggerBrowser } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, HexKeyCodes, ProcedureKey } from '@bcrp-rage/common';
+import { gameUiConfig, GameUiKey, HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
 import { environment } from '../environment/environment';
 import { registerKeyBind } from './keybind-manager';
 

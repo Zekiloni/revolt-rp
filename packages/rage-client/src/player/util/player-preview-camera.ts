@@ -1,4 +1,4 @@
-import { AnimationFlag, HexKeyCodes } from '@bcrp-rage/common';
+import { AnimationFlag, HexKeyCodes } from '@revolt-rp/common';
 import { isPlayingAnimation, playAnimation, stopAnimation } from './player-animation.util';
 
 

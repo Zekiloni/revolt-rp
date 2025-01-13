@@ -1,4 +1,4 @@
-import { IPlayerTextBubble, PlayerSharedDataType } from '@bcrp-rage/common';
+import { IPlayerTextBubble, PlayerSharedDataType } from '@revolt-rp/common';
 import { getForwardVector } from '../../util/vector3.util';
 
 

@@ -1,4 +1,4 @@
-import { AnimationFlag } from '@bcrp-rage/common';
+import { AnimationFlag } from '@revolt-rp/common';
 
 
 export function loadAnimDictionary(animationDictionary: string): Promise<boolean> {

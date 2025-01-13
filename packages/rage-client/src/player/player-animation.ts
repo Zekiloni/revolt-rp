@@ -1,4 +1,4 @@
-import { IPlayerAnimation, PlayerSharedDataType } from '@bcrp-rage/common';
+import { IPlayerAnimation, PlayerSharedDataType } from '@revolt-rp/common';
 import { isPlayingAnimation, playAnimation, stopAnimation } from './util/player-animation.util';
 
 type AnimationData = IPlayerAnimation | null | undefined;

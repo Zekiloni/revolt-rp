@@ -1,5 +1,5 @@
 // import { BaseItem } from './base-item.model';
-// import { IItem } from '@bcrp-rage/common';
+// import { IItem } from '@revolt-rp/common';
 //
 //
 // export class WearableItem extends BaseItem {

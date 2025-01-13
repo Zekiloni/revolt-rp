@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { IItem, ProcedureKey } from '@bcrp-rage/common';
+import { IItem, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from './rage-client.service';
 import {
   addItem,

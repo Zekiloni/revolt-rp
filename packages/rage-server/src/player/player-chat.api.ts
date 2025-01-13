@@ -1,4 +1,4 @@
-import { hexColors } from '@bcrp-rage/common';
+import { hexColors } from '@revolt-rp/common';
 import { t } from 'i18next';
 import { sendProximityMessage } from './util/player.util';
 

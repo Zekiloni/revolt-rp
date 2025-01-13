@@ -1,5 +1,5 @@
 import { BaseItem } from './base-item.model';
-import { ItemType, CaliberType } from '@bcrp-rage/common';
+import { ItemType, CaliberType } from '@revolt-rp/common';
 import { Item } from '../item.model';
 
 

@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
-import { IItem, ItemFlag, ItemSharedDataType } from '@bcrp-rage/common';
+import { IItem, ItemFlag, ItemSharedDataType } from '@revolt-rp/common';
 import { itemRegistry } from './registry/base-item.model';
 
 @modelOptions({

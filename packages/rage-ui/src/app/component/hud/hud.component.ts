@@ -2,7 +2,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { IItem, ProcedureKey } from '@bcrp-rage/common';
+import { IItem, ProcedureKey } from '@revolt-rp/common';
 import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { selectInventory } from '../../store/inventory/inventory.selectors';

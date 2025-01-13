@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Button } from 'primeng/button';
-import { IAccount, ICharacter, ProcedureKey } from '@bcrp-rage/common';
+import { IAccount, ICharacter, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { KnobModule } from 'primeng/knob';
 import { FormsModule } from '@angular/forms';

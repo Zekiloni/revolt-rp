@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@bcrp-rage/common';
+import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revolt-rp/common';
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 

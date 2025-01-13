@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { enUs, GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+import { enUs, GameUiKey, ProcedureKey } from '@revolt-rp/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
 import { CharacterSelectorComponent } from './component/character-selector';

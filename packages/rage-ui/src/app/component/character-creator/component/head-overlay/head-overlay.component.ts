@@ -4,7 +4,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { PaginatorModule } from 'primeng/paginator';
 import { SliderModule } from 'primeng/slider';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { HeadOverlayComponentDef } from '@bcrp-rage/common';
+import { HeadOverlayComponentDef } from '@revolt-rp/common';
 import { HeadOverlayComponentForm } from '../../../../domain/model/character';
 
 @Component({

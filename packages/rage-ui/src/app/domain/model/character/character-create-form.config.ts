@@ -1,5 +1,5 @@
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { BloodType, CharacterGender } from '@bcrp-rage/common';
+import { BloodType, CharacterGender } from '@revolt-rp/common';
 import { validateCharacterAge } from '../../util/character-validator.util';
 
 

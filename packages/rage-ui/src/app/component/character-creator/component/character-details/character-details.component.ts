@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
-import { BloodType, CharacterGender } from '@bcrp-rage/common';
+import { BloodType, CharacterGender } from '@revolt-rp/common';
 import { CreateCharacterForm } from '../../../../domain/model/character';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';

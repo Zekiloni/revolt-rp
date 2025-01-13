@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { hideGameInterface, showGameInterface } from './game-ui.actions';
-import { gameUiConfig, GameUiKey, GameInterface } from '@bcrp-rage/common';
+import { gameUiConfig, GameUiKey, GameInterface } from '@revolt-rp/common';
 
 
 export type GameInterfaceState = Record<GameUiKey, GameInterface>;

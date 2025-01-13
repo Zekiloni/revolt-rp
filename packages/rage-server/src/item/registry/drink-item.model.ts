@@ -1,6 +1,6 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { BaseItem } from './base-item.model';
-import { AnimationFlag, ItemFlag, ItemType, ProcedureKey } from '@bcrp-rage/common';
+import { AnimationFlag, ItemFlag, ItemType, ProcedureKey } from '@revolt-rp/common';
 import { Item } from '../item.model';
 import {
   playerAddAttachment,

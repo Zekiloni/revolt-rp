@@ -1,5 +1,5 @@
 import { on, triggerBrowser } from '@libertymp/rage-rpc';
-import { GameUiKey, ProcedureKey, StorageDataKey } from '@bcrp-rage/common';
+import { GameUiKey, ProcedureKey, StorageDataKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
 import { getStorage, saveStorage } from '../../core/storage-manager';
 import { authConfig } from './auth.config';

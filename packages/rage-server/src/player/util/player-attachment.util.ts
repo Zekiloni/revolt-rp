@@ -1,4 +1,4 @@
-import { PlayerSharedDataType } from '@bcrp-rage/common';
+import { PlayerSharedDataType } from '@revolt-rp/common';
 
 
 export const playerGetAttachments = (player: PlayerMp) => {

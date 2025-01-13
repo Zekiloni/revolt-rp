@@ -1,7 +1,7 @@
 import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
-import { AccountCreate, AdminType, PlayerSharedDataType } from '@bcrp-rage/common';
+import { AccountCreate, AdminType, PlayerSharedDataType } from '@revolt-rp/common';
 import { AccountModel } from '../account-character.ref';
 import { Account } from './account.model';
 

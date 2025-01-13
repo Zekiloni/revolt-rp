@@ -1,4 +1,4 @@
-import { AdminType } from '@bcrp-rage/common';
+import { AdminType } from '@revolt-rp/common';
 
 interface CommandValidator {
   validate: (player: PlayerMp) => boolean;

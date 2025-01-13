@@ -5,7 +5,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar';
 import { SliderModule } from 'primeng/slider';
 import { Ripple } from 'primeng/ripple';
-import { maxParentId, parentNames } from '@bcrp-rage/common';
+import { maxParentId, parentNames } from '@revolt-rp/common';
 import { HeadBlendDataForm } from '../../../../domain/model/character';
 
 @Component({

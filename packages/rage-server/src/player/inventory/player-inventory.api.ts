@@ -1,5 +1,5 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@bcrp-rage/common';
+import { ProcedureKey } from '@revolt-rp/common';
 import {
   playerChangeItemSlot,
   playerDropItem, playerGiveItemToPlayer,

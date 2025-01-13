@@ -13,7 +13,7 @@ import {
   triggerBrowsers as rpcTriggerBrowsers,
   ProcedureListener
 } from '@libertymp/rage-rpc';
-import { ApiError } from '@bcrp-rage/common';
+import { ApiError } from '@revolt-rp/common';
 
 @Injectable()
 export class RageClientService {

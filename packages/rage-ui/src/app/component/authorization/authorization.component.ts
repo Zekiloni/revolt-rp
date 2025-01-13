@@ -6,7 +6,7 @@ import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
 import { RageClientService } from '../../domain/service/rage-client.service';
-import { ApiError, IAccount, ProcedureKey } from '@bcrp-rage/common';
+import { ApiError, IAccount, ProcedureKey } from '@revolt-rp/common';
 import { environment } from '../../../environments/environment';
 import { AutoFocus } from 'primeng/autofocus';
 import { MessageService } from 'primeng/api';

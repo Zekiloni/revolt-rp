@@ -1,4 +1,4 @@
-import { CharacterStateType, PlayerSharedDataType } from '@bcrp-rage/common';
+import { CharacterStateType, PlayerSharedDataType } from '@revolt-rp/common';
 import { IPlayerTextBubble } from '../../../../common/src/lib/player/player-text-bubble.model';
 
 

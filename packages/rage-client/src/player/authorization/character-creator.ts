@@ -6,7 +6,7 @@ import {
   HeadBlendData,
   HeadOverlayComponent,
   ProcedureKey
-} from '@bcrp-rage/common';
+} from '@revolt-rp/common';
 import { hideGameInterface, showGameInterface } from '../../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
