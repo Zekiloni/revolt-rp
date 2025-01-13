@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
+import { provideTranslateService } from '@ngx-translate/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,6 +24,9 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimations(),
+    provideTranslateService({
+      defaultLanguage: 'en-US',
+    }),
     MessageService,
     RageClientService,
     provideStore({ gameInterface: gameInterfaceReducer, inventory: inventoryReducer }),
