@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { GameUiKey, ProcedureKey } from '@bcrp-rage/common';
+import { enUs, GameUiKey, ProcedureKey } from '@bcrp-rage/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
 import { CharacterSelectorComponent } from './component/character-selector';
@@ -17,6 +17,7 @@ import { TextChatComponent } from './component/text-chat';
 import { InventoryComponent } from './component/inventory';
 import { HudComponent } from './component/hud';
 import { PlayerMenuComponent } from './component/player-menu';
+import { TranslateService } from '@ngx-translate/core';
 
 
 @Component({
@@ -46,10 +47,18 @@ export class AppComponent implements OnInit {
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
   constructor(
+    private translateService: TranslateService,
     private rageClientService: RageClientService,
     @Inject(Store) private store: Store<GameInterfaceState>,
     private inventoryListenerService: InventoryListenerService,
     private messageService: MessageService) {
+
+    this.initializeLanguages();
+  }
+
+  private initializeLanguages() {
+    this.translateService.setTranslation('en-US', enUs);
+    this.translateService.setDefaultLang('en-US');
   }
 
   ngOnInit(): void {
