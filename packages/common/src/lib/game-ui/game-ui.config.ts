@@ -25,7 +25,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.PlayerMenu]: {
-    isActive: true
+    isActive: false
   },
 
   [GameUiKey.Inventory]: {

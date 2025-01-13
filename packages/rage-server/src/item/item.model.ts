@@ -53,7 +53,7 @@ export class Item extends Document implements IItem {
   @prop({ type: Number, required: false })
   purity?: number;
 
-  @prop({ enum: ItemFlag, type: Number, required: false })
+  @prop({ enum: ItemFlag, type: String, required: false })
   flag?: ItemFlag;
 
   createdAt!: Date;
