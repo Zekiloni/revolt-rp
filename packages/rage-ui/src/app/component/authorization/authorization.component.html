@@ -27,7 +27,10 @@
         <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer">Forgot password?</a>
       </div>
 
-      <button pButton pRipple label="Sign In" icon="pi pi-user" class="w-full"></button>
+      <div class="flex flex-column gap-3">
+        <button pButton pRipple label="Sign In" icon="pi pi-user"></button>
+        <button pButton type="button" pRipple severity="secondary" (click)="discordAuthorize()" label="Continue with Discord" icon="pi pi-discord"></button>
+      </div>
     </form>
 
   </div>

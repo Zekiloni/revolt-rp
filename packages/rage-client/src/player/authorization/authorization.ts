@@ -1,4 +1,4 @@
-import { on, triggerBrowser } from '@libertymp/rage-rpc';
+import { callServer, on, register, triggerBrowser } from '@libertymp/rage-rpc';
 import { GameUiKey, ProcedureKey, StorageDataKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
 import { getStorage, saveStorage } from '../../core/storage-manager';
@@ -44,12 +44,13 @@ function saveAuthorizationUsername(username: string) {
   saveStorage(StorageDataKey.Username, username);
 }
 
-function discordOAuth2() {
-  mp.discord.requestOAuth2(authConfig.discordAppId)
-    .then((response: string) => {
-      //triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_DISCORD, response);
-    });
+async function discordOAuth2() {
+  mp.console.logInfo("Discord OAuth2");
+  return mp.discord.requestOAuth2(authConfig.discordAppId)
+    .then((authorizationCode: string) =>
+      callServer(ProcedureKey.SERVER_PLAYER_AUTHORIZE_DISCORD, authorizationCode));
 }
 
 on(ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, toggleAuthorization);
 on(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, saveAuthorizationUsername);
+register(ProcedureKey.CLIENT_AUTHORIZATION_DISCORD, discordOAuth2);

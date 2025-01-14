@@ -25,7 +25,7 @@ server-files/
 
 # Ignore Docker-related files
 Dockerfile*
-docker-compose.yml
+docker-compose.yaml
 
 # Ignore OS-specific files
 .DS_Store
