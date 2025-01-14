@@ -23,6 +23,7 @@ export interface IAccount extends Base {
   administrator?: AdminType;
   maxCharacters: number;
   serial: string;
+  discordId?: string;
   coins: number;
   socialClubId?: string;
   lastLoginAt?: Date;

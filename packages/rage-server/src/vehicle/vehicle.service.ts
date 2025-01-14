@@ -17,19 +17,17 @@ export const isTemporaryVehicle = (vehicle: VehicleMp) => {
 };
 
 export const getVehicleId = (vehicle: VehicleMp) => {
-  const id = vehicle.getVariable<string | undefined>(VehicleSharedDataType.VehicleId);
-
-  if (!id)
-    throw new Error(`Vehicle ${vehicle.id} ID not found`);
-
-  return id;
+  return vehicle.getVariable<string | undefined>(VehicleSharedDataType.VehicleId);
 };
 
 export const saveVehicle = async (vehicle: VehicleMp) => {
-  await VehicleModel.findByIdAndUpdate(getVehicleId(vehicle), {
+  const vehicleId = getVehicleId(vehicle);
 
-  });
-}
+  if (!vehicleId)
+    return;
+
+  await VehicleModel.findByIdAndUpdate(vehicleId, {});
+};
 
 
 export const hasPlayerVehicleKeys = (player: PlayerMp, vehicle: VehicleMp) => {
@@ -45,6 +43,6 @@ export const toggleVehicleEngine = (vehicle: VehicleMp) => {
   vehicle.setVariable(VehicleSharedDataType.Engine, vehicle.engine);
 
   if (!isTemporaryVehicle(vehicle)) {
-  //
+    //
   }
 };

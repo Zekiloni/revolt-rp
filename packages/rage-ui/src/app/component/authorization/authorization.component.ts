@@ -96,4 +96,10 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   private handleAuthError = (error: ApiError) => {
     this.messageService.add({ severity: 'error', detail: error.message });
   };
+
+  discordAuthorize() {
+    console.log('Discord OAuth2');
+    this.rageClientService.callClient(ProcedureKey.CLIENT_AUTHORIZATION_DISCORD)
+      .subscribe((response) => console.log(JSON.stringify(response)));
+  }
 }

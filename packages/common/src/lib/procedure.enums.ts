@@ -7,12 +7,14 @@ export const enum ProcedureKey {
 
   SERVER_PLAYER_CREATE_ACCOUNT = 'server_playerCreateAccount',
   SERVER_PLAYER_AUTHORIZE = 'server_playerAuthorize',
+  SERVER_PLAYER_AUTHORIZE_DISCORD = 'server_playerAuthorizeDiscord',
   SERVER_PLAYER_CREATE_CHARACTER = 'server_playerCreateCharacter',
 
   SERVER_PLAYER_SELECT_CHARACTER = 'server_playerSelectCharacter',
 
   CLIENT_TOGGLE_PLAYER_AUTHORIZATION = 'client_togglePlayerAuthorization',
   CLIENT_AUTHORIZATION_REMEMBER_ME = 'client_authorizationRememberMe',
+  CLIENT_AUTHORIZATION_DISCORD = 'client_authorizationDiscord',
   CLIENT_TOGGLE_CHARACTER_CREATOR = 'client_toggleCharacterCreator',
   CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA = 'client_creatorUpdateHeadBlendData',
   CLIENT_CREATOR_CHANGE_PED_MODEL = 'client_creatorChangePedModel',

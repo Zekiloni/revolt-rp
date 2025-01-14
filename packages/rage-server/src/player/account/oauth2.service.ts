@@ -2,14 +2,15 @@ import axios from 'axios';
 import { oauth2Config } from '../../core/oauth2.config';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
+  console.log('getDiscordAccessToken');
   return axios.post(
     oauth2Config.DISCORD.TOKEN_ENDPOINT,
     new URLSearchParams({
-      client_id: 'CLIENT_ID',
-      client_secret: 'CLIENT_SECRET',
+      client_id: '1328754122987405363',
+      client_secret: 'EDQg_CocwQigyuPWSFcXWv7JacvELsFR',
       grant_type: 'authorization_code',
       code: authorizationCode,
-      redirect_uri: 'REDIRECT_URI',
+      redirect_uri: 'https://localhost:3000/auth/discord/code',
     }).toString(),
     {
       headers: {
@@ -25,6 +26,7 @@ async function getDiscordAccessToken(authorizationCode: string): Promise<string>
 }
 
 async function getDiscordUserProfile(accessToken: string) {
+  console.log('getDiscordUserProfile for accessToken', accessToken);
   return axios.get(oauth2Config.DISCORD.USER_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${accessToken}`
