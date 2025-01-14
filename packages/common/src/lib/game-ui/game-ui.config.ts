@@ -3,7 +3,7 @@ import { GameUiKey } from './game-ui-key.enum';
 
 export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.Authorization]: {
-    isActive: false,
+    isActive: true,
     freezeControls: true,
     mouse: true,
     disableChat: true
