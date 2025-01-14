@@ -44,5 +44,12 @@ function saveAuthorizationUsername(username: string) {
   saveStorage(StorageDataKey.Username, username);
 }
 
+function discordOAuth2() {
+  mp.discord.requestOAuth2(authConfig.discordAppId)
+    .then((response: string) => {
+      //triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_DISCORD, response);
+    });
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, toggleAuthorization);
-on(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, saveAuthorizationUsername)
+on(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, saveAuthorizationUsername);
