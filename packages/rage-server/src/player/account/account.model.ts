@@ -43,8 +43,10 @@ export class Account extends Document implements IAccount {
   @prop({ required: true })
   emailAddress: string;
 
+  @prop({ required: true })
   socialClubUsername: string;
 
+  @prop({ required: true })
   socialClubId: string;
 
   @prop({ required: false, default: null })

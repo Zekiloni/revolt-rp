@@ -3,15 +3,14 @@ import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
-  console.log('getDiscordAccessToken');
   return axios.post<DiscordOAuth2TokenResponse>(
     oauth2Config.DISCORD.TOKEN_ENDPOINT,
     new URLSearchParams({
       client_id: '1328754122987405363',
       client_secret: 'EDQg_CocwQigyuPWSFcXWv7JacvELsFR',
-      grant_type: 'authorization_code',
+      grant_type: oauth2Config.DISCORD.GRANT_TYPE,
       code: authorizationCode,
-      redirect_uri: 'https://localhost:3000/auth/discord/code'
+      redirect_uri: oauth2Config.DISCORD.REDIRECT_URI
     }).toString(),
     {
       headers: {
