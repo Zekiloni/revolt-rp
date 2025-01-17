@@ -1,21 +1,22 @@
 import axios from 'axios';
+import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
   console.log('getDiscordAccessToken');
-  return axios.post(
+  return axios.post<DiscordOAuth2TokenResponse>(
     oauth2Config.DISCORD.TOKEN_ENDPOINT,
     new URLSearchParams({
       client_id: '1328754122987405363',
       client_secret: 'EDQg_CocwQigyuPWSFcXWv7JacvELsFR',
       grant_type: 'authorization_code',
       code: authorizationCode,
-      redirect_uri: 'https://localhost:3000/auth/discord/code',
+      redirect_uri: 'https://localhost:3000/auth/discord/code'
     }).toString(),
     {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
     }
   )
     .then((response) => response.data.access_token)
@@ -26,8 +27,7 @@ async function getDiscordAccessToken(authorizationCode: string): Promise<string>
 }
 
 async function getDiscordUserProfile(accessToken: string) {
-  console.log('getDiscordUserProfile for accessToken', accessToken);
-  return axios.get(oauth2Config.DISCORD.USER_ENDPOINT, {
+  return axios.get<DiscordProfile>(oauth2Config.DISCORD.USER_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
@@ -41,5 +41,6 @@ async function getDiscordUserProfile(accessToken: string) {
 
 export async function discordOAuth2(authorizationCode: string) {
   return getDiscordAccessToken(authorizationCode)
-    .then((accessToken) => getDiscordUserProfile(accessToken));
+    .then((accessToken) => getDiscordUserProfile(accessToken))
+    .then((profile) => console.log(profile));
 }
