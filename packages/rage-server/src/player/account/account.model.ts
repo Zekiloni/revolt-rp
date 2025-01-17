@@ -47,11 +47,14 @@ export class Account extends Document implements IAccount {
 
   socialClubId: string;
 
-  @prop({ required: true })
+  @prop({ required: false, default: null })
   password: string;
 
   @prop({ required: false })
   lastIpAddress?: string;
+
+  @prop({ required: false })
+  discordId?: string;
 
   @prop({ default: false })
   isEmailVerified: boolean;
