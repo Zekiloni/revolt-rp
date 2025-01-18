@@ -18,10 +18,8 @@ async function playerAuthorizeAccountHandler(authorize: AccountAuthorize, { play
 
 
 async function playerDiscordAuthorizeAccountHandler(authorizationCode: string, { player }: ProcedureListenerInfo<PlayerMp>) {
-  console.log('playerDiscordAuthorizeAccountHandler')
-  return discordOAuth2(authorizationCode)
+  return discordOAuth2(authorizationCode, player)
     .then(result => {
-      console.log('Discord Profile', result);
       return result;
     })
     .catch(catchError);

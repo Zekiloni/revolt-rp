@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
+import { createAccount, getAccountByDiscordId } from './account.service';
+import { AccountModel } from '../account-character.ref';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
   return axios.post<DiscordOAuth2TokenResponse>(
@@ -37,9 +39,24 @@ async function getDiscordUserProfile(accessToken: string) {
     });
 }
 
+async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: PlayerMp) {
+  const account = getAccountByDiscordId(profile.id);
 
-export async function discordOAuth2(authorizationCode: string) {
+  if (!account) {
+    return AccountModel.create({
+      discordId: profile.id,
+      username: profile.username,
+      lastIpAddress: player.ip,
+      socialClubId: player.socialClub,
+      socialClubUsername: player.rgscId
+    });
+  }
+
+  return account;
+}
+
+export async function discordOAuth2(authorizationCode: string, player: PlayerMp) {
   return getDiscordAccessToken(authorizationCode)
     .then((accessToken) => getDiscordUserProfile(accessToken))
-    .then((profile) => console.log(profile));
+    .then((profile) => getOrCreateAccountByDiscordAuth(profile, player));
 }

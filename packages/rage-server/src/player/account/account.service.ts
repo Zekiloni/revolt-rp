@@ -13,6 +13,11 @@ export const getAccountByUsername = async (username: string) => {
   }).exec();
 };
 
+
+export const getAccountByDiscordId = async (discordId: string) => {
+  return AccountModel.findOne({ discordId }).exec();
+}
+
 export const getAccountByUsernameOrEmail = async (username: string, email: string) => {
   return AccountModel.findOne({
     $or: [
