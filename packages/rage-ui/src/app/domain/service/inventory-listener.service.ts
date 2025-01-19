@@ -2,12 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { IItem, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from './rage-client.service';
-import {
-  addItem,
-  removeItem,
-  setInventory,
-  updateItem
-} from '../../store/inventory/inventory.actions';
+import { addItem, removeItem, setInventory, updateItem } from '../../store/inventory/inventory.actions';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 
 

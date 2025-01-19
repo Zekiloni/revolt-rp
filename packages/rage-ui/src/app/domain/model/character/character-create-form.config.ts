@@ -3,7 +3,6 @@ import { BloodType, CharacterGender } from '@revolt-rp/common';
 import { validateCharacterAge } from '../../util/character-validator.util';
 
 
-
 const NAME_VALIDATORS = [
   Validators.required,
   Validators.minLength(2),

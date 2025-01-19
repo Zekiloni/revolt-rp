@@ -9,12 +9,13 @@ import { TagModule } from 'primeng/tag';
 import { MessagesModule } from 'primeng/messages';
 import { AccordionModule } from 'primeng/accordion';
 import { PanelModule } from 'primeng/panel';
-import { headOverlays, CharacterGender, HeadBlendData, ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
+import { CharacterGender, HeadBlendData, headOverlays, ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
 import {
-  CreateCharacterForm,
+  CharacterAppearanceForm,
   characterCreateFormConfig,
+  CreateCharacterForm,
   HeadBlendDataForm,
-  CharacterAppearanceForm, HeadOverlayComponentForm
+  HeadOverlayComponentForm
 } from '../../domain/model/character';
 import { CharacterDetailsComponent } from './component/character-details';
 import { RageClientService } from '../../domain/service/rage-client.service';

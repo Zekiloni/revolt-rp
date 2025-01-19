@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
-import { createAccount, getAccountByDiscordId, setAuthorized } from './account.service';
+import { getAccountByDiscordId, setAuthorized } from './account.service';
 import { AccountModel } from '../account-character.ref';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
@@ -41,9 +41,7 @@ async function getDiscordUserProfile(accessToken: string) {
 
 async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: PlayerMp) {
   const account = await getAccountByDiscordId(profile.id);
-  console.log('getOrCreateAccountByDiscordAuth:Account:', account);
   if (!account) {
-    console.log('Creating account:', profile);
     return AccountModel.create({
       discordId: profile.id,
       username: profile.username,
@@ -57,13 +55,10 @@ async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: 
 }
 
 export async function discordOAuth2(authorizationCode: string, player: PlayerMp) {
-  console.log('Discord OAuth2:', authorizationCode);
-  console.log('Player:', player);
   return getDiscordAccessToken(authorizationCode)
     .then((accessToken) => getDiscordUserProfile(accessToken))
     .then((profile) => getOrCreateAccountByDiscordAuth(profile, player))
     .then((account) => {
-      console.log('SetAuthorized:', player, account);
       setAuthorized(player, account);
       return account;
     });
