@@ -11,7 +11,7 @@ const handleDatabaseConnectionError = (error: any) => {
   dbLogger.log('error', error);
 };
 
-mongoose.connect('mongodb://host.docker.internal:27017/revolt_rp')
+mongoose.connect('mongodb://localhost:27017/revolt_rp')
   .then(handleDatabaseConnection)
   .catch(handleDatabaseConnectionError);
 
