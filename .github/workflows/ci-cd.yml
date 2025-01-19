@@ -31,7 +31,7 @@ jobs:
        run: nx run rage-server:build
 
      - name: Build client
-       run: nx run rage-client:build
+       run: nx run rage-client:build:production
 
      - name: Build client UI
        run: nx run rage-ui:build

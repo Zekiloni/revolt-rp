@@ -1,3 +1,3 @@
 export const environment = {
-  BROWSER_URL: 'http://localhost:4200'
+  BROWSER_URL: 'package://ui/index.html'
 };
