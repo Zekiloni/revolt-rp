@@ -38,6 +38,7 @@ type AuthForm = {
 export class AuthorizationComponent implements OnInit, OnDestroy {
   WEBSITE_URL = environment.WEBSITE_URL;
   authForm: FormGroup<AuthForm>;
+  authLoading = false;
   rememberMe = false;
 
   account: IAccount | null = null;
@@ -75,6 +76,18 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
     );
   }
 
+  private handleSuccessfulAuth = (account: IAccount) => {
+    this.account = account;
+    this.authLoading = false;
+    if (this.rememberMe) {
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username);
+    }
+  };
+
+  private handleAuthError = (error: ApiError) => {
+    this.messageService.add({ severity: 'error', detail: error.message });
+  };
+
   submitAuthForm() {
     if (this.authForm && this.authForm.invalid) {
       return;
@@ -82,24 +95,17 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
 
     const payload = this.authForm.getRawValue();
 
+    this.authLoading = true;
     this.rageClientService.callServer<IAccount>(ProcedureKey.SERVER_PLAYER_AUTHORIZE, payload)
       .subscribe({ next: this.handleSuccessfulAuth, error: this.handleAuthError });
   }
 
-  private handleSuccessfulAuth = (account: IAccount) => {
-    this.account = account;
-
-    if (this.rememberMe) {
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, account.username);
-    }
-  };
-  private handleAuthError = (error: ApiError) => {
-    this.messageService.add({ severity: 'error', detail: error.message });
-  };
-
   discordAuthorize() {
-    console.log('Discord OAuth2');
-    this.rageClientService.callClient(ProcedureKey.CLIENT_AUTHORIZATION_DISCORD)
-      .subscribe((response) => console.log(JSON.stringify(response)));
+    this.authLoading = true;
+    this.rageClientService.callClient<IAccount>(ProcedureKey.CLIENT_AUTHORIZATION_DISCORD)
+      .subscribe({
+        next: this.handleSuccessfulAuth,
+        error: this.handleAuthError
+      });
   }
 }

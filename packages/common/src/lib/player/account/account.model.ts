@@ -14,7 +14,7 @@ export enum AdminType {
 
 export interface IAccount extends Base {
   username: string;
-  emailAddress: string;
+  emailAddress?: string;
   password: string;
   isEmailVerified: boolean;
   lastIpAddress?: string;

@@ -6,7 +6,8 @@ import { Character } from '../character/character.model';
 
 @pre<Account>('save', function(next) {
   if (this.isModified('password') || this.isNew) {
-    this.password = hashSync(this.password, genSaltSync(12));
+    if (this.password)
+      this.password = hashSync(this.password, genSaltSync(12));
   }
 
   return next();
@@ -40,8 +41,8 @@ export class Account extends Document implements IAccount {
 
   updatedBy: string;
 
-  @prop({ required: true })
-  emailAddress: string;
+  @prop({ required: false })
+  emailAddress?: string;
 
   @prop({ required: true })
   socialClubUsername: string;

@@ -45,7 +45,6 @@ function saveAuthorizationUsername(username: string) {
 }
 
 async function discordOAuth2() {
-  mp.console.logInfo("Discord OAuth2");
   return mp.discord.requestOAuth2(authConfig.discordAppId)
     .then((authorizationCode: string) =>
       callServer(ProcedureKey.SERVER_PLAYER_AUTHORIZE_DISCORD, authorizationCode));
