@@ -3,7 +3,7 @@ import { AdminType, hexColors, isNumber } from '@revolt-rp/common';
 import { registerCommand } from '../player-command.service';
 import { findPlayer, p2pTeleport } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
-import { setPlayerAdmin } from '../account/account.service';
+import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 
@@ -44,7 +44,7 @@ registerCommand({
     if (!target || !target.account)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
-    await setPlayerAdmin(target, parseInt(level));
+    await setAdministrator(target, parseInt(level));
 
     // tod
   }
