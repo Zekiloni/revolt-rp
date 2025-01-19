@@ -30,13 +30,13 @@ module.exports = {
       compiler: 'tsc',
       main: './src/index.ts',
       tsConfig: './tsconfig.app.json',
-      optimization: false,
+      optimization: true,
       runtimeChunk: false,
       outputHashing: 'none',
       fileReplacements: [
         {
           replace: 'packages/rage-client/src/environment/environment.ts',
-          with: 'packages/rage-client/src/environment/environment.development.ts'
+          with: 'packages/rage-client/src/environment/environment.production.ts'
         }
       ]
     })

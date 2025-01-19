@@ -23,6 +23,34 @@
           "buildTarget": "rage-client:build:production"
         }
       }
+    },
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/rage-client",
+        "main": "packages/rage-client/src/index.ts",
+        "tsConfig": "packages/rage-client/tsconfig.app.json",
+        "webpackConfig": "packages/rage-client/webpack.config.js",
+        "assets": [
+        ]
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "sourceMap": false,
+          "extractLicenses": false,
+          "inspect": true,
+          "webpackConfig": "packages/rage-client/webpack.config.js"
+        },
+        "production": {
+          "optimization": true,
+          "sourceMap": false,
+          "extractLicenses": false,
+          "inspect": false,
+          "webpackConfig": "packages/rage-client/webpack.production.config.js"
+        }
+      }
     }
   }
 }
