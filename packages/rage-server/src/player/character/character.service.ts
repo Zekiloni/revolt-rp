@@ -33,6 +33,19 @@ export const getCharacterById = (characterId: string) => {
 };
 
 
+export async function giveMoney(player: PlayerMp, amount: number) {
+  player.character.cash += amount;
+  await player.character.save();
+  player.setVariable(PlayerSharedDataType.Cash, player.character.cash);
+}
+
+export async function setMoney(player: PlayerMp, amount: number) {
+  player.character.cash = amount;
+  await player.character.save();
+  player.setVariable(PlayerSharedDataType.Cash, player.character.cash);
+}
+
+
 const loadPlayerVariables = (player: PlayerMp) => {
   player.setVariables({
     [PlayerSharedDataType.IsSpawned]: true,

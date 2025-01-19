@@ -6,6 +6,7 @@ import { notifyPlayer } from '../util/player-notify.util';
 import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
+import { giveMoney, setMoney } from '../character/character.service';
 
 
 registerCommand({
@@ -114,5 +115,51 @@ registerCommand({
     await playerGiveItem(target, itemName, parseInt(quantity));
 
     // todo: logging, message
+  }
+});
+
+
+registerCommand({
+  name: 'givemoney',
+  params: ['target', 'amount'],
+  description: 'todo',
+  async handle(player: PlayerMp, targetQuery: string, amount: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(amount))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'amount', type: 'number' })
+      });
+
+    await giveMoney(target, parseInt(amount));
+    // TODO: logging, message
+  }
+});
+
+
+registerCommand({
+  name: 'setmoney',
+  params: ['target', 'amount'],
+  description: 'todo',
+  async handle(player: PlayerMp, targetQuery: string, amount: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(amount))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'amount', type: 'number' })
+      });
+
+    await setMoney(target, parseInt(amount));
+    // TODO: logging, message
   }
 });

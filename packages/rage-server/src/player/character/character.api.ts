@@ -5,9 +5,9 @@ import { createCharacter, selectCharacter, spawnPlayerCharacter } from './charac
 
 const playerCreateCharacterHandler = (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
   createCharacter(player, characterCreate)
-    .then((character) => {
+    .then(async (character) => {
       player.character = character;
-      spawnPlayerCharacter(player, true);
+      await spawnPlayerCharacter(player, true);
     })
     .catch(e => console.log(e));
 };

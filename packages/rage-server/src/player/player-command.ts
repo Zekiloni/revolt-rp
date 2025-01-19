@@ -98,7 +98,7 @@ registerCommand({
 
     const text = [...content].join(' ');
 
-    [player, target].forEach(_target => _target.outputChatBox(`!${hexColors.GREY85}` + t('whisper_say', {
+    [player, target].forEach(_target => _target.outputChatBox(`!{${hexColors.GREY85}}` + t('whisper_say', {
       name: player.name,
       text
     })));
