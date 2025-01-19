@@ -15,7 +15,10 @@ export const getAccountByUsername = async (username: string) => {
 
 
 export const getAccountByDiscordId = async (discordId: string) => {
-  return AccountModel.findOne({ discordId }).exec();
+  return AccountModel.findOne({ discordId }).populate({
+    path: 'characters',
+    select: '-account'
+  }).exec();
 }
 
 export const getAccountByUsernameOrEmail = async (username: string, email: string) => {
@@ -40,8 +43,8 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
     ...accountCreate,
     password: hashSync(accountCreate.password, genSaltSync(12)),
     lastIpAddress: player.ip,
-    socialClubId: player.socialClub,
-    socialClubUsername: player.rgscId
+    socialClubId: player.rgscId,
+    socialClubUsername: player.socialClub
   });
 };
 

@@ -41,13 +41,14 @@ async function getDiscordUserProfile(accessToken: string) {
 
 async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: PlayerMp) {
   const account = await getAccountByDiscordId(profile.id);
+  console.log(account)
   if (!account) {
     return AccountModel.create({
       discordId: profile.id,
       username: profile.username,
       lastIpAddress: player.ip,
-      socialClubId: player.socialClub,
-      socialClubUsername: player.rgscId
+      socialClubId: player.rgscId,
+      socialClubUsername: player.socialClub
     });
   }
 
