@@ -28,8 +28,6 @@ export const playerGetAvailableItemSlot = (player: PlayerMp) => {
 };
 
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number) => {
-  const startTime = Date.now(); // Start timing
-
   const availableItemSlot = playerGetAvailableItemSlot(player);
 
   if (availableItemSlot == -1)
@@ -41,9 +39,6 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
   await player.character.save();
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
-
-  const endTime = Date.now();
-  console.log(`Total execution time: ${endTime - startTime}ms`);
 
   return item;
 };

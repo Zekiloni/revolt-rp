@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import {
-  on as rpcOn,
-  off as rpcOff,
-  register as rpcRegister,
-  unregister as rpcUnregister,
-  triggerServer as rpcTriggerServer,
-  triggerClient as rpcTriggerClient,
-  callServer as rpcCallServer,
-  callClient as rpcCallClient,
   callBrowsers as rpcCallBrowsers,
+  callClient as rpcCallClient,
+  callServer as rpcCallServer,
+  off as rpcOff,
+  on as rpcOn,
+  ProcedureListener,
+  register as rpcRegister,
   triggerBrowsers as rpcTriggerBrowsers,
-  ProcedureListener
+  triggerClient as rpcTriggerClient,
+  triggerServer as rpcTriggerServer,
+  unregister as rpcUnregister
 } from '@libertymp/rage-rpc';
 import { ApiError } from '@revolt-rp/common';
 
