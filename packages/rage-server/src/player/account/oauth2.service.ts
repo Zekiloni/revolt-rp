@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
-import { createAccount, getAccountByDiscordId } from './account.service';
+import { createAccount, getAccountByDiscordId, setAuthorized } from './account.service';
 import { AccountModel } from '../account-character.ref';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
@@ -58,5 +58,9 @@ async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: 
 export async function discordOAuth2(authorizationCode: string, player: PlayerMp) {
   return getDiscordAccessToken(authorizationCode)
     .then((accessToken) => getDiscordUserProfile(accessToken))
-    .then((profile) => getOrCreateAccountByDiscordAuth(profile, player));
+    .then((profile) => getOrCreateAccountByDiscordAuth(profile, player))
+    .then((account) => {
+      setAuthorized(player, account);
+      return account;
+    });
 }

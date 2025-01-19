@@ -45,7 +45,7 @@ export const createAccount = async (accountCreate: AccountCreate, { player }: Pr
   });
 };
 
-function onAccountAuthorized(player: PlayerMp, account: Account) {
+export function setAuthorized(player: PlayerMp, account: Account) {
   account.lastIpAddress = player.ip;
   account.lastLoginAt = new Date();
   player.account = account;
@@ -60,13 +60,13 @@ export const authorizeAccount = async (player: PlayerMp, username: string, passw
   if (!compareSync(password, account.password))
     throw new Error(t('incorrect_password'));
 
-  onAccountAuthorized(player, account);
+  setAuthorized(player, account);
 
   return account;
 };
 
 
-export const setPlayerAdmin = async (player: PlayerMp, adminLevel: AdminType) => {
+export const setAdministrator = async (player: PlayerMp, adminLevel: AdminType) => {
   player.setVariable(PlayerSharedDataType.Administrator, adminLevel);
   player.account.administrator = adminLevel;
   await player.account.save();
