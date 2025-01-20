@@ -41,7 +41,7 @@ async function getDiscordUserProfile(accessToken: string) {
 
 async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: PlayerMp) {
   const account = await getAccountByDiscordId(profile.id);
-  console.log(account)
+
   if (!account) {
     return AccountModel.create({
       discordId: profile.id,
