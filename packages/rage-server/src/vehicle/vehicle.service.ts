@@ -1,16 +1,32 @@
-// import { IVehicle } from '@revolt-rp/common';
-//
-//
-// export const createVehicle = (model: string, position: Vector3, temporary: boolean, options: IVehicle) => {
-//
-//
-//
-// }
-
-
-import { VehicleSharedDataType } from '@revolt-rp/common';
+import { IVehicle, VehicleSharedDataType } from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
+import { createDefaultVehicleInfo } from './vehicle.util';
 
+export const temporaryVehicles: Map<number, IVehicle> = new Map();
+
+
+export const createTemporaryVehicle = (model: string, position: Vector3, options: Partial<IVehicle>) => {
+  const vehicle = mp.vehicles.new(mp.joaat(model), position);
+
+  vehicle.engine = false;
+  vehicle.rotation = new mp.Vector3(options.rotation.x || 0, options.rotation.y || 0, options.rotation.z || 0);
+  const info = createDefaultVehicleInfo(options, model, position, vehicle);
+
+  loadVehicleVariables(vehicle, info);
+
+  temporaryVehicles.set(vehicle.id, info);
+
+  return vehicle;
+};
+
+
+function loadVehicleVariables(vehicle: VehicleMp, info: IVehicle) {
+  vehicle.setVariables({
+    [VehicleSharedDataType.Engine]: info.engine,
+    [VehicleSharedDataType.IsTemporary]: info.isTemporary,
+    [VehicleSharedDataType.VehicleId]: info.id || undefined
+  });
+}
 
 export const isTemporaryVehicle = (vehicle: VehicleMp) => {
   return vehicle.getVariable<boolean>(VehicleSharedDataType.IsTemporary);

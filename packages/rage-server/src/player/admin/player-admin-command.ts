@@ -10,8 +10,9 @@ import { giveMoney, setMoney } from '../character/character.service';
 
 
 registerCommand({
-  name: 'veh',
+  name: 'createvehicle',
   description: 'temporary veh',
+  aliases: ['veh'],
   administrator: AdminType.ADMINISTRATOR,
   params: ['model', 'primary color', 'secondary color'],
   handle(player: PlayerMp, model: string, primaryColor: string, secondaryColor: string) {
