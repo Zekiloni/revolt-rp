@@ -3,7 +3,7 @@ import { logger } from './logger.config';
 
 const dbLogger = logger('database');
 
-const DEFAULT_DB_URL = 'mongodb://localhost:27017/rage-server';
+const DEFAULT_DB_URL = 'mongodb://host.docker.internal:27017/revolt_rp';
 
 const handleDatabaseConnection = () => {
   dbLogger.log('info', 'Database connected successfully');
