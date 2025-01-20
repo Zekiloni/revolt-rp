@@ -9,7 +9,7 @@ const handleDatabaseConnection = () => {
   dbLogger.log('info', 'Database connected successfully');
 };
 
-const handleDatabaseConnectionError = (error: any) => {
+const handleDatabaseConnectionError = (error: never) => {
   dbLogger.log('error', error);
 };
 
