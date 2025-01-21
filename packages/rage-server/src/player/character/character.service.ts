@@ -17,7 +17,7 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
       cash: 5000
     });
 
-    player.account.update({ $push: { characters: character._id } });
+    player.account.characters.push(character);
 
     return character;
   } catch (e) {
