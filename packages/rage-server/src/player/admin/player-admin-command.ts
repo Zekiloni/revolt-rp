@@ -165,3 +165,48 @@ registerCommand({
     // TODO: logging, message
   }
 });
+
+
+registerCommand({
+  name: 'setweather',
+  params: ['weather'],
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, weather: string) {
+    mp.world.weather = weather.toUpperCase();
+  }
+});
+
+registerCommand({
+  name: 'settime',
+  params: ['hour'],
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, hour: string) {
+    if (!isNumber(hour))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'hour', type: 'number' })
+      });
+
+    mp.world.time.hour = parseInt(hour);
+  }
+});
+
+
+
+registerCommand({
+  name: 'slap',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    target.position.z = target.position.z + 2.5;
+  }
+})
