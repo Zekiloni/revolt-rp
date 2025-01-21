@@ -18,7 +18,7 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
     mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
     mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-    registerKeyBind(HexKeyCodes.E, true, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
+    registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
   }
 }
 
