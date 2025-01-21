@@ -8,6 +8,11 @@ function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: R
   }
 }
 
+function playerExitVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: number) {
+
+}
+
 mp.events.add({
-  playerEnterVehicle: playerEnterVehicleHandler
+  playerEnterVehicle: playerEnterVehicleHandler,
+  playerExitVehicle: playerExitVehicleHandler,
 })

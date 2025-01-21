@@ -17,6 +17,13 @@ declare global {
       BodyBlemishes = 11,
       AddBodyBlemishes = 12
     }
+
+    const enum VehicleSeat {
+      DRIVER = -1,
+      PASSENGER = 0,
+      LEFT_REAR = 1,
+      RIGHT_REAR = 2
+    }
   }
 
   declare interface DiscordMp {
