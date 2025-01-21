@@ -8,11 +8,12 @@ import { BloodType, CharacterGender } from '@revolt-rp/common';
 import { CreateCharacterForm } from '../../../../domain/model/character';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { TooltipModule } from 'primeng/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-character-details',
   standalone: true,
-  imports: [CommonModule, InputTextModule, ReactiveFormsModule, CalendarModule, DropdownModule, SelectButtonModule, TooltipModule],
+  imports: [CommonModule, InputTextModule, ReactiveFormsModule, CalendarModule, DropdownModule, SelectButtonModule, TooltipModule, TranslatePipe],
   templateUrl: './character-details.component.html',
   styleUrl: './character-details.component.css'
 })
@@ -22,12 +23,12 @@ export class CharacterDetailsComponent {
   bloodTypes = Object.values(BloodType);
   genders: { label: string, icon: string, value: CharacterGender }[] = [
     {
-      label: 'Male',
+      label: 'male',
       value: CharacterGender.MALE,
       icon: 'pi pi-mars'
     },
     {
-      label: 'Female',
+      label: 'female',
       value: CharacterGender.FEMALE,
       icon: 'pi pi-venus'
     }

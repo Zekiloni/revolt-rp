@@ -11,6 +11,7 @@ import { environment } from '../../../environments/environment';
 import { AutoFocus } from 'primeng/autofocus';
 import { MessageService } from 'primeng/api';
 import { CharacterSelectorComponent } from '../character-selector';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 type AuthForm = {
@@ -30,12 +31,14 @@ type AuthForm = {
     ReactiveFormsModule,
     AutoFocus,
     CharacterSelectorComponent,
-    FormsModule
+    FormsModule,
+    TranslatePipe
   ],
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css'
 })
 export class AuthorizationComponent implements OnInit, OnDestroy {
+  SERVER_NAME = environment.SERVER_NAME;
   WEBSITE_URL = environment.WEBSITE_URL;
   authForm: FormGroup<AuthForm>;
   authLoading = false;
