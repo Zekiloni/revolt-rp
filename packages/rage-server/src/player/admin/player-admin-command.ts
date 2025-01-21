@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { AdminType, hexColors, isNumber } from '@revolt-rp/common';
 import { registerCommand } from '../player-command.service';
-import { findPlayer, p2pTeleport } from '../util/player.util';
+import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
@@ -64,7 +64,7 @@ registerCommand({
     if (!target || !target.account)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
-    p2pTeleport(player, target);
+    teleportPlayerToPlayer(player, target);
     // todo, extract into method, messaging
   }
 });
@@ -81,7 +81,7 @@ registerCommand({
     if (!target || !target.account)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
-    p2pTeleport(target, player);
+    teleportPlayerToPlayer(target, player);
     // todo: logging, messaging
   }
 });
