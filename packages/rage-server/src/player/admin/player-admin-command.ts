@@ -18,6 +18,7 @@ registerCommand({
   handle(player: PlayerMp, model: string, primaryColor: string, secondaryColor: string) {
     const vehicle = mp.vehicles.new(mp.joaat(model), player.position);
     vehicle.setColor(parseInt(primaryColor), parseInt(secondaryColor));
+    vehicle.engine = false;
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
   }
 });

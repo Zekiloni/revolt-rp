@@ -7,7 +7,7 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
-import { AccountModel, CharacterModel } from '../account-character.ref';
+import { CharacterModel } from '../account-character.ref';
 
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
@@ -17,10 +17,7 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
       cash: 5000
     });
 
-    await AccountModel.updateOne(
-      { id: player.account.id },
-      { $push: { characters: character._id } }
-    );
+    player.account.update({ $push: { characters: character._id } });
 
     return character;
   } catch (e) {
@@ -31,7 +28,6 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
 export const getCharacterById = (characterId: string) => {
   return CharacterModel.findById(characterId);
 };
-
 
 export async function giveMoney(player: PlayerMp, amount: number) {
   player.character.cash += amount;
