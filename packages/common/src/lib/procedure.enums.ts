@@ -44,4 +44,5 @@ export const enum ProcedureKey {
   BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
+  SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE ='server_playerToggleVehicleEngine',
 }
