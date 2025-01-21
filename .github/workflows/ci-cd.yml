@@ -91,15 +91,13 @@ jobs:
                   --network revolt_network \
                   -p 27017:27017 \
                   -v mongo_data:/data/db \
-                  -e MONGO_INITDB_ROOT_USERNAME=${{ secrets.DATABASE_ROOT_USERNAME }} \
-                  -e MONGO_INITDB_ROOT_PASSWORD=${{ secrets.DATABASE_ROOT_PASSWORD }} \
-                  mongo:latest --auth
+                  mongo:latest
               fi
 
               docker run -d --name ragemp_server \
                --network revolt_network \
                -p 22005:22005/udp -p 22005:22005/tcp -p 22006:22006/tcp \
-               -e DATABASE_URL="mongodb://${{ secrets.DATABASE_ROOT_USERNAME }}:${{ secrets.DATABASE_ROOT_PASSWORD }}@mongo_db:27017/revolt_rp" \
+               -e DATABASE_URL="mongodb://mongo_db:27017/revolt_rp" \
                zekiloni2/revolt_rp:latest
 
               echo "Deployment finished."
