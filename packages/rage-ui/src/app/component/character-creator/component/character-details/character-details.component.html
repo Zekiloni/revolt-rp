@@ -1,26 +1,26 @@
 <div class="formgrid grid py-4 px-4" [formGroup]="characterCreateForm">
   <div class="field mb-4 col-12 md:col-6">
-    <label for="first-name" class="font-medium text-900">First Name</label>
+    <label for="first-name" class="font-medium text-900">{{ 'first_name' | translate }}</label>
     <input id="first-name" type="text" pInputText formControlName="firstName">
   </div>
 
   <div class="field mb-4 col-12 md:col-6">
-    <label for="middle-name" class="font-medium text-900">Middle Name</label>
+    <label for="middle-name" class="font-medium text-900">{{ 'middle_name' | translate }}</label>
     <input id="middle-name" type="text" pInputText formControlName="middleName">
   </div>
 
   <div class="field mb-4 col-12 md:col-6">
-    <label for="last-name" class="font-medium text-900">Last Name</label>
+    <label for="last-name" class="font-medium text-900">{{ 'last_name' | translate }}</label>
     <input id="last-name" type="text" pInputText formControlName="lastName">
   </div>
 
   <div class="field mb-4 col-12 md:col-6">
-    <label for="birthday" class="font-medium text-900">Birthday</label>
+    <label for="birthday" class="font-medium text-900">{{ 'birthday' | translate }}</label>
     <p-calendar id="birthday" formControlName="birthday" [showIcon]="true" placeholder="mm/dd/yyyy" />
   </div>
 
   <div class="field mb-4 col-12 md:col-6">
-    <label for="gender" class="font-medium text-900">Gender</label>
+    <label for="gender" class="font-medium text-900">{{ 'gender' | translate }}</label>
     <p-selectButton
       id="gender"
       [options]="genders"
@@ -30,28 +30,28 @@
       optionLabel="label">
       <ng-template let-item pTemplate>
         <i [class]="item.icon"></i>
-        <span class="ml-2">{{ item.label}}</span>
+        <span class="ml-2">{{ item.label | translate }}</span>
       </ng-template>
     </p-selectButton>
   </div>
 
   <div class="field mb-4 col-12 md:col-6">
-    <label for="blood-type" class="font-medium text-900">Blood Type</label>
+    <label for="blood-type" class="font-medium text-900">{{ 'blood_type' | translate }}</label>
     <p-dropdown
       id="blood-type"
       [options]="bloodTypes"
       formControlName="bloodType"
       class="block"
-      placeholder="Select a Blood type" />
+      [placeholder]="'select_a_blood_type' | translate" />
   </div>
 
   <div class="field col-12 md:col-6">
-    <label for="origin" class="font-medium text-900">Origin</label>
+    <label for="origin" class="font-medium text-900">{{ 'origin' | translate }}</label>
     <input id="origin" type="text" pInputText formControlName="origin" placeholder="Los Santos, San Andreas">
   </div>
 
   <div class="field col-12 md:col-6">
-    <label for="accent" class="font-medium text-900">Accent</label>
+    <label for="accent" class="font-medium text-900">{{ 'accent' | translate }}</label>
     <input id="accent" type="text" pInputText formControlName="accent" placeholder="American">
   </div>
 </div>

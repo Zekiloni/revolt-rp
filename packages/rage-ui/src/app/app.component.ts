@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { enUs, GameUiKey, ProcedureKey } from '@revolt-rp/common';
+import { srRs, enUs, GameUiKey, ProcedureKey } from '@revolt-rp/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
 import { CharacterSelectorComponent } from './component/character-selector';
@@ -18,6 +18,7 @@ import { InventoryComponent } from './component/inventory';
 import { HudComponent } from './component/hud';
 import { PlayerMenuComponent } from './component/player-menu';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../environments/environment';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class AppComponent implements OnInit {
 
   private initializeLanguages() {
     this.translateService.setTranslation('en-US', enUs);
-    this.translateService.setDefaultLang('en-US');
+    this.translateService.setTranslation('sr-RS', srRs);
+    this.translateService.setDefaultLang(environment.DEFAULT_LANGUAGE);
   }
 
   ngOnInit(): void {

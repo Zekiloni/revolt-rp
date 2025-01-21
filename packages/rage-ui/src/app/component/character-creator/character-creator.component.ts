@@ -1,6 +1,7 @@
 import { combineLatestWith, map, startWith } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { StepperModule } from 'primeng/stepper';
@@ -30,7 +31,7 @@ import { HeadOverlayComponent } from './component/head-overlay';
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent],
+  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent, TranslatePipe],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
@@ -137,7 +138,11 @@ export class CharacterCreatorComponent {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_BEARD, value);
   }
 
-  private handleHeadOverlayValueChange(overlayId: number, value: Partial<{ value: number, opacity: number, color: number }>) {
+  private handleHeadOverlayValueChange(overlayId: number, value: Partial<{
+    value: number,
+    opacity: number,
+    color: number
+  }>) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, [overlayId, value]);
   }
 
