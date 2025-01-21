@@ -58,7 +58,7 @@ export const setPlayerTextBubble = (player: PlayerMp, bubble: IPlayerTextBubble 
 };
 
 
-export const p2pTeleport = (player: PlayerMp, target: PlayerMp) => {
+export const teleportPlayerToPlayer = (player: PlayerMp, target: PlayerMp) => {
   if (player.vehicle) {
     player.dimension = target.dimension;
 
