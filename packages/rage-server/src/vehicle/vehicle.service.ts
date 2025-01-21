@@ -5,7 +5,7 @@ import { createDefaultVehicleInfo } from './vehicle.util';
 export const temporaryVehicles: Map<number, IVehicle> = new Map();
 
 
-export const createTemporaryVehicle = (model: string, position: Vector3, options: Partial<IVehicle>) => {
+export const createTemporaryVehicle = (model: string, position: Vector3, options: Partial<IVehicle> = {}) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position);
 
   vehicle.engine = false;

@@ -1,6 +1,4 @@
 
-
-
 function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == -1) {
     mp.game.vehicle.defaultEngineBehaviour = false;
