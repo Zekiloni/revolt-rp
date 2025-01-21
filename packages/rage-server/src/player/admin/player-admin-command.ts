@@ -210,3 +210,43 @@ registerCommand({
     target.position.z = target.position.z + 2.5;
   }
 })
+
+registerCommand({
+  name: 'revive',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    target.health = 100;
+    target.spawn(target.position);
+  }
+})
+
+
+registerCommand({
+  name: 'sethealth',
+  params: ['target', 'health'],
+  description: 'todo',
+  aliases: ['sethp'],
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, targetQuery: string, amount: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(amount))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'hour', type: 'number' })
+      });
+
+    target.health = parseInt(amount);
+  }
+})
