@@ -18,6 +18,7 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
     });
 
     player.account.characters.push(character);
+    await  player.account.save();
 
     return character;
   } catch (e) {
