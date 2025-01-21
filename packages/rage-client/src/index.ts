@@ -13,3 +13,4 @@ import './player/player-inventory';
 import './player/other/player-bubble';
 import './player/other/player-freeze';
 
+import './vehicle/vehicle-core';

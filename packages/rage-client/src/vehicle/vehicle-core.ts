@@ -1,6 +1,6 @@
-import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
-import { HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
 import { triggerServer } from '@libertymp/rage-rpc';
+import { HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
+import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 
 const VEHICLE_ENGINE_TOGGLE_HOLD_TIME = 2000;
 
