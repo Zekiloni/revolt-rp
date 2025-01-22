@@ -11,5 +11,6 @@ export const defaultHiddenHudComponents: RageEnums.HudComponent[] = [
   RageEnums.HudComponent.MP_MESSAGE,
   RageEnums.HudComponent.WEAPON_ICON,
   RageEnums.HudComponent.WEAPON_WHEEL,
-  RageEnums.HudComponent.WEAPON_WHEEL_STATS
+  RageEnums.HudComponent.WEAPON_WHEEL_STATS,
+  RageEnums.HudComponent.HUD_RETICLE,
 ]

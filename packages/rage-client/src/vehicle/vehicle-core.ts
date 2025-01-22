@@ -24,7 +24,7 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
-    unregisterKeyBind(HexKeyCodes.E, true, toggleVehicleEngine);
+    unregisterKeyBind(HexKeyCodes.E, toggleVehicleEngine);
   }
 }
 

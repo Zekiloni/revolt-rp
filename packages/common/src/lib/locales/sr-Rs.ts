@@ -50,5 +50,9 @@ export const srRs = {
   'accent': 'Akcenat',
   'male': 'Muško',
   'female': 'Žensko',
-  'gender': 'Pol'
+  'gender': 'Pol',
+  'inventory': 'Inventar',
+  'split_item': 'Podeli Predmet',
+  'drop_item': 'Baci Predmet',
+  'give_item': 'Daj Predmet',
 };

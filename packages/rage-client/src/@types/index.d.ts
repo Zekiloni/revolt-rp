@@ -2,6 +2,12 @@ declare global {
 
   declare namespace RageEnums {
 
+    namespace Hud {
+      const enum Component {
+        HUD_RETICLE = 14
+      }
+    }
+
     const enum HeadOverlays {
       Blemishes = 0,
       FacialHair = 1,

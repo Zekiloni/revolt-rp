@@ -5,8 +5,6 @@ const dbLogger = logger('database');
 
 const DATABASE_URI = process.env['DATABASE_URL'] || 'mongodb://host.docker.internal:27017/revolt_rp';
 
-console.log('DATABASE_URI', DATABASE_URI);
-
 const handleDatabaseConnection = () => {
   dbLogger.log('info', 'Database connected successfully');
 };

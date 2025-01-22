@@ -9,6 +9,7 @@ import './player/authorization/player-spawn';
 import './player/player-animation';
 import './player/player-hud';
 import './player/player-inventory';
+import './player/player-weapon';
 
 import './player/other/player-bubble';
 import './player/other/player-freeze';

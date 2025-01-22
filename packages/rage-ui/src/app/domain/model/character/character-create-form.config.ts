@@ -1,6 +1,6 @@
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BloodType, CharacterGender } from '@revolt-rp/common';
-import { validateAdultAge } from '../../util/adult.validator';
+import { characterAgeValidator } from '../../util/character-age.validator';
 import { capitalLetterValidator } from '../../util/capital-letter.validator';
 
 
@@ -18,7 +18,7 @@ export const characterCreateFormConfig = (formBuilder: FormBuilder): FormGroup =
     lastName: new FormControl<string>('', NAME_VALIDATORS),
     gender: new FormControl<CharacterGender>(CharacterGender.MALE, [Validators.required]),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    birthday: new FormControl<Date | null>(null!, [Validators.required, validateAdultAge]),
+    birthday: new FormControl<Date | null>(null!, [Validators.required, characterAgeValidator]),
     origin: new FormControl<string>('', [Validators.required]),
     bloodType: new FormControl<BloodType>(BloodType.O_POSITIVE, [Validators.required]),
     accent: new FormControl<string>(''),
