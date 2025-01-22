@@ -95,6 +95,7 @@ function getNearbyPlayersHandler() {
 
 SELECT_ITEM_KEYBINDINGS.forEach((hexKeyCode, index) =>
   registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, INVENTORY_VALIDATORS));
+
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);
 

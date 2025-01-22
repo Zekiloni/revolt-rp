@@ -1,10 +1,11 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
+import { DialogService } from 'primeng/dynamicdialog';
 import { Store } from '@ngrx/store';
 import { MenuItem } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
-import { DialogService } from 'primeng/dynamicdialog';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
 import { IItem, ProcedureKey } from '@revolt-rp/common';
@@ -20,7 +21,7 @@ import { GiveItemComponent, GiveItemDialogOutput } from './component/give-item';
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe],
   providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
@@ -38,17 +39,17 @@ export class InventoryComponent {
 
   itemOptionMenuItems: MenuItem[] = [
     {
-      label: 'Split Item',
+      label: 'split_item',
       icon: 'pi pi-arrows-h',
       command: () => this.openSplitItemMenu()
     },
     {
-      label: 'Drop Item',
+      label: 'drop_item',
       icon: 'pi pi-arrow-down',
       command: () => this.dropItem()
     },
     {
-      label: 'Give Item',
+      label: 'give_item',
       icon: 'pi pi-share-alt',
       command: () => this.opeGiveItemMenu()
     }
@@ -125,7 +126,7 @@ export class InventoryComponent {
     const itemToDrop = draggingItem ?? this.selectedItem;
 
     if (itemToDrop && itemToDrop.id)
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, draggingItem);
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, itemToDrop);
   }
 
   private changeSlot(draggingItem: IItem, slot: number) {

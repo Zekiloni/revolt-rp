@@ -1,6 +1,7 @@
 import { IBaseItem, ItemType } from '@revolt-rp/common';
 import { WeaponItem } from './weapon-item.model';
 import { Item } from '../item.model';
+import { AmmoItem } from './ammo-item.model';
 
 export const NOT_STACKABLE_ITEM_TYPES = [
   ItemType.WEAPON,
@@ -47,6 +48,10 @@ export abstract class BaseItem implements IBaseItem {
   }
 
   get isWeapon() {
-    return this instanceof WeaponItem;
+    return this.type.includes(ItemType.WEAPON);
+  }
+
+  get isAmmo() {
+    return this.type.includes(ItemType.AMMUNITION);
   }
 }

@@ -10,7 +10,7 @@ import { P2P_MAX_DISTANCE } from '../player-interaction';
 
 
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
-  player.character.inventory = player.character.inventory.filter(element => element.id === itemId);
+  player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);
   await player.character.save();
 }
 
@@ -138,11 +138,10 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
 
 
 export const playerSelectItem = (player: PlayerMp, slot: number) => {
-  const selectedItem = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+  const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
 
-  if (selectedItem != null) {
-    const alreadySelectedItem = player.character.inventory.find((item: Item) => item.id === selectedItem) as Item | undefined;
-
+  if (selectedItemId != null) {
+    const alreadySelectedItem = player.character.inventory.find((item: Item) => item.id === selectedItemId) as Item | undefined;
     if (alreadySelectedItem) {
       player.setVariable(PlayerSharedDataType.SelectedItemId, null);
       if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {

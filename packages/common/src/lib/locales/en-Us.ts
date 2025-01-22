@@ -50,6 +50,10 @@ export const enUs = {
   'accent': 'Accent',
   'male': 'Male',
   'female': 'Female',
-  'gender': 'Gender'
+  'gender': 'Gender',
+  'inventory': 'Inventory',
+  'split_item': 'Split Item',
+  'drop_item': 'Drop Item',
+  'give_item': 'Give Item',
 };
 
