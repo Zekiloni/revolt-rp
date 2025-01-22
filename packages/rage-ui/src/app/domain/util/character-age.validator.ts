@@ -2,7 +2,7 @@ import { AbstractControl } from '@angular/forms';
 
 export const CHARACTER_MIN_AGE = 18, CHARACTER_MAX_AGE = 90;
 
-export function validateCharacterAge(control: AbstractControl) {
+export function characterAgeValidator(control: AbstractControl) {
   if (!control.value) {
     return null;
   }
