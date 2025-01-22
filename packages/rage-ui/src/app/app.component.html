@@ -1,14 +1,14 @@
 <main class="w-full h-screen">
   @if ($isGameInterfaceActive(GameUiKey.Authorization) | async) {
-    <app-authorization />
+    <app-authorization @fadeInOut />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.CharacterCreator) | async) {
-    <app-character-creator />
+    <app-character-creator @fadeInOut />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.Hud) | async) {
-    <app-hud />
+    <app-hud @fadeInOut />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.VehicleHud) | async) {
@@ -16,11 +16,11 @@
   }
 
   @if ($isGameInterfaceActive(GameUiKey.Inventory) | async) {
-    <app-inventory />
+    <app-inventory @fadeInOut />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.PlayerMenu) | async) {
-    <app-player-menu />
+    <app-player-menu @fadeInOut />
   }
 
   <app-text-chat />
