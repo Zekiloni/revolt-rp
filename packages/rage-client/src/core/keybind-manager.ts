@@ -1,76 +1,77 @@
+import { HexKeyCodes } from '@revolt-rp/common';
+
 type KeyBindHandler = () => void;
 type KeyBindValidatorFn = () => boolean;
 
 interface KeyBind {
+  keyCode: HexKeyCodes;
   handler: KeyBindHandler;
+  keydown: boolean;
   holdTime?: number;
   startTime?: number;
   validators?: KeyBindValidatorFn[];
 }
 
-const activeKeyBinds: Map<number, Map<boolean, KeyBind>> = new Map();
+const activeKeyBinds: KeyBind[] = [];
 
-export function registerKeyBind(keycode: number, keydown: boolean, handler: KeyBindHandler, holdTime = 0, validators?: KeyBindValidatorFn[]): void {
-  if (isKeyBindRegistered(keycode, keydown, handler)) return;
+export const canActivateKeyBind = (validators: KeyBindValidatorFn[] = []): boolean => {
+  return !mp.players.local.isTypingInTextChat && validators.every(validator => validator());
+};
 
-  const keyBind: KeyBind = { handler, holdTime, startTime: undefined };
+export function registerKeyBind(
+  keyCode: number,
+  keydown: boolean,
+  handler: KeyBindHandler,
+  holdTime = 0,
+  validators?: KeyBindValidatorFn[]
+): void {
+  if (isKeyBindRegistered(keyCode, keydown, handler)) return;
 
-  if (!activeKeyBinds.has(keycode)) {
-    activeKeyBinds.set(keycode, new Map());
-  }
+  const keyBind: KeyBind = { keyCode, handler, keydown, holdTime, startTime: undefined };
+  activeKeyBinds.push(keyBind);
 
-  activeKeyBinds.get(keycode)?.set(keydown, keyBind);
-
-  if (keydown) {
-    mp.keys.bind(keycode, keydown, () => {
-      if (mp.players.local.isTypingInTextChat)
-        return;
-
-      if (validators && validators.length) {
-        const validation = validators.every(validator => validator());
-
-        if (!validation)
-          return;
-      }
-
+  if (holdTime) {
+    mp.keys.bind(keyCode, true, () => {
+      if (!canActivateKeyBind(validators)) return;
       keyBind.startTime = Date.now();
-      handler();
     });
-  } else {
-    mp.keys.bind(keycode, keydown, () => {
-      if (mp.players.local.isTypingInTextChat)
-        return;
-
-      if (validators && validators.length) {
-        const validation = validators.every(validator => validator());
-
-        if (!validation)
-          return;
-      }
+    mp.keys.bind(keyCode, false, () => {
+      if (!canActivateKeyBind(validators)) return;
 
       const startTime = keyBind.startTime;
       delete keyBind.startTime;
 
-      if (!startTime || (holdTime && Date.now() - startTime >= holdTime)) {
+      if (!holdTime || (startTime && Date.now() - startTime >= holdTime)) {
         handler();
       }
+    });
+  } else {
+    mp.keys.bind(keyCode, true, () => {
+      if (!canActivateKeyBind(validators)) return;
+      handler();
     });
   }
 }
 
-export function unregisterKeyBind(keycode: number, keydown: boolean, handler: KeyBindHandler): void {
-  const keyBind = activeKeyBinds.get(keycode)?.get(keydown);
-  if (keyBind && keyBind.handler === handler) {
-    mp.keys.unbind(keycode, keydown);
-    activeKeyBinds.get(keycode)?.delete(keydown);
+export function unregisterKeyBind(keyCode: number, handler: KeyBindHandler): void {
+  const keyBind = activeKeyBinds.find(
+    (keyBind) => keyBind.keyCode === keyCode && keyBind.handler === handler
+  );
 
-    if (activeKeyBinds.get(keycode)?.size === 0) {
-      activeKeyBinds.delete(keycode);
-    }
+  if (!keyBind) return;
+
+  mp.keys.unbind(keyCode, keyBind.keydown, handler);
+
+  if (keyBind.holdTime)
+    mp.keys.unbind(keyCode, false, handler);
+
+  const index = activeKeyBinds.indexOf(keyBind);
+  if (index !== -1) {
+    activeKeyBinds.splice(index, 1);
   }
 }
 
 export function isKeyBindRegistered(keycode: number, keydown: boolean, handler: KeyBindHandler): boolean {
-  const keyBind = activeKeyBinds.get(keycode)?.get(keydown);
+  const keyBind = activeKeyBinds.find(keyBind => keyBind.keyCode === keycode && keyBind.handler === handler);
   return !!keyBind && keyBind.handler === handler;
 }
