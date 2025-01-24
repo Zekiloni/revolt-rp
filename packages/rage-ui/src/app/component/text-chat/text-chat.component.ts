@@ -154,7 +154,7 @@ export class TextChatComponent implements OnInit {
       setTimeout(() => {
         this.chatInput.nativeElement.focus();
         this.inputContent = null;
-      });
+      }, 50);
     } else {
       this.chatInput.nativeElement.blur();
       this.inputContent = null;
