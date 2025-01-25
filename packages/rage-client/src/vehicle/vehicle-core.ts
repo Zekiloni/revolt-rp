@@ -97,6 +97,8 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
     hideGameInterface(GameUiKey.VehicleHud);
     mp.events.remove('render', updateVehicleHud);
 
+    // TODO: send to the server & save vehicle mileage & fuel
+
     currentMileage = 0.0;
     currentFuel = 0;
     lastVehiclePosition = null;
