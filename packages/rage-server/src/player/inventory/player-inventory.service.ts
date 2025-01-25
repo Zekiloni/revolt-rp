@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { createItem, destroyItem, getItemById, isWeaponItem } from '../../item/item.service';
+import { createItem, destroyItem, destroyItemById, getItemById, isWeaponItem } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { Item } from '../../item/item.model';
@@ -52,12 +52,24 @@ export const clearPlayerInventory = async (player: PlayerMp) => {
 export const removePlayerWeapons = async (player: PlayerMp) => {
   player.removeAllWeapons();
 
-  const playerWeaponItems = player.character.inventory.filter(isWeaponItem);
+  const playerWeaponItems = player.character.inventory.filter(isWeaponItem)
+    .map(item => item.id);
 
-  player.character.inventory = player.character.inventory.filter(item => !playerWeaponItems.includes(item));
+  const playerSelectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+  if (playerWeaponItems.includes(playerSelectedItemId)) {
+    const selectedItem = player.character.inventory.find(item => item.id === playerSelectedItemId) as Item | undefined;
+
+    if (selectedItem && selectedItem.data && selectedItem.data.deselect) {
+      selectedItem.data.deselect(player, selectedItem);
+    }
+
+    player.setVariable(PlayerSharedDataType.SelectedItemId, null);
+  }
+
+  player.character.inventory = player.character.inventory.filter(item => !playerWeaponItems.includes(item.id));
   await player.character.save();
 
-  playerWeaponItems.forEach(destroyItem);
+  playerWeaponItems.forEach(destroyItemById);
 };
 
 export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId) => {
