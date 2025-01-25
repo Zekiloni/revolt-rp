@@ -23,6 +23,10 @@
     <app-player-menu @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.Offer) | async) {
+    <app-player-offer @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />

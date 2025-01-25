@@ -55,4 +55,5 @@ export const srRs = {
   'split_item': 'Podeli Predmet',
   'drop_item': 'Baci Predmet',
   'give_item': 'Daj Predmet',
+  'offer': 'Ponuda',
 };
