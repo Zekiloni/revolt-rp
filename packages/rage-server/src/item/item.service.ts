@@ -36,4 +36,10 @@ export const isWeaponItem = async (item: Item) => {
 }
 
 
-
+export const getNearbyItem = async (player: PlayerMp, radius: number) => {
+  const items = await getAllDroppedItems();
+  return items.reduce((closestItem, item) => {
+    const distance = player.dist(item.position);
+    return (distance <= radius && (!closestItem || distance < player.dist(closestItem.position))) ? item : closestItem;
+  }, null);
+}

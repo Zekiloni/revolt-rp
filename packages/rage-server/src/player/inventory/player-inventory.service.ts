@@ -268,6 +268,4 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
         detail: t('not_enough_quantity')
       });
   }
-
-
 };
