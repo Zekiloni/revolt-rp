@@ -38,7 +38,7 @@ function calculateVehicleConsumption() {
     deltaDistance = Math.sqrt(dx * dx + dy * dy + dz * dz);
   }
 
-  currentMileage += parseFloat((deltaDistance * MILEAGE_CONVERSION).toFixed(2));
+  currentMileage += (deltaDistance * MILEAGE_CONVERSION);
 
   const fuelConsumption = deltaDistance * FUEL_CONSUMPTION_RATE;
   currentFuel = Math.max(0, currentFuel - fuelConsumption);
