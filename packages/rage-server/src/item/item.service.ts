@@ -23,5 +23,9 @@ export const destroyItem = async (item: Item) => {
 };
 
 
+export const isWeaponItem = async (item: Item) => {
+  return item.data.isWeapon;
+}
+
 
 

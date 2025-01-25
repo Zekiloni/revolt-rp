@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { createItem, getItemById } from '../../item/item.service';
+import { createItem, destroyItem, getItemById, isWeaponItem } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { Item } from '../../item/item.model';
@@ -12,7 +12,7 @@ import { P2P_MAX_DISTANCE } from '../player-interaction';
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
   player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);
   await player.character.save();
-}
+};
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
   let localSlot = -1;
@@ -41,6 +41,23 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
 
   return item;
+};
+
+export const clearPlayerInventory = async (player: PlayerMp) => {
+  player.character.inventory.forEach(destroyItem);
+  player.character.inventory = [];
+  await player.character.save();
+};
+
+export const removePlayerWeapons = async (player: PlayerMp) => {
+  player.removeAllWeapons();
+
+  const playerWeaponItems = player.character.inventory.filter(isWeaponItem);
+
+  player.character.inventory = player.character.inventory.filter(item => !playerWeaponItems.includes(item));
+  await player.character.save();
+
+  playerWeaponItems.forEach(destroyItem);
 };
 
 export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId) => {
