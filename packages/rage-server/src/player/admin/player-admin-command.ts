@@ -5,7 +5,7 @@ import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
-import { playerGiveItem } from '../inventory/player-inventory.service';
+import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, setMoney } from '../character/character.service';
 
 
@@ -122,6 +122,38 @@ registerCommand({
 
 
 registerCommand({
+  name: 'clearinventory',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    await clearPlayerInventory(target);
+    // TODO: messages, logging
+  }
+})
+
+registerCommand({
+  name: 'disarm',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    await removePlayerWeapons(target);
+    // TODO: messages, logging
+  }
+})
+
+registerCommand({
   name: 'givemoney',
   params: ['target', 'amount'],
   description: 'todo',
@@ -172,7 +204,7 @@ registerCommand({
   params: ['weather'],
   description: 'todo',
   administrator: AdminType.ADMINISTRATOR,
-  handle(player: PlayerMp, weather: string) {
+  handle(_player: PlayerMp, weather: string) {
     mp.world.weather = weather.toUpperCase();
   }
 });
@@ -191,6 +223,7 @@ registerCommand({
       });
 
     mp.world.time.hour = parseInt(hour);
+    // TODO: messages, logging
   }
 });
 
