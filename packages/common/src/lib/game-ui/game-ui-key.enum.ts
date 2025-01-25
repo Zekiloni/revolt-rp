@@ -5,4 +5,5 @@ export enum GameUiKey {
   PlayerMenu = 'playerMenu',
   VehicleHud = 'vehicleHud',
   Inventory = 'inventory',
+  Offer = 'offer'
 }

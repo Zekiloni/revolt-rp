@@ -20,6 +20,10 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false
   },
 
+  [GameUiKey.Offer]: {
+    isActive: true
+  },
+
   [GameUiKey.VehicleHud]: {
     isActive: false
   },

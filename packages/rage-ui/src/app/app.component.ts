@@ -20,6 +20,7 @@ import { PlayerMenuComponent } from './component/player-menu';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { animate, style, transition, trigger } from '@angular/animations';
+import { PlayerOfferComponent } from './component/player-offer';
 
 
 @Component({
@@ -34,7 +35,8 @@ import { animate, style, transition, trigger } from '@angular/animations';
     InventoryComponent,
     HudComponent,
     VehicleHudComponent,
-    PlayerMenuComponent
+    PlayerMenuComponent,
+    PlayerOfferComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

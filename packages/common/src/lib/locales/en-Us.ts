@@ -55,5 +55,6 @@ export const enUs = {
   'split_item': 'Split Item',
   'drop_item': 'Drop Item',
   'give_item': 'Give Item',
+  'offer': 'Offer',
 };
 
