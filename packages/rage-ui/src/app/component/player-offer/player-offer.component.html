@@ -1,0 +1,14 @@
+<div class="absolute-bottom-center bottom-10">
+  <p-card [header]="'offer' | translate">
+    <p class="m-0 max-w-30rem break-words">
+      {{ description }}
+    </p>
+
+    <ng-template pTemplate="footer">
+      <div class="flex gap-3 mt-1">
+        <p-button label="PageDown" icon="pi pi-times" severity="danger" class="w-full" styleClass="w-full" />
+        <p-button label="PageUp" icon="pi pi-check" class="w-full" severity="success" styleClass="w-full" />
+      </div>
+    </ng-template>
+  </p-card>
+</div>
