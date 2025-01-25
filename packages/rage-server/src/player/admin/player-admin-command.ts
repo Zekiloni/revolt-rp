@@ -7,6 +7,7 @@ import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, setMoney } from '../character/character.service';
+import { destroyItem, getNearbyItem } from '../../item/item.service';
 
 
 registerCommand({
@@ -122,6 +123,20 @@ registerCommand({
 
 
 registerCommand({
+  name: 'destroyitem',
+  description: 'todo',
+  async handle(player: PlayerMp) {
+    const closestItem = await getNearbyItem(player, 2);
+    if (closestItem) {
+      await destroyItem(closestItem);
+    }
+
+    // TODO: messages, logging
+  }
+});
+
+
+registerCommand({
   name: 'clearinventory',
   params: ['target'],
   description: 'todo',
@@ -135,7 +150,7 @@ registerCommand({
     await clearPlayerInventory(target);
     // TODO: messages, logging
   }
-})
+});
 
 registerCommand({
   name: 'disarm',
@@ -151,7 +166,7 @@ registerCommand({
     await removePlayerWeapons(target);
     // TODO: messages, logging
   }
-})
+});
 
 registerCommand({
   name: 'givemoney',
@@ -228,7 +243,6 @@ registerCommand({
 });
 
 
-
 registerCommand({
   name: 'slap',
   params: ['target'],
@@ -242,7 +256,7 @@ registerCommand({
 
     target.position.z = target.position.z + 2.5;
   }
-})
+});
 
 registerCommand({
   name: 'revive',
@@ -258,7 +272,7 @@ registerCommand({
     target.health = 100;
     target.spawn(target.position);
   }
-})
+});
 
 
 registerCommand({
@@ -282,4 +296,4 @@ registerCommand({
 
     target.health = parseInt(amount);
   }
-})
+});
