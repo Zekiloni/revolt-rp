@@ -40,9 +40,14 @@ async function playerGiveItemToPlayerHandler(data: [number, string, number], { p
   await playerGiveItemToPlayer(player, targetId, itemId, quantity);
 }
 
+function playerUseItemHandler() {
+
+}
+
 on(ProcedureKey.SERVER_PLAYER_DROP_ITEM, playerDropItemHandler);
 on(ProcedureKey.SERVER_PLAYER_PICKUP_ITEM, playerPickupItemHandler);
 on(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, playerChangeItemSlotHandler);
 on(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, playerSelectItemHandler);
+on(ProcedureKey.SERVER_PLAYER_USE_ITEM, playerUseItemHandler);
 on(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, playerSplitItemHandler);
 on(ProcedureKey.SERVER_P2P_GIVE_ITEM, playerGiveItemToPlayerHandler);

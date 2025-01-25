@@ -1,5 +1,5 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@revolt-rp/common';
+import { ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
 import { saveVehicle } from './vehicle.service';
 
 function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -21,6 +21,7 @@ function playerToggleVehicleEngine(params: undefined, { player }: ProcedureListe
 
   if (vehicle && player.seat === RageEnums.VehicleSeat.DRIVER) {
     vehicle.engine = !vehicle.engine;
+    vehicle.setVariable(VehicleSharedDataType.Engine, vehicle.engine);
   }
 }
 
