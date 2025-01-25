@@ -1,5 +1,4 @@
 declare global {
-
   declare namespace RageEnums {
 
     namespace Hud {

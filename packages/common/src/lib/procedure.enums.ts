@@ -36,6 +36,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
   SERVER_PLAYER_SELECT_ITEM = 'server_playerSelectItem',
   SERVER_PLAYER_SPLIT_ITEM = 'server_playerSplitItem',
+  SERVER_PLAYER_USE_ITEM = 'server_playerUseItem',
   SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
 
   SERVER_PLAYER_WEAPON_RELOAD = 'server_playerWeaponReload',
@@ -47,4 +48,5 @@ export const enum ProcedureKey {
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE ='server_playerToggleVehicleEngine',
+  BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
 }

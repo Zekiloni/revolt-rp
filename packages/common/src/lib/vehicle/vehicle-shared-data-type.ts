@@ -1,5 +1,7 @@
 export const enum VehicleSharedDataType {
   VehicleId = 'vehicle_id',
   IsTemporary = 'is_temporary',
-  Engine = 'engine'
+  Engine = 'engine',
+  Mileage = 'mileage',
+  Fuel = 'fuel',
 }
