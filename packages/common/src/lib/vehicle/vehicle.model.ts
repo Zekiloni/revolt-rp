@@ -50,3 +50,10 @@ export interface IVehicle {
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
+export interface IVehicleUpdateData {
+  vehicleId: number
+  mileage: number
+  fuel: number
+}

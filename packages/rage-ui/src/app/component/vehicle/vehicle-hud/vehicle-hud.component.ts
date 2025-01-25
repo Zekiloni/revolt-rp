@@ -4,7 +4,7 @@ import { KnobModule } from 'primeng/knob';
 import { FormsModule } from '@angular/forms';
 import { PrimeTemplate } from 'primeng/api';
 import { FileUploadModule } from 'primeng/fileupload';
-import { ProcedureKey, VehicleHudUpdate } from '@revolt-rp/common';
+import { ProcedureKey, IVehicleHudUpdate } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateInfo = (data: VehicleHudUpdate) => {
+  updateInfo = (data: IVehicleHudUpdate) => {
     this.speed = data.speed;
     this.gear = data.gear;
     this.fuel = data.fuel;

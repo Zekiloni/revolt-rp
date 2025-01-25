@@ -1,5 +1,5 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import { IVehicleUpdateData, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
 import { saveVehicle } from './vehicle.service';
 
 function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -30,4 +30,14 @@ mp.events.add({
   playerExitVehicle: playerExitVehicleHandler
 });
 
+function playerUpdateVehicleData(data: IVehicleUpdateData, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const vehicle = mp.vehicles.at(data.vehicleId);
+
+  if (vehicle) {
+    vehicle.setVariable(VehicleSharedDataType.Mileage, parseFloat(data.mileage.toFixed(2)));
+    vehicle.setVariable(VehicleSharedDataType.Fuel, data.fuel);
+  }
+}
+
+on(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, playerUpdateVehicleData);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngine);
