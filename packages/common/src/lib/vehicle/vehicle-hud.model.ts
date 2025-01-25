@@ -1,5 +1,5 @@
 
-export interface VehicleHudUpdate {
+export interface IVehicleHudUpdate {
   speed: number;
   gear: number;
   rpm: number;

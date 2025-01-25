@@ -1,5 +1,12 @@
 import { triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
-import { GameUiKey, HexKeyCodes, ProcedureKey, VehicleSharedDataType, VehicleHudUpdate } from '@revolt-rp/common';
+import {
+  GameUiKey,
+  HexKeyCodes,
+  ProcedureKey,
+  VehicleSharedDataType,
+  IVehicleHudUpdate,
+  IVehicleUpdateData
+} from '@revolt-rp/common';
 import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 
@@ -52,7 +59,7 @@ function updateVehicleHud() {
   if (vehicle) {
     const { lightsOn, highbeamsOn: highBeamsOn } = vehicle.getLightsState(1, 1);
 
-    const vehicleHudUpdate: VehicleHudUpdate = {
+    const vehicleHudUpdate: IVehicleHudUpdate = {
       speed: Math.trunc(vehicle.getSpeed() * KMH_FRACTION),
       rpm: Math.trunc(vehicle.rpm * RPM_MULTIPLIER),
       gear: vehicle.gear,
@@ -98,6 +105,14 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
     mp.events.remove('render', updateVehicleHud);
 
     // TODO: send to the server & save vehicle mileage & fuel
+
+    const vehicleUpdate: IVehicleUpdateData = {
+      vehicleId: vehicle.remoteId,
+      mileage: currentMileage,
+      fuel: currentFuel
+    }
+
+    triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
 
     currentMileage = 0.0;
     currentFuel = 0;
