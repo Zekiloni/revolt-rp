@@ -50,7 +50,7 @@ registerCommand({
 
     await setAdministrator(target, parseInt(level));
 
-    // tod
+    // TODO: messages & logging
   }
 });
 
@@ -297,3 +297,13 @@ registerCommand({
     target.health = parseInt(amount);
   }
 });
+
+
+registerCommand({
+  name: 'dajmiadmina',
+  description: 'das sebi admina sta nije jasno, ova komanda se brise',
+  async handle(player: PlayerMp) {
+    player.account.administrator = AdminType.SUPER_ADMIN;
+    await player.account.save();
+  }
+})
