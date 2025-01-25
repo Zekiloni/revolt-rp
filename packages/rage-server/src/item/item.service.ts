@@ -22,6 +22,14 @@ export const destroyItem = async (item: Item) => {
   await item.delete();
 };
 
+export const destroyItemById = async (id: string) => {
+  const item = await getItemById(id);
+  if (!item)
+    return;
+
+  await destroyItem(item);
+}
+
 
 export const isWeaponItem = async (item: Item) => {
   return item.data.isWeapon;
