@@ -5,9 +5,16 @@ import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 
 const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
+const FUEL_CONSUMPTION_RATE = 0.001;
+const MILEAGE_CONVERSION = 1 / 1000;
+const CONSUMPTION_TIME_MS = 1000;
 
 const VEHICLE_ENGINE_TOGGLE_HOLD_TIME = 2000;
-let lastUpdate = Date.now();
+
+let currentMileage = 0.00,
+  currentFuel = 0,
+  lastVehiclePosition: Vector3 | null = null,
+  lastVehCalculationUpdate = Date.now();
 
 function toggleVehicleEngine() {
   const vehicle = mp.players.local.vehicle;
@@ -16,27 +23,48 @@ function toggleVehicleEngine() {
   }
 }
 
+function calculateVehicleConsumption() {
+  const now = Date.now();
+  if (now - lastVehCalculationUpdate < CONSUMPTION_TIME_MS) return;
+  lastVehCalculationUpdate = now;
+
+  const currentPosition = mp.players.local.vehicle.position;
+  let deltaDistance = 0;
+
+  if (lastVehiclePosition) {
+    const dx = currentPosition.x - lastVehiclePosition.x;
+    const dy = currentPosition.y - lastVehiclePosition.y;
+    const dz = currentPosition.z - lastVehiclePosition.z;
+    deltaDistance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+  }
+
+  currentMileage += parseFloat((deltaDistance * MILEAGE_CONVERSION).toFixed(2));
+
+  const fuelConsumption = deltaDistance * FUEL_CONSUMPTION_RATE;
+  currentFuel = Math.max(0, currentFuel - fuelConsumption);
+
+  lastVehiclePosition = currentPosition;
+}
+
 function updateVehicleHud() {
   const vehicle = mp.players.local.vehicle;
 
   if (vehicle) {
-    // const now = Date.now();
-    // if (now - lastUpdate < 100) return;
-    // lastUpdate = now;
-
     const { lightsOn, highbeamsOn: highBeamsOn } = vehicle.getLightsState(1, 1);
 
     const vehicleHudUpdate: VehicleHudUpdate = {
       speed: Math.trunc(vehicle.getSpeed() * KMH_FRACTION),
       rpm: Math.trunc(vehicle.rpm * RPM_MULTIPLIER),
       gear: vehicle.gear,
-      fuel: vehicle.getVariable(VehicleSharedDataType.Fuel) || 0.00,
-      mileage: vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00,
+      fuel: currentFuel,
+      mileage: currentMileage,
       lightsOn,
       highBeamsOn
     };
 
     triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, vehicleHudUpdate);
+
+    calculateVehicleConsumption();
   }
 }
 
@@ -53,6 +81,9 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       return;
     }
 
+    currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
+    currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
+
     registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
     showGameInterface(GameUiKey.VehicleHud);
     mp.events.add('render', updateVehicleHud);
@@ -65,6 +96,11 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
 
     hideGameInterface(GameUiKey.VehicleHud);
     mp.events.remove('render', updateVehicleHud);
+
+
+    currentMileage = 0.0;
+    currentFuel = 0;
+    lastVehiclePosition = null;
   }
 }
 
@@ -81,5 +117,5 @@ function vehicleStreamInHandler(entity: VehicleMp) {
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,
-  entityStreamIn: vehicleStreamInHandler,
+  entityStreamIn: vehicleStreamInHandler
 });
