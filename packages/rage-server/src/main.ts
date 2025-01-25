@@ -1,7 +1,9 @@
 import './core/mongo-db';
 import './core/i18next.config';
+
 import './item/registry/item.factory';
 import './item/item.loader';
+
 import './player/account/account.api';
 import './player/character/character.api';
 import './player/player-join.api';
@@ -12,4 +14,6 @@ import './player/player-command';
 import './player/admin/player-admin-command';
 import './player/inventory/player-inventory.api';
 import './player/inventory/player-weapon.api';
+import './player/offer/player-offer.api';
+
 import './vehicle/vehicle.api';
