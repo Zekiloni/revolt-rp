@@ -9,4 +9,5 @@ export const enum PlayerSharedDataType {
   Animation = 'animation',
   Attachments = 'attachments',
   Frozen = 'frozen',
+  Offer = 'offer',
 }

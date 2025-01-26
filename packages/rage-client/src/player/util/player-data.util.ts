@@ -1,5 +1,4 @@
-import { CharacterStateType, PlayerSharedDataType } from '@revolt-rp/common';
-import { IPlayerTextBubble } from '../../../../common/src/lib/player/player-text-bubble.model';
+import { CharacterStateType, PlayerSharedDataType, IPlayerTextBubble } from '@revolt-rp/common';
 
 
 function getTarget(target: PlayerMp) {
@@ -32,6 +31,10 @@ export const getIsAlive = (target?: PlayerMp) => {
 
 export const getIsFrozen = (target?: PlayerMp): boolean => {
   return getTarget(target).getVariable(PlayerSharedDataType.Frozen);
+}
+
+export const getHasActiveOffer = (target?: PlayerMp): boolean => {
+  return getTarget(target).getVariable(PlayerSharedDataType.Offer);
 }
 
 

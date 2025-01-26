@@ -99,7 +99,7 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
-    unregisterKeyBind(HexKeyCodes.E, toggleVehicleEngine);
+    unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
 
     hideGameInterface(GameUiKey.VehicleHud);
     mp.events.remove('render', updateVehicleHud);

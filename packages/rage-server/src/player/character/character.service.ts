@@ -52,7 +52,8 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.TextBubble]: null,
     [PlayerSharedDataType.SelectedItemId]: null,
     [PlayerSharedDataType.Frozen]: false,
-    [PlayerSharedDataType.IsRestrained]: player.character.isRestrained
+    [PlayerSharedDataType.IsRestrained]: player.character.isRestrained,
+    [PlayerSharedDataType.Offer]: null
   });
 };
 
