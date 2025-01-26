@@ -2,6 +2,7 @@ import { CaliberType, ItemType, PlayerSharedDataType } from '@revolt-rp/common';
 import { BaseItem } from './base-item.model';
 import { Item } from '../item.model';
 import { WeaponItem } from './weapon-item.model';
+import { playerRemoveItemFromInventory } from '../../player/inventory/player-inventory.service';
 
 export class AmmoItem extends BaseItem {
   caliberType: CaliberType;
@@ -12,7 +13,7 @@ export class AmmoItem extends BaseItem {
   }
 
   select(player: PlayerMp, item: Item) {
-    // TODO
+    // TODO: maybe attach magazine to hand?
   }
 
   async use(player: PlayerMp, item: Item) {
@@ -25,10 +26,9 @@ export class AmmoItem extends BaseItem {
         const weaponData = weaponItem.data as WeaponItem;
 
         if (weaponData.weaponHash === player.weapon && weaponData.caliberType === this.caliberType) {
-          console.log(player.weaponAmmo)
           player.setWeaponAmmo(player.weapon, player.weaponAmmo + 15);
-
-          // update item quantity of cartridge
+          weaponItem.ammoInClip = player.getWeaponAmmo(player.weapon);
+          item.quantity --;
         }
       }
     }

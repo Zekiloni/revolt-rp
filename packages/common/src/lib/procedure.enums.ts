@@ -40,6 +40,7 @@ export const enum ProcedureKey {
   SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
 
   SERVER_PLAYER_WEAPON_RELOAD = 'server_playerWeaponReload',
+  SERVER_PLAYER_SAVE_WEAPON = 'server_playerSaveWeapon',
 
   BROWSER_UPDATE_LOCATION = 'browser_updateLocation',
   BROWSER_UPDATE_CASH = 'browser_updateCash',
