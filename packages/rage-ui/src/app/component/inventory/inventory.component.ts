@@ -157,7 +157,6 @@ export class InventoryComponent {
 
     dialogRef.onClose.subscribe((payload?: GiveItemDialogOutput) => {
       if (payload) {
-        console.log('p2p give item', item.name, item.id);
         this.rageClientService.triggerServer(ProcedureKey.SERVER_P2P_GIVE_ITEM, [payload.targetId, item.id, payload.quantity]);
       }
     });
