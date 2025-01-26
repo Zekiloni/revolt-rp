@@ -1,5 +1,5 @@
 <div class="field mb-4 flex-auto">
-  <label class="font-medium text-900 block" for="target">Target player</label>
+  <label class="font-medium text-900 block" for="target">r{{ 'target_player' | translate }}</label>
   <p-dropdown
     [options]="nearbyPlayers"
     [(ngModel)]="selectedTarget"
@@ -8,17 +8,18 @@
     optionValue="value"
     [filter]="true"
     appendTo="body"
-    placeholder="Select a player" />
+    (onFilter)="filterNearbyPlayers($event)"
+    [placeholder]="'select_player' | translate" />
 </div>
 
 <div class="field mb-4 flex-auto">
-  <label class="font-medium text-900 block" for="target">Quantity</label>
+  <label class="font-medium text-900 block" for="give-quantity">{{ 'quantity' | translate }}</label>
   <p-inputNumber
     [(ngModel)]="inputQuantity"
     [showButtons]="true"
     buttonLayout="horizontal"
     class="mt-1"
-    id="splitQuantity"
+    id="give-quantity"
     [step]="1"
     decrementButtonClass="p-button-outlined"
     incrementButtonClass="p-button-outlined"

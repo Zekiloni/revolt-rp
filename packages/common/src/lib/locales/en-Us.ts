@@ -56,5 +56,8 @@ export const enUs = {
   'drop_item': 'Drop Item',
   'give_item': 'Give Item',
   'offer': 'Offer',
+  'quantity': 'Quantity',
+  'target_player': 'Target Player',
+  'select_player': 'Select Player'
 };
 

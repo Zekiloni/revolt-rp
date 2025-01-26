@@ -90,6 +90,7 @@ function getNearbyPlayersHandler() {
 
   return mp.players.toArray()
     .filter(target => getIsSpawned(target) && isPlayerNearPlayer(target))
+    .filter(target => target.handle !== mp.players.local.handle)
     .map(target => ({ value: target.remoteId, label: target.name }));
 }
 

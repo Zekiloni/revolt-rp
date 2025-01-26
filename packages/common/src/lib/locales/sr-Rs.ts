@@ -56,4 +56,7 @@ export const srRs = {
   'drop_item': 'Baci Predmet',
   'give_item': 'Daj Predmet',
   'offer': 'Ponuda',
+  'quantity': 'Količina',
+  'target_player': 'Ciljani igrač',
+  'select_player': 'Izaberi igrača'
 };

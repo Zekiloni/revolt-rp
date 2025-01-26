@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { DropdownModule } from 'primeng/dropdown';
+import { DropdownFilterEvent, DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { Button } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { ProcedureKey } from '@revolt-rp/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { debounce, debounceTime } from 'rxjs';
 
 
 export interface GiveItemDialogOutput {
@@ -25,7 +27,8 @@ interface NearbyTarget {
     DropdownModule,
     FormsModule,
     InputNumberModule,
-    Button
+    Button,
+    TranslatePipe
   ],
   templateUrl: './give-item.component.html',
   styleUrl: './give-item.component.css'
@@ -62,4 +65,10 @@ export class GiveItemComponent implements OnInit {
   private handleGetNearbyPlayers = (targets: NearbyTarget[]) => {
     this.nearbyPlayers = targets;
   };
+
+  filterNearbyPlayers(event: DropdownFilterEvent) {
+    this.rageClientService.callClient<NearbyTarget[]>(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS)
+      .pipe(debounceTime(300))
+      .subscribe({ next: this.handleGetNearbyPlayers });
+  }
 }
