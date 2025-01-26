@@ -228,7 +228,6 @@ export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQua
 export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number, itemId: string, quantity: number) => {
   const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
 
-  console.log('playerGiveItemToPlayer', item);
   if (!item)
     return;
 
@@ -247,7 +246,6 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
   const itemHandler = item.data;
 
   if (quantity == item.quantity) {
-    console.log('playerGiveItemToPlayer 1.1');
     await playerRemoveItemFromInventory(player, item.id);
 
     if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
@@ -255,17 +253,12 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
         itemHandler.deselect(player, item);
       }
     }
-    console.log('playerGiveItemToPlayer 1.15');
-
 
     target.character.inventory.push(item);
     await target.character.save();
-    console.log('playerGiveItemToPlayer 1.2');
 
     triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
   } else {
-    console.log('playerGiveItemToPlayer 2.1');
-
     if (!itemHandler.isStackable)
       return notifyPlayer(player, {
         severity: 'error',

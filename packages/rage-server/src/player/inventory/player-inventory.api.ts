@@ -37,7 +37,6 @@ async function playerSplitItemHandler(data: [string, number], { player }: Proced
 
 async function playerGiveItemToPlayerHandler(data: [number, string, number], { player }: ProcedureListenerInfo<PlayerMp>) {
   const [targetId, itemId, quantity] = data;
-  console.log('p2p give item', targetId, itemId, quantity);
   await playerGiveItemToPlayer(player, targetId, itemId, quantity);
 }
 
