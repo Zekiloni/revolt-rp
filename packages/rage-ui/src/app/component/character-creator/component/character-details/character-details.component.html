@@ -1,20 +1,20 @@
-<div class="formgrid grid py-4 px-4" [formGroup]="characterCreateForm">
-  <div class="field mb-4 col-12 md:col-6">
+<div class="grid formgrid py-4 px-4" [formGroup]="characterCreateForm">
+  <div class="field p-fluid  mb-4 col-12 md:col-6">
     <label for="first-name" class="font-medium text-900">{{ 'first_name' | translate }}</label>
     <input id="first-name" type="text" pInputText formControlName="firstName">
   </div>
 
-  <div class="field mb-4 col-12 md:col-6">
+  <div class="field p-fluid mb-4 col-12 md:col-6">
     <label for="middle-name" class="font-medium text-900">{{ 'middle_name' | translate }}</label>
     <input id="middle-name" type="text" pInputText formControlName="middleName">
   </div>
 
-  <div class="field mb-4 col-12 md:col-6">
+  <div class="field p-fluid mb-4 col-12 md:col-6">
     <label for="last-name" class="font-medium text-900">{{ 'last_name' | translate }}</label>
     <input id="last-name" type="text" pInputText formControlName="lastName">
   </div>
 
-  <div class="field mb-4 col-12 md:col-6">
+  <div class="field p-fluid mb-4 col-12 md:col-6">
     <label for="birthday" class="font-medium text-900">{{ 'birthday' | translate }}</label>
     <p-calendar id="birthday" formControlName="birthday" [showIcon]="true" placeholder="mm/dd/yyyy" />
   </div>
@@ -45,12 +45,12 @@
       [placeholder]="'select_a_blood_type' | translate" />
   </div>
 
-  <div class="field col-12 md:col-6">
+  <div class="field p-fluid col-12 md:col-6">
     <label for="origin" class="font-medium text-900">{{ 'origin' | translate }}</label>
     <input id="origin" type="text" pInputText formControlName="origin" placeholder="Los Santos, San Andreas">
   </div>
 
-  <div class="field col-12 md:col-6">
+  <div class="field p-fluid col-12 md:col-6">
     <label for="accent" class="font-medium text-900">{{ 'accent' | translate }}</label>
     <input id="accent" type="text" pInputText formControlName="accent" placeholder="American">
   </div>
