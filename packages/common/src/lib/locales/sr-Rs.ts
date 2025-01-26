@@ -58,5 +58,6 @@ export const srRs = {
   'offer': 'Ponuda',
   'quantity': 'Količina',
   'target_player': 'Ciljani igrač',
-  'select_player': 'Izaberi igrača'
+  'select_player': 'Izaberi igrača',
+  'no_reuslts': 'Nema rezultata',
 };

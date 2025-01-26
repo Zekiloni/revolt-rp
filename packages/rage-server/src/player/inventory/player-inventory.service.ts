@@ -12,6 +12,7 @@ import { P2P_MAX_DISTANCE } from '../player-interaction';
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
   player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);
   await player.character.save();
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, itemId);
 };
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
@@ -227,6 +228,7 @@ export const playerSplitItem = async (player: PlayerMp, itemId: string, splitQua
 export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number, itemId: string, quantity: number) => {
   const item = player.character.inventory.find((item: Item) => item && item.id === itemId) as (Item | undefined);
 
+  console.log('playerGiveItemToPlayer', item);
   if (!item)
     return;
 
@@ -245,15 +247,25 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
   const itemHandler = item.data;
 
   if (quantity == item.quantity) {
+    console.log('playerGiveItemToPlayer 1.1');
     await playerRemoveItemFromInventory(player, item.id);
 
-    triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
+    if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
+      if (itemHandler && itemHandler.deselect) {
+        itemHandler.deselect(player, item);
+      }
+    }
+    console.log('playerGiveItemToPlayer 1.15');
+
 
     target.character.inventory.push(item);
     await target.character.save();
+    console.log('playerGiveItemToPlayer 1.2');
 
     triggerBrowsers(target, ProcedureKey.BROWSER_INVENTORY_ADD_ITEM, item);
   } else {
+    console.log('playerGiveItemToPlayer 2.1');
+
     if (!itemHandler.isStackable)
       return notifyPlayer(player, {
         severity: 'error',
