@@ -20,7 +20,7 @@ export const srRs = {
   'whispers_to': '{{name}} šapuće {{target}}.',
   'says_low': '{{name}} kaže tiho: {{text}}',
   'shouts': '{{name}} viče: {{text}}',
-  'target_not_close': 'Cilj nije dovoljno blizu.',
+  'target_not_close': 'Igrač nije dovoljno blizu.',
   'coin_flip_head': 'glava',
   'coin_flip_tail': 'pismo',
   'throws_a_coin': '{{name}} baci novčić i on pada na {{result}}.',
