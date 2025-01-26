@@ -13,5 +13,6 @@ import './player/player-weapon';
 
 import './player/other/player-bubble';
 import './player/other/player-freeze';
+import './player/other/player-offer';
 
 import './vehicle/vehicle-core';

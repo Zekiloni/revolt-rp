@@ -50,4 +50,6 @@ export const enum ProcedureKey {
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE ='server_playerToggleVehicleEngine',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
+
+  SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',
 }
