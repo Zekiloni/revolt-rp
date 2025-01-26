@@ -146,17 +146,19 @@ export class InventoryComponent {
     if (!this.selectedItem)
       return;
 
+    const item = this.selectedItem;
+
     const dialogRef = this.dialogService.open(GiveItemComponent, {
-      header: `Give ${this.selectedItem.name}`,
+      header: `Give ${item.name}`,
       width: '25%',
-      data: this.selectedItem.quantity,
+      data: item.quantity,
       closeOnEscape: true
     });
 
     dialogRef.onClose.subscribe((payload?: GiveItemDialogOutput) => {
       if (payload) {
-        console.log('item to give', this.selectedItem?.name, this.selectedItem?.id)
-        this.rageClientService.triggerServer(ProcedureKey.SERVER_P2P_GIVE_ITEM, [payload.targetId, this.selectedItem?.id, payload.quantity]);
+        console.log('p2p give item', item.name, item.id);
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_P2P_GIVE_ITEM, [payload.targetId, item.id, payload.quantity]);
       }
     });
   }
