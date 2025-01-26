@@ -1,8 +1,8 @@
-import {Client, GatewayIntentBits, Partials, ActivityType} from 'discord.js';
-import {environmentConfig} from './config/environment.config';
-import {logger} from './config/logger.config';
-import {commands} from './commands';
-import {deployCommands} from './deploy-commands';
+import { Client, GatewayIntentBits, Partials, ActivityType } from 'discord.js';
+import { environmentConfig } from './config/environment.config';
+import { logger } from './config/logger.config';
+import { commands } from './commands';
+import { deployCommands } from './deploy-commands';
 
 export const client = new Client({
   intents: [
@@ -27,7 +27,7 @@ export const client = new Client({
     GatewayIntentBits.GuildScheduledEvents,
     GatewayIntentBits.MessageContent
   ],
-  partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, Partials.GuildScheduledEvent],
+  partials: [Partials.Message, Partials.Channel, Partials.Reaction, Partials.GuildMember, Partials.GuildScheduledEvent]
 });
 
 client.on('ready', async () => {
@@ -36,7 +36,7 @@ client.on('ready', async () => {
     url: environmentConfig.WEBSITE_URL
   });
 
-  await deployCommands({guildId: environmentConfig.DISCORD_GUILD_ID!});
+  await deployCommands({ guildId: environmentConfig.DISCORD_GUILD_ID! });
 
   logger.info('Discord bot is up & running');
 });
@@ -45,7 +45,7 @@ client.on('interactionCreate', async (interaction) => {
   if (!interaction.isCommand()) {
     return;
   }
-  const {commandName} = interaction;
+  const { commandName } = interaction;
   if (commands[commandName as keyof typeof commands]) {
     await commands[commandName as keyof typeof commands].execute(interaction);
   }
