@@ -44,3 +44,24 @@ export const playerReloadWeapon = async (player: PlayerMp, weapon: number) => {
     triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, ammoItem);
   }
 };
+
+
+export const playerUpdateWeapon = async (player: PlayerMp, weapon: number) => {
+  const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+
+  if (!selectedItemId)
+    return;
+
+  const item = player.character.inventory.find((item: Item) => item.id === selectedItemId) as Item | undefined;
+
+  if (!item)
+    return;
+
+  const weaponData = item.data as WeaponItem;
+
+  if (weaponData.weaponHash !== weapon)
+    return;
+
+  item.ammoInClip = player.getWeaponAmmo(weapon);
+  await item.save();
+}
