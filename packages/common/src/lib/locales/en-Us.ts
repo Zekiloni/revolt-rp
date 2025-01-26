@@ -58,6 +58,7 @@ export const enUs = {
   'offer': 'Offer',
   'quantity': 'Quantity',
   'target_player': 'Target Player',
-  'select_player': 'Select Player'
+  'select_player': 'Select Player',
+  'no_results': 'No results found.',
 };
 
