@@ -16,6 +16,7 @@
     <input pInputText #chatInput
            [(ngModel)]="inputContent"
            [hidden]="!isTyping"
+           [maxlength]="256"
            (keydown.enter)="sendInput()"
            (keydown.escape)="closeChat()"
            (keyup.arrowUp)="shiftHistory('up')"
