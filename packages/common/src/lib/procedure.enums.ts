@@ -32,12 +32,13 @@ export const enum ProcedureKey {
   CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
   CLIENT_GET_NEARBY_PLAYERS = 'client_getNearbyPlayers',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
-  SERVER_PLAYER_PICKUP_ITEM ='server_playerPickupItem',
+  SERVER_PLAYER_PICKUP_ITEM = 'server_playerPickupItem',
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
   SERVER_PLAYER_SELECT_ITEM = 'server_playerSelectItem',
   SERVER_PLAYER_SPLIT_ITEM = 'server_playerSplitItem',
   SERVER_PLAYER_USE_ITEM = 'server_playerUseItem',
   SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
+  SERVER_PLAYER_DESTROY_ITEM = 'server_playerDestroyItem',
 
   SERVER_PLAYER_WEAPON_RELOAD = 'server_playerWeaponReload',
   SERVER_PLAYER_SAVE_WEAPON = 'server_playerSaveWeapon',
@@ -48,7 +49,7 @@ export const enum ProcedureKey {
   BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
 
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
-  SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE ='server_playerToggleVehicleEngine',
+  SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE = 'server_playerToggleVehicleEngine',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
 

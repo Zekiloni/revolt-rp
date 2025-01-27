@@ -1,10 +1,10 @@
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { DialogService } from 'primeng/dynamicdialog';
 import { Store } from '@ngrx/store';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { BadgeModule } from 'primeng/badge';
 import { ContextMenu, ContextMenuModule } from 'primeng/contextmenu';
 import { OverlayPanel, OverlayPanelModule } from 'primeng/overlaypanel';
@@ -17,11 +17,12 @@ import { RageClientService } from '../../domain/service/rage-client.service';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { GiveItemComponent, GiveItemDialogOutput } from './component/give-item';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe, ConfirmDialogModule],
   providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
@@ -52,13 +53,20 @@ export class InventoryComponent {
       label: 'give_item',
       icon: 'pi pi-share-alt',
       command: () => this.opeGiveItemMenu()
+    },
+    {
+      label: 'destroy_item',
+      icon: 'pi pi-trash',
+      command: (event) => this.destroyItemConfirmation(event)
     }
   ];
 
   constructor(
     @Inject(Store) private store: Store<InventoryState>,
     private rageClientService: RageClientService,
-    private dialogService: DialogService) {
+    private dialogService: DialogService,
+    private translateService: TranslateService,
+    private confirmationService: ConfirmationService) {
     this.$inventory = this.store.select(selectInventory);
   }
 
@@ -149,7 +157,7 @@ export class InventoryComponent {
     const item = this.selectedItem;
 
     const dialogRef = this.dialogService.open(GiveItemComponent, {
-      header: `Give ${item.name}`,
+      header: this.translateService.instant('give_item_action', { item: item.name }),
       width: '25%',
       data: item.quantity,
       closeOnEscape: true
@@ -161,4 +169,27 @@ export class InventoryComponent {
       }
     });
   }
+
+  private destroyItemConfirmation = (event: MenuItemCommandEvent) => {
+    if (!this.selectedItem)
+      return;
+
+    const item = this.selectedItem;
+
+    this.confirmationService.confirm({
+      target: event.originalEvent?.target as EventTarget,
+      message: this.translateService.instant('destroy_item_confirmation', { item: item.name }),
+      header: this.translateService.instant('destroy_item_action', { item: item.name }),
+      icon: 'pi pi-info-circle',
+      acceptButtonStyleClass: 'p-button-danger p-button-text',
+      rejectButtonStyleClass: 'p-button-text p-button-text',
+      acceptLabel: this.translateService.instant('yes'),
+      rejectLabel: this.translateService.instant('no'),
+      acceptIcon: 'none',
+      rejectIcon: 'none',
+      accept: () => {
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_DESTROY_ITEM, item.id);
+      }
+    });
+  };
 }

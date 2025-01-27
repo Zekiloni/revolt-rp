@@ -60,4 +60,12 @@ export const srRs = {
   'target_player': 'Ciljani igrač',
   'select_player': 'Izaberi igrača',
   'no_reuslts': 'Nema rezultata',
+  'give_item_action': 'Daj {{item}}',
+  'delete': 'Obriši',
+  'cancel': 'Otkaži',
+  'destroy_item_action': 'Uništi {{item}}',
+  'destroy_item_confirmation': 'Da li ste sigurni da želite trajno da uništite {{item}}?',
+  'destroy': 'Uništi',
+  'yes': 'Da',
+  'no': 'Ne'
 };

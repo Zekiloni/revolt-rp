@@ -293,3 +293,21 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
       });
   }
 };
+
+
+export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
+  const item = getPlayerItemById(player, itemId);
+
+  if (item) {
+    const selectedItem = getPlayerSelectedItem(player);
+
+    if (item.id === selectedItem.id) {
+      if (item.data.deselect) {
+        item.data.deselect(player, item);
+      }
+    }
+
+    await destroyItem(item);
+    await playerRemoveItemFromInventory(player, itemId);
+  }
+}

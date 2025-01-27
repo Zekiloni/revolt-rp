@@ -60,5 +60,13 @@ export const enUs = {
   'target_player': 'Target Player',
   'select_player': 'Select Player',
   'no_results': 'No results found.',
+  'give_item_action': 'Give {{item}}',
+  'delete': 'Delete',
+  'cancel': 'Cancel',
+  'destroy_item_action': 'Destroy {{item}}',
+  'destroy_item_confirmation': 'Do you want to permanently destroy {{item}}?',
+  'destroy': 'Destroy',
+  'yes': 'Yes',
+  'no': 'No'
 };
 
