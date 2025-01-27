@@ -67,6 +67,7 @@ export const enUs = {
   'destroy_item_confirmation': 'Do you want to permanently destroy {{item}}?',
   'destroy': 'Destroy',
   'yes': 'Yes',
-  'no': 'No'
+  'no': 'No',
+  'destroy_item': 'Destroy Item',
 };
 
