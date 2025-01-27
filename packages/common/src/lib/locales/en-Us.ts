@@ -69,5 +69,12 @@ export const enUs = {
   'yes': 'Yes',
   'no': 'No',
   'destroy_item': 'Destroy Item',
+  'item_data': {
+    'serialNo': 'Serial Number',
+    'weaponAmmo': 'Amunition',
+    'expiringAt': 'Date of Expiration',
+    'purity': 'Purity'
+  },
+  'description': 'Description'
 };
 

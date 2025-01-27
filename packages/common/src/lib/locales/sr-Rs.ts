@@ -69,4 +69,11 @@ export const srRs = {
   'yes': 'Da',
   'no': 'Ne',
   'destroy_item': 'Uništi Predmet',
+  'item_data': {
+    'serialNo': 'Seriski broj',
+    'weaponAmmo': 'Municija',
+    'expiringAt': 'Datum isteka',
+    'purity': 'Čistoća',
+  },
+  'description': 'Opis',
 };
