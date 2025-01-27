@@ -75,6 +75,7 @@ export const enUs = {
     'expiringAt': 'Date of Expiration',
     'purity': 'Purity'
   },
-  'description': 'Description'
+  'description': 'Description',
+  'to': 'to'
 };
 
