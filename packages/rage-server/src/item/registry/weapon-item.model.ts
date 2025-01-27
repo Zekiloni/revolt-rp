@@ -14,20 +14,23 @@ export class WeaponItem extends BaseItem {
   }
 
   select(player: PlayerMp, item: Item): void {
-    player.giveWeapon(this.weaponHash, item.ammoInClip ?? 0);
+    player.giveWeapon(this.weaponHash, item.weaponAmmo ?? 0);
+
+    if (item.weaponAmmo)
+      player.setWeaponAmmo(this.weaponHash, item.weaponAmmo ?? 0);
   }
 
   async deselect(player: PlayerMp, item: Item) {
     if (player.weapon != this.weaponHash)
       return;
 
-    item.ammoInClip = player.getWeaponAmmo(this.weaponHash);
+    item.weaponAmmo = player.getWeaponAmmo(this.weaponHash);
     player.removeWeapon(this.weaponHash);
 
     await item.save();
   }
 
   use(player: PlayerMp, item: Item): void {
-    item.ammoInClip--;
+    item.weaponAmmo--;
   }
 }

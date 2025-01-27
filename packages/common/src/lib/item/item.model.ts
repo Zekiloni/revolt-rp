@@ -11,7 +11,7 @@ export interface IItem extends Base {
   rotation?: Vector3;
   dimension?: number;
   quantity: number;
-  ammoInClip?: number;
+  weaponAmmo?: number;
   serialNo?: string;
   usage?: number;
   expiringAt?: Date;

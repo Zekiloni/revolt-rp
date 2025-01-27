@@ -62,6 +62,6 @@ export const playerUpdateWeapon = async (player: PlayerMp, weapon: number) => {
   if (weaponData.weaponHash !== weapon)
     return;
 
-  item.ammoInClip = player.getWeaponAmmo(weapon);
+  item.weaponAmmo = player.getWeaponAmmo(weapon);
   await item.save();
 }
