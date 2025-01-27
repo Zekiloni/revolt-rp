@@ -301,7 +301,7 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
   if (item) {
     const selectedItem = getPlayerSelectedItem(player);
 
-    if (item.id === selectedItem.id) {
+    if (selectedItem && item.id === selectedItem.id) {
       if (item.data.deselect) {
         item.data.deselect(player, item);
       }

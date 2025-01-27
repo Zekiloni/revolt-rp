@@ -23,7 +23,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
   selector: 'app-inventory',
   standalone: true,
   imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe, ConfirmDialogModule],
-  providers: [DialogService],
+  providers: [DialogService, ConfirmationService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })

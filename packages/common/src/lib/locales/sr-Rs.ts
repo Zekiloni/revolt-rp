@@ -67,5 +67,6 @@ export const srRs = {
   'destroy_item_confirmation': 'Da li ste sigurni da želite trajno da uništite {{item}}?',
   'destroy': 'Uništi',
   'yes': 'Da',
-  'no': 'Ne'
+  'no': 'Ne',
+  'destroy_item': 'Uništi Predmet',
 };
