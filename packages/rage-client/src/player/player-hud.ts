@@ -1,14 +1,23 @@
 import { triggerBrowser } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, GameUiKey, HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { defaultHiddenHudComponents } from './player-hud.config';
 import { getHeadingTo } from '../util/vector.util';
 import { getCash } from './util/player-data.util';
+import { registerKeyBind } from '../core/keybind-manager';
+import { toggleVehicleHud } from '../vehicle/vehicle-core';
 
+
+const enum HudActivityState {
+  Default,
+  OnlyChat,
+  All
+}
 
 let isHudActive = gameUiConfig.hud.isActive;
 let hudUpdateInterval: NodeJS.Timer | null = null;
 let updateInitially = false;
+let hudActivityState = HudActivityState.Default;
 
 const hiddenHudComponents: Set<RageEnums.HudComponent> = new Set<RageEnums.HudComponent>(
   [
@@ -54,7 +63,7 @@ function updateHudHandler() {
   }
 }
 
-export function toggleHud(toggle: true) {
+export function toggleHud(toggle: boolean) {
   isHudActive = toggle;
 
   if (isHudActive) {
@@ -94,6 +103,32 @@ function selectedItemChangeHandler(entity: EntityMp, value: string | null, oldVa
   }
 }
 
+function switchHudState() {
+  switch (hudActivityState) {
+    case HudActivityState.Default: {
+      hudActivityState = HudActivityState.OnlyChat;
+      toggleHud(false);
+      if (mp.players.local.vehicle)
+        toggleVehicleHud(false, true);
+      break;
+    }
+
+    case HudActivityState.OnlyChat: {
+      hudActivityState = HudActivityState.All;
+      mp.gui.chat.show(false);
+      break;
+    }
+
+    case HudActivityState.All: {
+      hudActivityState = HudActivityState.Default;
+      toggleHud(true);
+      if (mp.players.local.vehicle)
+        toggleVehicleHud(false, true);
+      mp.gui.chat.show(true);
+      break;
+    }
+  }
+}
 
 mp.events.addDataHandler(PlayerSharedDataType.Cash, cashChangeHandler);
 mp.events.addDataHandler(PlayerSharedDataType.SelectedItemId, selectedItemChangeHandler);
@@ -101,3 +136,4 @@ mp.events.add({
   render: handleHiddenPlayerHudComponents
 });
 
+registerKeyBind(HexKeyCodes.F7, true, switchHudState);

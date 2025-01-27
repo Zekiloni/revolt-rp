@@ -53,6 +53,20 @@ function calculateVehicleConsumption() {
   lastVehiclePosition = currentPosition;
 }
 
+export function toggleVehicleHud(toggle: boolean, forHide = false) {
+  if (toggle) {
+    showGameInterface(GameUiKey.VehicleHud);
+
+    if (!forHide)
+      mp.events.add('render', updateVehicleHud);
+  } else {
+    hideGameInterface(GameUiKey.VehicleHud);
+
+    if (!forHide)
+      mp.events.remove('render', updateVehicleHud);
+  }
+}
+
 function updateVehicleHud() {
   const vehicle = mp.players.local.vehicle;
 
@@ -92,8 +106,7 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
     currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
 
     registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
-    showGameInterface(GameUiKey.VehicleHud);
-    mp.events.add('render', updateVehicleHud);
+    toggleVehicleHud(true);
   }
 }
 
@@ -101,8 +114,7 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
     unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
 
-    hideGameInterface(GameUiKey.VehicleHud);
-    mp.events.remove('render', updateVehicleHud);
+    toggleVehicleHud(false);
 
     // TODO: send to the server & save vehicle mileage & fuel
 
@@ -110,7 +122,7 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       vehicleId: vehicle.remoteId,
       mileage: currentMileage,
       fuel: currentFuel
-    }
+    };
 
     triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
 
