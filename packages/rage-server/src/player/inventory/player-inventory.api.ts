@@ -1,7 +1,7 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
 import {
-  playerChangeItemSlot,
+  playerChangeItemSlot, playerDestroyItem,
   playerDropItem, playerGiveItemToPlayer,
   playerPickupItem,
   playerSelectItem,
@@ -41,7 +41,11 @@ async function playerGiveItemToPlayerHandler(data: [number, string, number], { p
 }
 
 function playerUseItemHandler() {
+  // TODO??
+}
 
+async function playerDestroyItemHandler(itemId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await playerDestroyItem(player, itemId);
 }
 
 on(ProcedureKey.SERVER_PLAYER_DROP_ITEM, playerDropItemHandler);
@@ -51,3 +55,4 @@ on(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, playerSelectItemHandler);
 on(ProcedureKey.SERVER_PLAYER_USE_ITEM, playerUseItemHandler);
 on(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, playerSplitItemHandler);
 on(ProcedureKey.SERVER_P2P_GIVE_ITEM, playerGiveItemToPlayerHandler);
+on(ProcedureKey.SERVER_PLAYER_DESTROY_ITEM, playerDestroyItemHandler);

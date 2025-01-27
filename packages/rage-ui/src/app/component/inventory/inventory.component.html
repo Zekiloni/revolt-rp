@@ -2,6 +2,8 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
     <h2 class="text-lg font-bold mb-2">{{ 'inventory' | translate }}</h2>
 
+    <p-confirmDialog />
+
     <div class="flex flex-wrap gap-4 justify-content-between">
       @if ($inventory | async; as inventory) {
         @for (item of inventory; let idx = $index; track idx) {
