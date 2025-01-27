@@ -21,6 +21,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PlayerOfferComponent } from './component/player-offer';
+import { fadeInOutTrigger } from './domain/util/animation.util';
 
 
 @Component({
@@ -43,10 +44,7 @@ import { PlayerOfferComponent } from './component/player-offer';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   animations: [
-    trigger('fadeInOut', [
-      transition(':enter', [style({ opacity: 0 }), animate('250ms', style({ opacity: 1 }))]),
-      transition(':leave', [animate('150ms', style({ opacity: 0 }))])
-    ])
+    fadeInOutTrigger
   ]
 })
 export class AppComponent implements OnInit {
