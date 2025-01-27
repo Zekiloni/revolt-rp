@@ -39,7 +39,7 @@ export class Item extends Document implements IItem {
   serialNo?: string;
 
   @prop({ type: Number, required: false })
-  ammoInClip?: number;
+  weaponAmmo?: number;
 
   @prop({ type: Number, required: false })
   buildProgress?: number;

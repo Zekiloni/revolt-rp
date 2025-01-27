@@ -28,9 +28,9 @@ export class AmmoItem extends BaseItem {
         if (weaponData.weaponHash === player.weapon && weaponData.caliberType === this.caliberType) {
           console.log('current weapon ammo', player.getWeaponAmmo(player.weapon));
           player.setWeaponAmmo(player.weapon, player.getWeaponAmmo(player.weapon) + 15);
-          weaponItem.ammoInClip = player.getWeaponAmmo(player.weapon);
+          weaponItem.weaponAmmo = player.getWeaponAmmo(player.weapon);
           console.log('after weapon ammo', player.getWeaponAmmo(player.weapon));
-          console.log('weaponItem ammo in clip', weaponItem.ammoInClip);
+          console.log('weaponItem ammo in clip', weaponItem.weaponAmmo);
           item.quantity --;
         }
       }
