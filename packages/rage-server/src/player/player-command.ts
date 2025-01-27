@@ -204,8 +204,8 @@ registerCommand({
     if (player.id === target.id)
       return;
 
-    if (player.dist(target.position) < 7.5)
-      return notifyPlayer(player, { severity: 'error', summary: t('target_not_close') });
+    if (player.dist(target.position) > 7.5)
+      return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('target_not_close') });
 
     const message = `${player.name} (${t('to')} ${target.name}): ${[...content].join(' ')}`;
 

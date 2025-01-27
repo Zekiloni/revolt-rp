@@ -260,7 +260,7 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
     });
 
   if (player.dist(target.position) > P2P_MAX_DISTANCE)
-    return notifyPlayer(player, { severity: 'error', detail: t('bad_request'), summary: t('target_not_close') });
+    return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('target_not_close') });
 
   const itemHandler = item.data;
 
