@@ -1,4 +1,12 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
@@ -19,7 +27,8 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
     FormsModule
   ],
   templateUrl: './text-chat.component.html',
-  styleUrl: './text-chat.component.scss'
+  styleUrl: './text-chat.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TextChatComponent implements OnInit {
   @ViewChild('messagesList') messagesRef!: ElementRef;
@@ -37,7 +46,7 @@ export class TextChatComponent implements OnInit {
   inputHistory: string[] = [];
   historyShiftIdx = -1;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   @HostListener('window:keydown', ['$event'])
@@ -58,7 +67,7 @@ export class TextChatComponent implements OnInit {
 
     if (window.mp && !window.mp.fake) {
       for (const fn in events) {
-        this.rageClientService.addEvent(fn, events[fn] as any);
+        this.rageClientService.addEvent(fn, events[fn] as VoidFunction);
       }
     }
 
@@ -133,6 +142,7 @@ export class TextChatComponent implements OnInit {
       content: content
     });
 
+    this.changeDetectorRef.detectChanges();
     await this.scrollToBottom();
   };
 
