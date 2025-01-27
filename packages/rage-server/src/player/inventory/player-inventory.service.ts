@@ -17,6 +17,15 @@ export const getPlayerSelectedItem = (player: PlayerMp) => {
 
   const item = player.character.inventory.find((item: Item) => item.id === selectedItemId) as Item;
   return item ? item : null;
+};
+
+
+export const getPlayerItemById = (player: PlayerMp, itemId: string) => {
+  return player.character.inventory.find((item: Item) => item.id === itemId) as Item | undefined;
+}
+
+export const getPlayerItemBySlot = (player: PlayerMp, slot: number) => {
+  return player.character.inventory.find((item: Item) => item.localSlot === slot) as Item | undefined;
 }
 
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
@@ -178,19 +187,19 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
 
 
 export const playerSelectItem = (player: PlayerMp, slot: number) => {
-  const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+  const alreadySelectedItem = getPlayerSelectedItem(player);
+  const item = getPlayerItemBySlot(player, slot);
 
-  if (selectedItemId != null) {
-    const alreadySelectedItem = player.character.inventory.find((item: Item) => item.id === selectedItemId) as Item | undefined;
-    if (alreadySelectedItem) {
+  if (alreadySelectedItem) {
       player.setVariable(PlayerSharedDataType.SelectedItemId, null);
       if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
         alreadySelectedItem.data.deselect(player, alreadySelectedItem);
       }
-    }
-  }
 
-  const item = player.character.inventory.find((item: Item) => item.localSlot === slot) as Item | undefined;
+      if (item && alreadySelectedItem.id === item.id) {
+        return;
+      }
+  }
 
   if (!item)
     return;
