@@ -59,7 +59,7 @@ export const srRs = {
   'quantity': 'Količina',
   'target_player': 'Ciljani igrač',
   'select_player': 'Izaberi igrača',
-  'no_reuslts': 'Nema rezultata',
+  'no_results': 'Nema rezultata',
   'give_item_action': 'Daj {{item}}',
   'delete': 'Obriši',
   'cancel': 'Otkaži',
@@ -76,4 +76,5 @@ export const srRs = {
     'purity': 'Čistoća',
   },
   'description': 'Opis',
+  'to': 'za',
 };

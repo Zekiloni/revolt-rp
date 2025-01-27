@@ -1,9 +1,20 @@
 import { t } from 'i18next';
 import { hexColors, rgbColors } from '@revolt-rp/common';
-import { findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
+import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
+
+
+registerCommand({
+  name: 'b',
+  params: ['content'],
+  description: 'todo',
+  handle(player: PlayerMp, ...args) {
+    const content = `(( ${player.name} [${player.id}]: ${[...args].join(' ')} ))`;
+    sendProximityMessage(content, player.position, 10, hexColors.GREY);
+  }
+});
 
 registerCommand({
   name: 'me',
@@ -14,7 +25,6 @@ registerCommand({
     sendProximityMessage(content, player.position, 10, hexColors.PURPLE);
   }
 });
-
 
 registerCommand({
   name: 'ame',
@@ -32,7 +42,6 @@ registerCommand({
   }
 });
 
-
 registerCommand({
   name: 'do',
   params: ['state'],
@@ -42,7 +51,6 @@ registerCommand({
     sendProximityMessage(content, player.position, 10, hexColors.PURPLE);
   }
 });
-
 
 registerCommand({
   name: 'showme',
@@ -152,5 +160,56 @@ registerCommand({
       name: player.name,
       result: results[randomIndex]
     }), player.position, 10, hexColors.PURPLE);
+  }
+});
+
+registerCommand({
+  name: 'id',
+  description: 'todo',
+  params: ['query'],
+  handle(player: PlayerMp, targetQuery: string) {
+    const result: PlayerMp[] = [];
+    if (!isNaN(Number(targetQuery))) {
+      const target = findPlayer(targetQuery);
+
+      if (target) {
+        result.push(target);
+      }
+    } else {
+      const targets = filterPlayer(targetQuery);
+      targets.forEach(target => result.push(target));
+    }
+
+    if (!result.length)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    result
+      .filter(target => target.account && target.character)
+      .forEach(target => player.outputChatBox(`[${target.id}] ${target.name} (${target.account.username})`));
+  }
+});
+
+
+
+registerCommand({
+  name: 'to',
+  params: ['target', 'content'],
+  description: 'todo',
+  handle(player: PlayerMp, targetQuery: string, ...content: string[]) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (player.id === target.id)
+      return;
+
+    if (player.dist(target.position) < 7.5)
+      return notifyPlayer(player, { severity: 'error', summary: t('target_not_close') });
+
+    const message = `${player.name} (${t('to')} ${target.name}): ${[...content].join(' ')}`;
+
+    sendProximityMessage(message, player.position, 10, hexColors.WHITE, [target]);
+    target.outputChatBox(`!{${hexColors.PURPLE[0]}}[!] !{${hexColors.WHITE}}${message}`);
   }
 });

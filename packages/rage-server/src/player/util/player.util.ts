@@ -14,12 +14,23 @@ export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
     .find((player) => player.name.toLowerCase().includes(nameOrId) || player.name.toLowerCase() === nameOrId);
 };
 
-export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[]) {
+
+export const filterPlayer = (query: string): PlayerMp[] => {
+  query = query.replace(' ', ' ').toLowerCase();
+
+  return mp.players.toArray()
+    .filter((player) => player.name.toLowerCase().includes(query) || player.name.toLowerCase() === query);
+};
+
+export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[], exclude?: PlayerMp[]) {
   const distanceGap = radius / (colors.length + 1);
 
   const distanceThresholds = colors.map((_color, index) => distanceGap * (index + 1));
 
   mp.players.forEachInRange(position, radius, (target) => {
+    if (exclude && exclude.includes(target))
+      return;
+
     const distance = target.dist(position);
     let color = colors[0];
 
@@ -39,7 +50,7 @@ export const setPlayerTextBubble = (player: PlayerMp, bubble: IPlayerTextBubble 
   if (textBubbleTimer.has(player.id)) {
     const timeout = textBubbleTimer.get(player.id);
 
-    if  (timeout)
+    if (timeout)
       clearTimeout(timeout);
 
     textBubbleTimer.delete(player.id);
