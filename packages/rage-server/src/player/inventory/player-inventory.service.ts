@@ -9,6 +9,16 @@ import { Item } from '../../item/item.model';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
 
 
+export const getPlayerSelectedItem = (player: PlayerMp) => {
+  const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
+
+  if (!selectedItemId)
+    return null;
+
+  const item = player.character.inventory.find((item: Item) => item.id === selectedItemId) as Item;
+  return item ? item : null;
+}
+
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
   player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);
   await player.character.save();
