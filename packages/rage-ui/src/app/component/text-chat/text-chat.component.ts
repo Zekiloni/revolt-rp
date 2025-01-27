@@ -12,6 +12,7 @@ import { DatePipe } from '@angular/common';
 import { ChipsModule } from 'primeng/chips';
 import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
 import { RageClientService } from '../../domain/service/rage-client.service';
+import { fadeInOutTrigger } from '../../domain/util/animation.util';
 
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
@@ -28,7 +29,10 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
   ],
   templateUrl: './text-chat.component.html',
   styleUrl: './text-chat.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [
+    fadeInOutTrigger
+  ]
 })
 export class TextChatComponent implements OnInit {
   @ViewChild('messagesList') messagesRef!: ElementRef;
@@ -93,10 +97,13 @@ export class TextChatComponent implements OnInit {
     }
 
     this.isActive = toggle;
+
+    this.changeDetectorRef.detectChanges();
   };
 
   showChat = (toggle: boolean) => {
     this.isActive = toggle;
+    this.changeDetectorRef.detectChanges();
   };
 
   async sendInput() {
@@ -125,6 +132,8 @@ export class TextChatComponent implements OnInit {
   clearChat = () => {
     this.messages = [];
     this.messageCount = 0;
+
+    this.changeDetectorRef.detectChanges();
   };
 
   pushInput = async (content: string) => {
