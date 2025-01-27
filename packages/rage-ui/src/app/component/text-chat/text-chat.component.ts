@@ -99,11 +99,13 @@ export class TextChatComponent implements OnInit {
     this.isActive = toggle;
 
     this.changeDetectorRef.detectChanges();
+    await this.scrollToBottom();
   };
 
-  showChat = (toggle: boolean) => {
+  showChat = async (toggle: boolean) => {
     this.isActive = toggle;
     this.changeDetectorRef.detectChanges();
+    await this.scrollToBottom();
   };
 
   async sendInput() {
