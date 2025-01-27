@@ -38,6 +38,8 @@ export class InventoryComponent {
   draggingItem: IItem | null = null;
   selectedItem: IItem | null = null;
 
+  itemInfoKey: (keyof IItem)[] = ['serialNo', 'weaponAmmo', 'expiringAt', 'purity'];
+
   itemOptionMenuItems: MenuItem[] = [
     {
       label: 'split_item',
