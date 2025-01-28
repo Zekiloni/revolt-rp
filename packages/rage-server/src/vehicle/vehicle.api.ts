@@ -1,6 +1,18 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { AnimationFlag, IVehicleUpdateData, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { hasPlayerVehicleKeys, lockVehicle, saveVehicle, toggleVehicleEngine } from './vehicle.service';
+import {
+  AnimationFlag,
+  IVehicleUpdateData,
+  ProcedureKey,
+  VehicleIndicator,
+  VehicleSharedDataType
+} from '@revolt-rp/common';
+import {
+  hasPlayerVehicleKeys,
+  lockVehicle,
+  saveVehicle,
+  toggleVehicleEngine,
+  toggleVehicleIndicator
+} from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 
 function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -49,6 +61,15 @@ function playerUpdateVehicleDataHandler(data: IVehicleUpdateData, { player }: Pr
   }
 }
 
+function playerToggleVehicleIndicatorHandler(index: VehicleIndicator, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const vehicle = player.vehicle;
+
+  if (!vehicle || player.seat !== RageEnums.VehicleSeat.DRIVER)
+    return;
+
+  toggleVehicleIndicator(vehicle, index);
+}
+
 
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
@@ -58,3 +79,4 @@ mp.events.add({
 on(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, playerUpdateVehicleDataHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngineHandler);
 on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
+on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);

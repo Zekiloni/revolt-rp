@@ -1,4 +1,4 @@
-import { IVehicle, VehicleSharedDataType } from '@revolt-rp/common';
+import { IVehicle, VehicleIndicator, VehicleSharedDataType } from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
@@ -83,7 +83,7 @@ export function lockVehicle(vehicle: VehicleMp) {
 }
 
 
-export function toggleVehicleIndicator(vehicle: VehicleMp, index: 0 | 1) {
+export function toggleVehicleIndicator(vehicle: VehicleMp, index: VehicleIndicator) {
   const indicators = vehicle.getVariable<[boolean, boolean]>(VehicleSharedDataType.Indicators) ?? [false, false];
   indicators[index] = !indicators[index];
   vehicle.setVariable(VehicleSharedDataType.Indicators, indicators);
