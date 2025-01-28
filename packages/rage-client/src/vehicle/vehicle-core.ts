@@ -5,7 +5,7 @@ import {
   ProcedureKey,
   VehicleSharedDataType,
   IVehicleHudUpdate,
-  IVehicleUpdateData
+  IVehicleUpdateData, VehicleIndicator
 } from '@revolt-rp/common';
 import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
@@ -24,11 +24,20 @@ let currentMileage = 0.00,
   lastVehiclePosition: Vector3 | null = null,
   lastVehCalculationUpdate = Date.now();
 
+
 function toggleVehicleEngine() {
   const vehicle = mp.players.local.vehicle;
   if (vehicle && vehicle.getPedInSeat(RageEnums.VehicleSeat.DRIVER) === mp.players.local.handle) {
     triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE);
   }
+}
+
+function toggleVehicleLeftIndicator() {
+  triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, VehicleIndicator.Left);
+}
+
+function toggleVehicleRightIndicator() {
+  triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, VehicleIndicator.Right);
 }
 
 function calculateVehicleConsumption() {
@@ -90,13 +99,14 @@ function updateVehicleHud() {
   }
 }
 
+
 function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
     mp.game.vehicle.defaultEngineBehaviour = false;
     mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
     mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-    if (vehicle.getClass() === RageEnums.Vehicle.Classes.CYCLES) {
+    if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
       if (!vehicle.getIsEngineRunning())
         toggleVehicleEngine();
 
@@ -107,17 +117,22 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
     currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
 
     registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
+    registerKeyBind(HexKeyCodes.Left, false, toggleVehicleLeftIndicator);
+    registerKeyBind(HexKeyCodes.Right, false, toggleVehicleRightIndicator);
+
     toggleVehicleHud(true);
   }
 }
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
-    unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
+    if (!mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
+      unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
+      unregisterKeyBind(HexKeyCodes.Left, toggleVehicleLeftIndicator);
+      unregisterKeyBind(HexKeyCodes.Right, toggleVehicleRightIndicator);
+    }
 
     toggleVehicleHud(false);
-
-    // TODO: send to the server & save vehicle mileage & fuel
 
     const vehicleUpdate: IVehicleUpdateData = {
       vehicleId: vehicle.remoteId,
@@ -142,12 +157,9 @@ function vehicleStreamInHandler(entity: VehicleMp) {
   if (vehicle.getVariable(VehicleSharedDataType.Engine))
     vehicle.setEngineOn(true, true, true);
 
-  const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
-  if (windows) {
-    handleVehicleWindows(vehicle, windows);
-  }
+  handleVehicleWindows(vehicle, vehicle.getVariable(VehicleSharedDataType.Windows));
+  handleVehicleIndicators(vehicle, vehicle.getVariable(VehicleSharedDataType.Indicators));
 }
-
 
 function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
   if (mp.game.vehicle.isThisModelABicycle(vehicle.model) || mp.game.vehicle.isThisModelABike(vehicle.model))
@@ -171,7 +183,21 @@ function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue
   handleVehicleWindows(vehicle, value);
 }
 
+function handleVehicleIndicators(vehicle: VehicleMp, value: [boolean, boolean]) {
+  const [left, right] = value;
+  vehicle.setIndicatorLights(VehicleIndicator.Left, left);
+  vehicle.setIndicatorLights(VehicleIndicator.Right, right);
+}
+
+function vehicleIndicatorDataHandler(vehicle: VehicleMp, value: [boolean, boolean], oldValue?: [boolean, boolean]) {
+  if (vehicle.type != RageEnums.EntityType.VEHICLE)
+    return;
+
+  handleVehicleIndicators(vehicle, value);
+}
+
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
+mp.events.addDataHandler(VehicleSharedDataType.Indicators, vehicleIndicatorDataHandler);
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,

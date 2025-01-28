@@ -51,6 +51,7 @@ export * from './lib/item/registry/caliber-type';
 export * from './lib/vehicle/vehicle.model';
 export * from './lib/vehicle/vehicle-shared-data-type';
 export * from './lib/vehicle/vehicle-hud.model';
+export * from './lib/vehicle/vehicle.enum';
 
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
