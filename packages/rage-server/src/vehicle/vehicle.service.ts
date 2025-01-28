@@ -1,30 +1,44 @@
 import { IVehicle, VehicleSharedDataType } from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
+import { Character } from '../player/character/character.model';
 
-export const temporaryVehicles: Map<number, IVehicle> = new Map();
 
-
-export const createTemporaryVehicle = (model: string, position: Vector3, options?: Partial<IVehicle>) => {
+export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position);
 
-  vehicle.engine = false;
-  vehicle.rotation = new mp.Vector3(options.rotation.x || 0, options.rotation.y || 0, options.rotation.z || 0);
-  const info = createDefaultVehicleInfo(options, model, position, vehicle);
+  vehicle.engine = options?.engine ?? false;
+  vehicle.locked = options?.locked ?? false;
 
-  loadVehicleVariables(vehicle, info);
+  if (options && options.rotation)
+    vehicle.rotation = new mp.Vector3(options.rotation.x, options.rotation.y, options.rotation.z);
 
-  temporaryVehicles.set(vehicle.id, info);
+  vehicle.setColor(primaryColor, secondaryColor);
+
+  vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle));
+
+  vehicle.info.locked = false;
+  vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
+  vehicle.info.position = position;
+
+  loadVehicleVariables(vehicle, vehicle.info);
 
   return vehicle;
 };
 
 
+export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
+  vehicle.info.owner = character;
+};
+
 function loadVehicleVariables(vehicle: VehicleMp, info: IVehicle) {
   vehicle.setVariables({
     [VehicleSharedDataType.Engine]: info.engine,
+    [VehicleSharedDataType.Locked]: info.locked,
     [VehicleSharedDataType.IsTemporary]: info.isTemporary,
-    [VehicleSharedDataType.VehicleId]: info.id || undefined
+    [VehicleSharedDataType.VehicleId]: info.id || undefined,
+    [VehicleSharedDataType.Windows]: [false, false, false, false],
+    [VehicleSharedDataType.Indicators]: [false, false],
   });
 }
 
@@ -47,18 +61,44 @@ export const saveVehicle = async (vehicle: VehicleMp) => {
 
 
 export const hasPlayerVehicleKeys = (player: PlayerMp, vehicle: VehicleMp) => {
-  //
+  return vehicle.info.owner.id === player.character.id;
 };
 
-export const toggleVehicleEngine = (vehicle: VehicleMp) => {
+export function toggleVehicleEngine(vehicle: VehicleMp) {
   // TODO: modify this later
   if (vehicle.engineHealth < 300)
     return;
 
   vehicle.engine = !vehicle.engine;
   vehicle.setVariable(VehicleSharedDataType.Engine, vehicle.engine);
+}
+
+export function lockVehicle(vehicle: VehicleMp) {
+  vehicle.locked = !vehicle.locked;
+  vehicle.setVariable(VehicleSharedDataType.Locked, vehicle.locked);
 
   if (!isTemporaryVehicle(vehicle)) {
     //
   }
-};
+}
+
+
+export function toggleVehicleIndicator(vehicle: VehicleMp, index: 0 | 1) {
+  const indicators = vehicle.getVariable<[boolean, boolean]>(VehicleSharedDataType.Indicators) ?? [false, false];
+  indicators[index] = !indicators[index];
+  vehicle.setVariable(VehicleSharedDataType.Indicators, indicators);
+}
+
+
+export function toggleVehicleWindow(vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
+  const windows = vehicle.getVariable<boolean[]>(VehicleSharedDataType.Windows);
+  windows[seat] = !windows[seat] ?? true;
+  vehicle.setVariable(VehicleSharedDataType.Windows, windows);
+}
+
+
+export function toggleVehicleDoor(vehicle: VehicleMp, doorId: number) {
+  const doors = vehicle.getVariable(VehicleSharedDataType.Doors);
+  doors[doorId] = !doors[doorId] ?? true;
+  vehicle.setVariable(VehicleSharedDataType.Doors, doors);
+}

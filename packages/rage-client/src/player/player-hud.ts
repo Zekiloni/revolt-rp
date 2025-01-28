@@ -108,6 +108,7 @@ function switchHudState() {
     case HudActivityState.Default: {
       hudActivityState = HudActivityState.OnlyChat;
       toggleHud(false);
+      mp.game.ui.displayRadar(false);
       if (mp.players.local.vehicle)
         toggleVehicleHud(false, true);
       break;
@@ -122,6 +123,7 @@ function switchHudState() {
     case HudActivityState.All: {
       hudActivityState = HudActivityState.Default;
       toggleHud(true);
+      mp.game.ui.displayRadar(true);
       if (mp.players.local.vehicle)
         toggleVehicleHud(false, true);
       mp.gui.chat.show(true);

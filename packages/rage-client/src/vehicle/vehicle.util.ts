@@ -1,4 +1,6 @@
 const VEHICLE_CLASS_PREFIX = 'VEH_CLASS_';
+export const INVALID_BONE_INDEX = 1;
+
 
 export const isVehicleModelValid = (modelHash: number) => {
   return mp.game.streaming.isModelValid(modelHash);
@@ -36,4 +38,18 @@ export const getVehicleMaxBraking = (modelHash: number) => {
 
 export const getVehicleModelMaxTraction = (modelHash: number) => {
   return mp.game.vehicle.getVehicleModelMaxTraction(modelHash);
+};
+
+export const isValidVehicleWindow = (vehicle: VehicleMp, index: number) => {
+  if (!vehicle)
+    return false;
+
+  const WINDOW_BONE_NAMES = [
+    'window_lf',
+    'window_rf',
+    'window_lr',
+    'window_rr'
+  ];
+
+  return vehicle.getBoneIndexByName(WINDOW_BONE_NAMES[index]) != -INVALID_BONE_INDEX;
 };

@@ -17,3 +17,4 @@ import './player/inventory/player-weapon.api';
 import './player/offer/player-offer.api';
 
 import './vehicle/vehicle.api';
+import './vehicle/vehicle-command';
