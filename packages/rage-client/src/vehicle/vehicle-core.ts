@@ -157,8 +157,13 @@ function vehicleStreamInHandler(entity: VehicleMp) {
   if (vehicle.getVariable(VehicleSharedDataType.Engine))
     vehicle.setEngineOn(true, true, true);
 
-  handleVehicleWindows(vehicle, vehicle.getVariable(VehicleSharedDataType.Windows));
-  handleVehicleIndicators(vehicle, vehicle.getVariable(VehicleSharedDataType.Indicators));
+  const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
+  if (windows)
+    handleVehicleWindows(vehicle, windows);
+
+  const indicators = vehicle.getVariable(VehicleSharedDataType.Indicators);
+  if (indicators)
+    handleVehicleIndicators(vehicle, indicators);
 }
 
 function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
