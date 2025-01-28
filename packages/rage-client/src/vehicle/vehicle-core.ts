@@ -141,14 +141,15 @@ function vehicleStreamInHandler(entity: VehicleMp) {
 
   if (vehicle.getVariable(VehicleSharedDataType.Engine))
     vehicle.setEngineOn(true, true, true);
+
+  const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
+  if (windows) {
+    handleVehicleWindows(vehicle, windows);
+  }
 }
 
 
-
-function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue?: boolean[]) {
-  if (vehicle.type != RageEnums.EntityType.VEHICLE)
-    return;
-
+function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
   if (mp.game.vehicle.isThisModelABicycle(vehicle.model) || mp.game.vehicle.isThisModelABike(vehicle.model))
     return;
 
@@ -161,6 +162,13 @@ function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue
       }
     }
   });
+}
+
+function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue?: boolean[]) {
+  if (vehicle.type != RageEnums.EntityType.VEHICLE)
+    return;
+
+  handleVehicleWindows(vehicle, value);
 }
 
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
