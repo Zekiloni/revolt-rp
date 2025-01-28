@@ -1,6 +1,6 @@
 import { AdminType } from '@revolt-rp/common';
 
-interface CommandValidator {
+export interface CommandValidator {
   validate: (player: PlayerMp) => boolean;
   message: string;
 }

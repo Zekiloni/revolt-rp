@@ -1,6 +1,7 @@
 import './node';
 import { Account } from '../player/account/account.model';
 import { Character } from '../player/character/character.model';
+import { Vehicle } from '../vehicle/vehicle.model';
 
 declare global {
 
@@ -11,6 +12,7 @@ declare global {
   }
 
   interface VehicleMp {
+    info: Vehicle;
   }
 
   declare namespace RageEnums {

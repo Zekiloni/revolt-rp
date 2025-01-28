@@ -1,6 +1,7 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { IVehicleUpdateData, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { saveVehicle } from './vehicle.service';
+import { AnimationFlag, IVehicleUpdateData, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import { hasPlayerVehicleKeys, lockVehicle, saveVehicle, toggleVehicleEngine } from './vehicle.service';
+import { playAnimation } from '../player/util/player-animation.util';
 
 function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
   if (seat == RageEnums.VehicleSeat.DRIVER) {
@@ -14,23 +15,32 @@ function playerExitVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: nu
 
 }
 
-function playerToggleVehicleEngine(params: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+function playerToggleVehicleEngineHandler(params: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
   const vehicle = player.vehicle;
 
   // TODO: Check has keys
 
   if (vehicle && player.seat === RageEnums.VehicleSeat.DRIVER) {
-    vehicle.engine = !vehicle.engine;
-    vehicle.setVariable(VehicleSharedDataType.Engine, vehicle.engine);
+    toggleVehicleEngine(vehicle);
   }
 }
 
-mp.events.add({
-  playerEnterVehicle: playerEnterVehicleHandler,
-  playerExitVehicle: playerExitVehicleHandler
-});
+function playerLockVehicleHandler(vehicleId: number, { player }: ProcedureListenerInfo<PlayerMp>) {
+  // TODO: check has player keys
 
-function playerUpdateVehicleData(data: IVehicleUpdateData, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const vehicle = mp.vehicles.at(vehicleId);
+
+  if (!vehicle)
+    return;
+
+  if (!hasPlayerVehicleKeys(player, vehicle))
+    return;
+
+  playAnimation(player, 'anim@mp_player_intmenu@key_fob@', 'fob_click_fp', AnimationFlag.UPPER_BODY_ONLY);
+  lockVehicle(vehicle);
+}
+
+function playerUpdateVehicleDataHandler(data: IVehicleUpdateData, { player }: ProcedureListenerInfo<PlayerMp>) {
   const vehicle = mp.vehicles.at(data.vehicleId);
 
   if (vehicle) {
@@ -39,5 +49,12 @@ function playerUpdateVehicleData(data: IVehicleUpdateData, { player }: Procedure
   }
 }
 
-on(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, playerUpdateVehicleData);
-on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngine);
+
+mp.events.add({
+  playerEnterVehicle: playerEnterVehicleHandler,
+  playerExitVehicle: playerExitVehicleHandler
+});
+
+on(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, playerUpdateVehicleDataHandler);
+on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngineHandler);
+on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);

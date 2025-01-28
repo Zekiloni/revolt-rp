@@ -1,9 +1,7 @@
 import { IPlayerAnimation, PlayerSharedDataType } from '@revolt-rp/common';
-import { isPlayingAnimation, playAnimation, stopAnimation } from './util/player-animation.util';
+import { playAnimation, stopAnimation } from './util/player-animation.util';
 
 type AnimationData = IPlayerAnimation | null | undefined;
-
-let checkAnimationTime: NodeJS.Timer | null = null;
 
 export const getAnimation = (target: PlayerMp | PedMp) =>
   target.getVariable(PlayerSharedDataType.Animation);
@@ -16,13 +14,6 @@ async function handleAnimationChange(entity: EntityMp, value: AnimationData, old
   if (isPlayerOrPed(entity)) {
     if (value && typeof value == 'object') {
       await playAnimation(<PlayerMp>entity, value.dictionary, value.name, value.flag, value.duration);
-      if (entity.id === mp.players.local.id) {
-        checkAnimationTime = setInterval(async () => {
-          if (isPlayingAnimation(<PlayerMp>entity, value.dictionary, value.name) == false) {
-            clearInterval(checkAnimationTime);
-          }
-        }, 1000);
-      }
     } else if (value == null && oldValue && typeof oldValue == 'object') {
       stopAnimation(<PlayerMp>entity, oldValue.dictionary, oldValue.name);
     }

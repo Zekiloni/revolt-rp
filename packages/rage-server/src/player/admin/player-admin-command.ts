@@ -8,6 +8,7 @@ import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, setMoney } from '../character/character.service';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
+import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
 
 
 registerCommand({
@@ -17,9 +18,8 @@ registerCommand({
   administrator: AdminType.ADMINISTRATOR,
   params: ['model', 'primary color', 'secondary color'],
   handle(player: PlayerMp, model: string, primaryColor: string, secondaryColor: string) {
-    const vehicle = mp.vehicles.new(mp.joaat(model), player.position);
-    vehicle.setColor(parseInt(primaryColor), parseInt(secondaryColor));
-    vehicle.engine = false;
+    const vehicle = createTemporaryVehicle(model, player.position, parseInt(primaryColor), parseInt(secondaryColor));
+    setVehicleOwner(vehicle, player.character);
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
   }
 });
@@ -306,4 +306,4 @@ registerCommand({
     player.account.administrator = AdminType.SUPER_ADMIN;
     await player.account.save();
   }
-})
+});

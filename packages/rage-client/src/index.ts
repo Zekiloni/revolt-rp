@@ -17,3 +17,4 @@ import './player/other/player-freeze';
 import './player/other/player-offer';
 
 import './vehicle/vehicle-core';
+import './vehicle/vehicle.lock';

@@ -9,6 +9,7 @@ import {
 } from '@revolt-rp/common';
 import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
+import { isValidVehicleWindow } from './vehicle.util';
 
 const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
@@ -142,6 +143,27 @@ function vehicleStreamInHandler(entity: VehicleMp) {
     vehicle.setEngineOn(true, true, true);
 }
 
+
+
+function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue?: boolean[]) {
+  if (vehicle.type != RageEnums.EntityType.VEHICLE)
+    return;
+
+  if (mp.game.vehicle.isThisModelABicycle(vehicle.model) || mp.game.vehicle.isThisModelABike(vehicle.model))
+    return;
+
+  value.forEach((currentValue, index) => {
+    if (isValidVehicleWindow(vehicle, index)) {
+      if (currentValue) {
+        vehicle.rollDownWindow(index);
+      } else {
+        vehicle.rollUpWindow(index);
+      }
+    }
+  });
+}
+
+mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,
