@@ -189,7 +189,7 @@ function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue
 }
 
 function handleVehicleIndicators(vehicle: VehicleMp, value: [boolean, boolean]) {
-  const [left, right] = value;
+  const [right, left] = value;
   vehicle.setIndicatorLights(VehicleIndicator.Left, left);
   vehicle.setIndicatorLights(VehicleIndicator.Right, right);
 }

@@ -1,4 +1,4 @@
 export const enum VehicleIndicator {
-  Left,
-  Right
+  Right,
+  Left
 }
