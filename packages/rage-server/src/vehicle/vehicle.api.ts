@@ -45,6 +45,9 @@ function playerLockVehicleHandler(vehicleId: number, { player }: ProcedureListen
   if (!vehicle)
     return;
 
+  if (player.dist(vehicle.position) > 10)
+    return;
+
   if (!hasPlayerVehicleKeys(player, vehicle))
     return;
 
