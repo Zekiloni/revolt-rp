@@ -9,6 +9,6 @@ mp.events.add({
     if (!player.character) return;
 
     const content = t('says', { person: player.name, text });
-    sendProximityMessage(content, player.position, IC_CHAT_RADIUS, hexColors.WHITE);
+    sendProximityMessage(content, player.position, IC_CHAT_RADIUS, hexColors.WHITE_PALETTE);
   }
 });

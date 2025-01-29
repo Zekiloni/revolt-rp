@@ -56,4 +56,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR = 'server_playerToggleVehicleIndicator',
 
   SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',
+
+  CLIENT_PLAYER_TOGGLE_BANK_MENU = 'client_playerToggleBankMenu',
+  SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
 }

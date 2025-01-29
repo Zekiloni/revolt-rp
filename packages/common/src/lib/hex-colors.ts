@@ -1,6 +1,7 @@
 
 export const hexColors = {
-  WHITE: ['F8F8F8', 'DEDEDE', 'BDBDBD', 'A3A2A2', '909090'],
+  WHITE_PALETTE: ['F8F8F8', 'DEDEDE', 'BDBDBD', 'A3A2A2', '909090'],
+  WHITE_SMOKE: 'F5F5F5',
   PURPLE: ['d0aeeb', 'b37ddf', 'a05cd7', '8d3bcf', '782db4'],
   LIGHT_PURPLE: 'AEB8EB',
   Low: ['BDBDBD', 'DEDEDE', 'A3A2A2', '909090', '909090'],
@@ -18,6 +19,7 @@ export const hexColors = {
   ADMIN: 'F82234',
   BROADCAST: 'F71326',
   INFO: 'cfd1d7',
+  DEEP_FRIED: 'f0ad4e',
   BUSINESS: '105A37',
   Success: '6BD56B',
   ERROR: 'FF6347',
