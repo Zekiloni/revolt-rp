@@ -1,7 +1,7 @@
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { IItem, ProcedureKey } from '@revolt-rp/common';
 import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
@@ -14,7 +14,8 @@ import { getItemIcon } from '../../domain/util/item.util';
   standalone: true,
   imports: [CommonModule, DroppableDirective, NgOptimizedImage],
   templateUrl: './hud.component.html',
-  styleUrl: './hud.component.css'
+  styleUrl: './hud.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HudComponent implements OnInit, OnDestroy {
   remoteId = 1;
@@ -28,7 +29,8 @@ export class HudComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(Store) private store: Store<InventoryState>,
-    private rageClientService: RageClientService) {
+    private rageClientService: RageClientService,
+    private changeDetectorRef: ChangeDetectorRef) {
     this.$quickSlots = this.store.select(selectInventory)
       .pipe(map(inventory => inventory.slice(0, 5)));
   }
@@ -40,10 +42,12 @@ export class HudComponent implements OnInit, OnDestroy {
 
   private handleSelectedItemUpdate = (value: string | null) => {
     this.selectedItemId = value;
+    this.changeDetectorRef.detectChanges();
   };
 
   private handleCashUpdate = (value: number) => {
     this.cash = value;
+    this.changeDetectorRef.detectChanges();
   };
 
   private handleUpdateLocation = (data: [string, string, string]) => {
@@ -52,10 +56,12 @@ export class HudComponent implements OnInit, OnDestroy {
     this.headingTo = headingTo;
     this.zoneName = zoneName;
     this.streetName = streetName;
+    this.changeDetectorRef.detectChanges();
   };
 
   private handleSetPlayerRemoteId(value: number) {
     this.remoteId = value;
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnInit() {
