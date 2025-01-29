@@ -53,7 +53,8 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.SelectedItemId]: null,
     [PlayerSharedDataType.Frozen]: false,
     [PlayerSharedDataType.IsRestrained]: player.character.isRestrained,
-    [PlayerSharedDataType.Offer]: null
+    [PlayerSharedDataType.Offer]: null,
+    [PlayerSharedDataType.Attachments]: [],
   });
 };
 
