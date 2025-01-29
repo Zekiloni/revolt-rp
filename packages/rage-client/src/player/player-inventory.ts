@@ -4,7 +4,7 @@ import { registerKeyBind } from '../core/keybind-manager';
 import { getObjectGroundPosition } from '../util/object.util';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from './util/player-data.util';
-import { distance } from '../util/vector.util';
+import { getDistance } from '../util/vector.util';
 
 
 const SELECT_ITEM_KEYBINDINGS = [
@@ -81,7 +81,7 @@ function selectItem(slot: number) {
 }
 
 function isPlayerNearPlayer(target: PlayerMp) {
-  return distance(mp.players.local.position, target.position) < P2P_GIVE_ITEM_MAX_DISTANCE && mp.players.local.dimension === target.dimension;
+  return getDistance(mp.players.local.position, target.position) < P2P_GIVE_ITEM_MAX_DISTANCE && mp.players.local.dimension === target.dimension;
 }
 
 function getNearbyPlayersHandler() {

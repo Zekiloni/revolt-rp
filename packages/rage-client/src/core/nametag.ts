@@ -1,5 +1,5 @@
 import { getScreenResolution } from '../util/game.util';
-import { rgbColors } from '@revolt-rp/common';
+import { getDistance } from '../util/vector.util';
 
 mp.nametags.enabled = false;
 
@@ -17,7 +17,7 @@ function nameTagHandler() {
     mp.players.forEachInRange(mp.players.local.position, nameTagsConfig.MAX_PLAYER_DISTANCE,
       (target) => {
         const { position: tPosition } = target;
-        const distance = mp.game.gameplay.getDistanceBetweenCoords(position.x, position.y, position.z, tPosition.x, tPosition.y, tPosition.z, true);
+        const distance = getDistance(position, tPosition);
 
         const screenResolution = getScreenResolution();
 
@@ -41,7 +41,7 @@ function nameTagHandler() {
                 mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, offsetY + 0.15], {
                   centre: true,
                   font: 4,
-                  color: [rgbColors.wHITE[0], rgbColors.wHITE[1], rgbColors.wHITE[2], 255],
+                  color: [255, 255, 255, 255],
                   scale: [0.4, 0.4],
                   outline: false
                 });
