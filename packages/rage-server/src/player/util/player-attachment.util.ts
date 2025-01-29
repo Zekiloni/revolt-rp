@@ -1,8 +1,8 @@
-import { PlayerSharedDataType } from '@revolt-rp/common';
+import { PlayerAttachmentTypeEnum, PlayerSharedDataType } from '@revolt-rp/common';
 
 
 export const playerGetAttachments = (player: PlayerMp) => {
-  const attachments: string[] | undefined = player.getVariable(PlayerSharedDataType.Attachments);
+  const attachments: PlayerAttachmentTypeEnum[] | undefined = player.getVariable(PlayerSharedDataType.Attachments);
 
   if (!attachments || !Array.isArray(attachments)) {
     player.setVariable(PlayerSharedDataType.Attachments, []);
@@ -13,33 +13,33 @@ export const playerGetAttachments = (player: PlayerMp) => {
 };
 
 
-export function playerAddAttachment(player: PlayerMp, model: string) {
-  if (playerHasAttachment(player, model) == false) {
-    const attachments = player.getVariable(PlayerSharedDataType.Attachments) as string[];
-    attachments.push(model);
+export function playerAddAttachment(player: PlayerMp, attachment: PlayerAttachmentTypeEnum) {
+  if (playerHasAttachment(player, attachment) == false) {
+    const attachments = player.getVariable<PlayerAttachmentTypeEnum[] | undefined>(PlayerSharedDataType.Attachments) ?? [];
+    attachments.push(attachment);
 
     player.setVariable(PlayerSharedDataType.Attachments, attachments);
   }
 }
 
 
-export const playerHasAttachment = (player: PlayerMp, model: string) => {
-  const playerAttachments: string[] | undefined = player.getVariable(PlayerSharedDataType.Attachments);
+export const playerHasAttachment = (player: PlayerMp, attachment: PlayerAttachmentTypeEnum) => {
+  const playerAttachments = player.getVariable<PlayerAttachmentTypeEnum[] | undefined>(PlayerSharedDataType.Attachments);
 
   if (!playerAttachments || Array.isArray(playerAttachments) == false) {
     player.setVariable(PlayerSharedDataType.Attachments, []);
     return false;
   }
 
-  return playerAttachments.indexOf(model) != -1;
+  return playerAttachments.indexOf(attachment) != -1;
 };
 
 
-export function playerRemoveAttachment(player: PlayerMp, model: string) {
-  if (playerHasAttachment(player, model)) {
+export function playerRemoveAttachment(player: PlayerMp, attachment: PlayerAttachmentTypeEnum) {
+  if (playerHasAttachment(player, attachment)) {
     const attachments = playerGetAttachments(player);
 
-    const idx = attachments.indexOf(model);
+    const idx = attachments.indexOf(attachment);
     if (idx != -1) {
       attachments?.splice(idx, 1);
     }

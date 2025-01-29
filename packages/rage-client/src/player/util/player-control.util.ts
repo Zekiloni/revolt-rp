@@ -1,11 +1,4 @@
-const disabledControls: Set<RageEnums.Controls> = new Set();
-
-
-function handleDisabledPlayerControls() {
-   for (const inputControl of disabledControls) {
-      mp.game.controls.disableControlAction(RageEnums.InputGroup.MAX_INPUTGROUPS, inputControl, true);
-   }
-}
+import { disabledControls } from '../../core/disabled-control';
 
 export function disablePlayerControl(inputControls: RageEnums.Controls[]) {
    for (const inputControl of inputControls) {
@@ -31,6 +24,3 @@ export function disableAllPlayerControl() {
    mp.players.local.setInvincible(true);
    mp.game.controls.disableAllControlActions(RageEnums.InputGroup.INPUTGROUP_WHEEL);
 }
-
-
-mp.events.add({ render: handleDisabledPlayerControls });

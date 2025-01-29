@@ -1,10 +1,10 @@
 import { WeaponItem } from './weapon-item.model';
-import { CaliberType, ItemType } from '@revolt-rp/common';
+import { CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
 import { DrinkItemModel } from './drink-item.model';
 import { AmmoItem } from './ammo-item.model';
 
-new DrinkItemModel("Water Bottle", "Flow water bottle, contains 0.3l of pure taste of water.", [], 'prop_ld_flow_bottle', 0.3)
-new DrinkItemModel("Beer Bottle", "Pißwasser beer bottle, contains 0.3l of best German beer.", [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4)
+new DrinkItemModel("Water Bottle", "Flow water bottle, contains 0.3l of pure taste of water.", [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle)
+new DrinkItemModel("Beer Bottle", "Pißwasser beer bottle, contains 0.3l of best German beer.", [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle)
 
 
 new WeaponItem('Ruger Mark IV', 'A popular semi-automatic target pistol.', RageEnums.Hashes.Weapon.PISTOL, CaliberType.CALIBER_22_LR, 'w_pi_pistol', [ItemType.WEAPON_PISTOL], 0.5);

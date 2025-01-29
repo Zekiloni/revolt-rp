@@ -1,4 +1,6 @@
-async function playerQuitHandler(player: PlayerMp, exitType: string, reason?: string) {
+export type PlayerExitType = 'disconnect' | 'timeout' | 'kicked';
+
+async function playerQuitHandler(player: PlayerMp, exitType: PlayerExitType, reason?: string) {
   mp.events.delayTermination = true;
 
   const { account, character, position, heading, dimension } = player;
@@ -7,7 +9,6 @@ async function playerQuitHandler(player: PlayerMp, exitType: string, reason?: st
     await account.save();
 
     if (character) {
-
       // TODO: create label that will expire after some time foreach player in range
 
       character.position = position;

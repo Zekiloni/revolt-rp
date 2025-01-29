@@ -1,6 +1,6 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { BaseItem } from './base-item.model';
-import { AnimationFlag, ItemFlag, ItemType, ProcedureKey } from '@revolt-rp/common';
+import { AnimationFlag, ItemFlag, ItemType, PlayerAttachmentTypeEnum, ProcedureKey } from '@revolt-rp/common';
 import { Item } from '../item.model';
 import {
   playerAddAttachment,
@@ -12,9 +12,11 @@ import { playAnimation } from '../../player/util/player-animation.util';
 export class DrinkItemModel extends BaseItem {
   volume = 3;
   alcohol?: number;
+  holdType: PlayerAttachmentTypeEnum;
 
-  constructor(name: string, description: string, type: ItemType[], model: string, weight: number, alcohol?: number) {
+  constructor(name: string, description: string, type: ItemType[], model: string, weight: number, alcohol: number, holdType: PlayerAttachmentTypeEnum) {
     super(name, description, model, [ItemType.CONSUMABLE, ItemType.DRINK, ...type], weight);
+    this.holdType = holdType;
 
     if (alcohol) {
       this.alcohol = alcohol;
@@ -22,11 +24,11 @@ export class DrinkItemModel extends BaseItem {
   }
 
   async select(player: PlayerMp, item: Item) {
-    playerAddAttachment(player, this.model);
+    playerAddAttachment(player, this.holdType);
   }
 
   async deselect(player: PlayerMp, item: Item) {
-    playerRemoveAttachment(player, this.model);
+    playerRemoveAttachment(player, this.holdType);
   }
 
   async use(player: PlayerMp, item: Item) {

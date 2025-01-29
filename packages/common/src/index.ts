@@ -37,6 +37,8 @@ export * from './lib/player/ped/headOverlays';
 
 export * from './lib/player/player-text-bubble.model';
 export * from './lib/player/player-animation.model';
+export * from './lib/player/player-attachment.model';
+export * from './lib/player/player-attachment-type.enum';
 export * from './lib/player/animation.enum';
 
 export * from './lib/player/player-shared-data-type';

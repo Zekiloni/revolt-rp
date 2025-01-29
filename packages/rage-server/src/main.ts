@@ -15,6 +15,7 @@ import './player/admin/player-admin-command';
 import './player/inventory/player-inventory.api';
 import './player/inventory/player-weapon.api';
 import './player/offer/player-offer.api';
+import './player/payday/player-payday.api';
 
 import './vehicle/vehicle.api';
 import './vehicle/vehicle-command';

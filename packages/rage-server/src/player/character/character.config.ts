@@ -9,5 +9,5 @@ export const characterConfig = {
   maxProperties: 3,
   defaultLevel: 1,
   defaultCash: 5000,
-  defaultHealth: 100
+  defaultHealth: 100,
 }

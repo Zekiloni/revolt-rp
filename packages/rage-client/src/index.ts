@@ -1,12 +1,15 @@
 import './core/browser';
 import './core/default-prevention';
 import './core/nametag';
+import './core/disabled-control';
 
 import './player/authorization/authorization';
 import './player/authorization/character-creator';
 import './player/authorization/player-spawn';
 
+
 import './player/player-animation';
+import './player/player-attachment';
 import './player/player-hud';
 import './player/player-inventory';
 import './player/player-weapon';
