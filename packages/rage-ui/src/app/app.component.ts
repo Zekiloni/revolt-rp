@@ -22,6 +22,7 @@ import { environment } from '../environments/environment';
 import { animate, style, transition, trigger } from '@angular/animations';
 import { PlayerOfferComponent } from './component/player-offer';
 import { fadeInOutTrigger } from './domain/util/animation.util';
+import { BankMenuComponent } from './component/banking/bank-menu';
 
 
 @Component({
@@ -37,7 +38,8 @@ import { fadeInOutTrigger } from './domain/util/animation.util';
     HudComponent,
     VehicleHudComponent,
     PlayerMenuComponent,
-    PlayerOfferComponent
+    PlayerOfferComponent,
+    BankMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
