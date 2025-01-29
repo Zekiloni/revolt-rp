@@ -73,8 +73,24 @@ export const srRs = {
     'serialNo': 'Seriski broj',
     'weaponAmmo': 'Municija',
     'expiringAt': 'Datum isteka',
-    'purity': 'Čistoća',
+    'purity': 'Čistoća'
   },
   'description': 'Opis',
   'to': 'za',
+  'bank_menu': {
+    'deposit': 'Depozit',
+    'withdraw': 'Podizanje',
+    'balance': 'Stanje',
+    'transfer': 'Transfer',
+    'open_savings_account': 'Novi Štedni račun',
+    'savings_account_desc': 'Štedni račun omogućava štednju novca uz konkurentne kamate i fleksibilne opcije povlačenja sredstava',
+    'my_accounts': 'Moji računi',
+    'my_account_desc': 'Pregled i opcije svih vaših računa i transakcija',
+    'close_menu': 'Zatvori meni',
+    'end_session': 'Završi sesiju'
+  },
+  'saving_account_already_exist': 'Već imate štedni račun.',
+  'saving_account_created': 'Štedni račun je uspešno kreiran.',
+  'bank_account_number_info': 'Vaš broj bankovnog računa je {{number}}.',
+  'success': 'Uspešno'
 };

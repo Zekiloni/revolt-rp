@@ -76,6 +76,19 @@ export const enUs = {
     'purity': 'Purity'
   },
   'description': 'Description',
-  'to': 'to'
+  'to': 'to',
+  'bank_menu':{
+    'deposit': 'Deposit',
+    'withdraw': 'Withdraw',
+    'transfer': 'Transfer',
+    'balance': 'Balance',
+    'open_account': 'New Account',
+    'my_accounts': 'My Accounts',
+    'close_menu': 'Close Menu',
+    'end_session': 'End your session',
+  },
+  'saving_account_already_exist': 'You already have a saving account.',
+  'bank_account_number_info': 'Your bank account number is {{number}}.',
+  'success': 'Success',
 };
 

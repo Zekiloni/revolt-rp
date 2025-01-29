@@ -8,6 +8,7 @@ export const characterConfig = {
   defaultMaxVehicles: 3,
   maxProperties: 3,
   defaultLevel: 1,
-  defaultCash: 5000,
+  defaultCash: 2300,
   defaultHealth: 100,
+  defaultBankBalance: 17500
 }

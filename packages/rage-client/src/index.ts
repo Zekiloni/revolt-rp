@@ -21,3 +21,5 @@ import './player/other/player-offer';
 
 import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';
+
+import './banking/bank-menu';

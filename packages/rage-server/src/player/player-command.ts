@@ -129,7 +129,7 @@ registerCommand({
     sendProximityMessage(t('says_low', {
       name: player.name,
       text: content
-    }), player.position, 5, [hexColors.WHITE[2], hexColors.WHITE[3], hexColors.whitesmoke[4]]);
+    }), player.position, 5, [hexColors.WHITE_PALETTE[2], hexColors.WHITE_PALETTE[3], hexColors.whitesmoke[4]]);
   }
 });
 
@@ -144,7 +144,7 @@ registerCommand({
     sendProximityMessage(t('shouts', {
       name: player.name,
       text: content
-    }), player.position, 20, hexColors.WHITE);
+    }), player.position, 20, hexColors.WHITE_PALETTE);
   }
 });
 
@@ -209,7 +209,7 @@ registerCommand({
 
     const message = `${player.name} (${t('to')} ${target.name}): ${[...content].join(' ')}`;
 
-    sendProximityMessage(message, player.position, 10, hexColors.WHITE, [target]);
-    target.outputChatBox(`!{${hexColors.PURPLE[0]}}[!] !{${hexColors.WHITE}}${message}`);
+    sendProximityMessage(message, player.position, 10, hexColors.WHITE_PALETTE, [target]);
+    target.outputChatBox(`!{${hexColors.PURPLE[0]}}[!] !{${hexColors.WHITE_PALETTE}}${message}`);
   }
 });

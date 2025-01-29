@@ -1,13 +1,17 @@
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
+  BankAccountType,
   CharacterGender,
   CharacterSpawnType,
-  HeadOverlayComponent, headOverlays as headOverlayInfo,
-  ICharacterCreate, PlayerSharedDataType,
+  HeadOverlayComponent,
+  headOverlays as headOverlayInfo,
+  ICharacterCreate,
+  PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { CharacterModel } from '../account-character.ref';
+import { createBankAccount } from '../../banking/banking.service';
 
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
@@ -17,8 +21,10 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
       cash: 5000
     });
 
+    await createBankAccount(character, BankAccountType.Main, characterConfig.defaultBankBalance);
+
     player.account.characters.push(character);
-    await  player.account.save();
+    await player.account.save();
 
     return character;
   } catch (e) {
@@ -54,7 +60,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.Frozen]: false,
     [PlayerSharedDataType.IsRestrained]: player.character.isRestrained,
     [PlayerSharedDataType.Offer]: null,
-    [PlayerSharedDataType.Attachments]: [],
+    [PlayerSharedDataType.Attachments]: []
   });
 };
 
