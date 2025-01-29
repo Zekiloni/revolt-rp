@@ -10,4 +10,5 @@ export const enum PlayerSharedDataType {
   Attachments = 'attachments',
   Frozen = 'frozen',
   Offer = 'offer',
+  ClickToUse = 'click_to_use',
 }

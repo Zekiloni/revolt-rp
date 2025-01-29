@@ -311,3 +311,12 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
     await playerRemoveItemFromInventory(player, itemId);
   }
 }
+
+
+export const playerUseItem = async (player: PlayerMp, item: Item) => {
+  const itemHandler = item.data;
+
+  if (itemHandler && itemHandler.use) {
+    itemHandler.use(player, item);
+  }
+}

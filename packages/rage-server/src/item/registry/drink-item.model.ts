@@ -1,12 +1,19 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { BaseItem } from './base-item.model';
-import { AnimationFlag, ItemFlag, ItemType, PlayerAttachmentTypeEnum, ProcedureKey } from '@revolt-rp/common';
+import {
+  AnimationFlag,
+  ItemFlag,
+  ItemType,
+  PlayerAttachmentTypeEnum,
+  PlayerSharedDataType,
+  ProcedureKey
+} from '@revolt-rp/common';
 import { Item } from '../item.model';
 import {
   playerAddAttachment,
   playerRemoveAttachment
 } from '../../player/util/player-attachment.util';
-import { playAnimation } from '../../player/util/player-animation.util';
+import { playAnimation, stopAnimation } from '../../player/util/player-animation.util';
 
 
 export class DrinkItemModel extends BaseItem {
@@ -25,10 +32,13 @@ export class DrinkItemModel extends BaseItem {
 
   async select(player: PlayerMp, item: Item) {
     playerAddAttachment(player, this.holdType);
+    player.setVariable(PlayerSharedDataType.ClickToUse, true);
   }
 
   async deselect(player: PlayerMp, item: Item) {
+    stopAnimation(player);
     playerRemoveAttachment(player, this.holdType);
+    player.setVariable(PlayerSharedDataType.ClickToUse, false);
   }
 
   async use(player: PlayerMp, item: Item) {

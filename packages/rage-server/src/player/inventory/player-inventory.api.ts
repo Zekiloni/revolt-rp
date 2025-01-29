@@ -1,11 +1,12 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
 import {
+  getPlayerSelectedItem,
   playerChangeItemSlot, playerDestroyItem,
   playerDropItem, playerGiveItemToPlayer,
   playerPickupItem,
   playerSelectItem,
-  playerSplitItem
+  playerSplitItem, playerUseItem
 } from './player-inventory.service';
 
 
@@ -40,8 +41,11 @@ async function playerGiveItemToPlayerHandler(data: [number, string, number], { p
   await playerGiveItemToPlayer(player, targetId, itemId, quantity);
 }
 
-function playerUseItemHandler() {
-  // TODO??
+async function playerUseItemHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const selectedItem = getPlayerSelectedItem(player);
+  if (selectedItem) {
+    await playerUseItem(player, selectedItem);
+  }
 }
 
 async function playerDestroyItemHandler(itemId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
