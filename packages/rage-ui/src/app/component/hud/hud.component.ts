@@ -18,11 +18,14 @@ import { getItemIcon } from '../../domain/util/item.util';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HudComponent implements OnInit, OnDestroy {
+  protected readonly getItemIcon = getItemIcon;
+
   remoteId = 1;
   cash = 666.99;
   streetName = 'Street Name';
   zoneName = 'Zone Name';
   headingTo = 'N';
+
   selectedItemId: string | null = null;
 
   $quickSlots: Observable<(IItem | null)[]>;
@@ -34,7 +37,6 @@ export class HudComponent implements OnInit, OnDestroy {
     this.$quickSlots = this.store.select(selectInventory)
       .pipe(map(inventory => inventory.slice(0, 5)));
   }
-
 
   isItemSelected(itemId: string) {
     return this.selectedItemId == itemId;
@@ -77,6 +79,4 @@ export class HudComponent implements OnInit, OnDestroy {
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_LOCATION, this.handleUpdateLocation);
     this.rageClientService.off(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, this.handleSetPlayerRemoteId);
   }
-
-  protected readonly getItemIcon = getItemIcon;
 }
