@@ -2,6 +2,7 @@ import { WeaponItem } from './weapon-item.model';
 import { CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
 import { DrinkItemModel } from './drink-item.model';
 import { AmmoItem } from './ammo-item.model';
+import { BankCardItem } from './bank-card-item.model';
 
 new DrinkItemModel("Water Bottle", "Flow water bottle, contains 0.3l of pure taste of water.", [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle)
 new DrinkItemModel("Beer Bottle", "Pißwasser beer bottle, contains 0.3l of best German beer.", [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle)
@@ -120,4 +121,7 @@ new WeaponItem('Alexander Arms 6.5 Grendel AR-15', 'A powerful AR-15 variant cha
 new WeaponItem('Howa 1500 Mini Action', 'A bolt-action rifle chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_6_5_GRENDEL, 'w_sr_precisionrifle_reh', [ItemType.WEAPON_ASSAULT_RIFLE], 4.2);
 
 
-new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', CaliberType.CALIBER_22_LR, 'w_pi_pistol_mag1', [ItemType.AMMUNITION], 0.2);
+new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', CaliberType.CALIBER_22_LR, 'w_pi_pistol_mag1', [ItemType.AMMUNITION], 0.35);
+
+
+new BankCardItem('Credit Card', 'A standard credit card for making electronic payments.', 'prop_cs_credit_card', [], 0.1);
