@@ -1,6 +1,13 @@
 import { PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { triggerServer } from '@libertymp/rage-rpc';
 
+export const toggleClickToUseItem = (toggle: boolean) => {
+  if (toggle) {
+    mp.events.add('click', handleMouseClick);
+  } else {
+    mp.events.remove('click', handleMouseClick);
+  }
+}
 
 function handleMouseClick(
   absoluteX: number,
@@ -20,11 +27,7 @@ function playerClickToUseItemDataHandler(player: PlayerMp, value: boolean, oldVa
   if (player.type != RageEnums.EntityType.PLAYER) return;
 
   if (mp.players.local.id === player.id) {
-    if (value) {
-      mp.events.add('click', handleMouseClick);
-    } else {
-      mp.events.remove('click', handleMouseClick);
-    }
+    toggleClickToUseItem(value);
   }
 }
 
