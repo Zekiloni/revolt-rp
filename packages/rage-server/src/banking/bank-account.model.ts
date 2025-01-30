@@ -21,7 +21,7 @@ export class BankAccount extends Document implements IBankAccount {
   @prop({ required: true, unique: true })
   number: string;
 
-  @prop({ ref: () => Item })
+  @prop({ ref: () => Character, required: true })
   character: Ref<Character>;
 
   @prop({ required: true, default: 0 })

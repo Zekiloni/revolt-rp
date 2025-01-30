@@ -1,0 +1,26 @@
+<div class="p-fluid max-w-14rem mb-3">
+  <p-dropdown
+    [options]="bankAccounts"
+    [(ngModel)]="selectedBankAccount"
+    optionLabel="number"
+    placeholder="Select a City">
+  </p-dropdown>
+</div>
+
+
+<p-tabView [(activeIndex)]="activeIndex">
+  <p-tabPanel [header]="'bank_menu.account_overview' | translate" leftIcon="pi pi-info-circle">
+    <div class="flex justify-content-between border-bottom-1 surface-border p-3">
+      <span class="font-semibold text-color-secondary text-xl">{{ 'balance' | translate }}</span>
+      <span class="text-green-500 text-2xl font-bold">{{ selectedBankAccount!.balance | currency }}</span>
+    </div>
+  </p-tabPanel>
+  <p-tabPanel [header]="'bank_menu.transactions' | translate" leftIcon="pi pi-history">
+    <app-transaction-history [bankAccount]="selectedBankAccount!"></app-transaction-history>
+  </p-tabPanel>
+  <p-tabPanel [header]="'bank_menu.account_settings' | translate" leftIcon="pi pi-cog">
+    <p>
+      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+    </p>
+  </p-tabPanel>
+</p-tabView>

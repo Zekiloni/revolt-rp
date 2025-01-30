@@ -88,11 +88,25 @@ export const srRs = {
     'my_account_desc': 'Pregled i opcije svih vaših računa i transakcija',
     'close_menu': 'Zatvori meni',
     'end_session': 'Završi sesiju',
+    'account_overview': 'Pregled računa',
+    'transactions': 'Transakcije',
+    'account_settings': 'Podešavanja računa'
+  },
+  'bank_account_type': {
+    'main': 'Osnovni',
+    'savings': 'Štedni'
   },
   'saving_account_already_exist': 'Već imate štedni račun.',
   'saving_account_created': 'Štedni račun je uspešno kreiran.',
   'bank_account_number_info': 'Vaš broj bankovnog računa je {{number}}.',
   'bank_account_doesnt_exist': 'Bankovni račun ne postoji.',
   'insufficient_funds': 'Nemate sredstava na računu.',
+  'withdraw_transaction': 'Transakcija podizanja',
+  'deposit_transaction': 'Transakcija depozita',
+  'balance': 'Stanje',
   'success': 'Uspešno',
+  'type': 'Tip',
+  'status': 'Status',
+  'transaction_date': 'Datum transakcije',
+  'amount': 'Iznos',
 };
