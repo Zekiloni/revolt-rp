@@ -59,4 +59,7 @@ export const enum ProcedureKey {
 
   CLIENT_PLAYER_TOGGLE_BANK_MENU = 'client_playerToggleBankMenu',
   SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
+
+  CLIENT_PLAYER_USE_BANK_CARD = 'client_playerUseBankCard',
+  BROWSER_ATM_INIT = 'browser_atmInit',
 }
