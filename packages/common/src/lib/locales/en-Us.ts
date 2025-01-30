@@ -77,7 +77,7 @@ export const enUs = {
   },
   'description': 'Description',
   'to': 'to',
-  'bank_menu':{
+  'bank_menu': {
     'deposit': 'Deposit',
     'withdraw': 'Withdraw',
     'transfer': 'Transfer',
@@ -85,10 +85,12 @@ export const enUs = {
     'open_account': 'New Account',
     'my_accounts': 'My Accounts',
     'close_menu': 'Close Menu',
-    'end_session': 'End your session',
+    'end_session': 'End your session'
   },
   'saving_account_already_exist': 'You already have a saving account.',
   'bank_account_number_info': 'Your bank account number is {{number}}.',
+  'bank_account_doesnt_exist': 'Bank account does not exist.',
+  'insufficient_funds': 'Insufficient funds.',
   'success': 'Success',
 };
 

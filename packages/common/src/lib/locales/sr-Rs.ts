@@ -87,10 +87,12 @@ export const srRs = {
     'my_accounts': 'Moji računi',
     'my_account_desc': 'Pregled i opcije svih vaših računa i transakcija',
     'close_menu': 'Zatvori meni',
-    'end_session': 'Završi sesiju'
+    'end_session': 'Završi sesiju',
   },
   'saving_account_already_exist': 'Već imate štedni račun.',
   'saving_account_created': 'Štedni račun je uspešno kreiran.',
   'bank_account_number_info': 'Vaš broj bankovnog računa je {{number}}.',
-  'success': 'Uspešno'
+  'bank_account_doesnt_exist': 'Bankovni račun ne postoji.',
+  'insufficient_funds': 'Nemate sredstava na računu.',
+  'success': 'Uspešno',
 };
