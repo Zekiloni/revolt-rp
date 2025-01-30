@@ -17,5 +17,7 @@ import './player/inventory/player-weapon.api';
 import './player/offer/player-offer.api';
 import './player/payday/player-payday.api';
 
+import './banking/banking.api';
+
 import './vehicle/vehicle.api';
 import './vehicle/vehicle-command';

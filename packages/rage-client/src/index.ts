@@ -23,3 +23,4 @@ import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';
 
 import './banking/bank-menu';
+import './banking/bank-atm';
