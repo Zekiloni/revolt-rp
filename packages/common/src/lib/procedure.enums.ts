@@ -62,4 +62,5 @@ export const enum ProcedureKey {
 
   CLIENT_PLAYER_USE_BANK_CARD = 'client_playerUseBankCard',
   BROWSER_ATM_INIT = 'browser_atmInit',
+  SERVER_PLAYER_BANK_GET_TRANSACTIONS = 'server_playerBankGetTransactions',
 }

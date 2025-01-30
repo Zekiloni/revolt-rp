@@ -35,6 +35,9 @@ export * from './lib/player/ped/hairColors';
 export * from './lib/player/ped/eyeColorNames';
 export * from './lib/player/ped/headOverlays';
 
+export * from './lib/player/ped/clothing/male-best-torso';
+export * from './lib/player/ped/clothing/female-best-torso';
+
 export * from './lib/player/player-text-bubble.model';
 export * from './lib/player/player-animation.model';
 export * from './lib/player/player-attachment.model';
@@ -55,7 +58,9 @@ export * from './lib/vehicle/vehicle-shared-data-type';
 export * from './lib/vehicle/vehicle-hud.model';
 export * from './lib/vehicle/vehicle.enum';
 
-export * from './lib/bank/bank-account.model';
+export * from './lib/banking/bank-account.model';
+export * from './lib/banking/transaction.model';
+export * from './lib/banking/transaction.enum';
 
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';

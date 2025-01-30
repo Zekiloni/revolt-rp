@@ -85,12 +85,27 @@ export const enUs = {
     'open_account': 'New Account',
     'my_accounts': 'My Accounts',
     'close_menu': 'Close Menu',
-    'end_session': 'End your session'
+    'end_session': 'End your session',
+    'account_overview': 'Account Overview',
+    'transactions': 'Transactions',
+    'account_settings': 'Account Settings',
+  },
+  'bank_account_type': {
+    'main': 'Main',
+    'savings': 'Savings',
   },
   'saving_account_already_exist': 'You already have a saving account.',
   'bank_account_number_info': 'Your bank account number is {{number}}.',
   'bank_account_doesnt_exist': 'Bank account does not exist.',
   'insufficient_funds': 'Insufficient funds.',
+  'withdraw_transaction': 'Withdraw transaction',
+  'deposit_transaction': 'Deposit transaction',
+  'balance': 'Balance',
   'success': 'Success',
+  'type': 'Type',
+  'status': 'Status',
+  'created_at': 'Created at',
+  'transaction_date': 'Transaction Date',
+  'amount': 'Amount',
 };
 

@@ -1,9 +1,10 @@
+import { t } from 'i18next';
 import { customAlphabet } from 'nanoid';
-import { BankAccountType } from '@revolt-rp/common';
+import { BankAccountType, TransactionType } from '@revolt-rp/common';
+import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccountModel } from './bank-account.model';
-import { notifyPlayer } from '../player/util/player-notify.util';
-import { t } from 'i18next';
+import { TransactionModel } from './transaction.model';
 
 export const generateBankAccountNumber = () => {
   const nanoid = customAlphabet('0123456789', 16);
@@ -24,10 +25,24 @@ export const createBankAccount = (character: Character, type: BankAccountType, b
   });
 };
 
-export const getBankAccountsByCharacter = (character: Character) => {
-  return BankAccountModel.find({ character: character._id });
+
+export const getBankAccountTransactions = (bankAccountId: string) => {
+  return TransactionModel.find({ bankAccount: bankAccountId }).exec();
 };
 
+export const getBankAccountsByCharacter = (character: Character) => {
+  return BankAccountModel.find({ character: character._id }).exec();
+};
+
+export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
+  return TransactionModel.create({
+    bankAccount: bankAccountId,
+    type,
+    amount,
+    description,
+    targetBankAccount: targetBankAccountId
+  });
+};
 
 export const getSavingAccountByCharacter = (character: Character) => {
   return BankAccountModel.findOne({ character: character._id, type: BankAccountType.Savings });
@@ -47,10 +62,13 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
   bankAccount.balance -= amount;
   await bankAccount.save();
 
+  await createBankTransaction(bankAccount.id, TransactionType.Withdraw, amount, t('withdraw_transaction'));
+
   notifyPlayer(player, {
     severity: 'success',
     detail: `${t('withdraw')} ${amount}$ ${t('from')} ${bankAccount.number}`
   });
+
   return bankAccount;
 };
 
@@ -69,6 +87,9 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
   bankAccount.balance += amount;
   await bankAccount.save();
 
+  await createBankTransaction(bankAccount.id, TransactionType.Deposit, amount, t('deposit_transaction'));
+
   notifyPlayer(player, { severity: 'success', detail: `${t('deposit')} ${amount}$ ${t('to')} ${bankAccount.number}` });
   return bankAccount;
 };
+

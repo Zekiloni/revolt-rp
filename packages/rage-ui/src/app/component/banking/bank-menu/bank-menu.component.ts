@@ -5,6 +5,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
 import { ProcedureKey } from '@revolt-rp/common';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CreateSavingAccountComponent } from './component/create-saving-account';
+import { ManageBankAccountsComponent } from './component/manage-bank-accounts';
 
 @Component({
   selector: 'app-bank-menu',
@@ -21,6 +22,15 @@ export class BankMenuComponent {
 
   closeMenu() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_TOGGLE_BANK_MENU, false);
+  }
+
+  manageBankAccounts() {
+    this.dialogService.open(ManageBankAccountsComponent, {
+      header: this.translateService.instant('bank_menu.my_accounts'),
+      width: '45%',
+      height: '55%',
+      focusOnShow: false
+    });
   }
 
   createSavingAccount() {
