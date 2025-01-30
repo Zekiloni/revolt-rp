@@ -9,6 +9,9 @@ import { Item } from '../item/item.model';
   schemaOptions: {
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
+  },
+  options: {
+    customName: 'bank_accounts'
   }
 })
 export class BankAccount extends Document implements IBankAccount {

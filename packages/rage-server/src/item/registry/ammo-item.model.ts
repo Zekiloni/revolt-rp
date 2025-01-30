@@ -2,7 +2,6 @@ import { CaliberType, ItemType, PlayerSharedDataType } from '@revolt-rp/common';
 import { BaseItem } from './base-item.model';
 import { Item } from '../item.model';
 import { WeaponItem } from './weapon-item.model';
-import { playerRemoveItemFromInventory } from '../../player/inventory/player-inventory.service';
 
 export class AmmoItem extends BaseItem {
   caliberType: CaliberType;
