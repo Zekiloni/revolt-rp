@@ -34,8 +34,15 @@ export class BankMenuComponent {
   }
 
   createSavingAccount() {
-    this.dialogService.open(CreateSavingAccountComponent, {
-      header: this.translateService.instant('bank_menu.open_savings_account')
+    const dialogRef = this.dialogService.open(CreateSavingAccountComponent, {
+      header: this.translateService.instant('bank_menu.open_savings_account'),
+      width: '30%'
+    });
+
+    dialogRef.onClose.subscribe((amount: number) => {
+      if (amount) {
+        this.rageClientService.triggerClient(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, amount);
+      }
     });
   }
 }

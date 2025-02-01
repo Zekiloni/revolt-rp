@@ -1,1 +1,10 @@
-<p>create-saving-account works!</p>
+<div class="p-fluid">
+  <div class="field mb-4">
+    <label class="block" for="amount">{{ 'amount' | translate }}</label>
+    <p-inputNumber [(ngModel)]="amount" id="amount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" placeholder="5000" />
+  </div>
+
+  <div class="field">
+    <p-button class="block" [label]="'confirm' | translate" [disabled]="!isValidAmount()" (onClick)="submitCreateSavingAccount()" />
+  </div>
+</div>

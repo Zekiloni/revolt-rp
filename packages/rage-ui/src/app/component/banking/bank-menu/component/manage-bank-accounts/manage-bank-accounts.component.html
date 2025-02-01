@@ -3,6 +3,7 @@
     [options]="bankAccounts"
     [(ngModel)]="selectedBankAccount"
     optionLabel="number"
+    [emptyMessage]="'no_results' | translate"
     [placeholder]="'select_bank_account' | translate">
   </p-dropdown>
 </div>
