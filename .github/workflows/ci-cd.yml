@@ -70,11 +70,11 @@ jobs:
               echo "Running commands on VPS"
               echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-              docker images "zekiloni2/revolt_rp" -q | xargs -I {} docker rmi -f {}
-              docker pull zekiloni2/revolt_rp:latest
-
               docker stop ragemp_server || true
               docker rm ragemp_server || true
+
+              docker images "zekiloni2/revolt_rp" -q | xargs -I {} docker rmi -f {}
+              docker pull zekiloni2/revolt_rp:latest
 
               if [ -z "$(docker network ls --filter name=revolt_network -q)" ]; then
                 echo "Creating Docker network revolt_network..."
