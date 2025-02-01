@@ -97,7 +97,7 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('withdraw_transaction'));
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Deposit, amount, t('withdraw_transaction'));
 
   if (player.character.cash < amount) {
     throw new Error(t('not_enough_money'));
@@ -128,7 +128,7 @@ export const playerTransferMoney = async (player: PlayerMp, bankAccountId: strin
     throw new Error(t('cant_transfer_to_same_account'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('transfer_transaction'), targetBankAccount.id);
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Transfer, amount, t('transfer_transaction'), targetBankAccount.id);
 
   if (!targetBankAccount) {
     throw new Error(t('bank_account_doesnt_exist'));

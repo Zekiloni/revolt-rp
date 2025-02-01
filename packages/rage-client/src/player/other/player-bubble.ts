@@ -1,4 +1,3 @@
-import { getScreenResolution } from '../../util/game.util';
 import { getTextBubble } from '../util/player-data.util';
 import { getDistance } from '../../util/vector.util';
 
@@ -12,9 +11,6 @@ function textBubbleRenderHandler() {
       const { position: targetPosition } = target;
 
       const distance = getDistance(position, targetPosition);
-
-      const screenResolution = getScreenResolution();
-
       const textBubble = getTextBubble(target);
 
       if (textBubble && textBubble.content && textBubble.content.length) {
@@ -29,11 +25,6 @@ function textBubbleRenderHandler() {
               if (screenPos) {
                 // eslint-disable-next-line prefer-const
                 let { x, y } = screenPos;
-
-                let scale = (distance / 25);
-                if (scale < 0.6) scale = 0.6;
-
-                y -= (scale * (0.005 * (screenResolution.y / 1080))) - parseInt('0.010');
 
                 mp.game.graphics.drawText(textBubble.content, [x, y - 0.1525], {
                   centre: true,
