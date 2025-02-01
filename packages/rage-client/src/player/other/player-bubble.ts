@@ -1,7 +1,8 @@
 import { getScreenResolution } from '../../util/game.util';
 import { getTextBubble } from '../util/player-data.util';
+import { getDistance } from '../../util/vector.util';
 
-const TEXT_BUBBLE_RENDER_DISTANCE = 20.0;
+const TEXT_BUBBLE_RENDER_DISTANCE = 15.0;
 
 function textBubbleRenderHandler() {
   const { position } = mp.players.local;
@@ -10,15 +11,7 @@ function textBubbleRenderHandler() {
     (target) => {
       const { position: targetPosition } = target;
 
-      const distance = mp.game.gameplay.getDistanceBetweenCoords(
-        position.x,
-        position.y,
-        position.z,
-        targetPosition.x,
-        targetPosition.y,
-        targetPosition.z,
-        true
-      );
+      const distance = getDistance(position, targetPosition);
 
       const screenResolution = getScreenResolution();
 
@@ -42,7 +35,7 @@ function textBubbleRenderHandler() {
 
                 y -= (scale * (0.005 * (screenResolution.y / 1080))) - parseInt('0.010');
 
-                mp.game.graphics.drawText(textBubble.content, [x, y + 0.3], {
+                mp.game.graphics.drawText(textBubble.content, [x, y - 0.225], {
                   centre: true,
                   font: 4,
                   color: textBubble.color,
