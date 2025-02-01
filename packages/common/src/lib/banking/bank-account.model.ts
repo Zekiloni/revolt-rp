@@ -13,4 +13,5 @@ export interface IBankAccount extends Base {
   number: string;
   balance: number;
   type: BankAccountType;
+  createdAt: Date;
 }
