@@ -78,8 +78,6 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
 
   await giveMoney(player, amount);
 
-  await createBankTransaction(bankAccount.id, TransactionType.Withdraw, amount, t('withdraw_transaction'));
-
   notifyPlayer(player, {
     severity: 'success',
     detail: `${t('withdraw')} ${amount}$ ${t('from')} ${bankAccount.number}`
@@ -109,8 +107,6 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
   await bankAccount.save();
 
   await giveMoney(player, -amount);
-
-  await createBankTransaction(bankAccount.id, TransactionType.Deposit, amount, t('deposit_transaction'));
 
   notifyPlayer(player, { severity: 'success', detail: `${t('deposit')} ${amount}$ ${t('to')} ${bankAccount.number}` });
 
