@@ -118,4 +118,5 @@ export const srRs = {
   'confirm': 'Potvrdi',
   'created_at': 'Datum kreiranja',
   'select_bank_account': 'Izaberi bankovni račun',
+  'error': 'Greška',
 };
