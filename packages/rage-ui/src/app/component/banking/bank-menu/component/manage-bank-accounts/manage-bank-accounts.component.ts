@@ -58,6 +58,7 @@ export class ManageBankAccountsComponent {
   private updateBankAccount = (bankAccount: IBankAccount) => {
     this.bankAccounts = this.bankAccounts.map(account => account.id === bankAccount.id ? bankAccount : account);
     this.selectedBankAccount = bankAccount;
+    playAudio('assets/audio/success-126629.mp3', 0.5);
   };
 
   getBankAccountByType = (type: BankAccountType) => {
@@ -89,7 +90,7 @@ export class ManageBankAccountsComponent {
   }
 
   private handleBankError = (error: Error) => {
-    playAudio('assets/audio/error-126627.mp3');
+    playAudio('assets/audio/error-126627.mp3', 0.5);
     this.messageService.add({ severity: 'error', summary: this.translateService.instant('error'), detail: error.message });
   };
 }

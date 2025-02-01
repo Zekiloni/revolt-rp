@@ -35,6 +35,11 @@ export const getBankAccountsByCharacter = (character: Character) => {
   return BankAccountModel.find({ character: character._id }).exec();
 };
 
+const getBankAccountByNumber = (targetAccountNumber: string) => {
+  return BankAccountModel.findOne({ number: targetAccountNumber });
+};
+
+
 export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
   return TransactionModel.create({
     bankAccount: bankAccountId,
@@ -109,4 +114,37 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
 
   return bankAccount;
 };
+
+export const playerTransferMoney = async (player: PlayerMp, bankAccountId: string, targetAccountNumber: string, amount: number) => {
+  const bankAccount = await getBankAccountById(bankAccountId);
+  const targetBankAccount = await getBankAccountByNumber(targetAccountNumber);
+
+  if (!bankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('transfer_transaction'), targetBankAccount.id);
+
+  if (!targetBankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
+  if (bankAccount.balance < amount) {
+    throw new Error(t('insufficient_funds'));
+  }
+
+  bankAccount.balance -= amount;
+  await bankAccount.save();
+
+  targetBankAccount.balance += amount;
+  await targetBankAccount.save();
+
+  notifyPlayer(player, { severity: 'success', detail: `${t('transfer')} ${amount}$ ${t('to')} ${bankAccount.number}` });
+
+  transaction.status = TransactionStatus.Completed;
+  await transaction.save();
+
+  return bankAccount;
+};
+
 

@@ -4,7 +4,7 @@ import { BankAccountType, catchError, IBankInteraction, ProcedureKey } from '@re
 import {
   createBankAccount,
   getBankAccountsByCharacter, getBankAccountTransactions,
-  getSavingAccountByCharacter, playerDepositMoney,
+  getSavingAccountByCharacter, playerDepositMoney, playerTransferMoney,
   playerWithdrawMoney
 } from './banking.service';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
@@ -47,8 +47,15 @@ function playerBankGetTransactionsHandler(bankAccountId: string) {
   return getBankAccountTransactions(bankAccountId);
 }
 
+async function playerTransferMoneyHandler(data: IBankInteraction, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return playerTransferMoney(player, data.bankAccountId, data.targetAccountNumber, data.amount)
+    .then(bankAccount => bankAccount)
+    .catch(catchError);
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, playerCreateSavingAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNTS, playerGetBankAccountsHandler);
 register(ProcedureKey.SERVER_PLAYER_WITHDRAW_MONEY, playerWithdrawMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_DEPOSIT_MONEY, playerDepositMoneyHandler);
+register(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, playerTransferMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_TRANSACTIONS, playerBankGetTransactionsHandler);
