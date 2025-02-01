@@ -21,7 +21,7 @@ function nameTagHandler() {
 
         const screenResolution = getScreenResolution();
 
-        // if (distance < nameTagsConfig.MAX_PLAYER_DISTANCE && mp.players.local.id != target.id) {
+        if (distance < nameTagsConfig.MAX_PLAYER_DISTANCE && mp.players.local.id != target.id) {
           if (mp.players.local.hasClearLosTo(target.handle, 17)) {
             if (target.getAlpha() != 0) {
               const boneIndex = target.getBoneIndex(RageEnums.Ped.Bones.IK_HEAD);
@@ -46,7 +46,7 @@ function nameTagHandler() {
                   outline: false
                 });
               }
-            // }
+            }
           }
         }
       }
