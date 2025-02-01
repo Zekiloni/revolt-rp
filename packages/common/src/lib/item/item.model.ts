@@ -2,6 +2,7 @@ import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { ItemFlag } from './item-flag';
 import { Vector3 } from '../core.interface';
 import { IBaseItem } from './registry/base-item.model';
+import { IBankCardInfo } from './registry/bank-card.model';
 
 export interface IItem extends Base {
   name: string;
@@ -18,6 +19,7 @@ export interface IItem extends Base {
   purity?: number;
   buildProgress?: number;
   flag?: ItemFlag;
+  bankCardInfo?: IBankCardInfo
   createdAt: Date;
   updatedAt?: Date;
   data: IBaseItem;
