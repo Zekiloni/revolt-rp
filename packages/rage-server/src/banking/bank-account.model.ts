@@ -2,16 +2,15 @@ import { Document, Types } from 'mongoose';
 import { Ref, modelOptions, prop, getModelForClass } from '@typegoose/typegoose';
 import { BankAccountType, IBankAccount } from '@revolt-rp/common';
 import { Character } from '../player/character/character.model';
-import { Item } from '../item/item.model';
 
 
 @modelOptions({
   schemaOptions: {
     toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
   },
   options: {
-    customName: 'bank_accounts'
+    customName: 'bank_accounts',
   }
 })
 export class BankAccount extends Document implements IBankAccount {
@@ -29,6 +28,9 @@ export class BankAccount extends Document implements IBankAccount {
 
   @prop({ type: String, required: true, enum: Object.values(BankAccountType)})
   type: BankAccountType;
+
+  @prop({ required: true, default: () => new Date() })
+  createdAt: Date
 }
 
 export const BankAccountModel = getModelForClass(BankAccount);
