@@ -94,6 +94,7 @@ export const enUs = {
     'main': 'Main',
     'savings': 'Savings',
   },
+  'bank_account_type_desc': 'Bank Account Type',
   'saving_account_already_exist': 'You already have a saving account.',
   'bank_account_number_info': 'Your bank account number is {{number}}.',
   'bank_account_doesnt_exist': 'Bank account does not exist.',
@@ -107,5 +108,11 @@ export const enUs = {
   'created_at': 'Created at',
   'transaction_date': 'Transaction Date',
   'amount': 'Amount',
+  'options': 'Options',
+  'withdraw': 'Withdraw',
+  'deposit': 'Deposit',
+  'transfer': 'Transfer',
+  'target_bank_account': 'Target Bank Account',
+  'confirm': 'Confirm',
 };
 

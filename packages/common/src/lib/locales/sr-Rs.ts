@@ -96,6 +96,7 @@ export const srRs = {
     'main': 'Osnovni',
     'savings': 'Štedni'
   },
+  'bank_account_type_desc': 'Tip bankovnog računa',
   'saving_account_already_exist': 'Već imate štedni račun.',
   'saving_account_created': 'Štedni račun je uspešno kreiran.',
   'bank_account_number_info': 'Vaš broj bankovnog računa je {{number}}.',
@@ -109,4 +110,11 @@ export const srRs = {
   'status': 'Status',
   'transaction_date': 'Datum transakcije',
   'amount': 'Iznos',
+  'options': 'Opcije',
+  'withdraw': 'Podizanje',
+  'deposit': 'Depozit',
+  'transfer': 'Transfer',
+  'target_bank_account': 'Bankovni račun primaoca',
+  'confirm': 'Potvrdi',
+  'created_at': 'Datum kreiranja',
 };
