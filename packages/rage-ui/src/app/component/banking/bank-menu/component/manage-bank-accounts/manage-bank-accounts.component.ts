@@ -32,26 +32,7 @@ const API_EVENTS = {
 export class ManageBankAccountsComponent {
   protected readonly BankActionType = BankActionType;
 
-  bankAccounts: IBankAccount[] = [
-    {
-      character: undefined,
-      number: '3424-3242-6578-7765',
-      balance: 34254,
-      type: BankAccountType.Main,
-      _id: new mongoose.Types.ObjectId(),
-      id: new mongoose.Types.ObjectId().toString(),
-      createdAt: new Date()
-    },
-    {
-      character: undefined,
-      number: '2343-3242-4353-7765',
-      balance: 342,
-      type: BankAccountType.Savings,
-      _id: new mongoose.Types.ObjectId(),
-      id: new mongoose.Types.ObjectId().toString(),
-      createdAt: new Date()
-    }
-  ];
+  bankAccounts: IBankAccount[] = [];
 
   selectedBankAccount: IBankAccount | null = null;
   activeIndex = 0;
