@@ -120,4 +120,5 @@ export const srRs = {
   'created_at': 'Datum kreiranja',
   'select_bank_account': 'Izaberi bankovni račun',
   'error': 'Greška',
+  'cant_transfer_to_same_account': 'Ne možete prebaciti novac na isti račun.'
 };

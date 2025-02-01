@@ -117,5 +117,6 @@ export const enUs = {
   'confirm': 'Confirm',
   'select_bank_account': 'Select Bank Account',
   'error': 'Error',
+  'cant_transfer_to_same_account': 'You can\'t transfer money to the same account.',
 };
 

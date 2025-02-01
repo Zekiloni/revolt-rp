@@ -16,10 +16,13 @@
   </ng-template>
   <ng-template pTemplate="body" let-transaction>
     <tr>
-      <td>{{ transaction['type'] }}</td>
+      <td>
+        <i [ngClass]="getTransactionTypeIcon(transaction)"></i>
+      </td>
       <td>{{ transaction['description'] }}</td>
       <td>{{ transaction['amount'] }}</td>
-      <td>{{ transaction['status'] === TransactionStatus.Completed }}
+      <td>
+        <i [ngClass]="getTransactionStatusIcon(transaction)"></i>
       </td>
       <td>{{ transaction['createdAt'] | date: 'full' }}</td>
     </tr>
