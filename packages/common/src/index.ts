@@ -52,6 +52,7 @@ export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';
 export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
+export * from './lib/item/registry/bank-card.model';
 
 export * from './lib/vehicle/vehicle.model';
 export * from './lib/vehicle/vehicle-shared-data-type';
@@ -61,6 +62,7 @@ export * from './lib/vehicle/vehicle.enum';
 export * from './lib/banking/bank-account.model';
 export * from './lib/banking/transaction.model';
 export * from './lib/banking/transaction.enum';
+export * from './lib/banking/bank-interaction.model';
 
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
