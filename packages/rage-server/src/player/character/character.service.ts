@@ -11,8 +11,7 @@ import {
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { CharacterModel } from '../account-character.ref';
-import { createBankAccount } from '../../banking/banking.service';
-
+import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -21,7 +20,8 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
       cash: 5000
     });
 
-    await createBankAccount(character, BankAccountType.Main, characterConfig.defaultBankBalance);
+    const bankAccount = await createBankAccount(character, BankAccountType.Main, characterConfig.defaultBankBalance);
+    await createBankCardItem(player, bankAccount);
 
     player.account.characters.push(character);
     await player.account.save();

@@ -8,43 +8,49 @@
   </p-dropdown>
 </div>
 
+@if (selectedBankAccount) {
+  <p-tabView [(activeIndex)]="activeIndex">
+    <p-tabPanel [header]="'bank_menu.account_overview' | translate" leftIcon="pi pi-info-circle">
+      <div class="flex justify-content-between border-bottom-1 surface-border py-3">
+        <span class="font-semibold  text-xl">{{ 'balance' | translate }}</span>
+        <span class="text-green-500 text-2xl font-bold">{{ selectedBankAccount!.balance | currency }}</span>
+      </div>
+      <div class="flex align-items-center justify-content-between py-4 border-bottom-1 surface-border">
+        <span class="text-lg text-color-secondary">{{ 'bank_account_type_desc' | translate }}</span>
+        <div class="flex justify-content-between align-items-center gap-3">
+          <span>{{ ('bank_account_type.' + selectedBankAccount!.type) | translate }}</span>
+        </div>
+      </div>
+      <div class="flex align-items-center justify-content-between py-4 border-bottom-1 surface-border">
+        <span class="text-lg text-color-secondary">{{ 'created_at' | translate }}</span>
+        <div class="flex justify-content-between align-items-center gap-3">
+          <span>{{ selectedBankAccount!.createdAt | date }}</span>
+        </div>
+      </div>
+      <div class="flex align-items-center justify-content-between py-4">
+        <span class="text-lg text-color-secondary">{{ 'options' | translate }}</span>
+        <div class="flex justify-content-between align-items-center gap-3">
+          <button pButton icon="pi pi-credit-card" severity="primary" [label]="'withdraw' | translate"
+                  (click)="makeAction(BankActionType.Withdraw)"></button>
+          <button pButton icon="pi pi-wallet" [outlined]="true" [label]="'deposit' | translate"
+                  (click)="makeAction(BankActionType.Deposit)"></button>
+          <button pButton icon="pi pi-send" severity="secondary" [label]="'transfer' | translate"
+                  (click)="makeAction(BankActionType.Transfer)"></button>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel [header]="'bank_menu.transactions' | translate" leftIcon="pi pi-history">
+      <app-transaction-history [bankAccount]="selectedBankAccount!"></app-transaction-history>
+    </p-tabPanel>
+    <p-tabPanel [header]="'bank_menu.account_settings' | translate" leftIcon="pi pi-cog">
+      <p>
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+      </p>
+    </p-tabPanel>
+  </p-tabView>
+} @else {
+  <div class="flex align-items-center justify-content-center mt-5">
+    <p-progressSpinner ariaLabel="loading" />
+  </div>
+}
 
-<p-tabView [(activeIndex)]="activeIndex">
-  <p-tabPanel [header]="'bank_menu.account_overview' | translate" leftIcon="pi pi-info-circle">
-    <div class="flex justify-content-between border-bottom-1 surface-border py-3">
-      <span class="font-semibold  text-xl">{{ 'balance' | translate }}</span>
-      <span class="text-green-500 text-2xl font-bold">{{ selectedBankAccount!.balance | currency }}</span>
-    </div>
-    <div class="flex align-items-center justify-content-between py-4 border-bottom-1 surface-border">
-      <span class="text-lg text-color-secondary">{{ 'bank_account_type_desc' | translate }}</span>
-      <div class="flex justify-content-between align-items-center gap-3">
-        <span>{{ ('bank_account_type.' + selectedBankAccount!.type) | translate }}</span>
-      </div>
-    </div>
-    <div class="flex align-items-center justify-content-between py-4 border-bottom-1 surface-border">
-      <span class="text-lg text-color-secondary">{{ 'created_at' | translate }}</span>
-      <div class="flex justify-content-between align-items-center gap-3">
-        <span>{{ selectedBankAccount!.createdAt | date }}</span>
-      </div>
-    </div>
-    <div class="flex align-items-center justify-content-between py-4">
-      <span class="text-lg text-color-secondary">{{ 'options' | translate }}</span>
-      <div class="flex justify-content-between align-items-center gap-3">
-        <button pButton icon="pi pi-credit-card" severity="primary" [label]="'withdraw' | translate"
-                (click)="makeAction(BankActionType.Withdraw)"></button>
-        <button pButton icon="pi pi-wallet" [outlined]="true" [label]="'deposit' | translate"
-                (click)="makeAction(BankActionType.Deposit)"></button>
-        <button pButton icon="pi pi-send" severity="secondary" [label]="'transfer' | translate"
-                (click)="makeAction(BankActionType.Transfer)"></button>
-      </div>
-    </div>
-  </p-tabPanel>
-  <p-tabPanel [header]="'bank_menu.transactions' | translate" leftIcon="pi pi-history">
-    <app-transaction-history [bankAccount]="selectedBankAccount!"></app-transaction-history>
-  </p-tabPanel>
-  <p-tabPanel [header]="'bank_menu.account_settings' | translate" leftIcon="pi pi-cog">
-    <p>
-      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
-    </p>
-  </p-tabPanel>
-</p-tabView>

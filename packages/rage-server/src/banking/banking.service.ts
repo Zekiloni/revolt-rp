@@ -1,17 +1,25 @@
 import { t } from 'i18next';
 import { customAlphabet } from 'nanoid';
-import { BankAccountType, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { BankAccountType, IBankCardInfo, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
-import { BankAccountModel } from './bank-account.model';
+import { BankAccount, BankAccountModel } from './bank-account.model';
 import { TransactionModel } from './transaction.model';
 import { giveMoney } from '../player/character/character.service';
+import { playerGiveItem } from '../player/inventory/player-inventory.service';
+import { bankingConfig } from './banking.config';
+import dayjs from 'dayjs';
 
 export const generateBankAccountNumber = () => {
-  const nanoid = customAlphabet('0123456789', 16);
-  return nanoid().replace(/(\d{4})(?=\d)/g, '$1-');
+  const generate = customAlphabet('0123456789', 16);
+  return generate().replace(/(\d{4})(?=\d)/g, '$1-');
 };
 
+
+export const generatePinCode = () => {
+  const generate = customAlphabet('0123456789', 4);
+  return generate().replace(/(\d{4})(?=\d)/g, '$1-');
+};
 
 export const getBankAccountById = (bankAccountId: string) => {
   return BankAccountModel.findById(bankAccountId);
@@ -25,6 +33,21 @@ export const createBankAccount = (character: Character, type: BankAccountType, b
     type
   });
 };
+
+
+export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAccount) => {
+  const bankCardInfo: IBankCardInfo = {
+    bankAccountNo: bankAccount.number,
+    active: true,
+    pinCode: generatePinCode()
+  }
+
+  const item = await playerGiveItem(player, 'items.credit_card', 1);
+  item.bankCardInfo = bankCardInfo;
+  item.expiringAt = dayjs().add(bankingConfig.DEFAULT_CREDIT_CARD_DAYS, 'days').toDate();
+
+  await item.save();
+}
 
 
 export const getBankAccountTransactions = (bankAccountId: string) => {

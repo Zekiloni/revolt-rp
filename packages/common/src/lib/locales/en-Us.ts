@@ -61,6 +61,7 @@ export const enUs = {
   'select_player': 'Select Player',
   'no_results': 'No results found.',
   'give_item_action': 'Give {{item}}',
+  'split_item_action': 'Split {{item}}',
   'delete': 'Delete',
   'cancel': 'Cancel',
   'destroy_item_action': 'Destroy {{item}}',
@@ -119,4 +120,8 @@ export const enUs = {
   'error': 'Error',
   'cant_transfer_to_same_account': 'You can\'t transfer money to the same account.',
   'administration': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
+  'items': {
+    'credit_card': 'Credit Card',
+    'credit_card_description': 'A standard credit card for making electronic payments.'
+  }
 };
