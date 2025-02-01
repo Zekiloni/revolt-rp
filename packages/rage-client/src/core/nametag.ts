@@ -30,7 +30,7 @@ function nameTagHandler() {
               const screenPos = mp.game.graphics.world3dToScreen2d(bonePosition);
 
               if (screenPos) {
-                let { x, y } = screenPos;
+                const { x, y } = screenPos;
 
                 let scale = (distance / 25);
                 if (scale < 0.6) scale = 0.6;
@@ -38,7 +38,7 @@ function nameTagHandler() {
                 let offsetY = y;
                 offsetY -= (scale * (0.005 * (screenResolution.y / 1080))) - parseInt('0.010');
 
-                mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, offsetY + 15], {
+                mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, offsetY], {
                   centre: true,
                   font: 4,
                   color: [255, 255, 255, 255],
