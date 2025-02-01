@@ -33,8 +33,6 @@ export class TransactionHistoryComponent implements OnInit {
       .subscribe({ next: this.setTransactions });
   }
 
-  protected readonly TransactionStatus = TransactionStatus;
-
   getTransactionStatusIcon(transaction: ITransaction) {
     return transaction.status === TransactionStatus.Completed ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500';
   }
