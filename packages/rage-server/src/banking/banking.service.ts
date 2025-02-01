@@ -28,7 +28,12 @@ export const createBankAccount = (character: Character, type: BankAccountType, b
 
 
 export const getBankAccountTransactions = (bankAccountId: string) => {
-  return TransactionModel.find({ bankAccount: bankAccountId, targetBankAccount: bankAccountId }).exec();
+  return TransactionModel.find({
+    $or: [
+      { bankAccount: bankAccountId },
+      { targetBankAccount: bankAccountId }
+    ]
+  }).exec();
 };
 
 export const getBankAccountsByCharacter = (character: Character) => {
