@@ -66,6 +66,7 @@
     "@ngx-translate/core": "^16.0.4",
     "@typegoose/typegoose": "^9.0.0",
     "bcryptjs": "^2.4.3",
+    "dayjs": "^1.11.13",
     "discord.js": "^14.17.3",
     "express": "~4.18.1",
     "i18next": "^23.16.0",

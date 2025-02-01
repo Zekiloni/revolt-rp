@@ -13,6 +13,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { MessageService } from 'primeng/api';
 import { playAudio } from '../../../../../domain/util/audio.util';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 
 const API_EVENTS = {
@@ -24,7 +25,7 @@ const API_EVENTS = {
 @Component({
   selector: 'app-manage-bank-accounts',
   standalone: true,
-  imports: [CommonModule, PanelMenuModule, TabViewModule, DropdownModule, FormsModule, TranslatePipe, TransactionHistoryComponent, ButtonDirective],
+  imports: [CommonModule, PanelMenuModule, TabViewModule, DropdownModule, FormsModule, TranslatePipe, TransactionHistoryComponent, ButtonDirective, ProgressSpinnerModule],
   providers: [DialogService],
   templateUrl: './manage-bank-accounts.component.html',
   styleUrl: './manage-bank-accounts.component.css'

@@ -120,13 +120,17 @@ export class InventoryComponent {
   openSplitItemMenu = () => {
     if (!this.selectedItem) return;
 
+    const item = this.selectedItem;
+
     const dialogRef = this.dialogService.open(SplitItemComponent, {
-      header: `Split ${this.selectedItem.name}`
+      header: this.translateService.instant('split_item_action', {
+        item: this.translateService.instant(item.name)
+      })
     });
 
     dialogRef.onClose.subscribe((splitQuantity?: number) => {
-      if (splitQuantity && this.selectedItem)
-        this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, [this.selectedItem.id, splitQuantity]);
+      if (splitQuantity && item)
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, [item.id, splitQuantity]);
     });
 
     this.selectedItem = null;
@@ -159,7 +163,9 @@ export class InventoryComponent {
     const item = this.selectedItem;
 
     const dialogRef = this.dialogService.open(GiveItemComponent, {
-      header: this.translateService.instant('give_item_action', { item: item.name }),
+      header: this.translateService.instant('give_item_action', {
+        item: this.translateService.instant(item.name)
+      }),
       width: '25%',
       data: item.quantity,
       closeOnEscape: true
@@ -180,8 +186,12 @@ export class InventoryComponent {
 
     this.confirmationService.confirm({
       target: event.originalEvent?.target as EventTarget,
-      message: this.translateService.instant('destroy_item_confirmation', { item: item.name }),
-      header: this.translateService.instant('destroy_item_action', { item: item.name }),
+      message: this.translateService.instant('destroy_item_confirmation', {
+        item: this.translateService.instant(item.name)
+      }),
+      header: this.translateService.instant('destroy_item_action', {
+        item: this.translateService.instant(item.name)
+      }),
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: 'p-button-danger p-button-text',
       rejectButtonStyleClass: 'p-button-text p-button-text',

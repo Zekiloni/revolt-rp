@@ -124,4 +124,4 @@ new WeaponItem('Howa 1500 Mini Action', 'A bolt-action rifle chambered in 6.5 Gr
 new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', CaliberType.CALIBER_22_LR, 'w_pi_pistol_mag1', [ItemType.AMMUNITION], 0.35);
 
 
-new BankCardItem('Credit Card', 'A standard credit card for making electronic payments.', 'prop_cs_credit_card', [], 0.1);
+new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);

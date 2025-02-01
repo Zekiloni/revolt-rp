@@ -61,6 +61,7 @@ export const srRs = {
   'select_player': 'Izaberi igrača',
   'no_results': 'Nema rezultata',
   'give_item_action': 'Daj {{item}}',
+  'split_item_action': 'Podeli {{item}}',
   'delete': 'Obriši',
   'cancel': 'Otkaži',
   'destroy_item_action': 'Uništi {{item}}',
@@ -122,4 +123,8 @@ export const srRs = {
   'error': 'Greška',
   'cant_transfer_to_same_account': 'Ne možete prebaciti novac na isti račun.',
   'administration': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
+  'items': {
+    'credit_card': 'Kreditna Kartica',
+    'credit_card_description': 'Standardna kreditna kartica za elektronska plaćanja.'
+  }
 };
