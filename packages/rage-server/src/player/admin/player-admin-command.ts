@@ -33,7 +33,8 @@ registerCommand({
   administrator: AdminType.ADMINISTRATOR,
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
-    mp.players.broadcast(`!{${hexColors.ADMIN}}${player.account.username}: ${content}`);
+    const adminLevel = t(`administrator[${player.account.administrator}]`);
+    mp.players.broadcast(`!{${hexColors.ADMIN}}${adminLevel} ${player.account.username}: ${content}`);
   }
 });
 

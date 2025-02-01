@@ -118,5 +118,5 @@ export const enUs = {
   'select_bank_account': 'Select Bank Account',
   'error': 'Error',
   'cant_transfer_to_same_account': 'You can\'t transfer money to the same account.',
+  'administration': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
 };
-
