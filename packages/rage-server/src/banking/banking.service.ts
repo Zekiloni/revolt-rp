@@ -5,6 +5,7 @@ import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccountModel } from './bank-account.model';
 import { TransactionModel } from './transaction.model';
+import { giveMoney } from '../player/character/character.service';
 
 export const generateBankAccountNumber = () => {
   const nanoid = customAlphabet('0123456789', 16);
@@ -62,6 +63,8 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
   bankAccount.balance -= amount;
   await bankAccount.save();
 
+  await giveMoney(player, amount);
+
   await createBankTransaction(bankAccount.id, TransactionType.Withdraw, amount, t('withdraw_transaction'));
 
   notifyPlayer(player, {
@@ -86,6 +89,8 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
 
   bankAccount.balance += amount;
   await bankAccount.save();
+
+  await giveMoney(player, -amount);
 
   await createBankTransaction(bankAccount.id, TransactionType.Deposit, amount, t('deposit_transaction'));
 
