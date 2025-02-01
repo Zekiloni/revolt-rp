@@ -1,9 +1,9 @@
 import { getScreenResolution } from '../util/game.util';
 import { getDistance } from '../util/vector.util';
+import { isHudActive } from '../player/player-hud';
 
 mp.nametags.enabled = false;
 
-export const showNameTags = true;
 
 const nameTagsConfig = {
   MAX_PLAYER_DISTANCE: 10.0,
@@ -13,7 +13,7 @@ const nameTagsConfig = {
 function nameTagHandler() {
   const { position } = mp.players.local;
 
-  if (showNameTags) {
+  if (isHudActive) {
     mp.players.forEachInRange(mp.players.local.position, nameTagsConfig.MAX_PLAYER_DISTANCE,
       (target) => {
         const { position: tPosition } = target;
@@ -21,7 +21,7 @@ function nameTagHandler() {
 
         const screenResolution = getScreenResolution();
 
-       // if (distance < nameTagsConfig.MAX_PLAYER_DISTANCE && mp.players.local.id != target.id) {
+       if (distance < nameTagsConfig.MAX_PLAYER_DISTANCE && mp.players.local.id != target.id) {
           if (mp.players.local.hasClearLosTo(target.handle, 17)) {
             if (target.getAlpha() != 0) {
               const boneIndex = target.getBoneIndex(RageEnums.Ped.Bones.IK_HEAD);
@@ -48,7 +48,7 @@ function nameTagHandler() {
               }
             }
           }
-       // }
+       }
       }
     );
   }

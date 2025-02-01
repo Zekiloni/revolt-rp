@@ -8,13 +8,14 @@ import { registerKeyBind } from '../core/keybind-manager';
 import { toggleVehicleHud } from '../vehicle/vehicle-core';
 
 
+
 const enum HudActivityState {
   Default,
   OnlyChat,
   All
 }
 
-let isHudActive = gameUiConfig.hud.isActive;
+export let isHudActive = gameUiConfig.hud.isActive;
 let hudUpdateInterval: NodeJS.Timer | null = null;
 let updateInitially = false;
 let hudActivityState = HudActivityState.Default;
