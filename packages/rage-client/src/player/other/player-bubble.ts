@@ -35,7 +35,7 @@ function textBubbleRenderHandler() {
 
                 y -= (scale * (0.005 * (screenResolution.y / 1080))) - parseInt('0.010');
 
-                mp.game.graphics.drawText(textBubble.content, [x, y - 0.225], {
+                mp.game.graphics.drawText(textBubble.content, [x, y - 0.1525], {
                   centre: true,
                   font: 4,
                   color: textBubble.color,
