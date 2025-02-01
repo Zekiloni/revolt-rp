@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TabViewModule } from 'primeng/tabview';
 import { BankAccountType, IBankAccount, IBankInteraction, ProcedureKey } from '@revolt-rp/common';
-import mongoose from 'mongoose';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';

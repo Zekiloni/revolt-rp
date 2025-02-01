@@ -36,20 +36,20 @@ export class TransactionHistoryComponent implements OnInit {
   protected readonly TransactionStatus = TransactionStatus;
 
   getTransactionStatusIcon(transaction: ITransaction) {
-    return transaction.status === TransactionStatus.Completed ? 'pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500';
+    return transaction.status === TransactionStatus.Completed ? 'pi pi-check-circle text-green-500' : 'pi pi-times-circle text-red-500';
   }
 
   getTransactionTypeIcon(transaction: ITransaction) {
     switch (transaction.type) {
       case TransactionType.Deposit:
-        return 'pi-plus-circle text-green-500';
+        return 'pi pi-plus-circle text-green-500';
       case TransactionType.Withdraw:
-        return 'pi-minus-circle text-red-500';
+        return 'pi pi-minus-circle text-red-500';
       case TransactionType.Transfer:
-        return 'pi-exchange text-blue-500';
+        return 'pi pi-exchange text-blue-500';
 
       default:
-        return 'pi-question-circle text-gray-500';
+        return 'pi pi-question-circle text-gray-500';
     }
   }
 }
