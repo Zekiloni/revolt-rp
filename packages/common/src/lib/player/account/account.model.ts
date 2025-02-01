@@ -4,7 +4,7 @@ import { ICharacter } from '../character/character.model';
 
 export enum AdminType {
   NONE = 0,
-  TRIAL_ADMIN = 1,
+  MODERATOR = 1,
   JUNIOR_ADMIN = 2,
   ADMINISTRATOR = 3,
   SENIOR_ADMIN = 4,
