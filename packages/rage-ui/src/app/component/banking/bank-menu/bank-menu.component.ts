@@ -28,7 +28,7 @@ export class BankMenuComponent {
     this.dialogService.open(ManageBankAccountsComponent, {
       header: this.translateService.instant('bank_menu.my_accounts'),
       width: '45%',
-      height: '55%',
+      height: '60%',
       focusOnShow: false
     });
   }
