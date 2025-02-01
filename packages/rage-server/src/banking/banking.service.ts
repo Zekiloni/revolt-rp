@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { customAlphabet } from 'nanoid';
-import { BankAccountType, TransactionType } from '@revolt-rp/common';
+import { BankAccountType, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccountModel } from './bank-account.model';
@@ -40,6 +40,7 @@ export const createBankTransaction = (bankAccountId: string, type: TransactionTy
     bankAccount: bankAccountId,
     type,
     amount,
+    status: TransactionStatus.Failed,
     description,
     targetBankAccount: targetBankAccountId
   });
@@ -55,6 +56,8 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
   if (!bankAccount) {
     throw new Error(t('bank_account_doesnt_exist'));
   }
+
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('withdraw_transaction'));
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));
@@ -72,6 +75,9 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
     detail: `${t('withdraw')} ${amount}$ ${t('from')} ${bankAccount.number}`
   });
 
+  transaction.status = TransactionStatus.Completed;
+  await transaction.save();
+
   return bankAccount;
 };
 
@@ -82,6 +88,8 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
   if (!bankAccount) {
     throw new Error(t('bank_account_doesnt_exist'));
   }
+
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('withdraw_transaction'));
 
   if (player.character.cash < amount) {
     throw new Error(t('not_enough_money'));
@@ -95,6 +103,10 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
   await createBankTransaction(bankAccount.id, TransactionType.Deposit, amount, t('deposit_transaction'));
 
   notifyPlayer(player, { severity: 'success', detail: `${t('deposit')} ${amount}$ ${t('to')} ${bankAccount.number}` });
+
+  transaction.status = TransactionStatus.Completed;
+  await transaction.save();
+
   return bankAccount;
 };
 

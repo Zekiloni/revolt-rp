@@ -117,4 +117,5 @@ export const srRs = {
   'target_bank_account': 'Bankovni račun primaoca',
   'confirm': 'Potvrdi',
   'created_at': 'Datum kreiranja',
+  'select_bank_account': 'Izaberi bankovni račun',
 };

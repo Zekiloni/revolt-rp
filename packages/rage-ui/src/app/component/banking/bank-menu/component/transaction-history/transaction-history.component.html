@@ -19,7 +19,7 @@
       <td>{{ transaction['type'] }}</td>
       <td>{{ transaction['description'] }}</td>
       <td>{{ transaction['amount'] }}</td>
-      <td>{{ transaction['status'] === TransactionStatus }}
+      <td>{{ transaction['status'] === TransactionStatus.Completed }}
       </td>
       <td>{{ transaction['createdAt'] | date: 'full' }}</td>
     </tr>
