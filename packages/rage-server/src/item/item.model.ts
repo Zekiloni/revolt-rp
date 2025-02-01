@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
-import { IItem, ItemFlag, ItemSharedDataType } from '@revolt-rp/common';
+import { IBankCardInfo, IItem, ItemFlag, ItemSharedDataType } from '@revolt-rp/common';
 import { itemRegistry } from './registry/base-item.model';
 
 @modelOptions({
@@ -46,6 +46,9 @@ export class Item extends Document implements IItem {
 
   @prop({ default: 100 })
   usage: number;
+
+  @prop({ type: Object, required: false })
+  bankCardInfo?: IBankCardInfo
 
   @prop({ type: Date, required: false })
   expiringAt?: Date;

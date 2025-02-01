@@ -6,6 +6,7 @@ import { Character } from '../player/character/character.model';
 
 @modelOptions({
   schemaOptions: {
+    timestamps: true,
     toObject: { virtuals: true },
     toJSON: { virtuals: true },
   },
@@ -29,8 +30,8 @@ export class BankAccount extends Document implements IBankAccount {
   @prop({ type: String, required: true, enum: Object.values(BankAccountType)})
   type: BankAccountType;
 
-  @prop({ required: true, default: () => new Date() })
-  createdAt: Date
+  createdAt!: Date;
+  updatedAt?: Date;
 }
 
 export const BankAccountModel = getModelForClass(BankAccount);
