@@ -75,6 +75,7 @@ export class ManageBankAccountsComponent {
 
   private updateBankAccount = (bankAccount: IBankAccount) => {
     this.bankAccounts = this.bankAccounts.map(account => account.id === bankAccount.id ? bankAccount : account);
+    this.selectedBankAccount = bankAccount;
   };
 
   getBankAccountByType = (type: BankAccountType) => {

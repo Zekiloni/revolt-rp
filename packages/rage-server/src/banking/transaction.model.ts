@@ -1,6 +1,6 @@
 import { ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { BankAccount } from './bank-account.model';
 
 

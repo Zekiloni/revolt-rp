@@ -114,5 +114,6 @@ export const enUs = {
   'transfer': 'Transfer',
   'target_bank_account': 'Target Bank Account',
   'confirm': 'Confirm',
+  'select_bank_account': 'Select Bank Account',
 };
 
