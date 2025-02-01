@@ -86,6 +86,12 @@ jobs:
               else
                 echo "Running MongoDB container with authentication enabled..."
 
+                if [ "$(docker ps -aq -f name=mongo_db)" ]; then
+                  echo "Stopping and removing existing MongoDB container..."
+                  docker stop mongo_db || true
+                  docker rm mongo_db || true
+                fi
+
                 docker pull mongo:latest
                 docker run -d --name mongo_db \
                   --network revolt_network \
