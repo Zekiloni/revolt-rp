@@ -115,5 +115,6 @@ export const enUs = {
   'target_bank_account': 'Target Bank Account',
   'confirm': 'Confirm',
   'select_bank_account': 'Select Bank Account',
+  'error': 'Error',
 };
 

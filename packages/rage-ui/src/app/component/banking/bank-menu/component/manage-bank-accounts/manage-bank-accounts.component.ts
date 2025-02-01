@@ -13,6 +13,7 @@ import { BankActionInputComponent, BankActionOutput, BankActionType } from '../b
 import { DialogService } from 'primeng/dynamicdialog';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { MessageService } from 'primeng/api';
+import { playAudio } from '../../../../../domain/util/audio.util';
 
 
 const API_EVENTS = {
@@ -88,6 +89,7 @@ export class ManageBankAccountsComponent {
   }
 
   private handleBankError = (error: Error) => {
-    this.messageService.add({ severity: 'error', data: error.message });
+    playAudio('assets/audio/error-126627.mp3');
+    this.messageService.add({ severity: 'error', summary: this.translateService.instant('error'), detail: error.message });
   };
 }
