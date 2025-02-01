@@ -38,7 +38,7 @@ function nameTagHandler() {
                 let offsetY = y;
                 offsetY -= (scale * (0.005 * (screenResolution.y / 1080))) - parseInt('0.010');
 
-                mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, offsetY + 0.15], {
+                mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, offsetY - 0.15], {
                   centre: true,
                   font: 4,
                   color: [255, 255, 255, 255],
