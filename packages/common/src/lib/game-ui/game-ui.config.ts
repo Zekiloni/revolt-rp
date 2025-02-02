@@ -47,7 +47,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.ATM]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
     disableChat: true,
     freezeControls: true,

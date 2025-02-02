@@ -134,4 +134,5 @@ export const srRs = {
   'exceeded_max_withdraw': 'Premašili ste maksimalni iznos za podizanje novca od {{amount}}.',
   'exceeded_max_deposit': 'Premašili ste maksimalni iznos za depozit novca od {{amount}}.',
   'invalid_amount': 'Neispravan iznos.',
+  'bank_card_not_active': 'Bankovna kartica nije aktivna.'
 };

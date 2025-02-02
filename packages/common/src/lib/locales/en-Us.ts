@@ -130,5 +130,6 @@ export const enUs = {
   'input_pin_code_hint': 'Please enter PIN code to continue.',
   'exceeded_max_deposit': 'Exceeded maximum deposit amount of {{amount}}.',
   'exceeded_max_withdraw': 'Exceeded maximum withdraw amount of {{amount}}.',
-  'invalid_amount': 'Invalid amount.'
+  'invalid_amount': 'Invalid amount.',
+  'bank_card_not_active': 'Bank card is not active.'
 };
