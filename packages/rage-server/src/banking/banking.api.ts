@@ -8,6 +8,8 @@ import {
   playerWithdrawMoney
 } from './banking.service';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
+import { giveMoney } from '../player/character/character.service';
+import { bankingConfig } from './banking.config';
 
 
 async function playerCreateSavingAccountHandler(balance: number, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -21,7 +23,17 @@ async function playerCreateSavingAccountHandler(balance: number, { player }: Pro
     });
   }
 
+  if (balance < bankingConfig.MIN_SAVING_ACCOUNT_BALANCE) {
+    return notifyPlayer(player, {
+      severity: 'error',
+      summary: t('bad_request'),
+      detail: t('savings_min_balance', { balance: bankingConfig.MIN_SAVING_ACCOUNT_BALANCE })
+    });
+  }
+
   const bankAccount = await createBankAccount(player.character, BankAccountType.Savings, balance);
+  await giveMoney(player, -balance);
+
   notifyPlayer(player, { severity: 'success', summary: t('success'), detail: t('saving_account_created') });
 
   sendInfoMessage(player, t('bank_account_number_info', { number: bankAccount.number }));
