@@ -41,6 +41,10 @@ export class BankAtmComponent implements OnInit, OnDestroy {
     return this.pinCodeInput && this.pinCodeInput.length === 4;
   }
 
+  get isValidCard() {
+    return this.bankCardInfo && this.bankCardInfo.active;
+  }
+
   private initializeAtm = (item: IItem) => {
     if (item && item.bankCardInfo) {
       this.bankCardInfo = item.bankCardInfo;
@@ -65,6 +69,13 @@ export class BankAtmComponent implements OnInit, OnDestroy {
   };
 
   submitAuthentication() {
+    if (!this.isValidCard)
+      return this.messageService.add({
+        severity: 'error',
+        summary: this.translateService.instant('error'),
+        detail: this.translateService.instant('bank_card_not_active')
+      });
+
     if (this.bankCardInfo && this.isValidPin && this.bankCardInfo.pinCode === this.pinCodeInput) {
       this.rageClientService.callServer<IBankAccount>(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, this.bankCardInfo.bankAccountNo)
         .subscribe({
