@@ -32,13 +32,13 @@ function playerGetBankAccountsHandler(args: undefined, { player }: ProcedureList
 }
 
 async function playerWithdrawMoneyHandler(data: IBankInteraction, { player }: ProcedureListenerInfo<PlayerMp>) {
-  return playerWithdrawMoney(player, data.bankAccountId, data.amount)
+  return playerWithdrawMoney(player, data.type, data.bankAccountId, data.amount)
     .then(bankAccount => bankAccount)
     .catch(catchError);
 }
 
 async function playerDepositMoneyHandler(data: IBankInteraction, { player }: ProcedureListenerInfo<PlayerMp>) {
-  return playerDepositMoney(player, data.bankAccountId, data.amount)
+  return playerDepositMoney(player, data.type, data.bankAccountId, data.amount)
     .then(bankAccount => bankAccount)
     .catch(catchError);
 }

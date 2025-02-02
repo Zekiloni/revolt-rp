@@ -40,14 +40,14 @@ export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAcco
     bankAccountNo: bankAccount.number,
     active: true,
     pinCode: generatePinCode()
-  }
+  };
 
   const item = await playerGiveItem(player, 'items.credit_card', 1);
   item.bankCardInfo = bankCardInfo;
   item.expiringAt = dayjs().add(bankingConfig.DEFAULT_CREDIT_CARD_DAYS, 'days').toDate();
 
   await item.save();
-}
+};
 
 export const getBankAccountTransactions = (bankAccountId: string) => {
   return TransactionModel.find({
@@ -81,7 +81,7 @@ export const getSavingAccountByCharacter = (character: Character) => {
   return BankAccountModel.findOne({ character: character._id, type: BankAccountType.Savings });
 };
 
-export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: string, amount: number) => {
+export const playerWithdrawMoney = async (player: PlayerMp, type: 'bank' | 'atm', bankAccountId: string, amount: number) => {
   const bankAccount = await getBankAccountById(bankAccountId);
 
   if (!bankAccount) {
@@ -92,6 +92,10 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));
+  }
+
+  if (type === 'atm' && amount > bankingConfig.ATM_MAX_WITHDRAW) {
+    throw new Error(t('exceeded_max_withdraw', { amount }));
   }
 
   bankAccount.balance -= amount;
@@ -111,7 +115,7 @@ export const playerWithdrawMoney = async (player: PlayerMp, bankAccountId: strin
 };
 
 
-export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string, amount: number) => {
+export const playerDepositMoney = async (player: PlayerMp, type: 'bank' | 'atm', bankAccountId: string, amount: number) => {
   const bankAccount = await getBankAccountById(bankAccountId);
 
   if (!bankAccount) {
@@ -122,6 +126,14 @@ export const playerDepositMoney = async (player: PlayerMp, bankAccountId: string
 
   if (player.character.cash < amount) {
     throw new Error(t('not_enough_money'));
+  }
+
+  if (amount < 0) {
+    throw new Error(t('invalid_amount'));
+  }
+
+  if (type === 'atm' && amount > bankingConfig.ATM_MAX_DEPOSIT) {
+    throw new Error(t('exceeded_max_deposit', { amount }));
   }
 
   bankAccount.balance += amount;
