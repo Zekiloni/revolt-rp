@@ -4,7 +4,7 @@ import { BankAccountType, catchError, IBankInteraction, ProcedureKey } from '@re
 import {
   createBankAccount, getBankAccountByNumber,
   getBankAccountsByCharacter, getBankAccountTransactions, getBankCardsByNumber,
-  getSavingAccountByCharacter, playerDepositMoney, playerTransferMoney,
+  getSavingAccountByCharacter, playerDeactivateBankCard, playerDepositMoney, playerTransferMoney,
   playerWithdrawMoney
 } from './banking.service';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
@@ -61,6 +61,12 @@ function playerBankGetCardsHandler(bankAccountNo: string) {
   return getBankCardsByNumber(bankAccountNo);
 }
 
+function playerBankCardDeactivateHandler(bankCardItemId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  playerDeactivateBankCard(player, bankCardItemId)
+    .then(bankCard => bankCard)
+    .catch(catchError);
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, playerCreateSavingAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNTS, playerGetBankAccountsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, playerGetBankAccountByNumberHandler);
@@ -69,3 +75,4 @@ register(ProcedureKey.SERVER_PLAYER_DEPOSIT_MONEY, playerDepositMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, playerTransferMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_TRANSACTIONS, playerBankGetTransactionsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_CARDS, playerBankGetCardsHandler);
+register(ProcedureKey.SERVER_PLAYER_BANK_DEACTIVATE_CARD, playerBankCardDeactivateHandler);

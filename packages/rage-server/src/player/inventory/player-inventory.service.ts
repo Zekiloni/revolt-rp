@@ -92,7 +92,7 @@ export const removePlayerWeapons = async (player: PlayerMp) => {
   playerWeaponItems.forEach(destroyItemById);
 };
 
-export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId) => {
+export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId | string) => {
   return player.character.inventory.some(
     (item) => item instanceof Types.ObjectId ? item.equals(itemId) : item?._id.equals(itemId)
   );
@@ -319,4 +319,8 @@ export const playerUseItem = async (player: PlayerMp, item: Item) => {
   if (itemHandler && itemHandler.use) {
     itemHandler.use(player, item);
   }
+}
+
+export const getPlayerByItemId = async (itemId: string) => {
+  return mp.players.toArray().find(player => player.character != undefined && isPlayerItemOwner(player, itemId));
 }

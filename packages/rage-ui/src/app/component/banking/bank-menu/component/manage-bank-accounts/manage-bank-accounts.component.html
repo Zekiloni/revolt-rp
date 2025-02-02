@@ -36,7 +36,7 @@
                   (click)="makeAction(BankActionType.Deposit)"></button>
           <button pButton icon="pi pi-send" severity="secondary" [label]="'transfer' | translate"
                   (click)="makeAction(BankActionType.Transfer)"
-                  [disabled]="!isSavingsAccount(selectedBankAccount.type)"></button>
+                  [disabled]="isSavingsAccount(selectedBankAccount.type)"></button>
         </div>
       </div>
     </p-tabPanel>

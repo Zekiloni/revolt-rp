@@ -83,7 +83,6 @@ export const enUs = {
     'withdraw': 'Withdraw',
     'transfer': 'Transfer',
     'balance': 'Balance',
-    'open_account': 'New Account',
     'my_accounts': 'My Accounts',
     'open_savings_account': 'Open Savings Account',
     'savings_account_desc': 'Savings account allows you to save money with competitive interest rates and flexible withdrawal options.',
@@ -136,4 +135,9 @@ export const enUs = {
   'invalid_amount': 'Invalid amount.',
   'bank_card_not_active': 'Bank card is not active.',
   'number': 'Number',
+  'new_card': 'New Card',
+  'manage_bank_cards': 'Manage Bank Cards',
+  'deactivate': 'Deactivate',
+  'deactivate_bank_card_confirmation': 'Do you want to deactivate bank card?',
+  'bank_card_not_found': 'Bank card not found.',
 };
