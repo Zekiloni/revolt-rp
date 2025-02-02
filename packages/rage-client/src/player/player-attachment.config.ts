@@ -45,5 +45,13 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     rotation: { x: 0.0, y: 0.0, z: -45.0 },
     fixedRot: true,
     disableControls: attackAction
+  },
+  [PlayerAttachmentTypeEnum.HoldBankCard]: {
+    model: 'prop_cs_credit_card',
+    boneId: RageEnums.Ped.Bones.SKEL_R_HAND,
+    position: { x: 0.125, y: 0.03, z: -0.02 },
+    rotation: { x: -100.0, y: 150.0, z: 28.0 },
+    fixedRot: true,
+    disableControls: attackAction,
   }
 }
