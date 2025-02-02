@@ -3,6 +3,7 @@ import { BaseItem } from './base-item.model';
 import { Item } from '../item.model';
 import { triggerClient } from '@libertymp/rage-rpc';
 import { playerAddAttachment, playerRemoveAttachment } from '../../player/util/player-attachment.util';
+import dayjs from 'dayjs';
 
 
 export class BankCardItem extends BaseItem {
@@ -12,7 +13,7 @@ export class BankCardItem extends BaseItem {
     super(name, description, model, [ItemType.CREDIT_CARD, ...type], weight);
   }
 
-  select(player: PlayerMp, item: Item): void {
+  select(player: PlayerMp, item: Item) {
     playerAddAttachment(player, this.holType);
     player.setVariable(PlayerSharedDataType.ClickToUse, true);
   }
@@ -22,7 +23,12 @@ export class BankCardItem extends BaseItem {
     player.setVariable(PlayerSharedDataType.ClickToUse, false);
   }
 
-  use(player: PlayerMp, item: Item): void {
+  async use(player: PlayerMp, item: Item) {
+    if (item.expiringAt && dayjs(item.expiringAt).isBefore(dayjs())) {
+      item.bankCardInfo.active = false;
+      await item.save();
+    }
+
     triggerClient(player, ProcedureKey.CLIENT_PLAYER_USE_BANK_CARD, item);
   }
 }
