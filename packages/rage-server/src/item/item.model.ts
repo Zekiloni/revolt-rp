@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
-import { IBankCardInfo, IItem, ItemFlag, ItemSharedDataType } from '@revolt-rp/common';
+import { IBankCardInfo, IItem, ItemFlag, ItemSharedDataType, IWearableInfo } from '@revolt-rp/common';
 import { itemRegistry } from './registry/base-item.model';
 
 @modelOptions({
@@ -48,13 +48,19 @@ export class Item extends Document implements IItem {
   usage: number;
 
   @prop({ type: Object, required: false })
-  bankCardInfo?: IBankCardInfo
+  bankCardInfo?: IBankCardInfo;
 
   @prop({ type: Date, required: false })
   expiringAt?: Date;
 
   @prop({ type: Number, required: false })
   purity?: number;
+
+  @prop({ type: Boolean, required: false })
+  equipped?: boolean;
+
+  @prop({ type: Object, required: false })
+  wearableInfo?: IWearableInfo;
 
   @prop({ enum: ItemFlag, type: String, required: false })
   flag?: ItemFlag;
