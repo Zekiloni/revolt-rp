@@ -50,9 +50,11 @@ export * from './lib/item/registry/base-item.model';
 export * from './lib/item/registry/item-type';
 export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';
+export * from './lib/item/wearable-info.model';
+export * from './lib/item/bank-card.model';
+
 export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
-export * from './lib/item/registry/bank-card.model';
 
 export * from './lib/vehicle/vehicle.model';
 export * from './lib/vehicle/vehicle-shared-data-type';
