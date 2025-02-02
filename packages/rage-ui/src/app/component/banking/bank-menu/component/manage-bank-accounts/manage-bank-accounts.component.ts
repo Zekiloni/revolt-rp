@@ -15,13 +15,14 @@ import { MessageService } from 'primeng/api';
 import { playAudio } from '../../../../../domain/util/audio.util';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BANK_API_EVENTS } from '../../../../../domain/config/bank-api.config';
+import { ManageBankCardsComponent } from '../manage-bank-cards';
 
 
 
 @Component({
   selector: 'app-manage-bank-accounts',
   standalone: true,
-  imports: [CommonModule, PanelMenuModule, TabViewModule, DropdownModule, FormsModule, TranslatePipe, TransactionHistoryComponent, ButtonDirective, ProgressSpinnerModule],
+  imports: [CommonModule, PanelMenuModule, TabViewModule, DropdownModule, FormsModule, TranslatePipe, TransactionHistoryComponent, ButtonDirective, ProgressSpinnerModule, ManageBankCardsComponent],
   providers: [DialogService],
   templateUrl: './manage-bank-accounts.component.html',
   styleUrl: './manage-bank-accounts.component.css'
@@ -30,8 +31,8 @@ export class ManageBankAccountsComponent {
   protected readonly BankActionType = BankActionType;
 
   bankAccounts: IBankAccount[] = [];
-
   selectedBankAccount: IBankAccount | null = null;
+
   activeIndex = 0;
 
   constructor(private dialogService: DialogService,
@@ -61,8 +62,8 @@ export class ManageBankAccountsComponent {
     return this.bankAccounts.find(bankAccount => bankAccount.type === type);
   };
 
-  isSavingsAccount(bankAccount: IBankAccount) {
-    return bankAccount && bankAccount.type === BankAccountType.Savings;
+  isSavingsAccount(bankAccountType: BankAccountType) {
+    return bankAccountType === BankAccountType.Savings;
   }
 
   makeAction(actionType: BankActionType) {
@@ -76,7 +77,7 @@ export class ManageBankAccountsComponent {
 
     dialogRef.onClose.subscribe((result?: BankActionOutput) => {
       if (result) {
-        if (this.selectedBankAccount) {
+        if (this.selectedBankAccount && this.selectedBankAccount.id) {
           const bankInteraction: IBankInteraction = {
             type: 'bank',
             bankAccountId: this.selectedBankAccount.id,

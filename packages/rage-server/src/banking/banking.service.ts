@@ -9,6 +9,7 @@ import { giveMoney } from '../player/character/character.service';
 import { playerGiveItem } from '../player/inventory/player-inventory.service';
 import { bankingConfig } from './banking.config';
 import dayjs from 'dayjs';
+import { ItemModel } from '../item/item.model';
 
 export const generateBankAccountNumber = () => {
   const generate = customAlphabet('0123456789', 16);
@@ -61,6 +62,11 @@ export const getBankAccountTransactions = (bankAccountId: string) => {
 export const getBankAccountsByCharacter = (character: Character) => {
   return BankAccountModel.find({ character: character._id }).exec();
 };
+
+
+export const getBankCardsByNumber = (bankAccountNo: string) => {
+  return ItemModel.find({ bankCardInfo: { bankAccountNo } }).exec();
+}
 
 export const getBankAccountByNumber = (bankAccountNumber: string) => {
   return BankAccountModel.findOne({ number: bankAccountNumber });

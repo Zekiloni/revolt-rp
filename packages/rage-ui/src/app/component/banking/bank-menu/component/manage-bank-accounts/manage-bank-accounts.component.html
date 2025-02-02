@@ -36,7 +36,7 @@
                   (click)="makeAction(BankActionType.Deposit)"></button>
           <button pButton icon="pi pi-send" severity="secondary" [label]="'transfer' | translate"
                   (click)="makeAction(BankActionType.Transfer)"
-                  [disabled]="!isSavingsAccount(selectedBankAccount)"></button>
+                  [disabled]="!isSavingsAccount(selectedBankAccount.type)"></button>
         </div>
       </div>
     </p-tabPanel>
@@ -44,9 +44,7 @@
       <app-transaction-history [bankAccount]="selectedBankAccount!"></app-transaction-history>
     </p-tabPanel>
     <p-tabPanel [header]="'bank_menu.account_settings' | translate" leftIcon="pi pi-cog">
-      <p>
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
-      </p>
+      <app-manage-bank-cards [bankAccount]="selectedBankAccount!" />
     </p-tabPanel>
   </p-tabView>
 } @else {
