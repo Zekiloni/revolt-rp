@@ -130,5 +130,8 @@ export const srRs = {
   'submit': 'Potvrdi',
   'clear': 'Očisti',
   'authenticate': 'Autentifikacija',
-  'input_pin_code_hint':'Unesite PIN kod za nastavak.',
+  'input_pin_code_hint': 'Unesite PIN kod za nastavak.',
+  'exceeded_max_withdraw': 'Premašili ste maksimalni iznos za podizanje novca od {{amount}}.',
+  'exceeded_max_deposit': 'Premašili ste maksimalni iznos za depozit novca od {{amount}}.',
+  'invalid_amount': 'Neispravan iznos.',
 };

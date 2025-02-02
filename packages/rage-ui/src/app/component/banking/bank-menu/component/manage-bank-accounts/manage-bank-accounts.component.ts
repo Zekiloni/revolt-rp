@@ -14,13 +14,9 @@ import { RageClientService } from '../../../../../domain/service/rage-client.ser
 import { MessageService } from 'primeng/api';
 import { playAudio } from '../../../../../domain/util/audio.util';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { BANK_API_EVENTS } from '../../../../../domain/config/bank-api.config';
 
 
-const API_EVENTS = {
-  [BankActionType.Deposit]: ProcedureKey.SERVER_PLAYER_DEPOSIT_MONEY,
-  [BankActionType.Withdraw]: ProcedureKey.SERVER_PLAYER_WITHDRAW_MONEY,
-  [BankActionType.Transfer]: ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY
-};
 
 @Component({
   selector: 'app-manage-bank-accounts',
@@ -78,11 +74,12 @@ export class ManageBankAccountsComponent {
       if (result) {
         if (this.selectedBankAccount) {
           const bankInteraction: IBankInteraction = {
+            type: 'bank',
             bankAccountId: this.selectedBankAccount.id,
             ...result
           };
 
-          this.rageClientService.callServer<IBankAccount>(API_EVENTS[actionType], bankInteraction)
+          this.rageClientService.callServer<IBankAccount>(BANK_API_EVENTS[actionType], bankInteraction)
             .subscribe({ next: this.updateBankAccount, error: this.handleBankError });
         }
       }

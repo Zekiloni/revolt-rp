@@ -1,18 +1,24 @@
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Button, ButtonDirective } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { InputOtpModule } from 'primeng/inputotp';
-import { IBankAccount, IBankCardInfo, IItem, ProcedureKey } from '@revolt-rp/common';
+import { IBankAccount, IBankCardInfo, IBankInteraction, IItem, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../../domain/util/animation.util';
 import { InputMaskModule } from 'primeng/inputmask';
+import { playAudio } from '../../../domain/util/audio.util';
+import { MessageService } from 'primeng/api';
+import { BankActionInputComponent, BankActionOutput, BankActionType } from '../bank-menu/component/bank-action-input';
+import { BANK_API_EVENTS } from '../../../domain/config/bank-api.config';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-bank-atm',
   standalone: true,
   imports: [CommonModule, InputOtpModule, FormsModule, Button, TranslatePipe, InputMaskModule, ButtonDirective],
+  providers: [DialogService],
   templateUrl: './bank-atm.component.html',
   styleUrl: './bank-atm.component.css',
   animations: [fadeInOutTrigger]
@@ -27,7 +33,8 @@ export class BankAtmComponent implements OnInit, OnDestroy {
   pinCodeInput: string | null = null;
   pinInvalid = false;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private messageService: MessageService, private translateService: TranslateService,
+              private dialogService: DialogService) {
   }
 
   get isValidPin() {
@@ -48,6 +55,15 @@ export class BankAtmComponent implements OnInit, OnDestroy {
     this.rageClientService.on(ProcedureKey.BROWSER_ATM_INIT, this.initializeAtm);
   }
 
+  private handleBankError = (error: Error) => {
+    playAudio('assets/audio/error-126627.mp3');
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translateService.instant('error'),
+      detail: error.message
+    });
+  };
+
   submitAuthentication() {
     if (this.bankCardInfo && this.isValidPin && this.bankCardInfo.pinCode === this.pinCodeInput) {
       this.rageClientService.callServer<IBankAccount>(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, this.bankCardInfo.bankAccountNo)
@@ -59,7 +75,39 @@ export class BankAtmComponent implements OnInit, OnDestroy {
     }
   }
 
+  private updateBankAccount = (bankAccount: IBankAccount) => {
+    this.bankAccount = bankAccount;
+    playAudio('assets/audio/success-126629.mp3');
+  };
+
+  makeAction(actionType: BankActionType) {
+    const dialogRef = this.dialogService.open(BankActionInputComponent, {
+      header: this.translateService.instant(actionType),
+      data: actionType,
+      width: '20%',
+      focusOnClose: false,
+      focusOnShow: false
+    });
+
+    dialogRef.onClose.subscribe((result?: BankActionOutput) => {
+      if (result) {
+        if (this.bankAccount && this.bankAccount.id) {
+          const bankInteraction: IBankInteraction = {
+            type: 'atm',
+            bankAccountId: this.bankAccount.id,
+            ...result
+          };
+
+          this.rageClientService.callServer<IBankAccount>(BANK_API_EVENTS[actionType], bankInteraction)
+            .subscribe({ next: this.updateBankAccount, error: this.handleBankError });
+        }
+      }
+    });
+  }
+
   closeAtm() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_CLOSE_ATM);
   }
+
+  protected readonly BankActionType = BankActionType;
 }

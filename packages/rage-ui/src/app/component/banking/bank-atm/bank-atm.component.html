@@ -19,14 +19,16 @@
   } @else {
     <div class="flex flex-column gap-3">
       <div class="flex justify-content-between border-bottom-1 surface-border p-3">
-        <span class="font-semibold text-color-secondary text-xl">{{ 'balance' | translate }}</span>
+        <span class="font-semibold  text-xl">{{ 'balance' | translate }}</span>
         <span class="text-green-500 text-2xl font-bold">{{ bankAccount.balance | currency }}</span>
       </div>
 
-      <button pButton severity="primary" icon="pi pi-minus-circle" [outlined]="true"
-              [label]="'withdraw' | translate"></button>
-      <button pButton severity="primary" icon="pi pi-plus-circle" [outlined]="true" [label]="'deposit' | translate"></button>
-      <button pButton severity="danger" icon="pi pi-times" [outlined]="true" [label]="'cancel' | translate"></button>
+      <button pButton severity="primary" icon="pi pi-minus-circle" [label]="'withdraw' | translate"
+              (click)="makeAction(BankActionType.Withdraw)"></button>
+      <button pButton severity="primary" icon="pi pi-plus-circle" [outlined]="true"
+              [label]="'deposit' | translate" (click)="makeAction(BankActionType.Deposit)"></button>
+      <button pButton severity="danger" icon="pi pi-times" [text]="true" [label]="'cancel' | translate"
+              (click)="closeAtm()"></button>
     </div>
   }
 </div>
