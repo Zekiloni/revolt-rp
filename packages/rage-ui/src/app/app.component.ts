@@ -19,7 +19,6 @@ import { HudComponent } from './component/hud';
 import { PlayerMenuComponent } from './component/player-menu';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../environments/environment';
-import { animate, style, transition, trigger } from '@angular/animations';
 import { PlayerOfferComponent } from './component/player-offer';
 import { fadeInOutTrigger } from './domain/util/animation.util';
 import { BankMenuComponent } from './component/banking/bank-menu';

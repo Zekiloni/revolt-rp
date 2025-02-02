@@ -13,11 +13,12 @@ import { MessageService } from 'primeng/api';
 import { BankActionInputComponent, BankActionOutput, BankActionType } from '../bank-menu/component/bank-action-input';
 import { BANK_API_EVENTS } from '../../../domain/config/bank-api.config';
 import { DialogService } from 'primeng/dynamicdialog';
+import { StyleClassModule } from 'primeng/styleclass';
 
 @Component({
   selector: 'app-bank-atm',
   standalone: true,
-  imports: [CommonModule, InputOtpModule, FormsModule, Button, TranslatePipe, InputMaskModule, ButtonDirective],
+  imports: [CommonModule, InputOtpModule, FormsModule, Button, TranslatePipe, InputMaskModule, ButtonDirective, StyleClassModule],
   providers: [DialogService],
   templateUrl: './bank-atm.component.html',
   styleUrl: './bank-atm.component.css',
