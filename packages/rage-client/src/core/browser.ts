@@ -66,4 +66,4 @@ function handleForceToggleCursor() {
   toggleCursor(frozenControls, isCursorActive);
 }
 
-registerKeyBind(HexKeyCodes.Backtick, true, handleForceToggleCursor);
+registerKeyBind(HexKeyCodes.F3, true, handleForceToggleCursor);
