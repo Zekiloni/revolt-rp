@@ -49,6 +49,7 @@ export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAcco
   item.expiringAt = dayjs().add(bankingConfig.DEFAULT_CREDIT_CARD_DAYS, 'days').toDate();
 
   await item.save();
+  return item;
 };
 
 export const getBankAccountTransactions = (bankAccountId: string) => {
@@ -57,7 +58,7 @@ export const getBankAccountTransactions = (bankAccountId: string) => {
       { bankAccount: bankAccountId },
       { targetBankAccount: bankAccountId }
     ]
-  }).exec();
+  }).sort({ createdAt: -1 }).exec();
 };
 
 export const getBankAccountsByCharacter = (character: Character) => {
@@ -66,7 +67,7 @@ export const getBankAccountsByCharacter = (character: Character) => {
 
 
 export const getBankCardsByNumber = async (bankAccountNo: string) => {
-  return ItemModel.find({ 'bankCardInfo.bankAccountNo': bankAccountNo }).exec();
+  return ItemModel.find({ 'bankCardInfo.bankAccountNo': bankAccountNo }).sort({ createdAt: -1 }).exec();
 };
 
 export const getBankAccountByNumber = (bankAccountNumber: string) => {
@@ -80,7 +81,7 @@ export const setBankCardActive = async (item: Item, active: boolean) => {
   item.bankCardInfo.active = active;
   await item.save();
   return item;
-}
+};
 
 export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
   return TransactionModel.create({
@@ -209,7 +210,7 @@ export const playerDeactivateBankCard = async (player: PlayerMp, bankCardItemId:
     const item = await getItemById(bankCardItemId);
 
     if (!item || !item.bankCardInfo) {
-      new Error(t('bank_card_not_found'));
+      throw new Error(t('bank_card_not_found'));
     }
 
     return setBankCardActive(item, false);
@@ -217,9 +218,37 @@ export const playerDeactivateBankCard = async (player: PlayerMp, bankCardItemId:
     const item = getPlayerItemById(target, bankCardItemId);
 
     if (!item || !item.bankCardInfo) {
-      new Error(t('bank_card_not_found'));
+      throw new Error(t('bank_card_not_found'));
     }
+
+    notifyPlayer(target, { severity: 'success', detail: t('bank_card_deactivated') });
 
     return setBankCardActive(item, false);
   }
+};
+
+
+export const playerCreateBankCard = async (player: PlayerMp, bankAccountId: string) => {
+  const bankAccount = await getBankAccountById(bankAccountId);
+
+  if (!bankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
+  const activeCard = await ItemModel.findOne({
+    "bankCardInfo.bankAccountNo": bankAccount.number,
+    "bankCardInfo.active": true
+  }).sort({ createdAt: -1 });
+
+  if (activeCard) {
+    if (dayjs().diff(activeCard.createdAt, 'days') < bankingConfig.CREDIT_CARD_DAYS) {
+      throw new Error(t('credit_card_create_every_days', { days: bankingConfig.CREDIT_CARD_DAYS }));
+    }
+  }
+
+  const bankCard = await createBankCardItem(player, bankAccount);
+
+  notifyPlayer(player, { severity: 'success', detail: t('bank_card_created') });
+
+  return bankCard;
 };

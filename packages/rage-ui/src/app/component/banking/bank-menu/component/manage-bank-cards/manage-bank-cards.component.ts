@@ -46,6 +46,10 @@ export class ManageBankCardsComponent implements OnInit {
     this.bankCards = this.bankCards.map(bankCard => bankCard.id === bankCard.id ? bankCardUpdate : bankCard);
   };
 
+  private addBankCard = (item: IItem) => {
+    this.bankCards.unshift(item);
+  };
+
   private handleBankError = (error: Error) => {
     playAudio('assets/audio/error-126627.mp3');
     this.messageService.add({
@@ -56,7 +60,8 @@ export class ManageBankCardsComponent implements OnInit {
   };
 
   createBankCard() {
-    // todo
+    this.rageClientService.callServer<IItem>(ProcedureKey.SERVER_PLAYER_BANK_CREATE_CARD, this.bankAccount.id)
+      .subscribe({ next: this.addBankCard, error: this.handleBankError });
   }
 
   deactivateBankCard(event: Event, bankCard: IItem) {

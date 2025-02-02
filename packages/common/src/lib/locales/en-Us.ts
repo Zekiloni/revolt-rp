@@ -140,4 +140,7 @@ export const enUs = {
   'deactivate': 'Deactivate',
   'deactivate_bank_card_confirmation': 'Do you want to deactivate bank card?',
   'bank_card_not_found': 'Bank card not found.',
+  'bank_card_created': 'Bank card created successfully.',
+  'bank_card_deactivated': 'Bank card deactivated successfully.',
+  'credit_card_create_every_days': 'Credit card can be created every {{days}} days.',
 };

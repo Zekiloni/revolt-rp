@@ -141,4 +141,7 @@ export const srRs = {
   'deactivate': 'Deaktiviraj',
   'deactivate_bank_card_confirmation': 'Da li ste sigurni da želite deaktivirati bankovnu karticu?',
   'bank_card_not_found': 'Bankovna kartica nije pronađena.',
+  'bank_card_created': 'Bankovna kartica je uspešno kreirana.',
+  'bank_card_deactivated': 'Bankovna kartica je uspešno deaktivirana.',
+  'credit_card_create_every_days': 'Kreditna kartica se može kreirati svakih {{days}} dana.',
 };
