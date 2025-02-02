@@ -5,11 +5,21 @@
   [tableStyle]="{ 'min-width': '30rem' }"
   [rowsPerPageOptions]="[5, 10, 20]"
 >
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between align-items-center">
+      <div class="font-bold">{{ 'manage_bank_cards' | translate }}</div>
+      <button pButton type="button" [label]="'new_card' | translate" icon="pi pi-plus" severity="success"
+              size="small"
+              (click)="createBankCard()">
+      </button>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
       <th>{{ 'number' | translate }}</th>
       <th>{{ 'status' | translate }}</th>
       <th>{{ 'item_data.expiringAt' | translate }}</th>
+      <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-bankCard let-rowIndex="rowIndex">
@@ -19,6 +29,15 @@
         <i [ngClass]="getCardStatusIcon(bankCard['bankCardInfo']['active'])" class="ml-2"></i>
       </td>
       <td>{{ bankCard['expiringAt'] | date: 'MM/yy' }}</td>
+      <td>
+        <button pButton severity="danger" [outlined]="true" icon="pi pi-power-off"
+                (click)="deactivateBankCard($event, bankCard)"
+                size="small"
+                [disabled]="bankCard['active']"
+                [label]="'deactivate' | translate">
+        </button>
+        <p-confirmPopup />
+      </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">

@@ -70,4 +70,5 @@ export const enum ProcedureKey {
   SERVER_PLAYER_BANK_GET_ACCOUNT = 'server_playerBankGetAccount',
   CLIENT_PLAYER_CLOSE_ATM = 'client_playerToggleAtm',
   SERVER_PLAYER_BANK_GET_CARDS = 'server_playerBankGetCards',
+  SERVER_PLAYER_BANK_DEACTIVATE_CARD = 'server_playerBankDeactivateCard',
 }

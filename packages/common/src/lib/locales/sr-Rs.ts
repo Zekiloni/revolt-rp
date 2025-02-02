@@ -136,4 +136,9 @@ export const srRs = {
   'invalid_amount': 'Neispravan iznos.',
   'bank_card_not_active': 'Bankovna kartica nije aktivna.',
   'number': 'Broj',
+  'new_card': 'Nova Kartica',
+  'manage_bank_cards': 'Upravljanje Bankovnim Karticama',
+  'deactivate': 'Deaktiviraj',
+  'deactivate_bank_card_confirmation': 'Da li ste sigurni da želite deaktivirati bankovnu karticu?',
+  'bank_card_not_found': 'Bankovna kartica nije pronađena.',
 };

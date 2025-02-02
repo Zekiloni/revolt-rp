@@ -6,10 +6,11 @@ import { Character } from '../player/character/character.model';
 import { BankAccount, BankAccountModel } from './bank-account.model';
 import { TransactionModel } from './transaction.model';
 import { giveMoney } from '../player/character/character.service';
-import { playerGiveItem } from '../player/inventory/player-inventory.service';
+import { getPlayerByItemId, getPlayerItemById, playerGiveItem } from '../player/inventory/player-inventory.service';
 import { bankingConfig } from './banking.config';
 import dayjs from 'dayjs';
-import { ItemModel } from '../item/item.model';
+import { Item, ItemModel } from '../item/item.model';
+import { getItemById } from '../item/item.service';
 
 export const generateBankAccountNumber = () => {
   const generate = customAlphabet('0123456789', 16);
@@ -64,13 +65,22 @@ export const getBankAccountsByCharacter = (character: Character) => {
 };
 
 
-export const getBankCardsByNumber = (bankAccountNo: string) => {
-  return ItemModel.find({ bankCardInfo: { bankAccountNo } }).exec();
-}
+export const getBankCardsByNumber = async (bankAccountNo: string) => {
+  return ItemModel.find({ 'bankCardInfo.bankAccountNo': bankAccountNo }).exec();
+};
 
 export const getBankAccountByNumber = (bankAccountNumber: string) => {
   return BankAccountModel.findOne({ number: bankAccountNumber });
 };
+
+export const setBankCardActive = async (item: Item, active: boolean) => {
+  if (!item.bankCardInfo)
+    return;
+
+  item.bankCardInfo.active = active;
+  await item.save();
+  return item;
+}
 
 export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
   return TransactionModel.create({
@@ -192,3 +202,24 @@ export const playerTransferMoney = async (player: PlayerMp, bankAccountId: strin
 };
 
 
+export const playerDeactivateBankCard = async (player: PlayerMp, bankCardItemId: string) => {
+  const target = await getPlayerByItemId(bankCardItemId);
+
+  if (!target) {
+    const item = await getItemById(bankCardItemId);
+
+    if (!item || !item.bankCardInfo) {
+      new Error(t('bank_card_not_found'));
+    }
+
+    return setBankCardActive(item, false);
+  } else {
+    const item = getPlayerItemById(target, bankCardItemId);
+
+    if (!item || !item.bankCardInfo) {
+      new Error(t('bank_card_not_found'));
+    }
+
+    return setBankCardActive(item, false);
+  }
+};

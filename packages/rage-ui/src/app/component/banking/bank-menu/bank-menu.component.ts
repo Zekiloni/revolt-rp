@@ -41,7 +41,7 @@ export class BankMenuComponent {
 
     dialogRef.onClose.subscribe((amount: number) => {
       if (amount) {
-        this.rageClientService.triggerClient(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, amount);
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, amount);
       }
     });
   }

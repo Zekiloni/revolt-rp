@@ -1,5 +1,5 @@
 import { Item, ItemModel } from './item.model';
-
+import { FilterQuery } from 'mongoose';
 
 export const getAllDroppedItems = async () => {
   return ItemModel.find({ dropped: true }).exec();
@@ -12,6 +12,7 @@ export const getItemById = (id: string) => {
 export const createItem = (itemName: string, quantity: number, options: Partial<Item> = {}) => {
   return ItemModel.create({ ...options, name: itemName, quantity });
 };
+
 
 export const destroyItem = async (item: Item) => {
   const object = item.object;
