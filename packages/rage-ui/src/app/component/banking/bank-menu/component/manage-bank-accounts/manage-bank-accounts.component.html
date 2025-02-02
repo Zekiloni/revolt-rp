@@ -35,7 +35,8 @@
           <button pButton icon="pi pi-wallet" [outlined]="true" [label]="'deposit' | translate"
                   (click)="makeAction(BankActionType.Deposit)"></button>
           <button pButton icon="pi pi-send" severity="secondary" [label]="'transfer' | translate"
-                  (click)="makeAction(BankActionType.Transfer)"></button>
+                  (click)="makeAction(BankActionType.Transfer)"
+                  [disabled]="!isSavingsAccount(selectedBankAccount)"></button>
         </div>
       </div>
     </p-tabPanel>

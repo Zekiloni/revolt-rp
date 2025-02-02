@@ -61,6 +61,10 @@ export class ManageBankAccountsComponent {
     return this.bankAccounts.find(bankAccount => bankAccount.type === type);
   };
 
+  isSavingsAccount(bankAccount: IBankAccount) {
+    return bankAccount && bankAccount.type === BankAccountType.Savings;
+  }
+
   makeAction(actionType: BankActionType) {
     const dialogRef = this.dialogService.open(BankActionInputComponent, {
       header: this.translateService.instant(actionType),
@@ -88,6 +92,10 @@ export class ManageBankAccountsComponent {
 
   private handleBankError = (error: Error) => {
     playAudio('assets/audio/error-126627.mp3');
-    this.messageService.add({ severity: 'error', summary: this.translateService.instant('error'), detail: error.message });
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translateService.instant('error'),
+      detail: error.message
+    });
   };
 }
