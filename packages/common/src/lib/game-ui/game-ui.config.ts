@@ -40,15 +40,16 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.BankMenu]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
     freezeControls: true,
     disableChat: true
   },
 
   [GameUiKey.ATM]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
+    disableChat: true,
     freezeControls: true,
   }
 };

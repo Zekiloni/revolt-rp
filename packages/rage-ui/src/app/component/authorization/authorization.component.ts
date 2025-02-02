@@ -12,6 +12,7 @@ import { AutoFocus } from 'primeng/autofocus';
 import { MessageService } from 'primeng/api';
 import { CharacterSelectorComponent } from '../character-selector';
 import { TranslatePipe } from '@ngx-translate/core';
+import { fadeInOutTrigger } from '../../domain/util/animation.util';
 
 
 type AuthForm = {
@@ -35,7 +36,8 @@ type AuthForm = {
     TranslatePipe
   ],
   templateUrl: './authorization.component.html',
-  styleUrl: './authorization.component.css'
+  styleUrl: './authorization.component.css',
+  animations: [fadeInOutTrigger]
 })
 export class AuthorizationComponent implements OnInit, OnDestroy {
   SERVER_NAME = environment.SERVER_NAME;
@@ -55,7 +57,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   private buildAuthForm() {
     const controls: Partial<AuthForm> = {
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required])
     };
 
     return this.formBuilder.group(controls) as FormGroup<AuthForm>;

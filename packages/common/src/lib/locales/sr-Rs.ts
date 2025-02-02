@@ -126,5 +126,9 @@ export const srRs = {
   'items': {
     'credit_card': 'Kreditna Kartica',
     'credit_card_description': 'Standardna kreditna kartica za elektronska plaćanja.'
-  }
+  },
+  'submit': 'Potvrdi',
+  'clear': 'Očisti',
+  'authenticate': 'Autentifikacija',
+  'input_pin_code_hint':'Unesite PIN kod za nastavak.',
 };

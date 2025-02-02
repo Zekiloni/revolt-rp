@@ -23,6 +23,7 @@ import { animate, style, transition, trigger } from '@angular/animations';
 import { PlayerOfferComponent } from './component/player-offer';
 import { fadeInOutTrigger } from './domain/util/animation.util';
 import { BankMenuComponent } from './component/banking/bank-menu';
+import { BankAtmComponent } from './component/banking/bank-atm';
 
 
 @Component({
@@ -39,7 +40,8 @@ import { BankMenuComponent } from './component/banking/bank-menu';
     VehicleHudComponent,
     PlayerMenuComponent,
     PlayerOfferComponent,
-    BankMenuComponent
+    BankMenuComponent,
+    BankAtmComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

@@ -20,9 +20,6 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
       cash: 5000
     });
 
-    const bankAccount = await createBankAccount(character, BankAccountType.Main, characterConfig.defaultBankBalance);
-    await createBankCardItem(player, bankAccount);
-
     player.account.characters.push(character);
     await player.account.save();
 
@@ -118,6 +115,9 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
 
     player.character.position = characterConfig.defaultPosition;
     player.character.dimension = characterConfig.defaultDimension;
+
+    const bankAccount = await createBankAccount(player.character, BankAccountType.Main, characterConfig.defaultBankBalance);
+    await createBankCardItem(player, bankAccount);
   } else {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 

@@ -1,0 +1,32 @@
+<div class="absolute-center surface-card p-4 shadow-2 border-round w-full lg:w-3 md:w-4">
+
+  @if (!bankAccount) {
+    <div class="flex flex-column align-items-center" @fadeInOut>
+      <div class="font-bold text-xl mb-2">{{ 'authenticate' | translate }}</div>
+      <p class="text-color-secondary block mb-5">{{ 'input_pin_code_hint' | translate }}</p>
+
+      <p-inputOtp [(ngModel)]="pinCodeInput" [invalid]="pinInvalid" [length]="4" />
+
+      <div class="flex justify-content-between mt-5 gap-5">
+        <p-button [label]="'cancel' | translate" icon="pi pi-times" severity="danger" [outlined]="true"
+                  (click)="closeAtm()"
+                  class="p-0" />
+        <p-button [label]="'clear' | translate" [link]="true" (click)="this.pinCodeInput = null" class="p-0" />
+        <p-button [label]="'submit' | translate" icon="pi pi-sign-in" (click)="submitAuthentication()"
+                  [disabled]="!isValidPin" />
+      </div>
+    </div>
+  } @else {
+    <div class="flex flex-column gap-3">
+      <div class="flex justify-content-between border-bottom-1 surface-border p-3">
+        <span class="font-semibold text-color-secondary text-xl">{{ 'balance' | translate }}</span>
+        <span class="text-green-500 text-2xl font-bold">{{ bankAccount.balance | currency }}</span>
+      </div>
+
+      <button pButton severity="primary" icon="pi pi-minus-circle" [outlined]="true"
+              [label]="'withdraw' | translate"></button>
+      <button pButton severity="primary" icon="pi pi-plus-circle" [outlined]="true" [label]="'deposit' | translate"></button>
+      <button pButton severity="danger" icon="pi pi-times" [outlined]="true" [label]="'cancel' | translate"></button>
+    </div>
+  }
+</div>
