@@ -24,11 +24,7 @@ import { DialogService } from 'primeng/dynamicdialog';
   animations: [fadeInOutTrigger]
 })
 export class BankAtmComponent implements OnInit, OnDestroy {
-  bankAccount: Partial<IBankAccount> | null = {
-    'number': '1431-2326-9706-4775',
-    'balance': 17500,
-    'id': '679ebdf0f02e3845768aa325'
-  };
+  bankAccount: IBankAccount | null = null;
   bankCardInfo: IBankCardInfo | null = null;
   pinCodeInput: string | null = null;
   pinInvalid = false;
