@@ -29,7 +29,7 @@ function nameTagHandler() {
               if (screenPos) {
                 const { x, y } = screenPos;
 
-                mp.game.graphics.drawText(`${target.name} [${target.id}]`, [x, y - 0.1], {
+                mp.game.graphics.drawText(`${target.name} [${target.remoteId}]`, [x, y - 0.1], {
                   centre: true,
                   font: 4,
                   color: [255, 255, 255, 255],
