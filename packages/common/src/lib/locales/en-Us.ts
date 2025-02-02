@@ -134,5 +134,6 @@ export const enUs = {
   'exceeded_max_deposit': 'Exceeded maximum deposit amount of {{amount}}.',
   'exceeded_max_withdraw': 'Exceeded maximum withdraw amount of {{amount}}.',
   'invalid_amount': 'Invalid amount.',
-  'bank_card_not_active': 'Bank card is not active.'
+  'bank_card_not_active': 'Bank card is not active.',
+  'number': 'Number',
 };

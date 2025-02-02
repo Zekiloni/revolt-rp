@@ -1,0 +1,29 @@
+<p-table
+  [value]="bankCards"
+  [paginator]="true"
+  [rows]="5"
+  [tableStyle]="{ 'min-width': '30rem' }"
+  [rowsPerPageOptions]="[5, 10, 20]"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{ 'number' | translate }}</th>
+      <th>{{ 'status' | translate }}</th>
+      <th>{{ 'item_data.expiringAt' | translate }}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-bankCard let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>
+        <i [ngClass]="getCardStatusIcon(bankCard['bankCardInfo']['active'])" class="ml-2"></i>
+      </td>
+      <td>{{ bankCard['expiringAt'] | date: 'MM/yy' }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="3">{{ 'no_results' | translate }}</td>
+    </tr>
+  </ng-template>
+</p-table>
