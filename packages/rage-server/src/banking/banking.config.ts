@@ -1,6 +1,6 @@
-
 export const bankingConfig = {
   DEFAULT_CREDIT_CARD_DAYS: 30,
   ATM_MAX_WITHDRAW: 35000,
   ATM_MAX_DEPOSIT: 10000,
-}
+  CREDIT_CARD_DAYS: 2
+};
