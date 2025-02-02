@@ -30,6 +30,11 @@
   @if ($isGameInterfaceActive(GameUiKey.BankMenu) | async) {
     <app-bank-menu @fadeInOut />
   }
+
+  @if ($isGameInterfaceActive(GameUiKey.ATM) | async) {
+    <app-bank-atm @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />

@@ -89,11 +89,11 @@ export const enUs = {
     'end_session': 'End your session',
     'account_overview': 'Account Overview',
     'transactions': 'Transactions',
-    'account_settings': 'Account Settings',
+    'account_settings': 'Account Settings'
   },
   'bank_account_type': {
     'main': 'Main',
-    'savings': 'Savings',
+    'savings': 'Savings'
   },
   'bank_account_type_desc': 'Bank Account Type',
   'saving_account_already_exist': 'You already have a saving account.',
@@ -123,5 +123,9 @@ export const enUs = {
   'items': {
     'credit_card': 'Credit Card',
     'credit_card_description': 'A standard credit card for making electronic payments.'
-  }
+  },
+  'submit': 'Submit',
+  'clear': 'Clear',
+  'authenticate': 'Authenticate',
+  'input_pin_code_hint': 'Please enter PIN code to continue.'
 };

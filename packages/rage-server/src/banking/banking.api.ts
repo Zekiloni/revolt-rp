@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { BankAccountType, catchError, IBankInteraction, ProcedureKey } from '@revolt-rp/common';
 import {
-  createBankAccount,
+  createBankAccount, getBankAccountByNumber,
   getBankAccountsByCharacter, getBankAccountTransactions,
   getSavingAccountByCharacter, playerDepositMoney, playerTransferMoney,
   playerWithdrawMoney
@@ -53,8 +53,13 @@ async function playerTransferMoneyHandler(data: IBankInteraction, { player }: Pr
     .catch(catchError);
 }
 
+function playerGetBankAccountByNumberHandler(bankAccountNumber: string) {
+  return getBankAccountByNumber(bankAccountNumber)
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, playerCreateSavingAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNTS, playerGetBankAccountsHandler);
+register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, playerGetBankAccountByNumberHandler);
 register(ProcedureKey.SERVER_PLAYER_WITHDRAW_MONEY, playerWithdrawMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_DEPOSIT_MONEY, playerDepositMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, playerTransferMoneyHandler);

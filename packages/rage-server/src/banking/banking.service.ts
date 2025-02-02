@@ -49,7 +49,6 @@ export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAcco
   await item.save();
 }
 
-
 export const getBankAccountTransactions = (bankAccountId: string) => {
   return TransactionModel.find({
     $or: [
@@ -63,10 +62,9 @@ export const getBankAccountsByCharacter = (character: Character) => {
   return BankAccountModel.find({ character: character._id }).exec();
 };
 
-const getBankAccountByNumber = (targetAccountNumber: string) => {
-  return BankAccountModel.findOne({ number: targetAccountNumber });
+export const getBankAccountByNumber = (bankAccountNumber: string) => {
+  return BankAccountModel.findOne({ number: bankAccountNumber });
 };
-
 
 export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
   return TransactionModel.create({
