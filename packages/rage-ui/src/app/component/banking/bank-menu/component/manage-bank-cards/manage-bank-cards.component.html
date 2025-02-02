@@ -26,6 +26,7 @@
   <ng-template pTemplate="body" let-bankCard let-rowIndex="rowIndex">
     <tr>
       <td>{{ rowIndex + 1 }}</td>
+      <td>{{ bankCard['bankCardInfo']['pinCode'] }}</td>
       <td>
         <i [ngClass]="getCardStatusIcon(bankCard['bankCardInfo']['active'])" class="ml-2"></i>
       </td>
