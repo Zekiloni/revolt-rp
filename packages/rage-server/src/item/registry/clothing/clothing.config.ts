@@ -33,7 +33,7 @@ export const NO_CLOTHING = {
       palette: 2
     },
     [RageEnums.ClothesComponent.DECALS]: {
-      drawable: 0,
+      drawable: 15,
       texture: 0,
       palette: 2
     },
@@ -71,7 +71,7 @@ export const NO_CLOTHING = {
       palette: 2
     },
     [RageEnums.ClothesComponent.DECALS]: {
-      drawable: 0,
+      drawable: 15,
       texture: 0,
       palette: 2
     },

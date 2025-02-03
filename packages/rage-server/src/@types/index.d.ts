@@ -5,7 +5,6 @@ import { Vehicle } from '../vehicle/vehicle.model';
 
 declare global {
 
-
   interface PlayerMp {
     account: Account;
     character: Character;
@@ -32,4 +31,31 @@ declare global {
       AddBodyBlemishes = 12
     }
   }
+
+  declare declare type EmbedField = {
+    name: string;
+    value: string;
+    inline?: boolean;
+  };
+
+  declare type EmbedFooter = {
+    text: string;
+    icon_url: string;
+  };
+
+  declare type DiscordEmbed = {
+    title: string;
+    description: string;
+    color: number;
+    fields?: EmbedField[];
+    footer?: EmbedFooter;
+    timestamp?: string;
+  };
+
+  declare type DiscordWebhookPayload = {
+    username: string;
+    avatar_url?: string;
+    content?: string;
+    embeds?: DiscordEmbed[];
+  };
 }

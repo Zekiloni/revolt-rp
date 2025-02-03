@@ -145,5 +145,6 @@ export const srRs = {
   'bank_card_deactivated': 'Bankovna kartica je uspešno deaktivirana.',
   'credit_card_create_every_days': 'Kreditna kartica se može kreirati svakih {{days}} dana.',
   'pin_code': 'PIN Kod',
-  'savings_min_balance': 'Minimalno stanje za štedni račun je {{balance}}.'
+  'savings_min_balance': 'Minimalno stanje za štedni račun je {{balance}}.',
+  'equip_item': 'Opremi Predmet',
 };

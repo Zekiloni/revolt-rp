@@ -42,6 +42,11 @@ export class InventoryComponent {
 
   itemOptionMenuItems: MenuItem[] = [
     {
+      label: 'equip_item',
+      icon: 'pi pi-play-circle',
+      command: () => this.equipItem()
+    },
+    {
       label: 'split_item',
       icon: 'pi pi-arrows-h',
       command: () => this.openSplitItemMenu()
@@ -142,6 +147,13 @@ export class InventoryComponent {
     if (itemToDrop && itemToDrop.id)
       this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, itemToDrop);
   }
+
+  private equipItem = () => {
+    if (this.selectedItem) {
+      this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_EQUIP_ITEM, this.selectedItem.id);
+      this.selectedItem = null;
+    }
+  };
 
   private changeSlot(draggingItem: IItem, slot: number) {
     if (draggingItem && draggingItem.id)

@@ -308,3 +308,14 @@ registerCommand({
     await player.account.save();
   }
 });
+
+
+registerCommand({
+  name: 'setclothes',
+  description: 'test',
+  administrator: AdminType.ADMINISTRATOR,
+  params: ['component', 'drawable', 'texture'],
+  handle(player: PlayerMp, component: string, drawable: string, texture: string) {
+    player.setClothes(parseInt(component), parseInt(drawable), parseInt(texture), 2);
+  }
+});

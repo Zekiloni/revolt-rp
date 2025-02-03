@@ -991,12 +991,12 @@ export const femaleBestTorso = {
   },
   '15': {
     '0': {
-      bestTorsoDrawable: -1,
-      bestTorsoTexture: -1
+      bestTorsoDrawable: 15,
+      bestTorsoTexture: 0
     },
     '1': {
-      bestTorsoDrawable: -1,
-      bestTorsoTexture: -1
+      bestTorsoDrawable: 15,
+      bestTorsoTexture: 0
     },
     '2': {
       bestTorsoDrawable: -1,
