@@ -319,3 +319,14 @@ registerCommand({
     player.setClothes(parseInt(component), parseInt(drawable), parseInt(texture), 2);
   }
 });
+
+
+registerCommand({
+  name: 'setmodel',
+  description: 'test',
+  administrator: AdminType.ADMINISTRATOR,
+  params: ['model'],
+  handle(player: PlayerMp, model: string) {
+    player.model = mp.joaat(model);
+  }
+})
