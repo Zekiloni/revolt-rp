@@ -1,5 +1,5 @@
 import { IPlayerAnimation, PlayerSharedDataType } from '@revolt-rp/common';
-import { playAnimation, stopAnimation } from './util/player-animation.util';
+import { playAnimation, setPlayerWalkingStyle, stopAnimation } from './util/player-animation.util';
 
 type AnimationData = IPlayerAnimation | null | undefined;
 
@@ -10,7 +10,7 @@ const isPlayerOrPed = (entity: EntityMp) =>
   entity.type === RageEnums.EntityType.PLAYER || entity.type === RageEnums.EntityType.PED;
 
 
-async function handleAnimationChange(entity: EntityMp, value: AnimationData, oldValue: AnimationData) {
+async function playerAnimationChangeHandler(entity: EntityMp, value: AnimationData, oldValue: AnimationData) {
   if (isPlayerOrPed(entity)) {
     if (value && typeof value == 'object') {
       await playAnimation(<PlayerMp>entity, value.dictionary, value.name, value.flag, value.duration);
@@ -19,7 +19,6 @@ async function handleAnimationChange(entity: EntityMp, value: AnimationData, old
     }
   }
 }
-
 
 async function entityStreamInAnimationHandler(entity: EntityMp) {
   if (isPlayerOrPed(entity)) {
@@ -30,7 +29,16 @@ async function entityStreamInAnimationHandler(entity: EntityMp) {
   }
 }
 
-mp.events.addDataHandler(PlayerSharedDataType.Animation, handleAnimationChange);
+async function playerWalkingStyleChangeHandler(player: PlayerMp, value: string | null, oldValue?: string | null) {
+  if (isPlayerOrPed(player)) {
+    if (value) {
+      await setPlayerWalkingStyle(player, value);
+    }
+  }
+}
+
+mp.events.addDataHandler(PlayerSharedDataType.Animation, playerAnimationChangeHandler);
+mp.events.addDataHandler(PlayerSharedDataType.WalkingStyle, playerWalkingStyleChangeHandler);
 mp.events.add({
-  entityStreamIn: entityStreamInAnimationHandler
+  entityStreamIn: entityStreamInAnimationHandler,
 });

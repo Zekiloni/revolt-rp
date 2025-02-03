@@ -25,6 +25,9 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_CHANGE_EYE_COLOR = 'client_creatorChangeEyeColor',
   CLIENT_CREATOR_UPDATE_HAIR = 'client_creatorChangeHair',
 
+  SERVER_PLAYER_GET_VARIABLE = 'server_playerGetVariable',
+  SERVER_PLAYER_SET_VARIABLE = 'server_playerSetVariable',
+
   BROWSER_SET_INVENTORY = 'browser_setInventory',
   BROWSER_INVENTORY_UPDATE_ITEM = 'browser_inventoryUpdateItem',
   BROWSER_INVENTORY_ADD_ITEM = 'browser_inventoryAddItem',
@@ -72,4 +75,6 @@ export const enum ProcedureKey {
   SERVER_PLAYER_BANK_GET_CARDS = 'server_playerBankGetCards',
   SERVER_PLAYER_BANK_DEACTIVATE_CARD = 'server_playerBankDeactivateCard',
   SERVER_PLAYER_BANK_CREATE_CARD = 'server_playerBankCreateCard',
+
+  CLIENT_TOGGLE_ANIMATION_MENU = 'client_toggleAnimationMenu',
 }

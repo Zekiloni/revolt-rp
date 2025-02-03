@@ -16,7 +16,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideEffects(),
-    provideStore(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimations(),

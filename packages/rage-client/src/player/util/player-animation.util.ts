@@ -1,4 +1,4 @@
-import { AnimationFlag } from '@revolt-rp/common';
+import { AnimationFlag, walkingStyles } from '@revolt-rp/common';
 
 
 export function loadAnimDictionary(animationDictionary: string): Promise<boolean> {
@@ -59,3 +59,38 @@ export function isPlayingAnimation(entity: EntityMp, dictionary: string, name: s
   const animTime = entity.getAnimCurrentTime(dictionary, name);
   return animTime < 0.95 && animTime > 0.1;
 }
+
+
+export const loadMovementClipSet = (clipset: string) => {
+  if (mp.game.streaming.hasClipSetLoaded(clipset))
+    return Promise.resolve(true);
+
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async resolve => {
+    mp.game.streaming.requestClipSet(clipset);
+
+    while (!mp.game.streaming.hasClipSetLoaded(clipset)) {
+      await mp.game.waitAsync(10);
+    }
+
+    resolve(true);
+  });
+};
+
+
+export const setPlayerWalkingStyle = async (player: PlayerMp, clipSet: string | null) => {
+  if (clipSet === 'normal') {
+    player.resetMovementClipset(1.0);
+    return;
+  }
+
+  const isValid = walkingStyles.find(style => style.value === clipSet);
+  if (!isValid) return;
+
+  const isClipSetLoaded = await loadMovementClipSet(clipSet);
+
+  if (!isClipSetLoaded)
+    return;
+
+  player.setMovementClipset(clipSet, 1.0);
+};

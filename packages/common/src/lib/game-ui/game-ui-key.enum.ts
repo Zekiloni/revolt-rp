@@ -8,4 +8,5 @@ export enum GameUiKey {
   Offer = 'offer',
   BankMenu = 'bankMenu',
   ATM = 'atm',
+  AnimationMenu = 'animationMenu',
 }

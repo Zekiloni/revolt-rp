@@ -2,7 +2,7 @@ import { on, triggerBrowser } from '@libertymp/rage-rpc';
 import { GameUiKey, IItem, ProcedureKey } from '@revolt-rp/common';
 import { getIsAlive, getIsCuffed } from '../player/util/player-data.util';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
-import { toggleClickToUseItem } from '../player/player-item';
+import { toggleClickToUseItem } from '../player/inventory/player-item';
 
 
 const ATM_OBJECT_MODELS = [

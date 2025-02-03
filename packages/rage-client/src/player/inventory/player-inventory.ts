@@ -1,10 +1,10 @@
 import { on, register, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { registerKeyBind } from '../core/keybind-manager';
-import { getObjectGroundPosition } from '../util/object.util';
-import { hideGameInterface, showGameInterface } from '../core/browser';
-import { getIsAlive, getIsNotCuffed, getIsSpawned } from './util/player-data.util';
-import { getDistance } from '../util/vector.util';
+import { registerKeyBind } from '../../core/keybind-manager';
+import { getObjectGroundPosition } from '../../util/object.util';
+import { hideGameInterface, showGameInterface } from '../../core/browser';
+import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../util/player-data.util';
+import { getDistance } from '../../util/vector.util';
 
 
 const SELECT_ITEM_KEYBINDINGS = [

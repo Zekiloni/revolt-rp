@@ -1,6 +1,6 @@
 import { PlayerAttachmentTypeEnum, PlayerSharedDataType } from '@revolt-rp/common';
-import { playerAttachmentConfig } from './player-attachment.config';
-import { disablePlayerControl, enablePlayerControl } from './util/player-control.util';
+import { playerAttachmentConfig } from '../player-attachment.config';
+import { disablePlayerControl, enablePlayerControl } from '../util/player-control.util';
 
 
 const attachedObjects: ObjectMp[] = [];

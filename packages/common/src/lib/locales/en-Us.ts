@@ -145,5 +145,19 @@ export const enUs = {
   'credit_card_create_every_days': 'Credit card can be created every {{days}} days.',
   'pin_code': 'PIN Code',
   'savings_min_balance': 'Minimum balance for savings account is {{balance}}.',
-  'equip_item': 'Equip Item'
+  'equip_item': 'Equip Item',
+  'walking_style': 'Walking Style',
+  'select_walking_style': 'Select Walking Style',
+  "normal": "Normal",
+  "brave": "Brave",
+  "confident": "Confident",
+  "drunk": "Drunk",
+  "fat": "Fat",
+  "gangster": "Gangster",
+  "hurry": "Hurry",
+  "injured": "Injured",
+  "intimidated": "Intimidated",
+  "quick": "Quick",
+  "sad": "Sad",
+  "tough": "Tough"
 };
