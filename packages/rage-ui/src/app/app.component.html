@@ -35,6 +35,10 @@
     <app-bank-atm @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.AnimationMenu) | async) {
+    <app-animation-menu @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />

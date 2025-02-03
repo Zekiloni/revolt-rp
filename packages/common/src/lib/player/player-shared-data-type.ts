@@ -11,4 +11,5 @@ export const enum PlayerSharedDataType {
   Frozen = 'frozen',
   Offer = 'offer',
   ClickToUse = 'click_to_use',
+  WalkingStyle = 'walking_style',
 }

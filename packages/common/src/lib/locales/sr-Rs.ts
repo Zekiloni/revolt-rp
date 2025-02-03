@@ -147,4 +147,18 @@ export const srRs = {
   'pin_code': 'PIN Kod',
   'savings_min_balance': 'Minimalno stanje za štedni račun je {{balance}}.',
   'equip_item': 'Opremi Predmet',
+  'walking_style':'Stil Hodanja',
+  'select_walking_style': 'Izaberite stil hodanja',
+  "normal": "Normalan",
+  "brave": "Hrabro",
+  "confident": "Samouvereno",
+  "drunk": "Pijan",
+  "fat": "Debeo",
+  "gangster": "Gangster",
+  "hurry": "U žurbi",
+  "injured": "Povređen",
+  "intimidated": "Uplašen",
+  "quick": "Brz",
+  "sad": "Tužan",
+  "tough": "Čvrst"
 };

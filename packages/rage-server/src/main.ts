@@ -9,6 +9,7 @@ import './player/character/character.api';
 import './player/player-join.api';
 import './player/player-quit.api';
 import './player/player-chat.api';
+import './player/player-data.api';
 import './player/player-command.api';
 import './player/player-command';
 import './player/admin/player-admin-command';

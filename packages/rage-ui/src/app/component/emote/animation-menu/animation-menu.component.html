@@ -1,0 +1,58 @@
+@if (selectedOption) {
+  @switch (selectedOption) {
+    @case (AnimMenuOptionType.WalkStyle) {
+      <p-card [header]="'walking_style' | translate" class="w-20rem absolute-center">
+        <div class="flex flex-column p-fluid">
+          <p-dropdown
+            [options]="walkingStyles"
+            [(ngModel)]="selectedWalkingStyle"
+            optionLabel="name"
+            [filter]="true"
+            [showClear]="true"
+            [placeholder]="'normal' | translate">
+            <ng-template pTemplate="selectedItem">
+              <div class="flex align-items-center gap-2" *ngIf="selectedWalkingStyle;">
+                <div>{{ selectedWalkingStyle.name | translate }}</div>
+              </div>
+            </ng-template>
+            <ng-template let-walkingStyle pTemplate="item">
+              <div class="flex align-items-center gap-2">
+                <div>{{ walkingStyle.name | translate }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="flex gap-3 mt-1">
+          <button pButton [label]="'cancel' | translate" severity="secondary" class="w-full"
+                  (click)="selectedOption = null"></button>
+          <button pButton [label]="'submit' | translate" class="w-full"
+                  (click)="updateWalkingStyle()"></button>
+        </div>
+      </p-card>
+    }
+    @default {
+      <p-treeSelect
+        @fadeInOut
+        class=" w-full"
+        containerStyleClass="md:w-20rem absolute-center"
+        [(ngModel)]="selectedNode"
+        [options]="nodes"
+        placeholder="Select Item"
+        selectionMode="single"
+        (onHide)="closeAnimationMenu()"
+        [filter]="true"
+        appendTo="body"
+        [filterInputAutoFocus]="true" />
+    }
+  }
+} @else {
+  <p-speedDial
+    [model]="items"
+    type="circle"
+    [visible]="true"
+    [radius]="80"
+    showIcon="pi pi-bars"
+    hideIcon="pi pi-times"
+    class="absolute-center"
+    buttonClassName="p-button-primary" />
+}

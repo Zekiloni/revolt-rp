@@ -1,6 +1,6 @@
 import { triggerServer } from '@libertymp/rage-rpc';
 import { HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
-import { registerKeyBind } from '../core/keybind-manager';
+import { registerKeyBind } from '../../core/keybind-manager';
 
 
 const SAVE_WEAPON_TIMEOUT_MS = 1000;
