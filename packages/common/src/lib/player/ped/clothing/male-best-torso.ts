@@ -975,8 +975,8 @@ export const maleBestTorso = {
   },
   '15': {
     '0': {
-      bestTorsoDrawable: -1,
-      bestTorsoTexture: -1
+      bestTorsoDrawable: 15,
+      bestTorsoTexture: 0
     }
   },
   '16': {

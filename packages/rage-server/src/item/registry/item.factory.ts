@@ -3,9 +3,10 @@ import { CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/comm
 import { DrinkItemModel } from './drink-item.model';
 import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
+import { WearableItem } from './clothing/wearable-item.model';
 
-new DrinkItemModel("Water Bottle", "Flow water bottle, contains 0.3l of pure taste of water.", [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle)
-new DrinkItemModel("Beer Bottle", "Pißwasser beer bottle, contains 0.3l of best German beer.", [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle)
+new DrinkItemModel('Water Bottle', 'Flow water bottle, contains 0.3l of pure taste of water.', [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
+new DrinkItemModel('Beer Bottle', 'Pißwasser beer bottle, contains 0.3l of best German beer.', [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
 
 
 new WeaponItem('Ruger Mark IV', 'A popular semi-automatic target pistol.', RageEnums.Hashes.Weapon.PISTOL, CaliberType.CALIBER_22_LR, 'w_pi_pistol', [ItemType.WEAPON_PISTOL], 0.5);
@@ -125,3 +126,6 @@ new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', C
 
 
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);
+
+
+new WearableItem('Black T-Shirt', 'A simple black t-shirt.', RageEnums.ClothesComponent.DECALS, 'prop_cs_tshirt', [], 0.2);

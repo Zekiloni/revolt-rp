@@ -8,6 +8,9 @@ export enum ItemType {
   DRINK,
   BEVERAGE,
 
+  CLOTHING,
+  PROP,
+
   /* Document types */
   IDENTITY_DOCUMENT,
   BADGE,

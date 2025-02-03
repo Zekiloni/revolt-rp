@@ -318,6 +318,7 @@ export const playerUseItem = async (player: PlayerMp, item: Item) => {
 
   if (itemHandler && itemHandler.use) {
     itemHandler.use(player, item);
+    triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
   }
 }
 

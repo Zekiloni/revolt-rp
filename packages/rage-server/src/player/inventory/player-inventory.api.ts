@@ -1,6 +1,7 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
 import {
+  getPlayerItemById,
   getPlayerSelectedItem,
   playerChangeItemSlot, playerDestroyItem,
   playerDropItem, playerGiveItemToPlayer,
@@ -41,10 +42,25 @@ async function playerGiveItemToPlayerHandler(data: [number, string, number], { p
   await playerGiveItemToPlayer(player, targetId, itemId, quantity);
 }
 
-async function playerUseItemHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+async function playerUseItemHandler(itemId: undefined | string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  if (itemId) {
+    const item = getPlayerItemById(player, itemId);
+    if (item) {
+      await playerUseItem(player, item);
+    }
+    return;
+  }
+
   const selectedItem = getPlayerSelectedItem(player);
   if (selectedItem) {
     await playerUseItem(player, selectedItem);
+  }
+}
+
+async function playerEquipItemHandler(itemId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const item = getPlayerItemById(player, itemId);
+  if (item && item.data && item.data.isEquipable) {
+    await playerUseItem(player, item);
   }
 }
 
@@ -60,3 +76,4 @@ on(ProcedureKey.SERVER_PLAYER_USE_ITEM, playerUseItemHandler);
 on(ProcedureKey.SERVER_PLAYER_SPLIT_ITEM, playerSplitItemHandler);
 on(ProcedureKey.SERVER_P2P_GIVE_ITEM, playerGiveItemToPlayerHandler);
 on(ProcedureKey.SERVER_PLAYER_DESTROY_ITEM, playerDestroyItemHandler);
+on(ProcedureKey.SERVER_PLAYER_EQUIP_ITEM, playerEquipItemHandler);

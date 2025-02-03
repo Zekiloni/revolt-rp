@@ -39,15 +39,16 @@ export const enum ProcedureKey {
   SERVER_PLAYER_USE_ITEM = 'server_playerUseItem',
   SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
   SERVER_PLAYER_DESTROY_ITEM = 'server_playerDestroyItem',
+  SERVER_PLAYER_EQUIP_ITEM =  'server_playerEquipItem',
 
   SERVER_PLAYER_WEAPON_RELOAD = 'server_playerWeaponReload',
-  SERVER_PLAYER_SAVE_WEAPON = 'server_playerSaveWeapon',
 
+  SERVER_PLAYER_SAVE_WEAPON = 'server_playerSaveWeapon',
   BROWSER_UPDATE_LOCATION = 'browser_updateLocation',
   BROWSER_UPDATE_CASH = 'browser_updateCash',
   BROWSER_UPDATE_SELECTED_ITEM_ID = 'browser_updateSelectedItemId',
-  BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
 
+  BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
   CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE = 'server_playerToggleVehicleEngine',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
@@ -56,10 +57,9 @@ export const enum ProcedureKey {
   SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR = 'server_playerToggleVehicleIndicator',
 
   SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',
-
   CLIENT_PLAYER_TOGGLE_BANK_MENU = 'client_playerToggleBankMenu',
-  SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
 
+  SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
   CLIENT_PLAYER_USE_BANK_CARD = 'client_playerUseBankCard',
   BROWSER_ATM_INIT = 'browser_atmInit',
   SERVER_PLAYER_BANK_GET_TRANSACTIONS = 'server_playerBankGetTransactions',

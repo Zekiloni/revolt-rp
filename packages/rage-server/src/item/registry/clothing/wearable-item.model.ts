@@ -1,13 +1,13 @@
 import { ItemType } from '@revolt-rp/common';
 import { BaseItem } from '../base-item.model';
 import { Item } from '../../item.model';
-import { getRemoveClothing } from './clothing.util';
+import { getRemoveClothing, setPlayerBestTorso } from './clothing.util';
 
 export class WearableItem extends BaseItem {
-  componentId: number;
+  componentId: RageEnums.ClothesComponent;
 
-  constructor(name: string, description: string, componentId: number, model: string, type: ItemType[], weight: number) {
-    super(name, description, model, [ItemType.WEAPON, ...type], weight);
+  constructor(name: string, description: string, componentId: RageEnums.ClothesComponent, model: string, type: ItemType[], weight: number) {
+    super(name, description, model, [ItemType.EQUIPABLE, ItemType.CLOTHING, ...type], weight);
     this.componentId = componentId;
   }
 
@@ -26,6 +26,9 @@ export class WearableItem extends BaseItem {
     } else {
       this.unequip(player);
     }
+
+    if (this.componentId === RageEnums.ClothesComponent.DECALS)
+      setPlayerBestTorso(player);
 
     await item.save();
   }
