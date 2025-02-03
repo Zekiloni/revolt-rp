@@ -12,6 +12,7 @@ import {
 import { characterConfig } from './character.config';
 import { CharacterModel } from '../account-character.ref';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
+import { loadPlayerClothing } from '../inventory/player-clothing.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -103,6 +104,8 @@ const loadCharacterAppearance = (player: PlayerMp) => {
     if (headOverlay)
       player.setHeadOverlay(overlayId, [headOverlay.value, headOverlay.opacity, headOverlay.color, headOverlay.color]);
   });
+
+  loadPlayerClothing(player);
 };
 
 export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = false) => {
@@ -132,15 +135,15 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
     }
   }
 
+  await player.character.populate('inventory');
+  triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
+
   loadCharacterAppearance(player);
 
   player.name = player.character.fullName;
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
   player.alpha = 255;
-
-  await player.character.populate('inventory');
-  triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
 
   player.account.depopulate('characters');
 };
