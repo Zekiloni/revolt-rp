@@ -98,5 +98,6 @@ export const characterCreateFormConfig = (formBuilder: FormBuilder): FormGroup =
           opacity: new FormControl<number>(1.0)
         })
       })
-    })
+    }),
+    outfit: new FormControl<number>(0)
   });

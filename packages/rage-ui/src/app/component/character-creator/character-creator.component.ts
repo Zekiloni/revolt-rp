@@ -26,12 +26,13 @@ import { FaceFeatureComponent } from './component/face-feature';
 import { HairComponent } from './component/hair';
 import { BeardComponent } from './component/beard';
 import { HeadOverlayComponent } from './component/head-overlay';
+import { OutfitSelectorComponent } from './component/outfit-selector';
 
 
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent, TranslatePipe],
+  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent, TranslatePipe, OutfitSelectorComponent],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })
@@ -51,12 +52,14 @@ export class CharacterCreatorComponent {
   private readonly _hairStyle = 'hairStyle';
   private readonly _hairColor = 'hairColor';
   private readonly _hairHighlightColor = 'hairHighlightColor';
+  private _outfit = 'outfit';
 
   createCharacterForm!: FormGroup<CreateCharacterForm>;
 
   constructor(private formBuilder: FormBuilder, private rageClientService: RageClientService) {
     this.buildCreateCharacterForm();
     this.listenToAppearanceChanges();
+    this.listenToOutfitChanges();
   }
 
   get gender() {
@@ -119,6 +122,7 @@ export class CharacterCreatorComponent {
   private handleGenderValueChange(value: CharacterGender) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, value);
     this.handleHeadBlendDataValueChange(this.headBlendData.getRawValue());
+    this.handleOutfitChange(this.createCharacterForm.get(this._outfit)?.value);
   }
 
   private handleHeadBlendDataValueChange(value: HeadBlendData) {
@@ -148,5 +152,13 @@ export class CharacterCreatorComponent {
 
   private handleHairValueChange(value1: number[]) {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_UPDATE_HAIR, value1);
+  }
+
+  private listenToOutfitChanges() {
+    this.createCharacterForm.get(this._outfit)?.valueChanges.subscribe(value => this.handleOutfitChange(value));
+  }
+
+  private handleOutfitChange(value: number) {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_CREATOR_CHANGE_OUTFIT, [this.gender, value]);
   }
 }

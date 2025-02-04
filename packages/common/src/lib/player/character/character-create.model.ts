@@ -12,4 +12,5 @@ export interface ICharacterCreate {
 	appearance: ICharacterAppearance;
   description?: string;
   accent?: string;
+  outfit: number;
 }

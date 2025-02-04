@@ -1,0 +1,13 @@
+<div class="flex flex-column gap-3" [formGroup]="createCharacterForm">
+  @for (outfit of outfits; let idx = $index; track idx) {
+    <div class="field-checkbox">
+      <p-radioButton
+        name="outfit"
+        [value]="idx"
+        formControlName="outfit" />
+      <label class="ml-2">
+        {{ 'outfit' | translate }} {{ idx + 1}}
+      </label>
+    </div>
+  }
+</div>
