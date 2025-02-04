@@ -128,10 +128,10 @@ new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', C
 
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);
 
-new WearableItem('items.wearable_undershirt', 'items.wearable_undershirt_description', RageEnums.ClothesComponent.ACCESSORIES_1, 'prop_ld_tshirt_02', [], 0.2);
-new WearableItem('items.wearable_top', 'items.wearable_top_description', RageEnums.ClothesComponent.DECALS, 'prop_cs_tshirt', [], 0.2);
-new WearableItem('items.wearable_bottom', 'items.wearable_bottom_description', RageEnums.ClothesComponent.LEGS, 'prop_ld_jeans_01', [], 0.2);
-new WearableItem('items.wearable_footwear', 'items.wearable_footwear_description', RageEnums.ClothesComponent.FOOT, 'prop_ld_shoe_01', [], 0.2);
-new WearableItem('items.wearable_mask', 'items.wearable_mask_description', RageEnums.ClothesComponent.MASK, 'prop_mask_bugstar', [], 0.2);
-new ArmourItem('items.equipment_armour_basic', 'items.equipment_armour_basic_description', 'prop_bodyarmour_03', 100, 0.2);
-new ArmourItem('items.equipment_armour_a', 'items.equipment_armour_a_description', 'prop_bodyarmour_03', 200, 0.2);
+new WearableItem('items.wearable_undershirt', 'items.wearable_undershirt_description', RageEnums.ClothesComponent.ACCESSORIES_1, 'prop_ld_tshirt_02', [], 0.3);
+new WearableItem('items.wearable_top', 'items.wearable_top_description', RageEnums.ClothesComponent.DECALS, 'prop_cs_tshirt', [], 0.4)
+new WearableItem('items.wearable_bottom', 'items.wearable_bottom_description', RageEnums.ClothesComponent.LEGS, 'prop_ld_jeans_01', [], 0.4);
+new WearableItem('items.wearable_footwear', 'items.wearable_footwear_description', RageEnums.ClothesComponent.FOOT, 'prop_ld_shoe_01', [], 0.5);
+new WearableItem('items.wearable_mask', 'items.wearable_mask_description', RageEnums.ClothesComponent.MASK, 'prop_mask_bugstar', [], 0.3);
+new ArmourItem('items.equipment_kevlar_standard', 'items.equipment_kevlar_standard_description', 'prop_bodyarmour_03', 100, 1.75);
+new ArmourItem('items.equipment_kevlar_heavy', 'items.equipment_kevlar_heavy_description', 'prop_bodyarmour_03', 200, 2.25);
