@@ -4,6 +4,7 @@ import { DrinkItemModel } from './drink-item.model';
 import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
 import { WearableItem } from './clothing/wearable-item.model';
+import { ArmourItem } from './equipment/armour-item.model';
 
 new DrinkItemModel('Water Bottle', 'Flow water bottle, contains 0.3l of pure taste of water.', [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Beer Bottle', 'Pißwasser beer bottle, contains 0.3l of best German beer.', [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -127,5 +128,10 @@ new AmmoItem('.22 LR Cartridge', 'A small and lightweight .22 caliber round.', C
 
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);
 
-
-new WearableItem('Black T-Shirt', 'A simple black t-shirt.', RageEnums.ClothesComponent.DECALS, 'prop_cs_tshirt', [], 0.2);
+new WearableItem('items.wearable_undershirt', 'items.wearable_undershirt_description', RageEnums.ClothesComponent.ACCESSORIES_1, 'prop_ld_tshirt_02', [], 0.2);
+new WearableItem('items.wearable_top', 'items.wearable_top_description', RageEnums.ClothesComponent.DECALS, 'prop_cs_tshirt', [], 0.2);
+new WearableItem('items.wearable_bottom', 'items.wearable_bottom_description', RageEnums.ClothesComponent.LEGS, 'prop_ld_jeans_01', [], 0.2);
+new WearableItem('items.wearable_footwear', 'items.wearable_footwear_description', RageEnums.ClothesComponent.FOOT, 'prop_ld_shoe_01', [], 0.2);
+new WearableItem('items.wearable_mask', 'items.wearable_mask_description', RageEnums.ClothesComponent.MASK, 'prop_mask_bugstar', [], 0.2);
+new ArmourItem('items.equipment_armour_basic', 'items.equipment_armour_basic_description', 'prop_bodyarmour_03', 100, 0.2);
+new ArmourItem('items.equipment_armour_a', 'items.equipment_armour_a_description', 'prop_bodyarmour_03', 200, 0.2);
