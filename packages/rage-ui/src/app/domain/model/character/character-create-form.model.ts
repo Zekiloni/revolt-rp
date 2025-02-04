@@ -54,4 +54,5 @@ export interface CreateCharacterForm {
   origin: FormControl<string>;
   bloodType: FormControl<BloodType>;
   appearance: FormGroup<CharacterAppearanceForm>;
+  outfit: FormControl<number>;
 }

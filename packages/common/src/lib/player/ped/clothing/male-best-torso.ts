@@ -1,4 +1,13 @@
-export const maleBestTorso = {
+declare type TorsoData = {
+  [drawable: number]: {
+    [texture: number]: {
+      bestTorsoDrawable: number;
+      bestTorsoTexture: number;
+    };
+  };
+};
+
+export const maleBestTorso: TorsoData = {
   '0': {
     '0': {
       bestTorsoDrawable: -1,

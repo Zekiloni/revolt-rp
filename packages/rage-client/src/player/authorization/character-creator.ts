@@ -1,6 +1,6 @@
 import { on } from '@libertymp/rage-rpc';
 import {
-  CharacterGender,
+  CharacterGender, defaultOutfits,
   faceFeatureNames,
   GameUiKey,
   HeadBlendData,
@@ -11,6 +11,7 @@ import { hideGameInterface, showGameInterface } from '../../core/browser';
 import { toggleAuthorization } from './authorization';
 import { characterCreatorConfig } from './character-creator.config';
 import { togglePlayerPreviewCamera } from '../util/player-preview-camera';
+import { applyBestTorso } from '../util/player-clothing.util';
 
 async function toggleCharacterCreator(toggle: boolean) {
   if (toggle) {
@@ -73,6 +74,18 @@ function handleHairChange(value: [number, number, number]) {
   mp.players.local.setHairColor(color, highlightColor);
 }
 
+function handleOutfitChange([gebder, selectedOutfit]: [CharacterGender, number]) {
+  const components = defaultOutfits[gebder][selectedOutfit];
+
+  if (components) {
+    components.forEach((component) => {
+      mp.players.local.setComponentVariation(component.componentId, component.drawable, component.texture, component.palette);
+    });
+
+    applyBestTorso();
+  }
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, toggleCharacterCreator);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_PED_MODEL, handlePedModelChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_BLEND_DATA, handleHeadBlendDataChange);
@@ -80,4 +93,5 @@ on(ProcedureKey.CLIENT_CREATOR_UPDATE_FACE_FEATURE, handleFaceFeatureChange);
 on(ProcedureKey.CLIENT_CREATOR_CHANGE_EYE_COLOR, handleEyeColorChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_BEARD, handleBeardChange);
 on(ProcedureKey.CLIENT_CREATOR_UPDATE_HEAD_OVERLAY, handleHeadOverlayChange);
-on(ProcedureKey.CLIENT_CREATOR_UPDATE_HAIR, handleHairChange)
+on(ProcedureKey.CLIENT_CREATOR_UPDATE_HAIR, handleHairChange);
+on(ProcedureKey.CLIENT_CREATOR_CHANGE_OUTFIT, handleOutfitChange);
