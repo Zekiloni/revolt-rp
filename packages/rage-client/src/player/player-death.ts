@@ -20,8 +20,6 @@ function playerStateDataHandler(player: PlayerMp, value: CharacterStateType, old
   if (player.type != RageEnums.EntityType.PLAYER) return;
 
   if (player.remoteId === mp.players.local.remoteId) {
-    mp.gui.chat.push(`Player state changed to: ${value}`);
-
     if (value === CharacterStateType.DEAD || value === CharacterStateType.WOUNDED) {
       if (!isDeathScreenActive) {
         toggleDeathScreen(true);
