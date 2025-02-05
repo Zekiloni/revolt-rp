@@ -20,8 +20,10 @@ export class ArmourItem extends WearableItem {
     }
   }
 
-  unequip(player: PlayerMp) {
-    super.unequip(player);
+  unequip(player: PlayerMp, item: Item) {
+    item.usage = (player.armour / this.armourAmount) * 100;
     player.armour = 0;
+
+    super.unequip(player, item);
   }
 }
