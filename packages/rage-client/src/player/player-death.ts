@@ -21,22 +21,16 @@ function playerStateDataHandler(player: PlayerMp, value: CharacterStateType, old
 
   if (player.remoteId === mp.players.local.remoteId) {
     mp.gui.chat.push(`Player state changed to: ${value}`);
-    switch (value) {
-      case CharacterStateType.WOUNDED:
-        toggleDeathScreen(true);
-        break;
-      case CharacterStateType.DEAD:
-        if (!isDeathScreenActive) {
-          toggleDeathScreen(true);
-        } else {
-          // todo update ui
-        }
-        break;
 
-      default:
-        if (isDeathScreenActive)
-          toggleDeathScreen(false);
-        break;
+    if (value === CharacterStateType.DEAD || value === CharacterStateType.WOUNDED) {
+      if (!isDeathScreenActive) {
+        toggleDeathScreen(true);
+      } else {
+        // todo update ui
+      }
+    } else {
+      if (isDeathScreenActive)
+        toggleDeathScreen(false);
     }
   }
 }
