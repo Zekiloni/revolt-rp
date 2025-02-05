@@ -26,3 +26,14 @@ import './vehicle/vehicle.lock';
 
 import './banking/bank-menu';
 import './banking/bank-atm';
+
+
+// Object.defineProperty(mp.nesto, 'enableSnow', {
+//   get: function() {
+//     return this._enableSnow;
+//   },
+//   set: function(toggle) {
+//     this._enableSnow = toggle;
+//     mp.game.invoke('0x6E9EF3A33C8899F8', toggle);
+//   }
+// });
