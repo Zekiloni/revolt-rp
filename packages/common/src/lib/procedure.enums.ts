@@ -78,5 +78,5 @@ export const enum ProcedureKey {
   SERVER_PLAYER_BANK_CREATE_CARD = 'server_playerBankCreateCard',
 
   CLIENT_TOGGLE_ANIMATION_MENU = 'client_toggleAnimationMenu',
-  SERVER_PLAYER_GET_DAMAGE = 'server_playerGetDamage',
+  SERVER_PLAYER_DAMAGE = 'server_playerGetDamage',
 }
