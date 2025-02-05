@@ -39,6 +39,10 @@
     <app-animation-menu @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.DeathScreen) | async) {
+    <app-death-screen @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />

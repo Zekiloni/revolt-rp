@@ -1,6 +1,8 @@
-import { CaliberType, IPlayerDamageData } from '@revolt-rp/common';
+import { CaliberType, CharacterStateType, IPlayerDamageData } from '@revolt-rp/common';
 import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
+import { setPlayerHealth, setPlayerState } from '../character/character.service';
+import { characterConfig } from '../character/character.config';
 
 const playerDamageInfo = new Map<PlayerMp, IPlayerDamageData<PlayerMp>[]>();
 
@@ -40,3 +42,17 @@ export function playerDamage(player: PlayerMp, issuer: PlayerMp, damage: number,
 export const getPlayerDamage = (player: PlayerMp) => {
   return playerDamageInfo.get(player);
 };
+
+
+export async function playerDeath(player: PlayerMp, reason: number, killer?: PlayerMp) {
+  // todo: message & logging
+
+  if (player.character) {
+    setPlayerState(player, CharacterStateType.WOUNDED);
+    setPlayerHealth(player, characterConfig.woundedHealth);
+
+    player.character.position = player.position;
+
+    await player.character.save();
+  }
+}

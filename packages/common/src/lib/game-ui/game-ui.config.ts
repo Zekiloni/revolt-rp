@@ -50,7 +50,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     disableChat: true,
-    freezeControls: true,
+    freezeControls: true
   },
 
   [GameUiKey.AnimationMenu]: {
@@ -58,5 +58,8 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     mouse: true,
     freezeControls: true,
     disableChat: true
+  },
+  [GameUiKey.DeathScreen]: {
+    isActive: false
   }
 };

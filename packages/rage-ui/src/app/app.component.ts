@@ -24,6 +24,7 @@ import { fadeInOutTrigger } from './domain/util/animation.util';
 import { BankMenuComponent } from './component/banking/bank-menu';
 import { BankAtmComponent } from './component/banking/bank-atm';
 import { AnimationMenuComponent } from './component/emote/animation-menu';
+import { DeathScreenComponent } from './component/death-screen';
 
 
 @Component({
@@ -42,7 +43,8 @@ import { AnimationMenuComponent } from './component/emote/animation-menu';
     PlayerOfferComponent,
     BankMenuComponent,
     BankAtmComponent,
-    AnimationMenuComponent
+    AnimationMenuComponent,
+    DeathScreenComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

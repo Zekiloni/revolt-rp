@@ -9,4 +9,5 @@ export enum GameUiKey {
   BankMenu = 'bankMenu',
   ATM = 'atm',
   AnimationMenu = 'animationMenu',
+  DeathScreen = 'deathScreen',
 }
