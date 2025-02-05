@@ -11,6 +11,7 @@ import './player/player-animation';
 import './player/player-animation-menu';
 import './player/player-hud';
 import './player/player-death';
+import './player/player-damage';
 import './player/inventory/player-attachment';
 import './player/inventory/player-inventory';
 import './player/inventory/player-item';
