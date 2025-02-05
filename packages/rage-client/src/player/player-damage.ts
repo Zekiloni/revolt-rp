@@ -33,14 +33,6 @@ function outgoingDamageHandler(
   weapon: number,
   boneIndex: number,
   damage: number) {
-
-  mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} damage to ${targetPlayer.name}`);
-  mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} to sourceEntity ${sourceEntity.type}`);
-
-  if (sourceEntity.type === 'player') {
-    mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} to targetEntity ${targetEntity.type}`);
-  }
-
   // todo cancel dmg if already dead
   //mp.game.weapon.cancelCurrentDamageEvent();
 

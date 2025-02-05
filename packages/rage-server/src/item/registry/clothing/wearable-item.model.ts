@@ -24,7 +24,7 @@ export class WearableItem extends BaseItem {
     if (item.equipped) {
       this.equip(player, item);
     } else {
-      this.unequip(player);
+      this.unequip(player, item);
     }
 
     if (this.componentId === RageEnums.ClothesComponent.DECALS)
@@ -40,7 +40,7 @@ export class WearableItem extends BaseItem {
     player.setClothes(this.componentId, item.wearableInfo.drawable, item.wearableInfo.texture, item.wearableInfo.palette);
   }
 
-  unequip(player: PlayerMp) {
+  unequip(player: PlayerMp, _item: Item) {
     const removeClothing = getRemoveClothing(player.character.gender, this.componentId);
     if (removeClothing) {
       player.setClothes(this.componentId, removeClothing.drawable, removeClothing.texture, removeClothing.palette);
