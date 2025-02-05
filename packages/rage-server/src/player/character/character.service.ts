@@ -51,6 +51,7 @@ export async function setMoney(player: PlayerMp, amount: number) {
 
 const loadPlayerVariables = (player: PlayerMp) => {
   player.setVariables({
+    [PlayerSharedDataType.CharacterId]: player.character.id,
     [PlayerSharedDataType.IsSpawned]: true,
     [PlayerSharedDataType.Cash]: player.character.cash,
     [PlayerSharedDataType.State]: player.character.state,

@@ -7,6 +7,7 @@ function incomingDamageHandler(
   damage: number
 ) {
 
+  mp.gui.chat.push(`weapon: ${weapon}, boneIndex: ${boneIndex}, damage: ${damage}`);
   if (sourceEntity.type === 'player' && sourcePlayer) {
     if (targetEntity.type === 'player') {
       const target = targetEntity as PlayerMp;
