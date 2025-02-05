@@ -2,7 +2,7 @@ import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   BankAccountType,
   CharacterGender,
-  CharacterSpawnType, defaultOutfits,
+  CharacterSpawnType, CharacterStateType, defaultOutfits,
   HeadOverlayComponent,
   headOverlays as headOverlayInfo,
   ICharacterCreate,
@@ -185,3 +185,21 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
       spawnPlayerCharacter(player);
     });
 };
+
+
+export const setPlayerState = (player: PlayerMp, state: CharacterStateType) => {
+  player.character.state = state;
+  player.setVariable(PlayerSharedDataType.State, state);
+}
+
+export const setPlayerHealth = (player: PlayerMp, health: number) => {
+  player.character.health = health;
+  player.health = health;
+}
+
+
+export const revivePlayer = (player: PlayerMp, position: Vector3) => {
+  setPlayerState(player, CharacterStateType.ALIVE);
+  setPlayerHealth(player, characterConfig.defaultHealth);
+  player.spawn(position);
+}

@@ -6,7 +6,7 @@ import { notifyPlayer } from '../util/player-notify.util';
 import { setAdministrator } from '../account/account.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
-import { giveMoney, setMoney } from '../character/character.service';
+import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
 
@@ -270,8 +270,7 @@ registerCommand({
     if (!target || !target.account)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
-    target.health = 100;
-    target.spawn(target.position);
+    revivePlayer(target, target.position);
   }
 });
 
@@ -295,7 +294,7 @@ registerCommand({
         detail: t('invalid_param_type', { param: 'hour', type: 'number' })
       });
 
-    target.health = parseInt(amount);
+    setPlayerHealth(target, parseInt(amount));
   }
 });
 
