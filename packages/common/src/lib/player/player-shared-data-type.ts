@@ -1,4 +1,5 @@
 export const enum PlayerSharedDataType {
+  CharacterId = 'character_id',
   TextBubble = 'text_bubble',
   IsSpawned = 'is_spawned',
   IsRestrained = 'is_cuffed',
