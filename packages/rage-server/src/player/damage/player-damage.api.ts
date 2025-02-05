@@ -4,7 +4,7 @@ import { playerDamage } from './player-damage.service';
 
 
 function playerGetDamageHandler(data: IPlayerDamageData<PlayerMp>, { player }: ProcedureListenerInfo<PlayerMp>) {
-  playerDamage(player, data.source, data.damage, data.weapon, data.boneIndex);
+  playerDamage(player, data.source, data.damage, data.weaponHash, data.boneIndex);
 }
 
-on(ProcedureKey.SERVER_PLAYER_GET_DAMAGE, playerGetDamageHandler);
+on(ProcedureKey.SERVER_PLAYER_DAMAGE, playerGetDamageHandler);

@@ -5,7 +5,7 @@ function incomingDamageHandler(
   sourceEntity: EntityMp,
   sourcePlayer: PlayerMp,
   targetEntity: EntityMp,
-  weapon: number,
+  weaponHash: number,
   boneIndex: number,
   damage: number
 ) {
@@ -16,11 +16,11 @@ function incomingDamageHandler(
       if (target.remoteId === mp.players.local.remoteId) {
         const playerDamage: IPlayerDamageData<PlayerMp> = {
           source: sourcePlayer,
-          weapon,
+          weaponHash,
           boneIndex,
           damage
         };
-        triggerServer(ProcedureKey.SERVER_PLAYER_GET_DAMAGE, playerDamage);
+        triggerServer(ProcedureKey.SERVER_PLAYER_DAMAGE, playerDamage);
       }
     }
   }
