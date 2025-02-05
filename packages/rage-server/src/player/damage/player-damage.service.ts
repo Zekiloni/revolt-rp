@@ -56,3 +56,13 @@ export async function playerDeath(player: PlayerMp, reason: number, killer?: Pla
     await player.character.save();
   }
 }
+
+
+export async function playerGiveUp(player: PlayerMp) {
+  setPlayerState(player, CharacterStateType.DEAD);
+  setPlayerHealth(player, characterConfig.defaultHealth);
+
+  player.character.position = player.position;
+
+  await player.character.save();
+}

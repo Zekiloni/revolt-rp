@@ -153,7 +153,7 @@ export const srRs = {
     'equipment_kevlar_standard': 'Osnovni Pancir',
     'equipment_kevlar_standard_description': 'Osnovni pancir za zaštitu.',
     'equipment_armour_a': 'Pancir A+',
-    'equipment_armour_a_description': 'Pancir A+ za zaštitu.',
+    'equipment_armour_a_description': 'Pancir A+ za zaštitu.'
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',
@@ -188,5 +188,6 @@ export const srRs = {
   'intimidated': 'Uplašen',
   'quick': 'Brz',
   'sad': 'Tužan',
-  'tough': 'Čvrst'
+  'tough': 'Čvrst',
+  'you_are_not_dead_or_wounded': 'Niste mrtvi ili ranjeni.'
 };

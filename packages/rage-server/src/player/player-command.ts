@@ -1,10 +1,10 @@
 import { t } from 'i18next';
-import { hexColors, rgbColors } from '@revolt-rp/common';
+import { CharacterStateType, hexColors, rgbColors } from '@revolt-rp/common';
 import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
-import { getPlayerDamage } from './damage/player-damage.service';
+import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 
 
 registerCommand({
@@ -216,6 +216,16 @@ registerCommand({
 });
 
 
+registerCommand({
+  name: 'giveup',
+  description: 'todo',
+  async handle(player: PlayerMp) {
+    if (player.character.state === CharacterStateType.ALIVE)
+      return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('you_are_not_dead_or_wounded') });
+
+    await playerGiveUp(player);
+  }
+})
 
 registerCommand({
   name: 'damages',
@@ -235,3 +245,4 @@ registerCommand({
     })
   }
 })
+
