@@ -7,7 +7,7 @@ const playerCreateCharacterHandler = (characterCreate: ICharacterCreate, { playe
   createCharacter(player, characterCreate)
     .then(async (character) => {
       player.character = character;
-      await spawnPlayerCharacter(player, true);
+      await spawnPlayerCharacter(player, true, characterCreate.outfit);
     })
     .catch(e => console.log(e));
 };

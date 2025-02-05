@@ -60,6 +60,7 @@ export class CharacterCreatorComponent {
     this.buildCreateCharacterForm();
     this.listenToAppearanceChanges();
     this.listenToOutfitChanges();
+    this.handleOutfitChange(this.createCharacterForm.get(this._outfit)?.value);
   }
 
   get gender() {

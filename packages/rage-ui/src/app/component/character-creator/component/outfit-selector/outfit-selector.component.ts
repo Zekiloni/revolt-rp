@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CharacterGender, defaultOutfits } from '@revolt-rp/common';
 import { CreateCharacterForm } from '../../../../domain/model/character';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-outfit-selector',

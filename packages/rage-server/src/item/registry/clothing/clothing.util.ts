@@ -1,6 +1,13 @@
 import { CharacterGender, getBestTorso, IWearableInfo } from '@revolt-rp/common';
 import { NO_CLOTHING } from './clothing.config';
+import { itemRegistry } from '../base-item.model';
+import { WearableItem } from './wearable-item.model';
 
+
+export const getWearableItemByComponent = (componentId: RageEnums.ClothesComponent) => {
+  return [...itemRegistry.values()].filter(item => item.isEquipable)
+    .find((item: WearableItem) => item.componentId === componentId);
+}
 
 export const getRemoveClothing = (gender: CharacterGender, componentId: number) => {
   if (NO_CLOTHING[gender] && NO_CLOTHING[gender][componentId]) {

@@ -2,7 +2,7 @@ import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   BankAccountType,
   CharacterGender,
-  CharacterSpawnType,
+  CharacterSpawnType, defaultOutfits,
   HeadOverlayComponent,
   headOverlays as headOverlayInfo,
   ICharacterCreate,
@@ -13,6 +13,8 @@ import { characterConfig } from './character.config';
 import { CharacterModel } from '../account-character.ref';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
+import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
+import { playerGiveItem } from '../inventory/player-inventory.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -109,7 +111,26 @@ const loadCharacterAppearance = (player: PlayerMp) => {
   loadPlayerClothing(player);
 };
 
-export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = false) => {
+async function createPlayerOutfit(player: PlayerMp, selectedOutfit: number) {
+  const outfit = defaultOutfits[player.character.gender][selectedOutfit];
+  if (outfit) {
+    for (const clothing of outfit) {
+      const wearableItem = getWearableItemByComponent(clothing.componentId);
+      if (wearableItem) {
+        await playerGiveItem(player, wearableItem.name, 1, {
+          equipped: true,
+          wearableInfo: {
+            drawable: clothing.drawable,
+            texture: clothing.texture,
+            palette: clothing.palette
+          }
+        });
+      }
+    }
+  }
+}
+
+export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = false, selectedOutfit?: number) => {
   if (!player.character) return;
 
   loadPlayerVariables(player);
@@ -122,6 +143,9 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
 
     const bankAccount = await createBankAccount(player.character, BankAccountType.Main, characterConfig.defaultBankBalance);
     await createBankCardItem(player, bankAccount);
+
+    if (selectedOutfit !== undefined)
+      await createPlayerOutfit(player, selectedOutfit);
   } else {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
