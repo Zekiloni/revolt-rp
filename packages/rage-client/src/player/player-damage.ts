@@ -1,3 +1,7 @@
+import { triggerServer } from '@libertymp/rage-rpc';
+import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
+import { getIsAlive } from './util/player-data.util';
+
 function incomingDamageHandler(
   sourceEntity: EntityMp,
   sourcePlayer: PlayerMp,
@@ -6,21 +10,45 @@ function incomingDamageHandler(
   boneIndex: number,
   damage: number
 ) {
-
-  mp.gui.chat.push(`weapon: ${weapon}, boneIndex: ${boneIndex}, damage: ${damage}`);
   if (sourceEntity.type === 'player' && sourcePlayer) {
     if (targetEntity.type === 'player') {
       const target = targetEntity as PlayerMp;
 
-      mp.gui.chat.push(`[DEBUG] ${sourcePlayer.name} damaged ${target.name} with ${weapon} on bone ${boneIndex} for ${damage} damage`);
       if (target.remoteId === mp.players.local.remoteId) {
-        mp.gui.chat.push(`[DEBUG] You (localPlayer) were damaged by ${sourcePlayer.name} with ${weapon} on bone ${boneIndex} for ${damage} damage`);
-        mp.events.callRemote('playerDamage', sourcePlayer, targetEntity, weapon, boneIndex, damage);
+        const playerDamage: IPlayerDamageData<PlayerMp> = {
+          source: sourcePlayer,
+          weapon,
+          boneIndex,
+          damage
+        };
+        triggerServer(ProcedureKey.SERVER_PLAYER_GET_DAMAGE, playerDamage);
       }
     }
   }
 }
 
+function outgoingDamageHandler(
+  sourceEntity: EntityMp,
+  targetEntity: EntityMp,
+  targetPlayer: PlayerMp,
+  weapon: number,
+  boneIndex: number,
+  damage: number) {
+
+  mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} damage to ${targetPlayer.name}`);
+  mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} to sourceEntity ${sourceEntity.type}`);
+
+  if (sourceEntity.type === 'player') {
+    mp.gui.chat.push(`[DEBUG] Outgoing - dealt ${damage} to targetEntity ${targetEntity.type}`);
+  }
+
+  // todo cancel dmg if already dead
+  //mp.game.weapon.cancelCurrentDamageEvent();
+
+  // todo check has armour and reduce damage
+}
+
 mp.events.add({
-  incomingDamage: incomingDamageHandler
+  incomingDamage: incomingDamageHandler,
+  outgoingDamage: outgoingDamageHandler
 });

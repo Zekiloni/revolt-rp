@@ -24,6 +24,7 @@ export const enum ProcedureKey {
   CLIENT_CREATOR_UPDATE_HEAD_OVERLAY = 'client_creatorUpdateHeadOverlay',
   CLIENT_CREATOR_CHANGE_EYE_COLOR = 'client_creatorChangeEyeColor',
   CLIENT_CREATOR_UPDATE_HAIR = 'client_creatorChangeHair',
+  CLIENT_CREATOR_CHANGE_OUTFIT = 'client_creatorChangeOutfit',
 
   SERVER_PLAYER_GET_VARIABLE = 'server_playerGetVariable',
   SERVER_PLAYER_SET_VARIABLE = 'server_playerSetVariable',
@@ -77,5 +78,5 @@ export const enum ProcedureKey {
   SERVER_PLAYER_BANK_CREATE_CARD = 'server_playerBankCreateCard',
 
   CLIENT_TOGGLE_ANIMATION_MENU = 'client_toggleAnimationMenu',
-  CLIENT_CREATOR_CHANGE_OUTFIT = 'client_creatorChangeOutfit',
+  SERVER_PLAYER_GET_DAMAGE = 'server_playerGetDamage',
 }
