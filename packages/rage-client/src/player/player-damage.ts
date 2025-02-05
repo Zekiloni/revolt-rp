@@ -1,6 +1,5 @@
 import { triggerServer } from '@libertymp/rage-rpc';
 import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
-import { getIsAlive } from './util/player-data.util';
 
 function incomingDamageHandler(
   sourceEntity: EntityMp,
