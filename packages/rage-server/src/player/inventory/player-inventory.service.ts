@@ -47,13 +47,13 @@ export const playerGetAvailableItemSlot = (player: PlayerMp) => {
   return localSlot;
 };
 
-export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number) => {
+export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number, options: Partial<Item> = {}) => {
   const availableItemSlot = playerGetAvailableItemSlot(player);
 
   if (availableItemSlot == -1)
     return;
 
-  const item = await createItem(itemName, quantity, { localSlot: availableItemSlot });
+  const item = await createItem(itemName, quantity, { ...options, localSlot: availableItemSlot });
 
   player.character.inventory.push(item);
   await player.character.save();
