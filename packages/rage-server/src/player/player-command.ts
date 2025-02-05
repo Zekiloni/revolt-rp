@@ -4,6 +4,7 @@ import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } f
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
+import { getPlayerDamage } from './damage/player-damage.service';
 
 
 registerCommand({
@@ -213,3 +214,24 @@ registerCommand({
     target.outputChatBox(`!{${hexColors.PURPLE[0]}}[!] !{${hexColors.WHITE_PALETTE}}${message}`);
   }
 });
+
+
+
+registerCommand({
+  name: 'damages',
+  description: 'todo',
+  handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    const damages = getPlayerDamage(target);
+    damages.forEach(damage => {
+      if (damage.source)
+        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} ${damage.damage} ${damage.weapon}`);
+      else
+        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} ${damage.weapon}`);
+    })
+  }
+})

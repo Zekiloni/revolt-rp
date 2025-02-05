@@ -29,6 +29,11 @@ export const getIsAlive = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.State) == CharacterStateType.ALIVE;
 }
 
+
+export const getIsDead = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.State) == CharacterStateType.DEAD;
+}
+
 export const getIsFrozen = (target?: PlayerMp): boolean => {
   return getTarget(target).getVariable(PlayerSharedDataType.Frozen);
 }
