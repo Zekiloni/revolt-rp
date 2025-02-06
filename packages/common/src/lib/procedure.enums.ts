@@ -79,5 +79,5 @@ export const enum ProcedureKey {
 
   CLIENT_TOGGLE_ANIMATION_MENU = 'client_toggleAnimationMenu',
   SERVER_PLAYER_DAMAGE = 'server_playerGetDamage',
-  BROWSER_DEATH_SCREEN_SET = 'browser_deathScreenSet',
+  SERVER_PLAYER_GET_WOUND_TIMER = 'server_playerGetWoundTimer',
 }
