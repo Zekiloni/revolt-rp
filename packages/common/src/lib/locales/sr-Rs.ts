@@ -191,5 +191,7 @@ export const srRs = {
   'tough': 'Čvrst',
   'you_are_not_dead_or_wounded': 'Niste mrtvi ili ranjeni.',
   'you_cant_give_up_yet': 'Ne možete odustati još uvek.',
-  'you_are_not_wounded': 'Niste ranjeni.'
+  'you_are_not_wounded': 'Niste ranjeni.',
+  'you_are_brutally_wounded': 'Brutalno ste ranjeni.',
+  'use_giveup_in': 'Koristite /giveup za {{time}} sekundi kako biste odustali.',
 };

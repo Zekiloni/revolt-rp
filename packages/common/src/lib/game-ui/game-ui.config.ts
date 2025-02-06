@@ -60,6 +60,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     disableChat: true
   },
   [GameUiKey.DeathScreen]: {
-    isActive: false
+    isActive: true
   }
 };
