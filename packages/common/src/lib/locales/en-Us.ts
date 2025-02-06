@@ -190,5 +190,7 @@ export const enUs = {
   'tough': 'Tough',
   'you_are_not_dead_or_wounded': 'You are not dead or wounded.',
   'you_cant_give_up_yet': 'You can\'t give up yet.',
-  'you_are_not_wounded': 'You are not wounded.'
+  'you_are_not_wounded': 'You are not wounded.',
+  'you_are_brutally_wounded': 'You are brutally wounded.',
+  'use_giveup_in': 'Use /giveup in {{time}} seconds to give up.'
 };

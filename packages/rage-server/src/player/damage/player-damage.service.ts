@@ -1,4 +1,4 @@
-import { CaliberType, IPlayerDamageData } from '@revolt-rp/common';
+import { CaliberType, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
 import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { setPlayerHealth, setPlayerWounded } from '../character/character.service';
@@ -8,6 +8,7 @@ import { Types } from 'mongoose';
 import dayjs from 'dayjs';
 import { notifyPlayer } from '../util/player-notify.util';
 import { t } from 'i18next';
+import { triggerBrowsers } from '@libertymp/rage-rpc';
 
 const playerDamageInfo = new Map<PlayerMp, IPlayerDamageData<PlayerMp>[]>();
 
@@ -59,6 +60,8 @@ export async function playerDeath(player: PlayerMp, reason: number, killer?: Pla
   if (player.character) {
     setPlayerWounded(player, true);
     setPlayerHealth(player, characterConfig.woundedHealth);
+
+    triggerBrowsers(player, ProcedureKey.BROWSER_DEATH_SCREEN_SET, characterConfig.giveUpTime);
 
     await PlayerDeathModel.create({
       target: player.character,
