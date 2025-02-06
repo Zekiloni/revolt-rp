@@ -47,7 +47,8 @@ export * from './lib/player/walking-style.data';
 
 export * from './lib/player/player-shared-data-type';
 
-export * from './lib/player/player-damage.model';
+export * from './lib/player/damage/player-damage.model';
+export * from './lib/player/damage/player-death.model';
 
 export * from './lib/item/registry/base-item.model';
 export * from './lib/item/registry/item-type';

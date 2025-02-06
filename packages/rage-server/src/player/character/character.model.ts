@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
-  BloodType, CharacterGender, CharacterSpawnType, CharacterStateType, ICharacterStatus,
+  BloodType, CharacterGender, CharacterSpawnType, ICharacterStatus,
   ICharacter,
   ICharacterAppearance,
   ICharacterInjury,
@@ -116,8 +116,8 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   prisonTime: number;
 
-  @prop({ default: CharacterStateType.ALIVE, type: String })
-  state: CharacterStateType;
+  @prop({ default: false })
+  isWounded: boolean
 
   @prop({ type: Object, default: null })
   status: ICharacterStatus;

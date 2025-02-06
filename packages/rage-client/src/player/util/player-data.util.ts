@@ -1,4 +1,4 @@
-import { CharacterStateType, PlayerSharedDataType, IPlayerTextBubble } from '@revolt-rp/common';
+import { PlayerSharedDataType, IPlayerTextBubble } from '@revolt-rp/common';
 
 
 function getTarget(target: PlayerMp) {
@@ -26,12 +26,12 @@ export const getIsNotCuffed = (target?: PlayerMp) => {
 }
 
 export const getIsAlive = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.State) == CharacterStateType.ALIVE;
+  return !getTarget(target).getVariable(PlayerSharedDataType.IsWounded);
 }
 
 
-export const getIsDead = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.State) == CharacterStateType.DEAD;
+export const getIsWounded = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.IsWounded);
 }
 
 export const getIsFrozen = (target?: PlayerMp): boolean => {

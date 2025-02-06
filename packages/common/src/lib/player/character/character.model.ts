@@ -25,12 +25,6 @@ export interface ICharacterInjury {
   damage: number;
 }
 
-export const enum CharacterStateType {
-  ALIVE = 'alive',
-  WOUNDED = 'wounded',
-  DEAD = 'dead'
-}
-
 export interface ICharacterOrganization {
   organization: Ref<IOrganization>;
   rank?: Ref<IOrganizationRank>;
@@ -50,7 +44,7 @@ export interface ICharacter extends Base {
   description?: string;
   health: number;
   accent?: string;
-  state: CharacterStateType;
+  isWounded: boolean;
   member?: ICharacterOrganization;
   injuries: ICharacterInjury[];
   isRestrained: boolean;

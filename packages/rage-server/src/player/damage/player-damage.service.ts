@@ -1,8 +1,13 @@
-import { CaliberType, CharacterStateType, IPlayerDamageData } from '@revolt-rp/common';
+import { CaliberType, IPlayerDamageData } from '@revolt-rp/common';
 import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
-import { setPlayerHealth, setPlayerState } from '../character/character.service';
+import { setPlayerHealth, setPlayerWounded } from '../character/character.service';
 import { characterConfig } from '../character/character.config';
+import { PlayerDeathModel } from './player-death.model';
+import { Types } from 'mongoose';
+import dayjs from 'dayjs';
+import { notifyPlayer } from '../util/player-notify.util';
+import { t } from 'i18next';
 
 const playerDamageInfo = new Map<PlayerMp, IPlayerDamageData<PlayerMp>[]>();
 
@@ -43,26 +48,52 @@ export const getPlayerDamage = (player: PlayerMp) => {
   return playerDamageInfo.get(player);
 };
 
+async function getLastActiveDeath(targetId: string | Types.ObjectId) {
+  return PlayerDeathModel.findOne({ target: targetId, giveUp: false })
+    .sort({ createdAt: -1 })
+    .populate('killer')
+    .exec();
+}
 
 export async function playerDeath(player: PlayerMp, reason: number, killer?: PlayerMp) {
-  // todo: message & logging
-
   if (player.character) {
-    setPlayerState(player, CharacterStateType.WOUNDED);
+    setPlayerWounded(player, true);
     setPlayerHealth(player, characterConfig.woundedHealth);
 
-    player.character.position = player.position;
+    await PlayerDeathModel.create({
+      target: player.character,
+      reason,
+      killer: killer?.character
+    });
 
+    player.character.position = player.position;
     await player.character.save();
   }
 }
 
 
 export async function playerGiveUp(player: PlayerMp) {
-  setPlayerState(player, CharacterStateType.DEAD);
-  setPlayerHealth(player, characterConfig.defaultHealth);
+  if (!player.character.isWounded) {
+    return notifyPlayer(player, { severity: 'error', detail: t('you_are_not_wounded') });
+  }
 
-  player.character.position = player.position;
+  const death = await getLastActiveDeath(player.character._id);
 
-  await player.character.save();
+  if (death) {
+    const secondsSinceDeath = dayjs().diff(dayjs(death.createdAt), 'second');
+
+    if (secondsSinceDeath < characterConfig.giveUpTime) {
+      return notifyPlayer(player, { severity: 'error', detail: t('you_cant_give_up_yet') });
+    }
+
+    death.giveUp = true;
+    await death.save();
+
+    setPlayerWounded(player, false);
+    setPlayerHealth(player, characterConfig.defaultHealth);
+
+    player.character.position = player.position;
+
+    await player.character.save();
+  }
 }
