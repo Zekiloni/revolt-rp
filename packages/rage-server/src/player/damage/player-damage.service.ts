@@ -49,19 +49,27 @@ export const getPlayerDamage = (player: PlayerMp) => {
   return playerDamageInfo.get(player);
 };
 
-async function getLastActiveDeath(targetId: string | Types.ObjectId) {
-  return PlayerDeathModel.findOne({ target: targetId, giveUp: false })
+async function getPlayerActiveDeath(player: PlayerMp) {
+  return PlayerDeathModel.findOne({ target: player.character._id, giveUp: false })
     .sort({ createdAt: -1 })
     .populate('killer')
     .exec();
 }
 
+export const getPlayerWoundTimer = async (player: PlayerMp) => {
+  const death = await getPlayerActiveDeath(player);
+
+  if (death) {
+    const secondsSinceDeath = dayjs().diff(dayjs(death.createdAt), 'second');
+    return Math.max(0, characterConfig.giveUpTime - secondsSinceDeath);
+  } else
+    return 0;
+};
+
 export async function playerDeath(player: PlayerMp, reason: number, killer?: PlayerMp) {
   if (player.character) {
     setPlayerWounded(player, true);
     setPlayerHealth(player, characterConfig.woundedHealth);
-
-    triggerBrowsers(player, ProcedureKey.BROWSER_DEATH_SCREEN_SET, characterConfig.giveUpTime);
 
     await PlayerDeathModel.create({
       target: player.character,
@@ -80,7 +88,7 @@ export async function playerGiveUp(player: PlayerMp) {
     return notifyPlayer(player, { severity: 'error', detail: t('you_are_not_wounded') });
   }
 
-  const death = await getLastActiveDeath(player.character._id);
+  const death = await getPlayerActiveDeath(player);
 
   if (death) {
     const secondsSinceDeath = dayjs().diff(dayjs(death.createdAt), 'second');

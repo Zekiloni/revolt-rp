@@ -35,11 +35,9 @@ export class DeathScreenComponent implements OnInit, OnDestroy {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
-
-    this.rageClientService.off(ProcedureKey.BROWSER_DEATH_SCREEN_SET, this.setDeathScreen);
   }
 
   ngOnInit() {
-    this.rageClientService.on(ProcedureKey.BROWSER_DEATH_SCREEN_SET, this.setDeathScreen);
+    this.rageClientService.callServer<number>(ProcedureKey.SERVER_PLAYER_GET_WOUND_TIMER, this.setDeathScreen);
   }
 }
