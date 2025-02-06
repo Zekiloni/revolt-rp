@@ -188,5 +188,7 @@ export const enUs = {
   'quick': 'Quick',
   'sad': 'Sad',
   'tough': 'Tough',
-  'you_are_not_dead_or_wounded': 'You are not dead or wounded.'
+  'you_are_not_dead_or_wounded': 'You are not dead or wounded.',
+  'you_cant_give_up_yet': 'You can\'t give up yet.',
+  'you_are_not_wounded': 'You are not wounded.'
 };

@@ -1,4 +1,4 @@
-import { CaliberType } from '../item/registry/caliber-type';
+import { CaliberType } from '../../item/registry/caliber-type';
 
 export interface IPlayerDamageData<T> {
   source: T;

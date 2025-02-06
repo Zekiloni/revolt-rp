@@ -2,7 +2,7 @@ import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   BankAccountType,
   CharacterGender,
-  CharacterSpawnType, CharacterStateType, defaultOutfits,
+  CharacterSpawnType, defaultOutfits,
   HeadOverlayComponent,
   headOverlays as headOverlayInfo,
   ICharacterCreate,
@@ -54,7 +54,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.CharacterId]: player.character.id,
     [PlayerSharedDataType.IsSpawned]: true,
     [PlayerSharedDataType.Cash]: player.character.cash,
-    [PlayerSharedDataType.State]: player.character.state,
+    [PlayerSharedDataType.IsWounded]: player.character.isWounded,
     [PlayerSharedDataType.Administrator]: player.account.administrator,
     [PlayerSharedDataType.TextBubble]: null,
     [PlayerSharedDataType.SelectedItemId]: null,
@@ -187,9 +187,9 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
 };
 
 
-export const setPlayerState = (player: PlayerMp, state: CharacterStateType) => {
-  player.character.state = state;
-  player.setVariable(PlayerSharedDataType.State, state);
+export const setPlayerWounded = (player: PlayerMp, state: boolean) => {
+  player.character.isWounded = state;
+  player.setVariable(PlayerSharedDataType.IsWounded, state);
 }
 
 export const setPlayerHealth = (player: PlayerMp, health: number) => {
@@ -199,7 +199,7 @@ export const setPlayerHealth = (player: PlayerMp, health: number) => {
 
 
 export const revivePlayer = (player: PlayerMp, position: Vector3) => {
-  setPlayerState(player, CharacterStateType.ALIVE);
+  setPlayerWounded(player, false);
   setPlayerHealth(player, characterConfig.defaultHealth);
   player.spawn(position);
 }

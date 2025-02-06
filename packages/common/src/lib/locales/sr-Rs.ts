@@ -189,5 +189,7 @@ export const srRs = {
   'quick': 'Brz',
   'sad': 'Tužan',
   'tough': 'Čvrst',
-  'you_are_not_dead_or_wounded': 'Niste mrtvi ili ranjeni.'
+  'you_are_not_dead_or_wounded': 'Niste mrtvi ili ranjeni.',
+  'you_cant_give_up_yet': 'Ne možete odustati još uvek.',
+  'you_are_not_wounded': 'Niste ranjeni.'
 };

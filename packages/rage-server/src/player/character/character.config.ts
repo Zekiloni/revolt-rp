@@ -11,5 +11,6 @@ export const characterConfig = {
   defaultCash: 2300,
   defaultHealth: 100,
   defaultBankBalance: 17500,
-  woundedHealth: 45
+  woundedHealth: 45,
+  giveUpTime: 30
 }

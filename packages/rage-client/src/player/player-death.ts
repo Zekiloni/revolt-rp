@@ -1,4 +1,4 @@
-import { CharacterStateType, GameUiKey, PlayerSharedDataType } from '@revolt-rp/common';
+import { GameUiKey, PlayerSharedDataType } from '@revolt-rp/common';
 import { hideGameInterface, showGameInterface } from '../core/browser';
 
 
@@ -16,11 +16,11 @@ function toggleDeathScreen(toggle: boolean) {
   }
 }
 
-function playerStateDataHandler(player: PlayerMp, value: CharacterStateType, oldValue?: CharacterStateType) {
+function playerStateDataHandler(player: PlayerMp, value: boolean, oldValue?: boolean) {
   if (player.type != RageEnums.EntityType.PLAYER) return;
 
   if (player.remoteId === mp.players.local.remoteId) {
-    if (value === CharacterStateType.DEAD || value === CharacterStateType.WOUNDED) {
+    if (value) {
       if (!isDeathScreenActive) {
         toggleDeathScreen(true);
       } else {
@@ -33,4 +33,4 @@ function playerStateDataHandler(player: PlayerMp, value: CharacterStateType, old
   }
 }
 
-mp.events.addDataHandler(PlayerSharedDataType.State, playerStateDataHandler);
+mp.events.addDataHandler(PlayerSharedDataType.IsWounded, playerStateDataHandler);
