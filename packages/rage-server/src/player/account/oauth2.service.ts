@@ -8,8 +8,8 @@ async function getDiscordAccessToken(authorizationCode: string): Promise<string>
   return axios.post<DiscordOAuth2TokenResponse>(
     oauth2Config.DISCORD.TOKEN_ENDPOINT,
     new URLSearchParams({
-      client_id: '1328754122987405363',
-      client_secret: 'EDQg_CocwQigyuPWSFcXWv7JacvELsFR',
+      client_id: oauth2Config.DISCORD.CLIENT_ID,
+      client_secret: oauth2Config.DISCORD.CLIENT_SECRET,
       grant_type: oauth2Config.DISCORD.GRANT_TYPE,
       code: authorizationCode,
       redirect_uri: oauth2Config.DISCORD.REDIRECT_URI

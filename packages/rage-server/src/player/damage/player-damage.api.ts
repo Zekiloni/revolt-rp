@@ -15,6 +15,6 @@ function playerGetWoundTimerHandler(args: undefined, { player }: ProcedureListen
   return getPlayerWoundTimer(player);
 }
 
+mp.events.add({ playerDeath: playerDeathHandler });
 on(ProcedureKey.SERVER_PLAYER_DAMAGE, playerGetDamageHandler);
 register(ProcedureKey.SERVER_PLAYER_GET_WOUND_TIMER, playerGetWoundTimerHandler);
-mp.events.add({ playerDeath: playerDeathHandler });

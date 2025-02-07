@@ -7,23 +7,12 @@ import {
   ICharacterAppearance,
   ICharacterInjury,
   ICharacterOrganization,
-  ICharacterSpawn
+  ICharacterSpawn,
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';
-import Date = module
-import String = module
-import Date = module
-import Number = module
-import Number = module
-import Date = module
-import String = module
-import { Vector3 } from '../../../../common/src/lib/core.interface';
-import Number = module
-import Number = module
-import Number = module
-import Number = module
+
 
 
 export class CharacterSpawnOption {
