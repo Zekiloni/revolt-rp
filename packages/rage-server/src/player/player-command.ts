@@ -239,9 +239,9 @@ registerCommand({
     const damages = getPlayerDamage(target);
     damages.forEach(damage => {
       if (damage.source)
-        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} ${damage.damage} ${damage.weaponHash},  caliber: ${damage.caliberType}`);
+        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} - ${damage.boneIndex} - ${damage.damage} ${damage.weaponHash}, caliber: ${damage.caliberType}`);
       else
-        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} ${damage.weaponHash}, caliber: ${damage.caliberType}`);
+        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} - ${damage.boneIndex} - ${damage.weaponHash}, caliber: ${damage.caliberType}`);
     })
   }
 })

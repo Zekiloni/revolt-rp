@@ -61,5 +61,10 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
   [GameUiKey.DeathScreen]: {
     isActive: false
+  },
+  [GameUiKey.DamageInfo]: {
+    isActive: false,
+    mouse: true,
+    disableChat: true,
   }
 };
