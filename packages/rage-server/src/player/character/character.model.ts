@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { Document, Types } from 'mongoose';
+import { Document, Schema, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
   BloodType, CharacterGender, CharacterSpawnType, ICharacterStatus,
@@ -12,6 +12,18 @@ import {
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';
+import Date = module
+import String = module
+import Date = module
+import Number = module
+import Number = module
+import Date = module
+import String = module
+import { Vector3 } from '../../../../common/src/lib/core.interface';
+import Number = module
+import Number = module
+import Number = module
+import Number = module
 
 
 export class CharacterSpawnOption {
@@ -147,6 +159,12 @@ export class Character extends Document implements ICharacter {
 
   @prop({ type: Number, default: 0 })
   thirst: number;
+
+  @prop({ type: Number, default: 0 })
+  deaths: number;
+
+  @prop({ type: Number, default: 0 })
+  kills: number;
 
   @prop({ ref: () => Account })
   account: Ref<Account>;
