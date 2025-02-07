@@ -1,6 +1,24 @@
 import { triggerServer } from '@libertymp/rage-rpc';
 import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
 
+
+function encodeBoneIndex(boneIndex: number, damage: number) {
+  if (boneIndex < 0 || boneIndex > 127) {
+    throw new Error("boneIndex must be between 0 and 127");
+  }
+  if (damage < 0 || damage > 10000) {
+    throw new Error("damage must be between 0 and 10000");
+  }
+
+  return (boneIndex & 0x7F) | ((damage & 0x3FFF) << 7);
+}
+
+function decodeBoneIndex(encoded: number) {
+  const boneIndex = encoded & 0x7F;
+  const damage = (encoded >> 7) & 0x3FFF;
+  return { boneIndex, damage };
+}
+
 function incomingDamageHandler(
   sourceEntity: EntityMp,
   sourcePlayer: PlayerMp,
@@ -12,6 +30,9 @@ function incomingDamageHandler(
   if (sourceEntity.type === 'player' && sourcePlayer) {
     if (targetEntity.type === 'player') {
       const target = targetEntity as PlayerMp;
+      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${boneIndex} with damage ${damage}`);
+      const decodeValue = decodeBoneIndex(damage);
+      mp.gui.chat.push(`Decoded boneIndex: ${decodeValue.boneIndex}, damage: ${decodeValue.damage}`);
 
       if (target.remoteId === mp.players.local.remoteId) {
         const playerDamage: IPlayerDamageData<PlayerMp> = {
