@@ -31,13 +31,15 @@ export class DeathScreenComponent implements OnInit, OnDestroy {
     });
   };
 
+  ngOnInit() {
+    this.rageClientService.callServer<number>(ProcedureKey.SERVER_PLAYER_GET_WOUND_TIMER).subscribe({
+      next: this.setDeathScreen
+    });
+  }
+
   ngOnDestroy() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
-  }
-
-  ngOnInit() {
-    this.rageClientService.callServer<number>(ProcedureKey.SERVER_PLAYER_GET_WOUND_TIMER, this.setDeathScreen);
   }
 }

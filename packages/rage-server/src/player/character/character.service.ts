@@ -15,6 +15,7 @@ import { createBankAccount, createBankCardItem } from '../../banking/banking.ser
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
 import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
+import { clearPlayerDamages } from '../damage/player-damage.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -202,4 +203,5 @@ export const revivePlayer = (player: PlayerMp, position: Vector3) => {
   setPlayerWounded(player, false);
   setPlayerHealth(player, characterConfig.defaultHealth);
   player.spawn(position);
+  clearPlayerDamages(player);
 }

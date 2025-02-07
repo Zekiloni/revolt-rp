@@ -8,7 +8,10 @@ import { Character } from '../character/character.model';
   schemaOptions: {
     timestamps: true,
     toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
+  },
+  options: {
+    customName: 'player_deaths',
   }
 })
 export class PlayerDeath implements IPlayerDeath {

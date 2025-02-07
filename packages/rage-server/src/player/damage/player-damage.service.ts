@@ -1,26 +1,25 @@
-import { CaliberType, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
-import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
-import { WeaponItem } from '../../item/registry/weapon-item.model';
-import { setPlayerHealth, setPlayerWounded } from '../character/character.service';
-import { characterConfig } from '../character/character.config';
-import { PlayerDeathModel } from './player-death.model';
-import { Types } from 'mongoose';
-import dayjs from 'dayjs';
-import { notifyPlayer } from '../util/player-notify.util';
 import { t } from 'i18next';
-import { triggerBrowsers } from '@libertymp/rage-rpc';
+import dayjs from 'dayjs';
+import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
+import { revivePlayer, setPlayerHealth, setPlayerWounded } from '../character/character.service';
+import { CaliberType, IPlayerDamageData } from '@revolt-rp/common';
+import { WeaponItem } from '../../item/registry/weapon-item.model';
+import { characterConfig } from '../character/character.config';
+import { notifyPlayer } from '../util/player-notify.util';
+import { PlayerDeathModel } from './player-death.model';
 
-const playerDamageInfo = new Map<PlayerMp, IPlayerDamageData<PlayerMp>[]>();
+
+const playerDamageInfo = new Map<string, IPlayerDamageData<PlayerMp>[]>();
 
 export function playerDamage(player: PlayerMp, issuer: PlayerMp, damage: number, weaponHash: number, boneIndex: number) {
   if (!player || damage <= 0) return;
 
   const currentTime = Date.now();
 
-  if (!playerDamageInfo.has(player))
-    playerDamageInfo.set(player, []);
+  if (!playerDamageInfo.has(player.character.id))
+    playerDamageInfo.set(player.character.id, []);
 
-  const damages = playerDamageInfo.get(player);
+  const damages = playerDamageInfo.get(player.character.id);
 
   let caliberType: CaliberType | undefined;
 
@@ -46,7 +45,7 @@ export function playerDamage(player: PlayerMp, issuer: PlayerMp, damage: number,
 
 
 export const getPlayerDamage = (player: PlayerMp) => {
-  return playerDamageInfo.get(player);
+  return playerDamageInfo.get(player.character.id);
 };
 
 async function getPlayerActiveDeath(player: PlayerMp) {
@@ -77,17 +76,21 @@ export async function playerDeath(player: PlayerMp, reason: number, killer?: Pla
       killer: killer?.character
     });
 
-    player.character.deaths ++;
+    player.character.deaths++;
     player.character.position = player.position;
     await player.character.save();
 
     if (killer && killer.character) {
-      killer.character.kills ++;
+      killer.character.kills++;
       await killer.character.save();
     }
   }
 }
 
+
+export const clearPlayerDamages = (player: PlayerMp) => {
+  playerDamageInfo.delete(player.character.id);
+}
 
 export async function playerGiveUp(player: PlayerMp) {
   if (!player.character.isWounded) {
@@ -110,6 +113,7 @@ export async function playerGiveUp(player: PlayerMp) {
     setPlayerHealth(player, characterConfig.defaultHealth);
 
     player.character.position = player.position;
+    revivePlayer(player, player.position);
 
     await player.character.save();
   }
