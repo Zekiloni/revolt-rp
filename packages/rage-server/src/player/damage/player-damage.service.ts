@@ -77,8 +77,14 @@ export async function playerDeath(player: PlayerMp, reason: number, killer?: Pla
       killer: killer?.character
     });
 
+    player.character.deaths ++;
     player.character.position = player.position;
     await player.character.save();
+
+    if (killer && killer.character) {
+      killer.character.kills ++;
+      await killer.character.save();
+    }
   }
 }
 

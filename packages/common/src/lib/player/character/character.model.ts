@@ -67,6 +67,8 @@ export interface ICharacter extends Base {
   prisonTime?: number;
   drunk: number;
   thirst: number;
+  deaths: number;
+  kills: number;
   lastSessionAt?: Date;
   updatedAt?: Date;
   createdAt: Date;
