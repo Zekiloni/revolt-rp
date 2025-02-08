@@ -3,8 +3,6 @@ import { hideGameInterface, showGameInterface } from '../core/browser';
 import { getIsWounded } from './util/player-data.util';
 
 
-mp.game.gameplay.setFadeOutAfterDeath(false);
-
 let isDeathScreenActive = false;
 const playerRagdollCheckInterval: Map<number, NodeJS.Timeout> = new Map();
 
@@ -74,5 +72,18 @@ function playerStateStreamOutHandler(player: PlayerMp) {
   clearPlayerRagdollCheck(player);
 }
 
+function playerSpawnHandler(player: PlayerMp) {
+
+  mp.gui.chat.push('playerSpawnHandler ' + player.name);
+  if (player.remoteId === mp.players.local.remoteId) {
+
+    mp.game.gameplay.setFadeOutAfterDeath(false);
+  }
+}
+
 mp.events.addDataHandler(PlayerSharedDataType.IsWounded, playerStateDataHandler);
-mp.events.add({ entityStreamIn: playerStateStreamInHandler, entityStreamOut: playerStateStreamOutHandler });
+mp.events.add({
+  playerSpawn: playerSpawnHandler,
+  entityStreamIn: playerStateStreamInHandler,
+  entityStreamOut: playerStateStreamOutHandler
+});
