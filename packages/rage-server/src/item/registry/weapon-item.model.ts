@@ -26,8 +26,6 @@ export class WeaponItem extends BaseItem {
 
     item.weaponAmmo = player.getWeaponAmmo(this.weaponHash);
     player.removeWeapon(this.weaponHash);
-
-    await item.save();
   }
 
   use(player: PlayerMp, item: Item): void {
