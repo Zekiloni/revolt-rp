@@ -66,6 +66,7 @@ function outgoingDamageHandler(
   if (targetPlayer) {
     if (getAdminDuty(targetPlayer)) {
       mp.game.weapon.cancelCurrentDamageEvent();
+      return true;
     }
   }
 
