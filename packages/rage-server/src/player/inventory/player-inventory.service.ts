@@ -7,6 +7,7 @@ import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { Item } from '../../item/item.model';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
+import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
 
 
 export const getPlayerSelectedItem = (player: PlayerMp) => {
@@ -22,11 +23,11 @@ export const getPlayerSelectedItem = (player: PlayerMp) => {
 
 export const getPlayerItemById = (player: PlayerMp, itemId: string) => {
   return player.character.inventory.find((item: Item) => item.id === itemId) as Item | undefined;
-}
+};
 
 export const getPlayerItemBySlot = (player: PlayerMp, slot: number) => {
   return player.character.inventory.find((item: Item) => item.localSlot === slot) as Item | undefined;
-}
+};
 
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
   player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);
@@ -191,14 +192,14 @@ export const playerSelectItem = (player: PlayerMp, slot: number) => {
   const item = getPlayerItemBySlot(player, slot);
 
   if (alreadySelectedItem) {
-      player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-      if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
-        alreadySelectedItem.data.deselect(player, alreadySelectedItem);
-      }
+    player.setVariable(PlayerSharedDataType.SelectedItemId, null);
+    if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
+      alreadySelectedItem.data.deselect(player, alreadySelectedItem);
+    }
 
-      if (item && alreadySelectedItem.id === item.id) {
-        return;
-      }
+    if (item && alreadySelectedItem.id === item.id) {
+      return;
+    }
   }
 
   if (!item)
@@ -271,6 +272,12 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
       if (itemHandler && itemHandler.deselect) {
         itemHandler.deselect(player, item);
       }
+
+      if (item.equipped && itemHandler.isEquipable) {
+        const wearableItem = itemHandler as WearableItem;
+        if (wearableItem.unequip)
+          (<WearableItem>itemHandler).unequip(player, item);
+      }
     }
 
     target.character.inventory.push(item);
@@ -310,7 +317,7 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
     await destroyItem(item);
     await playerRemoveItemFromInventory(player, itemId);
   }
-}
+};
 
 
 export const playerUseItem = async (player: PlayerMp, item: Item) => {
@@ -320,8 +327,8 @@ export const playerUseItem = async (player: PlayerMp, item: Item) => {
     itemHandler.use(player, item);
     triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
   }
-}
+};
 
 export const getPlayerByItemId = async (itemId: string) => {
   return mp.players.toArray().find(player => player.character != undefined && isPlayerItemOwner(player, itemId));
-}
+};

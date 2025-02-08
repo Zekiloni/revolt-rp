@@ -30,8 +30,9 @@ function incomingDamageHandler(
   if (sourceEntity.type === 'player' && sourcePlayer) {
     if (targetEntity.type === 'player') {
       const target = targetEntity as PlayerMp;
-      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${boneIndex} with damage ${encodedDamage}`);
       const decodeValue = decodeBoneIndex(encodedDamage);
+      mp.game.weapon.setCurrentDamageEventAmount(decodeValue.damage);
+      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${boneIndex} with damage ${encodedDamage}`);
       mp.gui.chat.push(`Decoded boneIndex: ${decodeValue.boneIndex}, damage: ${decodeValue.damage}`);
 
       if (target.remoteId === mp.players.local.remoteId) {

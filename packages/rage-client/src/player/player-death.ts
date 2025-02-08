@@ -73,10 +73,7 @@ function playerStateStreamOutHandler(player: PlayerMp) {
 }
 
 function playerSpawnHandler(player: PlayerMp) {
-
-  mp.gui.chat.push('playerSpawnHandler ' + player.name);
   if (player.remoteId === mp.players.local.remoteId) {
-
     mp.game.gameplay.setFadeOutAfterDeath(false);
   }
 }
