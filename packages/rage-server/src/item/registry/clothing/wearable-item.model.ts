@@ -27,9 +27,6 @@ export class WearableItem extends BaseItem {
       this.unequip(player, item);
     }
 
-    if (this.componentId === RageEnums.ClothesComponent.DECALS)
-      setPlayerBestTorso(player);
-
     await item.save();
   }
 
@@ -38,12 +35,18 @@ export class WearableItem extends BaseItem {
       return;
 
     player.setClothes(this.componentId, item.wearableInfo.drawable, item.wearableInfo.texture, item.wearableInfo.palette);
+
+    if (this.componentId === RageEnums.ClothesComponent.DECALS)
+      setPlayerBestTorso(player);
   }
 
   unequip(player: PlayerMp, _item: Item) {
     const removeClothing = getRemoveClothing(player.character.gender, this.componentId);
     if (removeClothing) {
       player.setClothes(this.componentId, removeClothing.drawable, removeClothing.texture, removeClothing.palette);
+
+      if (this.componentId === RageEnums.ClothesComponent.DECALS)
+        setPlayerBestTorso(player);
     }
   }
 }
