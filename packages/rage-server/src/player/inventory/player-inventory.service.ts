@@ -187,7 +187,7 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
 };
 
 
-export const playerSelectItem = (player: PlayerMp, slot: number) => {
+export const playerSelectItem = async (player: PlayerMp, slot: number) => {
   const alreadySelectedItem = getPlayerSelectedItem(player);
   const item = getPlayerItemBySlot(player, slot);
 
@@ -195,6 +195,7 @@ export const playerSelectItem = (player: PlayerMp, slot: number) => {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
     if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
       alreadySelectedItem.data.deselect(player, alreadySelectedItem);
+      await alreadySelectedItem.save();
     }
 
     if (item && alreadySelectedItem.id === item.id) {
@@ -211,6 +212,8 @@ export const playerSelectItem = (player: PlayerMp, slot: number) => {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
     itemHandler.select(player, item);
   }
+
+  await item.save();
 };
 
 
