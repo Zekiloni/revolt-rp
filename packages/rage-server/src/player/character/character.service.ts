@@ -152,14 +152,16 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
   } else {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
-    switch (player.character.defaultSpawn.type) {
-      case CharacterSpawnType.INITIAL_SPAWN: {
-        player.character.position = characterConfig.defaultPosition;
-        player.character.dimension = characterConfig.defaultDimension;
-        break;
-      }
+    if (!player.character.isWounded) {
+      switch (player.character.defaultSpawn.type) {
+        case CharacterSpawnType.INITIAL_SPAWN: {
+          player.character.position = characterConfig.defaultPosition;
+          player.character.dimension = characterConfig.defaultDimension;
+          break;
+        }
 
-      default:
+        default:
+      }
     }
   }
 
@@ -192,12 +194,12 @@ export const selectCharacter = (player: PlayerMp, characterId: string) => {
 export const setPlayerWounded = (player: PlayerMp, state: boolean) => {
   player.character.isWounded = state;
   player.setVariable(PlayerSharedDataType.IsWounded, state);
-}
+};
 
 export const setPlayerHealth = (player: PlayerMp, health: number) => {
   player.character.health = health;
   player.health = health;
-}
+};
 
 
 export const revivePlayer = (player: PlayerMp, position: Vector3) => {
@@ -205,4 +207,4 @@ export const revivePlayer = (player: PlayerMp, position: Vector3) => {
   setPlayerHealth(player, characterConfig.defaultHealth);
   player.spawn(position);
   clearPlayerDamages(player);
-}
+};
