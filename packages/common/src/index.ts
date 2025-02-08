@@ -70,6 +70,9 @@ export * from './lib/banking/transaction.model';
 export * from './lib/banking/transaction.enum';
 export * from './lib/banking/bank-interaction.model';
 
+export * from './lib/world/weather-type';
+export * from './lib/world/weather.model';
+
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
 

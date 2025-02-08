@@ -30,6 +30,11 @@ declare global {
       BodyBlemishes = 11,
       AddBodyBlemishes = 12
     }
+
+    export const enum Weather {
+      NEUTRAL = 9,
+      SNOW = 10,
+    }
   }
 
   declare declare type EmbedField = {

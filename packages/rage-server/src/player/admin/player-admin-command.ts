@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { AdminType, hexColors, isNumber, PlayerSharedDataType } from '@revolt-rp/common';
+import { AdminType, hexColors, isNumber, PlayerSharedDataType, WeatherType, WeatherTypes } from '@revolt-rp/common';
 import { registerCommand } from '../player-command.service';
 import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
@@ -9,6 +9,7 @@ import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../in
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+import { setWeather } from '../../world/weather.service';
 
 
 registerCommand({
@@ -227,11 +228,20 @@ registerCommand({
 
 registerCommand({
   name: 'setweather',
-  params: ['weather'],
+  params: ['weather', 'freeze (0,1)'],
   description: 'todo',
   administrator: AdminType.ADMINISTRATOR,
-  handle(_player: PlayerMp, weather: string) {
-    mp.world.weather = weather.toUpperCase();
+  handle(player: PlayerMp, weather: string, freeze: string) {
+    if (!Object.values(WeatherTypes).includes((<WeatherType>weather))) {
+      return player.outputChatBox('Invalid weather type.');
+    }
+
+    const freezeValue = parseInt(freeze, 10);
+    if (![0, 1].includes(freezeValue)) {
+      return player.outputChatBox('Freeze should be 0 (false) or 1 (true).');
+    }
+
+    setWeather((weather.toUpperCase() as RageEnums.Weather), freezeValue === 1);
   }
 });
 
@@ -338,4 +348,4 @@ registerCommand({
   handle(player: PlayerMp, model: string) {
     player.model = mp.joaat(model);
   }
-})
+});
