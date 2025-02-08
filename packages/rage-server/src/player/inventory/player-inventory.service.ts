@@ -118,6 +118,12 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
     if (itemHandler && itemHandler.deselect) {
       itemHandler.deselect(player, item);
     }
+
+    if (item.equipped && itemHandler.isEquipable) {
+      const wearableItem = itemHandler as WearableItem;
+      if (wearableItem.unequip)
+        (<WearableItem>itemHandler).unequip(player, item);
+    }
   }
 
   item.dropped = true;
