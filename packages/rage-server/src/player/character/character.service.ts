@@ -63,7 +63,8 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.IsRestrained]: player.character.isRestrained,
     [PlayerSharedDataType.Offer]: null,
     [PlayerSharedDataType.WalkingStyle]: 'normal',
-    [PlayerSharedDataType.Attachments]: []
+    [PlayerSharedDataType.Attachments]: [],
+    [PlayerSharedDataType.AdminDuty]: false
   });
 };
 

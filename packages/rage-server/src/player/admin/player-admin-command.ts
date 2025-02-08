@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { AdminType, hexColors, isNumber } from '@revolt-rp/common';
+import { AdminType, hexColors, isNumber, PlayerSharedDataType } from '@revolt-rp/common';
 import { registerCommand } from '../player-command.service';
 import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
 import { notifyPlayer } from '../util/player-notify.util';
@@ -9,6 +9,16 @@ import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../in
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+
+
+registerCommand({
+  name: 'aduty',
+  description: 'aduty',
+  administrator: AdminType.MODERATOR,
+  handle(player: PlayerMp) {
+    player.setVariable(PlayerSharedDataType.AdminDuty, !player.getVariable<boolean>(PlayerSharedDataType.AdminDuty));
+  }
+});
 
 
 registerCommand({
