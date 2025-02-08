@@ -13,6 +13,10 @@ export const getAdministrator = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.Administrator);
 }
 
+export const getAdminDuty = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.AdminDuty);
+}
+
 export const getIsSpawned = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.IsSpawned) ?? false;
 }

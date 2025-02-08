@@ -1,5 +1,6 @@
 import { triggerServer } from '@libertymp/rage-rpc';
 import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
+import { getAdminDuty } from './util/player-data.util';
 
 
 function encodeBoneIndex(boneIndex: number, damage: number) {
@@ -61,6 +62,13 @@ function outgoingDamageHandler(
   // todo check has armour and reduce damage
   const encodeValue = encodeBoneIndex(boneIndex, damage);
   mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
+
+  if (targetPlayer) {
+    if (getAdminDuty(targetPlayer)) {
+      mp.game.weapon.cancelCurrentDamageEvent();
+    }
+  }
+
 }
 
 mp.events.add({

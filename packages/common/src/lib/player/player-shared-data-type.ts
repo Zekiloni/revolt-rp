@@ -13,4 +13,5 @@ export const enum PlayerSharedDataType {
   Offer = 'offer',
   ClickToUse = 'click_to_use',
   WalkingStyle = 'walking_style',
+  AdminDuty = 'admin_duty',
 }
