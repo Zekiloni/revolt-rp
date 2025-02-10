@@ -242,12 +242,14 @@ registerCommand({
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
     const damages = getPlayerDamage(target);
-    damages.forEach(damage => {
-      if (damage.source)
-        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} - ${damage.boneIndex} - ${damage.damage} ${damage.weaponHash}, caliber: ${damage.caliberType}`);
-      else
-        player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} - ${damage.boneIndex} - ${damage.weaponHash}, caliber: ${damage.caliberType}`);
-    });
+
+    if (damages && damages.length)
+      damages.forEach(damage => {
+        if (damage.source)
+          player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} - ${damage.boneIndex} - ${damage.damage} ${damage.weaponHash}, caliber: ${damage.caliberType}`);
+        else
+          player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} - ${damage.boneIndex} - ${damage.weaponHash}, caliber: ${damage.caliberType}`);
+      });
 
     triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, damages);
   }
@@ -260,5 +262,5 @@ registerCommand({
     const forecast = getForecast();
     forecast.forEach(f => player.outputChatBox(`!{${hexColors.YELLOW}}${f.weather}: ${f.temperature}C`));
   }
-})
+});
 
