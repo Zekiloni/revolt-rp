@@ -7,13 +7,16 @@ function handleWeatherDataChange(entity: EntityMp, value: RageEnums.Weather, old
   if (entity.type !== RageEnums.EntityType.DUMMY)
     return;
 
+  mp.gui.chat.push(`Weather changed to ${value}`);
   const dummy = entity as unknown as DummyEntityMp;
 
   if (dummy.dummyType !== WorldDummyEntityType)
     return;
+  mp.gui.chat.push(`Weather changed to ${value}`);
 
   if (value === RageEnums.Weather.SNOW) {
     mp.game.invoke(NATIVES_GRAPHICS_SNOW, true);
+    mp.gui.chat.push(`Snow enabled`);
   } else {
     mp.game.invoke(NATIVES_GRAPHICS_SNOW, false);
   }
