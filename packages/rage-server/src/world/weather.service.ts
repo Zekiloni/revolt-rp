@@ -104,5 +104,5 @@ export const setWeather = (weather: RageEnums.Weather, frozen: boolean) => {
   freezeWeather(frozen)
   weatherState.currentWeather = weather;
   mp.world.setWeatherTransition(weatherState.currentWeather, 30);
-  setWorldVariable(WorldSharedDateType.Weather, weatherState.currentWeather);
+  setWorldVariable(WorldSharedDateType.Weather, mp.world.weather);
 };
