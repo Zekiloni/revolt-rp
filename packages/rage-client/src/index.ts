@@ -28,6 +28,8 @@ import './banking/bank-menu';
 import './banking/bank-atm';
 
 
+import './world/world-weather';
+
 // Object.defineProperty(mp.nesto, 'enableSnow', {
 //   get: function() {
 //     return this._enableSnow;

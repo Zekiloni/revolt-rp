@@ -1,6 +1,7 @@
-import { IForecast, IWeatherInfo } from '@revolt-rp/common';
+import { IForecast, IWeatherInfo, WorldSharedDateType } from '@revolt-rp/common';
 import { weatherConfig } from './weather.config';
 import { logger } from '../core/logger.config';
+import { setWorldVariable } from './world.service';
 
 
 const worldLogger = logger('world');
@@ -54,6 +55,9 @@ export function syncWeather(): void {
   if (weatherState.frozen) return;
   mp.world.setWeatherTransition(weatherState.currentWeather, 30);
 
+  setWorldVariable(WorldSharedDateType.Weather, weatherState.currentWeather);
+  setWorldVariable(WorldSharedDateType.Temperature, weatherState.temperature);
+
   worldLogger.log('info', `Updated Weather: ${weatherState.currentWeather}, Temp: ${weatherState.temperature}°C`);
 }
 
@@ -99,5 +103,6 @@ export function generateForecastEntry(): IForecast<RageEnums.Weather> {
 export const setWeather = (weather: RageEnums.Weather, frozen: boolean) => {
   freezeWeather(frozen)
   weatherState.currentWeather = weather;
-  syncWeather();
+  mp.world.setWeatherTransition(weatherState.currentWeather, 30);
+  setWorldVariable(WorldSharedDateType.Weather, weatherState.currentWeather);
 };

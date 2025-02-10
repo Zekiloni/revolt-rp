@@ -14,6 +14,13 @@ declare global {
     info: Vehicle;
   }
 
+  interface DummyMp {
+    getVariable<T = any>(name: string): T | null;
+    getOwnVariable<T = any>(name: string): T | null;
+    setVariable(name: string, value: any): void;
+    setVariables(values: KeyValueCollection): void;
+  }
+
   declare namespace RageEnums {
     export const enum HeadOverlays {
       Blemishes = 0,
