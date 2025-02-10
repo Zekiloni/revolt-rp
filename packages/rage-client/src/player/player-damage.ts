@@ -43,11 +43,13 @@ function incomingDamageHandler(
   boneIndex: number,
   encodedDamage: number
 ) {
+  const decodeValue = decodeBoneIndex(encodedDamage);
+  mp.game.weapon.setCurrentDamageEventAmount(decodeValue.damage);
+
   if (sourceEntity.type === 'player' && sourcePlayer) {
     if (targetEntity.type === 'player') {
       const target = targetEntity as PlayerMp;
-      const decodeValue = decodeBoneIndex(encodedDamage);
-      mp.game.weapon.setCurrentDamageEventAmount(decodeValue.damage);
+
       mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${boneIndex} with damage ${encodedDamage}`);
       mp.gui.chat.push(`Decoded boneIndex: ${decodeValue.boneIndex}, damage: ${decodeValue.damage}`);
 
@@ -55,7 +57,7 @@ function incomingDamageHandler(
         const playerDamage: IPlayerDamageData<PlayerMp> = {
           source: sourcePlayer,
           weaponHash,
-          boneIndex,
+          boneIndex: decodeValue.boneIndex,
           damage: encodedDamage
         };
         triggerServer(ProcedureKey.SERVER_PLAYER_DAMAGE, playerDamage);
@@ -77,6 +79,7 @@ function outgoingDamageHandler(
   // todo check has armour and reduce damage
   const encodeValue = encodeBoneIndex(boneIndex, damage);
   mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
+
 
   if (targetPlayer) {
     if (getAdminDuty(targetPlayer)) {
