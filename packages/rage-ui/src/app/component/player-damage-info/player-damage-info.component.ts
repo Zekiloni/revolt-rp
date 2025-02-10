@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CaliberType, IPlayer, IPlayerDamageData } from '@revolt-rp/common';
-import { getBoneIndexByName, getBoneNameByIndex } from '../../../../../common/src/lib/player/ped/body-parts';
+import { IPlayer, IPlayerDamageData, ProcedureKey, getBoneNameByIndex } from '@revolt-rp/common';
+import { RageClientService } from '../../domain/service/rage-client.service';
+
 
 @Component({
   selector: 'app-player-damage-info',
@@ -10,44 +11,23 @@ import { getBoneIndexByName, getBoneNameByIndex } from '../../../../../common/sr
   templateUrl: './player-damage-info.component.html',
   styleUrl: './player-damage-info.component.scss'
 })
-export class PlayerDamageInfoComponent {
+export class PlayerDamageInfoComponent implements OnInit, OnDestroy {
+  damages: (IPlayerDamageData<IPlayer> & { boneName: string })[] = [];
 
-  damages: (IPlayerDamageData<IPlayer> & { boneName: string})[] = [
-    {
-      boneIndex: 6,
-      caliberType: CaliberType.CALIBER_9_MM,
-      damage: 5,
-      weaponHash: 3424,
-      source: { name: 'John Doe', id: 1 },
-      boneName: 'IK_L_Foot'
-    },
-    {
-      boneIndex: 6,
-      caliberType: CaliberType.CALIBER_9_MM,
-      damage: 5,
-      weaponHash: 3424,
-      source: { name: 'John Doe', id: 1 },
-      boneName: 'IK_L_Foot'
-    }
-  ];
-
-  constructor() {
-    const root = document.documentElement;
-    console.log(getComputedStyle(root).getPropertyValue('--red-200'))
+  constructor(private rageClientService: RageClientService) {
   }
 
-  getTotalDamage(boneName: string): number {
+  private getTotalDamage(boneName: string): number {
     return this.damages
       .filter(damage => damage.boneName === boneName)
       .reduce((sum, damage) => sum + damage.damage, 0);
   }
 
 
-  getDamageColor(totalDamage: number): string {
+  private getDamageColor(totalDamage: number): string {
     const root = document.documentElement;
-    console.log(totalDamage)
     if (totalDamage == 0)
-      return getComputedStyle(root).getPropertyValue('--green-500');
+      return getComputedStyle(root).getPropertyValue('--surface-section');
     else if (totalDamage > 0 && totalDamage < 20) {
       return getComputedStyle(root).getPropertyValue('--red-200');
     } else if (totalDamage < 50) {
@@ -55,12 +35,30 @@ export class PlayerDamageInfoComponent {
     } else if (totalDamage < 100) {
       return getComputedStyle(root).getPropertyValue('--red-500');
     } else {
-      return getComputedStyle(root).getPropertyValue('--red-700')
+      return getComputedStyle(root).getPropertyValue('--red-700');
     }
   }
 
   getDamage(boneName: string) {
-    const totalDamage = this.getTotalDamage(boneName!);
+    const totalDamage = this.getTotalDamage(boneName);
     return this.getDamageColor(totalDamage);
+  }
+
+  getDamages(boneNames: string[]) {
+    const totalDamage = boneNames.map(boneName => this.getTotalDamage(boneName))
+      .reduce((sum, damage) => sum + damage, 0);
+    return this.getDamageColor(totalDamage);
+  }
+
+  private setPlayerDamages = (damages: IPlayerDamageData<IPlayer>[]) => {
+    this.damages = damages.map(damage => ({ ...damage, boneName: getBoneNameByIndex(damage.boneIndex) ?? 'unknown' }));
+  };
+
+  ngOnDestroy(): void {
+    this.rageClientService.off(ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, this.setPlayerDamages);
+  }
+
+  ngOnInit(): void {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, this.setPlayerDamages);
   }
 }
