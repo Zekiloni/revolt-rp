@@ -39,8 +39,8 @@ declare global {
     }
 
     export const enum Weather {
-      NEUTRAL = 9,
-      SNOW = 10,
+      NEUTRAL = 'NEUTRAL',
+      SNOW = 'SNOW',
     }
   }
 
