@@ -1,10 +1,11 @@
 import { t } from 'i18next';
-import { hexColors, rgbColors } from '@revolt-rp/common';
+import { hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
+import { triggerClient } from '@libertymp/rage-rpc';
 
 
 registerCommand({
@@ -191,7 +192,6 @@ registerCommand({
 });
 
 
-
 registerCommand({
   name: 'to',
   params: ['target', 'content'],
@@ -221,11 +221,15 @@ registerCommand({
   description: 'todo',
   async handle(player: PlayerMp) {
     if (!player.character.isWounded)
-      return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('you_are_not_dead_or_wounded') });
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('you_are_not_dead_or_wounded')
+      });
 
     await playerGiveUp(player);
   }
-})
+});
 
 registerCommand({
   name: 'damages',
@@ -242,7 +246,9 @@ registerCommand({
         player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] ${damage.source.name} - ${damage.boneIndex} - ${damage.damage} ${damage.weaponHash}, caliber: ${damage.caliberType}`);
       else
         player.outputChatBox(`!{${hexColors.YELLOW}}[${damage.timestamp}] Source Disconnected ${damage.damage} - ${damage.boneIndex} - ${damage.weaponHash}, caliber: ${damage.caliberType}`);
-    })
+    });
+
+    triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, damages);
   }
-})
+});
 
