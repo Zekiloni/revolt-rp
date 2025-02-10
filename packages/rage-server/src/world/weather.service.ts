@@ -97,7 +97,7 @@ export function generateForecastEntry(): IForecast<RageEnums.Weather> {
 
 
 export const setWeather = (weather: RageEnums.Weather, frozen: boolean) => {
-  weatherState.frozen = frozen;
+  freezeWeather(frozen)
   weatherState.currentWeather = weather;
   syncWeather();
 };
