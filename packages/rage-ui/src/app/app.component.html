@@ -43,6 +43,10 @@
     <app-death-screen @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.DamageInfo)| async) {
+    <app-player-damage-info @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />

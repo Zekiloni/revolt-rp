@@ -25,6 +25,7 @@ import { BankMenuComponent } from './component/banking/bank-menu';
 import { BankAtmComponent } from './component/banking/bank-atm';
 import { AnimationMenuComponent } from './component/emote/animation-menu';
 import { DeathScreenComponent } from './component/death-screen';
+import { PlayerDamageInfoComponent } from './component/player-damage-info';
 
 
 @Component({
@@ -44,7 +45,8 @@ import { DeathScreenComponent } from './component/death-screen';
     BankMenuComponent,
     BankAtmComponent,
     AnimationMenuComponent,
-    DeathScreenComponent
+    DeathScreenComponent,
+    PlayerDamageInfoComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
