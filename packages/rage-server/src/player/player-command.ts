@@ -6,6 +6,7 @@ import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 import { triggerClient } from '@libertymp/rage-rpc';
+import { getForecast } from '../world/weather.service';
 
 
 registerCommand({
@@ -251,4 +252,13 @@ registerCommand({
     triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, damages);
   }
 });
+
+registerCommand({
+  name: 'forecast',
+  description: 'todo',
+  handle(player: PlayerMp) {
+    const forecast = getForecast();
+    forecast.forEach(f => player.outputChatBox(`!{${hexColors.YELLOW}}${f.weather}: ${f.temperature}C`));
+  }
+})
 
