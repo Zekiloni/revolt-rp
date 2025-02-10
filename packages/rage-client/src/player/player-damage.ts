@@ -1,6 +1,21 @@
-import { triggerServer } from '@libertymp/rage-rpc';
-import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
+import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
+import { gameUiConfig, GameUiKey, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
+import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { getAdminDuty } from './util/player-data.util';
+
+
+let isPlayerDamageInfoVisible = gameUiConfig.damageInfo.isActive;
+
+function togglePlayerDamageInfo(damages?: IPlayerDamageData<PlayerMp>[]) {
+  if (!isPlayerDamageInfoVisible && damages) {
+    isPlayerDamageInfoVisible = true;
+    showGameInterface(GameUiKey.DamageInfo);
+    setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, damages), 250);
+  } else {
+    isPlayerDamageInfoVisible = false;
+    hideGameInterface(GameUiKey.DamageInfo);
+  }
+}
 
 
 function encodeBoneIndex(boneIndex: number, damage: number) {
@@ -76,3 +91,5 @@ mp.events.add({
   incomingDamage: incomingDamageHandler,
   outgoingDamage: outgoingDamageHandler
 });
+
+on(ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, togglePlayerDamageInfo);
