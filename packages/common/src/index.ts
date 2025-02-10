@@ -37,6 +37,8 @@ export * from './lib/player/ped/hair-colors';
 export * from './lib/player/ped/eye-color-names';
 export * from './lib/player/ped/head-overlays';
 
+export * from './lib/player/ped/body-parts';
+
 export * from './lib/player/ped/clothing/best-torso.util';
 export * from './lib/player/ped/clothing/default-outfit';
 
