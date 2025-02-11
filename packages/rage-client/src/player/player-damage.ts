@@ -1,19 +1,16 @@
-import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
-import { browser, hideGameInterface, showGameInterface } from '../core/browser';
+import { on, triggerServer } from '@libertymp/rage-rpc';
+import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
 import { getAdminDuty } from './util/player-data.util';
 
 
-let isPlayerDamageInfoVisible = gameUiConfig.damageInfo.isActive;
+const isPlayerDamageInfoVisible: Map<number, IPlayerDamageData<PlayerMp>[]> = new Map<number, IPlayerDamageData<PlayerMp>[]>();
 
-function togglePlayerDamageInfo(damages?: IPlayerDamageData<PlayerMp>[]) {
-  if (!isPlayerDamageInfoVisible && damages) {
-    isPlayerDamageInfoVisible = true;
-    showGameInterface(GameUiKey.DamageInfo);
-    setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, damages), 250);
+function togglePlayerDamageInfo(data: [number, IPlayerDamageData<PlayerMp>[]]) {
+  const [playerId, damages] = data;
+  if (isPlayerDamageInfoVisible.has(playerId)) {
+    isPlayerDamageInfoVisible.delete(playerId);
   } else {
-    isPlayerDamageInfoVisible = false;
-    hideGameInterface(GameUiKey.DamageInfo);
+    isPlayerDamageInfoVisible.set(playerId, damages);
   }
 }
 
@@ -92,9 +89,51 @@ function outgoingDamageHandler(
 
 }
 
+function drawDamages() {
+  mp.players.forEachInRange(mp.players.local.position, 3, (player) => {
+    if (isPlayerDamageInfoVisible.has(player.remoteId) && mp.players.local.hasClearLosTo(player.handle, 17)) {
+      const damages = isPlayerDamageInfoVisible.get(player.remoteId);
+
+      const boneIndices = [...new Set(damages.map(damage => damage.boneIndex))];
+
+      boneIndices.forEach(boneIndex => {
+        const totalDamage = damages
+          .filter(damage => damage.boneIndex === boneIndex)
+          .reduce((sum, damage) => sum + damage.damage, 0);
+
+        const lastDamage = damages.find(damage => damage.boneIndex === boneIndex);
+
+        if (lastDamage) {
+          const boneCoords = player.getBoneCoords(boneIndex, 0, 0, 0);
+
+          if (boneCoords) {
+            const screen2dCoords = mp.game.graphics.world3dToScreen2d(boneCoords);
+
+            if (screen2dCoords) {
+              const alpha = Math.min(255, Math.max(50, totalDamage));
+
+              mp.game.graphics.drawText(
+                `[${lastDamage.source.name}] ${boneIndex} - ${totalDamage} dmg (${lastDamage.weaponHash}, caliber: ${lastDamage.caliberType})`,
+                [screen2dCoords.x, screen2dCoords.y],
+                {
+                  font: 4,
+                  color: [255, 0, 0, alpha],
+                  scale: [0.25, 0.25],
+                  outline: true
+                }
+              );
+            }
+          }
+        }
+      });
+    }
+  });
+}
+
 mp.events.add({
   incomingDamage: incomingDamageHandler,
-  outgoingDamage: outgoingDamageHandler
+  outgoingDamage: outgoingDamageHandler,
+  render: drawDamages
 });
 
 on(ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, togglePlayerDamageInfo);
