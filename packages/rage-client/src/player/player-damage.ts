@@ -76,10 +76,12 @@ function outgoingDamageHandler(
   // todo cancel dmg if already dead
   //mp.game.weapon.cancelCurrentDamageEvent();
 
+  mp.gui.chat.push(`Outgoing damage from ${sourceEntity.type} to ${targetEntity.type} with weapon ${weapon} on bone ${boneIndex} with damage ${damage}`);
   // todo check has armour and reduce damage
   const encodeValue = encodeBoneIndex(boneIndex, damage);
   mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
 
+  mp.gui.chat.push(`Encoded encodeValue: ${encodeValue}`);
 
   if (targetPlayer) {
     if (getAdminDuty(targetPlayer)) {
