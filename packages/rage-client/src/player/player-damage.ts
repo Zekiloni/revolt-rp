@@ -104,7 +104,7 @@ function drawDamages() {
         const lastDamage = damages.find(damage => damage.boneIndex === boneIndex);
 
         if (lastDamage) {
-          const boneCoords = player.getBoneCoords(boneIndex, 0, 0, 0);
+          const boneCoords = player.getWorldPositionOfBone(boneIndex);
 
           if (boneCoords) {
             const screen2dCoords = mp.game.graphics.world3dToScreen2d(boneCoords);
