@@ -113,7 +113,7 @@ function drawDamages() {
               const alpha = Math.min(255, Math.max(50, totalDamage));
 
               mp.game.graphics.drawText(
-                `[${lastDamage.source.name}] ${boneIndex} - ${totalDamage} dmg (${lastDamage.weaponHash}, caliber: ${lastDamage.caliberType})`,
+                `[${lastDamage.source.name}] ${boneIndex} - ${totalDamage} dmg (caliber: ${lastDamage.caliberType})`,
                 [screen2dCoords.x, screen2dCoords.y],
                 {
                   font: 4,
