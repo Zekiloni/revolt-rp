@@ -9,7 +9,7 @@ import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../in
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
-import { setWeather } from '../../world/weather.service';
+import { setWeather, toggleSnow } from '../../world/weather.service';
 
 
 registerCommand({
@@ -244,6 +244,16 @@ registerCommand({
     setWeather((weather.toUpperCase() as RageEnums.Weather), freezeValue === 1);
   }
 });
+
+
+registerCommand({
+  name: 'togglesnow',
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(_player: PlayerMp) {
+    toggleSnow();
+  }
+})
 
 registerCommand({
   name: 'settime',

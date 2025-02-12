@@ -3,7 +3,8 @@ import { WorldDummyEntityType, WorldSharedDateType } from '@revolt-rp/common';
 
 const NATIVES_GRAPHICS_SNOW = '0x6E9EF3A33C8899F8';
 
-function handleWeatherDataChange(entity: EntityMp, value: string, oldValue?: string) {
+
+function handleWeatherDataChange(entity: EntityMp, value: boolean, oldValue?: boolean) {
   if (entity.type !== RageEnums.EntityType.DUMMY)
     return;
 
@@ -12,12 +13,7 @@ function handleWeatherDataChange(entity: EntityMp, value: string, oldValue?: str
   if (dummy.dummyType !== WorldDummyEntityType)
     return;
 
-  if (value === 'SNOW') {
-    mp.game.invoke(NATIVES_GRAPHICS_SNOW, true);
-    mp.gui.chat.push(`Snow enabled`);
-  } else {
-    mp.game.invoke(NATIVES_GRAPHICS_SNOW, false);
-  }
+  mp.game.invoke(NATIVES_GRAPHICS_SNOW, value);
 }
 
-mp.events.addDataHandler(WorldSharedDateType.Weather, handleWeatherDataChange);
+mp.events.addDataHandler(WorldSharedDateType.EnableSnow, handleWeatherDataChange);
