@@ -1,11 +1,11 @@
 import { t } from 'i18next';
+import { triggerClient } from '@libertymp/rage-rpc';
 import { hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
+import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
-import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
-import { triggerClient } from '@libertymp/rage-rpc';
 import { getForecast } from '../world/weather.service';
 
 

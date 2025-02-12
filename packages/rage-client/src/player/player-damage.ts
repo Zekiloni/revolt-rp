@@ -1,21 +1,28 @@
-import { on, triggerServer } from '@libertymp/rage-rpc';
-import { IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
-import { getAdminDuty } from './util/player-data.util';
+import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
+import { gameUiConfig, GameUiKey, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
+import { getAdminDuty, getIsWounded } from './util/player-data.util';
+import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 
 
-const isPlayerDamageInfoVisible: Map<number, IPlayerDamageData<PlayerMp>[]> = new Map<number, IPlayerDamageData<PlayerMp>[]>();
+let isPlayerDamageInfoActive = gameUiConfig.damageInfo.isActive;
 
-function togglePlayerDamageInfo(data: [number, IPlayerDamageData<PlayerMp>[]]) {
-  const [playerId, damages] = data;
-  if (isPlayerDamageInfoVisible.has(playerId)) {
-    isPlayerDamageInfoVisible.delete(playerId);
+function togglePlayerDamageInfo([remotePlayerId, damages]: [number, IPlayerDamageData<PlayerMp>[]]) {
+  if (isPlayerDamageInfoActive) {
+    isPlayerDamageInfoActive = false;
+    hideGameInterface(GameUiKey.DamageInfo);
   } else {
-    isPlayerDamageInfoVisible.set(playerId, damages);
+
+    const target = mp.players.atRemoteId(remotePlayerId);
+    if (target) {
+      isPlayerDamageInfoActive = true;
+      showGameInterface(GameUiKey.DamageInfo);
+      setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, [target.name, damages]), 250);
+    }
   }
 }
 
 
-function encodeBoneIndex(boneIndex: number, damage: number) {
+function encodeDamageEvent(boneIndex: number, damage: number) {
   if (boneIndex < 0 || boneIndex > 127) {
     throw new Error('boneIndex must be between 0 and 127');
   }
@@ -26,7 +33,7 @@ function encodeBoneIndex(boneIndex: number, damage: number) {
   return (boneIndex & 0x7F) | ((damage & 0x3FFF) << 7);
 }
 
-function decodeBoneIndex(encoded: number) {
+function decodeDamageEvent(encoded: number) {
   const boneIndex = encoded & 0x7F;
   const damage = (encoded >> 7) & 0x3FFF;
   return { boneIndex, damage };
@@ -37,25 +44,25 @@ function incomingDamageHandler(
   sourcePlayer: PlayerMp,
   targetEntity: EntityMp,
   weaponHash: number,
-  boneIndex: number,
+  encodedBoneIndex: number,
   encodedDamage: number
 ) {
-  const decodeValue = decodeBoneIndex(encodedDamage);
-  mp.game.weapon.setCurrentDamageEventAmount(decodeValue.damage);
+  const { boneIndex, damage } = decodeDamageEvent(encodedDamage);
+  mp.game.weapon.setCurrentDamageEventAmount(damage);
 
-  if (sourceEntity.type === 'player' && sourcePlayer) {
-    if (targetEntity.type === 'player') {
+  if (sourceEntity.type === RageEnums.EntityType.PLAYER && sourcePlayer) {
+    if (targetEntity.type === RageEnums.EntityType.PLAYER) {
       const target = targetEntity as PlayerMp;
 
-      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${boneIndex} with damage ${encodedDamage}`);
-      mp.gui.chat.push(`Decoded boneIndex: ${decodeValue.boneIndex}, damage: ${decodeValue.damage}`);
+      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${encodedBoneIndex} with damage ${encodedDamage}`);
+      mp.gui.chat.push(`Decoded boneIndex: ${boneIndex}, damage: ${damage}`);
 
       if (target.remoteId === mp.players.local.remoteId) {
         const playerDamage: IPlayerDamageData<PlayerMp> = {
           source: sourcePlayer,
           weaponHash,
-          boneIndex: decodeValue.boneIndex,
-          damage: encodedDamage
+          boneIndex: boneIndex,
+          damage: damage
         };
         triggerServer(ProcedureKey.SERVER_PLAYER_DAMAGE, playerDamage);
       }
@@ -69,71 +76,27 @@ function outgoingDamageHandler(
   targetPlayer: PlayerMp,
   weapon: number,
   boneIndex: number,
-  damage: number) {
-  // todo cancel dmg if already dead
-  //mp.game.weapon.cancelCurrentDamageEvent();
-
-  mp.gui.chat.push(`Outgoing damage from ${sourceEntity.type} to ${targetEntity.type} with weapon ${weapon} on bone ${boneIndex} with damage ${damage}`);
-  // todo check has armour and reduce damage
-  const encodeValue = encodeBoneIndex(boneIndex, damage);
-  mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
-
-  mp.gui.chat.push(`Encoded encodeValue: ${encodeValue}`);
-
+  damage: number
+) {
   if (targetPlayer) {
-    if (getAdminDuty(targetPlayer)) {
+    if (getAdminDuty(targetPlayer) || getIsWounded(targetPlayer)) {
       mp.game.weapon.cancelCurrentDamageEvent();
       return true;
     }
+
+    mp.gui.chat.push(`Outgoing damage from ${sourceEntity.type} to ${targetEntity.type} with weapon ${weapon} on bone ${boneIndex} with damage ${damage}`);
+
+    const encodeValue = encodeDamageEvent(boneIndex, damage);
+    mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
+
+    mp.gui.chat.push(`Outgoing damage, Encoded encodeValue: ${encodeValue}`);
   }
-
 }
 
-function drawDamages() {
-  mp.players.forEachInRange(mp.players.local.position, 3, (player) => {
-    if (isPlayerDamageInfoVisible.has(player.remoteId) && mp.players.local.hasClearLosTo(player.handle, 17)) {
-      const damages = isPlayerDamageInfoVisible.get(player.remoteId);
-
-      const boneIndices = [...new Set(damages.map(damage => damage.boneIndex))];
-
-      boneIndices.forEach(boneIndex => {
-        const totalDamage = damages
-          .filter(damage => damage.boneIndex === boneIndex)
-          .reduce((sum, damage) => sum + damage.damage, 0);
-
-        const lastDamage = damages.find(damage => damage.boneIndex === boneIndex);
-
-        if (lastDamage) {
-          const boneCoords = player.getWorldPositionOfBone(boneIndex);
-
-          if (boneCoords) {
-            const screen2dCoords = mp.game.graphics.world3dToScreen2d(boneCoords);
-
-            if (screen2dCoords) {
-              const alpha = Math.min(255, Math.max(50, totalDamage));
-
-              mp.game.graphics.drawText(
-                `[${lastDamage.source.name}] ${boneIndex} - ${totalDamage} dmg (caliber: ${lastDamage.caliberType})`,
-                [screen2dCoords.x, screen2dCoords.y],
-                {
-                  font: 4,
-                  color: [255, 0, 0, alpha],
-                  scale: [0.25, 0.25],
-                  outline: true
-                }
-              );
-            }
-          }
-        }
-      });
-    }
-  });
-}
 
 mp.events.add({
   incomingDamage: incomingDamageHandler,
-  outgoingDamage: outgoingDamageHandler,
-  render: drawDamages
+  outgoingDamage: outgoingDamageHandler
 });
 
 on(ProcedureKey.CLIENT_PLAYER_TOGGLE_DAMAGE_INFO, togglePlayerDamageInfo);
