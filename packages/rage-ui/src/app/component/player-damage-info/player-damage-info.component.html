@@ -1,37 +1,37 @@
 <div class="absolute-center surface-card p-4 shadow-2 border-round">
-  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="450px" height="450px"
-       viewBox="0 0 800 800" style="enable-background:new 0 0 800 800;" xml:space="preserve" fill="white">
-<g>
-	<ellipse id="SKEL_Head FB_Brow_Centre_000" cx="400" cy="66.9" rx="67.8" ry="66.9" class="body-part"
-           [ngStyle]="{ fill: getDamages(['SKEL_Head', 'FB_Brow_Centre_000']) }" />
+  <p-table [value]="damages" [tableStyle]="{ 'min-width': '50rem' }" [scrollable]="true" scrollHeight="275px"
+           styleClass="p-datatable-gridlines">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        {{ 'damages_of' | translate: { name: playerName } }}
+        <p-button icon="pi pi-times" severity="secondary" [label]="'close' | translate" (click)="closeDamageInfo()" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>{{ 'body_part' | translate }}</th>
+        <th>{{ 'damage' | translate }}</th>
+        <th>{{ 'caliber_type' | translate }}</th>
+        <th>{{ 'time' | translate }}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-damage>
+      <tr>
+        <td>{{ getBodyPartLabel(damage['boneIndex']) | translate }}</td>
+        <td>
+          <span [class]="getDamageTextClass(damage['damage'])">
+                      {{ damage['damage'] }}
+          </span>
+        </td>
+        <td>{{ damage['caliberType'] }}</td>
+        <td>{{ 'minutes_ago' | translate: { minutes: minutesAgo(damage['timestamp']) } }}</td>
+      </tr>
+    </ng-template>
 
-  <path id="SKEL_Spine0 SKEL_Spine1" d="M479.1,143.5c-40.4,0-118.7,0-158.2,0c-1,0-2.1,0-3.2,0.1v58.5l0.6-0.6l0.4,292.1h72.9V490h16.6v4.2h72.9l0.4-292.7
-		l0.6,0.6v-58.5C481.2,143.6,480.1,143.5,479.1,143.5z" class="body-part" [ngStyle]="{ fill: getDamages(['SKEL_Spine0', 'SKEL_Spine1']) }" />
-
-  <path id="SKEL_L_UpperArm" d="M580.4,232.1c-15-15-63.5-63.5-81.6-81.6c-4.6-4.6-10.6-6.4-16.6-6.8v58.5l85.6,85.7c4.2,4.2,9.8,6.7,15.7,7v-61
-		C582.4,233.5,581.3,233,580.4,232.1z" class="body-part" [ngStyle]="{ fill: getDamage('SKEL_L_UpperArm') }" />
-  <path id="SKEL_L_Clavicle" d="M687.5,168.1c-9.4-9.4-24.7-9.4-34.2,0l-64,64c-1.2,1.2-2.8,1.8-4.4,1.8c-0.5,0-0.9-0.1-1.3-0.1v61c0.5,0,0.9,0,1.4,0
-		c6.4,0,12.5-2.5,17.1-7.1l85.6-85.6C697,192.8,697,177.5,687.5,168.1z" class="body-part" [ngStyle]="{ fill: getDamage('SKEL_L_Clavicle') }" />
-
-  <path id="SKEL_R_UpperArm" d="M301.2,150.5c-19.3,19.3-66.8,66.8-81.6,81.6c-1.1,1.1-2.5,1.7-4,1.8v61c6.3-0.1,12.3-2.6,16.7-7.1l85.5-85.7v-58.5
-		C311.7,144.1,305.8,145.9,301.2,150.5z" class="body-part" [ngStyle]="{ fill: getDamage('SKEL_R_UpperArm') }" />
-  <path id="SKEL_R_Clavicle" d="M215.1,233.9c-1.7,0-3.3-0.7-4.5-1.8l-64-64c-9.4-9.4-24.7-9.4-34.2,0c-9.4,9.4-9.4,24.7,0,34.2l85.6,85.6
-		c4.5,4.5,10.7,7.1,17.1,7.1c0.1,0,0.3,0,0.4,0v-61C215.4,233.9,215.3,233.9,215.1,233.9z" class="body-part" [ngStyle]="{ fill: getDamage('SKEL_R_Clavicle') }" />
-
-  <polygon id="SKEL_R_Thigh" points="319,647.1 391.7,647.1 391.7,493.6 318.8,493.6" class="body-part"
-           [ngStyle]="{ fill: getDamage('SKEL_R_Thigh') }" />
-  <polygon id="SKEL_R_Calf" points="319.1,735.6 391.7,735.6 391.7,647.1 319,647.1" class="body-part"
-           [ngStyle]="{ fill: getDamage('SKEL_R_Calf') }" />
-  <path id="IK_R_Foot" d="M319.2,763.8c0,20,16.3,36.2,36.3,36.2c20,0,36.3-16.2,36.3-36.2v-28.2h-72.6L319.2,763.8z"
-        class="body-part"
-        [ngStyle]="{ fill: getDamage('IK_R_Foot') }" />
-
-  <polygon id="SKEL_L_Thigh" points="408.3,647.1 481,647.1 481.2,494.2 408.3,494.2" class="body-part"
-           [ngStyle]="{ fill: getDamage('SKEL_L_Thigh') }" />
-  <polygon id="SKEL_L_Calf" points="408.3,735.6 480.9,735.6 481,647.1 408.3,647.1" class="body-part"
-           [ngStyle]="{ fill: getDamage('SKEL_L_Calf') }" />
-  <path id="IK_L_Foot" d="M408.3,763.8c0,20,16.3,36.2,36.3,36.2c20,0,36.3-16.2,36.3-36.2l0-28.2h-72.6V763.8z"
-        class="body-part" [ngStyle]="{ fill: getDamage('IK_L_Foot') }" />
-</g>
-</svg>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4">{{ 'player_not_injured' | translate }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
 </div>
