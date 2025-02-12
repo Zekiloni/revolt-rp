@@ -17,7 +17,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-damage>
       <tr>
-        <td>{{ getBodyPartLabel(damage['boneIndex']) | translate }}</td>
+        <td>
+          <span [pTooltip]="damage['boneIndex']">{{ getBodyPartLabel(damage['boneIndex']) | translate }}</span>
+        </td>
         <td>
           <span [class]="getDamageTextClass(damage['damage'])">
                       {{ damage['damage'] }}

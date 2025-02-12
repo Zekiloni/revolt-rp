@@ -1,11 +1,12 @@
 import dayjs from 'dayjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { MeterGroupModule } from 'primeng/metergroup';
 import { TreeTableModule } from 'primeng/treetable';
 import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
 import { bodyParts, IPlayer, IPlayerDamageData, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 
@@ -13,15 +14,16 @@ import { RageClientService } from '../../domain/service/rage-client.service';
 @Component({
   selector: 'app-player-damage-info',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, MeterGroupModule, TreeTableModule, TableModule, Button],
+  imports: [CommonModule, TranslatePipe, MeterGroupModule, TreeTableModule, TableModule, Button, TooltipModule],
   templateUrl: './player-damage-info.component.html',
-  styleUrl: './player-damage-info.component.scss'
+  styleUrl: './player-damage-info.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlayerDamageInfoComponent implements OnInit, OnDestroy {
   playerName = '';
   damages: (IPlayerDamageData<IPlayer>)[] = [];
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   getBodyPartLabel(boneIndex: number) {
@@ -31,6 +33,7 @@ export class PlayerDamageInfoComponent implements OnInit, OnDestroy {
   private setPlayerDamages = ([playerName, damages]: [string, IPlayerDamageData<IPlayer>[]]) => {
     this.playerName = playerName;
     this.damages = damages ?? [];
+    this.changeDetectorRef.detectChanges();
   };
 
   minutesAgo(timestamp: number) {
