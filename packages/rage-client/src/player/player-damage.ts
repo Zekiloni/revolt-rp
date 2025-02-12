@@ -56,9 +56,6 @@ function incomingDamageHandler(
     if (targetEntity.type === RageEnums.EntityType.PLAYER) {
       const target = targetEntity as PlayerMp;
 
-      mp.gui.chat.push(`Incoming damage from ${sourcePlayer.name} to ${target.name} with weapon ${weaponHash} on bone ${encodedBoneIndex} with damage ${encodedDamage}`);
-      mp.gui.chat.push(`Decoded boneIndex: ${boneIndex}, damage: ${damage}`);
-
       if (target.remoteId === mp.players.local.remoteId) {
         const playerDamage: IPlayerDamageData<PlayerMp> = {
           source: sourcePlayer,
@@ -86,12 +83,8 @@ function outgoingDamageHandler(
       return true;
     }
 
-    mp.gui.chat.push(`Outgoing damage from ${sourceEntity.type} to ${targetEntity.type} with weapon ${weapon} on bone ${boneIndex} with damage ${damage}`);
-
     const encodeValue = encodeDamageEvent(boneIndex, damage);
     mp.game.weapon.setCurrentDamageEventAmount(encodeValue);
-
-    mp.gui.chat.push(`Outgoing damage, Encoded encodeValue: ${encodeValue}`);
   }
 }
 

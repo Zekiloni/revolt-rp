@@ -9,6 +9,7 @@ const worldLogger = logger('world');
 const weatherState: IWeatherInfo<RageEnums.Weather> = {
   currentWeather: RageEnums.Weather.EXTRA_SUNNY,
   temperature: 0,
+  snowEnabled: false,
   frozen: false,
   forecast: []
 };
@@ -55,7 +56,7 @@ export function syncWeather(): void {
   if (weatherState.frozen) return;
   mp.world.setWeatherTransition(weatherState.currentWeather, 30);
 
-  setWorldVariable(WorldSharedDateType.Weather, weatherState.currentWeather);
+  setWorldVariable(WorldSharedDateType.EnableSnow, weatherState.snowEnabled);
   setWorldVariable(WorldSharedDateType.Temperature, weatherState.temperature);
 
   worldLogger.log('info', `Updated Weather: ${weatherState.currentWeather}, Temp: ${weatherState.temperature}°C`);
@@ -104,5 +105,9 @@ export const setWeather = (weather: RageEnums.Weather, frozen: boolean) => {
   freezeWeather(frozen)
   weatherState.currentWeather = weather;
   mp.world.setWeatherTransition(weatherState.currentWeather, 30);
-  setWorldVariable(WorldSharedDateType.Weather, mp.world.weather);
 };
+
+export const toggleSnow = () => {
+  weatherState.snowEnabled = !weatherState.snowEnabled;
+  setWorldVariable(WorldSharedDateType.EnableSnow, weatherState.snowEnabled);
+}
