@@ -63,7 +63,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false
   },
   [GameUiKey.DamageInfo]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
     disableChat: true,
   }
