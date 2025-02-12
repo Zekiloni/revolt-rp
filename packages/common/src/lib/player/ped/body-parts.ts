@@ -30,7 +30,8 @@ export const bodyParts = new Map([
   [55, 'left_finger'],
   [58, 'left_finger'],
   [2, 'left_leg'],
-  [3, 'left_leg'],
+  [3, 'left_calf'],
+  [11, 'left_knee'],
   [4, 'left_foot'],
   [5, 'left_foot'],
   [69, 'right_arm'],
@@ -50,7 +51,7 @@ export const bodyParts = new Map([
   [79, 'right_finger'],
   [82, 'right_finger'],
   [83, 'right_finger'],
-  [15, 'right_leg'],
+  [15, 'right_calf'],
   [14, 'right_leg'],
   [16, 'right_foot'],
   [17, 'right_foot']
