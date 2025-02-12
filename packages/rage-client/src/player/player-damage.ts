@@ -7,10 +7,9 @@ import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 let isPlayerDamageInfoActive = gameUiConfig.damageInfo.isActive;
 
 function togglePlayerDamageInfo(data?: [number, IPlayerDamageData<PlayerMp>[]]) {
-  if (isPlayerDamageInfoActive || data) {
-    isPlayerDamageInfoActive = false;
-    hideGameInterface(GameUiKey.DamageInfo);
-  } else {
+  isPlayerDamageInfoActive = !isPlayerDamageInfoActive;
+
+  if (isPlayerDamageInfoActive && data) {
     const [remotePlayerId, damages] = data;
     const target = mp.players.atRemoteId(remotePlayerId);
     if (target) {
@@ -18,6 +17,9 @@ function togglePlayerDamageInfo(data?: [number, IPlayerDamageData<PlayerMp>[]]) 
       showGameInterface(GameUiKey.DamageInfo);
       setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PLAYER_DAMAGES, [target.name, damages]), 250);
     }
+  } else {
+    isPlayerDamageInfoActive = false;
+    hideGameInterface(GameUiKey.DamageInfo);
   }
 }
 
