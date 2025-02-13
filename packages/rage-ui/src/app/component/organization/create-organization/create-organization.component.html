@@ -1,0 +1,57 @@
+<p-dialog [header]="'create_organization' | translate" [modal]="true" [(visible)]="isActive"
+          (onHide)="cancelCreateOrganization()"
+          [style]="{ width: '30rem' }" [draggable]="false">
+  <span class="p-text-secondary block mb-5">{{ 'organization_create_info' | translate }}</span>
+  <form class="grid formgrid p-fluid" [formGroup]="createOrganizationFormGroup" (ngSubmit)="submitCreateOrganization()">
+    <div class="field mb-4 col-12 md:col-8">
+      <label for="name" class="mb-2">{{ 'name' | translate }}</label>
+      <input id="name" type="text" pInputText formControlName="name" placeholder="Los Santos Police Department" />
+    </div>
+    <div class="field mb-4 col-12 md:col-4">
+      <label for="shortName" class="mb-2">{{ 'short_name' | translate }}</label>
+      <input id="shortName" type="text" pInputText formControlName="shortName" placeholder="LSPD" />
+    </div>
+    <div class="field mb-4 col-12 md:col-8">
+      <label for="organizationType" class="mb-2">{{ 'organization_type' | translate }}</label>
+      <p-dropdown
+        [options]="organizationTypes"
+        formControlName="type"
+        appendTo="body"
+        [filter]="true"
+        [emptyFilterMessage]="'no_results' | translate"
+        [emptyMessage]="'no_results' | translate"
+        [showClear]="true"
+        id="organizationType"
+        [placeholder]="'select_type' | translate">
+        <ng-template let-selectedItem pTemplate="selectedItem">
+          <span>{{ selectedItem | translate }}</span>
+        </ng-template>
+        <ng-template let-type pTemplate="item">
+          <span>{{ type | translate }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="field mb-4 col-12 md:col-4">
+      <label for="color" class="mb-2">{{ 'color' | translate }}</label>
+      <p-colorPicker class="block w-1rem h-1rem" id="color" formControlName="color" appendTo="body" format="hex" />
+    </div>
+    <div class="field mb-4 col-12 md:col-12">
+      <label for="parentOrganization" class="mb-2">{{ 'parent_organization' | translate }}
+        <small>({{ 'optional' | translate }})</small></label>
+      <p-dropdown
+        [options]="availableOrganizations"
+        formControlName="parentOrganization"
+        appendTo="body"
+        optionLabel="name"
+        [loading]="loadingOrganizations"
+        optionValue="id"
+        id="parentOrganization"
+        [placeholder]="'select_parent_organization' | translate" />
+    </div>
+    <div class="flex w-full justify-content-between gap-2 mt-2">
+      <button pButton type="button" class="w-full" [label]="'cancel' | translate" severity="secondary"
+              (click)="cancelCreateOrganization()"></button>
+      <button pButton type="submit" icon="pi pi-save" class="w-full" [label]="'submit' | translate"></button>
+    </div>
+  </form>
+</p-dialog>

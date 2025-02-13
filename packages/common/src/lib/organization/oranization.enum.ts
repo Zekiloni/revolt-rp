@@ -4,7 +4,7 @@ export enum OrganizationType {
   Gang = 'gang',
   Mafia = 'mafia',
   Cartel = 'cartel',
-  Moto_club = 'moto_club',
+  MotoClub = 'moto_club',
   Company = 'company',
   Charity = 'charity',
   Military = 'military',

@@ -11,4 +11,6 @@ export enum GameUiKey {
   AnimationMenu = 'animationMenu',
   DeathScreen = 'deathScreen',
   DamageInfo = 'damageInfo',
+
+  CreateOrganization = 'createOrganization',
 }

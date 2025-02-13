@@ -59,13 +59,22 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     freezeControls: true,
     disableChat: true
   },
+
   [GameUiKey.DeathScreen]: {
     isActive: false
   },
+
   [GameUiKey.DamageInfo]: {
     isActive: false,
     mouse: true,
     disableChat: true,
     freezeControls: true
+  },
+
+  [GameUiKey.CreateOrganization]: {
+    isActive: true,
+    mouse: true,
+    freezeControls: true,
+    disableChat: true
   }
 };

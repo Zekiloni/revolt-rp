@@ -1,6 +1,7 @@
 import { Ref } from '@typegoose/typegoose';
 import { Vector3 } from '../core.interface';
 import { OrganizationType } from './oranization.enum';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export const enum OrganizationPermissionType {
   NONE,
@@ -15,8 +16,7 @@ export interface IOrganizationRank {
   permission: OrganizationPermissionType;
 }
 
-export interface IOrganization {
-  id?: string;
+export interface IOrganization extends Base {
   name: string;
   shortName: string;
   type: OrganizationType;

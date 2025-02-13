@@ -82,4 +82,8 @@ export const enum ProcedureKey {
   SERVER_PLAYER_GET_WOUND_TIMER = 'server_playerGetWoundTimer',
   BROWSER_SET_PLAYER_DAMAGES  = 'browser_setPlayerDamages',
   CLIENT_PLAYER_TOGGLE_DAMAGE_INFO = 'client_playerToggleDamageInfo',
+
+  CLIENT_TOGGLE_CREATE_ORGANIZATION = 'client_toggleCreateOrganization',
+  SERVER_PLAYER_GET_ORGANIZATIONS = 'server_playerGetOrganizations',
+  SERVER_PLAYER_CREATE_ORGANIZATION = 'server_playerCreateOrganization',
 }

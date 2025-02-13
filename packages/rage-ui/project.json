@@ -24,7 +24,8 @@
           {
             "glob": "**/*",
             "input": "packages/rage-ui/public"
-          }
+          },
+          "packages/rage-ui/src/assets"
         ],
         "styles": [
           "packages/rage-ui/src/styles.scss"
