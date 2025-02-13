@@ -1,5 +1,5 @@
 import { Item, ItemModel } from './item.model';
-import { FilterQuery } from 'mongoose';
+
 
 export const getAllDroppedItems = async () => {
   return ItemModel.find({ dropped: true }).exec();

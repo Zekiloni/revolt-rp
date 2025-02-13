@@ -47,6 +47,10 @@
     <app-player-damage-info @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.CreateOrganization) | async; as isActive) {
+    <app-create-organization [isActive]="isActive" />
+  }
+
   <app-text-chat />
 
   <p-toast />
