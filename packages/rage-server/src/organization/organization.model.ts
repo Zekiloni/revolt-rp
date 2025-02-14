@@ -1,6 +1,7 @@
 import { Document, Types } from 'mongoose';
-import { IOrganization, IOrganizationRank, OrganizationType } from '@revolt-rp/common';
+import { IOrganization, OrganizationType } from '@revolt-rp/common';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { OrganizationRank } from './rank/organization-rank.model';
 
 
 @modelOptions({
@@ -38,7 +39,8 @@ export class Organization extends Document implements IOrganization {
   @prop({ ref: () => Organization, required: false })
   parentOrganization?: Ref<Organization>;
 
-  ranks: Ref<IOrganizationRank>[];
+  @prop({ ref: () => OrganizationRank, default: [] })
+  ranks: Ref<OrganizationRank>[];
 
   @prop({ type: Number, required: false })
   importLimit?: number;

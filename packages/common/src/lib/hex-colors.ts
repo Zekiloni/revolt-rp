@@ -20,6 +20,7 @@ export const hexColors = {
   BROADCAST: 'F71326',
   INFO: 'cfd1d7',
   DEEP_FRIED: 'f0ad4e',
+  MEDIUM_SPRING_GREEN: '4ef090',
   BUSINESS: '105A37',
   Success: '6BD56B',
   ERROR: 'FF6347',

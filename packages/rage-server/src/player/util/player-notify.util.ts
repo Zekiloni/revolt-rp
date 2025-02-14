@@ -11,3 +11,8 @@ export const notifyPlayer = (player: PlayerMp, message: Message) => {
 export const sendInfoMessage = (player: PlayerMp, message: string) => {
   player.outputChatBox(`!{${hexColors.DEEP_FRIED}}[info]: !{${hexColors.WHITE_SMOKE}}${message}`);
 };
+
+export const sendOrganizationMessage = (player: PlayerMp, hexColor: string, message: string) => {
+  const color = hexColor.replace(/#/g, '');
+  player.outputChatBox(`{${color}}${message}`);
+}

@@ -16,6 +16,7 @@ import { loadPlayerClothing } from '../inventory/player-clothing.service';
 import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 import { clearPlayerDamages } from '../damage/player-damage.service';
+import { Organization } from '../../organization/organization.model';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -34,7 +35,9 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
 };
 
 export const getCharacterById = (characterId: string) => {
-  return CharacterModel.findById(characterId);
+  return CharacterModel.findById(characterId)
+    .populate('membership')
+    .exec();
 };
 
 export async function giveMoney(player: PlayerMp, amount: number) {
@@ -64,7 +67,8 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.Offer]: null,
     [PlayerSharedDataType.WalkingStyle]: 'normal',
     [PlayerSharedDataType.Attachments]: [],
-    [PlayerSharedDataType.AdminDuty]: false
+    [PlayerSharedDataType.AdminDuty]: false,
+    [PlayerSharedDataType.Organization]: player.character.membership ? player.character.membership.organization : null
   });
 };
 
@@ -208,3 +212,17 @@ export const revivePlayer = (player: PlayerMp, position: Vector3) => {
   player.spawn(position);
   clearPlayerDamages(player);
 };
+
+export const setPlayerOrganization = (player: PlayerMp, organization: Organization | null, isLeader = false) => {
+  player.character.membership = organization ? {
+    organization, rank: null
+  } : null;
+
+  player.character.isLeader = isLeader;
+
+  player.setVariable(PlayerSharedDataType.Organization, organization ? organization.id : null);
+};
+
+export const getPlayerOrganizationId = (player: PlayerMp) => {
+  return player.getVariable<string | null>(PlayerSharedDataType.Organization);
+}

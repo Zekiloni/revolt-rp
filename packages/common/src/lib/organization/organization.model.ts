@@ -3,14 +3,13 @@ import { Vector3 } from '../core.interface';
 import { OrganizationType } from './oranization.enum';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
-export const enum OrganizationPermissionType {
+export enum OrganizationPermissionType {
   NONE,
   MANAGE_MEMBERS,
   MANAGE_ORGANIZATION
 }
 
-export interface IOrganizationRank {
-  id?: string;
+export interface IOrganizationRank extends Base {
   name: string;
   salary: number;
   permission: OrganizationPermissionType;

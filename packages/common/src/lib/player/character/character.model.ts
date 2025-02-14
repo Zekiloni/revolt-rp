@@ -45,7 +45,8 @@ export interface ICharacter extends Base {
   health: number;
   accent?: string;
   isWounded: boolean;
-  member?: ICharacterOrganization;
+  membership: ICharacterOrganization | null;
+  isLeader: boolean;
   injuries: ICharacterInjury[];
   isRestrained: boolean;
   appearance: ICharacterAppearance;
