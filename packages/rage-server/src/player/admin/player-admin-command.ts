@@ -1,15 +1,28 @@
 import { t } from 'i18next';
-import { AdminType, hexColors, isNumber, PlayerSharedDataType, WeatherType, WeatherTypes } from '@revolt-rp/common';
-import { registerCommand } from '../player-command.service';
-import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
-import { notifyPlayer } from '../util/player-notify.util';
-import { setAdministrator } from '../account/account.service';
-import { isValidItem } from '../../item/registry/util/item-registry.util';
+import { triggerClient } from '@libertymp/rage-rpc';
+import {
+  AdminType, GameUiKey,
+  hexColors,
+  isNumber,
+  PlayerSharedDataType,
+  ProcedureKey,
+  WeatherType,
+  WeatherTypes
+} from '@revolt-rp/common';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
-import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+import { isValidItem } from '../../item/registry/util/item-registry.util';
+import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
+import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
+import { setAdministrator } from '../account/account.service';
+import { registerCommand } from '../player-command.service';
+import { notifyPlayer } from '../util/player-notify.util';
+import {
+  getOrganizationByName,
+  makePlayerOrganizationLeader
+} from '../../organization/organization.service';
 
 
 registerCommand({
@@ -253,7 +266,7 @@ registerCommand({
   handle(_player: PlayerMp) {
     toggleSnow();
   }
-})
+});
 
 registerCommand({
   name: 'settime',
@@ -357,5 +370,37 @@ registerCommand({
   params: ['model'],
   handle(player: PlayerMp, model: string) {
     player.model = mp.joaat(model);
+  }
+});
+
+registerCommand({
+  name: 'createorganization',
+  aliases: ['createorg', 'createfaction'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  handle(player: PlayerMp) {
+    triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateOrganization);
+  }
+});
+
+registerCommand({
+  name: 'makeleader',
+  aliases: ['setleader'],
+  params: ['target', 'organization name'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, targetQuery: string, organizationName: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    const organization = await getOrganizationByName(organizationName, organizationName);
+
+    if (!organization)
+      return notifyPlayer(player, { severity: 'error', detail: t('organization_not_found') });
+
+    await makePlayerOrganizationLeader(target, organization);
+    notifyPlayer(player, { severity: 'info', detail: t('player_made_leader', { player: target.name, organization: organization.name }) });
   }
 });

@@ -1,6 +1,8 @@
 export const enum ProcedureKey {
   BROWSER_SHOW_GAME_INTERFACE = 'browser_showGameInterface',
   BROWSER_HIDE_GAME_INTERFACE = 'browser_hideGameInterface',
+  CLIENT_PLAYER_SHOW_INTERFACE = 'client_playerShowInterface',
+  CLIENT_PLAYER_HIDE_INTERFACE = 'client_playerHideInterface',
   BROWSER_NOTIFICATION = 'browser_notification',
 
   BROWSER_AUTHORIZATION_REMEMBER = 'browser_authSuggestion',
@@ -83,7 +85,7 @@ export const enum ProcedureKey {
   BROWSER_SET_PLAYER_DAMAGES  = 'browser_setPlayerDamages',
   CLIENT_PLAYER_TOGGLE_DAMAGE_INFO = 'client_playerToggleDamageInfo',
 
-  CLIENT_TOGGLE_CREATE_ORGANIZATION = 'client_toggleCreateOrganization',
   SERVER_PLAYER_GET_ORGANIZATIONS = 'server_playerGetOrganizations',
   SERVER_PLAYER_CREATE_ORGANIZATION = 'server_playerCreateOrganization',
+
 }

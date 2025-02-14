@@ -1,7 +1,8 @@
-import { triggerBrowser } from '@libertymp/rage-rpc';
+import { on, triggerBrowser } from '@libertymp/rage-rpc';
 import { gameUiConfig, GameUiKey, HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
 import { environment } from '../environment/environment';
 import { registerKeyBind } from './keybind-manager';
+
 
 const CURSOR_TIMEOUT_MS = 100;
 const activeGameInterfaces: Set<string> = new Set();
@@ -60,10 +61,12 @@ export function hideGameInterface(interfaceKey: GameUiKey) {
   activeGameInterfaces.delete(interfaceKey);
 }
 
-
 function handleForceToggleCursor() {
   isCursorActive = !isCursorActive;
   toggleCursor(frozenControls, isCursorActive);
 }
 
+
 registerKeyBind(HexKeyCodes.F3, true, handleForceToggleCursor);
+on(ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, showGameInterface);
+on(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, hideGameInterface);

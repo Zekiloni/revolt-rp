@@ -1,23 +1,32 @@
 import { nanoid } from 'nanoid';
-import { Document, Schema, Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
   BloodType, CharacterGender, CharacterSpawnType, ICharacterStatus,
   ICharacter,
   ICharacterAppearance,
   ICharacterInjury,
-  ICharacterOrganization,
   ICharacterSpawn,
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';
+import { Organization } from '../../organization/organization.model';
+import { OrganizationRank } from '../../organization/rank/organization-rank.model';
 
 
 
 export class CharacterSpawnOption {
   type: CharacterSpawnType;
   propertyId?: string;
+}
+
+class CharacterMembership {
+  @prop({ ref: () => Organization })
+  organization!: Ref<Organization>;
+
+  @prop({ ref: () => OrganizationRank, default: null })
+  rank?: Ref<OrganizationRank>;
 }
 
 @modelOptions({
@@ -106,7 +115,11 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   minutes: number;
 
-  member: ICharacterOrganization;
+  @prop({ type: () => CharacterMembership, default: null })
+  membership: CharacterMembership | null;
+
+  @prop({ type: Boolean, default: false })
+  isLeader: boolean;
 
   @prop({ required: true })
   origin: string;

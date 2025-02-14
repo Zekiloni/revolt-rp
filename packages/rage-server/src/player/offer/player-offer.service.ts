@@ -3,7 +3,7 @@ import { OfferHandler, PlayerOffer } from './player-offer.model';
 
 const playerOffers: Map<number, PlayerOffer> = new Map();
 
-export const createPlayerOffer = async (
+export const createPlayerOffer = (
   player: PlayerMp,
   description: string,
   acceptHandler: OfferHandler,
@@ -23,7 +23,7 @@ export const createPlayerOffer = async (
 
 export const destroyPlayerOffer = (player: PlayerMp) => {
   playerOffers.delete(player.id);
-}
+};
 
 export const getPlayerOffer = (player: PlayerMp) => {
   return playerOffers.get(player.id);
@@ -41,4 +41,4 @@ export const playerResponseOffer = (player: PlayerMp, accepted: boolean) => {
   }
 
   destroyPlayerOffer(player);
-}
+};

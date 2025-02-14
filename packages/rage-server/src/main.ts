@@ -26,3 +26,6 @@ import './vehicle/vehicle.api';
 import './vehicle/vehicle-command';
 
 import './world/weather.api';
+
+import './organization/organization.api';
+import './organization/organization.command';

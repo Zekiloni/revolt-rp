@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register, triggerClient } from '@libertymp/rage-rpc';
-import { catchError, ProcedureKey } from '@revolt-rp/common';
+import { catchError, GameUiKey, ProcedureKey } from '@revolt-rp/common';
 import { createOrganization, getAllOrganizations } from './organization.service';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Organization } from './organization.model';
@@ -22,7 +22,7 @@ export const createOrganizationHandler = (organizationCreate: Partial<Organizati
       summary: t('success'),
       detail: t('organization_created', { name: organization.name })
     });
-    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CREATE_ORGANIZATION, false);
+    triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateOrganization);
   }).catch((error) => {
     const apiError = catchError(error);
     notifyPlayer(player, {

@@ -7,7 +7,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { DropdownModule } from 'primeng/dropdown';
-import { gameUiConfig, IOrganization, OrganizationType, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, GameUiKey, hexColors, IOrganization, OrganizationType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
 @Component({
@@ -30,7 +30,7 @@ export class CreateOrganizationComponent implements OnInit {
       name: new FormControl('', [Validators.required]),
       shortName: new FormControl('', [Validators.required]),
       type: new FormControl('', [Validators.required]),
-      color: new FormControl('#cdcdcd', [Validators.required]),
+      color: new FormControl(`#${hexColors.MEDIUM_SPRING_GREEN}`, [Validators.required]),
       parentOrganization: new FormControl<IOrganization | undefined>(undefined, [Validators.required])
     });
   }
@@ -45,7 +45,7 @@ export class CreateOrganizationComponent implements OnInit {
   }
 
   cancelCreateOrganization() {
-    this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_CREATE_ORGANIZATION, false);
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateOrganization);
   }
 
   private setAvailableOrganizations = (organizations: IOrganization[]) => {
