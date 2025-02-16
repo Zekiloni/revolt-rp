@@ -1,4 +1,5 @@
 import { OfferHandler, PlayerOffer } from './player-offer.model';
+import { PlayerSharedDataType } from '@revolt-rp/common';
 
 
 const playerOffers: Map<number, PlayerOffer> = new Map();
@@ -17,12 +18,17 @@ export const createPlayerOffer = (
   offer.accept = acceptHandler;
   offer.decline = declineHandler;
 
+  player.setVariable(PlayerSharedDataType.Offer, description);
+
   playerOffers.set(player.id, offer);
 };
 
 
 export const destroyPlayerOffer = (player: PlayerMp) => {
   playerOffers.delete(player.id);
+  if (player && mp.players.at(player.id)) {
+    player.setVariable(PlayerSharedDataType.Offer, null);
+  }
 };
 
 export const getPlayerOffer = (player: PlayerMp) => {

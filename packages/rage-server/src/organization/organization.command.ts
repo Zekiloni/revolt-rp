@@ -28,7 +28,7 @@ registerCommand({
   handle(player: PlayerMp, targetQuery) {
     const target = findPlayer(targetQuery);
 
-    if (!target || !target.account)
+    if (!target || !target.character)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
     invitePlayerToOrganization(player, target)
