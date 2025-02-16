@@ -1,7 +1,7 @@
-import { triggerServer } from '@libertymp/rage-rpc';
+import { triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind, unregisterKeyBind } from '../../core/keybind-manager';
-import { hideGameInterface, showGameInterface } from '../../core/browser';
+import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
 import { getHasActiveOffer } from '../util/player-data.util';
 
 
@@ -33,6 +33,7 @@ function playerOfferDataHandler(entity: PlayerMp, value: string | null, oldValue
       if (value) {
         activeOffer = value;
         showGameInterface(GameUiKey.Offer);
+        setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_INIT_OFFER, value), 100);
         for (const key in offerKeyBindings) {
           registerKeyBind(Number(key), true, offerKeyBindings[key]);
         }
