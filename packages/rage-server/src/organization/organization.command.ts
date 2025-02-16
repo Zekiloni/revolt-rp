@@ -39,6 +39,7 @@ registerCommand({
 registerCommand({
   name: 'uninvite',
   aliases: ['dismiss'],
+  params: ['target'],
   description: 'todo',
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
