@@ -377,7 +377,7 @@ registerCommand({
   description: 'todo',
   administrator: AdminType.SUPER_ADMIN,
   handle(player: PlayerMp) {
-    triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateOrganization);
+    triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, GameUiKey.CreateOrganization);
   }
 });
 
