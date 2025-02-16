@@ -22,6 +22,7 @@ const canManageOrganizationMembersCommandValidator: CommandValidator = {
 registerCommand({
   name: 'invite',
   aliases: ['inv'],
+  params: ['target'],
   description: 'todo',
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
