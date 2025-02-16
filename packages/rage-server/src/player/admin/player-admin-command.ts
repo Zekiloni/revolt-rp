@@ -1,7 +1,8 @@
 import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  AdminType, GameUiKey,
+  AdminType,
+  GameUiKey,
   hexColors,
   isNumber,
   PlayerSharedDataType,
@@ -19,10 +20,7 @@ import { setWeather, toggleSnow } from '../../world/weather.service';
 import { setAdministrator } from '../account/account.service';
 import { registerCommand } from '../player-command.service';
 import { notifyPlayer } from '../util/player-notify.util';
-import {
-  getOrganizationByName,
-  makePlayerOrganizationLeader
-} from '../../organization/organization.service';
+import { getOrganizationByName, makePlayerOrganizationLeader } from '../../organization/organization.service';
 
 
 registerCommand({
@@ -401,6 +399,20 @@ registerCommand({
       return notifyPlayer(player, { severity: 'error', detail: t('organization_not_found') });
 
     await makePlayerOrganizationLeader(target, organization);
-    notifyPlayer(player, { severity: 'info', detail: t('player_made_leader', { player: target.name, organization: organization.name }) });
+    notifyPlayer(player, {
+      severity: 'info',
+      detail: t('player_made_leader', { player: target.name, organization: organization.name })
+    });
+  }
+});
+
+
+registerCommand({
+  name: 'fly',
+  aliases: ['noclip'],
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  handle(player: PlayerMp) {
+    triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_NO_CLIP);
   }
 });
