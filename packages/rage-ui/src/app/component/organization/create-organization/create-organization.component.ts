@@ -31,7 +31,7 @@ export class CreateOrganizationComponent implements OnInit {
       shortName: new FormControl('', [Validators.required]),
       type: new FormControl('', [Validators.required]),
       color: new FormControl(`#${hexColors.MEDIUM_SPRING_GREEN}`, [Validators.required]),
-      parentOrganization: new FormControl<IOrganization | undefined>(undefined, [Validators.required])
+      parentOrganization: new FormControl<IOrganization | undefined>(undefined)
     });
   }
 
