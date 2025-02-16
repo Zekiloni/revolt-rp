@@ -1,5 +1,6 @@
 import './core/mongo-db';
 import './core/i18next.config';
+import './core/server-shutdown';
 
 import './item/registry/item.factory';
 import './item/item.loader';
@@ -29,3 +30,4 @@ import './world/weather.api';
 
 import './organization/organization.api';
 import './organization/organization.command';
+
