@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Types, Document } from 'mongoose';
 import { modelOptions, prop } from '@typegoose/typegoose';
 import { IOrganizationRank, OrganizationPermissionType } from '@revolt-rp/common';
 

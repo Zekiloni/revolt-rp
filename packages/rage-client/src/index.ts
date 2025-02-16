@@ -27,8 +27,9 @@ import './vehicle/vehicle.lock';
 import './banking/bank-menu';
 import './banking/bank-atm';
 
-
 import './world/world-weather';
+
+import './player/admin/no-clip';
 
 // Object.defineProperty(mp.nesto, 'enableSnow', {
 //   get: function() {
