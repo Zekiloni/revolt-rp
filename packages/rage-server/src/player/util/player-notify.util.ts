@@ -14,5 +14,5 @@ export const sendInfoMessage = (player: PlayerMp, message: string) => {
 
 export const sendOrganizationMessage = (player: PlayerMp, hexColor: string, message: string) => {
   const color = hexColor.replace(/#/g, '');
-  player.outputChatBox(`{${color}}${message}`);
+  player.outputChatBox(`!{${color}}${message}`);
 }

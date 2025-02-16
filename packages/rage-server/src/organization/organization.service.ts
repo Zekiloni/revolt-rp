@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { hexColors, PlayerSharedDataType } from '@revolt-rp/common';
+import { PlayerSharedDataType } from '@revolt-rp/common';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { Organization, OrganizationModel } from './organization.model';
 import { notifyPlayer, sendOrganizationMessage } from '../player/util/player-notify.util';

@@ -225,4 +225,4 @@ export const setPlayerOrganization = (player: PlayerMp, organization: Organizati
 
 export const getPlayerOrganizationId = (player: PlayerMp) => {
   return player.getVariable<string | null>(PlayerSharedDataType.Organization);
-}
+};
