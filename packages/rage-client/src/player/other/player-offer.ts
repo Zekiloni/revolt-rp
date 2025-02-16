@@ -13,17 +13,13 @@ const offerKeyBindings: Record<number, VoidFunction> = {
 let activeOffer: string | null = null;
 
 function acceptOffer() {
-  mp.gui.chat.push('acceptOffer');
   if (getHasActiveOffer()) {
-    mp.gui.chat.push('getHasActiveOffer');
     triggerServer(ProcedureKey.SERVER_PLAYER_OFFER_RESPONSE, true);
   }
 }
 
 function declineOffer() {
-  mp.gui.chat.push('declineOffer');
   if (getHasActiveOffer()) {
-    mp.gui.chat.push('getHasActiveOffer is true');
     triggerServer(ProcedureKey.SERVER_PLAYER_OFFER_RESPONSE, false);
   }
 }

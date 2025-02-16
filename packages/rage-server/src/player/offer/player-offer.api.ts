@@ -7,7 +7,6 @@ function playerQuitOfferHandler(player: PlayerMp) {
 }
 
 function playerOfferResponseHandler(accepted: boolean, { player }: ProcedureListenerInfo<PlayerMp>) {
-  console.log('playerOfferResponseHandler', accepted);
   playerResponseOffer(player, accepted);
 }
 

@@ -25,11 +25,8 @@ export const createPlayerOffer = (
 
 
 export const destroyPlayerOffer = (player: PlayerMp) => {
-  console.log('destroyPlayerOffer', player.id);
-
   playerOffers.delete(player.id);
   if (player && mp.players.at(player.id)) {
-    console.log('destroyPlayerOffer, set variable', player.id);
     player.setVariable(PlayerSharedDataType.Offer, null);
   }
 };
@@ -41,13 +38,10 @@ export const getPlayerOffer = (player: PlayerMp) => {
 export const playerResponseOffer = (player: PlayerMp, accepted: boolean) => {
   const playerOffer = getPlayerOffer(player);
 
-  console.log('playerResponseOffer', playerOffer);
   if (playerOffer) {
     if (accepted) {
-      console.log('accept offer');
       playerOffer.accept(player);
     } else {
-      console.log('decline offer');
       playerOffer.decline(player);
     }
   }
