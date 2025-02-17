@@ -271,4 +271,13 @@ export const srRs = {
   'create': 'Kreiraj',
   'manage_members': 'Upravljanje članovima',
   'manage_organization': 'Upravljanje organizacijom',
+  'invite': 'Pozovi',
+  'rank': 'Rank',
+  'unranked': 'Bez ranka',
+  'activity': 'Aktivnost',
+  'highly_active': 'Veoma Aktivan',
+  'active': 'Aktivan',
+  'moderate': 'Umeren',
+  'inactive': 'Neaktivan',
+  'search': 'Pretraga'
 };

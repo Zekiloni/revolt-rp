@@ -19,6 +19,7 @@
       <th>{{ 'name' | translate }}</th>
       <th>{{ 'permission' | translate }}</th>
       <th>{{ 'salary' | translate }}</th>
+      <th>{{ 'options' | translate}}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
@@ -27,6 +28,10 @@
       <td>{{ rank['name'] }}</td>
       <td>{{ rank['permission'] | translate }}</td>
       <td>{{ rank['salary'] }}</td>
+      <td>
+        <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="editRank(rank)"></button>
+        <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="deleteRank(rank)"></button>
+      </td>
     </tr>
   </ng-template>
 </p-table>

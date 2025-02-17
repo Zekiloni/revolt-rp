@@ -115,6 +115,9 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   minutes: number;
 
+  @prop({ required: false, default: false})
+  inGame: boolean;
+
   @prop({ type: () => CharacterMembership, default: null })
   membership: CharacterMembership | null;
 

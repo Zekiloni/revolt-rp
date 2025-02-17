@@ -16,6 +16,8 @@ async function playerQuitHandler(player: PlayerMp, exitType: PlayerExitType, rea
       character.heading = heading;
       character.lastSessionAt = new Date();
 
+      character.inGame = false;
+
       await character.save();
     }
   }

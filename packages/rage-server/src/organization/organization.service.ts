@@ -4,6 +4,7 @@ import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { Organization, OrganizationModel } from './organization.model';
 import { notifyPlayer, sendOrganizationMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, setPlayerOrganization } from '../player/character/character.service';
+import { CharacterModel } from '../player/account-character.ref';
 
 
 export const getOrganizationByName = async (name: string, shortName: string) => {
@@ -34,6 +35,13 @@ export const createOrganization = async (organization: Partial<Organization>) =>
   return await OrganizationModel.create(organization);
 };
 
+
+export const getOrganizationMembers = async (organizationId: string) => {
+  return CharacterModel.find({ 'membership.organization': organizationId })
+    .populate('account')
+    .populate('membership.rank')
+    .exec();
+};
 
 export const playerAcceptInvite = async (player: PlayerMp, organization: Organization, offerer: PlayerMp) => {
   setPlayerOrganization(player, organization);
@@ -124,3 +132,4 @@ export const playerChatOrganization = async (player: PlayerMp, message: string) 
     });
   }
 };
+
