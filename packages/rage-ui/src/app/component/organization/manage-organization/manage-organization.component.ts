@@ -28,7 +28,7 @@ export class ManageOrganizationComponent {
     createdAt: new Date(),
     ranks: [
       { name: 'Rank 1', salary: 100, permission: OrganizationPermissionType.MANAGE_ORGANIZATION, id: '342423', _id: new Types.ObjectId() },
-      { name: 'Rank 1', salary: 43, permission: OrganizationPermissionType.NORMAL, id: '342423', _id: new Types.ObjectId() },
+      { name: 'Rank 2', salary: 43, permission: OrganizationPermissionType.NORMAL, id: '342423', _id: new Types.ObjectId() },
     ],
   };
 

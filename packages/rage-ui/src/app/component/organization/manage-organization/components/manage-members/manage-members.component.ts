@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
-import { PrimeTemplate } from 'primeng/api';
+import { ConfirmationService, PrimeTemplate } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ICharacter, IOrganizationRank, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import dayjs from 'dayjs';
@@ -11,11 +11,16 @@ import { TooltipModule } from 'primeng/tooltip';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { ChipModule } from 'primeng/chip';
 
 @Component({
   selector: 'app-manage-members',
   standalone: true,
-  imports: [CommonModule, Button, ButtonDirective, PrimeTemplate, TableModule, TranslatePipe, TooltipModule, IconFieldModule, InputIconModule, InputTextModule],
+  imports: [CommonModule, Button, ButtonDirective, PrimeTemplate, TableModule, TranslatePipe, TooltipModule, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, DropdownModule, FormsModule, ChipModule],
+  providers: [ConfirmationService],
   templateUrl: './manage-members.component.html',
   styleUrl: './manage-members.component.css'
 })
@@ -25,7 +30,9 @@ export class ManageMembersComponent implements OnInit {
 
   members: (ICharacter & { averageActivity: number })[] = [];
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService,
+              private confirmationService: ConfirmationService,
+              private translateService: TranslateService) {
   }
 
   private setMembers = (members: ICharacter[]) => {
@@ -63,7 +70,7 @@ export class ManageMembersComponent implements OnInit {
         createdAt: dayjs('2025-01-01').toDate()
       },
       {
-        id: '1',
+        id: '3',
         firstName: 'Zach',
         lastName: 'Test',
         fullName: 'Zach Test',
@@ -81,7 +88,7 @@ export class ManageMembersComponent implements OnInit {
         createdAt: dayjs('2025-01-01').toDate()
       },
       {
-        id: '1',
+        id: '2',
         firstName: 'Zach',
         lastName: 'Test',
         fullName: 'Konjo Test',
@@ -103,8 +110,19 @@ export class ManageMembersComponent implements OnInit {
       .subscribe({ next: this.setMembers });
   }
 
-  uninvite(rank: ICharacter) {
-    // todo:
+  uninvite(event: Event, member: ICharacter) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: this.translateService.instant('uninvite_member_confirm', { member: member.fullName }),
+      icon: 'pi pi-question-circle',
+      rejectLabel: this.translateService.instant('no'),
+      acceptLabel: this.translateService.instant('yes'),
+      acceptButtonStyleClass: 'p-button-danger p-button-sm',
+      accept: () => {
+        this.rageClientService.callServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, member.id)
+          .subscribe({ next: () => this.setMembers(this.members.filter(m => m.id !== member.id)) });
+      }
+    });
   }
 
   getActivityColor(score: number) {
