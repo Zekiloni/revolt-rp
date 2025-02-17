@@ -279,4 +279,6 @@ export const enUs = {
   'moderate': 'Moderate',
   'inactive': 'Inactive',
   'search': 'Search',
+  'uninvite': 'Uninvite',
+  'uninvite_member_confirm': 'Are you sure you want to uninvite {{member}}?',
 };

@@ -279,5 +279,7 @@ export const srRs = {
   'active': 'Aktivan',
   'moderate': 'Umeren',
   'inactive': 'Neaktivan',
-  'search': 'Pretraga'
+  'search': 'Pretraga',
+  'uninvite': 'Izbaci',
+  'uninvite_member_confirm': 'Da li ste sigurni da želite da izbacite {{member}} iz organizacije?',
 };
