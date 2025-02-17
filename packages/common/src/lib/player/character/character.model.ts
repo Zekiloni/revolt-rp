@@ -60,6 +60,7 @@ export interface ICharacter extends Base {
   dimension: number;
   level: number;
   hours: number;
+  inGame: boolean;
   minutes: number;
   maxVehicles: number;
   maxProperties: number;

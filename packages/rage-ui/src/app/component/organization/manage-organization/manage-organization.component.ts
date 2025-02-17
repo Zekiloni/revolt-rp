@@ -8,12 +8,13 @@ import { ColorPickerModule } from 'primeng/colorpicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IOrganization, IOrganizationRank, OrganizationPermissionType, OrganizationType } from '@revolt-rp/common';
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
+import { ManageMembersComponent } from './components/manage-members';
 
 
 @Component({
   selector: 'app-manage-organization',
   standalone: true,
-  imports: [CommonModule, DialogModule, TranslatePipe, TabViewModule, ColorPickerModule, ReactiveFormsModule, FormsModule, ManageRanksComponent],
+  imports: [CommonModule, DialogModule, TranslatePipe, TabViewModule, ColorPickerModule, ReactiveFormsModule, FormsModule, ManageRanksComponent, ManageMembersComponent],
   templateUrl: './manage-organization.component.html',
   styleUrl: './manage-organization.component.css'
 })
@@ -28,7 +29,7 @@ export class ManageOrganizationComponent {
     ranks: [
       { name: 'Rank 1', salary: 100, permission: OrganizationPermissionType.MANAGE_ORGANIZATION, id: '342423', _id: new Types.ObjectId() },
       { name: 'Rank 1', salary: 43, permission: OrganizationPermissionType.NORMAL, id: '342423', _id: new Types.ObjectId() },
-    ]
+    ],
   };
 
 

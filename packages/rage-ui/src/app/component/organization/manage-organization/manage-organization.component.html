@@ -1,7 +1,7 @@
 <p-dialog [header]="organization.name" [modal]="true" [(visible)]="isActive"
           (onHide)="toggleManageOrganization()"
           [focusOnShow]="false"
-          [style]="{ width: '50rem' }" [draggable]="false">
+          [style]="{ width: '60rem' }" [draggable]="false">
   <p-tabView>
     <p-tabPanel [header]="'basic_info' | translate">
       <ul class="list-none p-0 m-0">
@@ -29,9 +29,9 @@
           <div class="text-500 w-full md:w-4 font-medium">{{ 'parent_organization' | translate }}</div>
           <div class="text-900 w-full md:w-8">
             @if (organization.parentOrganization) {
-              <span> {{ parentOrganization.name  }} </span>
+              <span> {{ parentOrganization.name }} </span>
             } @else {
-              <span> {{  'none' | translate }} </span>
+              <span> {{ 'none' | translate }} </span>
             }
           </div>
         </li>
@@ -45,12 +45,10 @@
       </ul>
     </p-tabPanel>
     <p-tabPanel [header]="'ranks' | translate">
-      <app-manage-ranks [ranks]="ranks"/>
+      <app-manage-ranks [ranks]="ranks" />
     </p-tabPanel>
     <p-tabPanel [header]="'members' | translate">
-      <p>
-        At vero eos et accusamus et iusto odio dignissimos...
-      </p>
+      <app-manage-members [organizationId]="organization.id!" [ranks]="ranks" />
     </p-tabPanel>
   </p-tabView>
 </p-dialog>

@@ -174,11 +174,14 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
 
   loadCharacterAppearance(player);
 
+  player.character.inGame = true;
+
   player.name = player.character.fullName;
   player.spawn(player.character.position);
   player.dimension = player.character.dimension;
   player.alpha = 255;
 
+  await player.character.save();
   player.account.depopulate('characters');
 };
 

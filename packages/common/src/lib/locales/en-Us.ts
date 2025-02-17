@@ -270,4 +270,13 @@ export const enUs = {
   'create': 'Create',
   'manage_members': 'Manage Members',
   'manage_organization': 'Manage Organization',
+  'invite': 'Invite',
+  'rank': 'Rank',
+  'unranked': 'Unranked',
+  'activity': 'Activity',
+  'highly_active': 'Highly Active',
+  'active': 'Active',
+  'moderate': 'Moderate',
+  'inactive': 'Inactive',
+  'search': 'Search',
 };
