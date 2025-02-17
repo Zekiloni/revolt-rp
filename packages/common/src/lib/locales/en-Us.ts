@@ -262,4 +262,12 @@ export const enUs = {
   'removed_from_organization': 'You have been removed from {{organization}} organization.',
   'not_in_same_organization': 'Player is not in the same organization.',
   'player_removed_from_organization': '{{player}} has been removed from organization.',
+  'basic_info': 'Basic Info',
+  'ranks': 'Ranks',
+  'members': 'Members',
+  'permission': 'Permission',
+  'salary': 'Salary',
+  'create': 'Create',
+  'manage_members': 'Manage Members',
+  'manage_organization': 'Manage Organization',
 };

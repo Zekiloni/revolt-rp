@@ -13,4 +13,5 @@ export enum GameUiKey {
   DamageInfo = 'damageInfo',
 
   CreateOrganization = 'createOrganization',
+  ManageOrganization = 'manageOrganization',
 }
