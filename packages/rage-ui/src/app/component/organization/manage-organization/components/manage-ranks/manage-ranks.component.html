@@ -1,0 +1,32 @@
+<p-table
+  [value]="ranks"
+  [paginator]="true"
+  [rows]="10"
+  paginatorDropdownAppendTo="body"
+  styleClass="p-datatable-gridlines"
+  [tableStyle]="{ 'min-width': '30rem' }"
+  [rowsPerPageOptions]="[10, 25, 50]"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      {{ 'ranks' | translate }}
+      <p-button icon="pi pi-plus" [label]="'create' | translate" size="small" />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:5%">#</th>
+      <th>{{ 'name' | translate }}</th>
+      <th>{{ 'permission' | translate }}</th>
+      <th>{{ 'salary' | translate }}</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
+    <tr>
+      <td>{{ rowIndex + 1 }}</td>
+      <td>{{ rank['name'] }}</td>
+      <td>{{ rank['permission'] | translate }}</td>
+      <td>{{ rank['salary'] }}</td>
+    </tr>
+  </ng-template>
+</p-table>

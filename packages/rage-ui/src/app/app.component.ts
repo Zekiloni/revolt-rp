@@ -27,6 +27,7 @@ import { AnimationMenuComponent } from './component/emote/animation-menu';
 import { DeathScreenComponent } from './component/death-screen';
 import { PlayerDamageInfoComponent } from './component/player-damage-info';
 import { CreateOrganizationComponent } from './component/organization/create-organization';
+import { ManageOrganizationComponent } from './component/organization/manage-organization';
 
 
 @Component({
@@ -48,7 +49,8 @@ import { CreateOrganizationComponent } from './component/organization/create-org
     AnimationMenuComponent,
     DeathScreenComponent,
     PlayerDamageInfoComponent,
-    CreateOrganizationComponent
+    CreateOrganizationComponent,
+    ManageOrganizationComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

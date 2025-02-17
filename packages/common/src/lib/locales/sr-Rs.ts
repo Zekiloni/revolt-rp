@@ -263,4 +263,12 @@ export const srRs = {
   'removed_from_organization': 'Izbačeni ste iz organizacije {{organization}}.',
   'not_in_same_organization': 'Igrač nije u istoj organizaciji.',
   'player_removed_from_organization': '{{player}} je izbačen iz organizacije.',
+  'basic_info': 'Osnovne informacije',
+  'ranks': 'Rankovi',
+  'members': 'Članovi',
+  'permission': 'Dozvole',
+  'salary': 'Plata',
+  'create': 'Kreiraj',
+  'manage_members': 'Upravljanje članovima',
+  'manage_organization': 'Upravljanje organizacijom',
 };

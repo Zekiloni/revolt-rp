@@ -51,6 +51,10 @@
     <app-create-organization [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.ManageOrganization) | async) {
+    <app-manage-organization />
+  }
+
   <app-text-chat />
 
   <p-toast />

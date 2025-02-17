@@ -4,9 +4,9 @@ import { OrganizationType } from './oranization.enum';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export enum OrganizationPermissionType {
-  NONE,
-  MANAGE_MEMBERS,
-  MANAGE_ORGANIZATION
+  NORMAL = 'normal',
+  MANAGE_MEMBERS = 'manage_members',
+  MANAGE_ORGANIZATION = 'manage_organization',
 }
 
 export interface IOrganizationRank extends Base {
