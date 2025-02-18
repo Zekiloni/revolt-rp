@@ -1,7 +1,12 @@
 import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register, triggerClient } from '@libertymp/rage-rpc';
-import { catchError, GameUiKey, ProcedureKey } from '@revolt-rp/common';
-import { createOrganization, getAllOrganizations, getOrganizationMembers } from './organization.service';
+import { catchError, GameUiKey, IMemberUpdate, ProcedureKey } from '@revolt-rp/common';
+import {
+  createOrganization,
+  getAllOrganizations,
+  getOrganizationMembers,
+  playerUpdateOrganizationMember
+} from './organization.service';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Organization } from './organization.model';
 
@@ -38,6 +43,11 @@ export const createOrganizationHandler = (organizationCreate: Partial<Organizati
 };
 
 
+async function playerUpdateOrganizationMemberHandler(memberUpdate: IMemberUpdate, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await playerUpdateOrganizationMember(player, memberUpdate);
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_ORGANIZATION, createOrganizationHandler);
+on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, playerUpdateOrganizationMemberHandler)
 register(ProcedureKey.SERVER_PLAYER_GET_ORGANIZATIONS, getOrganizationsHandler);
 register(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, getOrganizationMembersHandler);

@@ -281,4 +281,9 @@ export const enUs = {
   'search': 'Search',
   'uninvite': 'Uninvite',
   'uninvite_member_confirm': 'Are you sure you want to uninvite {{member}}?',
+  'edit': 'Edit',
+  'target_not_in_organization': 'Target character is not in the organization.',
+  'rank_not_found': 'Rank not found.',
+  'rank_updated': 'Your rank is updated to {{rank}}.',
+  'target_rank_updated': '{{player}} rank is updated to {{rank}}.',
 };

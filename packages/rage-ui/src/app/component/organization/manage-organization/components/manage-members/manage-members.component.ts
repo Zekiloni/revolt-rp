@@ -1,12 +1,11 @@
+import dayjs from 'dayjs';
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ConfirmationService, PrimeTemplate } from 'primeng/api';
 import { Table, TableModule } from 'primeng/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ICharacter, IOrganizationRank, ProcedureKey } from '@revolt-rp/common';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import dayjs from 'dayjs';
+import { deepCopy, ICharacter, IMemberUpdate, IOrganizationRank, ProcedureKey } from '@revolt-rp/common';
 import { TooltipModule } from 'primeng/tooltip';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -15,6 +14,10 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ChipModule } from 'primeng/chip';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
+
+
+type ICharacterWithActivity = ICharacter & { averageActivity: number };
 
 @Component({
   selector: 'app-manage-members',
@@ -28,7 +31,8 @@ export class ManageMembersComponent implements OnInit {
   @Input() organizationId!: string;
   @Input() ranks!: IOrganizationRank[];
 
-  members: (ICharacter & { averageActivity: number })[] = [];
+  members: ICharacterWithActivity[] = [];
+  memberClones: Record<string, ICharacterWithActivity> = {};
 
   constructor(private rageClientService: RageClientService,
               private confirmationService: ConfirmationService,
@@ -48,7 +52,6 @@ export class ManageMembersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.ranks);
     this.setMembers([
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       {
@@ -56,6 +59,7 @@ export class ManageMembersComponent implements OnInit {
         firstName: 'John',
         lastName: 'Doe',
         fullName: 'John Doe',
+        inGame: true,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         account: {
@@ -110,7 +114,7 @@ export class ManageMembersComponent implements OnInit {
       .subscribe({ next: this.setMembers });
   }
 
-  uninvite(event: Event, member: ICharacter) {
+  uninviteMember(event: Event, member: ICharacter) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: this.translateService.instant('uninvite_member_confirm', { member: member.fullName }),
@@ -141,5 +145,24 @@ export class ManageMembersComponent implements OnInit {
 
   filterGlobal(membersTable: Table, target: EventTarget) {
     membersTable.filterGlobal((<HTMLInputElement>target).value, 'contains');
+  }
+
+  onMemberEditCancel(member: ICharacterWithActivity, index: number) {
+    this.members[index] = this.memberClones[member.id];
+    delete this.memberClones[member.id];
+  }
+
+
+  onMemberSave(member: ICharacterWithActivity) {
+    const memberUpdate: IMemberUpdate = {
+      characterId: member.id,
+      rankId: member.membership!.rank!.id as string
+    }
+
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate);
+  }
+
+  onMemberEditInit(member: ICharacterWithActivity) {
+    this.memberClones[member.id] = deepCopy(member);
   }
 }

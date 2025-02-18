@@ -15,6 +15,12 @@ export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
 };
 
 
+export const findPlayerByCharacterId = (characterId: string): PlayerMp | undefined => {
+  return mp.players.toArray()
+    .find((player) => player.getVariable(PlayerSharedDataType.CharacterId) === characterId);
+}
+
+
 export const filterPlayer = (query: string): PlayerMp[] => {
   query = query.replace(' ', ' ').toLowerCase();
 

@@ -7,7 +7,7 @@
   dataKey="id"
   [globalFilterFields]="['firstName', 'lastName', 'fullName', 'membership.rank.name', 'averageActivity', 'account.username']"
   styleClass="p-datatable-gridlines"
-  editMode="cell"
+  editMode="row"
   [tableStyle]="{ 'min-width': '30rem' }"
   [rowsPerPageOptions]="[10, 25, 50]"
 >
@@ -43,10 +43,15 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-member let-editing="editing" let-rowIndex="rowIndex">
-    <tr>
+    <tr [pEditableRow]="member">
       <td>{{ rowIndex + 1 }}</td>
-      <td>{{ member['fullName'] }} <small>({{ member['account']['username'] }})</small></td>
-      <td [pEditableColumn]="member['membership']['rank']" pEditableColumnField="rank">
+      <td>
+        <i class="pi pi-circle-fill text-xs"
+           [ngClass]="{'text-green-400': member['inGame'], 'text-gray-400': !member['inGame']}">
+        </i>
+        <span class="ml-3">{{ member['fullName'] }} <small>({{ member['account']['username'] }})</small></span>
+      </td>
+      <td>
         <p-cellEditor>
           <ng-template pTemplate="input">
             <p-dropdown
@@ -69,9 +74,33 @@
         </span>
       </td>
       <td>
-        <button pButton icon="pi pi-user-minus" [rounded]="true" [text]="true" severity="danger"
-                [label]="'uninvite' | translate"
-                (click)="uninvite($event, member)"></button>
+        @if (editing) {
+          <button
+            pButton
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            (click)="onMemberSave(member)"
+            class="p-button-rounded p-button-text p-button-success mr-2">
+          </button>
+          <button
+            pButton
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            (click)="onMemberEditCancel(member, rowIndex)"
+            class="p-button-rounded p-button-text p-button-danger">
+          </button>
+        } @else {
+          <button pButton icon="pi pi-user-minus" [rounded]="true" [text]="true" severity="danger"
+                  [pTooltip]="'uninvite' | translate" tooltipPosition="bottom"
+                  (click)="uninviteMember($event, member)"></button>
+          <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true"
+                  [pTooltip]="'edit' | translate" tooltipPosition="bottom"
+                  (click)="onMemberEditInit(member)"
+                  pInitEditableRow></button>
+        }
+
       </td>
     </tr>
     <p-confirmPopup />

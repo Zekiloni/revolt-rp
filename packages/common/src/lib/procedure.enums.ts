@@ -90,6 +90,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_CREATE_ORGANIZATION = 'server_playerCreateOrganization',
   SERVER_GET_ORGANIZATION_MEMBERS = 'server_getOrganizationMembers',
   SERVER_ORGANIZATION_MEMBER_UNINVITE = 'server_organizationMemberUninvite',
+  SERVER_ORGANIZATION_MEMBER_UPDATE = 'server_organizationMemberUpdate',
 
   CLIENT_PLAYER_TOGGLE_NO_CLIP = 'client_playerToggleNoClip',
 

@@ -1,10 +1,16 @@
 import { t } from 'i18next';
-import { PlayerSharedDataType } from '@revolt-rp/common';
+import { IMemberUpdate, PlayerSharedDataType } from '@revolt-rp/common';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { Organization, OrganizationModel } from './organization.model';
 import { notifyPlayer, sendOrganizationMessage } from '../player/util/player-notify.util';
-import { getPlayerOrganizationId, setPlayerOrganization } from '../player/character/character.service';
+import {
+  getCharacterById,
+  getPlayerOrganizationId,
+  setPlayerOrganization, setPlayerOrganizationRank, updateCharacter
+} from '../player/character/character.service';
 import { CharacterModel } from '../player/account-character.ref';
+import { getRankById } from './rank/organization-rank.service';
+import { findPlayerByCharacterId } from '../player/util/player.util';
 
 
 export const getOrganizationByName = async (name: string, shortName: string) => {
@@ -133,3 +139,43 @@ export const playerChatOrganization = async (player: PlayerMp, message: string) 
   }
 };
 
+
+export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpdate: IMemberUpdate) {
+  const targetCharacter = await getCharacterById(memberUpdate.characterId);
+
+  if (!targetCharacter) {
+    throw new Error(t('player_target_not_found'));
+  }
+
+  if (!targetCharacter.membership)
+    throw new Error(t('target_not_in_organization'));
+
+  if (targetCharacter.membership.organization !== player.character.membership.organization)
+    throw new Error(t('not_in_same_organization'));
+
+  const rank = await getRankById(memberUpdate.rankId);
+
+  if (!rank) {
+    throw new Error(t('rank_not_found'));
+  }
+
+  targetCharacter.membership.rank = rank;
+  await targetCharacter.save();
+
+  const target = findPlayerByCharacterId(targetCharacter.id);
+
+  if (target) {
+    setPlayerOrganizationRank(target, rank);
+    notifyPlayer(target, {
+      severity: 'info',
+      summary: t('info'),
+      detail: t('rank_updated', { rank: rank.name })
+    });
+  }
+
+  notifyPlayer(player, {
+    severity: 'info',
+    detail: t('target_rank_updated', { player: targetCharacter.fullName, rank: rank.name })
+  });
+
+}

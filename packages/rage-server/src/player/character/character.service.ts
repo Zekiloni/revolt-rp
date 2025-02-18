@@ -17,6 +17,9 @@ import { getWearableItemByComponent } from '../../item/registry/clothing/clothin
 import { playerGiveItem } from '../inventory/player-inventory.service';
 import { clearPlayerDamages } from '../damage/player-damage.service';
 import { Organization } from '../../organization/organization.model';
+import { Character } from './character.model';
+import { OrganizationRank } from '../../organization/rank/organization-rank.model';
+import { UpdateQuery } from 'mongoose';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -34,10 +37,15 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
   }
 };
 
-export const getCharacterById = (characterId: string) => {
+export const getCharacterById = (characterId: string): Promise<Character | null> => {
   return CharacterModel.findById(characterId)
     .populate('membership')
     .exec();
+};
+
+
+export const updateCharacter = (characterId: string, update: UpdateQuery<Character>): Promise<Character | null> => {
+  return CharacterModel.findByIdAndUpdate(characterId, update, { new: true }).exec();
 };
 
 export async function giveMoney(player: PlayerMp, amount: number) {
@@ -224,6 +232,11 @@ export const setPlayerOrganization = (player: PlayerMp, organization: Organizati
   player.character.isLeader = isLeader;
 
   player.setVariable(PlayerSharedDataType.Organization, organization ? organization.id : null);
+};
+
+export const setPlayerOrganizationRank = (player: PlayerMp, rank: OrganizationRank) => {
+  if (!player.character.membership) return;
+  player.character.membership.rank = rank;
 };
 
 export const getPlayerOrganizationId = (player: PlayerMp) => {
