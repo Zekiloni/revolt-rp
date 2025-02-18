@@ -12,6 +12,7 @@ export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
 export * from './lib/game-ui/game-ui.config';
 
+export * from './lib/player/player-level.util';
 export * from './lib/player/player.model';
 
 export * from './lib/player/account/account.config';
@@ -20,7 +21,7 @@ export * from './lib/player/account/account-create.model';
 export * from './lib/player/account/account-auth.model';
 export * from './lib/player/account/oauth2/discord-oauth2.model';
 
-export * from './lib/util/player-level.util';
+export * from './lib/util/object.util';
 
 export * from './lib/player/character/character.config';
 export * from './lib/player/character/char-appeaarance.model';
@@ -77,6 +78,7 @@ export * from './lib/banking/bank-interaction.model';
 
 export * from './lib/organization/oranization.enum';
 export * from './lib/organization/organization.model';
+export * from './lib/organization/member.model';
 
 export * from './lib/world/world.enum';
 export * from './lib/world/weather-type';

@@ -1,5 +1,5 @@
 import { Types, Document } from 'mongoose';
-import { modelOptions, prop } from '@typegoose/typegoose';
+import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { IOrganizationRank, OrganizationPermissionType } from '@revolt-rp/common';
 
 
@@ -20,9 +20,12 @@ export class OrganizationRank extends Document implements IOrganizationRank {
   @prop({ required: true })
   salary: number;
 
-  @prop({ required: true, enum : Object.values(OrganizationPermissionType), type: String })
+  @prop({ required: true, enum: Object.values(OrganizationPermissionType), type: String })
   permission: OrganizationPermissionType;
 
   createdAt: Date;
   updatedAt?: Date;
 }
+
+
+export const OrganizationRankModel = getModelForClass(OrganizationRank);
