@@ -28,8 +28,6 @@ import { DeathScreenComponent } from './component/death-screen';
 import { PlayerDamageInfoComponent } from './component/player-damage-info';
 import { CreateOrganizationComponent } from './component/organization/create-organization';
 import { ManageOrganizationComponent } from './component/organization/manage-organization';
-import { WorldMapComponent } from './component/misc/world-map/world-map.component';
-import * as L from 'leaflet';
 
 @Component({
   standalone: true,
@@ -52,7 +50,6 @@ import * as L from 'leaflet';
     PlayerDamageInfoComponent,
     CreateOrganizationComponent,
     ManageOrganizationComponent,
-    WorldMapComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
@@ -116,9 +113,5 @@ export class AppComponent implements OnInit {
     this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
       this.messageService.add(message);
     });
-  }
-
-  onMapInit(event: L.Map) {
-    const marker = L.marker([0, 0]).addTo(event);
   }
 }
