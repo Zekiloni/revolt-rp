@@ -1,5 +1,5 @@
 import { register } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@revolt-rp/common';
+import { IPlayer, ProcedureKey } from '@revolt-rp/common';
 import { getIsSpawned } from './util/player-data.util';
 import { getDistance } from '../util/vector.util';
 import { filterPlayer } from '../../../rage-server/src/player/util/player.util';
@@ -11,14 +11,14 @@ function isPlayerNearPlayer(target: PlayerMp) {
 }
 
 
-function getNearbyPlayersHandler() {
+function getNearbyPlayersHandler(): IPlayer[] {
   if (!mp.players.length)
     return [];
 
   return mp.players.toArray()
     .filter(target => getIsSpawned(target) && isPlayerNearPlayer(target))
     .filter(target => target.handle !== mp.players.local.handle)
-    .map(target => ({ value: target.remoteId, label: target.name }));
+    .map(target => ({ id: target.remoteId, name: target.name }));
 }
 
 function filterPlayersHandler(query: string) {

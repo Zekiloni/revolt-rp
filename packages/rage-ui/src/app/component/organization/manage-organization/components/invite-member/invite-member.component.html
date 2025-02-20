@@ -1,0 +1,36 @@
+<form [formGroup]="inviteMemberFormGroup" class="grid formgrid p-fluid" (ngSubmit)="submitInviteMemberForm()">
+  <div class="field mb-4 col-12 md:col-12">
+    <label for="target">{{ 'target_player' | translate }}</label>
+    <p-dropdown
+      [options]="players"
+      optionLabel="name"
+      formControlName="playerId"
+      id="target"
+      optionValue="id"
+      [filter]="true"
+      [emptyFilterMessage]="'no_results' | translate"
+      [emptyMessage]="'no_results' | translate"
+      appendTo="body"
+      (onFilter)="filterPlayers($event)"
+      [placeholder]="'select_player' | translate" />
+  </div>
+
+  <div class="field mb-4 col-12 md:col-12">
+    <label for="rank">{{ 'rank' | translate }}</label>
+    <p-dropdown
+      [options]="ranks"
+      optionLabel="name"
+      id="rank"
+      optionValue="id"
+      [filter]="true"
+      formControlName="rankId"
+      [emptyFilterMessage]="'no_results' | translate"
+      [emptyMessage]="'no_results' | translate"
+      appendTo="body"
+      [placeholder]="'select_rank' | translate" />
+  </div>
+
+  <div class="col-12 md:col-12">
+    <button pButton type="submit" [label]="'invite' | translate" [disabled]="isFormInvalid"></button>
+  </div>
+</form>

@@ -6,18 +6,13 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime } from 'rxjs';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { ProcedureKey } from '@revolt-rp/common';
+import { IPlayer, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 
 
 export interface GiveItemDialogOutput {
   targetId: number;
   quantity: number;
-}
-
-interface NearbyTarget {
-  value: number;
-  label: string;
 }
 
 @Component({
@@ -34,7 +29,7 @@ interface NearbyTarget {
   styleUrl: './give-item.component.css'
 })
 export class GiveItemComponent implements OnInit {
-  nearbyPlayers: NearbyTarget[] = [];
+  nearbyPlayers: IPlayer[] = [];
   selectedTarget: number | null = null;
   inputQuantity = 0;
 
@@ -46,7 +41,7 @@ export class GiveItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.rageClientService.callClient<NearbyTarget[]>(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS)
+    this.rageClientService.callClient<IPlayer[]>(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS)
       .subscribe({ next: this.handleGetNearbyPlayers });
   }
 
@@ -62,12 +57,12 @@ export class GiveItemComponent implements OnInit {
     this.dialogRef.close(payload);
   }
 
-  private handleGetNearbyPlayers = (targets: NearbyTarget[]) => {
+  private handleGetNearbyPlayers = (targets: IPlayer[]) => {
     this.nearbyPlayers = targets;
   };
 
   filterNearbyPlayers(_event: DropdownFilterEvent) {
-    this.rageClientService.callClient<NearbyTarget[]>(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS)
+    this.rageClientService.callClient<IPlayer[]>(ProcedureKey.CLIENT_GET_NEARBY_PLAYERS)
       .pipe(debounceTime(300))
       .subscribe({ next: this.handleGetNearbyPlayers });
   }

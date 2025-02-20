@@ -291,4 +291,8 @@ export const enUs = {
   'min_max_length_validation': 'Min length is {{min}} and max length is {{max}}.',
   'online': 'Online',
   'offline': 'Offline',
+  'select_rank': 'Select Rank',
+  'invite_new_member': 'Invite New Member',
+  'no_members': 'No members found.',
+  'no_ranks': 'No ranks found.',
 };

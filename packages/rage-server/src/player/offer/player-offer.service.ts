@@ -9,7 +9,7 @@ export const createPlayerOffer = (
   description: string,
   acceptHandler: OfferHandler,
   declineHandler: OfferHandler,
-  offerer?: PlayerMp
+  offerer?: PlayerMp,
 ) => {
   const offer = new PlayerOffer();
   offer.offerer = offerer;
