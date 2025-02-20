@@ -79,7 +79,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.ManageOrganization]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
     freezeControls: true,
     disableChat: true
