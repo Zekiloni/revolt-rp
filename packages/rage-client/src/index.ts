@@ -9,6 +9,7 @@ import './player/authorization/player-spawn';
 
 import './player/player-animation';
 import './player/player-animation-menu';
+import './player/p2p-interaction';
 import './player/player-hud';
 import './player/player-death';
 import './player/player-damage';

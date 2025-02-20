@@ -1,8 +1,11 @@
 <p-table
+  #ranksTable
   [value]="ranks"
   [paginator]="true"
   [rows]="10"
   paginatorDropdownAppendTo="body"
+  dataKey="id"
+  [globalFilterFields]="['name', 'permission', 'salary']"
   styleClass="p-datatable-gridlines"
   [tableStyle]="{ 'min-width': '30rem' }"
   [rowsPerPageOptions]="[10, 25, 50]"
@@ -10,7 +13,17 @@
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       {{ 'ranks' | translate }}
-      <p-button icon="pi pi-plus" [label]="'create' | translate" size="small" />
+      <p-iconField iconPosition="left">
+        <p-inputIcon>
+          <i class="pi pi-search"></i>
+        </p-inputIcon>
+        <input
+          pInputText
+          type="text"
+          (input)="filterGlobal(ranksTable, $event.target!)"
+          [placeholder]="'search' | translate" />
+      </p-iconField>
+      <p-button icon="pi pi-plus" [label]="'create' | translate" size="small" (click)="createRank()" />
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -19,7 +32,7 @@
       <th>{{ 'name' | translate }}</th>
       <th>{{ 'permission' | translate }}</th>
       <th>{{ 'salary' | translate }}</th>
-      <th>{{ 'options' | translate}}</th>
+      <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
@@ -29,7 +42,8 @@
       <td>{{ rank['permission'] | translate }}</td>
       <td>{{ rank['salary'] }}</td>
       <td>
-        <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (click)="editRank(rank)"></button>
+        <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                (click)="editRank(rank)"></button>
         <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="deleteRank(rank)"></button>
       </td>
     </tr>

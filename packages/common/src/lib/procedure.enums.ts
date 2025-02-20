@@ -31,12 +31,14 @@ export const enum ProcedureKey {
   SERVER_PLAYER_GET_VARIABLE = 'server_playerGetVariable',
   SERVER_PLAYER_SET_VARIABLE = 'server_playerSetVariable',
 
+  CLIENT_GET_NEARBY_PLAYERS = 'client_getNearbyPlayers',
+  CLIENT_FILTER_PLAYERS = 'client_filterPlayers',
+
   BROWSER_SET_INVENTORY = 'browser_setInventory',
   BROWSER_INVENTORY_UPDATE_ITEM = 'browser_inventoryUpdateItem',
   BROWSER_INVENTORY_ADD_ITEM = 'browser_inventoryAddItem',
   BROWSER_INVENTORY_REMOVE_ITEM = 'browser_inventoryRemoveItem',
   CLIENT_PLAYER_DROP_ITEM = 'client_playerDropItem',
-  CLIENT_GET_NEARBY_PLAYERS = 'client_getNearbyPlayers',
   SERVER_PLAYER_DROP_ITEM = 'server_playerDropItem',
   SERVER_PLAYER_PICKUP_ITEM = 'server_playerPickupItem',
   SERVER_PLAYER_CHANGE_ITEM_SLOT = 'server_playerChangeItemSlot',
@@ -91,6 +93,7 @@ export const enum ProcedureKey {
   SERVER_GET_ORGANIZATION_MEMBERS = 'server_getOrganizationMembers',
   SERVER_ORGANIZATION_MEMBER_UNINVITE = 'server_organizationMemberUninvite',
   SERVER_ORGANIZATION_MEMBER_UPDATE = 'server_organizationMemberUpdate',
+  SERVER_CREATE_ORGANIZATION_RANK = 'server_createOrganizationRank',
 
   CLIENT_PLAYER_TOGGLE_NO_CLIP = 'client_playerToggleNoClip',
 

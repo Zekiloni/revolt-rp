@@ -1,12 +1,23 @@
 import { Ref } from '@typegoose/typegoose';
-import { Vector3 } from '../core.interface';
-import { OrganizationType } from './oranization.enum';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { OrganizationType } from './oranization.enum';
+import { Vector3 } from '../core.interface';
 
 export enum OrganizationPermissionType {
-  NORMAL = 'normal',
+  NORMAL = 'normal_member',
   MANAGE_MEMBERS = 'manage_members',
   MANAGE_ORGANIZATION = 'manage_organization',
+}
+
+export interface IOrganizationRankCreate {
+  organizationId: string;
+  name: string;
+  permission: OrganizationPermissionType;
+}
+
+export interface IOrganizationMemberInvite {
+  playerId: number;
+  rankId: string;
 }
 
 export interface IOrganizationRank extends Base {
