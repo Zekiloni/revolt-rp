@@ -71,5 +71,6 @@ export class WorldMapComponent implements OnInit{
     });
 
     this.init.emit(this.map);
+    setTimeout(() => this.map?.invalidateSize(true), 50);
   }
 }
