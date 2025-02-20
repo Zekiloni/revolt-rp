@@ -63,65 +63,7 @@ export class ManageMembersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setMembers([
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      {
-        id: '1',
-        firstName: 'John',
-        lastName: 'Doe',
-        fullName: 'John Doe',
-        inGame: true,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        account: {
-          username: 'johndoe'
-        },
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        membership: {
-          rank: this.ranks[0]
-        },
-        hours: 188,
-        createdAt: dayjs('2025-01-01').toDate()
-      },
-      {
-        id: '3',
-        firstName: 'Zach',
-        lastName: 'Test',
-        fullName: 'Zach Test',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        account: {
-          username: 'zekiloni'
-        },
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        membership: {
-          rank: this.ranks[1]
-        },
-        hours: 3,
-        createdAt: dayjs('2025-01-01').toDate()
-      },
-      {
-        id: '2',
-        firstName: 'Zach',
-        lastName: 'Test',
-        fullName: 'Konjo Test',
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        account: {
-          username: 'konel'
-        },
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        membership: {
-          rank: this.ranks[1]
-        },
-        hours: 40,
-        createdAt: dayjs('2025-01-01').toDate()
-      }
-    ]);
-    this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS)
+    this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, this.organizationId)
       .subscribe({ next: this.setMembers });
   }
 
@@ -134,7 +76,7 @@ export class ManageMembersComponent implements OnInit {
       acceptLabel: this.translateService.instant('yes'),
       acceptButtonStyleClass: 'p-button-danger p-button-sm',
       accept: () => {
-        this.rageClientService.callServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, member.id)
+        this.rageClientService.callServer<true>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, member.id)
           .subscribe({ next: () => this.setMembers(this.members.filter(m => m.id !== member.id)) });
       }
     });
@@ -154,13 +96,10 @@ export class ManageMembersComponent implements OnInit {
     return 'inactive';
   }
 
-  filterGlobal = filterGlobal;
-
   onMemberEditCancel(member: ICharacterWithActivity, index: number) {
     this.members[index] = this.memberClones[member.id];
     delete this.memberClones[member.id];
   }
-
 
   onMemberSave(member: ICharacterWithActivity) {
     const memberUpdate: IMemberUpdate = {
@@ -171,15 +110,21 @@ export class ManageMembersComponent implements OnInit {
     this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate);
   }
 
+
   onMemberEditInit(member: ICharacterWithActivity) {
     this.memberClones[member.id] = deepCopy(member);
   }
 
   inviteMember() {
-    this.dialogService.open(InviteMemberComponent, {}).onClose.subscribe((invite?: IOrganizationMemberInvite) => {
+    this.dialogService.open(InviteMemberComponent, {
+      header: this.translateService.instant('invite_new_member'),
+      data: this.ranks
+    }).onClose.subscribe((invite?: IOrganizationMemberInvite) => {
       if (invite) {
-        // todo
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, invite)
       }
     });
   }
+
+  filterGlobal = filterGlobal;
 }

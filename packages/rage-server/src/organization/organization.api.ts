@@ -1,11 +1,11 @@
 import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register, triggerClient } from '@libertymp/rage-rpc';
-import { catchError, GameUiKey, IMemberUpdate, ProcedureKey } from '@revolt-rp/common';
+import { catchError, GameUiKey, IMemberUpdate, IOrganizationMemberInvite, ProcedureKey } from '@revolt-rp/common';
 import {
   createOrganization,
   getAllOrganizations,
-  getOrganizationMembers,
-  playerUpdateOrganizationMember
+  getOrganizationMembers, invitePlayerToOrganization,
+  playerUpdateOrganizationMember, removePlayerFromOrganizationByCharacterId
 } from './organization.service';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Organization } from './organization.model';
@@ -47,7 +47,24 @@ async function playerUpdateOrganizationMemberHandler(memberUpdate: IMemberUpdate
   await playerUpdateOrganizationMember(player, memberUpdate);
 }
 
+const playerInvitePlayerToOrganizationHandler = async (memberInvite: IOrganizationMemberInvite, { player }: ProcedureListenerInfo<PlayerMp>) => {
+  const target = mp.players.at(memberInvite.playerId);
+
+  if (!target || !target.character)
+    return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+  await invitePlayerToOrganization(player, target, memberInvite.rankId);
+};
+
+async function playerUninviteMemberHandler(characterId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return removePlayerFromOrganizationByCharacterId(player, characterId)
+    .then(() => true)
+    .catch((error) => notifyPlayer(player, { severity: 'error', detail: t(error.message), summary: t('error') }));
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_ORGANIZATION, createOrganizationHandler);
-on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, playerUpdateOrganizationMemberHandler)
+on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, playerUpdateOrganizationMemberHandler);
 register(ProcedureKey.SERVER_PLAYER_GET_ORGANIZATIONS, getOrganizationsHandler);
 register(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, getOrganizationMembersHandler);
+on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, playerInvitePlayerToOrganizationHandler);
+on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, playerUninviteMemberHandler);

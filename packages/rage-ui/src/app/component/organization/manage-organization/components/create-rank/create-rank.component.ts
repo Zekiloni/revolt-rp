@@ -27,7 +27,7 @@ export class CreateRankComponent {
   constructor(private formBuilder: FormBuilder, private dialogRef: DynamicDialogRef) {
     this.createRankFormGroup = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(this.MIN_NAME_LENGTH), Validators.maxLength(this.MAX_NAME_LENGTH)]],
-      permissions: [OrganizationPermissionType.NORMAL, [Validators.required]]
+      permission: [OrganizationPermissionType.NORMAL, [Validators.required]]
     });
   }
 

@@ -1,5 +1,5 @@
 <form [formGroup]="createRankFormGroup" class="grid formgrid p-fluid" (ngSubmit)="submitCreateRankForm()">
-  <div class="field mb-4 col-12 md:col-10">
+  <div class="field mb-4 col-12 md:col-12">
     <label class="block" for="name">{{ 'name' | translate }}</label>
     <input pInputText formControlName="name" id="name">
     <small id="name-help" class="text-600">
@@ -7,7 +7,7 @@
     </small>
   </div>
 
-  <div class="field mb-4 col-12 md:col-8">
+  <div class="field mb-4 col-12 md:col-12">
     <label class="block" for="permission">{{ 'permission' | translate }}</label>
     <p-dropdown
       [options]="rankPermissions"
@@ -24,7 +24,7 @@
     </p-dropdown>
   </div>
 
-  <div class="col-12 md:col-6">
+  <div class="col-12 md:col-12">
     <button pButton type="submit" [label]="'create' | translate" [disabled]="isFormInvalid"></button>
   </div>
 </form>

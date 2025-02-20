@@ -292,4 +292,8 @@ export const srRs = {
   'min_max_length_validation': 'Dužina mora biti između {{min}} i {{max}} karaktera.',
   'online': 'U igri',
   'offline': 'Van igre',
+  'select_rank': 'Izaberite rank',
+  'invite_new_member': 'Pozovite novog člana',
+  'no_members': 'Nema članova',
+  'no_ranks': 'Nema rankova',
 };
