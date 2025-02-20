@@ -51,9 +51,12 @@
     <app-create-organization [isActive]="isActive" />
   }
 
-  @if ($isGameInterfaceActive(GameUiKey.ManageOrganization) | async) {
-    <app-manage-organization />
+  @if ($isGameInterfaceActive(GameUiKey.ManageOrganization) | async; as isActive) {
+    <app-manage-organization [isActive]="isActive" />
   }
+
+  <!-- test -->
+  <app-world-map  (init)="onMapInit($event)"/>
 
   <app-text-chat />
 
