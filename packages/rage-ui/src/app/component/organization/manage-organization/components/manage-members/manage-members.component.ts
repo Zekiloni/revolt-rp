@@ -3,9 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ConfirmationService, PrimeTemplate } from 'primeng/api';
-import { Table, TableModule } from 'primeng/table';
+import { TableModule } from 'primeng/table';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { deepCopy, ICharacter, IMemberUpdate, IOrganizationRank, ProcedureKey } from '@revolt-rp/common';
 import { TooltipModule } from 'primeng/tooltip';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
@@ -14,7 +13,18 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { ChipModule } from 'primeng/chip';
+import { DialogService } from 'primeng/dynamicdialog';
+import {
+  deepCopy,
+  ICharacter,
+  IMemberUpdate,
+  IOrganizationMemberInvite,
+  IOrganizationRank,
+  ProcedureKey
+} from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { filterGlobal } from '../../../../../domain/util/table.util';
+import { InviteMemberComponent } from '../invite-member';
 
 
 type ICharacterWithActivity = ICharacter & { averageActivity: number };
@@ -23,7 +33,7 @@ type ICharacterWithActivity = ICharacter & { averageActivity: number };
   selector: 'app-manage-members',
   standalone: true,
   imports: [CommonModule, Button, ButtonDirective, PrimeTemplate, TableModule, TranslatePipe, TooltipModule, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, DropdownModule, FormsModule, ChipModule],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, DialogService],
   templateUrl: './manage-members.component.html',
   styleUrl: './manage-members.component.css'
 })
@@ -36,6 +46,7 @@ export class ManageMembersComponent implements OnInit {
 
   constructor(private rageClientService: RageClientService,
               private confirmationService: ConfirmationService,
+              private dialogService: DialogService,
               private translateService: TranslateService) {
   }
 
@@ -143,9 +154,7 @@ export class ManageMembersComponent implements OnInit {
     return 'inactive';
   }
 
-  filterGlobal(membersTable: Table, target: EventTarget) {
-    membersTable.filterGlobal((<HTMLInputElement>target).value, 'contains');
-  }
+  filterGlobal = filterGlobal;
 
   onMemberEditCancel(member: ICharacterWithActivity, index: number) {
     this.members[index] = this.memberClones[member.id];
@@ -157,12 +166,20 @@ export class ManageMembersComponent implements OnInit {
     const memberUpdate: IMemberUpdate = {
       characterId: member.id,
       rankId: member.membership!.rank!.id as string
-    }
+    };
 
     this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate);
   }
 
   onMemberEditInit(member: ICharacterWithActivity) {
     this.memberClones[member.id] = deepCopy(member);
+  }
+
+  inviteMember() {
+    this.dialogService.open(InviteMemberComponent, {}).onClose.subscribe((invite?: IOrganizationMemberInvite) => {
+      if (invite) {
+        // todo
+      }
+    });
   }
 }

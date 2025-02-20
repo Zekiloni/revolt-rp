@@ -6,9 +6,16 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { TabViewModule } from 'primeng/tabview';
 import { ColorPickerModule } from 'primeng/colorpicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IOrganization, IOrganizationRank, OrganizationPermissionType, OrganizationType } from '@revolt-rp/common';
+import {
+  IOrganization,
+  IOrganizationRank,
+  IOrganizationRankCreate,
+  OrganizationPermissionType,
+  OrganizationType, ProcedureKey
+} from '@revolt-rp/common';
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
 import { ManageMembersComponent } from './components/manage-members';
+import { RageClientService } from '../../../domain/service/rage-client.service';
 
 
 @Component({
@@ -33,6 +40,9 @@ export class ManageOrganizationComponent {
   };
 
 
+  constructor(private rageClientService: RageClientService) {
+  }
+
   get ranks() {
     return this.organization.ranks as IOrganizationRank[];
   }
@@ -41,7 +51,23 @@ export class ManageOrganizationComponent {
     return this.organization.parentOrganization as IOrganization;
   }
 
+  private onRankCreated = (rank: IOrganizationRank) => {
+    if (this.organization.ranks) {
+      this.organization.ranks.push(rank);
+    }
+  };
+
   toggleManageOrganization() {
     // todo
   }
+
+  createRank(rank: IOrganizationRankCreate) {
+    if (this.organization.id) {
+      rank.organizationId = this.organization.id;
+      this.rageClientService.callServer<IOrganizationRank>(ProcedureKey.SERVER_CREATE_ORGANIZATION_RANK, rank)
+        .subscribe({ next: this.onRankCreated });
+    }
+  }
 }
+
+

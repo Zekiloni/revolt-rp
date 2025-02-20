@@ -286,4 +286,9 @@ export const enUs = {
   'rank_not_found': 'Rank not found.',
   'rank_updated': 'Your rank is updated to {{rank}}.',
   'target_rank_updated': '{{player}} rank is updated to {{rank}}.',
+  'create_new_rank': 'Create New Rank',
+  'normal_member': 'Normal Member',
+  'min_max_length_validation': 'Min length is {{min}} and max length is {{max}}.',
+  'online': 'Online',
+  'offline': 'Offline',
 };

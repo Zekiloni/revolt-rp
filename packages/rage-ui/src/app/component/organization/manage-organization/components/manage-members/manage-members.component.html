@@ -24,7 +24,7 @@
           (input)="filterGlobal(membersTable, $event.target!)"
           [placeholder]="'search' | translate" />
       </p-iconField>
-      <p-button icon="pi pi-plus" [label]="'invite' | translate" size="small" />
+      <p-button icon="pi pi-plus" [label]="'invite' | translate" size="small" (click)="inviteMember()" />
     </div>
   </ng-template>
   <ng-template pTemplate="header">
@@ -39,14 +39,14 @@
         {{ 'activity' | translate }}
         <p-sortIcon field="averageActivity" />
       </th>
-      <th style="width: 15%">{{ 'options' | translate }}</th>
+      <th style="width: 20%">{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-member let-editing="editing" let-rowIndex="rowIndex">
     <tr [pEditableRow]="member">
       <td>{{ rowIndex + 1 }}</td>
       <td>
-        <i class="pi pi-circle-fill text-xs"
+        <i class="pi pi-circle-fill text-xs" [pTooltip]="(member['inGame'] ? 'online' : 'offline') | translate"
            [ngClass]="{'text-green-400': member['inGame'], 'text-gray-400': !member['inGame']}">
         </i>
         <span class="ml-3">{{ member['fullName'] }} <small>({{ member['account']['username'] }})</small></span>
@@ -100,7 +100,6 @@
                   (click)="onMemberEditInit(member)"
                   pInitEditableRow></button>
         }
-
       </td>
     </tr>
     <p-confirmPopup />

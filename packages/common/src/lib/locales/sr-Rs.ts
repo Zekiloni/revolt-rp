@@ -286,5 +286,10 @@ export const srRs = {
   'target_not_in_organization': 'Ciljani igrač nije u organizaciji.',
   'rank_not_found': 'Rank nije pronađen.',
   'rank_updated': 'Rank vam je ažuriran na {{rank}}.',
-  'target_rank_updated': 'Rank {{player}} je ažuriran na {{rank}}.'
+  'target_rank_updated': 'Rank {{player}} je ažuriran na {{rank}}.',
+  'create_new_rank': 'Kreiraj novi rank',
+  'normal_member': 'Običan član',
+  'min_max_length_validation': 'Dužina mora biti između {{min}} i {{max}} karaktera.',
+  'online': 'U igri',
+  'offline': 'Van igre',
 };

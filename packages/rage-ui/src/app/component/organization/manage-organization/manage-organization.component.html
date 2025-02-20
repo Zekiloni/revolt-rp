@@ -1,9 +1,9 @@
 <p-dialog [header]="organization.name" [modal]="true" [(visible)]="isActive"
           (onHide)="toggleManageOrganization()"
           [focusOnShow]="false"
-          [style]="{ width: '60rem' }" [draggable]="false">
+          [style]="{ width: '60rem', 'max-height': '40rem' }" [draggable]="false">
   <p-tabView>
-    <p-tabPanel [header]="'basic_info' | translate">
+    <p-tabPanel [header]="'basic_info' | translate" leftIcon="pi pi-info-circle">
       <ul class="list-none p-0 m-0">
         <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
           <div class="text-500 w-full md:w-4 font-medium">{{ 'name' | translate }}</div>
@@ -44,10 +44,10 @@
         </li>
       </ul>
     </p-tabPanel>
-    <p-tabPanel [header]="'ranks' | translate">
-      <app-manage-ranks [ranks]="ranks" />
+    <p-tabPanel [header]="'ranks' | translate" leftIcon="pi pi-sitemap">
+      <app-manage-ranks [ranks]="ranks" (rankCreate)="createRank($event)"/>
     </p-tabPanel>
-    <p-tabPanel [header]="'members' | translate">
+    <p-tabPanel [header]="'members' | translate" leftIcon="pi pi-users">
       <app-manage-members [organizationId]="organization.id!" [ranks]="ranks" />
     </p-tabPanel>
   </p-tabView>
