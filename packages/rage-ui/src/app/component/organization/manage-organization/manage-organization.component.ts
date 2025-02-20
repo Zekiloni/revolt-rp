@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
   styleUrl: './manage-organization.component.css'
 })
 export class ManageOrganizationComponent {
-  isActive = true;
+  @Input() isActive!: boolean;
 
   organization: Partial<IOrganization> = {
     name: 'Organization Name',
@@ -39,7 +39,6 @@ export class ManageOrganizationComponent {
     ],
   };
 
-
   constructor(private rageClientService: RageClientService) {
   }
 
@@ -50,7 +49,6 @@ export class ManageOrganizationComponent {
   get parentOrganization() {
     return this.organization.parentOrganization as IOrganization;
   }
-
   private onRankCreated = (rank: IOrganizationRank) => {
     if (this.organization.ranks) {
       this.organization.ranks.push(rank);
