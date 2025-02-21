@@ -19,4 +19,4 @@ export const translationConfig = {
 };
 
 i18next.init(translationConfig)
-  .then(() => logger('localization').log('success', 'loaded'));
+  .then(() => logger('localization').info('loaded'));
