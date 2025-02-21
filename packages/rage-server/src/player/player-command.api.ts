@@ -30,7 +30,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   if (command.validators && command.validators.length) {
     command.validators.forEach((validator) => {
       if (!validator.validate(player)) {
-        // throw commandValidator.message
+        notifyPlayer(player, { severity: 'error', summary: t('error'), detail: validator.message });
         return;
       }
     });
