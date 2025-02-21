@@ -1,10 +1,10 @@
-<p-dialog [header]="organization.name" [modal]="true" [visible]="isActive"
+<p-dialog [header]="organization.name || 'loading...'" [modal]="true" [(visible)]="isActive"
           (onHide)="toggleManageOrganization()"
           [focusOnShow]="false"
-          [style]="{ width: '60rem', 'max-height': '45rem' }" [draggable]="false">
-  <p-tabView>
-    <p-tabPanel [header]="'basic_info' | translate" leftIcon="pi pi-info-circle">
-      @if (organization && members) {
+          [style]="{ width: '60rem', 'max-height': '75vh' }" [draggable]="false">
+  @if (organization && members) {
+    <p-tabView>
+      <p-tabPanel [header]="'basic_info' | translate" leftIcon="pi pi-info-circle">
         <ul class="list-none p-0 m-0">
           <li class="flex align-items-center py-3 px-2 flex-wrap">
             <div class="h-10rem w-full">
@@ -55,18 +55,19 @@
             </div>
           </li>
         </ul>
-      }
-    </p-tabPanel>
-    <p-tabPanel [header]="'ranks' | translate" leftIcon="pi pi-sitemap">
-      <app-manage-ranks [ranks]="ranks" (rankCreate)="createRank($event)" (rankDelete)="deleteRank($event)" />
-    </p-tabPanel>
-    <p-tabPanel [header]="'members' | translate" leftIcon="pi pi-users">
-      <app-manage-members [ranks]="ranks" [members]="members" (memberUninvite)="handleMemberUninvite($event)"
-                          (memberInvite)="handleMemberInvite($event)"
-                          (memberUpdate)="handleMemberUpdate($event)" />
-    </p-tabPanel>
-    <p-tabPanel [header]="'vehicles' | translate" leftIcon="pi pi-car">
-      <h2><i class="pi pi-hammer"></i> TODO</h2>
-    </p-tabPanel>
-  </p-tabView>
+      </p-tabPanel>
+      <p-tabPanel [header]="'ranks' | translate" leftIcon="pi pi-sitemap">
+        <app-manage-ranks [ranks]="ranks" (rankCreate)="createRank($event)" (rankDelete)="deleteRank($event)" />
+      </p-tabPanel>
+      <p-tabPanel [header]="'members' | translate" leftIcon="pi pi-users">
+        <app-manage-members [ranks]="ranks" [members]="members" (memberUninvite)="handleMemberUninvite($event)"
+                            (memberInvite)="handleMemberInvite($event)"
+                            (memberUpdate)="handleMemberUpdate($event)" />
+      </p-tabPanel>
+      <p-tabPanel [header]="'vehicles' | translate" leftIcon="pi pi-car">
+        <h2><i class="pi pi-hammer"></i> TODO</h2>
+      </p-tabPanel>
+    </p-tabView>
+  }
 </p-dialog>
+

@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
-  ApiError,
+  ApiError, gameUiConfig,
   ICharacter, IMemberUpdate,
   IOrganization, IOrganizationMemberInvite,
   IOrganizationRank,
@@ -30,7 +30,7 @@ import { MessageService } from 'primeng/api';
   styleUrl: './manage-organization.component.css'
 })
 export class ManageOrganizationComponent implements OnInit, OnDestroy {
-  @Input() isActive!: boolean;
+  @Input() isActive = gameUiConfig.manageOrganization.isActive;
 
   private organizationId: string | null = null;
   organization!: IOrganization;

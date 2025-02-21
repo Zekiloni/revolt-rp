@@ -6,5 +6,6 @@
 	"stream-distance" : 300.0,
 	"announce" : true,
 	"csharp" : "disabled",
-	"port": 22005
+  "allow-cef-debugging": true,
+  "port": 22005
 }

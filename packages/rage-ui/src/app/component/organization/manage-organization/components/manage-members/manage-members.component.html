@@ -63,7 +63,7 @@
           </ng-template>
           <ng-template pTemplate="output">
             <p-chip
-              [label]="member['membership']['rank']['name'] || ('unranked' | translate)" />
+              [label]="member['membership']['rank'] ? member['membership']['rank']['name'] : ('unranked' | translate)" />
           </ng-template>
         </p-cellEditor>
       </td>
