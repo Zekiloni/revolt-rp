@@ -1,7 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
 
 @Component({
   selector: 'app-world-map',

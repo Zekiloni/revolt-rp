@@ -2,6 +2,7 @@
 @import 'primeng/resources/primeng.css';
 @import 'primeflex/primeflex.css';
 @import 'primeicons/primeicons.css';
+@import "leaflet/dist/leaflet.css";
 
 html, body {
   width: 100%;
@@ -95,7 +96,6 @@ html, body {
 .bottom-10 {
   bottom: 10rem;
 }
-
 
 
 .p-colorpicker-panel .p-colorpicker-color {

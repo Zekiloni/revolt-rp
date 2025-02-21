@@ -18,6 +18,10 @@
         "polyfills": [
           "zone.js"
         ],
+        "allowedCommonJsDependencies": [
+          "leaflet",
+          "dayjs"
+        ],
         "tsConfig": "packages/rage-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -25,7 +29,12 @@
             "glob": "**/*",
             "input": "packages/rage-ui/public"
           },
-          "packages/rage-ui/src/assets"
+          "packages/rage-ui/src/assets",
+          {
+            "glob": "**/*",
+            "input": "node_modules/leaflet/dist/images",
+            "output": "assets/leaflet"
+          }
         ],
         "styles": [
           "packages/rage-ui/src/styles.scss"
@@ -38,7 +47,7 @@
             {
               "type": "initial",
               "maximumWarning": "500kb",
-              "maximumError": "2mb"
+              "maximumError": "3mb"
             },
             {
               "type": "anyComponentStyle",
