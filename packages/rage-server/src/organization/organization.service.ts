@@ -156,6 +156,7 @@ export const makePlayerOrganizationLeader = async (player: PlayerMp, organizatio
   setPlayerOrganization(player, organization, true);
   await player.character.save();
 
+  console.log('makePlayerOrganizationLeader', player.character.membership);
   notifyPlayer(player, {
     severity: 'info',
     summary: t('info'),

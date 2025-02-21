@@ -73,6 +73,7 @@ registerCommand({
   description: t('organization_panel_command_description'),
   validators: [isInAnyOrganizationCommandValidator],
   handle(player: PlayerMp) {
+    console.log(player.character.membership)
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_ORGANIZATION_PANEL, player.character.membership.organization);
   }
 });
