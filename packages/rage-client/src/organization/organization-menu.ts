@@ -6,13 +6,13 @@ import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 let isOrganizationMenuActive = gameUiConfig.manageOrganization.isActive;
 
 function toggleOrganizationMenu(organizationId?: string) {
-  if (isOrganizationMenuActive && !organizationId) {
-    isOrganizationMenuActive = false;
-    hideGameInterface(GameUiKey.ManageOrganization);
-  } else {
+  if (!isOrganizationMenuActive && organizationId) {
     isOrganizationMenuActive = true;
     showGameInterface(GameUiKey.ManageOrganization);
     setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_ORGANIZATION_ID, organizationId), 100);
+  } else {
+    isOrganizationMenuActive = false;
+    hideGameInterface(GameUiKey.ManageOrganization);
   }
 }
 

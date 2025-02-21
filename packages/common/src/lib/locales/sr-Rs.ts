@@ -305,4 +305,5 @@ export const srRs = {
   'organization_chat_command_description': 'Pošaljite OOC poruku svim članovima vaše organizacije.',
   'organization_panel_command_description': 'Otvorite panel organizacije.',
   'not_authorized': 'Nemate dozvolu za ovu akciju.',
+  'organization': 'Organizacija'
 };
