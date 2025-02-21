@@ -2,14 +2,13 @@ import { register } from '@libertymp/rage-rpc';
 import { IPlayer, ProcedureKey } from '@revolt-rp/common';
 import { getIsSpawned } from './util/player-data.util';
 import { getDistance } from '../util/vector.util';
-import { filterPlayer } from '../../../rage-server/src/player/util/player.util';
+
 
 const P2P_INTERACTION_MAX_DIST = 2.0;
 
 function isPlayerNearPlayer(target: PlayerMp) {
   return getDistance(mp.players.local.position, target.position) < P2P_INTERACTION_MAX_DIST && mp.players.local.dimension === target.dimension;
 }
-
 
 function getNearbyPlayersHandler(): IPlayer[] {
   if (!mp.players.length)
