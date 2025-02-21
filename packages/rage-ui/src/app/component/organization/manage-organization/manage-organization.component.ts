@@ -83,7 +83,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
   }
 
   toggleManageOrganization() {
-    // todo
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_ORGANIZATION_PANEL);
   }
 
   createRank(rank: IOrganizationRankCreate) {
