@@ -25,7 +25,8 @@ export const createCharacter = async (player: PlayerMp, characterCreate: ICharac
   try {
     const character = await CharacterModel.create({
       ...characterCreate,
-      cash: 5000
+      cash: characterConfig.defaultCash,
+      account: player.account.id
     });
 
     player.account.characters.push(character);

@@ -55,6 +55,10 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     this.organization.ranks = value;
   }
 
+  get onlineMembers () {
+    return this.members.filter(member => member.inGame);
+  }
+
   get parentOrganization() {
     return this.organization.parentOrganization as IOrganization;
   }
@@ -68,12 +72,13 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
 
     forkJoin([
       this.rageClientService.callServer<IOrganization>(ProcedureKey.SERVER_GET_ORGANIZATION, this.organizationId),
-      this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, this.organization.id)
+      this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, this.organizationId)
     ]).subscribe(([organization, members]) => {
       this.organization = organization;
       this.setMembers(members);
     });
   };
+
 
   calculateActivity(character: ICharacter): number {
     if (!character.createdAt || character.hours <= 0) return 0;
@@ -109,14 +114,14 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
       popupAnchor: [0, -32]
     });
 
-    L.marker([this.organization.position.x, this.organization.position.y], { icon })
+    L.marker([this.organization.position.y, this.organization.position.x], { icon })
       .bindTooltip(this.translateService.instant('headquarters'))
       .addTo(map);
 
     map.dragging.disable();
     map.touchZoom.disable();
     map.scrollWheelZoom.disable();
-    map.setView([this.organization.position.x, this.organization.position.y], 5);
+    map.setView([this.organization.position.y, this.organization.position.x], 5);
   }
 
   handleMemberUninvite(member: ICharacter) {
