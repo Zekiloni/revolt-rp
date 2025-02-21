@@ -1,12 +1,14 @@
-import { CommandValidator, registerCommand } from '../player/player-command.service';
-import { findPlayer } from '../player/util/player.util';
-import { notifyPlayer } from '../player/util/player-notify.util';
 import { t } from 'i18next';
+import { triggerClient } from '@libertymp/rage-rpc';
 import {
   invitePlayerToOrganization,
   playerChatOrganization,
   removePlayerFromOrganization
 } from './organization.service';
+import { ProcedureKey } from '@revolt-rp/common';
+import { findPlayer } from '../player/util/player.util';
+import { notifyPlayer } from '../player/util/player-notify.util';
+import { CommandValidator, registerCommand } from '../player/player-command.service';
 
 
 const isInAnyOrganizationCommandValidator: CommandValidator = {
@@ -19,11 +21,12 @@ const canManageOrganizationMembersCommandValidator: CommandValidator = {
   message: t('you_cannot_manage_organization_members')
 };
 
+
 registerCommand({
   name: 'invite',
   aliases: ['inv'],
   params: ['target'],
-  description: 'todo',
+  description: t('invite_command_description'),
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
     const target = findPlayer(targetQuery);
@@ -36,12 +39,11 @@ registerCommand({
   }
 });
 
-
 registerCommand({
   name: 'uninvite',
   aliases: ['dismiss'],
   params: ['target'],
-  description: 'todo',
+  description: t('uninvite_command_description'),
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
     const target = findPlayer(targetQuery);
@@ -57,10 +59,20 @@ registerCommand({
 registerCommand({
   name: 'o',
   aliases: ['f'],
-  description: 'todo',
+  description: t('organization_chat_command_description'),
   validators: [isInAnyOrganizationCommandValidator],
   async handle(player: PlayerMp, ...content) {
     const message = content.join(' ');
     await playerChatOrganization(player, message);
+  }
+});
+
+registerCommand({
+  name: 'organization',
+  aliases: ['org', 'faction'],
+  description: t('organization_panel_command_description'),
+  validators: [isInAnyOrganizationCommandValidator],
+  handle(player: PlayerMp) {
+    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_ORGANIZATION_PANEL, player.character.membership.organization);
   }
 });

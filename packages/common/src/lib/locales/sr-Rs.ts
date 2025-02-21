@@ -300,4 +300,8 @@ export const srRs = {
   'delete_rank_confirm': 'Da li ste sigurni da želite da obrišete rank {{rank}}?',
   'vehicles': 'Vozila',
   'number_of_members': 'Broj članova',
+  'invite_command_description': 'Pozovite igrača u vašu organizaciju.',
+  'uninvite_command_description': 'Izbacite igrača iz vaše organizacije.',
+  'organization_chat_command_description': 'Pošaljite OOC poruku svim članovima vaše organizacije.',
+  'organization_panel_command_description': 'Otvorite panel organizacije.',
 };

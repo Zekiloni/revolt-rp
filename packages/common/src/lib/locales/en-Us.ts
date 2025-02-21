@@ -299,4 +299,8 @@ export const enUs = {
   'delete_rank_confirm': 'Are you sure you want to delete rank {{rank}}?',
   'vehicles': 'Vehicles',
   'number_of_members': 'Number of Members',
+  'invite_command_description': 'Invite a player to join your organization.',
+  'uninvite_command_description': 'Uninvite a player from your organization.',
+  'organization_chat_command_description': 'Send a OOC message to your organization members.',
+  'organization_panel_command_description': 'Open organization panel.',
 };

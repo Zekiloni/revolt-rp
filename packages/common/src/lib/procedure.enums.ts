@@ -88,6 +88,7 @@ export const enum ProcedureKey {
   BROWSER_SET_PLAYER_DAMAGES  = 'browser_setPlayerDamages',
   CLIENT_PLAYER_TOGGLE_DAMAGE_INFO = 'client_playerToggleDamageInfo',
 
+  CLIENT_TOGGLE_ORGANIZATION_PANEL = 'client_toggleOrganizationPanel',
   SERVER_PLAYER_GET_ORGANIZATIONS = 'server_playerGetOrganizations',
   SERVER_GET_ORGANIZATION = 'server_getOrganization',
   SERVER_PLAYER_CREATE_ORGANIZATION = 'server_playerCreateOrganization',
