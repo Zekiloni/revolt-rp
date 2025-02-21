@@ -23,17 +23,18 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   }
 
   if (command.administrator && player.account.administrator < command.administrator) {
-    // if player.administrator < command.administrator
+    notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('not_authorized') });
     return;
   }
 
+
   if (command.validators && command.validators.length) {
-    command.validators.forEach((validator) => {
+    for (const validator of command.validators) {
       if (!validator.validate(player)) {
         notifyPlayer(player, { severity: 'error', summary: t('error'), detail: validator.message });
         return;
       }
-    });
+    }
   }
 
   command.handle(player, ...args);
