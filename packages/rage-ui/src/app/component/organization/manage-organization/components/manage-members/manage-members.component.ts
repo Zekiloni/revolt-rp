@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ConfirmationService, PrimeTemplate } from 'primeng/api';
@@ -20,14 +20,12 @@ import {
   IMemberUpdate,
   IOrganizationMemberInvite,
   IOrganizationRank,
-  ProcedureKey
 } from '@revolt-rp/common';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { filterGlobal } from '../../../../../domain/util/table.util';
 import { InviteMemberComponent } from '../invite-member';
 
 
-type ICharacterWithActivity = ICharacter & { averageActivity: number };
+export type ICharacterWithActivity = ICharacter & { averageActivity: number };
 
 @Component({
   selector: 'app-manage-members',
@@ -37,34 +35,20 @@ type ICharacterWithActivity = ICharacter & { averageActivity: number };
   templateUrl: './manage-members.component.html',
   styleUrl: './manage-members.component.css'
 })
-export class ManageMembersComponent implements OnInit {
-  @Input() organizationId!: string;
+export class ManageMembersComponent {
   @Input() ranks!: IOrganizationRank[];
+  @Input() members!: ICharacterWithActivity[];
 
-  members: ICharacterWithActivity[] = [];
+  @Output() memberUninvite = new EventEmitter<ICharacter>();
+  @Output() memberUpdate = new EventEmitter<IMemberUpdate>();
+  @Output() memberInvite = new EventEmitter<IOrganizationMemberInvite>();
+
   memberClones: Record<string, ICharacterWithActivity> = {};
 
-  constructor(private rageClientService: RageClientService,
-              private confirmationService: ConfirmationService,
-              private dialogService: DialogService,
-              private translateService: TranslateService) {
-  }
-
-  private setMembers = (members: ICharacter[]) => {
-    this.members = members.map(member => ({ ...member, averageActivity: this.calculateActivity(member) }));
-  };
-
-
-  calculateActivity(character: ICharacter): number {
-    if (!character.createdAt || character.hours <= 0) return 0;
-
-    const accountAgeDays = Math.max(dayjs().diff(dayjs(character.createdAt), 'day'), 1);
-    return Math.round((character.hours / accountAgeDays) * 100) / 100;
-  }
-
-  ngOnInit(): void {
-    this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, this.organizationId)
-      .subscribe({ next: this.setMembers });
+  constructor(
+    private confirmationService: ConfirmationService,
+    private dialogService: DialogService,
+    private translateService: TranslateService) {
   }
 
   uninviteMember(event: Event, member: ICharacter) {
@@ -76,8 +60,7 @@ export class ManageMembersComponent implements OnInit {
       acceptLabel: this.translateService.instant('yes'),
       acceptButtonStyleClass: 'p-button-danger p-button-sm',
       accept: () => {
-        this.rageClientService.callServer<true>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, member.id)
-          .subscribe({ next: () => this.setMembers(this.members.filter(m => m.id !== member.id)) });
+        this.memberUninvite.emit(member);
       }
     });
   }
@@ -107,9 +90,8 @@ export class ManageMembersComponent implements OnInit {
       rankId: member.membership!.rank!.id as string
     };
 
-    this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate);
+    this.memberUpdate.emit(memberUpdate);
   }
-
 
   onMemberEditInit(member: ICharacterWithActivity) {
     this.memberClones[member.id] = deepCopy(member);
@@ -121,7 +103,7 @@ export class ManageMembersComponent implements OnInit {
       data: this.ranks
     }).onClose.subscribe((invite?: IOrganizationMemberInvite) => {
       if (invite) {
-        this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, invite)
+        this.memberInvite.emit(invite);
       }
     });
   }
