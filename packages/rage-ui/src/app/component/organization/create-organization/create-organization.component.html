@@ -44,6 +44,8 @@
         appendTo="body"
         optionLabel="name"
         [loading]="loadingOrganizations"
+        [emptyFilterMessage]="'no_results' | translate"
+        [emptyMessage]="'no_results' | translate"
         optionValue="id"
         id="parentOrganization"
         [placeholder]="'select_parent_organization' | translate" />

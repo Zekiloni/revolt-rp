@@ -303,4 +303,5 @@ export const enUs = {
   'uninvite_command_description': 'Uninvite a player from your organization.',
   'organization_chat_command_description': 'Send a OOC message to your organization members.',
   'organization_panel_command_description': 'Open organization panel.',
+  'not_authorized': 'You are not authorized to use this command.',
 };
