@@ -32,6 +32,8 @@ import './world/world-weather';
 
 import './player/admin/no-clip';
 
+import './organization/organization-menu';
+
 // Object.defineProperty(mp.nesto, 'enableSnow', {
 //   get: function() {
 //     return this._enableSnow;
