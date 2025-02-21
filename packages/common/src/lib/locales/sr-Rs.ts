@@ -296,4 +296,8 @@ export const srRs = {
   'invite_new_member': 'Pozovite novog člana',
   'no_members': 'Nema članova',
   'no_ranks': 'Nema rankova',
+  'headquarters': 'Središte',
+  'delete_rank_confirm': 'Da li ste sigurni da želite da obrišete rank {{rank}}?',
+  'vehicles': 'Vozila',
+  'number_of_members': 'Broj članova',
 };

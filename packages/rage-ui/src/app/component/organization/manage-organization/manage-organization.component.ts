@@ -1,63 +1,58 @@
+import dayjs from 'dayjs';
 import * as L from 'leaflet';
-import { Types } from 'mongoose';
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { forkJoin } from 'rxjs';
 import { DialogModule } from 'primeng/dialog';
-import { TranslatePipe } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
 import { TabViewModule } from 'primeng/tabview';
-import { ColorPickerModule } from 'primeng/colorpicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import {
-  IOrganization,
+  ApiError,
+  ICharacter, IMemberUpdate,
+  IOrganization, IOrganizationMemberInvite,
   IOrganizationRank,
   IOrganizationRankCreate,
-  OrganizationPermissionType,
-  OrganizationType, ProcedureKey
+  ProcedureKey
 } from '@revolt-rp/common';
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
-import { ManageMembersComponent } from './components/manage-members';
+import { ICharacterWithActivity, ManageMembersComponent } from './components/manage-members';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { WorldMapComponent } from '../../misc/world-map/world-map.component';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-manage-organization',
   standalone: true,
-  imports: [CommonModule, DialogModule, TranslatePipe, TabViewModule, ColorPickerModule, ReactiveFormsModule, FormsModule, ManageRanksComponent, ManageMembersComponent, WorldMapComponent],
+  imports: [CommonModule, DialogModule, TranslatePipe, TabViewModule, ReactiveFormsModule, FormsModule, ManageRanksComponent, ManageMembersComponent, WorldMapComponent],
   templateUrl: './manage-organization.component.html',
   styleUrl: './manage-organization.component.css'
 })
-export class ManageOrganizationComponent {
+export class ManageOrganizationComponent implements OnInit, OnDestroy {
   @Input() isActive!: boolean;
 
-  organization: Partial<IOrganization> = {
-    name: 'Organization Name',
-    shortName: 'ORG',
-    type: OrganizationType.Company,
-    createdAt: new Date(),
-    position: { x: 0, y: 0, z: 0 },
-    ranks: [
-      {
-        name: 'Rank 1',
-        salary: 100,
-        permission: OrganizationPermissionType.MANAGE_ORGANIZATION,
-        id: '342423',
-        _id: new Types.ObjectId()
-      },
-      {
-        name: 'Rank 2',
-        salary: 43,
-        permission: OrganizationPermissionType.NORMAL,
-        id: '342423',
-        _id: new Types.ObjectId()
-      }
-    ]
-  };
+  private organizationId: string | null = null;
+  organization!: IOrganization;
+  members: ICharacterWithActivity[] = [];
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(
+    private rageClientService: RageClientService,
+    private translateService: TranslateService,
+    private messageService: MessageService
+  ) {
   }
+
+  private setMembers = (members: ICharacter[]) => {
+    this.members = members.map(member => ({ ...member, averageActivity: this.calculateActivity(member) }));
+  };
 
   get ranks() {
     return this.organization.ranks as IOrganizationRank[];
+  }
+
+  set ranks(value: IOrganizationRank[]) {
+    this.organization.ranks = value;
   }
 
   get parentOrganization() {
@@ -65,10 +60,27 @@ export class ManageOrganizationComponent {
   }
 
   private onRankCreated = (rank: IOrganizationRank) => {
-    if (this.organization.ranks) {
-      this.organization.ranks.push(rank);
-    }
+    this.organization.ranks.push(rank);
   };
+
+  private loadOrganization = (organizationId: string) => {
+    this.organizationId = organizationId;
+
+    forkJoin([
+      this.rageClientService.callServer<IOrganization>(ProcedureKey.SERVER_GET_ORGANIZATION, this.organizationId),
+      this.rageClientService.callServer<ICharacter[]>(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, this.organization.id)
+    ]).subscribe(([organization, members]) => {
+      this.organization = organization;
+      this.setMembers(members);
+    });
+  };
+
+  calculateActivity(character: ICharacter): number {
+    if (!character.createdAt || character.hours <= 0) return 0;
+
+    const accountAgeDays = Math.max(dayjs().diff(dayjs(character.createdAt), 'day'), 1);
+    return Math.round((character.hours / accountAgeDays) * 100) / 100;
+  }
 
   toggleManageOrganization() {
     // todo
@@ -82,14 +94,58 @@ export class ManageOrganizationComponent {
     }
   }
 
+  deleteRank(rank: IOrganizationRank) {
+    this.rageClientService.callServer<true>(ProcedureKey.SERVER_ORGANIZATION_RANK_DELETE, rank.id)
+      .subscribe(() => {
+        this.ranks = this.ranks.filter(r => r.id !== rank.id);
+      });
+  }
+
   onMapInit(map: L.Map) {
-    L.marker([this.organization.position!.x, this.organization.position!.y]).addTo(map);
+    const icon = L.icon({
+      iconUrl: '/assets/images/blips/radar_objective_blue.png',
+      iconSize: [16, 16],
+      iconAnchor: [16, 32],
+      popupAnchor: [0, -32]
+    });
+
+    L.marker([this.organization.position.x, this.organization.position.y], { icon })
+      .bindTooltip(this.translateService.instant('headquarters'))
+      .addTo(map);
 
     map.dragging.disable();
     map.touchZoom.disable();
     map.scrollWheelZoom.disable();
-    //map.setView([this.organization.position!.x, this.organization.position!.y], 3);
+    map.setView([this.organization.position.x, this.organization.position.y], 5);
+  }
+
+  handleMemberUninvite(member: ICharacter) {
+    this.rageClientService.callServer<true>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, member.id)
+      .subscribe({ next: () => this.setMembers(this.members.filter(m => m.id !== member.id)) });
+  }
+
+  handleMemberInvite(invite: IOrganizationMemberInvite) {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, invite);
+  }
+
+  handleMemberUpdate(memberUpdate: IMemberUpdate) {
+    this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate)
+      .subscribe({
+        next: member => this.setMembers(this.members.map(m => m.id === member.id ? member : m)),
+        error: (error: ApiError) => this.messageService.add({
+          severity: 'error',
+          summary: this.translateService.instant('error'),
+          detail: error.message
+        })
+      });
+  }
+
+  ngOnInit(): void {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_ORGANIZATION_ID, this.loadOrganization);
+  }
+
+  ngOnDestroy(): void {
+    this.rageClientService.off(ProcedureKey.BROWSER_SET_ORGANIZATION_ID, this.loadOrganization);
   }
 }
-
 

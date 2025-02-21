@@ -12,7 +12,7 @@ import 'leaflet/dist/leaflet.css';
 })
 export class WorldMapComponent implements OnInit{
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
-  @Input() backgroundColor = '#ddd';
+  @Input() backgroundColor =  getComputedStyle(document.documentElement).getPropertyValue('--surface-b');
   @Input() layerStyle: 'SATELLITE' | 'ATLAS' | 'GRID' = 'SATELLITE';
   @Output() init = new EventEmitter<L.Map>();
 

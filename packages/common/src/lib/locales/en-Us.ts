@@ -295,4 +295,8 @@ export const enUs = {
   'invite_new_member': 'Invite New Member',
   'no_members': 'No members found.',
   'no_ranks': 'No ranks found.',
+  'headquarters': 'Headquarters',
+  'delete_rank_confirm': 'Are you sure you want to delete rank {{rank}}?',
+  'vehicles': 'Vehicles',
+  'number_of_members': 'Number of Members',
 };

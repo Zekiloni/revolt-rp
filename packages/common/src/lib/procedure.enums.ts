@@ -89,12 +89,15 @@ export const enum ProcedureKey {
   CLIENT_PLAYER_TOGGLE_DAMAGE_INFO = 'client_playerToggleDamageInfo',
 
   SERVER_PLAYER_GET_ORGANIZATIONS = 'server_playerGetOrganizations',
+  SERVER_GET_ORGANIZATION = 'server_getOrganization',
   SERVER_PLAYER_CREATE_ORGANIZATION = 'server_playerCreateOrganization',
   SERVER_GET_ORGANIZATION_MEMBERS = 'server_getOrganizationMembers',
   SERVER_ORGANIZATION_MEMBER_UNINVITE = 'server_organizationMemberUninvite',
   SERVER_ORGANIZATION_MEMBER_UPDATE = 'server_organizationMemberUpdate',
   SERVER_CREATE_ORGANIZATION_RANK = 'server_createOrganizationRank',
   SERVER_ORGANIZATION_MEMBER_INVITE = 'server_organizationMemberInvite',
+  SERVER_ORGANIZATION_RANK_DELETE = 'server_organizationRankDelete',
+  BROWSER_SET_ORGANIZATION_ID = 'browser_setOrganizationId',
 
   CLIENT_PLAYER_TOGGLE_NO_CLIP = 'client_playerToggleNoClip',
 
