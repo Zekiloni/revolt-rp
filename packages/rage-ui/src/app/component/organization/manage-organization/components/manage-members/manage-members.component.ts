@@ -40,7 +40,7 @@ export class ManageMembersComponent {
   @Input() members!: ICharacterWithActivity[];
 
   @Output() memberUninvite = new EventEmitter<ICharacter>();
-  @Output() memberUpdate = new EventEmitter<IMemberUpdate>();
+  @Output() memberUpdate = new EventEmitter<{ update: IMemberUpdate, current: ICharacterWithActivity }>();
   @Output() memberInvite = new EventEmitter<IOrganizationMemberInvite>();
 
   memberClones: Record<string, ICharacterWithActivity> = {};
@@ -87,10 +87,10 @@ export class ManageMembersComponent {
   onMemberSave(member: ICharacterWithActivity) {
     const memberUpdate: IMemberUpdate = {
       characterId: member.id,
-      rankId: member.membership!.rank!.id as string
+      rankId: member.membership?.rank?.id as string
     };
 
-    this.memberUpdate.emit(memberUpdate);
+    this.memberUpdate.emit({ update: memberUpdate, current: this.memberClones[member.id] });
   }
 
   onMemberEditInit(member: ICharacterWithActivity) {
