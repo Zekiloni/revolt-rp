@@ -1,5 +1,5 @@
 
-export const API_BASE_HREF = 'https://api.revolt-rp.com3000';
+export const API_BASE_HREF = 'http://41.216.189.96:3000';
 
 export const environment = {
   SERVER_NAME: 'Revolt Roleplay',

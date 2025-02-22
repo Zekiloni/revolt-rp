@@ -22,19 +22,16 @@ jobs:
          node-version: '18'
 
      - name: Install dependencies
-       run: npm add --global nx@latest
-
-     - name: Install dependencies
        run: npm install
 
-     - name: Build server
-       run: nx run rage-server:build
+     - name: Build RAGE:Server
+       run: npx nx run rage-server:build
 
-     - name: Build client
-       run: nx run rage-client:build:production
+     - name: Build RAGE:Client
+       run: npx nx run rage-client:build:production
 
-     - name: Build client UI
-       run: nx run rage-ui:build
+     - name: Build RAGE:Client-UI
+       run: npx nx run rage-ui:build:production
 
      - name: Set up Docker Build
        uses: docker/setup-buildx-action@v1
