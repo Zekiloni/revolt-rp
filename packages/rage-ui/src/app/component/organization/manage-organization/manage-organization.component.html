@@ -57,7 +57,10 @@
         </ul>
       </p-tabPanel>
       <p-tabPanel [header]="'ranks' | translate" leftIcon="pi pi-sitemap">
-        <app-manage-ranks [ranks]="ranks" (rankCreate)="createRank($event)" (rankDelete)="deleteRank($event)" />
+        <app-manage-ranks [ranks]="ranks"
+                          (rankCreate)="handleRankCreate($event)"
+                          (rankDelete)="handleRankDelete($event)"
+                          (rankUpdate)="handleRankUpdate($event)"/>
       </p-tabPanel>
       <p-tabPanel [header]="'members' | translate" leftIcon="pi pi-users">
         <app-manage-members [ranks]="ranks" [members]="members" (memberUninvite)="handleMemberUninvite($event)"

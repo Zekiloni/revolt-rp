@@ -39,9 +39,47 @@
   <ng-template pTemplate="body" let-rank let-editing="editing" let-rowIndex="rowIndex">
     <tr [pEditableRow]="rank">
       <td>{{ rowIndex + 1 }}</td>
-      <td>{{ rank['name'] }}</td>
-      <td>{{ rank['permission'] | translate }}</td>
-      <td>{{ rank['salary'] }}</td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input pInputText [(ngModel)]="rank['name']" [minlength]="3">
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ rank['name'] }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-dropdown
+              [options]="permissions"
+              appendTo="body"
+              [(ngModel)]="rank['permission']"
+              [style]="{'width':'100%'}">
+              <ng-template let-selectedItem pTemplate="selectedItem">
+                <span>{{ selectedItem | translate }}</span>
+              </ng-template>
+              <ng-template let-permission pTemplate="item">
+                <span>{{ permission | translate }}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ rank['permission'] | translate }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-inputNumber [min]="0" [(ngModel)]="rank['salary']" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ rank['salary'] }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
       <td>
         @if (editing) {
           <button

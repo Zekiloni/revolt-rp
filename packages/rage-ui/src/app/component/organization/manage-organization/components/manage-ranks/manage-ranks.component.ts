@@ -10,14 +10,24 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmationService } from 'primeng/api';
-import { deepCopy, IOrganizationRank, IOrganizationRankCreate } from '@revolt-rp/common';
+import {
+  deepCopy,
+  IOrganizationRank,
+  IOrganizationRankCreate,
+  OrganizationPermissionType,
+  OrganizationType
+} from '@revolt-rp/common';
 import { filterGlobal } from '../../../../../domain/util/table.util';
+import { ChipModule } from 'primeng/chip';
+import { DropdownModule } from 'primeng/dropdown';
+import { FormsModule } from '@angular/forms';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @Component({
   selector: 'app-manage-ranks',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, Button, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule],
+  imports: [CommonModule, TableModule, TranslatePipe, Button, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, ChipModule, DropdownModule, FormsModule, PaginatorModule],
   providers: [ConfirmationService, DialogService],
   templateUrl: './manage-ranks.component.html',
   styleUrl: './manage-ranks.component.css'
@@ -28,8 +38,10 @@ export class ManageRanksComponent {
   @Input() ranks!: IOrganizationRank[];
   @Output() rankCreate = new EventEmitter<IOrganizationRankCreate>();
   @Output() rankDelete = new EventEmitter<IOrganizationRank>();
+  @Output() rankUpdate = new EventEmitter<IOrganizationRank>();
 
   rankClones: Record<string, IOrganizationRank> = {};
+  permissions = Object.values(OrganizationPermissionType);
 
   constructor(
     private dialogService: DialogService,
@@ -67,7 +79,8 @@ export class ManageRanksComponent {
   }
 
   editSave(rank: IOrganizationRank, index: number) {
-//
+    this.rankUpdate.emit(rank);
+    this.editCancel(rank, index);
   }
 
   editCancel(rank: IOrganizationRank, index: number) {
