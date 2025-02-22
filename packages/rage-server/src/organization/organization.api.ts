@@ -1,10 +1,17 @@
 import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register, triggerClient } from '@libertymp/rage-rpc';
-import { catchError, GameUiKey, IMemberUpdate, IOrganizationMemberInvite, ProcedureKey } from '@revolt-rp/common';
+import {
+  catchError,
+  GameUiKey,
+  IMemberUpdate,
+  IOrganizationMemberInvite,
+  IOrganizationRankCreate,
+  ProcedureKey
+} from '@revolt-rp/common';
 import {
   createOrganization,
   getAllOrganizations, getOrganizationById,
-  getOrganizationMembers, invitePlayerToOrganization,
+  getOrganizationMembers, invitePlayerToOrganization, playerCreateOrganizationRank, playerDeleteOrganizationRank,
   playerUpdateOrganizationMember, removePlayerFromOrganizationByCharacterId
 } from './organization.service';
 import { notifyPlayer } from '../player/util/player-notify.util';
@@ -70,6 +77,18 @@ async function playerUninviteMemberHandler(characterId: string, { player }: Proc
     .catch((error) => notifyPlayer(player, { severity: 'error', detail: t(error.message), summary: t('error') }));
 }
 
+async function playerCreateOrganizationRankHandler(rankCreate: IOrganizationRankCreate, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return playerCreateOrganizationRank(player, rankCreate)
+    .then(rank => rank)
+    .catch(error => catchError(error));
+}
+
+async function playerDeleteOrganizationRankHandler(rankId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return playerDeleteOrganizationRank(player, rankId)
+    .then(result => result)
+    .catch(error => catchError(error));
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_ORGANIZATION, createOrganizationHandler);
 on(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, playerInvitePlayerToOrganizationHandler);
 register(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, playerUpdateOrganizationMemberHandler);
@@ -77,3 +96,5 @@ register(ProcedureKey.SERVER_GET_ORGANIZATION, getOrganizationHandler);
 register(ProcedureKey.SERVER_GET_ORGANIZATION_MEMBERS, getOrganizationMembersHandler);
 register(ProcedureKey.SERVER_PLAYER_GET_ORGANIZATIONS, getOrganizationsHandler);
 register(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UNINVITE, playerUninviteMemberHandler);
+register(ProcedureKey.SERVER_CREATE_ORGANIZATION_RANK, playerCreateOrganizationRankHandler);
+register(ProcedureKey.SERVER_ORGANIZATION_RANK_DELETE, playerDeleteOrganizationRankHandler);

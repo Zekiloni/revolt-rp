@@ -9,10 +9,12 @@ export enum OrganizationPermissionType {
   MANAGE_ORGANIZATION = 'manage_organization',
 }
 
+
 export interface IOrganizationRankCreate {
   organizationId: string;
   name: string;
   permission: OrganizationPermissionType;
+  salary: number;
 }
 
 export interface IOrganizationMemberInvite {
