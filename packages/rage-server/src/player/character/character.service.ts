@@ -230,7 +230,7 @@ export const setPlayerOrganization = (player: PlayerMp, organization: Organizati
     organization, rank: null
   } : null;
 
-  player.character.isLeader = isLeader;
+  player.character.isLeader = organization ? isLeader : false;
 
   player.setVariable(PlayerSharedDataType.Organization, organization ? organization.id : null);
 };

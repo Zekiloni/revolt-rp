@@ -78,6 +78,9 @@ export const getOrganizationMembers = async (organizationId: string) => {
     .exec();
 };
 
+export const getOnlineOrganizationMembers = (organizationId: string) => {
+  return mp.players.toArray().filter((player) => getPlayerOrganizationId(player) === organizationId);
+}
 
 export const isAuthorizedForOrganization = async (
   player: PlayerMp,
@@ -207,6 +210,28 @@ export const makePlayerOrganizationLeader = async (player: PlayerMp, organizatio
   });
 };
 
+export const makePlayerOrganization = async (player: PlayerMp, organization: Organization) => {
+  setPlayerOrganization(player, organization, false);
+  await player.character.save();
+
+  notifyPlayer(player, {
+    severity: 'info',
+    summary: t('info'),
+    detail: t('you_are_now_member_of', { organization: organization.name })
+  });
+};
+
+export const unsetPlayerOrganization = async (player: PlayerMp) => {
+  setPlayerOrganization(player, null);
+  await player.character.save();
+
+  notifyPlayer(player, {
+    severity: 'info',
+    summary: t('info'),
+    detail: t('you_are_no_longer_member_of_any_organization')
+  });
+}
+
 export const playerChatOrganization = async (player: PlayerMp, message: string) => {
   const organization = await getOrganizationById(getPlayerOrganizationId(player));
 
@@ -293,3 +318,31 @@ export const playerDeleteOrganizationRank = async (player: PlayerMp, rankId) => 
   await updateOrganization(organization, { $pull: { ranks: rankId } });
   return deleteOrganizationRankById(rankId);
 };
+
+
+export const playerLeaveOrganization = async (player: PlayerMp) => {
+  await unsetPlayerOrganization(player);
+  notifyPlayer(player, { severity: 'info', detail: t('you_left_organization') });
+}
+
+
+export async function deleteOrganization(organization: Organization) {
+    const members = await getOrganizationMembers(organization.id);
+    const onlineMembers = getOnlineOrganizationMembers(organization.id);
+
+    for (const player of onlineMembers) {
+      setPlayerOrganization(player, null);
+      await player.character.save();
+      notifyPlayer(player, { severity: 'info', detail: t('your_organization_removed') });
+    }
+
+    for (const member of members) {
+      if (!onlineMembers.some((p) => p.character?.id === member.id)) {
+        member.membership = null;
+        member.isLeader = false;
+        await member.save();
+      }
+    }
+
+  return organization.remove();
+}
