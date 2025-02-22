@@ -317,4 +317,5 @@ export const srRs = {
   'delete_organization_command_description': 'Obrišite organizaciju.',
   'your_organization_removed': 'Vaša organizacija je uklonjena.',
   'organization_deleted': 'Organizacija {{organization}} je obrisana.',
+  'local_ooc_command_description': 'Pošaljite lokalnu OOC poruku.',
 };

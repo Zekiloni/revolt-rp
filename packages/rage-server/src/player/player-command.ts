@@ -12,7 +12,7 @@ import { getForecast } from '../world/weather.service';
 registerCommand({
   name: 'b',
   params: ['content'],
-  description: 'todo',
+  description: t('local_ooc_command_description'),
   handle(player: PlayerMp, ...args) {
     const content = `(( ${player.name} [${player.id}]: ${[...args].join(' ')} ))`;
     sendProximityMessage(content, player.position, 10, hexColors.GREY);
