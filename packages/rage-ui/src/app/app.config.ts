@@ -11,6 +11,9 @@ import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
 import { provideTranslateService } from '@ngx-translate/core';
+import { BASE_HREf } from './domain/variables';
+import { environment } from '../environments/environment';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,11 +23,15 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideTranslateService({
-      defaultLanguage: 'en-US',
+      defaultLanguage: 'en-US'
     }),
     MessageService,
     RageClientService,
     provideStore({ gameInterface: gameInterfaceReducer, inventory: inventoryReducer }),
     provideEffects(),
-  ],
+    {
+      provide: BASE_HREf,
+      useValue: environment.API_BASE_HREF
+    }
+  ]
 };

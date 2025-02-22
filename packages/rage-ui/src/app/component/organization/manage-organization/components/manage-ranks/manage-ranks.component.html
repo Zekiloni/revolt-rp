@@ -7,6 +7,7 @@
   dataKey="id"
   [globalFilterFields]="['name', 'permission', 'salary']"
   styleClass="p-datatable-gridlines"
+  editMode="row"
   [tableStyle]="{ 'min-width': '30rem' }"
   [rowsPerPageOptions]="[10, 25, 50]"
 >
@@ -35,16 +36,35 @@
       <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-rank let-rowIndex="rowIndex">
-    <tr>
+  <ng-template pTemplate="body" let-rank let-editing="editing" let-rowIndex="rowIndex">
+    <tr [pEditableRow]="rank">
       <td>{{ rowIndex + 1 }}</td>
       <td>{{ rank['name'] }}</td>
       <td>{{ rank['permission'] | translate }}</td>
       <td>{{ rank['salary'] }}</td>
       <td>
-        <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
-                (click)="deleteRank($event, rank)"></button>
-        <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="editRank(rank)"></button>
+        @if (editing) {
+          <button
+            pButton
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            (click)="editSave(rank, rowIndex)"
+            class="p-button-rounded p-button-text p-button-success mr-2">
+          </button>
+          <button
+            pButton
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            (click)="editCancel(rank, rowIndex)"
+            class="p-button-rounded p-button-text p-button-danger">
+          </button>
+        } @else {
+          <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                  (click)="deleteRank($event, rank)"></button>
+          <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true" (click)="editInit(rank)"></button>
+        }
       </td>
     </tr>
   </ng-template>

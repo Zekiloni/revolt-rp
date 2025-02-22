@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, HostListener, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
+import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
@@ -49,7 +49,7 @@ import { ManageOrganizationComponent } from './component/organization/manage-org
     DeathScreenComponent,
     PlayerDamageInfoComponent,
     CreateOrganizationComponent,
-    ManageOrganizationComponent
+    ManageOrganizationComponent,
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

@@ -8,11 +8,12 @@ import { RageClientService } from '../../domain/service/rage-client.service';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { getItemIcon } from '../../domain/util/item.util';
+import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 
 @Component({
   selector: 'app-hud',
   standalone: true,
-  imports: [CommonModule, DroppableDirective, NgOptimizedImage],
+  imports: [CommonModule, DroppableDirective, NgOptimizedImage, StaticAssetPipe],
   templateUrl: './hud.component.html',
   styleUrl: './hud.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -20,12 +20,14 @@ import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.com
 import { ICharacterWithActivity, ManageMembersComponent } from './components/manage-members';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { WorldMapComponent } from '../../misc/world-map/world-map.component';
+import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 
 
 @Component({
   selector: 'app-manage-organization',
   standalone: true,
   imports: [CommonModule, DialogModule, TranslatePipe, TabViewModule, ReactiveFormsModule, FormsModule, ManageRanksComponent, ManageMembersComponent, WorldMapComponent],
+  providers: [StaticAssetPipe],
   templateUrl: './manage-organization.component.html',
   styleUrl: './manage-organization.component.css'
 })
@@ -42,7 +44,8 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
   constructor(
     private rageClientService: RageClientService,
     private translateService: TranslateService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private staticAssetPipe: StaticAssetPipe
   ) {
   }
 
@@ -125,7 +128,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
 
   onMapInit(map: L.Map) {
     const icon = L.icon({
-      iconUrl: '/assets/images/blips/radar_objective_blue.png',
+      iconUrl: this.staticAssetPipe.transform('assets/images/blips/radar_objective_blue.png'),
       iconSize: [16, 16],
       iconAnchor: [16, 32],
       popupAnchor: [0, -32]
