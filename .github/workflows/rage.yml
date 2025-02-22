@@ -15,6 +15,7 @@ on:
       - 'packages/rage-ui/**'
       - 'packages/rage-client/**'
       - 'packages/rage-server/**'
+  workflow_dispatch: # This is for manual triggering of the workflow
 
 jobs:
    build:
