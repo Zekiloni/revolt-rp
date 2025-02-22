@@ -155,11 +155,14 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     this.rageClientService.triggerServer(ProcedureKey.SERVER_ORGANIZATION_MEMBER_INVITE, invite);
   }
 
-  handleMemberUpdate(memberUpdate: IMemberUpdate) {
-    this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate)
+  handleMemberUpdate(data: { update: IMemberUpdate, old: ICharacterWithActivity }) {
+    this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, data.update)
       .subscribe({
         next: member => this.setMembers(this.members.map(m => m.id === member.id ? member : m)),
-        error: this.handleError
+        error: (error: ApiError) => {
+          this.setMembers(this.members.map(m => m.id === data.old.id ? data.old : m));
+          this.handleError(error);
+        }
       });
   }
 
