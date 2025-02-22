@@ -1,12 +1,20 @@
-name: CI/CD Pipeline
+name: RAGE:MP Server CI/CD Pipeline
 
 on:
   push:
     branches:
       - master
+    paths:
+      - 'packages/rage-ui/**'
+      - 'packages/rage-client/**'
+      - 'packages/rage-server/**'
   pull_request:
     branches:
       - master
+    paths:
+      - 'packages/rage-ui/**'
+      - 'packages/rage-client/**'
+      - 'packages/rage-server/**'
 
 jobs:
    build:
@@ -22,7 +30,7 @@ jobs:
          node-version: '18'
 
      - name: Install dependencies
-       run: npm install
+       run: npm ci
 
      - name: Build RAGE:Server
        run: npx nx run rage-server:build
