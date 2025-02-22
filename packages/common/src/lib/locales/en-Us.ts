@@ -316,4 +316,5 @@ export const enUs = {
   'delete_organization_command_description': 'Delete organization.',
   'your_organization_removed': 'Your organization has been removed.',
   'organization_deleted': 'Organization {{organization}} has been deleted.',
+  'local_ooc_command_description': 'Send a local OOC message.',
 };

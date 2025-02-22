@@ -15,10 +15,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     env:
       IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/web-api
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -51,12 +49,9 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-
     env:
       IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/web-api
-
     needs: build
-
     steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@master
