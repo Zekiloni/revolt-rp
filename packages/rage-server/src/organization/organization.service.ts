@@ -1,18 +1,35 @@
 import { t } from 'i18next';
-import { IMemberUpdate, PlayerSharedDataType } from '@revolt-rp/common';
+import {
+  IMemberUpdate,
+  IOrganizationRankCreate,
+  OrganizationPermissionType,
+  PlayerSharedDataType
+} from '@revolt-rp/common';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { Organization, OrganizationModel } from './organization.model';
 import { notifyPlayer, sendOrganizationMessage } from '../player/util/player-notify.util';
 import {
   getCharacterById,
   getPlayerOrganizationId,
-  setPlayerOrganization, setPlayerOrganizationRank, updateCharacter
+  setPlayerOrganization,
+  setPlayerOrganizationRank
 } from '../player/character/character.service';
 import { CharacterModel } from '../player/account-character.ref';
-import { getRankById } from './rank/organization-rank.service';
+import {
+  createOrganizationRank,
+  deleteOrganizationRankById,
+  getOrganizationRankById
+} from './rank/organization-rank.service';
 import { findPlayerByCharacterId } from '../player/util/player.util';
 import { OrganizationRank } from './rank/organization-rank.model';
+import { UpdateQuery } from 'mongoose';
 
+
+const permissionHierarchy = [
+  OrganizationPermissionType.NORMAL,
+  OrganizationPermissionType.MANAGE_MEMBERS,
+  OrganizationPermissionType.MANAGE_ORGANIZATION
+];
 
 export const getOrganizationByName = async (name: string, shortName: string) => {
   return OrganizationModel.findOne({
@@ -24,6 +41,10 @@ export const getOrganizationByName = async (name: string, shortName: string) => 
 
 export const getOrganizationById = (organizationId: string) => {
   return OrganizationModel.findById(organizationId);
+};
+
+export const getOrganizationByRankId = (rankId: string) => {
+  return OrganizationModel.findOne({ ranks: rankId });
 };
 
 export const getAllOrganizations = () => {
@@ -42,12 +63,35 @@ export const createOrganization = async (organization: Partial<Organization>) =>
   return await OrganizationModel.create(organization);
 };
 
+export const updateOrganization = async (organization: Organization | string, updateQuery: UpdateQuery<Organization>) => {
+  if (organization instanceof Organization) {
+    return organization.update(updateQuery);
+  } else {
+    OrganizationModel.findByIdAndUpdate(organization, updateQuery);
+  }
+};
 
 export const getOrganizationMembers = async (organizationId: string) => {
   return CharacterModel.find({ 'membership.organization': organizationId })
     .populate('account')
     .populate('membership.rank')
     .exec();
+};
+
+
+export const isAuthorizedForOrganization = async (
+  player: PlayerMp,
+  requiredPermission: OrganizationPermissionType
+) => {
+  if (player.character.isLeader) return true;
+  if (!player.character.membership?.rank) return false;
+
+  const rank = await getOrganizationRankById(player.character.membership.rank.id as string);
+
+  return (
+    permissionHierarchy.indexOf(rank.permission) >=
+    permissionHierarchy.indexOf(requiredPermission)
+  );
 };
 
 export const playerAcceptInvite = async (player: PlayerMp, organization: Organization, offerer: PlayerMp, rank?: OrganizationRank | null) => {
@@ -88,7 +132,7 @@ export const invitePlayerToOrganization = async (player: PlayerMp, target: Playe
   }
 
   if (rankId) {
-    rank = await getRankById(rankId);
+    rank = await getOrganizationRankById(rankId);
   }
 
   const acceptOffer = async (_player: PlayerMp) => playerAcceptInvite(_player, organization, player, rank),
@@ -189,7 +233,7 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
   if (targetCharacter.membership.organization !== player.character.membership.organization)
     throw new Error(t('not_in_same_organization'));
 
-  const rank = await getRankById(memberUpdate.rankId);
+  const rank = await getOrganizationRankById(memberUpdate.rankId);
 
   if (!rank) {
     throw new Error(t('rank_not_found'));
@@ -216,3 +260,36 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
 
   return targetCharacter;
 }
+
+
+export const playerCreateOrganizationRank = async (player: PlayerMp, rankCreate: IOrganizationRankCreate) => {
+  const organization = await getOrganizationById(rankCreate.organizationId);
+
+  if (!organization)
+    throw new Error(t('organization_not_found'));
+
+  const isAuth = await isAuthorizedForOrganization(player, OrganizationPermissionType.MANAGE_ORGANIZATION);
+  if (!isAuth)
+    throw new Error(t('not_authorized'));
+
+  const rank = await createOrganizationRank(rankCreate.name, rankCreate.permission, rankCreate.salary);
+  organization.ranks.push(rank);
+
+  await organization.save();
+  return rank;
+};
+
+
+export const playerDeleteOrganizationRank = async (player: PlayerMp, rankId) => {
+  const organization = await getOrganizationByRankId(rankId);
+
+  if (!organization)
+    throw new Error(t('organization_not_found'));
+
+  const isAuth = await isAuthorizedForOrganization(player, OrganizationPermissionType.MANAGE_ORGANIZATION);
+  if (!isAuth)
+    throw new Error(t('not_authorized'));
+
+  await updateOrganization(organization, { $pull: { ranks: rankId } });
+  return deleteOrganizationRankById(rankId);
+};
