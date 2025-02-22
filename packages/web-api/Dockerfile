@@ -21,4 +21,6 @@ RUN chown -R web-api:web-api .
 # The bundled output will include external dependencies.
 RUN npm --prefix web-api --omit=dev -f install
 
+EXPOSE 3000
+
 CMD [ "node", "web-api" ]
