@@ -5,6 +5,24 @@ module.exports = {
   output: {
     path: join(__dirname, '../../dist/packages/web-api'),
   },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: false,
+            configFile: join(__dirname, 'tsconfig.app.json')
+          }
+        },
+        exclude: [/node_modules/]
+      }
+    ]
+  },
   plugins: [
     new NxAppWebpackPlugin({
       target: 'node',
