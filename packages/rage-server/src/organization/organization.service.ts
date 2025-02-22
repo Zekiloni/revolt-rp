@@ -22,7 +22,7 @@ import {
 } from './rank/organization-rank.service';
 import { findPlayerByCharacterId } from '../player/util/player.util';
 import { OrganizationRank } from './rank/organization-rank.model';
-import { UpdateQuery } from 'mongoose';
+import { Types, UpdateQuery } from 'mongoose';
 
 
 const permissionHierarchy = [
@@ -230,7 +230,7 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
   if (!targetCharacter.membership)
     throw new Error(t('target_not_in_organization'));
 
-  if (targetCharacter.membership.organization !== player.character.membership.organization)
+  if (!(<Types.ObjectId>targetCharacter.membership.organization).equals((<Types.ObjectId>player.character.membership.organization)))
     throw new Error(t('not_in_same_organization'));
 
   const rank = await getOrganizationRankById(memberUpdate.rankId);

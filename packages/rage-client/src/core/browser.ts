@@ -5,7 +5,7 @@ import { registerKeyBind } from './keybind-manager';
 
 
 const CURSOR_TIMEOUT_MS = 100;
-const activeGameInterfaces: Set<string> = new Set();
+const activeGameInterfaces: Set<GameUiKey> = new Set();
 
 let isCursorActive = false;
 let frozenControls = false;

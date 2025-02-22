@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
@@ -49,7 +49,7 @@ import { ManageOrganizationComponent } from './component/organization/manage-org
     DeathScreenComponent,
     PlayerDamageInfoComponent,
     CreateOrganizationComponent,
-    ManageOrganizationComponent,
+    ManageOrganizationComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
@@ -61,8 +61,7 @@ import { ManageOrganizationComponent } from './component/organization/manage-org
 })
 export class AppComponent implements OnInit {
   protected readonly GameUiKey = GameUiKey;
-
-  title = 'client-gui';
+  private renderer?: Renderer2;
 
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
@@ -71,8 +70,9 @@ export class AppComponent implements OnInit {
     private rageClientService: RageClientService,
     @Inject(Store) private store: Store<GameInterfaceState>,
     private inventoryListenerService: InventoryListenerService,
-    private messageService: MessageService) {
-
+    private rendererFactory: RendererFactory2,
+    private messageService: MessageService
+  ) {
     this.initializeLanguages();
   }
 
@@ -80,16 +80,6 @@ export class AppComponent implements OnInit {
     this.translateService.setTranslation('en-US', enUs);
     this.translateService.setTranslation('sr-RS', srRs);
     this.translateService.setDefaultLang(environment.DEFAULT_LANGUAGE);
-  }
-
-  ngOnInit(): void {
-    if ('mp' in window && !window['mp'].fake) {
-      this.listenToToggleGameInterfaceEvents();
-      this.listenToNotificationEvents();
-      this.inventoryListenerService.listenToInventoryEvents();
-    } else {
-      console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
-    }
   }
 
   private listenToToggleGameInterfaceEvents() {
@@ -113,5 +103,34 @@ export class AppComponent implements OnInit {
     this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
       this.messageService.add(message);
     });
+  }
+
+  listenToInputs() {
+    this.renderer = this.rendererFactory.createRenderer(null, null);
+
+    this.renderer.listen('document', 'focusin', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+        this.rageClientService.invoke('setTypingInChatState', true);
+      }
+    });
+
+    this.renderer.listen('document', 'focusout', (event: Event) => {
+      const target = event.target as HTMLInputElement;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) {
+        this.rageClientService.invoke('setTypingInChatState', false);
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    if ('mp' in window && !window['mp'].fake) {
+      this.listenToToggleGameInterfaceEvents();
+      this.listenToNotificationEvents();
+      this.listenToInputs();
+      this.inventoryListenerService.listenToInventoryEvents();
+    } else {
+      console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
+    }
   }
 }

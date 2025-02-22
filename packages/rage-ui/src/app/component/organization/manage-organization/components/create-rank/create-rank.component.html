@@ -24,6 +24,11 @@
     </p-dropdown>
   </div>
 
+  <div class="field mb-4 col-12 md:col-12">
+    <label class="block" for="name">{{ 'salary' | translate }}</label>
+    <p-inputNumber formControlName="salary" id="salary" />
+  </div>
+
   <div class="col-12 md:col-12">
     <button pButton type="submit" [label]="'create' | translate" [disabled]="isFormInvalid"></button>
   </div>
