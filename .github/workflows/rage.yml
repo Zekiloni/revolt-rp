@@ -21,7 +21,7 @@ jobs:
    build:
      runs-on: ubuntu-latest
      env:
-       IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/web-api
+       IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/ragemp
      steps:
      - name: Checkout code
        uses: actions/checkout@v4
