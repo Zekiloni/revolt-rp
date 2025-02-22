@@ -305,5 +305,16 @@ export const srRs = {
   'organization_chat_command_description': 'Pošaljite OOC poruku svim članovima vaše organizacije.',
   'organization_panel_command_description': 'Otvorite panel organizacije.',
   'not_authorized': 'Nemate dozvolu za ovu akciju.',
-  'organization': 'Organizacija'
+  'organization': 'Organizacija',
+  'set_organization_command_description': 'Postavite organizaciju igraču.',
+  'you_are_now_member_of': 'Sada ste član organizacije {{organization}}.',
+  'player_made_member': '{{player}} je sada član organizacije {{organization}}.',
+  'you_are_no_longer_member_of_any_organization': 'Više niste član nijedne organizacije.',
+  'unset_organization_command_description': 'Uklonite organizaciju igraču.',
+  'player_not_in_organization': 'Igrač nije u organizaciji.',
+  'leave_organization_command_description': 'Napustite organizaciju.',
+  'you_left_organization': 'Napustili ste organizaciju.',
+  'delete_organization_command_description': 'Obrišite organizaciju.',
+  'your_organization_removed': 'Vaša organizacija je uklonjena.',
+  'organization_deleted': 'Organizacija {{organization}} je obrisana.',
 };

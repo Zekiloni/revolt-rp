@@ -20,7 +20,12 @@ import { setWeather, toggleSnow } from '../../world/weather.service';
 import { setAdministrator } from '../account/account.service';
 import { registerCommand } from '../player-command.service';
 import { notifyPlayer } from '../util/player-notify.util';
-import { getOrganizationByName, makePlayerOrganizationLeader } from '../../organization/organization.service';
+import {
+  deleteOrganization,
+  getOrganizationByName,
+  makePlayerOrganization,
+  makePlayerOrganizationLeader, unsetPlayerOrganization
+} from '../../organization/organization.service';
 
 
 registerCommand({
@@ -390,7 +395,7 @@ registerCommand({
   async handle(player: PlayerMp, targetQuery: string, organizationName: string) {
     const target = findPlayer(targetQuery);
 
-    if (!target || !target.account)
+    if (!target || !target.character)
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
     const organization = await getOrganizationByName(organizationName, organizationName);
@@ -406,6 +411,69 @@ registerCommand({
   }
 });
 
+
+registerCommand({
+  name: 'setorganization',
+  aliases: ['setorg', 'setfaction'],
+  params: ['target', 'organization name'],
+  description: t('set_organization_command_description'),
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, targetQuery: string, organizationName: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    const organization = await getOrganizationByName(organizationName, organizationName);
+
+    if (!organization)
+      return notifyPlayer(player, { severity: 'error', detail: t('organization_not_found') });
+
+    await makePlayerOrganization(target, organization);
+    notifyPlayer(player, { severity: 'info', detail: t('player_made_member', { player: target.name, organization: organization.name }) });
+  }
+})
+
+
+registerCommand({
+  name: 'unsetorganization',
+  aliases: ['unsetorg', 'unsetfaction'],
+  params: ['target'],
+  description: t('unset_organization_command_description'),
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!target.character.membership)
+      return notifyPlayer(player, { severity: 'error', detail: t('player_not_in_organization') });
+
+    await unsetPlayerOrganization(target);
+
+    notifyPlayer(player, { severity: 'info', detail: t('player_removed_from_organization', { player: target.name }) });
+  }
+})
+
+
+registerCommand({
+  name: 'deleteorganization',
+  aliases: ['deleteorg', 'deletefaction'],
+  params: ['organization name'],
+  description: t('delete_organization_command_description'),
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, organizationName: string) {
+    const organization = await getOrganizationByName(organizationName, organizationName);
+
+    if (!organization)
+      return notifyPlayer(player, { severity: 'error', detail: t('organization_not_found') });
+
+
+    await deleteOrganization(organization);
+    notifyPlayer(player, { severity: 'info', detail: t('organization_deleted', { organization: organization.name }) });
+  }
+})
 
 registerCommand({
   name: 'fly',

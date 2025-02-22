@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
   invitePlayerToOrganization,
-  playerChatOrganization,
+  playerChatOrganization, playerLeaveOrganization,
   removePlayerFromOrganization
 } from './organization.service';
 import { ProcedureKey } from '@revolt-rp/common';
@@ -74,5 +74,16 @@ registerCommand({
   validators: [isInAnyOrganizationCommandValidator],
   handle(player: PlayerMp) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_ORGANIZATION_PANEL, player.character.membership.organization);
+  }
+});
+
+
+registerCommand({
+  name: 'leaveorganization',
+  aliases: ['leaveorg', 'leavefaction'],
+  description: t('leave_organization_command_description'),
+  validators: [isInAnyOrganizationCommandValidator],
+  async handle(player: PlayerMp) {
+    await playerLeaveOrganization(player);
   }
 });
