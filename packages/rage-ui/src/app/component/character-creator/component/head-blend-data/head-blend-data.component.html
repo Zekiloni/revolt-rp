@@ -4,8 +4,8 @@
 
     <a pRipple
        class="flex align-items-center cursor-pointer p-3 border-round text-700">
-      <img [src]="getParentImage(headBlendData.get('shapeFirstId')?.value!)" class="mr-2"
-           style="width: 52px; height: 52px;" alt="mother-image">
+      <img [ngSrc]="getParentImage(headBlendData.get('shapeFirstId')?.value!) | staticAsset" class="mr-2"
+           style="width: 52px; height: 52px;" alt="mother-image" width="50" height="50">
       <span class="font-medium">{{ getParentName(headBlendData.get('shapeFirstId')?.value!) }}</span>
     </a>
 
@@ -20,8 +20,8 @@
 
     <a pRipple
        class="flex align-items-center cursor-pointer p-3 border-round text-700">
-      <img [src]="getParentImage(headBlendData.get('shapeSecondId')?.value!)" class="mr-2"
-           style="width: 52px; height: 52px;" alt="father-image">
+      <img [ngSrc]="getParentImage(headBlendData.get('shapeSecondId')?.value!) | staticAsset" class="mr-2"
+           style="width: 52px; height: 52px;" alt="mother-image" width="50" height="50">
       <span class="font-medium">{{ getParentName(headBlendData.get('shapeSecondId')?.value!) }}</span>
     </a>
 

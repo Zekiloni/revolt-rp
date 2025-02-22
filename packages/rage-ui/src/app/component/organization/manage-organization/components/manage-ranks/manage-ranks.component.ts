@@ -10,7 +10,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { ConfirmationService } from 'primeng/api';
-import { IOrganizationRank, IOrganizationRankCreate } from '@revolt-rp/common';
+import { deepCopy, IOrganizationRank, IOrganizationRankCreate } from '@revolt-rp/common';
 import { filterGlobal } from '../../../../../domain/util/table.util';
 
 
@@ -23,19 +23,19 @@ import { filterGlobal } from '../../../../../domain/util/table.util';
   styleUrl: './manage-ranks.component.css'
 })
 export class ManageRanksComponent {
+  protected readonly filterGlobal = filterGlobal;
+
   @Input() ranks!: IOrganizationRank[];
   @Output() rankCreate = new EventEmitter<IOrganizationRankCreate>();
   @Output() rankDelete = new EventEmitter<IOrganizationRank>();
+
+  rankClones: Record<string, IOrganizationRank> = {};
 
   constructor(
     private dialogService: DialogService,
     private translateService: TranslateService,
     private confirmationService: ConfirmationService
   ) {
-  }
-
-  editRank(rank: IOrganizationRank) {
-    // todo
   }
 
   deleteRank(event: MouseEvent, rank: IOrganizationRank) {
@@ -62,5 +62,16 @@ export class ManageRanksComponent {
     });
   }
 
-  protected readonly filterGlobal = filterGlobal;
+  editInit(rank: IOrganizationRank) {
+    this.rankClones[rank.id] = deepCopy(rank);
+  }
+
+  editSave(rank: IOrganizationRank, index: number) {
+//
+  }
+
+  editCancel(rank: IOrganizationRank, index: number) {
+    this.ranks[index] = this.rankClones[rank.id];
+    delete this.rankClones[rank.id];
+  }
 }

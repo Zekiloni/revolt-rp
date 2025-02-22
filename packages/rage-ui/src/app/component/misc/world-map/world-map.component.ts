@@ -1,17 +1,19 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
+import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 
 @Component({
   selector: 'app-world-map',
   standalone: true,
   imports: [CommonModule],
+  providers: [StaticAssetPipe],
   templateUrl: './world-map.component.html',
-  styleUrl: './world-map.component.css',
+  styleUrl: './world-map.component.css'
 })
-export class WorldMapComponent implements OnInit{
+export class WorldMapComponent implements OnInit {
   @ViewChild('mapContainer', { static: true }) mapContainer!: ElementRef;
-  @Input() backgroundColor =  getComputedStyle(document.documentElement).getPropertyValue('--surface-b');
+  @Input() backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--surface-b');
   @Input() layerStyle: 'SATELLITE' | 'ATLAS' | 'GRID' = 'SATELLITE';
   @Output() init = new EventEmitter<L.Map>();
 
@@ -24,23 +26,31 @@ export class WorldMapComponent implements OnInit{
     scale_y: 0.0205
   };
 
-  private readonly mapLayers: Record<string, L.TileLayer> = {
-    'SATELLITE': L.tileLayer('/assets/images/map_tiles/satellite/{z}/{x}/{y}.jpg', {
-      minZoom: 0,
-      maxZoom: 8,
-      noWrap: true
-    }),
-    'ATLAS': L.tileLayer('/assets/images/map_tiles/atlas/{z}/{x}/{y}.jpg', {
-      minZoom: 0,
-      maxZoom: 5,
-      noWrap: true
-    }),
-    'GRID': L.tileLayer('/assets/images/map_tiles/grid/{z}/{x}/{y}.png', {
-      minZoom: 0,
-      maxZoom: 5,
-      noWrap: true
-    }),
-  };
+  private mapLayers!: Record<string, L.TileLayer>;
+
+  constructor(private staticAssetPipe: StaticAssetPipe) {
+    this.initializeLayers();
+  }
+
+  private initializeLayers() {
+    this.mapLayers = {
+      'SATELLITE': L.tileLayer(this.staticAssetPipe.transform('assets/images/map_tiles/satellite/{z}/{x}/{y}.jpg'), {
+        minZoom: 0,
+        maxZoom: 8,
+        noWrap: true,
+      }),
+      'ATLAS': L.tileLayer(this.staticAssetPipe.transform('assets/images/map_tiles/atlas/{z}/{x}/{y}.jpg'), {
+        minZoom: 0,
+        maxZoom: 5,
+        noWrap: true
+      }),
+      'GRID': L.tileLayer(this.staticAssetPipe.transform('assets/images/map_tiles/grid/{z}/{x}/{y}.png'), {
+        minZoom: 0,
+        maxZoom: 5,
+        noWrap: true
+      })
+    };
+  }
 
   ngOnInit(): void {
     this.map = new L.Map(this.mapContainer.nativeElement, {

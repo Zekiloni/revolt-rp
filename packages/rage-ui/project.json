@@ -25,10 +25,6 @@
         "tsConfig": "packages/rage-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
-          {
-            "glob": "**/*",
-            "input": "packages/rage-ui/public"
-          },
           "packages/rage-ui/src/assets",
           {
             "glob": "**/*",
@@ -55,7 +51,14 @@
               "maximumError": "4kb"
             }
           ],
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "optimization": true,
+          "fileReplacements": [
+            {
+              "replace": "packages/rage-ui/src/environments/environment.ts",
+              "with": "packages/rage-ui/src/environments/environment.production.ts"
+            }
+          ]
         },
         "development": {
           "optimization": false,

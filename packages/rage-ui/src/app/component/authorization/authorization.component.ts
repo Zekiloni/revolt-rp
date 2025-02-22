@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 import { CharacterSelectorComponent } from '../character-selector';
 import { TranslatePipe } from '@ngx-translate/core';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
+import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 
 
 type AuthForm = {
@@ -33,7 +34,8 @@ type AuthForm = {
     AutoFocus,
     CharacterSelectorComponent,
     FormsModule,
-    TranslatePipe
+    TranslatePipe,
+    StaticAssetPipe
   ],
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css',

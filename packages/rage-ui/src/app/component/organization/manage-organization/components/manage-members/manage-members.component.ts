@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ConfirmationService, PrimeTemplate } from 'primeng/api';
@@ -19,7 +18,7 @@ import {
   ICharacter,
   IMemberUpdate,
   IOrganizationMemberInvite,
-  IOrganizationRank,
+  IOrganizationRank
 } from '@revolt-rp/common';
 import { filterGlobal } from '../../../../../domain/util/table.util';
 import { InviteMemberComponent } from '../invite-member';
@@ -36,6 +35,8 @@ export type ICharacterWithActivity = ICharacter & { averageActivity: number };
   styleUrl: './manage-members.component.css'
 })
 export class ManageMembersComponent {
+  protected readonly filterGlobal = filterGlobal;
+
   @Input() ranks!: IOrganizationRank[];
   @Input() members!: ICharacterWithActivity[];
 
@@ -108,6 +109,4 @@ export class ManageMembersComponent {
       }
     });
   }
-
-  filterGlobal = filterGlobal;
 }
