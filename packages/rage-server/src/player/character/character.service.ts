@@ -227,7 +227,7 @@ export const revivePlayer = (player: PlayerMp, position: Vector3) => {
 
 export const setPlayerOrganization = (player: PlayerMp, organization: Organization | null, isLeader = false) => {
   player.character.membership = organization ? {
-    organization, rank: null
+    organization: organization._id, rank: null
   } : null;
 
   player.character.isLeader = organization ? isLeader : false;
