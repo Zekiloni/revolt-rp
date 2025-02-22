@@ -22,6 +22,5 @@ app.use('/assets', express.static(assetsPath, {
 app.use('/api', controller);
 
 app.listen(port, host, () => {
-  // test22
   console.log(`[ ready ] http://${host}:${port}`);
 });
