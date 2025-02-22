@@ -11,6 +11,7 @@ on:
       - master
     paths:
       - 'packages/web-api/**'
+  workflow_dispatch: # This is for manual triggering of the workflow
 
 jobs:
   build:
