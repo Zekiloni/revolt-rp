@@ -13,7 +13,7 @@ import {
   ICharacter, IMemberUpdate,
   IOrganization, IOrganizationMemberInvite,
   IOrganizationRank,
-  IOrganizationRankCreate,
+  IOrganizationRankCreate, IOrganizationRankUpdate,
   ProcedureKey
 } from '@revolt-rp/common';
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
@@ -87,7 +87,6 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     });
   };
 
-
   handleError = (error: ApiError) => {
     this.messageService.add({
       severity: 'error',
@@ -107,7 +106,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_ORGANIZATION_PANEL);
   }
 
-  createRank(rank: IOrganizationRankCreate) {
+  handleRankCreate(rank: IOrganizationRankCreate) {
     if (this.organization && this.organization.id) {
       rank.organizationId = this.organization.id;
       this.rageClientService.callServer<IOrganizationRank>(ProcedureKey.SERVER_CREATE_ORGANIZATION_RANK, rank)
@@ -118,7 +117,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     }
   }
 
-  deleteRank(rank: IOrganizationRank) {
+  handleRankDelete(rank: IOrganizationRank) {
     this.rageClientService.callServer(ProcedureKey.SERVER_ORGANIZATION_RANK_DELETE, rank.id)
       .subscribe({
         next: () => this.ranks = this.ranks.filter(r => r.id !== rank.id),
@@ -162,6 +161,21 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
     this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_ORGANIZATION_MEMBER_UPDATE, memberUpdate)
       .subscribe({
         next: member => this.setMembers(this.members.map(m => m.id === member.id ? member : m)),
+        error: this.handleError
+      });
+  }
+
+  handleRankUpdate(updated: IOrganizationRank) {
+    const rankUpdate: IOrganizationRankUpdate = {
+      id: updated.id,
+      permission: updated.permission,
+      name: updated.name,
+      salary: updated.salary
+    };
+
+    this.rageClientService.callServer<IOrganizationRank>(ProcedureKey.SERVER_ORGANIZATION_RANK_UPDATE, rankUpdate)
+      .subscribe({
+        next: rank => this.ranks = (this.ranks.map(r => r.id === rank.id ? rank : r)),
         error: this.handleError
       });
   }

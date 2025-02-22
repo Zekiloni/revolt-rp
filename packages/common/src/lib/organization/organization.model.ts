@@ -10,6 +10,11 @@ export enum OrganizationPermissionType {
 }
 
 
+export interface IOrganizationMemberInvite {
+  playerId: number;
+  rankId: string;
+}
+
 export interface IOrganizationRankCreate {
   organizationId: string;
   name: string;
@@ -17,12 +22,14 @@ export interface IOrganizationRankCreate {
   salary: number;
 }
 
-export interface IOrganizationMemberInvite {
-  playerId: number;
-  rankId: string;
+export interface IOrganizationRank extends Base {
+  name: string;
+  salary: number;
+  permission: OrganizationPermissionType;
 }
 
-export interface IOrganizationRank extends Base {
+export interface IOrganizationRankUpdate {
+  id: string;
   name: string;
   salary: number;
   permission: OrganizationPermissionType;

@@ -99,6 +99,7 @@ export const enum ProcedureKey {
   SERVER_ORGANIZATION_MEMBER_INVITE = 'server_organizationMemberInvite',
   SERVER_ORGANIZATION_RANK_DELETE = 'server_organizationRankDelete',
   BROWSER_SET_ORGANIZATION_ID = 'browser_setOrganizationId',
+  SERVER_ORGANIZATION_RANK_UPDATE = 'server_organizationRankUpdate',
 
   CLIENT_PLAYER_TOGGLE_NO_CLIP = 'client_playerToggleNoClip',
 
