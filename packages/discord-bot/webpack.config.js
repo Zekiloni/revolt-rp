@@ -1,9 +1,10 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/packages/discord-bot'),
+    path: join(__dirname, '../../dist/packages/discord-bot')
   },
   plugins: [
     new NxAppWebpackPlugin({
@@ -13,7 +14,12 @@ module.exports = {
       generatePackageJson: true,
       tsConfig: './tsconfig.app.json',
       optimization: false,
-      outputHashing: 'none',
+      outputHashing: 'none'
     }),
-  ],
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: '.env', to: '.' }
+      ]
+    })
+  ]
 };
