@@ -7,7 +7,7 @@ declare global {
          WEBSITE_URL: string;
          DISCORD_GUILD_ID: string;
          PRIMARY_COLOR: string;
-         SAMP_SERVER_ADDRESS: string;
+         RAGE_SERVER_ADDRESS: string;
       }
    }
 }

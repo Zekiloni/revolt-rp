@@ -12,9 +12,8 @@ export const data = new SlashCommandBuilder()
 
 function createInfoEmbed() {
    const fields = [
-      {name: 'Website', value: environmentConfig.WEBSITE_URL!},
-      {name: 'SA-MP Server IP', value: environmentConfig.SAMP_SERVER_ADDRESS!},
-      {name: 'RAGE.MP Server IP', value: 'Coming Soon'}
+      {name: 'Website', value: environmentConfig.WEBSITE_URL},
+      {name: 'RAGE.MP Server IP', value: environmentConfig.RAGE_SERVER_ADDRESS},
    ];
 
    return new EmbedBuilder().setColor(0x0099FF)
@@ -24,7 +23,7 @@ function createInfoEmbed() {
 }
 
 export async function execute(interaction: CommandInteraction) {
-   
+
    return interaction.reply({
       fetchReply: true,
       embeds: [createInfoEmbed()], components: []
