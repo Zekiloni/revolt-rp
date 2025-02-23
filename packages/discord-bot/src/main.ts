@@ -31,7 +31,7 @@ export const client = new Client({
 });
 
 client.on('ready', async () => {
-  client.user?.setActivity('lscrp.net', {
+  client.user?.setActivity(environmentConfig.WEBSITE_URL, {
     type: ActivityType.Custom,
     url: environmentConfig.WEBSITE_URL
   });
