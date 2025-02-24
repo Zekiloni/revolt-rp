@@ -14,4 +14,6 @@ export enum GameUiKey {
 
   CreateOrganization = 'createOrganization',
   ManageOrganization = 'manageOrganization',
+
+  HandheldRadio = 'handheldRadio',
 }

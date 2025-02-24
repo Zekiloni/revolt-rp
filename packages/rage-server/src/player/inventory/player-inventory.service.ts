@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { AnimationFlag, characterConfig, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { createItem, destroyItem, destroyItemById, getItemById, isWeaponItem } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
@@ -28,6 +28,11 @@ export const getPlayerItemById = (player: PlayerMp, itemId: string) => {
 export const getPlayerItemBySlot = (player: PlayerMp, slot: number) => {
   return player.character.inventory.find((item: Item) => item.localSlot === slot) as Item | undefined;
 };
+
+export const getPlayerItemByType = (player: PlayerMp, type: ItemType) => {
+  return player.character.inventory.find((item: Item) => item.data.type.includes(type)) as Item | undefined;
+}
+
 
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
   player.character.inventory = player.character.inventory.filter(element => element.id !== itemId);

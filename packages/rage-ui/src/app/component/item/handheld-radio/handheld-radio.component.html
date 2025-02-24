@@ -1,0 +1,42 @@
+<div class="absolute-bottom-right mr-5 mb-5 bg-black-alpha-70 p-4 shadow-2  border-round-2xl">
+  @if (handheldRadioConfig) {
+    <div class="flex flex-column gap-3">
+      <div class="flex align-items-center gap-3">
+        <i [ngClass]="getConnectionStatusClass()" [pTooltip]="'connection_status' | translate" tooltipPosition="left"
+           showDelay="500"></i>
+        <p-inputMask
+          mask="999.99"
+          [(ngModel)]="handheldRadioConfig.frequency"
+          [disabled]="isPowerOff"
+          [showClear]="true"
+          tooltipPosition="top"
+          showDelay="500"
+          [pTooltip]="'frequency' | translate"
+          (onComplete)="updateHandheldRadio()"
+          styleClass="text-4xl font-digital max-w-8rem"
+          placeholder="000.00">
+          <ng-template pTemplate="clearicon">
+            <i class="pi pi-sign-out"></i>
+          </ng-template>
+        </p-inputMask>
+      </div>
+
+      <p-selectButton
+        [options]="[1, 2, 3]"
+        [(ngModel)]="handheldRadioConfig.simplex"
+        [disabled]="isPowerOff"
+        [pTooltip]="'config_simplex' | translate"
+        showDelay="500"
+        tooltipPosition="left"
+        (onChange)="updateHandheldRadio()">
+        <ng-template let-item pTemplate>
+          {{ item }}
+        </ng-template>
+      </p-selectButton>
+
+      <p-inputSwitch [(ngModel)]="handheldRadioConfig.power" (onChange)="updateHandheldRadio()"
+                     [pTooltip]="'toggle_power' | translate" showDelay="500" />
+    </div>
+
+  }
+</div>

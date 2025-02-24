@@ -4,6 +4,7 @@ import { Vector3 } from '../core.interface';
 import { IBaseItem } from './registry/base-item.model';
 import { IBankCardInfo } from './bank-card.model';
 import { IWearableInfo } from './wearable-info.model';
+import { IHandheldRadioConfig } from './handheld-radio.model';
 
 export interface IItem extends Base {
   name: string;
@@ -23,6 +24,7 @@ export interface IItem extends Base {
   flag?: ItemFlag;
   bankCardInfo?: IBankCardInfo;
   wearableInfo?: IWearableInfo;
+  radioConfig?: IHandheldRadioConfig;
   createdAt: Date;
   updatedAt?: Date;
   data: IBaseItem;
