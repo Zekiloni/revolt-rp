@@ -39,7 +39,7 @@ export const getOrganizationByName = async (name: string, shortName: string) => 
   }).exec();
 };
 
-export const getOrganizationById = (organizationId: string) => {
+export const getOrganizationById = (organizationId: string | Types.ObjectId) => {
   return OrganizationModel.findById(organizationId);
 };
 
@@ -80,7 +80,7 @@ export const getOrganizationMembers = async (organizationId: string) => {
 
 export const getOnlineOrganizationMembers = (organizationId: string) => {
   return mp.players.toArray().filter((player) => getPlayerOrganizationId(player) === organizationId);
-}
+};
 
 export const isAuthorizedForOrganization = async (
   player: PlayerMp,
@@ -230,15 +230,16 @@ export const unsetPlayerOrganization = async (player: PlayerMp) => {
     summary: t('info'),
     detail: t('you_are_no_longer_member_of_any_organization')
   });
-}
+};
 
 export const playerChatOrganization = async (player: PlayerMp, message: string) => {
-  const organization = await getOrganizationById(getPlayerOrganizationId(player));
+  const organization = await getOrganizationById((<Types.ObjectId>player.character.membership.organization));
+  const rank = await getOrganizationRankById((<Types.ObjectId>player.character.membership.rank));
 
   if (organization) {
     mp.players.forEach((target) => {
       if (getPlayerOrganizationId(target) && organization.id) {
-        sendOrganizationMessage(target, organization.color, `(( ${player.name} [${player.id}]: ${message} ))`);
+        sendOrganizationMessage(target, organization.color, `(( ${rank ? rank.name : ''} ${player.name} [${player.id}]: ${message} ))`);
       }
     });
   }
@@ -323,26 +324,26 @@ export const playerDeleteOrganizationRank = async (player: PlayerMp, rankId) => 
 export const playerLeaveOrganization = async (player: PlayerMp) => {
   await unsetPlayerOrganization(player);
   notifyPlayer(player, { severity: 'info', detail: t('you_left_organization') });
-}
+};
 
 
 export async function deleteOrganization(organization: Organization) {
-    const members = await getOrganizationMembers(organization.id);
-    const onlineMembers = getOnlineOrganizationMembers(organization.id);
+  const members = await getOrganizationMembers(organization.id);
+  const onlineMembers = getOnlineOrganizationMembers(organization.id);
 
-    for (const player of onlineMembers) {
-      setPlayerOrganization(player, null);
-      await player.character.save();
-      notifyPlayer(player, { severity: 'info', detail: t('your_organization_removed') });
-    }
+  for (const player of onlineMembers) {
+    setPlayerOrganization(player, null);
+    await player.character.save();
+    notifyPlayer(player, { severity: 'info', detail: t('your_organization_removed') });
+  }
 
-    for (const member of members) {
-      if (!onlineMembers.some((p) => p.character?.id === member.id)) {
-        member.membership = null;
-        member.isLeader = false;
-        await member.save();
-      }
+  for (const member of members) {
+    if (!onlineMembers.some((p) => p.character?.id === member.id)) {
+      member.membership = null;
+      member.isLeader = false;
+      await member.save();
     }
+  }
 
   return organization.remove();
 }

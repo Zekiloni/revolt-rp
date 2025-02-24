@@ -1,8 +1,9 @@
 import { OrganizationRankModel } from './organization-rank.model';
 import { OrganizationPermissionType } from '@revolt-rp/common';
+import { Types } from 'mongoose';
 
 
-export const getOrganizationRankById = async (id: string) => {
+export const getOrganizationRankById = async (id: string | Types.ObjectId) => {
   return OrganizationRankModel.findById(id);
 };
 
