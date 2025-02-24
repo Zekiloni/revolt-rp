@@ -1,5 +1,5 @@
+import { ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { IHandheldRadioConfig, ItemType, ProcedureKey } from '@revolt-rp/common';
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { getPlayerSelectedItem } from './player-inventory.service';
 import { updateHandheldRadio } from './player-handheld-radio.service';
 
@@ -16,4 +16,4 @@ async function updateHandheldRadioHandler(radioConfig: IHandheldRadioConfig, { p
   }
 }
 
-on(ProcedureKey.SERVER_HANDHELD_RADIO_UPDATE, updateHandheldRadioHandler);
+register(ProcedureKey.SERVER_HANDHELD_RADIO_UPDATE, updateHandheldRadioHandler);
