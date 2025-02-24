@@ -265,7 +265,7 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
     throw new Error(t('rank_not_found'));
   }
 
-  targetCharacter.membership.rank = rank;
+  targetCharacter.membership.rank = rank._id;
   await targetCharacter.save();
 
   const target = findPlayerByCharacterId(targetCharacter.id);
