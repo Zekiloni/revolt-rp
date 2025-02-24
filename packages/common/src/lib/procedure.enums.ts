@@ -103,4 +103,7 @@ export const enum ProcedureKey {
 
   CLIENT_PLAYER_TOGGLE_NO_CLIP = 'client_playerToggleNoClip',
 
+  BROWSER_SET_HANDHELD_RADIO = 'browser_setHandheldRadio',
+  SERVER_HANDHELD_RADIO_UPDATE = 'server_handheldRadioUpdate',
+
 }

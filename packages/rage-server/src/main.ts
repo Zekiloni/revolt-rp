@@ -16,6 +16,7 @@ import './player/player-command';
 import './player/admin/player-admin-command';
 import './player/inventory/player-inventory.api';
 import './player/inventory/player-weapon.api';
+import './player/inventory/player-handheld-radio.api'
 import './player/offer/player-offer.api';
 import './player/payday/player-payday.api';
 import './player/damage/player-damage.api';

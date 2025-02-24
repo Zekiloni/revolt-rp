@@ -5,6 +5,7 @@ import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
 import { WearableItem } from './clothing/wearable-item.model';
 import { ArmourItem } from './equipment/armour-item.model';
+import { HandheldRadioItem } from './electronic/handheld-radio.item';
 
 new DrinkItemModel('Water Bottle', 'Flow water bottle, contains 0.3l of pure taste of water.', [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Beer Bottle', 'Pißwasser beer bottle, contains 0.3l of best German beer.', [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -135,3 +136,6 @@ new WearableItem('items.wearable_footwear', 'items.wearable_footwear_description
 new WearableItem('items.wearable_mask', 'items.wearable_mask_description', RageEnums.ClothesComponent.MASK, 'prop_mask_bugstar', [], 0.3);
 new ArmourItem('items.equipment_kevlar_standard', 'items.equipment_kevlar_standard_description', 'prop_bodyarmour_03', 100, 1.75);
 new ArmourItem('items.equipment_kevlar_heavy', 'items.equipment_kevlar_heavy_description', 'prop_bodyarmour_03', 200, 2.25);
+
+
+new HandheldRadioItem('items.handheld_radio', 'items.handheld_radio_description', 'prop_cs_hand_radio', [], 0.25);

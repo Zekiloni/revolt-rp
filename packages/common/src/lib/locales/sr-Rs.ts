@@ -153,7 +153,9 @@ export const srRs = {
     'equipment_kevlar_standard': 'Osnovni Pancir',
     'equipment_kevlar_standard_description': 'Osnovni pancir za zaštitu.',
     'equipment_armour_a': 'Pancir A+',
-    'equipment_armour_a_description': 'Pancir A+ za zaštitu.'
+    'equipment_armour_a_description': 'Pancir A+ za zaštitu.',
+    'handheld_radio': 'Ručni Radio',
+    'handheld_radio_description': 'Ručni radio uređaj za komunikaciju.',
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',
@@ -318,4 +320,8 @@ export const srRs = {
   'your_organization_removed': 'Vaša organizacija je uklonjena.',
   'organization_deleted': 'Organizacija {{organization}} je obrisana.',
   'local_ooc_command_description': 'Pošaljite lokalnu OOC poruku.',
+  'toggle_power': 'Uključi/Isključi',
+  'config_simplex': 'Simpleks',
+  'connection_status': 'Status konekcije',
+  'frequency': 'Frekvencija',
 };

@@ -28,6 +28,7 @@ import { DeathScreenComponent } from './component/death-screen';
 import { PlayerDamageInfoComponent } from './component/player-damage-info';
 import { CreateOrganizationComponent } from './component/organization/create-organization';
 import { ManageOrganizationComponent } from './component/organization/manage-organization';
+import { HandheldRadioComponent } from './component/item/handheld-radio/handheld-radio.component';
 
 @Component({
   standalone: true,
@@ -50,6 +51,7 @@ import { ManageOrganizationComponent } from './component/organization/manage-org
     PlayerDamageInfoComponent,
     CreateOrganizationComponent,
     ManageOrganizationComponent,
+    HandheldRadioComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

@@ -152,7 +152,9 @@ export const enUs = {
     'equipment_kevlar_standard': 'Basic Armour',
     'equipment_kevlar_standard_description': 'Basic armour for protection.',
     'equipment_armour_a': 'Armour A+',
-    'equipment_armour_a_description': 'Armour A+ for protection.'
+    'equipment_armour_a_description': 'Armour A+ for protection.',
+    'handheld_radio': 'Handheld Radio',
+    'handheld_radio_description': 'A handheld radio for communication.',
   },
   'submit': 'Submit',
   'clear': 'Clear',
@@ -317,4 +319,8 @@ export const enUs = {
   'your_organization_removed': 'Your organization has been removed.',
   'organization_deleted': 'Organization {{organization}} has been deleted.',
   'local_ooc_command_description': 'Send a local OOC message.',
+  'toggle_power': 'Toggle Power',
+  'config_simplex': 'Simplex',
+  'connection_status': 'Connection Status',
+  'frequency': 'Frequency',
 };

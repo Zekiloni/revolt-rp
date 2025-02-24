@@ -55,6 +55,10 @@
     <app-manage-organization [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.HandheldRadio) | async) {
+    <app-handheld-radio @fadeInOut />
+  }
+
   <app-text-chat />
 
   <p-toast />
