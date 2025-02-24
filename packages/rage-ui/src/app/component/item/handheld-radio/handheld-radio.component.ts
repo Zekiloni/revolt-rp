@@ -18,13 +18,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   styleUrl: './handheld-radio.component.css'
 })
 export class HandheldRadioComponent implements OnInit, OnDestroy {
-
-  handheldRadioConfig: IHandheldRadioConfig | null = {
-    power: false,
-    frequency: null,
-    simplex: 1,
-    isConnected: false
-  };
+  handheldRadioConfig: IHandheldRadioConfig | null = null;
 
   constructor(private rageClientService: RageClientService) {
   }
@@ -43,7 +37,9 @@ export class HandheldRadioComponent implements OnInit, OnDestroy {
   }
 
   getConnectionStatusClass() {
-    return this.isPowerOff ? 'pi pi-power-off opacity-30' : this.handheldRadioConfig?.isConnected ? 'pi pi-circle-on text-green-600' : 'pi pi-circle-on text-red-700';
+    return this.isPowerOff ?
+      'pi pi-power-off opacity-30' : this.handheldRadioConfig?.isConnected ?
+        'pi pi-circle-on text-green-600' : 'pi pi-circle-on text-red-700';
   }
 
   ngOnInit(): void {
