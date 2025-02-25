@@ -26,7 +26,8 @@ import {
   makePlayerOrganization,
   makePlayerOrganizationLeader, unsetPlayerOrganization
 } from '../../organization/organization.service';
-import { kickPlayer } from './moderation/moderation.service';
+import { banPlayer, kickPlayer } from './moderation/moderation.service';
+import dayjs from 'dayjs';
 
 
 registerCommand({
@@ -431,9 +432,12 @@ registerCommand({
       return notifyPlayer(player, { severity: 'error', detail: t('organization_not_found') });
 
     await makePlayerOrganization(target, organization);
-    notifyPlayer(player, { severity: 'info', detail: t('player_made_member', { player: target.name, organization: organization.name }) });
+    notifyPlayer(player, {
+      severity: 'info',
+      detail: t('player_made_member', { player: target.name, organization: organization.name })
+    });
   }
-})
+});
 
 
 registerCommand({
@@ -455,7 +459,7 @@ registerCommand({
 
     notifyPlayer(player, { severity: 'info', detail: t('player_removed_from_organization', { player: target.name }) });
   }
-})
+});
 
 
 registerCommand({
@@ -474,7 +478,7 @@ registerCommand({
     await deleteOrganization(organization);
     notifyPlayer(player, { severity: 'info', detail: t('organization_deleted', { organization: organization.name }) });
   }
-})
+});
 
 registerCommand({
   name: 'fly',
@@ -501,4 +505,33 @@ registerCommand({
     await kickPlayer(target, reason, player);
     notifyPlayer(player, { severity: 'info', detail: t('player_kicked', { player: target.name }) });
   }
-})
+});
+
+registerCommand({
+  name: 'ban',
+  params: ['target', 'reason', 'days (666 = permanent)'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  async handle(player: PlayerMp, targetQuery: string, reason: string, expire: string) {
+    if (!isNumber(expire))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'expire', type: 'number' })
+      });
+
+    const target = findPlayer(targetQuery);
+
+    if (!target)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    let expiringAt: Date | undefined = undefined;
+    if (parseInt(expire) != 666) {
+      expiringAt = dayjs().add(parseInt(expire), 'day').toDate();
+    }
+
+    await banPlayer(target, reason, expiringAt, player);
+    notifyPlayer(player, { severity: 'info', detail: t('player_banned', { player: target.name }) });
+  }
+});
+
