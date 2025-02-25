@@ -509,11 +509,11 @@ registerCommand({
 
 registerCommand({
   name: 'ban',
-  params: ['target', 'reason', 'days (666 = permanent)'],
+  params: ['target', 'reason', 'days || perm'],
   description: 'todo',
   administrator: AdminType.MODERATOR,
   async handle(player: PlayerMp, targetQuery: string, reason: string, expire: string) {
-    if (!isNumber(expire))
+    if (!isNumber(expire) || expire != 'perm')
       return notifyPlayer(player, {
         severity: 'error',
         summary: t('bad_request'),
@@ -526,7 +526,7 @@ registerCommand({
       return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
 
     let expiringAt: Date | undefined = undefined;
-    if (parseInt(expire) != 666) {
+    if (expire != 'perm') {
       expiringAt = dayjs().add(parseInt(expire), 'day').toDate();
     }
 
