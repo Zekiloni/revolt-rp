@@ -155,7 +155,7 @@ export const srRs = {
     'equipment_armour_a': 'Pancir A+',
     'equipment_armour_a_description': 'Pancir A+ za zaštitu.',
     'handheld_radio': 'Ručni Radio',
-    'handheld_radio_description': 'Ručni radio uređaj za komunikaciju.',
+    'handheld_radio_description': 'Ručni radio uređaj za komunikaciju.'
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',
@@ -324,4 +324,9 @@ export const srRs = {
   'config_simplex': 'Simpleks',
   'connection_status': 'Status konekcije',
   'frequency': 'Frekvencija',
+  'you_dont_have_item': 'Ne posedujete {{item}}.',
+  'your_must_configure_radio': 'Morate konfigurisati frekvenciju.',
+  'your_radio_not_connected': 'Vaš radio nije povezan.',
+  'your_radio_power_off': 'Vaš radio je isključen.',
+  'says_radio': '{{name}} kaže (radio): {{text}}',
 };
