@@ -154,7 +154,7 @@ export const enUs = {
     'equipment_armour_a': 'Armour A+',
     'equipment_armour_a_description': 'Armour A+ for protection.',
     'handheld_radio': 'Handheld Radio',
-    'handheld_radio_description': 'A handheld radio for communication.',
+    'handheld_radio_description': 'A handheld radio for communication.'
   },
   'submit': 'Submit',
   'clear': 'Clear',
@@ -323,4 +323,9 @@ export const enUs = {
   'config_simplex': 'Simplex',
   'connection_status': 'Connection Status',
   'frequency': 'Frequency',
+  'you_dont_have_item': 'You don\'t have the {{item}}.',
+  'your_must_configure_radio': 'You must configure your radio.',
+  'your_radio_not_connected': 'Your radio is not connected.',
+  'your_radio_power_off': 'Your radio is powered off.',
+  'says_radio': '{{name}} says (radio): {{text}}'
 };

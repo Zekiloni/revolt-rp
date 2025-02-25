@@ -7,6 +7,7 @@ import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { getForecast } from '../world/weather.service';
+import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
 
 
 registerCommand({
@@ -264,3 +265,14 @@ registerCommand({
   }
 });
 
+
+registerCommand({
+  name: 'r',
+  description: 'todo',
+  aliases: ['radio'],
+  params: ['content'],
+  handle(player: PlayerMp, ...args) {
+    const content = [...args].join(' ');
+    playerSendRadioMessage(player, content);
+  }
+});

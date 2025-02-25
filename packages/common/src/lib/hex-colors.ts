@@ -8,7 +8,7 @@ export const hexColors = {
   Vehicle: ['DEDEDE', 'BDBDBD', 'A3A2A2', '909090', '909090'],
   OOC: ['b0c4c3', '9cb2b1', '8da1a0', '819493', '778a89'],
   FACTION: '59DC90',
-  RADIO: 'FFFF99',
+  LAMBS_WOOL: 'FFFFE3',
   GREY: ['D1D1D1', 'BEBEBE', 'A8A8A8', '8F8F8F', '7A7A7A'],
   GREY85: 'D9D9D9',
   Tomato: 'FF6347',
