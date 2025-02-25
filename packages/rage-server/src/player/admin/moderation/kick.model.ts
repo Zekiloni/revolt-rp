@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { IAccount, IKick } from '@revolt-rp/common';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { Account } from '../account.model';
+import { Account } from '../../account/account.model';
 
 
 @modelOptions({

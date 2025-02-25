@@ -4,7 +4,7 @@ import { IAccount } from './account.model';
 
 
 export interface IBan extends Base {
-  account: Ref<IAccount>;
+  account?: Ref<IAccount>;
   reason: string;
   ipAddress: string;
   admin?: Ref<IAccount>;

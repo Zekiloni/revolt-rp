@@ -327,5 +327,7 @@ export const enUs = {
   'your_must_configure_radio': 'You must configure your radio.',
   'your_radio_not_connected': 'Your radio is not connected.',
   'your_radio_power_off': 'Your radio is powered off.',
-  'says_radio': '{{name}} says (radio): {{text}}'
+  'says_radio': '{{name}} says (radio): {{text}}',
+  'player_kicked': '{{player}} has been kicked.',
+  'player_is_banned': '{{player}} has been banned by {{admin}} for {{reason}}.',
 };

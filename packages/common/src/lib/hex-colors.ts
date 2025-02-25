@@ -11,7 +11,7 @@ export const hexColors = {
   LAMBS_WOOL: 'FFFFE3',
   GREY: ['D1D1D1', 'BEBEBE', 'A8A8A8', '8F8F8F', '7A7A7A'],
   GREY85: 'D9D9D9',
-  Tomato: 'FF6347',
+  TOMATO: 'FF6347',
   LIGHT_RED: 'FF6347',
   YELLOW: 'FFFF00',
   YELLOW_LIGHT: 'FFD500',

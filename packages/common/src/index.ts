@@ -8,6 +8,8 @@ export * from './lib/key.enums';
 export * from './lib/hex-colors';
 export * from './lib/rgb-colors';
 
+export * from './lib/util/object.util';
+
 export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
 export * from './lib/game-ui/game-ui.config';
@@ -20,8 +22,8 @@ export * from './lib/player/account/account.model';
 export * from './lib/player/account/account-create.model';
 export * from './lib/player/account/account-auth.model';
 export * from './lib/player/account/oauth2/discord-oauth2.model';
-
-export * from './lib/util/object.util';
+export * from './lib/player/account/ban.model';
+export * from './lib/player/account/kick.model';
 
 export * from './lib/player/character/character.config';
 export * from './lib/player/character/char-appeaarance.model';

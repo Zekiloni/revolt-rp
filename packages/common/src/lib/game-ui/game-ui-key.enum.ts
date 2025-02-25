@@ -16,4 +16,5 @@ export enum GameUiKey {
   ManageOrganization = 'manageOrganization',
 
   HandheldRadio = 'handheldRadio',
+  BanInfo = 'banInfo',
 }
