@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { on, ProcedureListenerInfo, register, triggerClient } from '@libertymp/rage-rpc';
+import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   catchError,
   GameUiKey,
@@ -14,7 +14,7 @@ import {
   getOrganizationMembers, invitePlayerToOrganization, playerCreateOrganizationRank, playerDeleteOrganizationRank,
   playerUpdateOrganizationMember, removePlayerFromOrganizationByCharacterId
 } from './organization.service';
-import { notifyPlayer } from '../player/util/player-notify.util';
+import { hidePlayerGameInterface, notifyPlayer } from '../player/util/player-notify.util';
 import { Organization } from './organization.model';
 
 
@@ -45,7 +45,7 @@ export const createOrganizationHandler = (organizationCreate: Partial<Organizati
       summary: t('success'),
       detail: t('organization_created', { name: organization.name })
     });
-    triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateOrganization);
+    hidePlayerGameInterface(player, GameUiKey.CreateOrganization);
   }).catch((error) => {
     const apiError = catchError(error);
     notifyPlayer(player, {

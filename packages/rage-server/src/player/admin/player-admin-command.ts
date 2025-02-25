@@ -19,7 +19,7 @@ import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
 import { setAdministrator } from '../account/account.service';
 import { registerCommand } from '../player-command.service';
-import { notifyPlayer } from '../util/player-notify.util';
+import { notifyPlayer, showPlayerGameInterface } from '../util/player-notify.util';
 import {
   deleteOrganization,
   getOrganizationByName,
@@ -382,7 +382,7 @@ registerCommand({
   description: 'todo',
   administrator: AdminType.SUPER_ADMIN,
   handle(player: PlayerMp) {
-    triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, GameUiKey.CreateOrganization);
+    showPlayerGameInterface(player, GameUiKey.CreateOrganization);
   }
 });
 
