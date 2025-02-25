@@ -26,6 +26,7 @@ import {
   makePlayerOrganization,
   makePlayerOrganizationLeader, unsetPlayerOrganization
 } from '../../organization/organization.service';
+import { kickPlayer } from './moderation/moderation.service';
 
 
 registerCommand({
@@ -484,3 +485,20 @@ registerCommand({
     triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_NO_CLIP);
   }
 });
+
+
+registerCommand({
+  name: 'kick',
+  params: ['target', 'reason'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  async handle(player: PlayerMp, targetQuery: string, reason: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    await kickPlayer(target, reason, player);
+    notifyPlayer(player, { severity: 'info', detail: t('player_kicked', { player: target.name }) });
+  }
+})

@@ -74,6 +74,10 @@ export class Account extends Document implements IAccount {
   createdAt!: Date;
 
   updatedAt?: Date;
+
+  get isAdmin() {
+    return this.administrator !== AdminType.NONE;
+  }
 }
 
 

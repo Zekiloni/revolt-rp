@@ -106,4 +106,6 @@ export const enum ProcedureKey {
   BROWSER_SET_HANDHELD_RADIO = 'browser_setHandheldRadio',
   SERVER_HANDHELD_RADIO_UPDATE = 'server_handheldRadioUpdate',
 
+  BROWSER_SET_BAN_INFO = 'browser_setBanInfo',
+
 }

@@ -329,4 +329,6 @@ export const srRs = {
   'your_radio_not_connected': 'Vaš radio nije povezan.',
   'your_radio_power_off': 'Vaš radio je isključen.',
   'says_radio': '{{name}} kaže (radio): {{text}}',
+  'player_kicked': 'Igrač {{player}} je izbačen iz igre.',
+  'player_is_banned': 'Igrač {{player}} je banovan od strane {{admin}} zbog {{reason}}.',
 };

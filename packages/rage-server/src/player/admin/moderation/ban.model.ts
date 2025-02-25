@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { IBan } from '@revolt-rp/common';
-import { Account } from '../account.model';
+import { Account } from '../../account/account.model';
 
 
 @modelOptions({
@@ -13,8 +13,8 @@ export class Ban extends Document implements IBan {
   declare _id: Types.ObjectId;
   declare id: string;
 
-  @prop({ ref: () => Account, required: true })
-  account: Ref<Account>;
+  @prop({ ref: () => Account, required: false })
+  account?: Ref<Account>;
 
   @prop({ ref: () => Account })
   admin?: Ref<Account>;

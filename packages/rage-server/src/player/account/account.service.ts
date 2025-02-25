@@ -4,6 +4,7 @@ import { t } from 'i18next';
 import { AccountCreate, AdminType, PlayerSharedDataType } from '@revolt-rp/common';
 import { AccountModel } from '../account-character.ref';
 import { Account } from './account.model';
+import { FilterQuery, QueryOptions } from 'mongoose';
 
 
 export const getAccountByUsername = async (username: string) => {
@@ -19,6 +20,10 @@ export const getAccountByDiscordId = async (discordId: string) => {
     path: 'characters',
     select: '-account'
   }).exec();
+}
+
+export const getAccountByQuery = async (query: FilterQuery<Account>) => {
+  return AccountModel.findOne(query).exec();
 }
 
 export const getAccountByUsernameOrEmail = async (username: string, email: string) => {
