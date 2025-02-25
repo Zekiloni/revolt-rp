@@ -73,7 +73,7 @@ export class Account extends Document implements IAccount {
 
   createdAt!: Date;
 
-  updatedAt!: Date;
+  updatedAt?: Date;
 }
 
 
