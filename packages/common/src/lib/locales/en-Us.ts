@@ -329,5 +329,6 @@ export const enUs = {
   'your_radio_power_off': 'Your radio is powered off.',
   'says_radio': '{{name}} says (radio): {{text}}',
   'player_kicked': '{{player}} has been kicked.',
-  'player_is_banned': '{{player}} has been banned by {{admin}} for {{reason}}.',
+  'player_kick_alert': '{{player}} has been banned by {{admin}} for {{reason}}.',
+  'player_banned': '{{player}} has been banned.',
 };

@@ -49,7 +49,7 @@ export const checkPlayerBan = async (player: PlayerMp) => {
 export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
   const ban = await createBan(player.account, player.ip, reason, expiringAt, admin?.account);
   showPlayerBanInfo(player, ban);
-  sendAdminAlert(t('player_is_banned', {
+  sendAdminAlert(t('player_kick_alert', {
     player: player.name,
     admin: admin ? admin.account.username : 'System',
     reason
