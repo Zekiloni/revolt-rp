@@ -29,6 +29,7 @@ import { PlayerDamageInfoComponent } from './component/player-damage-info';
 import { CreateOrganizationComponent } from './component/organization/create-organization';
 import { ManageOrganizationComponent } from './component/organization/manage-organization';
 import { HandheldRadioComponent } from './component/item/handheld-radio/handheld-radio.component';
+import { BanInfoComponent } from './component/ban-info';
 
 @Component({
   standalone: true,
@@ -51,7 +52,8 @@ import { HandheldRadioComponent } from './component/item/handheld-radio/handheld
     PlayerDamageInfoComponent,
     CreateOrganizationComponent,
     ManageOrganizationComponent,
-    HandheldRadioComponent
+    HandheldRadioComponent,
+    BanInfoComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

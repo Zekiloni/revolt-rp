@@ -96,6 +96,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.BanInfo]: {
-    isActive: false,
+    isActive: true,
   }
 };
