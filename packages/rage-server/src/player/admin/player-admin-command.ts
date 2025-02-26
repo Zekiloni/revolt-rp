@@ -28,6 +28,7 @@ import {
 } from '../../organization/organization.service';
 import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
+import { sendAdminAlert } from './player-admin.util';
 
 
 registerCommand({
@@ -62,8 +63,8 @@ registerCommand({
   administrator: AdminType.ADMINISTRATOR,
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
-    const adminLevel = t(`administrator[${player.account.administrator}]`);
-    mp.players.broadcast(`!{${hexColors.ADMIN}}${adminLevel} ${player.account.username}: ${content}`);
+    const adminLevel = t(`administrator`, { returnObjects: true }) as string[];
+    mp.players.broadcast(`!{${hexColors.ADMIN}}${adminLevel[player.account.administrator]} ${player.account.username}: ${content}`);
   }
 });
 

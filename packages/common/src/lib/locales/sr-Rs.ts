@@ -136,7 +136,7 @@ export const srRs = {
   'select_bank_account': 'Izaberi bankovni račun',
   'error': 'Greška',
   'cant_transfer_to_same_account': 'Ne možete prebaciti novac na isti račun.',
-  'administration': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
+  'admin_level': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
   'items': {
     'credit_card': 'Kreditna Kartica',
     'credit_card_description': 'Standardna kreditna kartica za elektronska plaćanja.',
