@@ -97,5 +97,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
 
   [GameUiKey.BanInfo]: {
     isActive: false,
+    freezeControls: true,
+    disableChat: true
   }
 };
