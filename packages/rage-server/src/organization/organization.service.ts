@@ -265,9 +265,6 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
     throw new Error(t('rank_not_found'));
   }
 
-  targetCharacter.membership.rank = rank._id;
-  await targetCharacter.save();
-
   const target = findPlayerByCharacterId(targetCharacter.id);
 
   if (target) {
@@ -277,7 +274,11 @@ export async function playerUpdateOrganizationMember(player: PlayerMp, memberUpd
       summary: t('info'),
       detail: t('rank_updated', { rank: rank.name })
     });
+  } else {
+    targetCharacter.membership.rank = rank._id;
   }
+
+  await targetCharacter.save();
 
   notifyPlayer(player, {
     severity: 'info',
