@@ -1,1 +1,66 @@
-<p>create-property works!</p>
+<p-dialog [header]="'create_property' | translate" [modal]="true" [(visible)]="isActive"
+          (onHide)="close()"
+          [style]="{ width: '30rem' }" [draggable]="false">
+
+  <form class="grid formgrid p-fluid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field mb-4 col-8">
+      <label for="name" class="mb-2">{{ 'name' | translate }} <small>({{ 'optional' | translate }})</small></label>
+      <input id="name" type="text" pInputText formControlName="name" placeholder="Inglewood 24/7 Market" />
+    </div>
+
+    <div class="field mb-4 col-4">
+      <label for="price" class="mb-2">{{ 'price' | translate }} <small>({{ 'optional' | translate }})</small></label>
+      <p-inputNumber formControlName="price" id="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" placeholder="5000" />
+    </div>
+
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="type" class="mb-2">{{ 'property_type' | translate }}</label>
+      <p-dropdown
+        [options]="propertyTypes"
+        formControlName="type"
+        appendTo="body"
+        [filter]="true"
+        [emptyFilterMessage]="'no_results' | translate"
+        [emptyMessage]="'no_results' | translate"
+        [showClear]="true"
+        id="type"
+        [placeholder]="'select_type' | translate">
+        <ng-template let-selectedItem pTemplate="selectedItem">
+          <span>{{ selectedItem | translate }}</span>
+        </ng-template>
+        <ng-template let-type pTemplate="item">
+          <span>{{ type | translate }}</span>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    @if (isCommercialType) {
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="subType" class="mb-2">{{ 'sub_type' | translate }}</label>
+        <p-dropdown
+          [options]="commercialTypes"
+          formControlName="subType"
+          appendTo="body"
+          [filter]="true"
+          [emptyFilterMessage]="'no_results' | translate"
+          [emptyMessage]="'no_results' | translate"
+          [showClear]="true"
+          id="subType"
+          [placeholder]="'select_type' | translate">
+          <ng-template let-selectedItem pTemplate="selectedItem">
+            <span>{{ selectedItem | translate }}</span>
+          </ng-template>
+          <ng-template let-type pTemplate="item">
+            <span>{{ type | translate }}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    }
+
+    <div class="flex w-full justify-content-between gap-2 mt-2">
+      <button pButton type="button" class="w-full" [label]="'cancel' | translate" severity="secondary"
+              (click)="close()"></button>
+      <button pButton type="submit" icon="pi pi-save" class="w-full" [label]="'submit' | translate"></button>
+    </div>
+  </form>
+</p-dialog>

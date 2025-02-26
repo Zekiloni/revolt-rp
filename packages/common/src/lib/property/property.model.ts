@@ -37,6 +37,15 @@ export interface IPropertyPoint {
 }
 
 
+export  interface IPropertyCreate {
+  name?: string;
+  owner?: IPropertyOwner;
+  type: PropertyType;
+  subType?: CommercialType;
+  price?: number;
+  spriteType?: number;
+}
+
 export interface IProperty {
   id: string;
   name?: string;
