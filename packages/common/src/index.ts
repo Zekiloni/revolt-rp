@@ -78,10 +78,12 @@ export * from './lib/banking/transaction.model';
 export * from './lib/banking/transaction.enum';
 export * from './lib/banking/bank-interaction.model';
 
-
 export * from './lib/organization/oranization.enum';
 export * from './lib/organization/organization.model';
 export * from './lib/organization/member.model';
+
+export * from './lib/property/property.model';
+export * from './lib/property/property.enums';
 
 export * from './lib/world/world.enum';
 export * from './lib/world/weather-type';
