@@ -63,12 +63,6 @@ export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Da
   }));
 
   player.alpha = 0;
-
-  if (player.character)
-    await player.character.save();
-
-  if (player.account)
-    await player.account.save();
 };
 
 
