@@ -513,7 +513,7 @@ registerCommand({
   description: 'todo',
   administrator: AdminType.MODERATOR,
   async handle(player: PlayerMp, targetQuery: string, reason: string, expire: string) {
-    if (!isNumber(expire) || expire != 'perm')
+    if (!isNumber(expire) && expire != 'perm')
       return notifyPlayer(player, {
         severity: 'error',
         summary: t('bad_request'),
