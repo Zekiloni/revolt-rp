@@ -36,14 +36,14 @@ export const checkPlayerBan = async (player: PlayerMp) => {
     ],
     expiringAt: { $gt: new Date() },
     deletedAt: { $exists: false }
-  }).exec();
+  }).populate('admin')
+    .exec();
 
   if (activeBan) {
     showPlayerBanInfo(player, activeBan);
     player.kick(activeBan.reason);
   }
 };
-
 
 
 export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
