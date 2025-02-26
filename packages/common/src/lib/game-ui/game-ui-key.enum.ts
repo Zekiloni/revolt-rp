@@ -1,20 +1,19 @@
 export enum GameUiKey {
   Authorization = 'authorization',
   CharacterCreator = 'characterCreator',
+  BanInfo = 'banInfo',
   Hud = 'hud',
-  PlayerMenu = 'playerMenu',
   VehicleHud = 'vehicleHud',
   Inventory = 'inventory',
+  PlayerMenu = 'playerMenu',
   Offer = 'offer',
   BankMenu = 'bankMenu',
   ATM = 'atm',
   AnimationMenu = 'animationMenu',
   DeathScreen = 'deathScreen',
   DamageInfo = 'damageInfo',
-
   CreateOrganization = 'createOrganization',
   ManageOrganization = 'manageOrganization',
-
+  CreateProperty = 'createProperty',
   HandheldRadio = 'handheldRadio',
-  BanInfo = 'banInfo',
 }
