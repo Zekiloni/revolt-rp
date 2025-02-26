@@ -3,6 +3,10 @@
     <app-authorization @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.BanInfo) | async) {
+    <app-ban-info @fadeInOut />
+  }
+
   @if ($isGameInterfaceActive(GameUiKey.CharacterCreator) | async) {
     <app-character-creator @fadeInOut />
   }

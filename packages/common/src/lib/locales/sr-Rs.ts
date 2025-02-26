@@ -332,4 +332,11 @@ export const srRs = {
   'player_kicked': 'Igrač {{player}} je izbačen iz igre.',
   'player_kick_alert': 'Igrač {{player}} je banovan od strane {{admin}} zbog {{reason}}.',
   'player_banned': 'Igrač {{player}} je banovan.',
+  'account_banned': 'Primena zabrane: Vaš račun više nije dostupan',
+  'ban_hint': 'Ukoliko mislite da je došlo do greške, podnesite žalbu na našem forumu.',
+  'reason': 'Razlog',
+  'date': 'Datum',
+  'expiring_at': 'Ističe',
+  'permanent': 'Trajno',
+  'administrator': 'Administrator',
 };

@@ -331,4 +331,11 @@ export const enUs = {
   'player_kicked': '{{player}} has been kicked.',
   'player_kick_alert': '{{player}} has been banned by {{admin}} for {{reason}}.',
   'player_banned': '{{player}} has been banned.',
+  'account_banned': 'Ban Enforcement: Your Account is No Longer Accessible',
+  'ban_hint': 'If you believe this is a mistake, please submit an appeal on our forum.',
+  'reason': 'Reason',
+  'date': 'Date',
+  'expiring_at': 'Expiring At',
+  'permanent': 'Permanent',
+  'administrator': 'Administrator',
 };

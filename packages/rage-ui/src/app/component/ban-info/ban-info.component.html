@@ -1,0 +1,33 @@
+<div class="absolute-center">
+  <div class="surface-card border-round shadow-2 p-4">
+    <div class="text-900 font-medium mb-2 text-xl">
+      <i class="pi pi-ban mr-2 text-red-300"></i>
+      {{ 'account_banned' | translate }}
+    </div>
+    <p class="mt-0 mb-4 p-0 line-height-3">
+      {{ 'ban_hint' | translate }}
+    </p>
+    @if (ban) {
+      <div class="flex mb-4 flex-column lg:flex-row">
+        <div class="surface-50 p-3 flex-auto">
+          <div class="text-600 mb-3">{{ 'reason' | translate }}</div>
+          <span class="font-medium text-l">{{ ban.reason }}</span>
+        </div>
+        <div class="surface-50 p-3 flex-auto mx-0 my-3 lg:my-0 lg:mx-3">
+          <div class="text-600 mb-3">{{ 'date' | translate }}</div>
+          <span class="font-medium text-l">{{ ban.createdAt | date }}</span>
+        </div>
+        <div class="surface-50 p-3 flex-auto">
+          <div class="text-600 mb-3">{{ 'expiring_at' | translate }}</div>
+          <span class="font-medium text-l">{{ ban.expiringAt ? (ban.expiringAt | date) : ('permanent' | translate) }}</span>
+        </div>
+        <div class="surface-50 p-3 flex-auto mx-0 my-3 lg:my-0 lg:mx-3">
+          <div class="text-600 mb-3">{{ 'administrator' | translate }}</div>
+          <span class="font-medium text-l">{{ getIssuer() }}</span>
+        </div>
+      </div>
+    } @else {
+      <p-skeleton width="full" height="5rem" />
+    }
+  </div>
+</div>
