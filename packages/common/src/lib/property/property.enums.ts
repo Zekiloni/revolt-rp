@@ -1,15 +1,13 @@
 export enum PropertyType {
-  House = 'house',
-  Apartment = 'apartment',
-  Hotel = 'hotel',
-  Business = 'business',
-  Condo = 'condo',
-  Office = 'office',
-  Warehouse = 'warehouse',
+  Residential = 'residential',
+  Commercial = 'commercial',
+  PublicService = 'public_service',
+  Industrial = 'industrial',
+  Utility = 'utility',
   Other = 'other'
 }
 
-export enum BusinessType {
+export enum CommercialType {
   GroceryStore = 'grocery_store',
   GasStation = 'gas_station',
   Ammunition = 'ammunition',
