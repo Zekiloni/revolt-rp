@@ -41,11 +41,17 @@ export const checkPlayerBan = async (player: PlayerMp) => {
     .exec();
   if (activeBan) {
     showPlayerBanInfo(player, activeBan);
-
-    //player.kick(activeBan.reason);
+    kickPlayerWithTimeout(player, activeBan.reason);
     return activeBan;
   }
 };
+
+function kickPlayerWithTimeout(player: PlayerMp, reason: string) {
+  setTimeout(() => {
+    if (player && mp.players.exists(player))
+      player.kick(reason);
+  }, BAN_KICK_TIMEOUT_MS);
+}
 
 export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
   const ban = await createBan(player.account, player.ip, reason, expiringAt, admin?.account);
@@ -63,11 +69,6 @@ export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Da
 
   if (player.account)
     await player.account.save();
-
-  setTimeout(() => {
-    if (player && mp.players.exists(player))
-      player.kick(reason);
-  }, BAN_KICK_TIMEOUT_MS);
 };
 
 
