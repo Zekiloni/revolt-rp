@@ -56,7 +56,7 @@ function kickPlayerWithTimeout(player: PlayerMp, reason: string) {
 export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
   const ban = await createBan(player.account, player.ip, reason, expiringAt, admin?.account);
   showPlayerBanInfo(player, ban);
-  sendAdminAlert(t('player_kick_alert', {
+  sendAdminAlert(t('player_ban_alert', {
     player: player.name,
     admin: admin ? admin.account.username : 'System',
     reason
@@ -71,5 +71,6 @@ export const kickPlayer = async (player: PlayerMp, reason: string, admin?: Playe
   if (player.account)
     await createKick(player.account, reason, admin?.account);
 
+  sendAdminAlert(t('player_kick_alert', { player: player.name, admin: admin ? admin.name : 'System', reason }));
   player.kick(reason);
 };
