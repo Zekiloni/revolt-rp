@@ -63,6 +63,7 @@ export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Da
   }));
 
   player.alpha = 0;
+  kickPlayerWithTimeout(player, ban.reason);
 };
 
 
