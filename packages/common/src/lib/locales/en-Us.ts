@@ -135,7 +135,7 @@ export const enUs = {
   'select_bank_account': 'Select Bank Account',
   'error': 'Error',
   'cant_transfer_to_same_account': 'You can\'t transfer money to the same account.',
-  'administration': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
+  'admin_level': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
   'items': {
     'credit_card': 'Credit Card',
     'credit_card_description': 'A standard credit card for making electronic payments.',
