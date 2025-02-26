@@ -7,7 +7,10 @@ import { IOrganizationRank, OrganizationPermissionType } from '@revolt-rp/common
   schemaOptions: {
     timestamps: true,
     toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toJSON: { virtuals: true },
+  },
+  options: {
+    customName: 'organization_ranks'
   }
 })
 export class OrganizationRank extends Document implements IOrganizationRank {

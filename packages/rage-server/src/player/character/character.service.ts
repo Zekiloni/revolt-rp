@@ -238,7 +238,7 @@ export const setPlayerOrganization = (player: PlayerMp, organization: Organizati
 
 export const setPlayerOrganizationRank = (player: PlayerMp, rank: OrganizationRank) => {
   if (!player.character.membership) return;
-  player.character.membership.rank = rank;
+  player.character.membership.rank = rank._id;
 };
 
 export const getPlayerOrganizationId = (player: PlayerMp) => {
