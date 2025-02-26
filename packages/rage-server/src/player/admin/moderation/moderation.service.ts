@@ -1,13 +1,14 @@
-import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
-import { showPlayerGameInterface } from '../../util/player-notify.util';
-import { getAccountByQuery } from '../../account/account.service';
-import { Ban, BanModel } from './ban.model';
-import { Account } from '../../account/account.model';
-import { KickModel } from './kick.model';
+import { triggerClient } from '@libertymp/rage-rpc';
 import { t } from 'i18next';
+import { ProcedureKey } from '@revolt-rp/common';
+import { getAccountByQuery } from '../../account/account.service';
+import { Account } from '../../account/account.model';
 import { sendAdminAlert } from '../player-admin.util';
+import { Ban, BanModel } from './ban.model';
+import { KickModel } from './kick.model';
 
+
+const BAN_KICK_TIMEOUT_MS = 7500;
 
 export const createKick = (account: Account, reason: string, admin?: Account) => {
   return KickModel.create({
@@ -15,15 +16,15 @@ export const createKick = (account: Account, reason: string, admin?: Account) =>
   });
 };
 
-
 export const createBan = (account: Account | undefined, ipAddress: string, reason: string, expiringAt: Date | undefined, admin?: Account) => {
   return BanModel.create({
     account, reason, expiringAt, admin, ipAddress
   });
+
 };
 
 export const showPlayerBanInfo = (player: PlayerMp, ban: Ban) => {
-  showPlayerGameInterface(player, GameUiKey.BanInfo, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_BAN_INFO, ban));
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_BAN_INFO, ban);
 };
 
 export const checkPlayerBan = async (player: PlayerMp) => {
@@ -38,13 +39,13 @@ export const checkPlayerBan = async (player: PlayerMp) => {
     deletedAt: { $exists: false }
   }).populate('admin')
     .exec();
-
   if (activeBan) {
     showPlayerBanInfo(player, activeBan);
-    player.kick(activeBan.reason);
+
+    //player.kick(activeBan.reason);
+    return activeBan;
   }
 };
-
 
 export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
   const ban = await createBan(player.account, player.ip, reason, expiringAt, admin?.account);
@@ -54,7 +55,19 @@ export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Da
     admin: admin ? admin.account.username : 'System',
     reason
   }));
-  player.kick(reason);
+
+  player.alpha = 0;
+
+  if (player.character)
+    await player.character.save();
+
+  if (player.account)
+    await player.account.save();
+
+  setTimeout(() => {
+    if (player && mp.players.exists(player))
+      player.kick(reason);
+  }, BAN_KICK_TIMEOUT_MS);
 };
 
 

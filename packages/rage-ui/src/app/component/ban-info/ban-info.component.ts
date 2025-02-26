@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { IAccount, IBan, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { SkeletonModule } from 'primeng/skeleton';
@@ -10,16 +10,18 @@ import { SkeletonModule } from 'primeng/skeleton';
   standalone: true,
   imports: [CommonModule, TranslatePipe, SkeletonModule],
   templateUrl: './ban-info.component.html',
-  styleUrl: './ban-info.component.css'
+  styleUrl: './ban-info.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BanInfoComponent implements OnInit, OnDestroy {
   ban: Partial<IBan> | null = null;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   private setBanInfo = (ban: IBan) => {
     this.ban = ban;
+    this.changeDetectorRef.detectChanges();
   };
 
   getIssuer() {

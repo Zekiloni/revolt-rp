@@ -9,8 +9,10 @@ function playerJoinHandler(player: PlayerMp) {
 }
 
 async function playerReadyHandler(player: PlayerMp) {
-  await checkPlayerBan(player);
-  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, true);
+  const ban = await checkPlayerBan(player);
+
+  if (!ban)
+    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, true);
 }
 
 mp.events.add({

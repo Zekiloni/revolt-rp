@@ -1,8 +1,8 @@
 import { callServer, on, register, triggerBrowser } from '@libertymp/rage-rpc';
-import { GameUiKey, ProcedureKey, StorageDataKey } from '@revolt-rp/common';
+import { GameUiKey, IBan, ProcedureKey, StorageDataKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
 import { getStorage, saveStorage } from '../../core/storage-manager';
-import { authConfig } from './auth.config';
+import { authConfig, banSceneConfig } from './auth.config';
 
 let authCamera: CameraMp | null = null;
 
@@ -25,7 +25,7 @@ export async function toggleAuthorization(toggle: boolean) {
 
     const savedUsername = getStorage<string | undefined>(StorageDataKey.Username);
     if (savedUsername) {
-      triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER, savedUsername);
+      setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_AUTHORIZATION_REMEMBER, savedUsername), 200);
     }
   } else {
     hideGameInterface(GameUiKey.Authorization);
@@ -50,6 +50,29 @@ async function discordOAuth2() {
       callServer(ProcedureKey.SERVER_PLAYER_AUTHORIZE_DISCORD, authorizationCode));
 }
 
+function toggleBanInfo(ban: IBan) {
+  if (ban) {
+    showGameInterface(GameUiKey.BanInfo);
+    setTimeout(() => {
+      triggerBrowser(browser, ProcedureKey.BROWSER_SET_BAN_INFO, ban);
+    }, 200);
+
+    mp.players.local.position = banSceneConfig.cameraCoords;
+    mp.game.ui.displayRadar(false);
+    mp.players.local.setAlpha(0);
+
+    authCamera = mp.cameras.new('default', banSceneConfig.cameraCoords, new mp.Vector3(0, 0, 0), 40);
+    authCamera.pointAtCoord(
+      banSceneConfig.cameraLookAtCoords.x,
+      banSceneConfig.cameraLookAtCoords.y,
+      banSceneConfig.cameraLookAtCoords.z
+    );
+    authCamera.setActive(true);
+    mp.game.cam.renderScriptCams(true, false, 0, true, false, 0);
+  }
+}
+
 on(ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, toggleAuthorization);
+on(ProcedureKey.CLIENT_TOGGLE_BAN_INFO, toggleBanInfo);
 on(ProcedureKey.CLIENT_AUTHORIZATION_REMEMBER_ME, saveAuthorizationUsername);
 register(ProcedureKey.CLIENT_AUTHORIZATION_DISCORD, discordOAuth2);
