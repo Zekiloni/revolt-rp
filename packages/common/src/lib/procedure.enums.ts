@@ -15,6 +15,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_SELECT_CHARACTER = 'server_playerSelectCharacter',
 
   CLIENT_TOGGLE_PLAYER_AUTHORIZATION = 'client_togglePlayerAuthorization',
+  CLIENT_TOGGLE_BAN_INFO = 'client_toggleBanInfo',
   CLIENT_AUTHORIZATION_REMEMBER_ME = 'client_authorizationRememberMe',
   CLIENT_AUTHORIZATION_DISCORD = 'client_authorizationDiscord',
   CLIENT_TOGGLE_CHARACTER_CREATOR = 'client_toggleCharacterCreator',
