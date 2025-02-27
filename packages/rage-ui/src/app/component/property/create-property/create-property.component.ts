@@ -50,8 +50,10 @@ export class CreatePropertyComponent {
     this.form.get('type')?.valueChanges.subscribe((value) => {
       if (value === 'commercial') {
         this.form.addControl('subType', this.formBuilder.control(null, [Validators.required]));
+        this.form.get('price')?.addValidators(Validators.required)
       } else {
         this.form.removeControl('subType');
+        this.form.get('price')?.removeValidators(Validators.required)
       }
     });
   };
@@ -62,6 +64,9 @@ export class CreatePropertyComponent {
   }
 
   submit() {
+    if (this.form.invalid)
+      return;
+
     const property: IPropertyCreate = this.form.value;
     this.rageClientService.triggerServer(ProcedureKey.SERVER_PROPERTY_CREATE, property);
   }

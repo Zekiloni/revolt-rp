@@ -246,6 +246,7 @@ export const enUs = {
   'parent_organization': 'Parent Organization',
   'select_parent_organization': 'Select Parent Organization',
   'optional': 'Optional',
+  'required': 'Required',
   'organization_create_info': 'The organization will be created at your current position and will use your dimension. You can update it later.',
   'organization_created': 'Organization {{name}} has been created.',
   'organization_name_taken': 'Organization name or short name is already taken.',

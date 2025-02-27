@@ -247,6 +247,7 @@ export const srRs = {
   'parent_organization': 'Nadređena organizacija',
   'select_parent_organization': 'Izaberite nadređenu organizaciju',
   'optional': 'Opciono',
+  'required': 'Obavezno',
   'organization_create_info': 'Organizacija će biti kreirana na vašoj trenutnoj poziciji i koristiće vašu dimenziju. Možete je kasnije ažurirati.',
   'organization_created': 'Organizacija {{name}} je uspešno kreirana.',
   'organization_name_taken': 'Ime organizacije je već zauzeto.',
