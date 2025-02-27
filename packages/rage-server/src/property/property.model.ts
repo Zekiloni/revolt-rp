@@ -5,7 +5,7 @@ import {
   IProduct,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, IWorker,
+  IPropertyPoint, ItemSharedDataType, IWorker, PropertySharedDataType,
   PropertyType
 } from '@revolt-rp/common';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
@@ -51,6 +51,24 @@ export class Property extends Document implements IProperty {
 
   createdAt: Date;
   updatedAt?: Date;
+
+  set colShape(value: ColshapeMp) {
+    value.setVariable(PropertySharedDataType.PropertyId, this.id);
+  }
+
+  get colShape(){
+    return mp.colshapes.toArray()
+      .find(colShape => colShape.getVariable(PropertySharedDataType.PropertyId) === this.id);
+  }
+
+  set marker(value: MarkerMp) {
+    value.setVariable(PropertySharedDataType.PropertyId, this.id);
+  }
+
+  get marker(){
+    return mp.markers.toArray()
+      .find(marker => marker.getVariable(PropertySharedDataType.PropertyId) === this.id);
+  }
 }
 
 export const PropertyModel = getModelForClass(Property);

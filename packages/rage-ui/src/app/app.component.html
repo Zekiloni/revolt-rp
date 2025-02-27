@@ -67,6 +67,10 @@
     <app-create-property [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.PropertyInfo) | async) {
+    <app-property-info />
+  }
+
   <app-text-chat />
 
   <p-toast />

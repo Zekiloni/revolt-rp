@@ -21,6 +21,11 @@ declare global {
     setVariables(values: KeyValueCollection): void;
   }
 
+  interface ColshapeMp {
+    onPlayerEnter(player: PlayerMp): void;
+    onPlayerExit(player: PlayerMp): void;
+  }
+
   declare namespace RageEnums {
     export const enum HeadOverlays {
       Blemishes = 0,

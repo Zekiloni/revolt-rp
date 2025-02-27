@@ -110,5 +110,6 @@ export const enum ProcedureKey {
   BROWSER_SET_BAN_INFO = 'browser_setBanInfo',
 
   SERVER_PROPERTY_CREATE = 'server_propertyCreate',
-
+  CLIENT_TOGGLE_PROPERTY_INFO = 'client_togglePropertyInfo',
+  BROWSER_SET_PROPERTY_INFO = 'browser_setPropertyInfo',
 }

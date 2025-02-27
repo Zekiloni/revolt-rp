@@ -31,6 +31,7 @@ import { ManageOrganizationComponent } from './component/organization/manage-org
 import { HandheldRadioComponent } from './component/item/handheld-radio/handheld-radio.component';
 import { BanInfoComponent } from './component/ban-info';
 import { CreatePropertyComponent } from './component/property/create-property';
+import { PropertyInfoComponent } from './component/property/property-info';
 
 @Component({
   standalone: true,
@@ -55,7 +56,8 @@ import { CreatePropertyComponent } from './component/property/create-property';
     ManageOrganizationComponent,
     HandheldRadioComponent,
     BanInfoComponent,
-    CreatePropertyComponent
+    CreatePropertyComponent,
+    PropertyInfoComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

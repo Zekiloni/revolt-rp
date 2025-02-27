@@ -343,6 +343,7 @@ export const enUs = {
   'create_property': 'Create Property',
   'property_type': 'Property Type',
   'residential': 'Residential',
+  'garage':'Garage',
   'commercial': 'Commercial',
   'public_service': 'Public Service',
   'industrial': 'Industrial',

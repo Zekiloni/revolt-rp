@@ -45,6 +45,13 @@ html, body {
   right: 0;
 }
 
+.absolute-middle-right {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
 .absolute-bottom-left {
   position: absolute;;
   left: 0;
