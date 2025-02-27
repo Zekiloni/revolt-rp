@@ -84,6 +84,7 @@ export * from './lib/organization/member.model';
 
 export * from './lib/property/property.model';
 export * from './lib/property/property.enums';
+export * from './lib/property/door.model';
 
 export * from './lib/world/world.enum';
 export * from './lib/world/weather-type';
