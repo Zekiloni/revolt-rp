@@ -344,6 +344,7 @@ export const srRs = {
   'create_property': 'Kreiraj Imovinu',
   'property_type': 'Tip Imovine',
   'residential': 'Stambeni',
+  'garage': 'Garaža',
   'commercial': 'Komercijalni',
   'public_service': 'Javna služba',
   'industrial': 'Industrijski',

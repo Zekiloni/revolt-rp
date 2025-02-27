@@ -2,6 +2,8 @@ import './core/mongo-db';
 import './core/i18next.config';
 import './core/server-shutdown';
 
+import './util/colshape.api';
+
 import './item/registry/item.factory';
 import './item/item.loader';
 

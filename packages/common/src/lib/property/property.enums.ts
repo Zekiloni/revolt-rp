@@ -1,6 +1,7 @@
 export enum PropertyType {
   Residential = 'residential',
   Commercial = 'commercial',
+  Garage = 'garage',
   PublicService = 'public_service',
   Industrial = 'industrial',
   Utility = 'utility',
@@ -26,4 +27,9 @@ export enum CommercialType {
   Restaurant = 'restaurant',
   FastFood = 'fast_food',
   Casino = 'casino'
+}
+
+
+export enum PropertySharedDataType {
+  PropertyId = 'property_id',
 }
