@@ -9,8 +9,11 @@
     </div>
 
     <div class="field mb-4 col-4">
-      <label for="price" class="mb-2">{{ 'price' | translate }} <small>({{ 'optional' | translate }})</small></label>
-      <p-inputNumber formControlName="price" id="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" placeholder="5000" />
+      <label for="price" class="mb-2">{{ 'price' | translate }}
+        <small>({{ (isCommercialType ? 'required' : 'optional') | translate }})</small>
+      </label>
+      <p-inputNumber formControlName="price" id="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                     placeholder="5000" />
     </div>
 
     <div class="field mb-4 col-12 md:col-6">
