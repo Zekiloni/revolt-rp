@@ -17,7 +17,7 @@ export class PropertyOwner implements IPropertyOwner {
   @prop({ type: String, enum: ['Character', 'Organization'], required: true })
   type: 'Character' | 'Organization';
 
-  @prop({ refPath: 'type' })
+  @prop({ refPath: 'owner.type' })
   entity: Ref<Character | Organization>;
 }
 

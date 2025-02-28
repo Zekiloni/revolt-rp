@@ -41,6 +41,12 @@ export const createProperty = async (position: Vector3, dimension: number, prope
 
 export const destroyProperty = async (property: Property) => {
   const colShape = property.colShape;
+
+  mp.players.forEachInRange(property.position, 2.0, (player) => {
+    if (colShape.isPointWithin(player.position))
+      triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PROPERTY_INFO, null);
+  });
+
   if (colShape && mp.colshapes.exists(colShape))
     colShape.destroy();
 
