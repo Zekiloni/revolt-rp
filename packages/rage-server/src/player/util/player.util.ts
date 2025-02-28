@@ -1,8 +1,28 @@
-import { IPlayerTextBubble, PlayerSharedDataType } from '@revolt-rp/common';
+import { GameUiKey, IPlayerTextBubble, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { getForwardVector } from '../../util/vector3.util';
+import { triggerClient } from '@libertymp/rage-rpc';
 
 
 const textBubbleTimer: Map<number, NodeJS.Timeout> = new Map();
+
+
+export const showPlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey, initCallback?: () => void) => {
+  triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, gameUiKey);
+
+  if (initCallback) {
+    setTimeout(() => {
+      if (player && mp.players.exists(player)) {
+        initCallback();
+      }
+    }, 200);
+  }
+};
+
+export const hidePlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey) => {
+  triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, gameUiKey);
+}
+
+
 
 export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
   if (!Number.isNaN(+nameOrId))
@@ -18,7 +38,7 @@ export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
 export const findPlayerByCharacterId = (characterId: string): PlayerMp | undefined => {
   return mp.players.toArray()
     .find((player) => player.getVariable(PlayerSharedDataType.CharacterId) === characterId);
-}
+};
 
 
 export const filterPlayer = (query: string): PlayerMp[] => {
@@ -91,4 +111,8 @@ export const teleportPlayerToPlayer = (player: PlayerMp, target: PlayerMp) => {
     player.position = getForwardVector(target.position, target.heading, 2);
     player.dimension = target.dimension;
   }
+};
+
+export const freezePlayer = (player: PlayerMp, toggle: boolean) => {
+  player.setVariable(PlayerSharedDataType.Frozen, toggle);
 };

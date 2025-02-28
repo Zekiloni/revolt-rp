@@ -14,12 +14,12 @@ import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../in
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
-import { findPlayer, teleportPlayerToPlayer } from '../util/player.util';
+import { findPlayer, freezePlayer, showPlayerGameInterface, teleportPlayerToPlayer } from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
 import { setAdministrator } from '../account/account.service';
 import { registerCommand } from '../player-command.service';
-import { notifyPlayer, showPlayerGameInterface } from '../util/player-notify.util';
+import { notifyPlayer } from '../util/player-notify.util';
 import {
   deleteOrganization,
   getOrganizationByName,
@@ -28,7 +28,7 @@ import {
 } from '../../organization/organization.service';
 import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
-import { sendAdminAlert } from './player-admin.util';
+import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 
 
 registerCommand({
@@ -54,6 +54,26 @@ registerCommand({
   }
 });
 
+registerCommand({
+  name: 'fixveh',
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  validators: [isPlayerInVehicleCommandValidator],
+  handle(player: PlayerMp) {
+    player.vehicle.repair();
+  }
+});
+
+
+registerCommand({
+  name: 'flipveh',
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  validators: [isPlayerInVehicleCommandValidator],
+  handle(player: PlayerMp) {
+    player.vehicle.rotation = new mp.Vector3(0, 0, player.vehicle.rotation.z);
+  }
+});
 
 registerCommand({
   name: 'announce',
@@ -87,6 +107,21 @@ registerCommand({
 
 
 registerCommand({
+  name: 'freeze',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    freezePlayer(target, !player.getVariable(PlayerSharedDataType.Frozen));
+  }
+});
+
+registerCommand({
   name: 'goto',
   params: ['target'],
   description: 'todo',
@@ -102,6 +137,40 @@ registerCommand({
   }
 });
 
+
+registerCommand({
+  name: 'xyz',
+  aliases: ['gotopos'],
+  description: 'todo',
+  params: ['x', 'y', 'z'],
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, x: string, y: string, z: string) {
+    player.position = new mp.Vector3(parseFloat(x), parseFloat(y), parseFloat(z));
+  }
+});
+
+registerCommand({
+  name: 'setdimension',
+  aliases: ['setdim'],
+  description: 'todo',
+  params: ['dimension'],
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, targetQuery: string, dimension: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(dimension))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'dimension', type: 'number' })
+      });
+
+    player.dimension = parseInt(dimension);
+  }
+});
 
 registerCommand({
   name: 'gethere',
@@ -371,10 +440,15 @@ registerCommand({
 
 registerCommand({
   name: 'setmodel',
-  description: 'test',
+  description: 'todo',
   administrator: AdminType.ADMINISTRATOR,
-  params: ['model'],
-  handle(player: PlayerMp, model: string) {
+  params: ['target', 'model'],
+  handle(player: PlayerMp, targetQuery: string, model: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
     player.model = mp.joaat(model);
   }
 });
@@ -536,3 +610,12 @@ registerCommand({
   }
 });
 
+
+registerCommand({
+  name: 'createproperty',
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  handle(player: PlayerMp) {
+    showPlayerGameInterface(player, GameUiKey.CreateProperty);
+  }
+})
