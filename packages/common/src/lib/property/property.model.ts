@@ -7,7 +7,7 @@ import { IDoor } from './door.model';
 
 
 export interface IPropertyOwner {
-  type: 'character' | 'organization';
+  type: 'Character' | 'Organization';
   entity: Ref<ICharacter | IOrganization>;
 }
 

@@ -34,6 +34,8 @@ import './player/admin/no-clip';
 
 import './organization/organization-menu';
 
+import './property/property-core';
+
 // Object.defineProperty(mp.nesto, 'enableSnow', {
 //   get: function() {
 //     return this._enableSnow;

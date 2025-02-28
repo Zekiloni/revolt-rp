@@ -5,11 +5,21 @@ import {
   IProduct,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, ItemSharedDataType, IWorker, PropertySharedDataType,
+  IPropertyPoint, IWorker, PropertySharedDataType,
   PropertyType
 } from '@revolt-rp/common';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { Organization } from '../organization/organization.model';
+import { Character } from '../player/character/character.model';
 
+
+export class PropertyOwner implements IPropertyOwner {
+  @prop({ type: String, enum: ['Character', 'Organization'], required: true })
+  type: 'Character' | 'Organization';
+
+  @prop({ refPath: 'type' })
+  entity: Ref<Character | Organization>;
+}
 
 @modelOptions({
   schemaOptions: {
@@ -31,20 +41,36 @@ export class Property extends Document implements IProperty {
   @prop({ default: 0 })
   balance: number;
 
+  @prop({ type: Object, required: true })
+  position: Vector3;
+
   @prop({ required: true })
   dimension: number;
 
   doors: Ref<IDoor>[];
   entrances: IEntrance[];
+
+  @prop({ default: false })
   forSale: true;
+
   interiorPosition: Vector3;
+
+  @prop({ default: false })
   locked: boolean;
+
+  @prop({ required: false })
   name: string;
-  owner: IPropertyOwner;
+
+  @prop({ type: PropertyOwner })
+  owner: PropertyOwner;
+
   points: IPropertyPoint[];
-  position: Vector3;
+
+  @prop({ required: false })
   price: number;
-  spriteType: number;
+
+  @prop({ required: false })
+  spriteType?: number;
 
   products: IProduct[];
   workers: IWorker[];
@@ -56,7 +82,7 @@ export class Property extends Document implements IProperty {
     value.setVariable(PropertySharedDataType.PropertyId, this.id);
   }
 
-  get colShape(){
+  get colShape() {
     return mp.colshapes.toArray()
       .find(colShape => colShape.getVariable(PropertySharedDataType.PropertyId) === this.id);
   }
@@ -65,7 +91,7 @@ export class Property extends Document implements IProperty {
     value.setVariable(PropertySharedDataType.PropertyId, this.id);
   }
 
-  get marker(){
+  get marker() {
     return mp.markers.toArray()
       .find(marker => marker.getVariable(PropertySharedDataType.PropertyId) === this.id);
   }

@@ -6,7 +6,7 @@ import { propertyConfig } from './property.config';
 
 export const getAllProperties = () => {
   return PropertyModel.find();
-}
+};
 
 export const getPropertyById = (propertyId: string) => {
   return PropertyModel.findById(propertyId)
@@ -18,6 +18,8 @@ export const createProperty = async (position: Vector3, dimension: number, prope
     position, dimension,
     ...propertyCreate
   });
+
+  console.log('created property', property);
 
   initializeProperty(property);
 
@@ -40,7 +42,7 @@ export const destroyProperty = async (propertyId: string) => {
 };
 
 export const initializeProperty = (property: Property) => {
-  const colshape = mp.colshapes.newSphere(property.position.x, property.position.y, property.position.z, 1);
+  const colshape = mp.colshapes.newTube(property.position.x, property.position.y, property.position.z, 1.75, 1, property.dimension);
 
   colshape.onPlayerEnter = async (player) => {
     await playerShowPropertyInfo(player, property.id);
@@ -52,11 +54,12 @@ export const initializeProperty = (property: Property) => {
 
   property.colShape = colshape;
 
-  property.marker = mp.markers.new(RageEnums.Marker.NUMBER_1,
-    new mp.Vector3(property.position.x, property.position.y, property.position.z),
+  property.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
+    new mp.Vector3(property.position.x, property.position.y, property.position.z - 1),
     propertyConfig.markerScale, {
       color: propertyConfig.markerColor,
-      dimension: property.dimension
+      dimension: property.dimension,
+      visible: true
     });
 };
 

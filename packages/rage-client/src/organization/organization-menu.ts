@@ -9,7 +9,7 @@ function toggleOrganizationMenu(organizationId?: string) {
   if (!isOrganizationMenuActive && organizationId) {
     isOrganizationMenuActive = true;
     showGameInterface(GameUiKey.ManageOrganization);
-    setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_ORGANIZATION_ID, organizationId), 100);
+    setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_ORGANIZATION_ID, organizationId), 250);
   } else {
     isOrganizationMenuActive = false;
     hideGameInterface(GameUiKey.ManageOrganization);
