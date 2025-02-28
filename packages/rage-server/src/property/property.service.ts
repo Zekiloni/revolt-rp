@@ -1,8 +1,22 @@
+import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
-import { IPropertyCreate, ProcedureKey } from '@revolt-rp/common';
-import { Property, PropertyModel } from './property.model';
+import {
+  IPropertyCreate, IPropertyOwner,
+  ProcedureKey,
+  PropertyPointType,
+  PropertySharedDataType,
+  PropertyType
+} from '@revolt-rp/common';
+import { notifyPlayer } from '../player/util/player-notify.util';
+import { Property, PropertyModel, PropertyOwner } from './property.model';
 import { propertyConfig } from './property.config';
+import { giveMoney } from '../player/character/character.service';
 
+
+const notPurchasableTypes = [
+  PropertyType.PublicService,
+  PropertyType.Utility
+];
 
 export const getAllProperties = () => {
   return PropertyModel.find();
@@ -27,16 +41,15 @@ export const createProperty = async (position: Vector3, dimension: number, prope
 };
 
 
-export const destroyProperty = async (propertyId: string) => {
-  const property = await getPropertyById(propertyId);
-  if (!property)
-    return;
+export const destroyProperty = async (property: Property) => {
+  const colShape = property.colShape;
+  if (colShape && mp.colshapes.exists(colShape))
+    colShape.destroy();
 
-  if (property.colShape && mp.colshapes.exists(property.colShape))
-    property.colShape.destroy();
+  const marker = property.marker;
 
-  if (property.marker && mp.markers.exists(property.marker))
-    property.marker?.destroy();
+  if (marker && mp.markers.exists(marker))
+    marker?.destroy();
 
   return property.deleteOne();
 };
@@ -52,6 +65,9 @@ export const initializeProperty = (property: Property) => {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PROPERTY_INFO, null);
   };
 
+  colshape.setVariable(PropertySharedDataType.PropertyId, property.id);
+  colshape.setVariable(PropertySharedDataType.InteractionType, PropertyPointType.Main);
+
   property.colShape = colshape;
 
   property.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
@@ -64,6 +80,36 @@ export const initializeProperty = (property: Property) => {
 };
 
 
+export const setPropertyOwner = async (property: Property, owner: PropertyOwner) => {
+  property.owner = owner;
+  await property.save();
+};
+
+export const getPropertyByColShape = async (colShape: ColshapeMp, type: PropertyPointType) => {
+  const propertyId = colShape.getVariable(PropertySharedDataType.PropertyId);
+  const pointType = colShape.getVariable(PropertySharedDataType.InteractionType);
+
+  if (!propertyId || pointType !== type)
+    return null;
+
+  return getPropertyById(propertyId);
+};
+
+
+export const getClosesProperty = (position: Vector3, dimension: number, pointType: PropertyPointType) => {
+  const colShapes = mp.colshapes.getClosestInDimension(position, dimension, 1);
+
+  if (colShapes.length) {
+    const [closestColShape] = colShapes;
+
+    if (closestColShape && closestColShape.isPointWithin(position)) {
+      return getPropertyByColShape(closestColShape, pointType);
+    }
+  }
+
+  return null;
+}
+
 async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {
   const property = await getPropertyById(propertyId);
   if (!property)
@@ -73,4 +119,24 @@ async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {
 }
 
 
+export async function playerBuyProperty(player: PlayerMp, property: Property) {
+  if (notPurchasableTypes.includes(property.type))
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_for_sale') });
+
+  if (!property.forSale || property.owner)
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_for_sale') });
+
+  if (player.character.cash < property.price)
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('not_enough_money') });
+
+  await giveMoney(player, -property.price);
+
+  const propertyOwner = new PropertyOwner();
+  propertyOwner.type = 'Character';
+  propertyOwner.entity = player.character._id;
+
+  await setPropertyOwner(property, propertyOwner);
+
+  notifyPlayer(player, { severity: 'success', summary: t('success'), detail: t('property_purchased') });
+}
 
