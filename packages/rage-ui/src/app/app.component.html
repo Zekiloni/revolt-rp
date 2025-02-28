@@ -68,7 +68,7 @@
   }
 
   @if ($isGameInterfaceActive(GameUiKey.PropertyInfo) | async) {
-    <app-property-info />
+    <app-property-info @fadeInOut />
   }
 
   <app-text-chat />

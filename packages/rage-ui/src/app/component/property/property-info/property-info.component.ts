@@ -2,7 +2,7 @@ import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { ICharacter, IOrganization, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
@@ -17,7 +17,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
 export class PropertyInfoComponent implements OnInit, OnDestroy {
   property: IProperty | null = null;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
   }
 
   get isForSale() {
@@ -26,10 +26,11 @@ export class PropertyInfoComponent implements OnInit, OnDestroy {
 
   private setProperty = (property: IProperty) => {
     this.property = property;
+    this.changeDetectorRef.detectChanges()
   };
 
   getOwnerNamer(owner: IProperty['owner']) {
-    return owner?.type === 'character' ? (<ICharacter>owner.entity).fullName : (<IOrganization>owner?.entity).name;
+    return owner?.type === 'Character' ? (<ICharacter>owner.entity).fullName : (<IOrganization>owner?.entity).name;
   }
 
   ngOnInit(): void {

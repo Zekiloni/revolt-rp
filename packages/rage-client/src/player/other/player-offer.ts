@@ -33,7 +33,7 @@ function playerOfferDataHandler(entity: PlayerMp, value: string | null, oldValue
       if (value) {
         activeOffer = value;
         showGameInterface(GameUiKey.Offer);
-        setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_INIT_OFFER, value), 100);
+        setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_INIT_OFFER, value), 250);
         for (const key in offerKeyBindings) {
           registerKeyBind(Number(key), true, offerKeyBindings[key]);
         }
