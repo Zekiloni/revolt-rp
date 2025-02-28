@@ -4,6 +4,10 @@ import { Property, PropertyModel } from './property.model';
 import { propertyConfig } from './property.config';
 
 
+export const getAllProperties = () => {
+  return PropertyModel.find();
+}
+
 export const getPropertyById = (propertyId: string) => {
   return PropertyModel.findById(propertyId)
     .populate('owner.entity');
@@ -64,4 +68,6 @@ async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {
 
   triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PROPERTY_INFO, property);
 }
+
+
 
