@@ -369,4 +369,7 @@ export const srRs = {
   'fast_food': 'Brza hrana',
   'casino': 'Kazino',
   'price': 'Cena',
+  'for_sale': 'Na prodaju',
+  'subtype': 'Podtip',
+  'owner': 'Vlasnik',
 };

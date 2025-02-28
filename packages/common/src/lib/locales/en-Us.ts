@@ -368,4 +368,7 @@ export const enUs = {
   'fast_food': 'Fast Food',
   'casino': 'Casino',
   'price': 'Price',
+  'for_sale': 'For Sale',
+  'subtype': 'Subtype',
+  'owner': 'Owner',
 };

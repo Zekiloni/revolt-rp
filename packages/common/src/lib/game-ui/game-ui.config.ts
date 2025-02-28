@@ -109,6 +109,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.PropertyInfo]: {
-    isActive: true,
+    isActive: false,
   }
 };
