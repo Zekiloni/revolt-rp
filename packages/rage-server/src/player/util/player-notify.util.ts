@@ -1,6 +1,6 @@
 import { Message } from 'primeng/api';
-import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
-import { GameUiKey, hexColors, ProcedureKey } from '@revolt-rp/common';
+import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { hexColors, ProcedureKey } from '@revolt-rp/common';
 
 
 export const notifyPlayer = (player: PlayerMp, message: Message) => {
@@ -17,20 +17,4 @@ export const sendOrganizationMessage = (player: PlayerMp, hexColor: string, mess
   player.outputChatBox(`!{${color}}${message}`);
 };
 
-
-export const showPlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey, initCallback?: () => void) => {
-  triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, gameUiKey);
-
-  if (initCallback) {
-    setTimeout(() => {
-      if (player && mp.players.exists(player)) {
-        initCallback();
-      }
-    }, 200);
-  }
-};
-
-export const hidePlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey) => {
-  triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, gameUiKey);
-}
 

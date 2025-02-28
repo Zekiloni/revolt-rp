@@ -14,8 +14,9 @@ import {
   getOrganizationMembers, invitePlayerToOrganization, playerCreateOrganizationRank, playerDeleteOrganizationRank,
   playerUpdateOrganizationMember, removePlayerFromOrganizationByCharacterId
 } from './organization.service';
-import { hidePlayerGameInterface, notifyPlayer } from '../player/util/player-notify.util';
+import { notifyPlayer } from '../player/util/player-notify.util';
 import { Organization } from './organization.model';
+import { hidePlayerGameInterface } from '../player/util/player.util';
 
 
 function getOrganizationsHandler() {

@@ -1,8 +1,9 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IHandheldRadioConfig, ItemType, ProcedureKey } from '@revolt-rp/common';
-import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player-notify.util';
 import { BaseItem } from '../base-item.model';
 import { Item } from '../../item.model';
+import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';
+
 
 const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
   frequency: null,
@@ -10,6 +11,7 @@ const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
   power: false,
   simplex: undefined
 };
+
 
 export class HandheldRadioItem extends BaseItem {
 
