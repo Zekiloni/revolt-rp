@@ -8,6 +8,7 @@ import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { getForecast } from '../world/weather.service';
 import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
+import { playerBuyInteraction } from './player-buy.service';
 
 
 registerCommand({
@@ -276,3 +277,12 @@ registerCommand({
     playerSendRadioMessage(player, content);
   }
 });
+
+
+registerCommand({
+  name: 'buy',
+  description: 'todo',
+  async handle(player: PlayerMp) {
+   await playerBuyInteraction(player);
+  }
+})

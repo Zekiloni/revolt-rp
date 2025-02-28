@@ -341,8 +341,8 @@ export const srRs = {
   'expiring_at': 'Ističe',
   'permanent': 'Trajno',
   'administrator': 'Administrator',
-  'create_property': 'Kreiraj Imovinu',
-  'property_type': 'Tip Imovine',
+  'create_property': 'Kreiraj Nekretninu',
+  'property_type': 'Tip Nekretnine',
   'residential': 'Stambeni',
   'garage': 'Garaža',
   'commercial': 'Komercijalni',
@@ -372,4 +372,9 @@ export const srRs = {
   'for_sale': 'Na prodaju',
   'subtype': 'Podtip',
   'owner': 'Vlasnik',
+  'property_not_for_sale': 'Nekretnina nije na prodaju.',
+  'not_enough_money': 'Nemate dovoljno novca.',
+  'property_purchased': 'Nekretnina je uspešno kupljena.',
+  'property_not_found': 'Nekretnina nije pronađena.',
+  'property_deleted': 'Nekretnina je uspešno obrisana.'
 };

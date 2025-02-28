@@ -6,7 +6,7 @@ import {
   hexColors,
   isNumber,
   PlayerSharedDataType,
-  ProcedureKey,
+  ProcedureKey, PropertyPointType,
   WeatherType,
   WeatherTypes
 } from '@revolt-rp/common';
@@ -29,6 +29,7 @@ import {
 import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
+import { destroyProperty, getClosesProperty } from '../../property/property.service';
 
 
 registerCommand({
@@ -618,4 +619,22 @@ registerCommand({
   handle(player: PlayerMp) {
     showPlayerGameInterface(player, GameUiKey.CreateProperty);
   }
-})
+});
+
+
+registerCommand({
+  name: 'deleteproperty',
+  aliases: ['destroyproperty'],
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  async handle(player: PlayerMp) {
+    const property = await getClosesProperty(player.position, player.dimension, PropertyPointType.Main);
+
+    if (!property)
+      return notifyPlayer(player, { severity: 'error', detail: t('property_not_found') });
+
+    await destroyProperty(property);
+
+    notifyPlayer(player, { severity: 'info', detail: t('property_deleted') });
+  }
+});

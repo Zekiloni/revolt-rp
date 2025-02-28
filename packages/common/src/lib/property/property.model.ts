@@ -1,5 +1,5 @@
 import { Ref } from '@typegoose/typegoose';
-import { CommercialType, PropertyType } from './property.enums';
+import { CommercialType, PropertyPointType, PropertyType } from './property.enums';
 import { Vector3 } from '../core.interface';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
@@ -31,7 +31,7 @@ export interface IEntrance {
 }
 
 export interface IPropertyPoint {
-  type: 'interaction' | 'delivery' | 'vehicle-spawn';
+  type: PropertyPointType;
   position: Vector3;
   dimension: number;
 }

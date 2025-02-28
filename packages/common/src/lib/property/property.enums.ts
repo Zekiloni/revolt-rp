@@ -30,6 +30,14 @@ export enum CommercialType {
 }
 
 
+export enum PropertyPointType {
+  Main = 'main',
+  Menu = 'menu',
+  DeliveryPoint = 'delivery_point',
+  ParkingSpot = 'parking_spot',
+}
+
 export enum PropertySharedDataType {
   PropertyId = 'property_id',
+  InteractionType = 'interaction_type'
 }

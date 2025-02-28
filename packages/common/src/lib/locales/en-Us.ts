@@ -343,7 +343,7 @@ export const enUs = {
   'create_property': 'Create Property',
   'property_type': 'Property Type',
   'residential': 'Residential',
-  'garage':'Garage',
+  'garage': 'Garage',
   'commercial': 'Commercial',
   'public_service': 'Public Service',
   'industrial': 'Industrial',
@@ -371,4 +371,9 @@ export const enUs = {
   'for_sale': 'For Sale',
   'subtype': 'Subtype',
   'owner': 'Owner',
+  'property_not_for_sale': 'Property is not for sale.',
+  'not_enough_money': 'Not enough money.',
+  'property_purchased': 'Property purchased.',
+  'property_not_found': 'Property not found.',
+  'property_deleted': 'Property deleted.'
 };
