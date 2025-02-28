@@ -33,8 +33,6 @@ export const createProperty = async (position: Vector3, dimension: number, prope
     ...propertyCreate
   });
 
-  console.log('created property', property);
-
   initializeProperty(property);
 
   return property;
@@ -123,7 +121,7 @@ export async function playerBuyProperty(player: PlayerMp, property: Property) {
   if (notPurchasableTypes.includes(property.type))
     return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_for_sale') });
 
-  if (!property.forSale || property.owner)
+  if (!property.forSale && property.owner)
     return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_for_sale') });
 
   if (player.character.cash < property.price)
