@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import {
   callBrowsers as rpcCallBrowsers,
@@ -17,6 +17,9 @@ import { ApiError } from '@revolt-rp/common';
 
 @Injectable()
 export class RageClientService {
+
+  constructor(private ngZone: NgZone) {
+  }
 
   trigger(name: string, ...args: unknown[]) {
     mp.trigger(name, ...args);
@@ -56,7 +59,9 @@ export class RageClientService {
   }
 
   on(name: string, callback: ProcedureListener) {
-    rpcOn(name, callback);
+    this.ngZone.runOutsideAngular(() => {
+      rpcOn(name, (...args) => this.ngZone.run(() => callback(...args)));
+    });
   }
 
   off(name: string, callback: ProcedureListener) {
@@ -79,12 +84,14 @@ export class RageClientService {
     return new Observable((observer: Observer<T>) => {
       rpcCallServer(name, args)
         .then((result: T) => {
-          if ((result as ApiError).error) {
-            observer.error(result);
-            return;
-          }
-          observer.next(result);
-          observer.complete();
+          this.ngZone.run(() => {
+            if ((result as ApiError).error) {
+              observer.error(result);
+              return;
+            }
+            observer.next(result);
+            observer.complete();
+          });
         })
         .catch((err) => observer.error(err));
     });

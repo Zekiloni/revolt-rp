@@ -127,7 +127,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
 
   onMapInit(map: L.Map) {
     const icon = L.icon({
-      iconUrl: this.staticAssetPipe.transform('assets/images/blips/radar_objective_blue.png'),
+      iconUrl: this.staticAssetPipe.transform('assets/images/blips/1.png'),
       iconSize: [16, 16],
       iconAnchor: [16, 32],
       popupAnchor: [0, -32]

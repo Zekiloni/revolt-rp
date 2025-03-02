@@ -16,5 +16,6 @@ export enum GameUiKey {
   ManageOrganization = 'manageOrganization',
   CreateProperty = 'createProperty',
   PropertyInfo = 'propertyInfo',
+  ManageProperty = 'manageProperty',
   HandheldRadio = 'handheldRadio',
 }

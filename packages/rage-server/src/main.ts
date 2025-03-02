@@ -35,5 +35,6 @@ import './organization/organization.api';
 import './organization/organization.command';
 
 import './property/property.api';
+import './property/property-command';
 
 // v1.

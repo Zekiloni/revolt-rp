@@ -376,5 +376,17 @@ export const srRs = {
   'not_enough_money': 'Nemate dovoljno novca.',
   'property_purchased': 'Nekretnina je uspešno kupljena.',
   'property_not_found': 'Nekretnina nije pronađena.',
-  'property_deleted': 'Nekretnina je uspešno obrisana.'
+  'property_deleted': 'Nekretnina je uspešno obrisana.',
+  'property_not_owned': 'Nekretnina nije u ničijem posedsvu.',
+  'you_dont_have_keys': 'Ne posedujete ključeve ove nekretnine.',
+  'workers': 'Radnici',
+  'tenants': 'Stanari',
+  'products': 'Proizvodi',
+  'orders': 'Narudžbine',
+  'settings': 'Podešavanja',
+  'opened': 'Otvoreno',
+  'closed': 'Zatvoreno',
+  'property_locked': 'Status nekretnine: {{locked}}.',
+  'property_command_description': 'Upravljanje nekretninom.',
+  'not_near_property': 'Niste blizu nekretnine.'
 };

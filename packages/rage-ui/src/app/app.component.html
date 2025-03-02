@@ -71,6 +71,10 @@
     <app-property-info @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.ManageProperty) | async; as isActive) {
+    <app-manage-property [isActive]="isActive" />
+  }
+
   <app-text-chat />
 
   <p-toast />
