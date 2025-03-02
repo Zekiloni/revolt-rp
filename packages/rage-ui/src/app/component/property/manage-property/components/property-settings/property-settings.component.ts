@@ -51,5 +51,6 @@ export class PropertySettingsComponent implements OnInit {
     };
 
     this.updateProperty.emit(propertyUpdate);
+    this.anyChanges = false;
   }
 }

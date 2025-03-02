@@ -4,7 +4,7 @@ import {
   createProperty,
   getAllProperties,
   getPropertyById,
-  initializeProperty,
+  initializeProperty, isPropertyOwner,
   playerLockProperty
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
@@ -36,7 +36,14 @@ async function updatePropertyHandler(update: IPropertyUpdate, { player }: Proced
   if (!property)
     return;
 
-  return property.updateOne(update);
+  if (!isPropertyOwner(property, player.character))
+    return;
+
+  if (update.name && update.name !== property.name) {
+    property.name = update.name;
+  }
+
+  return property.save();
 }
 
 mp.events.add({
