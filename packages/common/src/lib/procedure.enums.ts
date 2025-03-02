@@ -48,7 +48,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_USE_ITEM = 'server_playerUseItem',
   SERVER_P2P_GIVE_ITEM = 'server_playerGiveItemToPlayer',
   SERVER_PLAYER_DESTROY_ITEM = 'server_playerDestroyItem',
-  SERVER_PLAYER_EQUIP_ITEM =  'server_playerEquipItem',
+  SERVER_PLAYER_EQUIP_ITEM = 'server_playerEquipItem',
 
   SERVER_PLAYER_WEAPON_RELOAD = 'server_playerWeaponReload',
 
@@ -86,7 +86,7 @@ export const enum ProcedureKey {
   CLIENT_TOGGLE_ANIMATION_MENU = 'client_toggleAnimationMenu',
   SERVER_PLAYER_DAMAGE = 'server_playerGetDamage',
   SERVER_PLAYER_GET_WOUND_TIMER = 'server_playerGetWoundTimer',
-  BROWSER_SET_PLAYER_DAMAGES  = 'browser_setPlayerDamages',
+  BROWSER_SET_PLAYER_DAMAGES = 'browser_setPlayerDamages',
   CLIENT_PLAYER_TOGGLE_DAMAGE_INFO = 'client_playerToggleDamageInfo',
 
   CLIENT_TOGGLE_ORGANIZATION_PANEL = 'client_toggleOrganizationPanel',
@@ -110,6 +110,10 @@ export const enum ProcedureKey {
   BROWSER_SET_BAN_INFO = 'browser_setBanInfo',
 
   SERVER_PROPERTY_CREATE = 'server_propertyCreate',
-  CLIENT_TOGGLE_PROPERTY_INFO = 'client_togglePropertyInfo',
   BROWSER_SET_PROPERTY_INFO = 'browser_setPropertyInfo',
+  BROWSER_SET_PROPERTY = 'browser_setProperty',
+  CLIENT_TOGGLE_PROPERTY_INFO = 'client_togglePropertyInfo',
+  SERVER_PROPERTY_LOCK = 'server_propertyLock',
+  CLIENT_TOGGLE_PROPERTY_MENU = 'client_togglePropertyMenu',
+  SERVER_PROPERTY_UPDATE = 'server_propertyUpdate',
 }

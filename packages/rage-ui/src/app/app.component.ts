@@ -32,6 +32,7 @@ import { HandheldRadioComponent } from './component/item/handheld-radio/handheld
 import { BanInfoComponent } from './component/ban-info';
 import { CreatePropertyComponent } from './component/property/create-property';
 import { PropertyInfoComponent } from './component/property/property-info';
+import { ManagePropertyComponent } from './component/property/manage-property';
 
 @Component({
   standalone: true,
@@ -57,7 +58,8 @@ import { PropertyInfoComponent } from './component/property/property-info';
     HandheldRadioComponent,
     BanInfoComponent,
     CreatePropertyComponent,
-    PropertyInfoComponent
+    PropertyInfoComponent,
+    ManagePropertyComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

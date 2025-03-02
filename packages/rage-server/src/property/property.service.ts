@@ -1,16 +1,19 @@
 import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  IPropertyCreate, IPropertyOwner,
+  hexColors,
+  IPropertyCreate,
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
   PropertyType
 } from '@revolt-rp/common';
-import { notifyPlayer } from '../player/util/player-notify.util';
+import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { Property, PropertyModel, PropertyOwner } from './property.model';
 import { propertyConfig } from './property.config';
-import { giveMoney } from '../player/character/character.service';
+import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
+import { Types } from 'mongoose';
+import { sendProximityMessage } from '../player/util/player.util';
 
 
 const notPurchasableTypes = [
@@ -112,7 +115,7 @@ export const getClosesProperty = (position: Vector3, dimension: number, pointTyp
   }
 
   return null;
-}
+};
 
 async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {
   const property = await getPropertyById(propertyId);
@@ -144,3 +147,31 @@ export async function playerBuyProperty(player: PlayerMp, property: Property) {
   notifyPlayer(player, { severity: 'success', summary: t('success'), detail: t('property_purchased') });
 }
 
+export async function playerLockProperty(player: PlayerMp, property: Property) {
+  if (notPurchasableTypes.includes(property.type))
+    return;
+
+  if (!property.owner)
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_owned') });
+
+  switch (property.owner.type) {
+    case 'Character': {
+      if (!(<Types.ObjectId>property.owner.entity).equals((player.character.id)))
+        return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('you_dont_have_keys') });
+      break;
+    }
+
+    case 'Organization': {
+      if (!(<Types.ObjectId>property.owner.entity).equals(getPlayerOrganizationId(player)))
+        return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('you_dont_have_keys') });
+      break;
+    }
+  }
+
+  property.locked = !property.locked;
+  await property.save();
+
+  sendInfoMessage(player, t('property_locked', { locked: property.locked ? t('closed') : t('opened') }));
+
+  return property.locked;
+}

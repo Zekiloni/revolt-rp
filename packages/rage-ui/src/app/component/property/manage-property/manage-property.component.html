@@ -1,0 +1,71 @@
+<p-dialog [header]="title" [modal]="true" [(visible)]="isActive"
+          (onHide)="close()"
+          [focusOnShow]="false"
+          styleClass="border-round-2xl"
+          [style]="{ width: '60rem', 'max-height': '75vh' }" [draggable]="false">
+  @if (property) {
+    <p-tabView>
+      <p-tabPanel [header]="'basic_info' | translate" leftIcon="pi pi-info-circle">
+        <ul class="list-none p-0 m-0">
+          <li class="flex align-items-center py-3 px-2 flex-wrap">
+            <div class="h-10rem w-full">
+              <app-world-map (init)="onMapInit($event)" class="border-round" />
+            </div>
+          </li>
+          <li class="flex align-items-center py-3 px-2 flex-wrap">
+            <div class="text-500 w-full md:w-4 font-medium">{{ 'type' | translate }}</div>
+            <div class="text-900 w-full md:w-8">{{ property.type! | translate }}</div>
+          </li>
+          @if (property.subType) {
+            <li class="flex align-items-center py-3 px-2 flex-wrap">
+              <div class="text-500 w-full md:w-4 font-medium">{{ 'subtype' | translate }}</div>
+              <div class="text-900 w-full md:w-8">{{ property.subType! | translate }}</div>
+            </li>
+          }
+          <li class="flex align-items-center py-3 px-2 flex-wrap">
+            <div class="text-500 w-full md:w-4 font-medium">{{ 'balance' | translate }}</div>
+            <div class="text-900 w-full md:w-8 text-green-500 font-bold">{{ (property.balance || 0) | currency }}</div>
+          </li>
+          <li class="flex align-items-center py-3 px-2 flex-wrap">
+            <div class="text-500 w-full md:w-4 font-medium">{{ 'status' | translate }}</div>
+            <div class="text-900 w-full md:w-8">
+              <button
+                pButton
+                pRipple
+                [severity]="(property.locked ? 'danger' : 'success')"
+                [label]="(property.locked ? 'closed' : 'opened') | translate"
+                [icon]="property.locked ? 'pi pi-lock' : 'pi pi-unlock'"
+                (click)="togglePropertyStatus()"
+                size="small">
+              </button>
+            </div>
+          </li>
+        </ul>
+      </p-tabPanel>
+
+      @if (isResidential) {
+        <p-tabPanel [header]="'tenants' | translate" leftIcon="pi pi-users" [disabled]="!isResidential">
+          <h2><i class="pi pi-hammer"></i> TODO</h2>
+        </p-tabPanel>
+      } @else {
+        <p-tabPanel [header]="'workers' | translate" leftIcon="pi pi-users" [disabled]="isResidential">
+          <h2><i class="pi pi-hammer"></i> TODO</h2>
+        </p-tabPanel>
+        <p-tabPanel [header]="'products' | translate" leftIcon="pi pi-box" [disabled]="isResidential">
+          <h2><i class="pi pi-hammer"></i> TODO</h2>
+        </p-tabPanel>
+      }
+
+      <p-tabPanel [header]="'settings' | translate" leftIcon="pi pi-cog" [disabled]="isResidential">
+        <app-property-settings [property]="property" (updateProperty)="onPropertyUpdate($event)" />
+      </p-tabPanel>
+    </p-tabView>
+  } @else {
+    <div class="flex justify-content-center align-items-center">
+      <p-progressSpinner
+        styleClass="w-5rem h-5rem"
+        strokeWidth="8"
+        animationDuration=".5s" />
+    </div>
+  }
+</p-dialog>

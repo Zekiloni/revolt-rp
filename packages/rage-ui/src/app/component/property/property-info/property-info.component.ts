@@ -17,7 +17,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
 export class PropertyInfoComponent implements OnInit, OnDestroy {
   property: IProperty | null = null;
 
-  constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private rageClientService: RageClientService) {
   }
 
   get isForSale() {
@@ -26,7 +26,6 @@ export class PropertyInfoComponent implements OnInit, OnDestroy {
 
   private setProperty = (property: IProperty) => {
     this.property = property;
-    this.changeDetectorRef.detectChanges()
   };
 
   getOwnerNamer(owner: IProperty['owner']) {

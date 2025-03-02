@@ -375,5 +375,17 @@ export const enUs = {
   'not_enough_money': 'Not enough money.',
   'property_purchased': 'Property purchased.',
   'property_not_found': 'Property not found.',
-  'property_deleted': 'Property deleted.'
+  'property_deleted': 'Property deleted.',
+  'property_not_owned': 'Property is not owned.',
+  'you_dont_have_keys': 'You don\'t have keys to this property.',
+  'workers': 'Workers',
+  'tenants': 'Tenants',
+  'products': 'Products',
+  'orders': 'Orders',
+  'settings': 'Settings',
+  'opened': 'Opened',
+  'closed': 'Closed',
+  'property_locked': 'Property is now {{locked}}.',
+  'property_command_description': 'Manage property.',
+  'not_near_property': 'You are not near a property.',
 };
