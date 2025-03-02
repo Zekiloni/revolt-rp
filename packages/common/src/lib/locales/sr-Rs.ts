@@ -388,5 +388,6 @@ export const srRs = {
   'closed': 'Zatvoreno',
   'property_locked': 'Status nekretnine: {{locked}}.',
   'property_command_description': 'Upravljanje nekretninom.',
-  'not_near_property': 'Niste blizu nekretnine.'
+  'not_near_property': 'Niste blizu nekretnine.',
+  'save': 'Sačuvaj',
 };

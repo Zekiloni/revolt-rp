@@ -388,4 +388,5 @@ export const enUs = {
   'property_locked': 'Property is now {{locked}}.',
   'property_command_description': 'Manage property.',
   'not_near_property': 'You are not near a property.',
+  'save': 'Save',
 };

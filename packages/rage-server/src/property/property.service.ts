@@ -12,8 +12,10 @@ import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util
 import { Property, PropertyModel, PropertyOwner } from './property.model';
 import { propertyConfig } from './property.config';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Types } from 'mongoose';
+import { Types, UpdateQuery } from 'mongoose';
 import { sendProximityMessage } from '../player/util/player.util';
+import { Character } from '../player/character/character.model';
+import { Organization } from '../organization/organization.model';
 
 
 const notPurchasableTypes = [
@@ -29,6 +31,10 @@ export const getPropertyById = (propertyId: string) => {
   return PropertyModel.findById(propertyId)
     .populate('owner.entity');
 };
+
+export const isPropertyOwner = (property: Property, character: Character) => {
+  return property.owner?.type === 'Character' && (<Types.ObjectId>property.owner.entity).equals(character._id);
+}
 
 export const createProperty = async (position: Vector3, dimension: number, propertyCreate: IPropertyCreate) => {
   const property = await PropertyModel.create({
