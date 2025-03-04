@@ -13,6 +13,7 @@ import { RageClientService } from './domain/service/rage-client.service';
 import { provideTranslateService } from '@ngx-translate/core';
 import { BASE_HREf } from './domain/variables';
 import { environment } from '../environments/environment';
+import { phoneReducer } from './store/phone/phone.reducer';
 
 
 export const appConfig: ApplicationConfig = {
@@ -27,7 +28,11 @@ export const appConfig: ApplicationConfig = {
     }),
     MessageService,
     RageClientService,
-    provideStore({ gameInterface: gameInterfaceReducer, inventory: inventoryReducer }),
+    provideStore({
+      gameInterface: gameInterfaceReducer,
+      inventory: inventoryReducer,
+      phone: phoneReducer
+    }),
     provideEffects(),
     {
       provide: BASE_HREf,

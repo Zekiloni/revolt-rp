@@ -33,6 +33,8 @@ import { BanInfoComponent } from './component/ban-info';
 import { CreatePropertyComponent } from './component/property/create-property';
 import { PropertyInfoComponent } from './component/property/property-info';
 import { ManagePropertyComponent } from './component/property/manage-property';
+import { SmartphoneComponent } from './component/item/smartphone';
+
 
 @Component({
   standalone: true,
@@ -59,7 +61,8 @@ import { ManagePropertyComponent } from './component/property/manage-property';
     BanInfoComponent,
     CreatePropertyComponent,
     PropertyInfoComponent,
-    ManagePropertyComponent
+    ManagePropertyComponent,
+    SmartphoneComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

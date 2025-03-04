@@ -1,0 +1,17 @@
+
+<div class="grid formgrid p-fluid px-3 py-3">
+  <div class="field col-12">
+    <label for="brightness">{{ 'brightness' | translate }}</label>
+    <p-slider id="brightness" [(ngModel)]="opacity" (onChange)="onOpacityChange($event)" [min]="0.3" [max]="1.0"
+              [step]="0.1" styleClass="w-14rem" />
+  </div>
+
+  <div class="field col-12">
+    <label for="background">{{ 'background' | translate }}</label>
+    <div class="grid grid-nogutter gap-3" id="background">
+      @for (background of backgrounds; let idx = $index; track idx) {
+        <img [src]="background | staticAsset" (click)="changePhoneBackground(background)" class="w-3rem h-5rem border-round"  alt="phone-bg"/>
+      }
+    </div>
+  </div>
+</div>

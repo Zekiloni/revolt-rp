@@ -390,4 +390,12 @@ export const srRs = {
   'property_command_description': 'Upravljanje nekretninom.',
   'not_near_property': 'Niste blizu nekretnine.',
   'save': 'Sačuvaj',
+  'messenger': 'Poruke',
+  'calls': 'Pozivi',
+  'contacts': 'Kontakti',
+  'calculator': 'Kalkulator',
+  'notes': 'Beleške',
+  'map': 'Mapa',
+  'camera': 'Kamera',
+  'brightness': 'Osvetljenje',
 };
