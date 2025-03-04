@@ -1,0 +1,31 @@
+.p-tooltip {
+  .p-tooltip-arrow {
+    border-top-color: var(--surface-900);
+  }
+
+  .p-tooltip-text {
+    background-color: var(--surface-900);
+  }
+}
+
+
+.phone-bg {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.toolbar {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.close-app {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 9999;
+}
+
+::ng-deep .p-dock .p-dock-item {
+  padding: 0;
+}

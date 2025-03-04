@@ -117,5 +117,12 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     mouse: true,
     freezeControls: true,
     disableChat: true
+  },
+
+  [GameUiKey.Smartphone]: {
+    isActive: true,
+    mouse: true,
+    freezeControls: true,
+    disableChat: true
   }
 };

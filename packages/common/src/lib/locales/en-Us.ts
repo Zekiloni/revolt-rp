@@ -389,4 +389,12 @@ export const enUs = {
   'property_command_description': 'Manage property.',
   'not_near_property': 'You are not near a property.',
   'save': 'Save',
+  'messenger': 'Messenger',
+  'calls': 'Calls',
+  'contacts': 'Contacts',
+  'calculator': 'Calculator',
+  'notes': 'Notes',
+  'map': 'Map',
+  'camera': 'Camera',
+  'brightness': 'Brightness',
 };

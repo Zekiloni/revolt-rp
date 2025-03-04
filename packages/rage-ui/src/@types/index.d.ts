@@ -1,4 +1,10 @@
+import { IItem, IPhoneInfo } from '@revolt-rp/common';
+
 declare global {
+
+  interface IPhoneItem extends IItem {
+    phoneInfo: IPhoneInfo;
+  }
 
   interface Mp {
     events: EventMpPool;

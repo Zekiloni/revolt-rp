@@ -18,4 +18,5 @@ export enum GameUiKey {
   PropertyInfo = 'propertyInfo',
   ManageProperty = 'manageProperty',
   HandheldRadio = 'handheldRadio',
+  Smartphone = 'smartphone',
 }
