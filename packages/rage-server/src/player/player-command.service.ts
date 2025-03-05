@@ -1,28 +1,16 @@
-import { AdminType } from '@revolt-rp/common';
+import { CommandCategory, ICommand } from '@revolt-rp/common';
 
-export interface CommandValidator {
-  validate: (player: PlayerMp) => boolean;
-  message: string;
-}
 
-export interface ICommand {
-  name: string;
-  description: string;
-  aliases?: string[];
-  administrator?: AdminType;
-  params?: string[];
-  validators?: CommandValidator[];
-
-  handle(player: PlayerMp, ...args: string[]): void;
-}
-
-const commands: Map<string, ICommand> = new Map();
+const commands: Map<string, ICommand<PlayerMp>> = new Map();
 
 export const getCommand = (nameOrAlias: string) => {
   return commands.get(nameOrAlias);
 };
 
-export const registerCommand = (command: ICommand) => {
+export const registerCommand = (command: ICommand<PlayerMp>) => {
+  if (!command.category)
+    command.category = CommandCategory.General;
+
   if (command.aliases && command.aliases.length) {
     command.aliases.forEach((alias) => {
       commands.set(alias, command);

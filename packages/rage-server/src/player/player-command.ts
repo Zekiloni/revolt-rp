@@ -1,7 +1,13 @@
 import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
-import { hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
-import { filterPlayer, findPlayer, sendProximityMessage, setPlayerTextBubble } from './util/player.util';
+import { GameUiKey, hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
+import {
+  filterPlayer,
+  findPlayer,
+  sendProximityMessage,
+  setPlayerTextBubble,
+  showPlayerGameInterface
+} from './util/player.util';
 import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
@@ -283,6 +289,14 @@ registerCommand({
   name: 'buy',
   description: 'todo',
   async handle(player: PlayerMp) {
-   await playerBuyInteraction(player);
+    await playerBuyInteraction(player);
   }
-})
+});
+
+registerCommand({
+  name: 'help',
+  description: 'todo',
+  handle(player: PlayerMp) {
+    showPlayerGameInterface(player, GameUiKey.HelpMenu);
+  }
+});

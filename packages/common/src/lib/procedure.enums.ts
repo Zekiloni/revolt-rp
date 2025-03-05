@@ -116,4 +116,6 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_LOCK = 'server_propertyLock',
   CLIENT_TOGGLE_PROPERTY_MENU = 'client_togglePropertyMenu',
   SERVER_PROPERTY_UPDATE = 'server_propertyUpdate',
+
+  SERVER_GET_COMMANDS = 'server_getCommands',
 }

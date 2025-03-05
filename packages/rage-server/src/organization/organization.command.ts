@@ -5,18 +5,18 @@ import {
   playerChatOrganization, playerLeaveOrganization,
   removePlayerFromOrganization
 } from './organization.service';
-import { ProcedureKey } from '@revolt-rp/common';
+import { ICommandValidator, ProcedureKey } from '@revolt-rp/common';
 import { findPlayer } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { CommandValidator, registerCommand } from '../player/player-command.service';
+import { registerCommand } from '../player/player-command.service';
 
 
-const isInAnyOrganizationCommandValidator: CommandValidator = {
+const isInAnyOrganizationCommandValidator: ICommandValidator<PlayerMp> = {
   validate: (player) => player.character.membership !== null,
   message: t('not_member_of_any_organization')
 };
 
-const canManageOrganizationMembersCommandValidator: CommandValidator = {
+const canManageOrganizationMembersCommandValidator: ICommandValidator<PlayerMp> = {
   validate: (player) => player.character.isLeader,
   message: t('you_cannot_manage_organization_members')
 };
