@@ -1,5 +1,3 @@
-
-
 export const testPhoneData: Partial<IPhoneItem> = {
   id: 'test-phone',
   phoneInfo: {
@@ -7,7 +5,13 @@ export const testPhoneData: Partial<IPhoneItem> = {
     opacity: 0.9,
     phoneNumber: '1234567890',
     notes: [],
-    contacts: [],
-    backgroundImage: 'assets/images/phone/backgrounds/1.jpg',
+    contacts: [
+      {
+        name: 'John Doe',
+        phoneNumber: '3422432',
+        favorite: false
+      }
+    ],
+    backgroundImage: 'assets/images/phone/backgrounds/1.jpg'
   }
-}
+};
