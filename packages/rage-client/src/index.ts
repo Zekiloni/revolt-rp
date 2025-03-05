@@ -17,6 +17,7 @@ import './player/inventory/player-attachment';
 import './player/inventory/player-inventory';
 import './player/inventory/player-item';
 import './player/inventory/player-weapon';
+import './player/inventory/player-phone';
 
 import './player/other/player-bubble';
 import './player/other/player-freeze';

@@ -1,1 +1,15 @@
-<p>messenger works!</p>
+@if (selectedConversation) {
+
+  @for (message of getConversationMessages(selectedConversation); track message) {
+    <div class="message">
+      <div class="message__content">{{ message.content }}</div>
+    </div>
+  }
+} @else {
+  @for (conversation of conversations; track conversation) {
+    <div class="conversation" (click)="selectedConversation = conversation">
+      <div class="conversation__name">{{ getContactName(conversation) }}</div>
+      <div>{{ getLastMessage(conversation) }}</div>
+    </div>
+  }
+}

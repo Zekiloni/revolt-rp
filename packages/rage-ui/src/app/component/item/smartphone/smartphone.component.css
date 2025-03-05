@@ -14,11 +14,6 @@
   background-size: cover;
 }
 
-.toolbar {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
 .close-app {
   position: absolute;
   bottom: 10px;

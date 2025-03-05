@@ -6,16 +6,15 @@
       <div class="flex flex-column h-full w-full bg-no-repeat bg-cover"
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
-        <div class="toolbar border-none py-1 px-3 flex align-items-center justify-content-between">
+        <div class="surface-card border-none py-2 px-4 flex align-items-center justify-content-between">
           <span>test</span>
-          <span>{{ ($time | async) | date: 'HH:mm' }}</span>
+          <span class="text-sm">{{ ($time | async) | date: 'HH:mm' }}</span>
         </div>
         @if (openedApplication) {
-          <div class="w-full h-full bg-black-alpha-40 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
+          <div class="w-full h-full bg-black-alpha-80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
             <ng-container [ngComponentOutlet]="openedApplication.component"></ng-container>
           </div>
           <button pButton [rounded]="true" icon="pi pi-home" (click)="closeApp()" class="close-app"></button>
-
         } @else {
           <div class="grid grid-nogutter mt-3 px-3">
             @for (app of otherApps; let index = $index; track app.key) {

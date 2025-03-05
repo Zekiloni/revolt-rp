@@ -11,11 +11,10 @@ import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { ButtonDirective } from 'primeng/button';
 import { interval, map, Observable, startWith } from 'rxjs';
 import { MessengerComponent } from './components/messenger';
-import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
+import { getConversations, getPhoneDockTooltip } from '../../../domain/util/phone.util';
 import { SettingsComponent } from './components/settings';
 import { Store } from '@ngrx/store';
-import { PhoneState } from '../../../store/phone/phone.reducer';
-import { selectPhone } from '../../../store/phone/phone.selectors';
+import { PhoneState, selectPhone, selectPhoneMessages } from '../../../store/phone';
 
 
 export interface IApplication extends MenuItem {
