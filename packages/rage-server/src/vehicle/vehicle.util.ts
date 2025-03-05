@@ -1,6 +1,5 @@
-import { IVehicle } from '@revolt-rp/common';
-import { CommandValidator } from '../player/player-command.service';
 import { t } from 'i18next';
+import { ICommandValidator, IVehicle } from '@revolt-rp/common';
 
 
 export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: string, position: Vector3, vehicle: VehicleMp) => {
@@ -34,7 +33,7 @@ export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: stri
 };
 
 
-export const isPlayerInVehicleCommandValidator: CommandValidator = {
+export const isPlayerInVehicleCommandValidator: ICommandValidator<PlayerMp> = {
   validate: (player) => player.vehicle !== undefined,
   message: t('not_in_vehicle')
 };

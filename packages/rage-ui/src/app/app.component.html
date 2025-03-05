@@ -15,6 +15,10 @@
     <app-hud @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.HelpMenu) | async; as isActive) {
+    <app-help @fadeInOut [commands]="commands" [isActive]="isActive" />
+  }
+
   @if ($isGameInterfaceActive(GameUiKey.VehicleHud) | async) {
     <app-vehicle-hud />
   }

@@ -3,7 +3,7 @@ import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { srRs, enUs, GameUiKey, ProcedureKey } from '@revolt-rp/common';
+import { CommandCategory, enUs, GameUiKey, ICommandBase, ProcedureKey, srRs } from '@revolt-rp/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
 import { CharacterSelectorComponent } from './component/character-selector';
@@ -34,6 +34,7 @@ import { CreatePropertyComponent } from './component/property/create-property';
 import { PropertyInfoComponent } from './component/property/property-info';
 import { ManagePropertyComponent } from './component/property/manage-property';
 import { SmartphoneComponent } from './component/item/smartphone';
+import { HelpComponent } from './component/help';
 
 
 @Component({
@@ -62,7 +63,8 @@ import { SmartphoneComponent } from './component/item/smartphone';
     CreatePropertyComponent,
     PropertyInfoComponent,
     ManagePropertyComponent,
-    SmartphoneComponent
+    SmartphoneComponent,
+    HelpComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
@@ -75,6 +77,26 @@ import { SmartphoneComponent } from './component/item/smartphone';
 export class AppComponent implements OnInit {
   protected readonly GameUiKey = GameUiKey;
   private renderer?: Renderer2;
+
+  commands: ICommandBase[] = [
+    {
+      name: 'help',
+      description: 'Shows all available commands.',
+      category: CommandCategory.General,
+    },
+    {
+      name: 'ban',
+      description: 'Ban player.',
+      category: CommandCategory.Admin,
+      params: ['target', 'expire', 'reason']
+    },
+    {
+      name: 'kick',
+      description: 'Kick player.',
+      category: CommandCategory.Admin,
+      params: ['target', 'reason']
+    }
+  ];
 
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
@@ -136,11 +158,17 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private getAllCommands() {
+    this.rageClientService.callServer<ICommandBase[]>(ProcedureKey.SERVER_GET_COMMANDS)
+      .subscribe(commands => this.commands = commands)
+  }
+
   ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
       this.listenToNotificationEvents();
       this.listenToInputs();
+      this.getAllCommands();
       this.inventoryListenerService.listenToInventoryEvents();
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');

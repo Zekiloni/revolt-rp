@@ -15,7 +15,6 @@ import {
   IOrganizationRank,
   IOrganizationRankCreate,
   OrganizationPermissionType,
-  OrganizationType
 } from '@revolt-rp/common';
 import { filterGlobal } from '../../../../../domain/util/table.util';
 import { ChipModule } from 'primeng/chip';

@@ -16,6 +16,7 @@ export * from './lib/game-ui/game-ui.config';
 
 export * from './lib/player/player-level.util';
 export * from './lib/player/player.model';
+export * from './lib/player/player-command.model';
 
 export * from './lib/player/account/account.config';
 export * from './lib/player/account/account.model';

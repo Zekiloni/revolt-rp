@@ -4,6 +4,7 @@ export enum GameUiKey {
   BanInfo = 'banInfo',
   Hud = 'hud',
   VehicleHud = 'vehicleHud',
+  HelpMenu = 'helpMenu',
   Inventory = 'inventory',
   PlayerMenu = 'playerMenu',
   Offer = 'offer',
