@@ -23,3 +23,8 @@ export const setPhoneMessages = createAction(
   '[Phone] Set Phone Messages',
   props<{ messages: IPhoneMessage[] }>()
 );
+
+export const addPhoneMessage = createAction(
+  '[Phone] Add Phone Message',
+  props<{ message: IPhoneMessage }>()
+);

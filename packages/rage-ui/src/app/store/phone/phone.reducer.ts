@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { IPhoneMessage, PhoneMessageType } from '@revolt-rp/common';
 import { testPhoneData } from './test-phone.data';
-import { setPhone, setPhoneBackground, setPhoneMessages, setPhoneOpacity } from './phone.actions';
+import { addPhoneMessage, setPhone, setPhoneBackground, setPhoneMessages, setPhoneOpacity } from './phone.actions';
 
 
 export interface PhoneState {
@@ -19,6 +19,22 @@ export const initialPhoneState: PhoneState = {
       sender: testPhoneData.phoneInfo!.phoneNumber!,
       receiver: '987654321',
       content: 'Hello, this is a test message.',
+      createdAt: new Date(),
+      seen: false
+    },
+    {
+      type: PhoneMessageType.Text,
+      sender: testPhoneData.phoneInfo!.phoneNumber!,
+      receiver: '987654321',
+      content: 'newww.',
+      createdAt: new Date(),
+      seen: false
+    },
+    {
+      type: PhoneMessageType.Text,
+      sender: '987654321',
+      receiver: testPhoneData.phoneInfo!.phoneNumber!,
+      content: 'Hadwada.',
       createdAt: new Date(),
       seen: false
     },
@@ -57,5 +73,8 @@ export const phoneReducer = createReducer(
   }),
   on(setPhoneMessages, (state, { messages }) => {
     return { ...state, messages };
+  }),
+  on(addPhoneMessage, (state, { message }) => {
+    return { ...state, messages: [...state.messages, message] };
   })
 );
