@@ -1,15 +1,53 @@
 @if (selectedConversation) {
+  <div class="flex flex-column h-full">
+    <div class="flex align-items-center justify-content-between py-2 px-3">
+      <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
+              (click)="selectedConversation = null"></button>
+      <span>{{ getContactName(selectedConversation!) }}</span>
+    </div>
+    <p-scroller
+      #messagesScroller
+      [items]="getConversationMessages(selectedConversation!)"
+      [itemSize]="5"
+      scrollHeight="90%"
+    >
+      <ng-template pTemplate="item" let-message let-options="options">
+        <div class="message py-2 px-3 border-round-2xl mb-2 mx-2 w-13rem"
+             [ngClass]="{ 'surface-200': isMessageSent(message), 'surface-400': !isMessageSent(message) }"
+             [ngStyle]="{ 'float': isMessageSent(message) ? 'right' : 'left' }">
+          <div class="text-sm">{{ message.content }}</div>
+        </div>
+      </ng-template>
+    </p-scroller>
 
-  @for (message of getConversationMessages(selectedConversation); track message) {
-    <div class="message">
-      <div class="message__content">{{ message.content }}</div>
+    <div class="w-full mb-5">
+      <p-inputGroup>
+        <input pInputText [(ngModel)]="messageContent">
+        <p-inputGroupAddon>
+          <button pButton icon="pi pi-send" (click)="sendMessage(selectedConversation!, messageContent)" [disabled]="!messageContent.length"></button>
+        </p-inputGroupAddon>
+      </p-inputGroup>
     </div>
-  }
+  </div>
 } @else {
-  @for (conversation of conversations; track conversation) {
-    <div class="conversation" (click)="selectedConversation = conversation">
-      <div class="conversation__name">{{ getContactName(conversation) }}</div>
-      <div>{{ getLastMessage(conversation) }}</div>
+  <div class="flex flex-column h-full">
+    <div class="py-2 py-3">
+      <input pInputText value="test">
     </div>
-  }
+    <p-scroller
+      [items]="conversations"
+      [autoSize]="true"
+      styleClass="flex-grow"
+    >
+      <ng-template pTemplate="item" let-conversation let-options="options">
+        <div class="flex flex-column py-2 px-3" [ngClass]="{ 'surface-ground': options.odd }"
+             (click)="selectedConversation = conversation">
+          <div class="flex align-items-center">
+            {{ getContactName(conversation) }}
+          </div>
+          <div class="p-2 text-sm">{{ getLastMessage(conversation) }}</div>
+        </div>
+      </ng-template>
+    </p-scroller>
+  </div>
 }
