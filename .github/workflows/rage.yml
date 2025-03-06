@@ -93,29 +93,10 @@ jobs:
                 echo "Docker network revolt_network already exists."
               fi
 
-              if [ "$(docker ps -q -f name=mongo_db)" ]; then
-                echo "MongoDB is already running."
-              else
-                echo "Running MongoDB container with authentication enabled..."
-
-                if [ "$(docker ps -aq -f name=mongo_db)" ]; then
-                  echo "Stopping and removing existing MongoDB container..."
-                  docker stop mongo_db || true
-                  docker rm mongo_db || true
-                fi
-
-                docker pull mongo:latest
-                docker run -d --name mongo_db \
-                  --network revolt_network \
-                  -p 27017:27017 \
-                  -v mongo_data:/data/db \
-                  mongo:latest
-              fi
-
               docker run -d --name ragemp_server \
                --network revolt_network \
                -p 22005:22005/udp -p 22005:22005/tcp -p 22006:22006/tcp \
-               -e DATABASE_URL="mongodb://mongo_db:27017/revolt_rp" \
+               -e DATABASE_URL="mongodb://${{ secrets.DATABASE_USERNAME }}:${{ secrets.DATABASE_PASSWORD }}@127.0.0.1:27017/revolt_rp?authSource=admin" \
                "${{ env.IMAGE_NAME }}:latest"
 
               echo "Deployment finished."
