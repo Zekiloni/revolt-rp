@@ -1,4 +1,4 @@
-import { CommandCategory, ICommand } from '@revolt-rp/common';
+import { CommandCategory, ICommand, ICommandBase } from '@revolt-rp/common';
 
 
 const commands: Map<string, ICommand<PlayerMp>> = new Map();
@@ -19,3 +19,16 @@ export const registerCommand = (command: ICommand<PlayerMp>) => {
 
   return commands.set(command.name, command);
 };
+
+
+export const getBaseCommands = (): ICommandBase[] => {
+  return Object.values(commands).map((command) => {
+    return {
+      name: command.name,
+      description: command.description,
+      category: command.category,
+      params: command.params,
+      aliases: command.aliases
+    }
+  })
+}
