@@ -10,3 +10,7 @@ ul.messages {
       1px 1px 0 #000;
   }
 }
+
+::ng-deep .p-autocomplete-loader {
+  display: none;
+}

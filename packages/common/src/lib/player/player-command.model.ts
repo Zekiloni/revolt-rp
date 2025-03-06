@@ -3,10 +3,11 @@ import { AdminType } from './account/account.model';
 
 export enum CommandCategory {
   General = 'general',
-  Organization = 'organization',
-  Admin = 'admin',
+  Job = 'job',
   Vehicle = 'vehicle',
   Property = 'property',
+  Organization = 'organization',
+  Admin = 'admin',
 }
 
 export interface ICommandValidator<T> {

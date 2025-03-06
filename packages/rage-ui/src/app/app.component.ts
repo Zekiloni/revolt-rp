@@ -78,25 +78,7 @@ export class AppComponent implements OnInit {
   protected readonly GameUiKey = GameUiKey;
   private renderer?: Renderer2;
 
-  commands: ICommandBase[] = [
-    {
-      name: 'help',
-      description: 'Shows all available commands.',
-      category: CommandCategory.General,
-    },
-    {
-      name: 'ban',
-      description: 'Ban player.',
-      category: CommandCategory.Admin,
-      params: ['target', 'expire', 'reason']
-    },
-    {
-      name: 'kick',
-      description: 'Kick player.',
-      category: CommandCategory.Admin,
-      params: ['target', 'reason']
-    }
-  ];
+  commands: ICommandBase[] = [];
 
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
