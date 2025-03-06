@@ -3,16 +3,18 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  HostListener,
+  HostListener, Input,
   OnInit,
   ViewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { ChipsModule } from 'primeng/chips';
 import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
+import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import { ICommandBase } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
@@ -22,10 +24,11 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
   selector: 'app-text-chat',
   standalone: true,
   imports: [
-    ChipsModule,
     DatePipe,
     SafeHtmlPipe,
-    FormsModule
+    FormsModule,
+    AutoCompleteModule,
+    TranslatePipe
   ],
   templateUrl: './text-chat.component.html',
   styleUrl: './text-chat.component.scss',
@@ -35,19 +38,24 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
   ]
 })
 export class TextChatComponent implements OnInit {
+  @Input() commands!: ICommandBase[];
+
   @ViewChild('messagesList') messagesRef!: ElementRef;
-  @ViewChild('chatInput') chatInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('chatInput') chatInput!: AutoComplete;
 
   isActive = false;
   isTyping = false;
+
+  commandSuggestions: string[] = [];
+
   showTimestamps = false;
 
   inputContent: string | null = null;
-
   messageCount = 0;
-  messages: { id: number, content: string, createdAt: Date }[] = [];
 
+  messages: { id: number, content: string, createdAt: Date }[] = [];
   inputHistory: string[] = [];
+
   historyShiftIdx = -1;
 
   constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
@@ -173,11 +181,11 @@ export class TextChatComponent implements OnInit {
 
     if (toggle) {
       setTimeout(() => {
-        this.chatInput.nativeElement.focus();
+        this.chatInput.inputEL?.nativeElement.focus();
         this.inputContent = null;
       }, 50);
     } else {
-      this.chatInput.nativeElement.blur();
+      this.chatInput.inputEL?.nativeElement.blur();
       this.inputContent = null;
     }
   }
@@ -212,6 +220,17 @@ export class TextChatComponent implements OnInit {
     }
 
     this.inputContent = this.historyShiftIdx >= 0 ? this.inputHistory[this.historyShiftIdx] : '';
+  }
+
+  filterCommands(event: AutoCompleteCompleteEvent) {
+    if (event.query.startsWith('/') && event.query.length > 3) {
+      const cmd = event.query.substr(1);
+      this.commandSuggestions = this.commands
+        .filter((command) => command.name.startsWith(cmd))
+        .map((command) => `/${command.name}`);
+    } else {
+      this.commandSuggestions = [];
+    }
   }
 
 }

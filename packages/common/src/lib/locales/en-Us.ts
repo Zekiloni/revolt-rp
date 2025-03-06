@@ -401,10 +401,13 @@ export const enUs = {
   'general': 'General',
   'admin': 'Admin',
   'vehicle': 'Vehicle',
+  'job': 'Job',
   'property': 'Property',
   'command': 'Command',
   'aliases': 'Aliases',
   'params': 'Params',
   'syntax': 'Syntax',
   'category': 'Category',
+  'any': 'Any',
+  'commands_table': 'Commands Table',
 };

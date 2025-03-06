@@ -12,11 +12,14 @@ import { filterGlobal } from '../../domain/util/table.util';
 import { TagModule } from 'primeng/tag';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-help',
   standalone: true,
-  imports: [CommonModule, DialogModule, TranslatePipe, TableModule, IconFieldModule, InputIconModule, InputTextModule, TagModule, DropdownModule, FormsModule],
+  imports: [CommonModule, DialogModule, TranslatePipe, TableModule, IconFieldModule, InputIconModule, InputTextModule, TagModule, DropdownModule, FormsModule, InputGroupModule, InputGroupAddonModule, Button],
   templateUrl: './help.component.html',
   styleUrl: './help.component.css'
 })
@@ -26,10 +29,8 @@ export class HelpComponent {
   @Input() isActive!: boolean;
   @Input() commands!: ICommandBase[];
 
-  categorySearch: string | null = null;
-
   get categories() {
-    return Array.from(new Set(this.commands.map(command => command.category || CommandCategory.General)));
+    return Object.values(CommandCategory);
   }
 
   constructor(private rageClientService: RageClientService) {
@@ -40,11 +41,13 @@ export class HelpComponent {
       case CommandCategory.Admin:
         return 'danger';
       case CommandCategory.Organization:
-        return 'warning';
+        return 'success';
       case CommandCategory.Vehicle:
         return 'info';
       case CommandCategory.Property:
-        return 'success';
+        return 'warning';
+      case 'job':
+        return 'contrast';
       default:
         return 'secondary';
     }
@@ -53,4 +56,14 @@ export class HelpComponent {
   close() {
     this.rageClientService.triggerClient(ProcedureKey.BROWSER_HIDE_GAME_INTERFACE, GameUiKey.HelpMenu);
   }
+
+  getCommandSyntax(command: ICommandBase) {
+    const params = command.params?.map(param => `[${param}]`).join(' ') || '';
+    return `/${command.name} ${params}`;
+  }
+
+  copyToClipboard(commandSyntax: string) {
+    navigator.clipboard.writeText(commandSyntax);
+  }
+
 }
