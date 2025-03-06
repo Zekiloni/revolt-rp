@@ -54,7 +54,7 @@ export class HelpComponent {
   }
 
   close() {
-    this.rageClientService.triggerClient(ProcedureKey.BROWSER_HIDE_GAME_INTERFACE, GameUiKey.HelpMenu);
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.HelpMenu);
   }
 
   getCommandSyntax(command: ICommandBase) {
