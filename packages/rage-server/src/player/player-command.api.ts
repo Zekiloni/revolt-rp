@@ -46,7 +46,6 @@ function getCommandsHandler() {
   return getBaseCommands();
 }
 
-
 mp.events.add({
   playerCommand: playerCommandHandler
 });
