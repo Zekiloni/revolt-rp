@@ -2,10 +2,11 @@ import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
   invitePlayerToOrganization,
-  playerChatOrganization, playerLeaveOrganization,
+  playerChatOrganization,
+  playerLeaveOrganization,
   removePlayerFromOrganization
 } from './organization.service';
-import { ICommandValidator, ProcedureKey } from '@revolt-rp/common';
+import { CommandCategory, ICommandValidator, ProcedureKey } from '@revolt-rp/common';
 import { findPlayer } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { registerCommand } from '../player/player-command.service';
@@ -26,6 +27,7 @@ registerCommand({
   name: 'invite',
   aliases: ['inv'],
   params: ['target'],
+  category: CommandCategory.Organization,
   description: t('invite_command_description'),
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
@@ -43,6 +45,7 @@ registerCommand({
   name: 'uninvite',
   aliases: ['dismiss'],
   params: ['target'],
+  category: CommandCategory.Organization,
   description: t('uninvite_command_description'),
   validators: [isInAnyOrganizationCommandValidator, canManageOrganizationMembersCommandValidator],
   handle(player: PlayerMp, targetQuery) {
@@ -59,6 +62,7 @@ registerCommand({
 registerCommand({
   name: 'o',
   aliases: ['f'],
+  category: CommandCategory.Organization,
   description: t('organization_chat_command_description'),
   validators: [isInAnyOrganizationCommandValidator],
   async handle(player: PlayerMp, ...content) {
@@ -70,6 +74,7 @@ registerCommand({
 registerCommand({
   name: 'organization',
   aliases: ['org', 'faction'],
+  category: CommandCategory.Organization,
   description: t('organization_panel_command_description'),
   validators: [isInAnyOrganizationCommandValidator],
   handle(player: PlayerMp) {
@@ -81,6 +86,7 @@ registerCommand({
 registerCommand({
   name: 'leaveorganization',
   aliases: ['leaveorg', 'leavefaction'],
+  category: CommandCategory.Organization,
   description: t('leave_organization_command_description'),
   validators: [isInAnyOrganizationCommandValidator],
   async handle(player: PlayerMp) {

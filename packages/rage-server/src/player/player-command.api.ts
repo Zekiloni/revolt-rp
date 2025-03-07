@@ -1,7 +1,7 @@
 import { t } from 'i18next';
 import { getBaseCommands, getCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
-import { ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
+import { register } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
 
 

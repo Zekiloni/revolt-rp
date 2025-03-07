@@ -46,7 +46,7 @@ export class TextChatComponent implements OnInit {
   isActive = false;
   isTyping = false;
 
-  commandSuggestions: string[] = [];
+  _commandSuggestions: string[] = [];
 
   showTimestamps = false;
 
@@ -57,6 +57,14 @@ export class TextChatComponent implements OnInit {
   inputHistory: string[] = [];
 
   historyShiftIdx = -1;
+
+  get commandSuggestions() {
+    if (this.inputContent?.startsWith('/') && !this.inputContent.includes(' ')) {
+      return this._commandSuggestions;
+    }
+
+    return [];
+  }
 
   constructor(private rageClientService: RageClientService, private changeDetectorRef: ChangeDetectorRef) {
   }
@@ -225,11 +233,16 @@ export class TextChatComponent implements OnInit {
   filterCommands(event: AutoCompleteCompleteEvent) {
     if (event.query.startsWith('/') && event.query.length > 3) {
       const cmd = event.query.substr(1);
-      this.commandSuggestions = this.commands
-        .filter((command) => command.name.startsWith(cmd))
-        .map((command) => `/${command.name}`);
+      this._commandSuggestions = [
+        ...new Set(
+          this.commands
+            .filter((command) => command.name.startsWith(cmd))
+            .flatMap((command) => [command.name, ...(command.aliases || [])])
+            .map((command) => `/${command}`)
+        )
+      ];
     } else {
-      this.commandSuggestions = [];
+      this._commandSuggestions = [];
     }
   }
 
