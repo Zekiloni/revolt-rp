@@ -22,13 +22,13 @@ export const registerCommand = (command: ICommand<PlayerMp>) => {
 
 
 export const getBaseCommands = (): ICommandBase[] => {
-  return Object.values(commands).map((command) => {
+  return Array.from(commands.values()).map((command) => {
     return {
       name: command.name,
       description: command.description,
       category: command.category,
       params: command.params,
       aliases: command.aliases
-    }
-  })
-}
+    };
+  });
+};
