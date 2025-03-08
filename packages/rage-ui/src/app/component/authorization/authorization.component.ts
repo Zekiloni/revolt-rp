@@ -92,6 +92,7 @@ export class AuthorizationComponent implements OnInit, OnDestroy {
   };
 
   private handleAuthError = (error: ApiError) => {
+    this.authLoading = false;
     this.messageService.add({ severity: 'error', detail: error.message });
   };
 
