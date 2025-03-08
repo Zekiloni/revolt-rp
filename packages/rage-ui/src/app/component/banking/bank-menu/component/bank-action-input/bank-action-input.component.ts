@@ -40,10 +40,14 @@ export class BankActionInputComponent {
   protected readonly BankActionType = BankActionType;
 
   submitAction() {
+    if (this.amount != null && this.amount < 0)
+      return;
+
     this.dynamicDialogRef.close({ amount: this.amount, targetAccountNumber: this.targetBankAccount });
   }
 
   isActionValid() {
-    return this.amount && (this.actionType !== BankActionType.Transfer || this.targetBankAccount);
+    return (this.amount != null && this.amount > 1) &&
+      (this.actionType !== BankActionType.Transfer || !!this.targetBankAccount);
   }
 }
