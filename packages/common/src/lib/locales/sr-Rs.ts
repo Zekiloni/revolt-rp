@@ -412,5 +412,6 @@ export const srRs = {
   'syntax': 'Sintaksa',
   'category': 'Kategorija',
   'any': 'Bilo koji',
-  'commands_table': 'Tabela Komandi'
+  'commands_table': 'Tabela Komandi',
+  'new_message': 'Nova Poruka',
 };

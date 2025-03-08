@@ -5,15 +5,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
+import { provideTranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
-import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { phoneReducer } from './store/phone';
-import { inventoryReducer } from './store/inventory/inventory.reducer';
-import { RageClientService } from './domain/service/rage-client.service';
-import { provideTranslateService } from '@ngx-translate/core';
 import { BASE_HREf } from './domain/variables';
 import { environment } from '../environments/environment';
+import { inventoryReducer } from './store/inventory/inventory.reducer';
+import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
+import { RageClientService } from './domain/service/rage-client.service';
 
 
 export const appConfig: ApplicationConfig = {
@@ -24,7 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideAnimations(),
     provideTranslateService({
-      defaultLanguage: 'en-US'
+      defaultLanguage: environment.DEFAULT_LANGUAGE
     }),
     MessageService,
     RageClientService,

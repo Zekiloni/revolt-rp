@@ -411,5 +411,6 @@ export const enUs = {
   'syntax': 'Syntax',
   'category': 'Category',
   'any': 'Any',
-  'commands_table': 'Commands Table'
+  'commands_table': 'Commands Table',
+  'new_message': 'New Message',
 };

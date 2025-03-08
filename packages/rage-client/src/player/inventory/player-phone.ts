@@ -14,6 +14,8 @@ import { clearPlayerAnimations, playAnimation } from '../util/player-animation.u
 
 let isCurrentLocationActive = false;
 let phoneMapUpdateInterval: NodeJS.Timeout | null = null;
+let phoneProp = false;
+
 
 function takeOutPhoneHandler() {
   triggerServer(ProcedureKey.SERVER_TOGGLE_PHONE, true);
@@ -23,6 +25,24 @@ function putAwayPhoneHandler() {
   triggerServer(ProcedureKey.SERVER_TOGGLE_PHONE, false);
 }
 
+
+function togglePhoneCamera(toggle: boolean, frontCamera?: boolean) {
+  mp.gui.chat.push(`togglePhoneCamera: ${toggle}, frontCamera: ${frontCamera}`);
+  if (toggle) {
+    if (!phoneProp) {
+      phoneProp = true;
+      mp.game.mobile.createMobilePhone(0);
+      mp.game.mobile.setMobilePhoneScale(0);
+    }
+
+    mp.game.mobile.cellCamActivate(true, true);
+    mp.game.invoke(RageEnums.Natives.MOBILE._CELL_CAM_DISABLE_THIS_FRAME, frontCamera);
+  } else {
+    phoneProp = false;
+    mp.game.mobile.destroyPhone();
+    mp.game.mobile.cellCamActivate(false, false);
+  }
+}
 
 async function handlePlayerPhoneStateChange(player: PlayerMp, value: PlayerPhoneState | null, oldValue?: PlayerPhoneState | null) {
   if (player.type != RageEnums.EntityType.PLAYER)
@@ -48,20 +68,6 @@ async function handlePlayerPhoneStateChange(player: PlayerMp, value: PlayerPhone
     case PlayerPhoneState.InCall:
       animationName = 'cellphone_call_listen_base';
       break;
-
-    case PlayerPhoneState.FrontCam:
-      animationName = null;
-      animationLib = null;
-      mp.game.mobile.createMobilePhone(0);
-      mp.game.mobile.setMobilePhoneScale(0);
-      mp.game.mobile.cellCamActivate(true, true);
-      mp.game.invoke(RageEnums.Natives.MOBILE._CELL_CAM_DISABLE_THIS_FRAME, true);
-      break;
-  }
-
-  if (oldValue === PlayerPhoneState.FrontCam && value != oldValue) {
-    mp.game.mobile.destroyPhone();
-    mp.game.mobile.cellCamActivate(false, false);
   }
 
   if (animationLib && animationName) {
@@ -100,5 +106,21 @@ function phoneMapInitializeHandler(toggle: boolean) {
 }
 
 
+function togglePhoneCameraHandler(state: PlayerPhoneState) {
+  switch (state) {
+    case PlayerPhoneState.FrontCamera:
+      togglePhoneCamera(true, true);
+      break;
+
+    case PlayerPhoneState.BackCamera:
+      togglePhoneCamera(true, false);
+      break;
+
+    default:
+      togglePhoneCamera(false, false);
+  }
+}
+
 mp.events.addDataHandler(PlayerSharedDataType.PhoneState, handlePlayerPhoneStateChange);
 on(ProcedureKey.CLIENT_PHONE_MAP_INIT, phoneMapInitializeHandler);
+on(ProcedureKey.CLIENT_PHONE_CAMERA_TOGGLE, togglePhoneCameraHandler);
