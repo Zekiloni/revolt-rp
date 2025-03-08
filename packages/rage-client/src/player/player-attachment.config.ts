@@ -2,7 +2,7 @@ import { IPlayerAttachment, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
 
 const attackAction = [
   RageEnums.Controls.INPUT_ATTACK,
-  RageEnums.Controls.INPUT_ATTACK2,
+  RageEnums.Controls.INPUT_ATTACK2
 ];
 
 export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAttachment> = {
@@ -12,7 +12,7 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     position: { x: 0.09, y: 0.03, z: -0.02 },
     rotation: { x: -100.0, y: 150.0, z: 28.0 },
     fixedRot: true,
-    disableControls: attackAction,
+    disableControls: attackAction
   },
   [PlayerAttachmentTypeEnum.HoldLdFlowBottle]: {
     model: 'prop_ld_flow_bottle',
@@ -20,7 +20,7 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     position: { x: 0.125, y: 0.03, z: -0.02 },
     rotation: { x: -100.0, y: 150.0, z: 28.0 },
     fixedRot: true,
-    disableControls: attackAction,
+    disableControls: attackAction
   },
   [PlayerAttachmentTypeEnum.HoldAmbBeerBottle]: {
     model: 'prop_amb_beer_bottle',
@@ -28,7 +28,7 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     position: { x: 0.125, y: 0.03, z: -0.02 },
     rotation: { x: -100.0, y: 150.0, z: 28.0 },
     fixedRot: true,
-    disableControls: attackAction,
+    disableControls: attackAction
   },
   [PlayerAttachmentTypeEnum.HoldAmbPhone]: {
     model: 'prop_amb_phone',
@@ -52,6 +52,6 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     position: { x: 0.125, y: 0.03, z: -0.02 },
     rotation: { x: -100.0, y: 150.0, z: 28.0 },
     fixedRot: true,
-    disableControls: attackAction,
+    disableControls: attackAction
   }
-}
+};

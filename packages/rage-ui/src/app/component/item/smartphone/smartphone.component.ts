@@ -15,6 +15,7 @@ import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
 import { SettingsComponent } from './components/settings';
 import { Store } from '@ngrx/store';
 import { PhoneState, selectPhone } from '../../../store/phone';
+import { CameraComponent } from './components/camera';
 
 
 export interface IApplication extends MenuItem {
@@ -129,7 +130,7 @@ export class SmartphoneComponent implements OnInit{
         key: 'camera',
         name: 'camera',
         icon: 'assets/images/phone/icons/camera.svg',
-        component: CalculatorComponent,
+        component: CameraComponent,
         command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
       },
       {

@@ -1,4 +1,4 @@
-import { Vector3 } from '../core.interface';
+import { Vector3 } from '../../core.interface';
 
 export interface IPlayerAttachment {
   model: string;

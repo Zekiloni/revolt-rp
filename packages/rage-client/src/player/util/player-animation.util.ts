@@ -77,6 +77,9 @@ export const loadMovementClipSet = (clipset: string) => {
   });
 };
 
+export const clearPlayerAnimations = (player: PlayerMp) => {
+  player.clearTasks();
+};
 
 export const setPlayerWalkingStyle = async (player: PlayerMp, clipSet: string | null) => {
   if (clipSet === 'normal') {

@@ -76,6 +76,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.Offer]: null,
     [PlayerSharedDataType.WalkingStyle]: 'normal',
     [PlayerSharedDataType.Attachments]: [],
+    [PlayerSharedDataType.PhoneState]: null,
     [PlayerSharedDataType.AdminDuty]: false,
     [PlayerSharedDataType.Organization]: player.character.membership ? player.character.membership.organization : null
   });

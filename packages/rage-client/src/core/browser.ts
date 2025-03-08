@@ -12,6 +12,7 @@ let frozenControls = false;
 
 export const browser = mp.browsers.new(environment.BROWSER_URL);
 
+
 (() => {
   mp.gui.chat.show(false);
   browser.markAsChat();
