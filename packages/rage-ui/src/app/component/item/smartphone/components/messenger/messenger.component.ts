@@ -4,18 +4,19 @@ import { addPhoneMessage, PhoneState, selectPhone, selectPhoneMessages } from '.
 import { getConversations } from '../../../../../domain/util/phone.util';
 import { Store } from '@ngrx/store';
 import { combineLatest, map } from 'rxjs';
-import { IPhoneContact, IPhoneMessage, PhoneMessageType } from '@revolt-rp/common';
+import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType } from '@revolt-rp/common';
 import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputGroupModule } from 'primeng/inputgroup';
+import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 
 @Component({
   selector: 'app-messenger',
   standalone: true,
-  imports: [CommonModule, ScrollerModule, ChipsModule, ButtonDirective, FormsModule, InputGroupAddonModule, InputGroupModule],
+  imports: [CommonModule, ScrollerModule, ChipsModule, ButtonDirective, FormsModule, InputGroupAddonModule, InputGroupModule, WorldMapComponent],
   templateUrl: './messenger.component.html',
   styleUrl: './messenger.component.css'
 })
@@ -76,16 +77,14 @@ export class MessengerComponent implements OnInit {
     if (!this.messageContent.length)
       return;
 
-    const message: IPhoneMessage = {
+    const message: IPhoneMessageCreate = {
       type: PhoneMessageType.Text,
       sender: this.phoneNumber as string,
       receiver: recipient,
       content: messageContent,
-      seen: false,
-      createdAt: new Date()
     };
 
-    this.store.dispatch(addPhoneMessage({ message }));
+    // this.store.dispatch(addPhoneMessage({ message }));
     this.messageContent = '';
 
     // this.store.select(selectPhoneMessages).subscribe(messages => {
@@ -102,4 +101,6 @@ export class MessengerComponent implements OnInit {
       scroller.scrollToIndex(conversationMessages.length - 1);
     }
   }
+
+  protected readonly PhoneMessageType = PhoneMessageType;
 }

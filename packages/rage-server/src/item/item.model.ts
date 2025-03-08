@@ -3,7 +3,7 @@ import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import {
   IBankCardInfo,
   IHandheldRadioConfig,
-  IItem,
+  IItem, IPhoneInfo,
   ItemFlag,
   ItemSharedDataType,
   IWearableInfo
@@ -73,6 +73,9 @@ export class Item extends Document implements IItem {
 
   @prop({ type: Object, required: false })
   radioConfig?: IHandheldRadioConfig;
+
+  @prop({ type: Object, required: false })
+  phoneInfo?: IPhoneInfo;
 
   @prop({ enum: ItemFlag, type: String, required: false })
   flag?: ItemFlag;

@@ -15,7 +15,15 @@
         <div class="message py-2 px-3 border-round-2xl mb-2 mx-2 w-13rem"
              [ngClass]="{ 'surface-200': isMessageSent(message), 'surface-400': !isMessageSent(message) }"
              [ngStyle]="{ 'float': isMessageSent(message) ? 'right' : 'left' }">
-          <div class="text-sm">{{ message.content }}</div>
+
+          @switch (message.type) {
+            @case (PhoneMessageType.Location) {
+              <app-world-map />
+            }
+            @default {
+              <div class="text-sm">{{ message.content }}</div>
+            }
+          }
         </div>
       </ng-template>
     </p-scroller>
@@ -24,7 +32,8 @@
       <p-inputGroup>
         <input pInputText [(ngModel)]="messageContent">
         <p-inputGroupAddon>
-          <button pButton icon="pi pi-send" (click)="sendMessage(selectedConversation!, messageContent)" [disabled]="!messageContent.length"></button>
+          <button pButton icon="pi pi-send" (click)="sendMessage(selectedConversation!, messageContent)"
+                  [disabled]="!messageContent.length"></button>
         </p-inputGroupAddon>
       </p-inputGroup>
     </div>

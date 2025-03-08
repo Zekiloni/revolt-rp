@@ -8,12 +8,12 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { MessageService } from 'primeng/api';
 
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
+import { phoneReducer } from './store/phone';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
 import { provideTranslateService } from '@ngx-translate/core';
 import { BASE_HREf } from './domain/variables';
 import { environment } from '../environments/environment';
-import { phoneReducer } from './store/phone/phone.reducer';
 
 
 export const appConfig: ApplicationConfig = {

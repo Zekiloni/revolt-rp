@@ -118,4 +118,11 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_UPDATE = 'server_propertyUpdate',
 
   SERVER_GET_COMMANDS = 'server_getCommands',
+
+  BROWSER_SET_CURRENT_LOCATION = 'browser_setCurrentLocation',
+  BROWSER_SET_PHONE_MESSAGES = 'browser_setPhoneMessages',
+  CLIENT_PHONE_MAP_INIT = 'client_phoneMapInit',
+  SERVER_TOGGLE_PHONE = 'server_togglePhone',
+  BROWSER_SET_PHONE = 'browser_setPhone',
+  SERVER_SET_PHONE_STATE = 'server_setPhoneState',
 }

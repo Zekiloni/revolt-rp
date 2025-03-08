@@ -13,7 +13,7 @@ const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
 };
 
 
-export class HandheldRadioItem extends BaseItem {
+export class HandheldRadioItemModel extends BaseItem {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.DEVICE_HANDHELD_RADIO, ...type], weight);

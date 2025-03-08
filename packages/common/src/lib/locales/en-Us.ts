@@ -154,7 +154,9 @@ export const enUs = {
     'equipment_armour_a': 'Armour A+',
     'equipment_armour_a_description': 'Armour A+ for protection.',
     'handheld_radio': 'Handheld Radio',
-    'handheld_radio_description': 'A handheld radio for communication.'
+    'handheld_radio_description': 'A handheld radio for communication.',
+    'smartphone': 'Smartphone',
+    'smartphone_description': 'Smartphone for communication and internet.'
   },
   'submit': 'Submit',
   'clear': 'Clear',
@@ -409,5 +411,5 @@ export const enUs = {
   'syntax': 'Syntax',
   'category': 'Category',
   'any': 'Any',
-  'commands_table': 'Commands Table',
+  'commands_table': 'Commands Table'
 };

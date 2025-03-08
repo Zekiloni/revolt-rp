@@ -48,10 +48,13 @@ export * from './lib/player/ped/clothing/default-outfit';
 
 export * from './lib/player/player-text-bubble.model';
 export * from './lib/player/player-animation.model';
-export * from './lib/player/player-attachment.model';
-export * from './lib/player/player-attachment-type.enum';
 export * from './lib/player/animation.enum';
 export * from './lib/player/walking-style.data';
+
+export * from './lib/player/inventory/player-attachment.model';
+export * from './lib/player/inventory/player-attachment-type.enum';
+
+export * from './lib/player/inventory/player-phone'
 
 export * from './lib/player/player-shared-data-type';
 

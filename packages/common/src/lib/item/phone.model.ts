@@ -1,3 +1,4 @@
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 
 export enum PhoneMessageType {
@@ -25,7 +26,14 @@ export interface IPhoneConversation {
   unreadMessages: number;
 }
 
-export interface IPhoneMessage {
+export interface IPhoneMessageCreate {
+  sender: string;
+  receiver: string;
+  content: string;
+  type: PhoneMessageType;
+}
+
+export interface IPhoneMessage extends Base {
   type: PhoneMessageType;
   sender: string;
   receiver: string;

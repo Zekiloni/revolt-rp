@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import { IPhoneMessage, PhoneMessageType } from '@revolt-rp/common';
-import { testPhoneData } from './test-phone.data';
+import { IPhoneMessage } from '@revolt-rp/common';
 import { addPhoneMessage, setPhone, setPhoneBackground, setPhoneMessages, setPhoneOpacity } from './phone.actions';
 
 
@@ -10,51 +9,8 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  phone: testPhoneData,
-  messages: [
-    {
-      type: PhoneMessageType.Text,
-      sender: testPhoneData.phoneInfo!.phoneNumber!,
-      receiver: '987654321',
-      content: 'Hello, this is a test message.',
-      createdAt: new Date(),
-      seen: false
-    },
-    {
-      type: PhoneMessageType.Text,
-      sender: testPhoneData.phoneInfo!.phoneNumber!,
-      receiver: '987654321',
-      content: 'newww.',
-      createdAt: new Date(),
-      seen: false
-    },
-    {
-      type: PhoneMessageType.Text,
-      sender: '987654321',
-      receiver: testPhoneData.phoneInfo!.phoneNumber!,
-      content: 'Hadwada.',
-      createdAt: new Date(),
-      seen: false
-    },
-    {
-      type: PhoneMessageType.Text,
-      sender: testPhoneData.phoneInfo!.phoneNumber!,
-      receiver: '4564565478',
-      content: 'Hello, this is a test message.',
-      createdAt: new Date(),
-      seen: false
-    },
-    {
-      type: PhoneMessageType.Text,
-      sender: '3422432',
-      receiver: testPhoneData.phoneInfo!.phoneNumber!,
-      content: 'Hello, this is a test message.',
-      createdAt: new Date(),
-      seen: false
-    }
-  ]
+  phone: null,
+  messages: []
 };
 
 export const phoneReducer = createReducer(
@@ -75,6 +31,10 @@ export const phoneReducer = createReducer(
     return { ...state, messages };
   }),
   on(addPhoneMessage, (state, { message }) => {
-    return { ...state, messages: [...state.messages, message] };
+    if (state.phone?.phoneInfo?.phoneNumber === message.sender || state.phone?.phoneInfo?.phoneNumber === message.receiver) {
+      return { ...state, messages: [...state.messages, message] };
+    }
+
+    return { ...state };
   })
 );

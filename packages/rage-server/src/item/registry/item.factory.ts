@@ -5,7 +5,8 @@ import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
 import { WearableItem } from './clothing/wearable-item.model';
 import { ArmourItem } from './equipment/armour-item.model';
-import { HandheldRadioItem } from './electronic/handheld-radio.item';
+import { HandheldRadioItemModel } from './electronic/handheld-radio-item.model';
+import { SmartphoneItemModel } from './electronic/smartphone-item.model';
 
 new DrinkItemModel('Water Bottle', 'Flow water bottle, contains 0.3l of pure taste of water.', [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Beer Bottle', 'Pißwasser beer bottle, contains 0.3l of best German beer.', [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -138,4 +139,5 @@ new ArmourItem('items.equipment_kevlar_standard', 'items.equipment_kevlar_standa
 new ArmourItem('items.equipment_kevlar_heavy', 'items.equipment_kevlar_heavy_description', 'prop_bodyarmour_03', 200, 2.25);
 
 
-new HandheldRadioItem('items.handheld_radio', 'items.handheld_radio_description', 'prop_cs_hand_radio', [], 0.25);
+new HandheldRadioItemModel('items.handheld_radio', 'items.handheld_radio_description', 'prop_cs_hand_radio', [], 0.25);
+new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'prop_amb_phone', [], 0.3);

@@ -15,4 +15,5 @@ export const enum PlayerSharedDataType {
   WalkingStyle = 'walking_style',
   AdminDuty = 'admin_duty',
   Organization = 'organization',
+  PhoneState = 'phone_state',
 }

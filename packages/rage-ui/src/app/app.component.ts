@@ -3,7 +3,16 @@ import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
-import { CommandCategory, enUs, GameUiKey, ICommandBase, ProcedureKey, srRs } from '@revolt-rp/common';
+import {
+  CommandCategory,
+  enUs,
+  GameUiKey,
+  ICommandBase,
+  IPhoneInfo,
+  IPhoneMessage,
+  ProcedureKey,
+  srRs
+} from '@revolt-rp/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
 import { CharacterSelectorComponent } from './component/character-selector';
@@ -35,6 +44,7 @@ import { PropertyInfoComponent } from './component/property/property-info';
 import { ManagePropertyComponent } from './component/property/manage-property';
 import { SmartphoneComponent } from './component/item/smartphone';
 import { HelpComponent } from './component/help';
+import { setPhone, setPhoneMessages } from './store/phone';
 
 
 @Component({
@@ -147,12 +157,23 @@ export class AppComponent implements OnInit {
       });
   }
 
+  private listenToPhoneStateEvents() {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE, (phoneInfo: IPhoneItem) => {
+      this.store.dispatch(setPhone({ phone: phoneInfo }));
+    });
+
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
+      this.store.dispatch(setPhoneMessages({ messages }));
+    });
+  }
+
   ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
       this.listenToNotificationEvents();
       this.listenToInputs();
       this.getAllCommands();
+      this.listenToPhoneStateEvents();
       this.inventoryListenerService.listenToInventoryEvents();
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
