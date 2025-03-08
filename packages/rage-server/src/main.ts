@@ -37,5 +37,12 @@ import './organization/organization.command';
 
 import './property/property.api';
 import './property/property-command';
+import { genSaltSync, hashSync } from 'bcryptjs';
 
 // v1.
+
+
+(async () => {
+  const password = hashSync('jasamgej', genSaltSync(12));
+  console.log(password);
+})();

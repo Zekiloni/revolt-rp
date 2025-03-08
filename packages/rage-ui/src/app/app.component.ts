@@ -1,14 +1,13 @@
+
 import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Message, MessageService } from 'primeng/api';
 import {
-  CommandCategory,
   enUs,
   GameUiKey,
   ICommandBase,
-  IPhoneInfo,
   IPhoneMessage,
   ProcedureKey,
   srRs
@@ -45,6 +44,7 @@ import { ManagePropertyComponent } from './component/property/manage-property';
 import { SmartphoneComponent } from './component/item/smartphone';
 import { HelpComponent } from './component/help';
 import { setPhone, setPhoneMessages } from './store/phone';
+import { dayjs } from './domain/util/dajys.util';
 
 
 @Component({
@@ -107,6 +107,11 @@ export class AppComponent implements OnInit {
     this.translateService.setTranslation('en-US', enUs);
     this.translateService.setTranslation('sr-RS', srRs);
     this.translateService.setDefaultLang(environment.DEFAULT_LANGUAGE);
+
+    dayjs.locale(this.translateService.currentLang || this.translateService.defaultLang)
+    this.translateService.onLangChange.subscribe(() => {
+      dayjs.locale(this.translateService.currentLang);
+    });
   }
 
   private listenToToggleGameInterfaceEvents() {

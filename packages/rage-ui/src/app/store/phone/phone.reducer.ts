@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { IPhoneMessage } from '@revolt-rp/common';
 import { addPhoneMessage, setPhone, setPhoneBackground, setPhoneMessages, setPhoneOpacity } from './phone.actions';
+import { testMessages, testPhoneData } from './test-phone.data';
 
 
 export interface PhoneState {
@@ -9,8 +10,8 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  phone: null,
-  messages: []
+  phone: testPhoneData as IPhoneItem,
+  messages: testMessages
 };
 
 export const phoneReducer = createReducer(

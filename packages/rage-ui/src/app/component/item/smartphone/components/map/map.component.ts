@@ -16,6 +16,7 @@ import { RageClientService } from '../../../../../domain/service/rage-client.ser
 export class MapComponent implements OnDestroy {
   map!: L.Map;
   currentLocation: L.Marker | null = null;
+  firstTime = true;
 
   constructor(private rageClientService: RageClientService) {
   }
@@ -23,7 +24,11 @@ export class MapComponent implements OnDestroy {
   private setCurrentPosition = (position: L.LatLng) => {
     if (this.currentLocation) {
       this.currentLocation.setLatLng(position);
-      this.map.setView(position, 3);
+
+      if (this.firstTime) {
+        this.map.setView(position, 15);
+        this.firstTime = false;
+      }
     } else {
       this.currentLocation = L.marker(position).addTo(this.map);
     }
