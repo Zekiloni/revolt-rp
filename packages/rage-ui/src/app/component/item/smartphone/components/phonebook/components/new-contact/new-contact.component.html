@@ -1,0 +1,26 @@
+<div class="py-2 px-3">
+  <form [formGroup]="form" class="grid formgrid grid-nogutter" (ngSubmit)="submit()">
+    <div class="field col-12">
+      <label for="name" class="text-500">{{ 'name' | translate }}</label>
+      <input pInputText id="name" formControlName="name" type="text" />
+    </div>
+
+    <div class="field col-12">
+      <label for="phone-number" class="text-500">{{ 'phone_number' | translate }}</label>
+      <input pInputText id="phone-number" formControlName="phoneNumber" type="text" />
+    </div>
+
+    <div class="field col-12">
+      <p-checkbox
+        id="favorite"
+        formControlName="favorite"
+        [label]="'favorite' | translate"
+        [binary]="true"
+        inputId="binary" />
+    </div>
+
+    <Div class="col-12">
+      <button pButton type="submit" icon="pi pi-user-plus" [label]="'create' | translate"></button>
+    </Div>
+  </form>
+</div>

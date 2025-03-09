@@ -419,4 +419,7 @@ export const srRs = {
   'send': 'Pošalji',
   'messages': 'Poruke',
   'no_contacts_found': 'Nema pronađenih kontakata.',
+  'new_contact': 'Novi Kontakt',
+  'phone_number': 'Broj Telefona',
+  'favorite': 'Omiljeni',
 };
