@@ -418,4 +418,7 @@ export const enUs = {
   'send': 'Send',
   'messages': 'Messages',
   'no_contacts_found': 'No contacts found.',
+  'new_contact': 'New Contact',
+  'phone_number': 'Phone Number',
+  'favorite': 'Favorite',
 };

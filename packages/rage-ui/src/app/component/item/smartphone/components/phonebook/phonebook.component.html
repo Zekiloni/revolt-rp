@@ -1,53 +1,64 @@
 <div class="flex flex-column h-full">
-  @if ($contacts | async; as contacts) {
-    @if (selectedContact) {
-      <div class="flex align-items-center justify-content-between py-2 px-3">
-        <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
-                (click)="selectedContact = null"></button>
-        <span>{{ selectedContact['name'] }}</span>
-      </div>
-      {{ selectedContact | json }}
-    } @else {
-      <p-table
-        #contactsTable
-        [value]="contacts" selectionMode="single"
-        dataKey="phoneNumber"
-        [(selection)]="selectedContact"
-        [globalFilterFields]="['name', 'phoneNumber']"
-      >
-        <ng-template pTemplate="caption">
-          <div class="flex align-items-center justify-content-between">
-            <p-iconField iconPosition="left">
-              <p-inputIcon styleClass="pi pi-search" />
-              <input
-                pInputText
-                type="text"
-                class="w-10rem"
-                (input)="filterGlobal(contactsTable, $event.target!)"
-                [placeholder]="'search' | translate" />
-            </p-iconField>
+  @if (addingNewContact) {
+    <div class="flex align-items-center justify-content-between py-2 px-3">
+      <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
+              (click)="addingNewContact = false"></button>
+      <span>{{ 'new_contact' | translate }}</span>
+    </div>
+    <app-new-contact (contactCreate)="addContact($event)" />
+  } @else {
+    @if ($contacts | async; as contacts) {
+      @if (selectedContact) {
+        <div class="flex align-items-center justify-content-between py-2 px-3">
+          <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
+                  (click)="selectedContact = null"></button>
+          <span>{{ selectedContact['name'] }}</span>
+        </div>
+        {{ selectedContact | json }}
+      } @else {
+        <p-table
+          #contactsTable
+          [value]="contacts" selectionMode="single"
+          dataKey="phoneNumber"
+          paginatorStyleClass="text-sm"
+          [(selection)]="selectedContact"
+          [globalFilterFields]="['name', 'phoneNumber']"
+        >
+          <ng-template pTemplate="caption">
+            <div class="flex align-items-center justify-content-between">
+              <p-iconField iconPosition="left">
+                <p-inputIcon styleClass="pi pi-search" />
+                <input
+                  pInputText
+                  type="text"
+                  class="w-10rem"
+                  (input)="filterGlobal(contactsTable, $event.target!)"
+                  [placeholder]="'search' | translate" />
+              </p-iconField>
 
-            <button pButton [rounded]="true" type="button" size="small" icon="pi pi-plus" (click)="addContact()"
-                    class="ml-2"></button>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="body" let-contact>
-          <tr [pSelectableRow]="contact">
-            <td>
-              <p-avatar
-                [label]="contact['name'][0].toUpperCase()"
-                styleClass="mr-2"
-                shape="circle" />
-              <span class="ml-2">{{ contact['name'] }}</span>
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="emptymessage">
-          <tr>
-            <td colspan="1">{{ 'no_contacts_found' | translate }}</td>
-          </tr>
-        </ng-template>
-      </p-table>
+              <button pButton [rounded]="true" type="button" size="small" icon="pi pi pi-user-plus"
+                      (click)="addingNewContact = true"
+                      class="ml-2"></button>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="body" let-contact>
+            <tr [pSelectableRow]="contact">
+              <td>
+                <p-avatar
+                  [label]="contact['name'][0].toUpperCase()"
+                  styleClass="mr-2"
+                  shape="circle" />
+                <span class="ml-2">{{ contact['name'] }}</span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="1">{{ 'no_contacts_found' | translate }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      }
     }
   }
 </div>
