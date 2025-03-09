@@ -48,6 +48,9 @@
                   [label]="contact['name'][0].toUpperCase()"
                   styleClass="mr-2"
                   shape="circle" />
+                @if (contact['favorite']) {
+                  <i class="pi pi-star text-yellow-300"></i>
+                }
                 <span class="ml-2">{{ contact['name'] }}</span>
               </td>
             </tr>
