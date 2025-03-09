@@ -2,7 +2,6 @@
   @if (isActive) {
     <div class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90"
          @slideInOut>
-
       <div class="flex flex-column h-full w-full bg-no-repeat bg-cover"
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
@@ -18,14 +17,14 @@
           <div class="grid grid-nogutter mt-3 px-3">
             @for (app of otherApps; let index = $index; track app.key) {
               <div (click)="openApp($event, app, index)" class="col-4 flex flex-column align-items-center mb-3">
-                <img [src]="app.icon | staticAsset" [alt]="app.name" width="45px" />
+                <img [ngSrc]="app.icon | staticAsset" [alt]="app.name" width="45" height="45" />
                 <span class="text-xs mt-1"> {{ app.name | translate }}</span>
               </div>
             }
           </div>
           <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-7">
             <ng-template pTemplate="item" let-item>
-              <img [src]="item.icon | staticAsset" [alt]="item.name" width="45px" />
+              <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
             </ng-template>
           </p-dock>
         }
@@ -33,7 +32,6 @@
           <button pButton [rounded]="true" icon="pi pi-home" (click)="closeApp()"></button>
         </div>
       </div>
-
     </div>
   }
 </div>

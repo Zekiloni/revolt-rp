@@ -8,7 +8,6 @@ import {
   enUs,
   GameUiKey,
   ICommandBase,
-  IPhoneMessage,
   ProcedureKey,
   srRs
 } from '@revolt-rp/common';
@@ -43,7 +42,6 @@ import { PropertyInfoComponent } from './component/property/property-info';
 import { ManagePropertyComponent } from './component/property/manage-property';
 import { SmartphoneComponent } from './component/item/smartphone';
 import { HelpComponent } from './component/help';
-import { setPhone, setPhoneMessages } from './store/phone';
 import { dayjs } from './domain/util/dajys.util';
 
 
@@ -162,23 +160,12 @@ export class AppComponent implements OnInit {
       });
   }
 
-  private listenToPhoneStateEvents() {
-    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE, (phoneInfo: IPhoneItem) => {
-      this.store.dispatch(setPhone({ phone: phoneInfo }));
-    });
-
-    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
-      this.store.dispatch(setPhoneMessages({ messages }));
-    });
-  }
-
   ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
       this.listenToNotificationEvents();
       this.listenToInputs();
       this.getAllCommands();
-      this.listenToPhoneStateEvents();
       this.inventoryListenerService.listenToInventoryEvents();
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');

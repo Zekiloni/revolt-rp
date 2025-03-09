@@ -1,6 +1,6 @@
 import * as L from 'leaflet';
 import { Store } from '@ngrx/store';
-import { combineLatest, map } from 'rxjs';
+import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -10,8 +10,8 @@ import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType } from '@revolt-rp/common';
-import { PhoneState, selectPhone, selectPhoneMessages } from '../../../../../store/phone';
+import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
+import { addPhoneMessage, PhoneState, selectPhone, selectPhoneMessages } from '../../../../../store/phone';
 import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 import { getConversations } from '../../../../../domain/util/phone.util';
 import { dayjs } from '../../../../../domain/util/dajys.util';
@@ -19,6 +19,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ComposeMessageComponent } from '../compose-message';
 import { BadgeModule } from 'primeng/badge';
 import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
     WorldMapComponent,
     TranslatePipe, DialogModule,
     ComposeMessageComponent,
-    BadgeModule,
+    BadgeModule
   ],
   providers: [StaticAssetPipe],
   templateUrl: './messenger.component.html',
@@ -55,19 +56,27 @@ export class MessengerComponent implements OnInit {
   contacts: IPhoneContact[] = [];
   phoneNumber: string | null = null;
 
-  selectedConversation: string | null = null;
+  _selectedConversation = new BehaviorSubject<string | null>(null);
   messageContent = '';
 
   searchConversation = '';
-  composeNewMessage = false;
+  isComposeActive = false;
 
-  constructor(private store: Store<PhoneState>, private staticAssetPipe: StaticAssetPipe) {
+  constructor(private store: Store<PhoneState>, private staticAssetPipe: StaticAssetPipe, private rageClientService: RageClientService) {
     this.markerIcon = L.icon({
       iconUrl: this.staticAssetPipe.transform('assets/images/blips/1.png'),
       iconSize: [16, 16],
       iconAnchor: [16, 32],
       popupAnchor: [0, -32]
     });
+  }
+
+  get selectedConversation() {
+    return this._selectedConversation.value;
+  }
+
+  set selectedConversation(value: string | null) {
+    this._selectedConversation.next(value);
   }
 
   get filteredConversations() {
@@ -96,35 +105,19 @@ export class MessengerComponent implements OnInit {
     return message.sender === this.phoneNumber;
   }
 
-  sendMessage(recipient: string, messageContent: string) {
-    if (!this.messageContent.length)
-      return;
-
-    const message: IPhoneMessageCreate = {
-      type: PhoneMessageType.Text,
-      sender: this.phoneNumber as string,
-      receiver: recipient,
-      content: messageContent
-    };
-
-    // this.store.dispatch(addPhoneMessage({ message }));
-    this.messageContent = '';
-
-    // this.store.select(selectPhoneMessages).subscribe(messages => {
-    //   console.log(messages);
-    // });
-  }
-
-  scrollToBottom(): void {
-    setTimeout(() => {
-      if (this.selectedConversation) {
-        const scroller = this.messagesScroller;
-        if (scroller) {
-          const element = scroller.elementViewChild?.nativeElement;
-          element.scrollTop = element.scrollHeight;
+  listenToConversationScroll(): void {
+    this._selectedConversation.pipe(debounceTime((50)))
+      .subscribe((conversation) => {
+      console.log(conversation);
+        if (conversation) {
+          const scroller = this.messagesScroller;
+          console.log(scroller);
+          if (scroller) {
+            const element = scroller.elementViewChild?.nativeElement;
+            element.scrollTop = element.scrollHeight;
+          }
         }
-      }
-    }, 500);
+    });
   }
 
   fromNow(date: Date) {
@@ -136,12 +129,43 @@ export class MessengerComponent implements OnInit {
   }
 
   navigateMeTo(message: IPhoneMessage) {
-    //
+    this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message)
   }
 
   selectConversation(conversation: string) {
     this.selectedConversation = conversation;
-    this.scrollToBottom()
+
+    this.getConversationMessages(conversation).forEach(message => {
+      if (message.receiver === this.phoneNumber && !message.seen) {
+        this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message)
+          .subscribe({ next: (msg) => this.store.dispatch(addPhoneMessage({ message: msg })) });
+      }
+    });
+  }
+
+  sendMessage(recipient: string, messageContent: string) {
+    if (!messageContent.length)
+      return;
+
+    if (this.isComposeActive)
+      this.isComposeActive = false;
+
+    if (this.messageContent.length)
+      this.messageContent = '';
+
+    const messageCreate: IPhoneMessageCreate = {
+      type: PhoneMessageType.Text,
+      sender: this.phoneNumber as string,
+      receiver: recipient,
+      content: messageContent
+    };
+
+    this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, messageCreate)
+      .subscribe({ next: (message) => this.store.dispatch(addPhoneMessage({ message })) });
+  }
+
+  newConversation(event: IPhoneMessageCreate) {
+    this.sendMessage(event.receiver, event.content);
   }
 
   mapOnInit(map: L.Map, message: IPhoneMessage) {
@@ -164,6 +188,7 @@ export class MessengerComponent implements OnInit {
       if (phoneNumber) {
         this.messages = messages;
         this.conversations = getConversations(phoneNumber, messages);
+        this.listenToConversationScroll();
       }
     });
   }

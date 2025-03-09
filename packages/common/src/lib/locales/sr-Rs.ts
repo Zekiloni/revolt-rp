@@ -414,4 +414,9 @@ export const srRs = {
   'any': 'Bilo koji',
   'commands_table': 'Tabela Komandi',
   'new_message': 'Nova Poruka',
+  'recipient': 'Primalac',
+  'message': 'Poruka',
+  'send': 'Pošalji',
+  'messages': 'Poruke',
+  'no_contacts_found': 'Nema pronađenih kontakata.',
 };

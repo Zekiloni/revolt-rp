@@ -28,3 +28,8 @@ export const addPhoneMessage = createAction(
   '[Phone] Add Phone Message',
   props<{ message: IPhoneMessage }>()
 );
+
+export const updatePhoneMessage = createAction(
+  '[Phone] Update Phone Message',
+  props<{ message: IPhoneMessage }>()
+);

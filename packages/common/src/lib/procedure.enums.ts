@@ -125,4 +125,6 @@ export const enum ProcedureKey {
   SERVER_TOGGLE_PHONE = 'server_togglePhone',
   BROWSER_SET_PHONE = 'browser_setPhone',
   CLIENT_PHONE_CAMERA_TOGGLE = 'client_phoneCameraToggle',
+  SERVER_SEND_PHONE_MESSAGE = 'server_sendPhoneMessage',
+  SERVER_UPDATE_PHONE_MESSAGE = 'server_updatePhoneMessage',
 }

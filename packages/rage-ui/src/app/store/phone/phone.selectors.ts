@@ -8,6 +8,11 @@ export const selectPhone = createSelector(
   (state: PhoneState) => state.phone
 );
 
+export const selectPhoneContacts = createSelector(
+  selectPhoneState,
+  (state: PhoneState) => state.phone?.phoneInfo.contacts || []
+);
+
 export const selectPhoneMessages = createSelector(
   selectPhoneState,
   (state: PhoneState) => state.messages

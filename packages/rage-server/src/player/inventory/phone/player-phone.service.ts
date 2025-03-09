@@ -55,7 +55,7 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
     if (toggle) {
       const messages = await getPhoneMessages(phone.phoneInfo.phoneNumber);
 
-      triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE, phone.phoneInfo);
+      triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE, phone);
       triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_MESSAGES, messages);
 
       itemHandler.use(player, phone);
