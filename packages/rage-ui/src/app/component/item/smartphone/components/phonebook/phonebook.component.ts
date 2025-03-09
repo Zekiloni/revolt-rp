@@ -14,12 +14,13 @@ import { NewContactComponent } from './components/new-contact';
 import { filterGlobal } from '../../../../../domain/util/table.util';
 import { addPhoneContact, PhoneState, selectPhone, selectPhoneContacts } from '../../../../../store/phone';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { SingleContactComponent } from './components/single-contact';
 
 
 @Component({
   selector: 'app-phonebook',
   standalone: true,
-  imports: [CommonModule, TableModule, AvatarModule, InputTextModule, TranslatePipe, ButtonDirective, IconFieldModule, InputIconModule, NewContactComponent],
+  imports: [CommonModule, TableModule, AvatarModule, InputTextModule, TranslatePipe, ButtonDirective, IconFieldModule, InputIconModule, NewContactComponent, SingleContactComponent],
   templateUrl: './phonebook.component.html',
   styleUrl: './phonebook.component.css'
 })

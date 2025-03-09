@@ -1,0 +1,29 @@
+<div class="flex flex-column align-items-center h-full bg-black-alpha-70">
+  <h2>{{ isIncoming ? currentCall.caller : currentCall.receiver }}</h2>
+
+  <span>
+    {{ (isIncoming && isRinging ? 'incoming_call' : currentCall.status) | translate }}
+  </span>
+
+  <h2> {{ $duration | async }}</h2>
+
+  @if (isIncoming && isRinging) {
+    <div class="flex justify-content-center gap-3 mt-5">
+      <button pButton [rounded]="true" severity="success" (click)="answerCall(currentCall)" icon="pi pi-phone"></button>
+      <button pButton [rounded]="true" severity="danger" (click)="endCall()" icon="pi pi-phone"></button>
+    </div>
+  } @else {
+    <div class="grid grid-nogutter gap-3 justify-content-center mt-5">
+      <button pButton [rounded]="true" icon="pi pi-volume-up"
+              class="col-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-video" [disabled]="true" class="col-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-microphone"
+              class="col-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-user-plus"
+              class="col-3"></button>
+      <button pButton [rounded]="true" severity="danger" (click)="endCall()" icon="pi pi-phone"
+              class="rotate-180 col-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-table" class="col-3"></button>
+    </div>
+  }
+</div>

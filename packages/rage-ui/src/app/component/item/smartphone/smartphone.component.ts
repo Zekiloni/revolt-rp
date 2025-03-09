@@ -6,18 +6,14 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DockModule } from 'primeng/dock';
 import { ButtonDirective } from 'primeng/button';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
-import { gameUiConfig, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
 import { fadeInOutTrigger, scaleInOutTrigger, slideInOutTrigger } from '../../../domain/util/animation.util';
-import { PhoneState, selectPhone, setPhone, setPhoneMessages } from '../../../store/phone';
+import { PhoneState, selectPhone, selectPhoneCall, setPhone, setPhoneMessages } from '../../../store/phone';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
-import { CalculatorComponent } from './components/calculator';
-import { MapComponent } from './components/map/map.component';
-import { MessengerComponent } from './components/messenger';
-import { SettingsComponent } from './components/settings';
-import { CameraComponent } from './components/camera';
 import { phoneApplications } from '../../../domain/config/phone.config';
+import { PhoneCallComponent } from './components/phone-call';
 
 
 export interface IApplication extends MenuItem {
@@ -32,7 +28,7 @@ export interface IApplication extends MenuItem {
 @Component({
   selector: 'app-smartphone',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective, NgOptimizedImage],
+  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective, NgOptimizedImage, PhoneCallComponent],
   templateUrl: './smartphone.component.html',
   styleUrl: './smartphone.component.css',
   animations: [
@@ -56,9 +52,12 @@ export class SmartphoneComponent implements OnInit {
   applications!: IApplication[];
   openedApplication: IApplication | null = null;
 
+  $phoneCall!: Observable<IPhoneCall | null>;
+
   constructor(private translateService: TranslateService,
               @Inject(Store) private store: Store<PhoneState>,
               private rageClientService: RageClientService) {
+    this.subscribeToPhoneCall();
     this.registerApplications();
   }
 
@@ -101,6 +100,10 @@ export class SmartphoneComponent implements OnInit {
 
   private setApplicationOpened(app: IApplication) {
     this.openedApplication = app;
+  }
+
+  private subscribeToPhoneCall() {
+    this.$phoneCall = this.store.select(selectPhoneCall);
   }
 
   openApp(event: Event, app: IApplication, index: number) {
