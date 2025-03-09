@@ -421,4 +421,7 @@ export const enUs = {
   'new_contact': 'New Contact',
   'phone_number': 'Phone Number',
   'favorite': 'Favorite',
+  'contact': 'Contact',
+  'incoming_call': 'Incoming Call',
+  'dialing': 'Dialing',
 };

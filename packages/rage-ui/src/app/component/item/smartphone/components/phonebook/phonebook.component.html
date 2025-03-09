@@ -12,9 +12,9 @@
         <div class="flex align-items-center justify-content-between py-2 px-3">
           <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
                   (click)="selectedContact = null"></button>
-          <span>{{ selectedContact['name'] }}</span>
+          <span>{{ 'contact' | translate }}</span>
         </div>
-        {{ selectedContact | json }}
+        <app-single-contact [contact]="selectedContact!" />
       } @else {
         <p-table
           #contactsTable

@@ -1,0 +1,22 @@
+<div class="py-2 px-3">
+  <div class="font-medium text-2xl text-900 mb-5">{{ contact.name }}</div>
+  <div class="flex align-items-center gap-3 mb-5">
+    <button pButton severity="success" icon="pi pi-phone" [rounded]="true" (click)="call()"></button>
+    <button pButton severity="info" icon="pi pi-inbox" [rounded]="true"></button>
+    <p-toggleButton
+      [(ngModel)]="contact.favorite"
+      onIcon="pi pi-star"
+      offIcon="pi pi-star"
+      styleClass="border-circle"
+    />
+    <button pButton severity="danger" icon="pi pi-trash" [outlined]="true" [rounded]="true"></button>
+  </div>
+
+  <div class="field">
+    <label for="phone-number" class="text-500">{{ 'phone_number' | translate }}</label>
+    <div class="field grid justify-content-between">
+      <input pInputText id="phone-number" [value]="contact.phoneNumber" type="text" readonly class="w-12rem" />
+      <button pButton icon="pi pi-copy" size="small" (click)="copyPhoneNumber(contact.phoneNumber)"></button>
+    </div>
+  </div>
+</div>

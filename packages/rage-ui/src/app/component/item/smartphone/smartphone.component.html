@@ -1,34 +1,40 @@
 <div class="absolute-bottom-right">
   @if (isActive) {
-    <div class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90"
+    <div class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90  border-2 border-black-alpha-20"
          @slideInOut>
       <div class="flex flex-column h-full w-full bg-no-repeat bg-cover"
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
-        <div class="surface-card border-none py-2 px-4 flex align-items-center justify-content-between">
+        <div class="surface-ground py-2 px-4 flex align-items-center justify-content-between">
           <span>test</span>
           <span class="text-sm">{{ ($time | async) | date: 'HH:mm' }}</span>
         </div>
-        @if (openedApplication) {
-          <div class="w-full h-full bg-black-alpha-80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
-            <ng-container [ngComponentOutlet]="openedApplication.component"></ng-container>
+        @if ($phoneCall | async; as phoneCall) {
+          <div class="w-full h-full" @scaleInOut>
+            <app-phone-call [currentCall]="phoneCall" [phoneInfo]="phoneItem.phoneInfo"></app-phone-call>
           </div>
         } @else {
-          <div class="grid grid-nogutter mt-3 px-3">
-            @for (app of otherApps; let index = $index; track app.key) {
-              <div (click)="openApp($event, app, index)" class="col-4 flex flex-column align-items-center mb-3">
-                <img [ngSrc]="app.icon | staticAsset" [alt]="app.name" width="45" height="45" />
-                <span class="text-xs mt-1"> {{ app.name | translate }}</span>
-              </div>
-            }
-          </div>
-          <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-7">
-            <ng-template pTemplate="item" let-item>
-              <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
-            </ng-template>
-          </p-dock>
+          @if (openedApplication) {
+            <div class="w-full h-full bg-black-alpha-80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
+              <ng-container [ngComponentOutlet]="openedApplication.component"></ng-container>
+            </div>
+          } @else {
+            <div class="grid grid-nogutter mt-3 px-3">
+              @for (app of otherApps; let index = $index; track app.key) {
+                <div (click)="openApp($event, app, index)" class="col-4 flex flex-column align-items-center mb-3">
+                  <img [ngSrc]="app.icon | staticAsset" [alt]="app.name" width="45" height="45" />
+                  <span class="text-xs mt-1"> {{ app.name | translate }}</span>
+                </div>
+              }
+            </div>
+            <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-7">
+              <ng-template pTemplate="item" let-item>
+                <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
+              </ng-template>
+            </p-dock>
+          }
         }
-        <div class="surface-card border-none mt-auto py-2 px-4 flex align-items-center justify-content-center">
+        <div class="surface-ground mt-auto py-2 px-4 flex align-items-center justify-content-center border-bottom-2 border-black-alpha-20 border-left-2 border-right-2">
           <button pButton [rounded]="true" icon="pi pi-home" (click)="closeApp()"></button>
         </div>
       </div>

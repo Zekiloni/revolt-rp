@@ -422,4 +422,8 @@ export const srRs = {
   'new_contact': 'Novi Kontakt',
   'phone_number': 'Broj Telefona',
   'favorite': 'Omiljeni',
+  'contact': 'Kontakt',
+  'incoming_call': 'Dolazni Poziv',
+  'dialing': 'Pozivanje',
+  'ongoing_call': 'Aktivan Poziv',
 };

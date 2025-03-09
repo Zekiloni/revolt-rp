@@ -17,3 +17,9 @@ export const selectPhoneMessages = createSelector(
   selectPhoneState,
   (state: PhoneState) => state.messages
 );
+
+
+export const selectPhoneCall = createSelector(
+  selectPhoneState,
+  (state: PhoneState) => state.currentCall
+);

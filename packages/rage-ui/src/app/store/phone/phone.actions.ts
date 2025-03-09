@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IPhoneContact, IPhoneMessage } from '@revolt-rp/common';
+import { IPhoneCall, IPhoneContact, IPhoneMessage } from '@revolt-rp/common';
 
 
 export type PhoneAction = typeof setPhone | typeof setPhoneMessages | typeof setPhoneOpacity;
@@ -17,6 +17,12 @@ export const setPhoneOpacity = createAction(
 export const setPhoneBackground = createAction(
   '[Phone] Set Phone Background',
   props<{ background: string }>()
+);
+
+
+export const setPhoneCall = createAction(
+  '[Phone] Set Phone Call',
+  props<{ currentCall: IPhoneCall | null }>()
 );
 
 export const addPhoneContact = createAction(
