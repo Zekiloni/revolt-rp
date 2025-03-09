@@ -1,6 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 import { IPhoneMessage } from '@revolt-rp/common';
-import { addPhoneMessage, setPhone, setPhoneBackground, setPhoneMessages, setPhoneOpacity } from './phone.actions';
+import {
+  addPhoneMessage,
+  setPhone,
+  setPhoneBackground,
+  setPhoneMessages,
+  setPhoneOpacity,
+  updatePhoneMessage
+} from './phone.actions';
 import { testMessages, testPhoneData } from './test-phone.data';
 
 
@@ -37,5 +44,10 @@ export const phoneReducer = createReducer(
     }
 
     return { ...state };
+  }),
+  on(updatePhoneMessage, (state, { message }) => {
+    const messages = state.messages.map(m => m.id === message.id ? message : m);
+
+    return { ...state, messages };
   })
 );

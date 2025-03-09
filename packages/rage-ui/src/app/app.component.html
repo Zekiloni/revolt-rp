@@ -79,11 +79,9 @@
     <app-manage-property [isActive]="isActive" />
   }
 
-  @if ($isGameInterfaceActive(GameUiKey.Smartphone) | async; as isActive) {
-    <app-smartphone [isActive]="isActive" />
-  }
+  <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
-  <app-text-chat [commands]="commands"/>
+  <app-text-chat [commands]="commands" />
 
   <p-toast />
 

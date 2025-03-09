@@ -413,4 +413,9 @@ export const enUs = {
   'any': 'Any',
   'commands_table': 'Commands Table',
   'new_message': 'New Message',
+  'recipient': 'Recipient',
+  'message': 'Message',
+  'send': 'Send',
+  'messages': 'Messages',
+  'no_contacts_found': 'No contacts found.',
 };

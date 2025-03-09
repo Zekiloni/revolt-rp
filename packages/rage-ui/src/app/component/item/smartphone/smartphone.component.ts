@@ -1,21 +1,23 @@
+import { Store } from '@ngrx/store';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { interval, map, Observable, startWith } from 'rxjs';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { gameUiConfig } from '@revolt-rp/common';
-import { fadeInOutTrigger, scaleInOutTrigger, slideInOutTrigger } from '../../../domain/util/animation.util';
-import { CalculatorComponent } from './components/calculator';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DockModule } from 'primeng/dock';
-import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
-import { MapComponent } from './components/map/map.component';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { ButtonDirective } from 'primeng/button';
-import { interval, map, Observable, startWith } from 'rxjs';
-import { MessengerComponent } from './components/messenger';
+import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { gameUiConfig, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
+import { fadeInOutTrigger, scaleInOutTrigger, slideInOutTrigger } from '../../../domain/util/animation.util';
+import { PhoneState, selectPhone, setPhone, setPhoneMessages } from '../../../store/phone';
+import { RageClientService } from '../../../domain/service/rage-client.service';
+import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
+import { CalculatorComponent } from './components/calculator';
+import { MapComponent } from './components/map/map.component';
+import { MessengerComponent } from './components/messenger';
 import { SettingsComponent } from './components/settings';
-import { Store } from '@ngrx/store';
-import { PhoneState, selectPhone } from '../../../store/phone';
 import { CameraComponent } from './components/camera';
+import { phoneApplications } from '../../../domain/config/phone.config';
 
 
 export interface IApplication extends MenuItem {
@@ -30,7 +32,7 @@ export interface IApplication extends MenuItem {
 @Component({
   selector: 'app-smartphone',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective],
+  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective, NgOptimizedImage],
   templateUrl: './smartphone.component.html',
   styleUrl: './smartphone.component.css',
   animations: [
@@ -39,7 +41,7 @@ export interface IApplication extends MenuItem {
     fadeInOutTrigger
   ]
 })
-export class SmartphoneComponent implements OnInit{
+export class SmartphoneComponent implements OnInit {
   @Input() isActive = gameUiConfig.smartphone.isActive;
 
   phoneItem!: IPhoneItem;
@@ -52,11 +54,12 @@ export class SmartphoneComponent implements OnInit{
   );
 
   applications!: IApplication[];
-
   openedApplication: IApplication | null = null;
 
-  constructor(private translateService: TranslateService, @Inject(Store) private store: Store<PhoneState>) {
-    this.registerApps();
+  constructor(private translateService: TranslateService,
+              @Inject(Store) private store: Store<PhoneState>,
+              private rageClientService: RageClientService) {
+    this.registerApplications();
   }
 
   get opacity() {
@@ -75,6 +78,27 @@ export class SmartphoneComponent implements OnInit{
     return this.applications.filter(app => !app.pinned);
   }
 
+  private registerApplications() {
+    this.applications = phoneApplications
+      .map(app => {
+        return {
+          ...app,
+          tooltipOptions: getPhoneDockTooltip(this.translateService.instant(app.name)),
+          command: (event: MenuItemCommandEvent) => this.setApplicationOpened((<IApplication>event.item))
+        };
+      });
+  }
+
+  private listenToPhoneStateEvents() {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE, (phoneInfo: IPhoneItem) => {
+      this.store.dispatch(setPhone({ phone: phoneInfo }));
+    });
+
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
+      this.store.dispatch(setPhoneMessages({ messages }));
+    });
+  }
+
   private setApplicationOpened(app: IApplication) {
     this.openedApplication = app;
   }
@@ -84,77 +108,12 @@ export class SmartphoneComponent implements OnInit{
       app.command({ originalEvent: event, item: app, index });
   }
 
-  private registerApps() {
-    this.applications = [
-      {
-        key: 'contacts',
-        name: 'contacts',
-        icon: 'assets/images/phone/icons/contacts.svg',
-        tooltipOptions: getPhoneDockTooltip(this.translateService.instant('contacts')),
-        pinned: true,
-        component: CalculatorComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'calls',
-        name: 'calls',
-        icon: 'assets/images/phone/icons/calls.svg',
-        tooltipOptions: getPhoneDockTooltip(this.translateService.instant('calls')),
-        pinned: true,
-        component: CalculatorComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      }, {
-        key: 'messages',
-        name: 'messages',
-        icon: 'assets/images/phone/icons/messages.svg',
-        pinned: true,
-        tooltipOptions: getPhoneDockTooltip(this.translateService.instant('messenger')),
-        component: MessengerComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'calculator',
-        name: 'calculator',
-        icon: 'assets/images/phone/icons/calculator.svg',
-        component: CalculatorComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'settings',
-        name: 'settings',
-        icon: 'assets/images/phone/icons/settings.svg',
-        component: SettingsComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'camera',
-        name: 'camera',
-        icon: 'assets/images/phone/icons/camera.svg',
-        component: CameraComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'notes',
-        name: 'notes',
-        icon: 'assets/images/phone/icons/notes.svg',
-        component: CalculatorComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      },
-      {
-        key: 'map',
-        name: 'map',
-        icon: 'assets/images/phone/icons/maps.svg',
-        component: MapComponent,
-        command: (event: MenuItemCommandEvent) => this.setApplicationOpened(event.item as IApplication)
-      }
-    ];
-  }
-
   closeApp() {
     this.openedApplication = null;
   }
 
   ngOnInit(): void {
+    this.listenToPhoneStateEvents();
     this.store.select(selectPhone).subscribe(phoneItem => {
       this.phoneItem = phoneItem as IPhoneItem;
     });

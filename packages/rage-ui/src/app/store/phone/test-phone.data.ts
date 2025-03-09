@@ -15,6 +15,41 @@ export const testPhoneData: Partial<IPhoneItem> = {
         name: 'John Doe',
         phoneNumber: '321199',
         favorite: false
+      },
+      {
+        name: 'Muki Muki',
+        phoneNumber: '3426534',
+        favorite: false
+      },
+      {
+        name: 'Diler droge 234',
+        phoneNumber: '654543',
+        favorite: true
+      },
+      {
+        name: 'moja zena <3',
+        phoneNumber: '54656743',
+        favorite: true
+      },
+      {
+        name: 'dwadwadwa awdwa',
+        phoneNumber: '6547345',
+        favorite: false
+      },
+      {
+        name: 'adwada awdad',
+        phoneNumber: '435434',
+        favorite: false
+      },
+      {
+        name: 'dawdwaa awdwa',
+        phoneNumber: '654654',
+        favorite: false
+      },
+      {
+        name: 'adawdwadwa awdwa',
+        phoneNumber: '5645654',
+        favorite: false
       }
     ],
     backgroundImage: 'assets/images/phone/backgrounds/1.jpg'
