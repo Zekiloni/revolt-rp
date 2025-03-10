@@ -14,7 +14,7 @@ import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../playe
 export class SmartphoneItemModel extends BaseItem {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
-    super(name, description, model, [ItemType.DEVICE_HANDHELD_RADIO, ...type], weight);
+    super(name, description, model, [ItemType.DEVICE_SMARTPHONE, ...type], weight);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
