@@ -426,4 +426,5 @@ export const srRs = {
   'incoming_call': 'Dolazni Poziv',
   'dialing': 'Pozivanje',
   'ongoing_call': 'Aktivan Poziv',
+  'invalid_phone_number': 'Neispravan broj telefona.',
 };

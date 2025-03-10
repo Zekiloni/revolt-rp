@@ -1,9 +1,11 @@
-import { Item } from '../../../item/item.model';
-import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
-import { IPhoneInfo, ProcedureKey } from '@revolt-rp/common';
 import { customAlphabet } from 'nanoid';
-import { PhoneMessageModel } from './phone-message.model';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { IPhoneContact, IPhoneInfo, IPhoneMessageCreate, IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
+import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
+import { PhoneMessageModel } from './phone-message.model';
+import { Item, ItemModel } from '../../../item/item.model';
+import { t } from 'i18next';
+import { notifyPlayer } from '../../util/player-notify.util';
 
 
 const DEFAULT_PHONE_INFO: IPhoneInfo = {
@@ -22,13 +24,62 @@ export const generatePhoneNumber = () => {
 };
 
 
-export const getPlayerPhoneNumbers = (player: PlayerMp) => {
-  return player.character.inventory.filter((item: Item) => {
+const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
+  return PhoneMessageModel.create({
+    ...messageCreate,
+    seen: false,
+    createdAt: new Date()
+  });
+};
 
+export const createPhoneContact = async (phone: Item, contact: IPhoneContact) => {
+  phone.phoneInfo.contacts.push(contact);
+  return phone.save();
+};
+
+export const updatePhoneContact = async (phone: Item, contactUpdate: IPhoneContact) => {
+  phone.phoneInfo.contacts = phone.phoneInfo.contacts
+    .map((contact: IPhoneContact) => contactUpdate.phoneNumber === contact.phoneNumber ? contactUpdate : contact);
+
+  await phone.save();
+  return contactUpdate;
+};
+
+export const deletePhoneContact = async (phone: Item, phoneNumber: string) => {
+  phone.phoneInfo.contacts = phone.phoneInfo.contacts
+    .filter((contact: IPhoneContact) => contact.phoneNumber !== phoneNumber);
+
+  await phone.save();
+  return true;
+};
+
+export const updatePhoneSettings = async (phone: Item, settings: IPhoneSettingsUpdate) => {
+  delete settings.itemId;
+
+  phone.phoneInfo = {
+    ...phone.phoneInfo,
+    ...settings
+  };
+
+  return phone.save();
+};
+
+
+export const getPlayerPhoneNumbers = (player: PlayerMp) => {
+  return player.character.inventory.map((item: Item) => {
     if (item.phoneInfo && item.phoneInfo.phoneNumber) {
       return item.phoneInfo.phoneNumber;
     }
   });
+};
+
+export const getPhoneByPhoneNumber = async (phoneNumber: string) => {
+  return ItemModel.findOne({ 'phoneInfo.phoneNumber': phoneNumber }).exec();
+};
+
+export const getPlayerByPhoneNumber = (phoneNumber: string) => {
+  return mp.players.toArray()
+    .find((player: PlayerMp) => getPlayerPhoneNumbers(player).includes(phoneNumber));
 };
 
 
@@ -40,7 +91,6 @@ export const getPhoneMessages = async (phoneNumber: string) => {
     ]
   }).sort({ createdAt: -1 }).exec();
 };
-
 
 export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: boolean) => {
   const itemHandler = phone.data;
@@ -64,3 +114,23 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
     }
   }
 };
+
+
+export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IPhoneMessageCreate) => {
+  const isValidPhoneNumber = !!(await getPhoneByPhoneNumber(messageCreate.receiver));
+
+  if (!isValidPhoneNumber) {
+    return notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
+  }
+
+  const message = await createPhoneMessage(messageCreate);
+
+  const target = getPlayerByPhoneNumber(messageCreate.receiver);
+
+  if (target) {
+    triggerBrowsers(target, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
+  }
+
+  triggerBrowsers(player, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
+};
+

@@ -58,7 +58,6 @@ export const enum ProcedureKey {
   BROWSER_UPDATE_SELECTED_ITEM_ID = 'browser_updateSelectedItemId',
 
   BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
-  CLIENT_PLAYER_ENTER_VEHICLE = 'client_playerEnterVehicle',
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE = 'server_playerToggleVehicleEngine',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
@@ -121,11 +120,15 @@ export const enum ProcedureKey {
 
   BROWSER_SET_CURRENT_LOCATION = 'browser_setCurrentLocation',
   BROWSER_SET_PHONE_MESSAGES = 'browser_setPhoneMessages',
+  BROWSER_ADD_PHONE_MESSAGE = 'browser_addPhoneMessage',
   CLIENT_PHONE_MAP_INIT = 'client_phoneMapInit',
   SERVER_TOGGLE_PHONE = 'server_togglePhone',
   BROWSER_SET_PHONE = 'browser_setPhone',
   CLIENT_PHONE_CAMERA_TOGGLE = 'client_phoneCameraToggle',
   SERVER_SEND_PHONE_MESSAGE = 'server_sendPhoneMessage',
   SERVER_UPDATE_PHONE_MESSAGE = 'server_updatePhoneMessage',
+  SERVER_UPDATE_PHONE_SETTINGS = 'server_updatePhoneSettings',
   SERVER_CREATE_PHONE_CONTACT = 'server_createPhoneContact',
+  SERVER_UPDATE_PHONE_CONTACT = 'server_updatePhoneContact',
+  SERVER_DELETE_PHONE_CONTACT = 'server_deletePhoneContact',
 }
