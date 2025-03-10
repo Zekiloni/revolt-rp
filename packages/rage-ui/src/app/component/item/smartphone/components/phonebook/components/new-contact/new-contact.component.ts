@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IPhoneContact } from '@revolt-rp/common';
+import { IPhoneContact, IPhoneContactCreate } from '@revolt-rp/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonDirective } from 'primeng/button';
@@ -16,7 +16,7 @@ import { CheckboxModule } from 'primeng/checkbox';
   styleUrl: './new-contact.component.css'
 })
 export class NewContactComponent {
-  @Output() contactCreate = new EventEmitter<IPhoneContact>();
+  @Output() contactCreate = new EventEmitter<IPhoneContactCreate>();
 
   form!: FormGroup;
 

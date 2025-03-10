@@ -4,12 +4,13 @@
     <button pButton severity="success" icon="pi pi-phone" [rounded]="true" (click)="call()"></button>
     <button pButton severity="info" icon="pi pi-inbox" [rounded]="true"></button>
     <p-toggleButton
-      [(ngModel)]="contact.favorite"
+      [(ngModel)]="contactUpdate.favorite"
       onIcon="pi pi-star"
       offIcon="pi pi-star"
+      (onChange)="editContact.emit(contactUpdate)"
       styleClass="border-circle"
     />
-    <button pButton severity="danger" icon="pi pi-trash" [outlined]="true" [rounded]="true"></button>
+    <button pButton severity="danger" icon="pi pi-trash" [outlined]="true" [rounded]="true" (click)="delete()"></button>
   </div>
 
   <div class="field">

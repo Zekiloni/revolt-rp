@@ -1,8 +1,13 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { IPhoneContact, IPhoneMessageCreate, IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
 import {
-  createPhoneContact, deletePhoneContact,
-  playerSendPhoneMessage,
+  IPhoneContact,
+  IPhoneContactCreate,
+  IPhoneMessageCreate,
+  IPhoneSettingsUpdate,
+  ProcedureKey
+} from '@revolt-rp/common';
+import {
+  createPhoneContact, deletePhoneContact, playerSendPhoneMessage,
   playerTogglePhone, updatePhoneContact,
   updatePhoneSettings
 } from './player-phone.service';
@@ -35,30 +40,17 @@ async function playerUpdatePhoneSettings(settings: IPhoneSettingsUpdate) {
   return updatePhoneSettings(item, settings);
 }
 
-async function playerCreatePhoneContactHandler(data: { phoneItemId: string, contact: IPhoneContact }) {
-  const item = await getItemById(data.phoneItemId);
-  if (!item) {
-    return;
-  }
+async function playerCreatePhoneContactHandler(contactCreate: IPhoneContactCreate, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return createPhoneContact(getPlayerSelectedItem(player), contactCreate);
 
-  return createPhoneContact(item, data.contact);
 }
 
-async function playerUpdatePhoneContactHandler(data: { phoneItemId: string, contact: IPhoneContact }) {
-  const item = await getItemById(data.phoneItemId);
-  if (!item) {
-    return;
-  }
-
-  return updatePhoneContact(item, data.contact);
+async function playerUpdatePhoneContactHandler(phoneContactUpdate: IPhoneContact, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return updatePhoneContact(getPlayerSelectedItem(player), phoneContactUpdate);
 }
 
-async function playerDeletePhoneContactHandler(data: { phoneItemId: string, phoneNumber: string }) {
-  const item = await getItemById(data.phoneItemId);
-  if (!item) {
-    return;
-  }
-  return deletePhoneContact(item, data.phoneNumber);
+async function playerDeletePhoneContactHandler(contact: IPhoneContact, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return deletePhoneContact(getPlayerSelectedItem(player), contact.id);
 }
 
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);

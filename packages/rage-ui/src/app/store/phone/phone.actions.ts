@@ -30,6 +30,16 @@ export const addPhoneContact = createAction(
   props<{ contact: IPhoneContact }>()
 );
 
+export const deletePhoneContact = createAction(
+  '[Phone] Delete Phone Contact',
+  props<{ contactId: string }>()
+);
+
+export const updatePhoneContact = createAction(
+  '[Phone] Update Phone Contact',
+  props<{ contact: IPhoneContact }>()
+);
+
 export const setPhoneMessages = createAction(
   '[Phone] Set Phone Messages',
   props<{ messages: IPhoneMessage[] }>()

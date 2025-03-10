@@ -14,7 +14,7 @@
                   (click)="selectedContact = null"></button>
           <span>{{ 'contact' | translate }}</span>
         </div>
-        <app-single-contact [contact]="selectedContact!" />
+        <app-single-contact [contact]="selectedContact!" (deleteContact)="deleteContact($event)" (editContact)="updateContact($event)"/>
       } @else {
         <p-table
           #contactsTable
