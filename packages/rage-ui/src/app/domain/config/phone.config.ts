@@ -5,6 +5,7 @@ import { PhonebookComponent } from '../../component/item/smartphone/components/p
 import { SettingsComponent } from '../../component/item/smartphone/components/settings';
 import { CameraComponent } from '../../component/item/smartphone/components/camera';
 import { IApplication } from '../../component/item/smartphone';
+import { KeypadComponent } from '../../component/item/smartphone/components/keypad';
 
 
 export const phoneApplications: IApplication[] = [
@@ -20,7 +21,7 @@ export const phoneApplications: IApplication[] = [
     name: 'calls',
     icon: 'assets/images/phone/icons/calls.svg',
     pinned: true,
-    component: CalculatorComponent
+    component: KeypadComponent
   }, {
     key: 'messages',
     name: 'messages',
