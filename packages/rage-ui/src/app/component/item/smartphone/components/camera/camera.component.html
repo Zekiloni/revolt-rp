@@ -1,12 +1,14 @@
 <div class="w-full h-full flex items-center justify-center relative">
 
-  <img src="http://screenshots/take_with_cef" #cameraRef alt="phone-camera" style="margin-left: -135%; transform: scaleX(-1);" >
+  <img src="http://screenshots/take_with_cef" #cameraRef alt="phone-camera"
+       style="object-fit: cover; object-position: left center; transform: translateX(-40%) scaleX(-1);">
 
 
   <div class="absolute-bottom-center w-full mb-3 flex align-items-center justify-content-center gap-3">
     @if (cameraCaptureInterval) {
-      <button pButton icon="pi pi-camera"  [rounded]="true"  label="Space" (click)="captureCamera(false)"></button>
-      <button pButton icon="pi pi-sync" [outlined]="true" [rounded]="true" size="small" label="Ctrl" (click)="changeCameraType()"></button>
+      <button pButton icon="pi pi-camera" [rounded]="true" label="Space" (click)="captureCamera(false)"></button>
+      <button pButton icon="pi pi-sync" [outlined]="true" [rounded]="true" size="small" label="Ctrl"
+              (click)="changeCameraType()"></button>
     } @else {
 
     }
