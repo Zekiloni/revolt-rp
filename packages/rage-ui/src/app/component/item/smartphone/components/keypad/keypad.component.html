@@ -1,0 +1,17 @@
+<div class="h-full surface-ground">
+  <div class="text-xl font-medium text-900 text-center h-2rem py-2 select-all">{{ phoneNumber }}</div>
+
+  <div class="flex gap-3 flex-wrap justify-content-center mt-5">
+    @for (key of numberButtons; track key) {
+      <button pButton type="button" [rounded]="true" [text]="true" (click)="onNumberClick(key)" [label]="key"
+              class="col-3"></button>
+    }
+  </div>
+
+  <div class="flex gap-3 justify-content-center mt-5">
+    <button pButton type="button" [rounded]="true" [text]="true" (click)="clear()" icon="pi pi-delete-left"></button>
+    <button pButton type="button" [rounded]="true" severity="success" (click)="call()" size="large"
+            icon="pi pi-phone"></button>
+    <button pButton type="button" [rounded]="true" [text]="true" (click)="subtract()" icon="pi pi-times"></button>
+  </div>
+</div>
