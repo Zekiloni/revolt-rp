@@ -108,10 +108,8 @@ export class MessengerComponent implements OnInit {
   listenToConversationScroll(): void {
     this._selectedConversation.pipe(debounceTime((50)))
       .subscribe((conversation) => {
-      console.log(conversation);
         if (conversation) {
           const scroller = this.messagesScroller;
-          console.log(scroller);
           if (scroller) {
             const element = scroller.elementViewChild?.nativeElement;
             element.scrollTop = element.scrollHeight;
@@ -171,7 +169,6 @@ export class MessengerComponent implements OnInit {
   mapOnInit(map: L.Map, message: IPhoneMessage) {
     this.maps.set(message.id, map);
     const coords = JSON.parse(message.content) as { lat: number, lng: number };
-    console.log(coords);
     map.setView([coords.lat, coords.lng], 16);
     L.marker([coords.lat, coords.lng], { icon: this.markerIcon }).addTo(map);
   }

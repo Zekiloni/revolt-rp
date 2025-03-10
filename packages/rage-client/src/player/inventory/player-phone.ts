@@ -27,7 +27,6 @@ function putAwayPhoneHandler() {
 
 
 function togglePhoneCamera(toggle: boolean, frontCamera?: boolean) {
-  mp.gui.chat.push(`togglePhoneCamera: ${toggle}, frontCamera: ${frontCamera}`);
   if (toggle) {
     if (!phoneProp) {
       phoneProp = true;
