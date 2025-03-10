@@ -12,41 +12,49 @@ export const testPhoneData: Partial<IPhoneItem> = {
     notes: [],
     contacts: [
       {
+        id: '546457457345',
         name: 'John Doe',
         phoneNumber: '321199',
         favorite: false
       },
       {
+        id: '34253345443252525623',
         name: 'Muki Muki',
         phoneNumber: '3426534',
         favorite: false
       },
       {
+        id: '436436356756',
         name: 'Diler droge 234',
         phoneNumber: '654543',
         favorite: true
       },
       {
+        id: '3425324545245365623',
         name: 'moja zena <3',
         phoneNumber: '54656743',
         favorite: true
       },
       {
+        id: '3425456546456325623',
         name: 'dwadwadwa awdwa',
         phoneNumber: '6547345',
         favorite: false
       },
       {
+        id: '342535633453242325623',
         name: 'adwada awdad',
         phoneNumber: '435434',
         favorite: false
       },
       {
+        id: '2342356465464',
         name: 'dawdwaa awdwa',
         phoneNumber: '654654',
         favorite: false
       },
       {
+        id: '3425325623',
         name: 'adawdwadwa awdwa',
         phoneNumber: '5645654',
         favorite: false

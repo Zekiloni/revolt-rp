@@ -27,7 +27,17 @@ export interface IPhoneNote {
   content: string;
 }
 
+
+export interface IPhoneContactCreate {
+  phoneItemId: string;
+  name: string;
+  phoneNumber: string;
+  favorite: boolean;
+  emailAddress?: string;
+}
+
 export interface IPhoneContact {
+  id: string;
   name: string;
   favorite: boolean;
   phoneNumber: string;

@@ -1,15 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { map } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { IPhoneCall, IPhoneContact, PhoneCallStatus } from '@revolt-rp/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TranslatePipe } from '@ngx-translate/core';
 import { ToggleButtonModule } from 'primeng/togglebutton';
-import { Store } from '@ngrx/store';
+import { IPhoneCall, IPhoneContact, PhoneCallStatus } from '@revolt-rp/common';
 import { PhoneState, selectPhone, setPhoneCall } from '../../../../../../../store/phone';
-import { map } from 'rxjs';
+
 
 @Component({
   selector: 'app-single-contact',
@@ -18,8 +19,12 @@ import { map } from 'rxjs';
   templateUrl: './single-contact.component.html',
   styleUrl: './single-contact.component.css'
 })
-export class SingleContactComponent {
+export class SingleContactComponent implements OnInit {
   @Input() contact!: IPhoneContact;
+  @Output() deleteContact = new EventEmitter<IPhoneContact>();
+  @Output() editContact = new EventEmitter<IPhoneContact>();
+
+  contactUpdate!: IPhoneContact;
 
   constructor(private store: Store<PhoneState>) {
   }
@@ -40,5 +45,13 @@ export class SingleContactComponent {
         };
         this.store.dispatch(setPhoneCall({ currentCall }));
       });
+  }
+
+  delete() {
+    this.deleteContact.emit(this.contact);
+  }
+
+  ngOnInit(): void {
+    this.contactUpdate = { ...this.contact };
   }
 }

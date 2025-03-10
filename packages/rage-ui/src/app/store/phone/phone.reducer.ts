@@ -1,11 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 import { IPhoneCall, IPhoneMessage } from '@revolt-rp/common';
 import {
+  addPhoneContact,
   addPhoneMessage,
+  deletePhoneContact,
   setPhone,
-  setPhoneBackground, setPhoneCall,
+  setPhoneBackground,
+  setPhoneCall,
   setPhoneMessages,
-  setPhoneOpacity,
+  setPhoneOpacity, updatePhoneContact,
   updatePhoneMessage
 } from './phone.actions';
 import { testMessages, testPhoneData } from './test-phone.data';
@@ -37,6 +40,40 @@ export const phoneReducer = createReducer(
     return {
       ...state,
       phone: { ...state.phone!, phoneInfo: { ...state.phone!.phoneInfo, backgroundImage: background } }
+    };
+  }),
+  on(addPhoneContact, (state, { contact }) => {
+    return {
+      ...state,
+      phone: {
+        ...state.phone!,
+        phoneInfo: { ...state.phone!.phoneInfo, contacts: [...state.phone!.phoneInfo.contacts, contact] }
+      }
+    };
+  }),
+
+  on(deletePhoneContact, (state, { contactId }) => {
+    return {
+      ...state,
+      phone: {
+        ...state.phone!,
+        phoneInfo: {
+          ...state.phone!.phoneInfo,
+          contacts: state.phone!.phoneInfo.contacts.filter(c => c.id !== contactId)
+        }
+      }
+    };
+  }),
+  on(updatePhoneContact, (state, { contact }) => {
+    return {
+      ...state,
+      phone: {
+        ...state.phone!,
+        phoneInfo: {
+          ...state.phone!.phoneInfo,
+          contacts: state.phone!.phoneInfo.contacts.map(c => c.id === contact.id ? contact : c)
+        }
+      }
     };
   }),
   on(setPhoneCall, (state, { currentCall }) => {

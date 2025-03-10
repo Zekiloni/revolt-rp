@@ -1,11 +1,19 @@
 import { customAlphabet } from 'nanoid';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { IPhoneContact, IPhoneInfo, IPhoneMessageCreate, IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
+import {
+  IPhoneContact,
+  IPhoneContactCreate,
+  IPhoneInfo,
+  IPhoneMessageCreate,
+  IPhoneSettingsUpdate,
+  ProcedureKey
+} from '@revolt-rp/common';
 import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
 import { PhoneMessageModel } from './phone-message.model';
 import { Item, ItemModel } from '../../../item/item.model';
 import { t } from 'i18next';
 import { notifyPlayer } from '../../util/player-notify.util';
+import { Types } from 'mongoose';
 
 
 const DEFAULT_PHONE_INFO: IPhoneInfo = {
@@ -24,6 +32,12 @@ export const generatePhoneNumber = () => {
 };
 
 
+export const getPhoneItemByContactId = async (contactId: string) => {
+  return ItemModel.findOne({
+    'phoneInfo.contacts': { $elemMatch: { id: contactId } }
+  }).exec();
+};
+
 const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
   return PhoneMessageModel.create({
     ...messageCreate,
@@ -32,25 +46,38 @@ const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
   });
 };
 
-export const createPhoneContact = async (phone: Item, contact: IPhoneContact) => {
+export const createPhoneContact = async (phone: Item, contactCreate: IPhoneContactCreate) => {
+  const contact: IPhoneContact = {
+    id: new Types.ObjectId().toHexString(),
+    name: contactCreate.name,
+    phoneNumber: contactCreate.phoneNumber,
+    favorite: contactCreate.favorite,
+    emailAddress: contactCreate.emailAddress
+  };
+
+  console.log('before', phone);
+
   phone.phoneInfo.contacts.push(contact);
-  return phone.save();
+  await phone.save();
+
+  console.log('after', phone);
+  return contact;
 };
 
 export const updatePhoneContact = async (phone: Item, contactUpdate: IPhoneContact) => {
   phone.phoneInfo.contacts = phone.phoneInfo.contacts
-    .map((contact: IPhoneContact) => contactUpdate.phoneNumber === contact.phoneNumber ? contactUpdate : contact);
+    .map((contact: IPhoneContact) => contactUpdate.id === contact.id ? contactUpdate : contact);
 
   await phone.save();
   return contactUpdate;
 };
 
-export const deletePhoneContact = async (phone: Item, phoneNumber: string) => {
+export const deletePhoneContact = async (phone: Item, contactId: string) => {
   phone.phoneInfo.contacts = phone.phoneInfo.contacts
-    .filter((contact: IPhoneContact) => contact.phoneNumber !== phoneNumber);
+    .filter((contact: IPhoneContact) => contact.id !== contactId);
 
   await phone.save();
-  return true;
+  return contactId;
 };
 
 export const updatePhoneSettings = async (phone: Item, settings: IPhoneSettingsUpdate) => {
