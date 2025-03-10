@@ -115,7 +115,7 @@ export class MessengerComponent implements OnInit {
             element.scrollTop = element.scrollHeight;
           }
         }
-    });
+      });
   }
 
   fromNow(date: Date) {
@@ -127,7 +127,7 @@ export class MessengerComponent implements OnInit {
   }
 
   navigateMeTo(message: IPhoneMessage) {
-    this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message)
+    this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message);
   }
 
   selectConversation(conversation: string) {
@@ -158,8 +158,7 @@ export class MessengerComponent implements OnInit {
       content: messageContent
     };
 
-    this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, messageCreate)
-      .subscribe({ next: (message) => this.store.dispatch(addPhoneMessage({ message })) });
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, messageCreate);
   }
 
   newConversation(event: IPhoneMessageCreate) {

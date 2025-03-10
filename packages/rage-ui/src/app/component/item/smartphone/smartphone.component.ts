@@ -8,7 +8,14 @@ import { ButtonDirective } from 'primeng/button';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { gameUiConfig, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
 import { fadeInOutTrigger, scaleInOutTrigger, slideInOutTrigger } from '../../../domain/util/animation.util';
-import { PhoneState, selectPhone, selectPhoneCall, setPhone, setPhoneMessages } from '../../../store/phone';
+import {
+  addPhoneMessage,
+  PhoneState,
+  selectPhone,
+  selectPhoneCall,
+  setPhone,
+  setPhoneMessages
+} from '../../../store/phone';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
@@ -95,6 +102,10 @@ export class SmartphoneComponent implements OnInit {
 
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
       this.store.dispatch(setPhoneMessages({ messages }));
+    });
+
+    this.rageClientService.on(ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, (message: IPhoneMessage) => {
+      this.store.dispatch(addPhoneMessage({ message }));
     });
   }
 

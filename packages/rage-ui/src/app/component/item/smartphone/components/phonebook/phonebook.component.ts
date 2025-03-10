@@ -60,10 +60,10 @@ export class PhonebookComponent {
     this.addingNewContact = false;
     this.store.select(selectPhone)
       .pipe(map(phone => phone?.id))
-      .subscribe(phoneId => {
+      .subscribe(phoneItemId => {
         this.rageClientService.callServer<IPhoneContact>(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, {
-          ...contact,
-          phoneId
+          contact,
+          phoneItemId
         }).subscribe({ next: this.handleContactCreated });
       });
   }

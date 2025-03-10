@@ -424,4 +424,5 @@ export const enUs = {
   'contact': 'Contact',
   'incoming_call': 'Incoming Call',
   'dialing': 'Dialing',
+  'invalid_phone_number': 'Invalid phone number.',
 };

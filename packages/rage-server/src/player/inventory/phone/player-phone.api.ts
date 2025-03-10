@@ -1,7 +1,13 @@
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@revolt-rp/common';
+import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
+import { IPhoneContact, IPhoneMessageCreate, IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
+import {
+  createPhoneContact, deletePhoneContact,
+  playerSendPhoneMessage,
+  playerTogglePhone, updatePhoneContact,
+  updatePhoneSettings
+} from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
-import { playerTogglePhone } from './player-phone.service';
+import { getItemById } from '../../../item/item.service';
 
 
 async function playerTogglePhoneHandler(toggle: boolean, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -15,4 +21,49 @@ async function playerTogglePhoneHandler(toggle: boolean, { player }: ProcedureLi
 }
 
 
+async function sendPhoneMessageHandler(messageCreate: IPhoneMessageCreate, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await playerSendPhoneMessage(player, messageCreate);
+}
+
+async function playerUpdatePhoneSettings(settings: IPhoneSettingsUpdate) {
+  const item = await getItemById(settings.itemId);
+
+  if (!item) {
+    return;
+  }
+
+  return updatePhoneSettings(item, settings);
+}
+
+async function playerCreatePhoneContactHandler(data: { phoneItemId: string, contact: IPhoneContact }) {
+  const item = await getItemById(data.phoneItemId);
+  if (!item) {
+    return;
+  }
+
+  return createPhoneContact(item, data.contact);
+}
+
+async function playerUpdatePhoneContactHandler(data: { phoneItemId: string, contact: IPhoneContact }) {
+  const item = await getItemById(data.phoneItemId);
+  if (!item) {
+    return;
+  }
+
+  return updatePhoneContact(item, data.contact);
+}
+
+async function playerDeletePhoneContactHandler(data: { phoneItemId: string, phoneNumber: string }) {
+  const item = await getItemById(data.phoneItemId);
+  if (!item) {
+    return;
+  }
+  return deletePhoneContact(item, data.phoneNumber);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
+register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
+register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandler);
+register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);
+register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
+register(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);

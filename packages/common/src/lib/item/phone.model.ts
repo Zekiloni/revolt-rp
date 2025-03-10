@@ -57,6 +57,13 @@ export interface IPhoneMessage extends Base {
   createdAt: Date;
 }
 
+export interface IPhoneSettingsUpdate {
+  itemId: string;
+  power: boolean;
+  opacity: number;
+  backgroundImage: string;
+}
+
 export interface IPhoneInfo {
   power: boolean;
   phoneNumber: string;
