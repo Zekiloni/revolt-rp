@@ -35,7 +35,8 @@
       <p-inputGroup>
         <input pInputText [(ngModel)]="messageContent">
         <p-inputGroupAddon>
-          <button pButton icon="pi pi-send" (click)="sendMessage(selectedConversation!, messageContent)"
+          <button pButton icon="pi pi-send" (keydown.enter)="sendMessage(selectedConversation!, messageContent)"
+                  (click)="sendMessage(selectedConversation!, messageContent)"
                   [disabled]="!messageContent.length"></button>
         </p-inputGroupAddon>
       </p-inputGroup>
@@ -43,7 +44,8 @@
   </div>
 } @else {
   @if (isComposeActive) {
-    <app-compose-message (cancelComposeMessage)="isComposeActive = false" [phoneItem]="phoneItem" (submitComposeMessage)="newConversation($event)" />
+    <app-compose-message (cancelComposeMessage)="isComposeActive = false" [phoneItem]="phoneItem"
+                         (submitComposeMessage)="newConversation($event)" />
   } @else {
     <div class="flex flex-column h-full">
       <div class="py-2 px-3 flex align-items-center justify-content-between">

@@ -113,12 +113,14 @@ export class SmartphoneComponent implements OnInit {
 
   private newMessage(message: IPhoneMessage) {
     this.store.dispatch(addPhoneMessage({ message }));
-    this.notify({
-      severity: 'info',
-      detail: `${message.sender}: ${message.content}`,
-      life: 5000,
-      closable: true
-    });
+    if (message.receiver === this.phoneItem.phoneInfo.phoneNumber) {
+      this.notify({
+        severity: 'info',
+        detail: `${message.sender}: ${message.content}`,
+        life: 5000,
+        closable: true
+      });
+    }
   }
 
   private listenToPhoneStateEvents() {
