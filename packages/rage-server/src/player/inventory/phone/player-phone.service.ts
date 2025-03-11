@@ -56,7 +56,7 @@ export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
   try {
     await PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { _id, ...updateData } = message;
+      const { _id, id, ...updateData } = message;
       return {
         updateOne: {
           filter: { _id: message._id },
