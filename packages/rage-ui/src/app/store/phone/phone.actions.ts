@@ -55,3 +55,8 @@ export const updatePhoneMessage = createAction(
   '[Phone] Update Phone Message',
   props<{ message: IPhoneMessage }>()
 );
+
+export const updateManyPhoneMessages = createAction(
+  '[Phone] Update Many Phone Messages',
+  props<{ messages: IPhoneMessage[] }>()
+);

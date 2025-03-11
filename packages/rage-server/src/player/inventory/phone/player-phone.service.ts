@@ -50,6 +50,15 @@ export const updatePhoneMessage = async (message: IPhoneMessage) => {
   return PhoneMessageModel.updateOne({ id: message.id }, message).exec();
 }
 
+export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
+  return PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => ({
+    updateOne: {
+      filter: { id: message.id },
+      update: message
+    }
+  })));
+}
+
 export const createPhoneContact = async (phone: Item, contactCreate: IPhoneContactCreate) => {
   const contact: IPhoneContact = {
     id: new Types.ObjectId().toHexString(),

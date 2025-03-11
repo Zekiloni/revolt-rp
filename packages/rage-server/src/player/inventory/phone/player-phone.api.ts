@@ -8,7 +8,7 @@ import {
 } from '@revolt-rp/common';
 import {
   createPhoneContact, deletePhoneContact, playerSendPhoneMessage,
-  playerTogglePhone, updatePhoneContact, updatePhoneMessage,
+  playerTogglePhone, updateManyPhoneMessages, updatePhoneContact, updatePhoneMessage,
   updatePhoneSettings
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
@@ -57,6 +57,10 @@ function playerUpdatePhoneMessageHandler(message: IPhoneMessage) {
   return updatePhoneMessage(message);
 }
 
+function playerUpdateManyPhoneMessagesHandler(messages: IPhoneMessage[]) {
+  return updateManyPhoneMessages(messages);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
@@ -64,3 +68,4 @@ register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandl
 register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);
 register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, playerUpdatePhoneMessageHandler);
+register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, playerUpdateManyPhoneMessagesHandler);
