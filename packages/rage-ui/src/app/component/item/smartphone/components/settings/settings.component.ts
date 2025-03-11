@@ -6,12 +6,13 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { SliderChangeEvent, SliderModule } from 'primeng/slider';
 import { PhoneState, setPhoneBackground, setPhoneOpacity } from '../../../../../store/phone';
 import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, SliderModule, FormsModule, TranslatePipe, StaticAssetPipe],
+  imports: [CommonModule, SliderModule, FormsModule, TranslatePipe, StaticAssetPipe, InputTextModule],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
