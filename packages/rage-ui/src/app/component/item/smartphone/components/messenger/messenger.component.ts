@@ -100,8 +100,8 @@ export class MessengerComponent implements OnInit {
     if (!lastMessageA || !lastMessageB)
       return 0;
 
-    return lastMessageB.createdAt.getTime() - lastMessageA.createdAt.getTime();
-  }
+    return new Date(lastMessageB.createdAt).getTime() - new Date(lastMessageA.createdAt).getTime();
+  };
 
   getConversationMessages(phoneNumber: string) {
     return this.messages.filter(msg => msg.sender === phoneNumber || msg.receiver === phoneNumber);
@@ -114,7 +114,7 @@ export class MessengerComponent implements OnInit {
 
   getLastMessage(phoneNumber: string) {
     const messages = this.getConversationMessages(phoneNumber);
-    const sortedMessages = messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    const sortedMessages = messages.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
     return sortedMessages[0];
   }
 
