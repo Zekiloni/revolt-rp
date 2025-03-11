@@ -45,7 +45,6 @@ export class CameraComponent implements OnInit, OnDestroy {
       this.cameraCaptureInterval = setInterval(() => {
         if (this.cameraRef && this.cameraRef.nativeElement) {
           this.cameraRef.nativeElement.src = 'http://screenshots/take';
-          this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
         }
       }, 50);
 
@@ -55,7 +54,7 @@ export class CameraComponent implements OnInit, OnDestroy {
         clearInterval(this.cameraCaptureInterval);
         this.cameraCaptureInterval = null;
       }
-
+      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
       this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TOGGLE, PlayerPhoneState.Idle);
     }
   }
