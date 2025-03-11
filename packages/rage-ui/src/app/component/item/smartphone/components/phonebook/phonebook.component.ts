@@ -1,14 +1,13 @@
-import { map, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { AvatarModule } from 'primeng/avatar';
 import { ButtonDirective } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 import { IPhoneContact, IPhoneContactCreate, ProcedureKey } from '@revolt-rp/common';
 import { NewContactComponent } from './components/new-contact';
 import { filterGlobal } from '../../../../../domain/util/table.util';
@@ -16,12 +15,10 @@ import {
   addPhoneContact,
   deletePhoneContact,
   PhoneState,
-  selectPhone,
-  selectPhoneContacts, updatePhoneContact
+  updatePhoneContact
 } from '../../../../../store/phone';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { SingleContactComponent } from './components/single-contact';
-
 
 
 @Component({
@@ -31,10 +28,11 @@ import { SingleContactComponent } from './components/single-contact';
   templateUrl: './phonebook.component.html',
   styleUrl: './phonebook.component.css'
 })
-export class PhonebookComponent implements OnInit {
+export class PhonebookComponent {
   protected readonly filterGlobal = filterGlobal;
 
-  $contacts!: Observable<IPhoneContact[]>;
+  @Input() phoneItem!: IPhoneItem;
+
   selectedContact!: IPhoneContact | null;
 
   addingNewContact = false;
@@ -42,22 +40,6 @@ export class PhonebookComponent implements OnInit {
   phoneItemId!: string;
 
   constructor(private store: Store<PhoneState>, private rageClientService: RageClientService) {
-    this.loadContacts();
-  }
-
-  private loadContacts() {
-    this.$contacts = this.store.select(selectPhoneContacts)
-      .pipe(map(contacts => this.sortContacts(contacts)));
-  }
-
-  private sortContacts(contacts: IPhoneContact[]): IPhoneContact[] {
-    return [...contacts]
-      .sort((a, b) => {
-        if (a.favorite === b.favorite) {
-          return a.name.localeCompare(b.name);
-        }
-        return a.favorite ? -1 : 1;
-      });
   }
 
   private handleContactCreated = (contact: IPhoneContact) => {
@@ -74,6 +56,16 @@ export class PhonebookComponent implements OnInit {
     this.store.dispatch(updatePhoneContact({ contact }));
   };
 
+  sortContacts(contacts: IPhoneContact[]): IPhoneContact[] {
+    return [...contacts]
+      .sort((a, b) => {
+        if (a.favorite === b.favorite) {
+          return a.name.localeCompare(b.name);
+        }
+        return a.favorite ? -1 : 1;
+      });
+  }
+
   addContact(contactCreate: IPhoneContactCreate) {
     this.addingNewContact = false;
     contactCreate.phoneItemId = this.phoneItemId;
@@ -83,17 +75,11 @@ export class PhonebookComponent implements OnInit {
 
   deleteContact(contact: IPhoneContact) {
     this.rageClientService.callServer<string>(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, contact)
-      .subscribe({ next: this.handleContactDeleted })
+      .subscribe({ next: this.handleContactDeleted });
   }
 
   updateContact(contact: IPhoneContact) {
     this.rageClientService.callServer<IPhoneContact>(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, contact)
-      .subscribe({ next: this.handleContactUpdated })
-  }
-
-  ngOnInit(): void {
-    this.store.select(selectPhone)
-      .pipe(map(phone => phone?.id))
-      .subscribe(phoneItemId => this.phoneItemId = phoneItemId!);
+      .subscribe({ next: this.handleContactUpdated });
   }
 }

@@ -18,7 +18,7 @@ import {
 import {
   addPhoneMessage,
   PhoneState,
-  selectPhone,
+  selectPhoneItem,
   selectPhoneCall, selectPhoneMessages,
   setPhone,
   setPhoneMessages
@@ -128,6 +128,7 @@ export class SmartphoneComponent implements OnInit {
 
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
       this.store.dispatch(setPhoneMessages({ messages }));
+      this.getUnreadMessages();
     });
 
     this.rageClientService.on(ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, (message: IPhoneMessage) => {
@@ -162,9 +163,8 @@ export class SmartphoneComponent implements OnInit {
 
   ngOnInit(): void {
     this.listenToPhoneStateEvents();
-    this.store.select(selectPhone).subscribe(phoneItem => {
+    this.store.select(selectPhoneItem).subscribe(phoneItem => {
       this.phoneItem = phoneItem as IPhoneItem;
-      this.getUnreadMessages();
     });
   }
 }

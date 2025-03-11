@@ -1,3 +1,5 @@
+import { t } from 'i18next';
+import { Types } from 'mongoose';
 import { customAlphabet } from 'nanoid';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
@@ -9,11 +11,9 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
-import { PhoneMessageModel } from './phone-message.model';
-import { Item, ItemModel } from '../../../item/item.model';
-import { t } from 'i18next';
 import { notifyPlayer } from '../../util/player-notify.util';
-import { Types } from 'mongoose';
+import { Item, ItemModel } from '../../../item/item.model';
+import { PhoneMessageModel } from './phone-message.model';
 
 
 const DEFAULT_PHONE_INFO: IPhoneInfo = {
@@ -48,16 +48,18 @@ const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
 
 export const updatePhoneMessage = async (message: IPhoneMessage) => {
   return PhoneMessageModel.updateOne({ id: message.id }, message).exec();
-}
+};
 
 export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
-  return PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => ({
+  await PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => ({
     updateOne: {
       filter: { id: message.id },
       update: message
     }
   })));
-}
+
+  return messages;
+};
 
 export const createPhoneContact = async (phone: Item, contactCreate: IPhoneContactCreate) => {
   const contact: IPhoneContact = {

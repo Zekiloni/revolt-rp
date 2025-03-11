@@ -1,10 +1,10 @@
 import * as L from 'leaflet';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, combineLatest, debounceTime, map } from 'rxjs';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
@@ -13,7 +13,6 @@ import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
 import {
   PhoneState,
-  selectPhone,
   selectPhoneMessages, updateManyPhoneMessages
 } from '../../../../../store/phone';
 import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
@@ -49,6 +48,8 @@ import { RageClientService } from '../../../../../domain/service/rage-client.ser
 export class MessengerComponent implements OnInit {
   protected readonly PhoneMessageType = PhoneMessageType;
 
+  @Input() phoneItem!: IPhoneItem;
+
   @ViewChild('messagesScroller') messagesScroller!: Scroller;
 
   conversations: string[] = [];
@@ -58,7 +59,6 @@ export class MessengerComponent implements OnInit {
   markerIcon!: L.Icon;
 
   contacts: IPhoneContact[] = [];
-  phoneNumber: string | null = null;
 
   _selectedConversation = new BehaviorSubject<string | null>(null);
   messageContent = '';
@@ -106,7 +106,7 @@ export class MessengerComponent implements OnInit {
   }
 
   isMessageSent(message: IPhoneMessage) {
-    return message.sender === this.phoneNumber;
+    return message.sender === this.phoneItem.phoneInfo.phoneNumber;
   }
 
   listenToConversationScroll(): void {
@@ -127,7 +127,7 @@ export class MessengerComponent implements OnInit {
   }
 
   getUnreadMessages(conversation: string) {
-    return this.getConversationMessages(conversation).filter(msg => !msg.seen && msg.sender === conversation).length;
+    return this.getConversationMessages(conversation).filter(msg => !msg.seen && msg.sender === conversation);
   }
 
   navigateMeTo(message: IPhoneMessage) {
@@ -135,8 +135,7 @@ export class MessengerComponent implements OnInit {
   }
 
   private updateMessagesAsSeen(conversation: string) {
-    const unseenMessages = this.getConversationMessages(conversation)
-      .filter(message => message.receiver === this.phoneNumber && !message.seen)
+    const unseenMessages = this.getUnreadMessages(conversation)
       .map(message => ({ ...message, seen: true }));
 
     if (unseenMessages.length) {
@@ -164,7 +163,7 @@ export class MessengerComponent implements OnInit {
 
     const messageCreate: IPhoneMessageCreate = {
       type: PhoneMessageType.Text,
-      sender: this.phoneNumber as string,
+      sender: this.phoneItem.phoneInfo.phoneNumber,
       receiver: recipient,
       content: messageContent
     };
@@ -184,19 +183,10 @@ export class MessengerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    combineLatest([
-      this.store.select(selectPhone).pipe(map(phone => {
-        this.contacts = phone?.phoneInfo?.contacts || [];
-        this.phoneNumber = phone?.phoneInfo?.phoneNumber as string;
-        return phone?.phoneInfo?.phoneNumber;
-      })),
-      this.store.select(selectPhoneMessages)
-    ]).subscribe(([phoneNumber, messages]) => {
-      if (phoneNumber) {
-        this.messages = messages;
-        this.conversations = getConversations(phoneNumber, messages);
-        this.listenToConversationScroll();
-      }
+    this.store.select(selectPhoneMessages).subscribe(messages => {
+      this.messages = messages;
+      this.conversations = getConversations(this.phoneItem.phoneInfo.phoneNumber, messages);
+      this.listenToConversationScroll();
     });
   }
 }

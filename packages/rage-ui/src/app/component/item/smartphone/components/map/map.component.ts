@@ -1,20 +1,29 @@
 import L from 'leaflet';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { ButtonDirective } from 'primeng/button';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 import { ProcedureKey } from '@revolt-rp/common';
 import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 
 @Component({
   selector: 'app-map',
   standalone: true,
-  imports: [CommonModule, WorldMapComponent],
+  imports: [CommonModule, WorldMapComponent, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, TranslatePipe, OverlayPanelModule, AutoCompleteModule],
   templateUrl: './map.component.html',
   styleUrl: './map.component.css'
 })
 export class MapComponent implements OnDestroy {
   map!: L.Map;
+
+  @Input() phoneItem!: IPhoneItem;
   currentLocation: L.Marker | null = null;
   firstTime = true;
 

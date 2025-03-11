@@ -7,7 +7,7 @@ import { ButtonDirective } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { IPhoneContact, IPhoneMessageCreate, PhoneMessageType } from '@revolt-rp/common';
-import { PhoneState, selectPhone } from '../../../../../store/phone';
+import { PhoneState } from '../../../../../store/phone';
 
 
 @Component({
@@ -18,7 +18,7 @@ import { PhoneState, selectPhone } from '../../../../../store/phone';
   styleUrl: './compose-message.component.css'
 })
 export class ComposeMessageComponent {
-  @Input() contacts!: IPhoneContact[];
+  @Input() phoneItem!: IPhoneItem;
 
   @Output() cancelComposeMessage = new EventEmitter<void>();
   @Output() submitComposeMessage = new EventEmitter<IPhoneMessageCreate>();
@@ -34,14 +34,8 @@ export class ComposeMessageComponent {
     this.cancelComposeMessage.emit();
   }
 
-  submit() {
-    this.store.select(selectPhone).subscribe(phone => {
-      console.log(phone);
-    });
-  }
-
   searchContacts(event: AutoCompleteCompleteEvent) {
-    this.filteredContacts = this.contacts.filter(contact =>
+    this.filteredContacts = this.phoneItem.phoneInfo.contacts.filter(contact =>
       contact.name.toLowerCase().includes(event.query.toLowerCase()) || contact.phoneNumber.includes(event.query));
   }
 
@@ -50,16 +44,11 @@ export class ComposeMessageComponent {
       return;
     }
 
-    this.store.select(selectPhone)
-      .subscribe(phone => {
-        if (phone && phone.phoneInfo.phoneNumber) {
-          this.submitComposeMessage.emit({
-            type: PhoneMessageType.Text,
-            sender: phone.phoneInfo.phoneNumber,
-            content: this.messageContent,
-            receiver: this.recipient
-          });
-        }
-      });
+    this.submitComposeMessage.emit({
+      type: PhoneMessageType.Text,
+      sender: this.phoneItem.phoneInfo.phoneNumber,
+      content: this.messageContent,
+      receiver: this.recipient
+    });
   }
 }
