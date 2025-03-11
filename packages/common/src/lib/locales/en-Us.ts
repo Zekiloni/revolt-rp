@@ -69,6 +69,7 @@ export const enUs = {
   'split_item': 'Split Item',
   'drop_item': 'Drop Item',
   'give_item': 'Give Item',
+  'target_inventory_full': 'Target inventory is full.',
   'offer': 'Offer',
   'quantity': 'Quantity',
   'target_player': 'Target Player',

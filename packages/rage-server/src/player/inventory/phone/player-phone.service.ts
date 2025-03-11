@@ -64,14 +64,14 @@ export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
         }
       };
     }));
-   } catch (e) {
+  } catch (e) {
     console.log('error', e);
   }
 
   return messages;
 };
 
-export const createPhoneContact = async (phone: Item, contactCreate: IPhoneContactCreate) => {
+export const createPhoneContact = async (item: Item, contactCreate: IPhoneContactCreate) => {
   const contact: IPhoneContact = {
     id: new Types.ObjectId().toHexString(),
     name: contactCreate.name,
@@ -80,25 +80,35 @@ export const createPhoneContact = async (phone: Item, contactCreate: IPhoneConta
     emailAddress: contactCreate.emailAddress
   };
 
-  phone.phoneInfo.contacts.push(contact);
-  await phone.save();
+  item.phoneInfo.contacts.push(contact);
+
+  item.markModified('phoneInfo');
+  await item.save();
 
   return contact;
 };
 
-export const updatePhoneContact = async (phone: Item, contactUpdate: IPhoneContact) => {
-  phone.phoneInfo.contacts = phone.phoneInfo.contacts
+export const updatePhoneContact = async (item: Item, contactUpdate: IPhoneContact) => {
+  const phoneInfo = item.phoneInfo;
+
+  phoneInfo.contacts = item.phoneInfo.contacts
     .map((contact: IPhoneContact) => contactUpdate.id === contact.id ? contactUpdate : contact);
 
-  await phone.save();
+  item.phoneInfo = phoneInfo;
+
+  item.markModified('phoneInfo');
+  await item.save();
+
   return contactUpdate;
 };
 
-export const deletePhoneContact = async (phone: Item, contactId: string) => {
-  phone.phoneInfo.contacts = phone.phoneInfo.contacts
+export const deletePhoneContact = async (item: Item, contactId: string) => {
+  item.phoneInfo.contacts = item.phoneInfo.contacts
     .filter((contact: IPhoneContact) => contact.id !== contactId);
 
-  await phone.save();
+  item.markModified('phoneInfo');
+  await item.save();
+
   return contactId;
 };
 

@@ -137,6 +137,7 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
   item.position = position;
   item.rotation = rotation;
   item.dimension = player.dimension;
+  item.localSlot = null;
 
   item.object = mp.objects.new(mp.joaat(item.data.model), position, {
     rotation, dimension: item.dimension, alpha: 255
@@ -152,6 +153,11 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
 
 
 export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
+  const availableItemSlot = playerGetAvailableItemSlot(player);
+
+  if (availableItemSlot == -1)
+    return;
+
   const item = await getItemById(itemId);
 
   if (!item)
@@ -164,6 +170,7 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
   item.position = null;
   item.rotation = null;
   item.dimension = null;
+  item.localSlot = availableItemSlot;
 
   const object = item.object;
 
@@ -274,6 +281,15 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
       severity: 'error',
       summary: t('not_found'),
       detail: t('player_not_online', { query: targetId })
+    });
+
+  const availableItemSlot = playerGetAvailableItemSlot(target);
+
+  if (availableItemSlot == -1)
+    return notifyPlayer(player, {
+      severity: 'error',
+      summary: t('bad_request'),
+      detail: t('target_inventory_full')
     });
 
   if (player.dist(target.position) > P2P_MAX_DISTANCE)

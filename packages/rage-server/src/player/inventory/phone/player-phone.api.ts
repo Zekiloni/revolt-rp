@@ -41,7 +41,8 @@ async function playerUpdatePhoneSettings(settings: IPhoneSettingsUpdate) {
 }
 
 async function playerCreatePhoneContactHandler(contactCreate: IPhoneContactCreate, { player }: ProcedureListenerInfo<PlayerMp>) {
-  return createPhoneContact(getPlayerSelectedItem(player), contactCreate);
+  const playerSelectedItem = getPlayerSelectedItem(player);
+  return createPhoneContact(playerSelectedItem, contactCreate);
 
 }
 

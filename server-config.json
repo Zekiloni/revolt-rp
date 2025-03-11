@@ -1,11 +1,13 @@
 {
 	"maxplayers" : 100,
-	"name" : "Revolt Roleplay - Dev",
+	"name" : "Revolt Roleplay - Development [BETA] [TEXT] [HEAVY-ROLEPLAY]",
 	"gamemode" : "roleplay",
   "language": "rs",
 	"stream-distance" : 300.0,
 	"announce" : true,
+  "voice-chat": false,
 	"csharp" : "disabled",
+  "url": "revolt-rp.com",
   "allow-cef-debugging": true,
   "port": 22005
 }
