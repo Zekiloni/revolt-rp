@@ -76,12 +76,9 @@ export const createPhoneContact = async (phone: Item, contactCreate: IPhoneConta
     emailAddress: contactCreate.emailAddress
   };
 
-  console.log('before', phone);
-
   phone.phoneInfo.contacts.push(contact);
   await phone.save();
 
-  console.log('after', phone);
   return contact;
 };
 
@@ -167,7 +164,6 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
 export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IPhoneMessageCreate) => {
   const isValidPhoneNumber = !!(await getPhoneByPhoneNumber(messageCreate.receiver));
 
-  console.log('isValidPhoneNumber', isValidPhoneNumber);
   if (!isValidPhoneNumber) {
     return notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
   }
@@ -176,7 +172,6 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
 
   const target = getPlayerByPhoneNumber(messageCreate.receiver);
 
-  console.log('target', target);
   if (target) {
     triggerBrowsers(target, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
   }
