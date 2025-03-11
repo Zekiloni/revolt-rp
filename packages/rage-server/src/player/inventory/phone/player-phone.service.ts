@@ -3,7 +3,7 @@ import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
   IPhoneContact,
   IPhoneContactCreate,
-  IPhoneInfo,
+  IPhoneInfo, IPhoneMessage,
   IPhoneMessageCreate,
   IPhoneSettingsUpdate,
   ProcedureKey
@@ -45,6 +45,10 @@ const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
     createdAt: new Date()
   });
 };
+
+export const updatePhoneMessage = async (message: IPhoneMessage) => {
+  return PhoneMessageModel.updateOne({ id: message.id }, message).exec();
+}
 
 export const createPhoneContact = async (phone: Item, contactCreate: IPhoneContactCreate) => {
   const contact: IPhoneContact = {

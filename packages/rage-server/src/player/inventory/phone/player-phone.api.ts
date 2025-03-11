@@ -1,14 +1,14 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   IPhoneContact,
-  IPhoneContactCreate,
+  IPhoneContactCreate, IPhoneMessage,
   IPhoneMessageCreate,
   IPhoneSettingsUpdate,
   ProcedureKey
 } from '@revolt-rp/common';
 import {
   createPhoneContact, deletePhoneContact, playerSendPhoneMessage,
-  playerTogglePhone, updatePhoneContact,
+  playerTogglePhone, updatePhoneContact, updatePhoneMessage,
   updatePhoneSettings
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
@@ -53,9 +53,14 @@ async function playerDeletePhoneContactHandler(contact: IPhoneContact, { player 
   return deletePhoneContact(getPlayerSelectedItem(player), contact.id);
 }
 
+function playerUpdatePhoneMessageHandler(message: IPhoneMessage) {
+  return updatePhoneMessage(message);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
 register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);
 register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
+register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, playerUpdatePhoneMessageHandler);

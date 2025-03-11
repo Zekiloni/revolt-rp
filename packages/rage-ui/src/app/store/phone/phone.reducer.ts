@@ -91,7 +91,6 @@ export const phoneReducer = createReducer(
   }),
   on(updatePhoneMessage, (state, { message }) => {
     const messages = state.messages.map(m => m.id === message.id ? message : m);
-
     return { ...state, messages };
   })
 );
