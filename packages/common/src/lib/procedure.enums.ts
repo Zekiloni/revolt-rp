@@ -132,4 +132,5 @@ export const enum ProcedureKey {
   SERVER_UPDATE_PHONE_CONTACT = 'server_updatePhoneContact',
   SERVER_DELETE_PHONE_CONTACT = 'server_deletePhoneContact',
   SERVER_UPDATE_PHONE_MESSAGES = 'server_updatePhoneMessages',
+  CLIENT_PHONE_CAMERA_TAKE_PHOTO = 'client_phoneCameraTakePhoto',
 }

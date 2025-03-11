@@ -93,7 +93,7 @@ export class MessengerComponent implements OnInit {
     return [...filtered].sort(this.sortConversations);
   }
 
-  sortConversations(a: string, b: string) {
+  sortConversations = (a: string, b: string) => {
     const lastMessageA = this.getLastMessage(a);
     const lastMessageB = this.getLastMessage(b);
 
