@@ -51,12 +51,18 @@ export const updatePhoneMessage = async (message: IPhoneMessage) => {
 };
 
 export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
-  await PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => ({
-    updateOne: {
-      filter: { id: message.id },
-      update: message
-    }
-  })));
+  console.log('messages to update ', messages);
+
+  try {
+    await PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => ({
+      updateOne: {
+        filter: { id: message.id },
+        update: message
+      }
+    })));
+   } catch (e) {
+    console.log('error', e);
+  }
 
   return messages;
 };

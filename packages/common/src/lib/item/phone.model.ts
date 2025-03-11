@@ -44,13 +44,6 @@ export interface IPhoneContact {
   emailAddress?: string;
 }
 
-
-export interface IPhoneConversation {
-  phoneNumber: string;
-  lastMessage: IPhoneMessage;
-  unreadMessages: number;
-}
-
 export interface IPhoneMessageCreate {
   sender: string;
   receiver: string;
