@@ -13,17 +13,7 @@ export const getPhoneDockTooltip = (label: string): TooltipOptions => {
 
 
 export const getConversations = (phoneNumber: string, messages: IPhoneMessage[]) => {
-  const latestMessageMap = new Map<string, IPhoneMessage>();
-
-  for (const msg of messages) {
-    const contact = msg.sender === phoneNumber ? msg.receiver : msg.sender;
-
-    if (!latestMessageMap.has(contact) || latestMessageMap.get(contact)!.createdAt < msg.createdAt) {
-      latestMessageMap.set(contact, msg);
-    }
-  }
-
-  return [...latestMessageMap.entries()]
-    .sort((a, b) => b[1].createdAt.getTime() - a[1].createdAt.getTime())
-    .map(([contact]) => contact);
+  return [...new Set(
+    messages.flatMap(msg => [msg.sender, msg.receiver])
+  )].filter(number => number !== phoneNumber);
 };

@@ -158,7 +158,6 @@ export class SmartphoneComponent implements OnInit {
   private getUnreadMessages() {
     this.store.select(selectPhoneMessages).subscribe(messages => {
       const length = messages.filter(msg => !msg.seen && msg.sender === this.phoneItem.phoneInfo.phoneNumber).length;
-      console.log('length', length);
       this.applications.find(app => app.key === 'messages')!.badge = length.toString();
     });
   }

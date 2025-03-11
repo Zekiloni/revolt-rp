@@ -84,11 +84,23 @@ export class MessengerComponent implements OnInit {
   }
 
   get filteredConversations() {
-    if (this.searchConversation.length) {
-      return this.conversations.filter(c => this.getContactName(c).toLowerCase().includes(this.searchConversation.toLowerCase()));
-    } else {
-      return this.conversations;
-    }
+    const filtered = this.searchConversation.length
+      ? this.conversations.filter(c =>
+        this.getContactName(c).toLowerCase().includes(this.searchConversation.toLowerCase())
+      )
+      : this.conversations;
+
+    return [...filtered].sort(this.sortConversations);
+  }
+
+  sortConversations(a: string, b: string) {
+    const lastMessageA = this.getLastMessage(a);
+    const lastMessageB = this.getLastMessage(b);
+
+    if (!lastMessageA || !lastMessageB)
+      return 0;
+
+    return lastMessageB.createdAt.getTime() - lastMessageA.createdAt.getTime();
   }
 
   getConversationMessages(phoneNumber: string) {
