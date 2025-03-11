@@ -8,7 +8,7 @@ import {
   setPhoneBackground,
   setPhoneCall,
   setPhoneMessages,
-  setPhoneOpacity, updatePhoneContact,
+  setPhoneOpacity, updateManyPhoneMessages, updatePhoneContact,
   updatePhoneMessage
 } from './phone.actions';
 import { testMessages, testPhoneData } from './test-phone.data';
@@ -92,5 +92,10 @@ export const phoneReducer = createReducer(
   on(updatePhoneMessage, (state, { message }) => {
     const messages = state.messages.map(m => m.id === message.id ? message : m);
     return { ...state, messages };
+  }),
+  on(updateManyPhoneMessages, (state, { messages }) => {
+    const messageMap = new Map(messages.map(msg => [msg.id, msg]));
+    const updatedMessages = state.messages.map(m => messageMap.has(m.id) ? messageMap.get(m.id)! : m);
+    return { ...state, messages: updatedMessages };
   })
 );

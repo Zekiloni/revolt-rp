@@ -12,11 +12,9 @@ import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
 import {
-  addPhoneMessage,
   PhoneState,
   selectPhone,
-  selectPhoneMessages,
-  updatePhoneMessage
+  selectPhoneMessages, updateManyPhoneMessages
 } from '../../../../../store/phone';
 import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 import { getConversations } from '../../../../../domain/util/phone.util';
@@ -136,18 +134,22 @@ export class MessengerComponent implements OnInit {
     this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message);
   }
 
+  private updateMessagesAsSeen(conversation: string) {
+    const unseenMessages = this.getConversationMessages(conversation)
+      .filter(message => message.receiver === this.phoneNumber && !message.seen)
+      .map(message => ({ ...message, seen: true }));
+
+    if (unseenMessages.length) {
+      this.rageClientService.callServer<IPhoneMessage[]>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, unseenMessages)
+        .subscribe({
+          next: (messages) => this.store.dispatch(updateManyPhoneMessages({ messages }))
+        });
+    }
+  }
+
   selectConversation(conversation: string) {
     this.selectedConversation = conversation;
-
-    this.getConversationMessages(conversation).forEach(message => {
-      if (message.receiver === this.phoneNumber && !message.seen) {
-        this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, {
-          ...message,
-          seen: true
-        })
-          .subscribe({ next: (msg) => this.store.dispatch(updatePhoneMessage({ message: msg })) });
-      }
-    });
+    this.updateMessagesAsSeen(conversation);
   }
 
   sendMessage(recipient: string, messageContent: string) {
