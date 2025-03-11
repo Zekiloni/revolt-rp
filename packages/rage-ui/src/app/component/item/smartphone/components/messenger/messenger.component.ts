@@ -104,7 +104,8 @@ export class MessengerComponent implements OnInit {
   };
 
   getConversationMessages(phoneNumber: string) {
-    return this.messages.filter(msg => msg.sender === phoneNumber || msg.receiver === phoneNumber);
+    return this.messages.filter(msg => msg.sender === phoneNumber || msg.receiver === phoneNumber)
+      .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
   }
 
   getContactName(phoneNumber: string) {
