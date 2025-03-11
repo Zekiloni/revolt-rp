@@ -11,7 +11,13 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
-import { addPhoneMessage, PhoneState, selectPhone, selectPhoneMessages } from '../../../../../store/phone';
+import {
+  addPhoneMessage,
+  PhoneState,
+  selectPhone,
+  selectPhoneMessages,
+  updatePhoneMessage
+} from '../../../../../store/phone';
 import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 import { getConversations } from '../../../../../domain/util/phone.util';
 import { dayjs } from '../../../../../domain/util/dajys.util';
@@ -135,8 +141,11 @@ export class MessengerComponent implements OnInit {
 
     this.getConversationMessages(conversation).forEach(message => {
       if (message.receiver === this.phoneNumber && !message.seen) {
-        this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, message)
-          .subscribe({ next: (msg) => this.store.dispatch(addPhoneMessage({ message: msg })) });
+        this.rageClientService.callServer<IPhoneMessage>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, {
+          ...message,
+          seen: true
+        })
+          .subscribe({ next: (msg) => this.store.dispatch(updatePhoneMessage({ message: msg })) });
       }
     });
   }
