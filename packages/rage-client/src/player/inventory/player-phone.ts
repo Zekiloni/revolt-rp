@@ -120,6 +120,12 @@ function togglePhoneCameraHandler(state: PlayerPhoneState) {
   }
 }
 
+function takePhoneCameraPhotoHandler() {
+  mp.game.audio.playSoundFrontend(-1, "Camera_Shoot", "Phone_Soundset_Franklin", true);
+  mp.gui.takeScreenshot(`phone-${Date.now()}.png`, 1, 100, 0);
+}
+
 mp.events.addDataHandler(PlayerSharedDataType.PhoneState, handlePlayerPhoneStateChange);
 on(ProcedureKey.CLIENT_PHONE_MAP_INIT, phoneMapInitializeHandler);
 on(ProcedureKey.CLIENT_PHONE_CAMERA_TOGGLE, togglePhoneCameraHandler);
+on(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO, takePhoneCameraPhotoHandler);
