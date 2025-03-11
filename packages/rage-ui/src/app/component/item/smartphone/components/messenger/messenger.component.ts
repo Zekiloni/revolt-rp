@@ -114,7 +114,8 @@ export class MessengerComponent implements OnInit {
 
   getLastMessage(phoneNumber: string) {
     const messages = this.getConversationMessages(phoneNumber);
-    return messages[messages.length - 1];
+    const sortedMessages = messages.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+    return sortedMessages[0];
   }
 
   isMessageSent(message: IPhoneMessage) {
