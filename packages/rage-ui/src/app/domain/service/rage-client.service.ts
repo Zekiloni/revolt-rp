@@ -17,8 +17,13 @@ import { ApiError } from '@revolt-rp/common';
 
 @Injectable()
 export class RageClientService {
+  private socket: WebSocket | null = null;
 
   constructor(private ngZone: NgZone) {
+  }
+
+  openSocket(url: string) {
+    this.socket = new WebSocket(url);
   }
 
   trigger(name: string, ...args: unknown[]) {

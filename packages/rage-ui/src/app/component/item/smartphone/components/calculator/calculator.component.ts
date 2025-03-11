@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChipsModule } from 'primeng/chips';
 import { ButtonDirective } from 'primeng/button';
+import { calculate } from '../../../../../domain/util/math.util';
 
 @Component({
   selector: 'app-calculator',
@@ -24,7 +25,7 @@ export class CalculatorComponent {
     }
 
     try {
-      this.input = eval(this.input);
+      this.input = calculate(this.input);
     } catch (e) {
       this.input = 'Error';
     }

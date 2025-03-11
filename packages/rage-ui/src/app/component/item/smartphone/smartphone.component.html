@@ -22,7 +22,8 @@
         } @else {
           @if (openedApplication) {
             <div class="w-full h-full bg-black-alpha-80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
-              <ng-container [ngComponentOutlet]="openedApplication.component"></ng-container>
+              <ng-container [ngComponentOutlet]="openedApplication.component"
+                            [ngComponentOutletInputs]="{ phoneItem}"></ng-container>
             </div>
           } @else {
             <div class="grid grid-nogutter mt-3 px-3">

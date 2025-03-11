@@ -84,7 +84,7 @@ export const phoneReducer = createReducer(
   }),
   on(addPhoneMessage, (state, { message }) => {
     if (state.phone?.phoneInfo?.phoneNumber === message.sender || state.phone?.phoneInfo?.phoneNumber === message.receiver) {
-      return { ...state, messages: [message, ...state.messages] };
+      return { ...state, messages: [...state.messages, message] };
     }
 
     return { ...state };

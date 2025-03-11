@@ -7,18 +7,20 @@
     </div>
     <app-new-contact (contactCreate)="addContact($event)" />
   } @else {
-    @if ($contacts | async; as contacts) {
+    @if (phoneItem && phoneItem.phoneInfo) {
       @if (selectedContact) {
         <div class="flex align-items-center justify-content-between py-2 px-3">
           <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
                   (click)="selectedContact = null"></button>
           <span>{{ 'contact' | translate }}</span>
         </div>
-        <app-single-contact [contact]="selectedContact!" (deleteContact)="deleteContact($event)" (editContact)="updateContact($event)"/>
+        <app-single-contact [contact]="selectedContact!" (deleteContact)="deleteContact($event)"
+                            [phoneItem]="phoneItem"
+                            (editContact)="updateContact($event)" />
       } @else {
         <p-table
           #contactsTable
-          [value]="contacts" selectionMode="single"
+          [value]="sortContacts(phoneItem.phoneInfo.contacts)" selectionMode="single"
           dataKey="phoneNumber"
           paginatorStyleClass="text-sm"
           [(selection)]="selectedContact"

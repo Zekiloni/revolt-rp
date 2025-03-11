@@ -3,7 +3,7 @@ import { PhoneState } from './phone.reducer';
 
 export const selectPhoneState = createFeatureSelector<PhoneState>('phone');
 
-export const selectPhone = createSelector(
+export const selectPhoneItem = createSelector(
   selectPhoneState,
   (state: PhoneState) => state.phone
 );

@@ -1,4 +1,3 @@
-import { map } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -9,7 +8,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { IPhoneCall, IPhoneContact, PhoneCallStatus } from '@revolt-rp/common';
-import { PhoneState, selectPhone, setPhoneCall } from '../../../../../../../store/phone';
+import { PhoneState, setPhoneCall } from '../../../../../../../store/phone';
 
 
 @Component({
@@ -20,6 +19,7 @@ import { PhoneState, selectPhone, setPhoneCall } from '../../../../../../../stor
   styleUrl: './single-contact.component.css'
 })
 export class SingleContactComponent implements OnInit {
+  @Input() phoneItem!: IPhoneItem;
   @Input() contact!: IPhoneContact;
   @Output() deleteContact = new EventEmitter<IPhoneContact>();
   @Output() editContact = new EventEmitter<IPhoneContact>();
@@ -34,17 +34,13 @@ export class SingleContactComponent implements OnInit {
   }
 
   call() {
-    this.store.select(selectPhone)
-      .pipe(map(phone => phone?.phoneInfo.phoneNumber))
-      .subscribe(phoneNumber => {
-        const currentCall: IPhoneCall = {
-          caller: phoneNumber!,
-          receiver: this.contact.phoneNumber,
-          createdAt: new Date,
-          status: PhoneCallStatus.Dialing
-        };
-        this.store.dispatch(setPhoneCall({ currentCall }));
-      });
+    const currentCall: IPhoneCall = {
+      caller: this.phoneItem.phoneInfo.phoneNumber,
+      receiver: this.contact.phoneNumber,
+      createdAt: new Date,
+      status: PhoneCallStatus.Dialing
+    };
+    this.store.dispatch(setPhoneCall({ currentCall }));
   }
 
   delete() {
