@@ -425,4 +425,5 @@ export const enUs = {
   'incoming_call': 'Incoming Call',
   'dialing': 'Dialing',
   'invalid_phone_number': 'Invalid phone number.',
+  'background': 'Background',
 };
