@@ -1,7 +1,8 @@
 <div class="absolute-bottom-right">
   @if (isActive) {
-    <div class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90  border-2 border-black-alpha-20"
-         @slideInOut>
+    <div
+      class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90  border-2 border-black-alpha-20"
+      @slideInOut>
       <div class="flex flex-column h-full w-full bg-no-repeat bg-cover"
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
@@ -9,6 +10,11 @@
           <span>test</span>
           <span class="text-sm">{{ ($time | async) | date: 'HH:mm' }}</span>
         </div>
+        @if (notifications.length) {
+          <div class="absolute mt-5 py-2 px-3 w-full overflow-hidden" style="z-index:99">
+            <p-messages [(value)]="notifications" />
+          </div>
+        }
         @if ($phoneCall | async; as phoneCall) {
           <div class="w-full h-full" @scaleInOut>
             <app-phone-call [currentCall]="phoneCall" [phoneInfo]="phoneItem.phoneInfo"></app-phone-call>
@@ -29,12 +35,15 @@
             </div>
             <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-7">
               <ng-template pTemplate="item" let-item>
-                <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
+                <div pBadge value="3" [badgeDisabled]="!item.badge">
+                  <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
+                </div>
               </ng-template>
             </p-dock>
           }
         }
-        <div class="surface-ground mt-auto py-2 px-4 flex align-items-center justify-content-center border-bottom-2 border-black-alpha-20 border-left-2 border-right-2">
+        <div
+          class="surface-ground mt-auto py-2 px-4 flex align-items-center justify-content-center border-bottom-2 border-black-alpha-20 border-left-2 border-right-2">
           <button pButton [rounded]="true" icon="pi pi-home" (click)="closeApp()"></button>
         </div>
       </div>

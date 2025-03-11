@@ -146,6 +146,7 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
 export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IPhoneMessageCreate) => {
   const isValidPhoneNumber = !!(await getPhoneByPhoneNumber(messageCreate.receiver));
 
+  console.log('isValidPhoneNumber', isValidPhoneNumber);
   if (!isValidPhoneNumber) {
     return notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
   }
@@ -154,6 +155,7 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
 
   const target = getPlayerByPhoneNumber(messageCreate.receiver);
 
+  console.log('target', target);
   if (target) {
     triggerBrowsers(target, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
   }

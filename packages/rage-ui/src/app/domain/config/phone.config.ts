@@ -22,7 +22,8 @@ export const phoneApplications: IApplication[] = [
     icon: 'assets/images/phone/icons/calls.svg',
     pinned: true,
     component: KeypadComponent
-  }, {
+  },
+  {
     key: 'messages',
     name: 'messages',
     icon: 'assets/images/phone/icons/messages.svg',
