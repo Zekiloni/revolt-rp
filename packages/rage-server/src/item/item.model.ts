@@ -11,7 +11,6 @@ import {
 import { itemRegistry } from './registry/base-item.model';
 
 
-
 @modelOptions({
   schemaOptions: {
     timestamps: true,

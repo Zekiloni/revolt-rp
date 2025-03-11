@@ -13,6 +13,8 @@ const handleDatabaseConnectionError = (error: never) => {
   dbLogger.log('error', error);
 };
 
+mongoose.set('debug', true);
+
 mongoose.connect(DATABASE_URI)
   .then(handleDatabaseConnection)
   .catch(handleDatabaseConnectionError);

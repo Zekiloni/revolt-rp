@@ -33,9 +33,9 @@
     </p-scroller>
     <div class="w-full py-2 px-3">
       <p-inputGroup>
-        <input pInputText [(ngModel)]="messageContent">
+        <input pInputText [(ngModel)]="messageContent"  (keydown.enter)="sendMessage(selectedConversation!, messageContent)">
         <p-inputGroupAddon>
-          <button pButton icon="pi pi-send" (keydown.enter)="sendMessage(selectedConversation!, messageContent)"
+          <button pButton icon="pi pi-send"
                   (click)="sendMessage(selectedConversation!, messageContent)"
                   [disabled]="!messageContent.length"></button>
         </p-inputGroupAddon>

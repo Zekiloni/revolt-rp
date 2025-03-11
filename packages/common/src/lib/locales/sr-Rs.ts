@@ -63,6 +63,7 @@ export const srRs = {
   'split_item': 'Podeli Predmet',
   'drop_item': 'Baci Predmet',
   'give_item': 'Daj Predmet',
+  'target_inventory_full': 'Inventar ciljanog igrača je pun.',
   'offer': 'Ponuda',
   'hold': 'Drži',
   'to_move_camera': 'kako bi pomerili kameru',
