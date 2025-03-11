@@ -54,9 +54,13 @@ export class CameraComponent implements OnInit, OnDestroy {
         clearInterval(this.cameraCaptureInterval);
         this.cameraCaptureInterval = null;
       }
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
       this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TOGGLE, PlayerPhoneState.Idle);
     }
+  }
+
+  takePhoto() {
+    this.captureCamera(false);
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
   }
 
   ngOnInit(): void {
