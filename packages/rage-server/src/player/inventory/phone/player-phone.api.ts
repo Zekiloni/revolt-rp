@@ -54,8 +54,8 @@ async function playerDeletePhoneContactHandler(contact: IPhoneContact, { player 
 }
 
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
+on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
 register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);
 register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
-register(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);

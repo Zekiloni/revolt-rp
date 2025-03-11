@@ -1,18 +1,25 @@
 import { Store } from '@ngrx/store';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { interval, map, Observable, startWith } from 'rxjs';
 import { Component, Inject, Input, OnInit } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { DockModule } from 'primeng/dock';
+import { BadgeModule } from 'primeng/badge';
 import { ButtonDirective } from 'primeng/button';
-import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { MessagesModule } from 'primeng/messages';
+import { MenuItem, MenuItemCommandEvent, Message } from 'primeng/api';
 import { gameUiConfig, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
-import { fadeInOutTrigger, scaleInOutTrigger, slideInOutTrigger } from '../../../domain/util/animation.util';
+import {
+  fadeInOutTrigger,
+  scaleInOutTrigger,
+  slideDownUpTrigger,
+  slideInOutTrigger
+} from '../../../domain/util/animation.util';
 import {
   addPhoneMessage,
   PhoneState,
   selectPhone,
-  selectPhoneCall,
+  selectPhoneCall, selectPhoneMessages,
   setPhone,
   setPhoneMessages
 } from '../../../store/phone';
@@ -35,12 +42,13 @@ export interface IApplication extends MenuItem {
 @Component({
   selector: 'app-smartphone',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective, NgOptimizedImage, PhoneCallComponent],
+  imports: [CommonModule, TranslatePipe, DockModule, StaticAssetPipe, ButtonDirective, NgOptimizedImage, PhoneCallComponent, MessagesModule, BadgeModule],
   templateUrl: './smartphone.component.html',
   styleUrl: './smartphone.component.css',
   animations: [
     slideInOutTrigger,
     scaleInOutTrigger,
+    slideDownUpTrigger,
     fadeInOutTrigger
   ]
 })
@@ -48,6 +56,7 @@ export class SmartphoneComponent implements OnInit {
   @Input() isActive = gameUiConfig.smartphone.isActive;
 
   phoneItem!: IPhoneItem;
+  notifications: Message[] = [];
 
   $time: Observable<Date> = interval(1000).pipe(
     startWith(0),
@@ -95,6 +104,23 @@ export class SmartphoneComponent implements OnInit {
       });
   }
 
+  notify(message: Message) {
+    if (this.notifications.length >= 2) {
+      this.notifications.shift();
+    }
+    this.notifications.push(message);
+  }
+
+  private newMessage(message: IPhoneMessage) {
+    this.store.dispatch(addPhoneMessage({ message }));
+    this.notify({
+      severity: 'info',
+      detail: `${message.sender}: ${message.content}`,
+      life: 5000,
+      closable: true
+    });
+  }
+
   private listenToPhoneStateEvents() {
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE, (phoneInfo: IPhoneItem) => {
       this.store.dispatch(setPhone({ phone: phoneInfo }));
@@ -105,7 +131,7 @@ export class SmartphoneComponent implements OnInit {
     });
 
     this.rageClientService.on(ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, (message: IPhoneMessage) => {
-      this.store.dispatch(addPhoneMessage({ message }));
+      this.newMessage(message);
     });
   }
 
@@ -126,10 +152,19 @@ export class SmartphoneComponent implements OnInit {
     this.openedApplication = null;
   }
 
+  private getUnreadMessages() {
+    this.store.select(selectPhoneMessages).subscribe(messages => {
+      const length = messages.filter(msg => !msg.seen && msg.sender === this.phoneItem.phoneInfo.phoneNumber).length;
+      console.log('length', length);
+      this.applications.find(app => app.key === 'messages')!.badge = length.toString();
+    });
+  }
+
   ngOnInit(): void {
     this.listenToPhoneStateEvents();
     this.store.select(selectPhone).subscribe(phoneItem => {
       this.phoneItem = phoneItem as IPhoneItem;
+      this.getUnreadMessages();
     });
   }
 }

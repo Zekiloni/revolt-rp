@@ -16,6 +16,16 @@ export const slideInOutTrigger = trigger('slideInOut', [
   ])
 ]);
 
+export const slideDownUpTrigger = trigger('slideDownUp', [
+  transition(':enter', [
+    style({ opacity: 0, transform: 'translateY(-45%)' }),
+    animate('350ms ease-in', style({ opacity: 1, transform: 'translateY(0%)' }))
+  ]),
+  transition(':leave', [
+    animate('250ms ease-in', style({ opacity: 0, transform: 'translateY(-45%)' }))
+  ])
+]);
+
 export const scaleInOutTrigger = trigger('scaleInOut', [
   transition(':enter', [
     style({ opacity: 0, transform: 'scale(0.5)' }),
