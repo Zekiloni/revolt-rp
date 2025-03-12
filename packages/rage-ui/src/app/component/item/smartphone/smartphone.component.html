@@ -7,7 +7,7 @@
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
         <div class="surface-ground py-2 px-4 flex align-items-center justify-content-between">
-          <span>test</span>
+          <span>mts</span>
           <span class="text-sm">{{ ($time | async) | date: 'HH:mm' }}</span>
         </div>
         @if (notifications.length) {
@@ -17,7 +17,7 @@
         }
         @if ($phoneCall | async; as phoneCall) {
           <div class="w-full h-full" @scaleInOut>
-            <app-phone-call [currentCall]="phoneCall" [phoneInfo]="phoneItem.phoneInfo"></app-phone-call>
+            <app-phone-call [currentCall]="phoneCall" [phoneInfo]="phoneItem.phoneInfo" (answerCall)="onAnswerCall($event)" (endCall)="onEndCall($event)" />
           </div>
         } @else {
           @if (openedApplication) {

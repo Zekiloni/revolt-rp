@@ -8,7 +8,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonDirective } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
 import { MenuItem, MenuItemCommandEvent, Message } from 'primeng/api';
-import { gameUiConfig, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, GameUiKey, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
 import {
   fadeInOutTrigger,
   scaleInOutTrigger,
@@ -18,9 +18,11 @@ import {
 import {
   addPhoneMessage,
   PhoneState,
+  selectPhoneCall,
   selectPhoneItem,
-  selectPhoneCall, selectPhoneMessages,
+  selectPhoneMessages,
   setPhone,
+  setPhoneCall,
   setPhoneMessages
 } from '../../../store/phone';
 import { RageClientService } from '../../../domain/service/rage-client.service';
@@ -28,6 +30,7 @@ import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
 import { phoneApplications } from '../../../domain/config/phone.config';
 import { PhoneCallComponent } from './components/phone-call';
+import { showGameInterface } from '../../../store/game-ui/game-ui.actions';
 
 
 export interface IApplication extends MenuItem {
@@ -104,13 +107,6 @@ export class SmartphoneComponent implements OnInit {
       });
   }
 
-  notify(message: Message) {
-    if (this.notifications.length >= 2) {
-      this.notifications.shift();
-    }
-    this.notifications.push(message);
-  }
-
   private newMessage(message: IPhoneMessage) {
     this.store.dispatch(addPhoneMessage({ message }));
     if (message.receiver === this.phoneItem.phoneInfo.phoneNumber) {
@@ -126,6 +122,14 @@ export class SmartphoneComponent implements OnInit {
   private listenToPhoneStateEvents() {
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE, (phoneInfo: IPhoneItem) => {
       this.store.dispatch(setPhone({ phone: phoneInfo }));
+    });
+
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_CALL, (currentCall: IPhoneCall) => {
+      if (!this.isActive) {
+        this.store.dispatch(showGameInterface(GameUiKey.Smartphone));
+      }
+
+      this.store.dispatch(setPhoneCall({ currentCall }));
     });
 
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {
@@ -146,6 +150,20 @@ export class SmartphoneComponent implements OnInit {
     this.$phoneCall = this.store.select(selectPhoneCall);
   }
 
+  private getUnreadMessages() {
+    this.store.select(selectPhoneMessages).subscribe(messages => {
+      const length = messages.filter(msg => !msg.seen && msg.sender === this.phoneItem.phoneInfo.phoneNumber).length;
+      this.applications.find(app => app.key === 'messages')!.badge = length.toString();
+    });
+  }
+
+  notify(message: Message) {
+    if (this.notifications.length >= 2) {
+      this.notifications.shift();
+    }
+    this.notifications.push(message);
+  }
+
   openApp(event: Event, app: IApplication, index: number) {
     if (app.command)
       app.command({ originalEvent: event, item: app, index });
@@ -155,11 +173,12 @@ export class SmartphoneComponent implements OnInit {
     this.openedApplication = null;
   }
 
-  private getUnreadMessages() {
-    this.store.select(selectPhoneMessages).subscribe(messages => {
-      const length = messages.filter(msg => !msg.seen && msg.sender === this.phoneItem.phoneInfo.phoneNumber).length;
-      this.applications.find(app => app.key === 'messages')!.badge = length.toString();
-    });
+  onAnswerCall(call: IPhoneCall) {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_ANSWER_PHONE_CALL, call.id);
+  }
+
+  onEndCall(call: IPhoneCall) {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_HANGUP_PHONE_CALL, call.id);
   }
 
   ngOnInit(): void {

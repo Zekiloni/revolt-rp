@@ -1,9 +1,8 @@
-import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
-import { Component, HostListener, Input } from '@angular/core';
-import { IPhoneCall, PhoneCallStatus } from '@revolt-rp/common';
-import { PhoneState, setPhoneCall } from '../../../../../store/phone';
+import { Component, HostListener } from '@angular/core';
+import { ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
 import { playAudio } from '../../../../../domain/util/audio.util';
 
@@ -17,12 +16,10 @@ import { playAudio } from '../../../../../domain/util/audio.util';
   styleUrl: './keypad.component.css'
 })
 export class KeypadComponent {
-  @Input() phoneItem!: IPhoneItem;
-
   numberButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
   phoneNumber = '';
 
-  constructor(private staticAssetPipe: StaticAssetPipe, private store: Store<PhoneState>) {
+  constructor(private staticAssetPipe: StaticAssetPipe, private rageClientServie: RageClientService) {
   }
 
   onNumberClick(number: string) {
@@ -61,12 +58,6 @@ export class KeypadComponent {
       return;
     }
 
-    const currentCall: IPhoneCall = {
-      caller: this.phoneItem.phoneInfo.phoneNumber,
-      receiver: this.phoneNumber,
-      createdAt: new Date,
-      status: PhoneCallStatus.Dialing
-    };
-    this.store.dispatch(setPhoneCall({ currentCall }));
+    this.rageClientServie.triggerServer(ProcedureKey.SERVER_CREATE_PHONE_CALL, this.phoneNumber);
   }
 }

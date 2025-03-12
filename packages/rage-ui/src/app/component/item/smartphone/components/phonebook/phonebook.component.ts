@@ -82,4 +82,8 @@ export class PhonebookComponent {
     this.rageClientService.callServer<IPhoneContact>(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, contact)
       .subscribe({ next: this.handleContactUpdated });
   }
+
+  createCall(contact: IPhoneContact) {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_CREATE_PHONE_CALL, contact);
+  }
 }

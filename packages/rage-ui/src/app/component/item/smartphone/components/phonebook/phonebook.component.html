@@ -16,6 +16,7 @@
         </div>
         <app-single-contact [contact]="selectedContact!" (deleteContact)="deleteContact($event)"
                             [phoneItem]="phoneItem"
+                            (callContact)="createCall($event)"
                             (editContact)="updateContact($event)" />
       } @else {
         <p-table
