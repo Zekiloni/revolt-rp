@@ -82,7 +82,7 @@ export const createPhoneContact = async (item: Item, contactCreate: IPhoneContac
 
   item.phoneInfo.contacts.push(contact);
 
-  item.markModified('phoneInfo');
+  item.markModified('phoneInfo.contacts');
   await item.save();
 
   return contact;
@@ -96,7 +96,7 @@ export const updatePhoneContact = async (item: Item, contactUpdate: IPhoneContac
 
   item.phoneInfo = phoneInfo;
 
-  item.markModified('phoneInfo');
+  item.markModified('phoneInfo.contacts');
   await item.save();
 
   return contactUpdate;
@@ -106,7 +106,7 @@ export const deletePhoneContact = async (item: Item, contactId: string) => {
   item.phoneInfo.contacts = item.phoneInfo.contacts
     .filter((contact: IPhoneContact) => contact.id !== contactId);
 
-  item.markModified('phoneInfo');
+  item.markModified('phoneInfo.contacts');
   await item.save();
 
   return contactId;
