@@ -6,6 +6,7 @@ import { SettingsComponent } from '../../component/item/smartphone/components/se
 import { CameraComponent } from '../../component/item/smartphone/components/camera';
 import { IApplication } from '../../component/item/smartphone';
 import { KeypadComponent } from '../../component/item/smartphone/components/keypad';
+import { NotesComponent } from '../../component/item/smartphone/components/notes';
 
 
 export const phoneApplications: IApplication[] = [
@@ -52,7 +53,7 @@ export const phoneApplications: IApplication[] = [
     key: 'notes',
     name: 'notes',
     icon: 'assets/images/phone/icons/notes.svg',
-    component: CalculatorComponent
+    component: NotesComponent
   },
   {
     key: 'map',

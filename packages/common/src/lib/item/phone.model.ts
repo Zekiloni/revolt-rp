@@ -22,11 +22,6 @@ export enum PhoneMessageType {
   Image = 'image',
 }
 
-export interface IPhoneNote {
-  title: string;
-  content: string;
-}
-
 
 export interface IPhoneContactCreate {
   phoneItemId: string;
@@ -72,6 +67,6 @@ export interface IPhoneInfo {
   phoneNumber: string;
   opacity: number;
   backgroundImage: string;
-  notes: IPhoneNote[];
+  notes: string[];
   contacts: IPhoneContact[];
 }

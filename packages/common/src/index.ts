@@ -54,7 +54,7 @@ export * from './lib/player/walking-style.data';
 export * from './lib/player/inventory/player-attachment.model';
 export * from './lib/player/inventory/player-attachment-type.enum';
 
-export * from './lib/player/inventory/player-phone'
+export * from './lib/player/inventory/player-phone';
 
 export * from './lib/player/player-shared-data-type';
 
@@ -98,4 +98,5 @@ export * from './lib/world/weather.model';
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
 
+export * from './lib/internet/advertisement';
 
