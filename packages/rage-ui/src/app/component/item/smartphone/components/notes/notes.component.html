@@ -1,0 +1,20 @@
+<div class="flex flex-column h-full">
+  <div class="flex align-items-center justify-content-between py-2 px-3">
+    <span>{{ 'notes' | translate }}</span>
+    <button pButton size="small" [rounded]="true" icon="pi pi-plus" (click)="addNote()"
+            [disabled]="isAddNoteDisabled"></button>
+  </div>
+
+  <div class="overflow-y-scroll flex-grow-1">
+    @for (note of notes; let i = $index; track i) {
+      <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true">
+     <textarea
+       rows="5"
+       pInputTextarea
+       class="w-full"
+       [(ngModel)]="notes[i]">
+    </textarea>
+      </p-panel>
+    }
+  </div>
+</div>

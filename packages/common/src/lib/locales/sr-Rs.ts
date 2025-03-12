@@ -429,4 +429,5 @@ export const srRs = {
   'ongoing_call': 'Aktivan Poziv',
   'invalid_phone_number': 'Neispravan broj telefona.',
   'background': 'Pozadina',
+  'no_title': 'Bez naslova',
 };
