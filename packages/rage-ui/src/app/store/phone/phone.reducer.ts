@@ -11,7 +11,7 @@ import {
   setPhoneOpacity, updateManyPhoneMessages, updatePhoneContact,
   updatePhoneMessage
 } from './phone.actions';
-import { testMessages, testPhoneData } from './test-phone.data';
+import { testMessages, testPhoneCall, testPhoneData } from './test-phone.data';
 
 
 export interface PhoneState {
@@ -24,7 +24,7 @@ export interface PhoneState {
 export const initialPhoneState: PhoneState = {
   phone: testPhoneData as IPhoneItem,
   messages: testMessages,
-  currentCall: null,
+  currentCall: testPhoneCall,
   phoneCalls: []
 };
 

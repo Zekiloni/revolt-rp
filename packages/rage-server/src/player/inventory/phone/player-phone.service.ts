@@ -3,17 +3,19 @@ import { Types } from 'mongoose';
 import { customAlphabet } from 'nanoid';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
+  ACTIVA_CALL_STATUS,
   IPhoneContact,
   IPhoneContactCreate,
   IPhoneInfo, IPhoneMessage,
   IPhoneMessageCreate,
-  IPhoneSettingsUpdate,
+  IPhoneSettingsUpdate, PhoneCallStatus,
   ProcedureKey
 } from '@revolt-rp/common';
 import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
 import { notifyPlayer } from '../../util/player-notify.util';
 import { Item, ItemModel } from '../../../item/item.model';
 import { PhoneMessageModel } from './phone-message.model';
+import { PhoneCallModel } from './phone-call.model';
 
 
 const DEFAULT_PHONE_INFO: IPhoneInfo = {
@@ -31,11 +33,20 @@ export const generatePhoneNumber = () => {
   return generate();
 };
 
+export const createPhoneCall = async (caller: string, receiver: string) => {
+  return PhoneCallModel.create({
+    caller, receiver
+  });
+};
 
 export const getPhoneItemByContactId = async (contactId: string) => {
   return ItemModel.findOne({
     'phoneInfo.contacts': { $elemMatch: { id: contactId } }
   }).exec();
+};
+
+export const getPhoneCallById = async (callId: string) => {
+  return PhoneCallModel.findById(callId);
 };
 
 const createPhoneMessage = async (messageCreate: IPhoneMessageCreate) => {
@@ -193,3 +204,49 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
   triggerBrowsers(player, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
 };
 
+export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneNumber: string) => {
+  const phoneCall = await createPhoneCall(item.phoneInfo.phoneNumber, targetPhoneNumber);
+  const target = getPlayerByPhoneNumber(targetPhoneNumber);
+
+  if (target) {
+    triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
+  } else {
+    notifyPlayer(player, { severity: 'error', detail: t('phone_number_not_found') });
+    phoneCall.status = PhoneCallStatus.Rejected;
+  }
+};
+
+export const playerAnswerPhoneCall = async (player: PlayerMp, callId: string) => {
+  const phoneCall = await getPhoneCallById(callId);
+
+  if (!phoneCall)
+    return;
+
+  if (phoneCall.status !== PhoneCallStatus.Dialing)
+    return;
+
+};
+
+export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) => {
+
+  const phoneCall = await getPhoneCallById(callId);
+
+  if (!phoneCall)
+    return;
+
+  if (!ACTIVA_CALL_STATUS.includes(phoneCall.status))
+    return;
+
+  switch (phoneCall.status) {
+    case PhoneCallStatus.Dialing:
+      phoneCall.status = PhoneCallStatus.Rejected;
+      break;
+    case PhoneCallStatus.Ongoing:
+      phoneCall.status = PhoneCallStatus.Ended;
+  }
+
+  await phoneCall.save();
+
+  // const target = getPlayerByPhoneNumber(phoneCall.);
+
+};

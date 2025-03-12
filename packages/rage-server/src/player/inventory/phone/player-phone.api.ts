@@ -7,8 +7,16 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import {
-  createPhoneContact, deletePhoneContact, playerSendPhoneMessage,
-  playerTogglePhone, updateManyPhoneMessages, updatePhoneContact, updatePhoneMessage,
+  createPhoneContact,
+  deletePhoneContact,
+  playerAnswerPhoneCall,
+  playerCallPhone,
+  playerHangupPhoneCall,
+  playerSendPhoneMessage,
+  playerTogglePhone,
+  updateManyPhoneMessages,
+  updatePhoneContact,
+  updatePhoneMessage,
   updatePhoneSettings
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
@@ -50,7 +58,7 @@ async function playerUpdatePhoneContactHandler(phoneContactUpdate: IPhoneContact
   return updatePhoneContact(getPlayerSelectedItem(player), phoneContactUpdate);
 }
 
-async function playerDeletePhoneContactHandler(contact: IPhoneContact, { player }: ProcedureListenerInfo<PlayerMp>) {
+async function playerDeletePhoneContactHandler(contact: IPhoneContact, { player }: ServerProcedureListenerInfo) {
   return deletePhoneContact(getPlayerSelectedItem(player), contact.id);
 }
 
@@ -62,8 +70,23 @@ function playerUpdateManyPhoneMessagesHandler(messages: IPhoneMessage[]) {
   return updateManyPhoneMessages(messages);
 }
 
+async function createPhoneCallHandler(phoneNumber: string, { player }: ServerProcedureListenerInfo) {
+  await playerCallPhone(player, getPlayerSelectedItem(player), phoneNumber);
+}
+
+async function hangupPhoneCallHandler(callId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await playerHangupPhoneCall(player, callId);
+}
+
+async function answerPhoneCallHandler(callId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await playerAnswerPhoneCall(player, callId);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
+on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
+on(ProcedureKey.SERVER_HANGUP_PHONE_CALL, hangupPhoneCallHandler);
+on(ProcedureKey.SERVER_ANSWER_PHONE_CALL, answerPhoneCallHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
 register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);

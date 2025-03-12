@@ -5,11 +5,10 @@ export enum PhoneCallStatus {
   Dialing = 'dialing',
   Ongoing = 'ongoing_call',
   Rejected = 'rejected_call',
-  Missed = 'missed_call',
   Ended = 'ended_call',
 }
 
-export interface IPhoneCall {
+export interface IPhoneCall  extends Base{
   caller: string;
   receiver: string;
   createdAt: Date;
@@ -70,3 +69,5 @@ export interface IPhoneInfo {
   notes: string[];
   contacts: IPhoneContact[];
 }
+
+export const ACTIVA_CALL_STATUS = [PhoneCallStatus.Dialing, PhoneCallStatus.Ongoing];

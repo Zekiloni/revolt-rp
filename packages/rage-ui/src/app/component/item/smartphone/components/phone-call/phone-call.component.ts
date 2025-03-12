@@ -1,12 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { interval, map, Observable, startWith } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ButtonDirective } from 'primeng/button';
 import { IPhoneCall, IPhoneInfo, PhoneCallStatus } from '@revolt-rp/common';
 import { dayjs } from '../../../../../domain/util/dajys.util';
-import { PhoneState, setPhoneCall } from '../../../../../store/phone';
-import { Store } from '@ngrx/store';
-import { ButtonDirective } from 'primeng/button';
-import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
@@ -20,6 +18,9 @@ export class PhoneCallComponent {
   @Input() currentCall!: IPhoneCall;
   @Input() phoneInfo!: IPhoneInfo;
 
+  @Output() answerCall = new EventEmitter<IPhoneCall>();
+  @Output() endCall = new EventEmitter<IPhoneCall>();
+
   $duration: Observable<string> = interval(1000).pipe(
     startWith(0),
     map(() => {
@@ -31,10 +32,6 @@ export class PhoneCallComponent {
     })
   );
 
-
-  constructor(private store: Store<PhoneState>) {
-  }
-
   get isIncoming(): boolean {
     return this.currentCall.receiver === this.phoneInfo.phoneNumber;
   }
@@ -44,14 +41,14 @@ export class PhoneCallComponent {
   }
 
   private pad(number: number): string {
-    return number < 10 ? `0${number}`:`${number}`;
+    return number < 10 ? `0${number}` : `${number}`;
   }
 
-  endCall(): void {
-    this.store.dispatch(setPhoneCall({ currentCall: null }));
+  end(): void {
+    this.endCall.emit(this.currentCall);
   }
 
-  answerCall(call: IPhoneCall) {
-    this.store.dispatch(setPhoneCall({ currentCall: { ...call, status: PhoneCallStatus.Ongoing } }));
+  answer(call: IPhoneCall) {
+    this.answerCall.emit(call);
   }
 }

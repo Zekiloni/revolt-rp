@@ -2,6 +2,7 @@ import './node';
 import { Account } from '../player/account/account.model';
 import { Character } from '../player/character/character.model';
 import { Vehicle } from '../vehicle/vehicle.model';
+import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 
 declare global {
 
@@ -75,4 +76,6 @@ declare global {
     content?: string;
     embeds?: DiscordEmbed[];
   };
+
+  declare type ServerProcedureListenerInfo = ProcedureListenerInfo<PlayerMp>;
 }

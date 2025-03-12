@@ -1,4 +1,4 @@
-import { IPhoneMessage, PhoneMessageType } from '@revolt-rp/common';
+import { IPhoneCall, IPhoneMessage, PhoneCallStatus, PhoneMessageType } from '@revolt-rp/common';
 import { Types } from 'mongoose';
 import dayjs from 'dayjs';
 
@@ -64,6 +64,15 @@ export const testPhoneData: Partial<IPhoneItem> = {
   }
 };
 
+
+export const testPhoneCall: IPhoneCall = {
+  caller: '321199',
+  receiver: testPhoneData.phoneInfo!.phoneNumber,
+  status: PhoneCallStatus.Dialing,
+  createdAt: dayjs().subtract(3, 'minutes').toDate(),
+  _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C2'),
+  id: '4BFD7ED40E74F7461702D4C2'
+}
 
 export const testMessages: IPhoneMessage[] = [
   {
