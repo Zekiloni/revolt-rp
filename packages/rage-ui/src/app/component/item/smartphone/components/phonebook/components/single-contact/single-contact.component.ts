@@ -31,6 +31,7 @@ export class SingleContactComponent implements OnInit {
   }
 
   call() {
+    console.log('single contact call ', JSON.stringify(this.contact));
     this.callContact.emit(this.contact);
   }
 
