@@ -1,4 +1,4 @@
-import { Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import { IPhoneCall, PhoneCallStatus } from '@revolt-rp/common';
 
@@ -13,7 +13,7 @@ import { IPhoneCall, PhoneCallStatus } from '@revolt-rp/common';
     }
   }
 })
-export class PhoneCall implements IPhoneCall {
+export class PhoneCall extends Document implements IPhoneCall {
   declare _id: Types.ObjectId;
   declare id: string;
 
