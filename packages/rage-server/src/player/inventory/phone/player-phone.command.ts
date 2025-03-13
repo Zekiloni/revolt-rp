@@ -1,5 +1,6 @@
 import { registerCommand } from '../../player-command.service';
 import { getActivePhoneCallByPhoneNumber, getPlayerPhoneNumbers, playerSpeakPhoneCall } from './player-phone.service';
+import { PhoneCallStatus } from '@revolt-rp/common';
 
 
 registerCommand({
@@ -14,7 +15,7 @@ registerCommand({
 
     const activeCall = await getActivePhoneCallByPhoneNumber(phoneNumbers);
 
-    if (!activeCall)
+    if (!activeCall || activeCall.status !== PhoneCallStatus.Ongoing)
       return;
 
     await playerSpeakPhoneCall(player, phoneNumbers, activeCall, args.join(' '));
