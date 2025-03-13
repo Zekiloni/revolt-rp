@@ -8,7 +8,7 @@ export enum PhoneCallStatus {
   Ended = 'ended_call',
 }
 
-export interface IPhoneCall  extends Base{
+export interface IPhoneCall extends Base {
   caller: string;
   receiver: string;
   createdAt: Date;
