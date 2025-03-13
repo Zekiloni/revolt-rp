@@ -27,7 +27,7 @@
               [disabled]="!isOngoing"
               class="col-3"></button>
       <button pButton [rounded]="true" severity="danger" (click)="end()" icon="pi pi-phone"
-              [disabled]="!isOngoing"
+              [disabled]="isEndedOrRejected"
               class="rotate-180 col-3"></button>
       <button pButton [rounded]="true" icon="pi pi-table"
               [disabled]="!isOngoing"
