@@ -243,6 +243,7 @@ export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneN
 };
 
 export const playerAnswerPhoneCall = async (player: PlayerMp, callId: string) => {
+  console.log('answer 0, callid', callId);
   const phoneCall = await getPhoneCallById(callId);
 
   console.log('phoneCall', phoneCall);
@@ -274,6 +275,8 @@ export const playerAnswerPhoneCall = async (player: PlayerMp, callId: string) =>
 };
 
 export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) => {
+  console.log('playerHangupPhoneCall 0, callid', callId);
+
   const phoneCall = await getPhoneCallById(callId);
   console.log('hangup 0', phoneCall);
 
