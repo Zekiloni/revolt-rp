@@ -22,9 +22,9 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  phone: testPhoneData as IPhoneItem,
-  messages: testMessages,
-  currentCall: testPhoneCall,
+  phone: null,
+  messages: [],
+  currentCall: null,
   phoneCalls: []
 };
 

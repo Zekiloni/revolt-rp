@@ -425,7 +425,11 @@ export const enUs = {
   'contact': 'Contact',
   'incoming_call': 'Incoming Call',
   'dialing': 'Dialing',
+  'ended_call': 'Call has ended.',
+  'rejected_call': 'Call has been rejected.',
   'invalid_phone_number': 'Invalid phone number.',
   'background': 'Background',
   'no_title': 'No Title',
+  'phone': 'Phone',
+  'phone_call_hangup': 'Call has been hung up.',
 };

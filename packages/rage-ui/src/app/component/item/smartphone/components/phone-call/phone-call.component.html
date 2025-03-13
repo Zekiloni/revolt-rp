@@ -5,7 +5,9 @@
     {{ (isIncoming && isRinging ? 'incoming_call' : currentCall.status) | translate }}
   </span>
 
-  <h2> {{ $duration | async }}</h2>
+  @if (!isEndedOrRejected) {
+    <h2> {{ $duration | async }}</h2>
+  }
 
   @if (isIncoming && isRinging) {
     <div class="flex justify-content-center gap-3 mt-5">
@@ -15,15 +17,21 @@
   } @else {
     <div class="grid grid-nogutter gap-3 justify-content-center mt-5">
       <button pButton [rounded]="true" icon="pi pi-volume-up"
+              [disabled]="!isOngoing"
               class="col-3"></button>
       <button pButton [rounded]="true" icon="pi pi-video" [disabled]="true" class="col-3"></button>
       <button pButton [rounded]="true" icon="pi pi-microphone"
+              [disabled]="!isOngoing"
               class="col-3"></button>
       <button pButton [rounded]="true" icon="pi pi-user-plus"
+              [disabled]="!isOngoing"
               class="col-3"></button>
       <button pButton [rounded]="true" severity="danger" (click)="end()" icon="pi pi-phone"
+              [disabled]="!isOngoing"
               class="rotate-180 col-3"></button>
-      <button pButton [rounded]="true" icon="pi pi-table" class="col-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-table"
+              [disabled]="!isOngoing"
+              class="col-3"></button>
     </div>
   }
 </div>
