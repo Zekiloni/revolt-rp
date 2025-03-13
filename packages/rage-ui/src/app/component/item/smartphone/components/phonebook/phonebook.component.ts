@@ -84,6 +84,6 @@ export class PhonebookComponent {
   }
 
   createCall(contact: IPhoneContact) {
-    this.rageClientService.triggerServer(ProcedureKey.SERVER_CREATE_PHONE_CALL, contact);
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_CREATE_PHONE_CALL, contact.phoneNumber);
   }
 }

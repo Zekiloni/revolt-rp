@@ -53,10 +53,12 @@ export class PhoneCallComponent {
   }
 
   end(): void {
+    console.log('end call ', JSON.stringify(this.currentCall));
     this.endCall.emit(this.currentCall);
   }
 
-  answer(call: IPhoneCall) {
-    this.answerCall.emit(call);
+  answer() {
+    console.log('answer call ', JSON.stringify(this.currentCall));
+    this.answerCall.emit(this.currentCall);
   }
 }
