@@ -1,11 +1,5 @@
 import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
-import {
-  AnimationFlag,
-  HexKeyCodes,
-  PlayerPhoneState,
-  PlayerSharedDataType,
-  ProcedureKey
-} from '@revolt-rp/common';
+import { AnimationFlag, HexKeyCodes, PlayerPhoneState, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser } from '../../core/browser';
 import { getIsAlive, getIsNotCuffed } from '../util/player-data.util';
 import { registerKeyBind, unregisterKeyBind } from '../../core/keybind-manager';
@@ -63,6 +57,14 @@ async function handlePlayerPhoneStateChange(player: PlayerMp, value: PlayerPhone
     case PlayerPhoneState.Away:
       animationName = null;
       animationLib = null;
+
+      if (oldValue === PlayerPhoneState.Ringing || oldValue === PlayerPhoneState.InCall) {
+        mp.game.audio.playSoundFromEntity(mp.game.audio.getSoundId(), 'Hang_Up', player.handle,'Phone_SoundSet_Michael', true, 0);
+      }
+      break;
+    case PlayerPhoneState.Ringing:
+      animationName = 'cellphone_text_in';
+      mp.game.audio.playSoundFromEntity(mp.game.audio.getSoundId(), 'Text_Arrive_Tone', player.handle, 'Phone_Soundset_Franklin', true, 0);
       break;
     case PlayerPhoneState.InCall:
       animationName = 'cellphone_call_listen_base';

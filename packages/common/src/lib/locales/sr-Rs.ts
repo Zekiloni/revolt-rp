@@ -426,8 +426,12 @@ export const srRs = {
   'contact': 'Kontakt',
   'incoming_call': 'Dolazni Poziv',
   'dialing': 'Pozivanje',
+  'ended_call': 'Poziv završen.',
+  'rejected_call': 'Poziv odbijen.',
   'ongoing_call': 'Aktivan Poziv',
   'invalid_phone_number': 'Neispravan broj telefona.',
   'background': 'Pozadina',
   'no_title': 'Bez naslova',
+  'phone': 'Telefon',
+  'phone_call_hangup': 'Poziv prekinut.',
 };

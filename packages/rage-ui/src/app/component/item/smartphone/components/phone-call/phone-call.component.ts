@@ -36,6 +36,14 @@ export class PhoneCallComponent {
     return this.currentCall.receiver === this.phoneInfo.phoneNumber;
   }
 
+  get isOngoing(): boolean {
+    return this.currentCall.status === PhoneCallStatus.Ongoing;
+  }
+
+  get isEndedOrRejected(): boolean {
+    return this.currentCall.status === PhoneCallStatus.Ended || this.currentCall.status === PhoneCallStatus.Rejected;
+  }
+
   get isRinging(): boolean {
     return this.currentCall.status === PhoneCallStatus.Dialing;
   }

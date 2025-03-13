@@ -68,7 +68,7 @@ export const testPhoneData: Partial<IPhoneItem> = {
 export const testPhoneCall: IPhoneCall = {
   caller: '321199',
   receiver: testPhoneData.phoneInfo!.phoneNumber,
-  status: PhoneCallStatus.Dialing,
+  status: PhoneCallStatus.Ended,
   createdAt: dayjs().subtract(3, 'minutes').toDate(),
   _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C2'),
   id: '4BFD7ED40E74F7461702D4C2'

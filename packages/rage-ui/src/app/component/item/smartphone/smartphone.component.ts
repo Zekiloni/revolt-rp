@@ -8,7 +8,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ButtonDirective } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
 import { MenuItem, MenuItemCommandEvent, Message } from 'primeng/api';
-import { gameUiConfig, GameUiKey, IPhoneCall, IPhoneMessage, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, GameUiKey, IPhoneCall, IPhoneMessage, PhoneCallStatus, ProcedureKey } from '@revolt-rp/common';
 import {
   fadeInOutTrigger,
   scaleInOutTrigger,
@@ -130,6 +130,12 @@ export class SmartphoneComponent implements OnInit {
       }
 
       this.store.dispatch(setPhoneCall({ currentCall }));
+
+      if (currentCall && (currentCall.status === PhoneCallStatus.Ended || currentCall.status === PhoneCallStatus.Rejected)) {
+        setTimeout(() => {
+          this.store.dispatch(setPhoneCall({ currentCall: null }));
+        }, 2500);
+      }
     });
 
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PHONE_MESSAGES, (messages: IPhoneMessage[]) => {

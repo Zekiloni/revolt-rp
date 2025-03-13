@@ -16,6 +16,7 @@ export const hexColors = {
   YELLOW: 'FFFF00',
   YELLOW_LIGHT: 'FFD500',
   Megaphone: ['F4D31C', 'F4D31C', 'F4D31C', 'F4D31C', 'F4D31C'],
+  GARGOYLE_GAS: 'FBDB48',
   ADMIN: 'F82234',
   BROADCAST: 'F71326',
   INFO: 'cfd1d7',
