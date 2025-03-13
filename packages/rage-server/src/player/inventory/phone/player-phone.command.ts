@@ -14,7 +14,7 @@ registerCommand({
 
     const activeCall = await getActivePhoneCallByPhoneNumber(phoneNumbers);
 
-    if (activeCall)
+    if (!activeCall)
       return;
 
     await playerSpeakPhoneCall(player, phoneNumbers, activeCall, args.join(' '));

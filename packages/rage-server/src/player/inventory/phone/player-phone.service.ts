@@ -153,11 +153,9 @@ export const updatePhoneSettings = async (phone: Item, settings: IPhoneSettingsU
 
 
 export const getPlayerPhoneNumbers = (player: PlayerMp) => {
-  return player.character.inventory.map((item: Item) => {
-    if (item.phoneInfo && item.phoneInfo.phoneNumber) {
-      return item.phoneInfo.phoneNumber;
-    }
-  });
+  return player.character.inventory
+    .filter((item: Item) => item.phoneInfo && item.phoneInfo.phoneNumber)
+    .map((item: Item) => item.phoneInfo.phoneNumber);
 };
 
 export const getPhoneByPhoneNumber = async (phoneNumber: string) => {
