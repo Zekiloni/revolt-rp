@@ -71,7 +71,7 @@ export class TextChatComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   async keyEvent(event: KeyboardEvent) {
-    if (event.key === 't' && this.isActive && !this.isTyping) {
+    if (event.key.toLowerCase() === 't' && this.isActive && !this.isTyping) {
       await this.enableInput(true);
       event.preventDefault();
     }
