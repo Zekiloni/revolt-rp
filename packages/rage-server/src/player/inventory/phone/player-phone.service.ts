@@ -220,15 +220,25 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
 };
 
 export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneNumber: string) => {
+  console.log('playerCallPhoneItem', item);
+  console.log('playerCallPhoneTargetPhoneNumber', targetPhoneNumber);
+
   const phoneCall = await createPhoneCall(item.phoneInfo.phoneNumber, targetPhoneNumber);
   const target = getPlayerByPhoneNumber(targetPhoneNumber);
 
+  console.log('phoneCall', phoneCall);
+
   player.setVariable(PlayerSharedDataType.PhoneState, PlayerPhoneState.InCall);
+  triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
+
   if (target) {
     triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
   } else {
-    notifyPlayer(player, { severity: 'error', detail: t('phone_number_not_found') });
+    notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
     phoneCall.status = PhoneCallStatus.Rejected;
+    await phoneCall.save();
+
+    triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
   }
 };
 
