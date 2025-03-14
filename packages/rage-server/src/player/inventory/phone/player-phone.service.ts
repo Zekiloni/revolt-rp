@@ -220,18 +220,22 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
 };
 
 export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneNumber: string) => {
-  console.log('playerCallPhoneItem', item);
-  console.log('playerCallPhoneTargetPhoneNumber', targetPhoneNumber);
-
   const phoneCall = await createPhoneCall(item.phoneInfo.phoneNumber, targetPhoneNumber);
   const target = getPlayerByPhoneNumber(targetPhoneNumber);
-
-  console.log('phoneCall', phoneCall);
 
   player.setVariable(PlayerSharedDataType.PhoneState, PlayerPhoneState.InCall);
   triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
 
   if (target) {
+    const targetPhone = await getPhoneByPhoneNumber(targetPhoneNumber);
+    if (!targetPhone) {
+      phoneCall.status = PhoneCallStatus.Rejected;
+      await phoneCall.save();
+
+      triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
+      return notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
+    }
+    triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE, targetPhone);
     triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
   } else {
     notifyPlayer(player, { severity: 'error', detail: t('invalid_phone_number') });
@@ -243,56 +247,42 @@ export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneN
 };
 
 export const playerAnswerPhoneCall = async (player: PlayerMp, callId: string) => {
-  console.log('answer 0, callid', callId);
   const phoneCall = await getPhoneCallById(callId);
 
-  console.log('phoneCall', phoneCall);
   if (!phoneCall) return;
   if (phoneCall.status !== PhoneCallStatus.Dialing) return;
-  console.log('answer 1');
 
   const playerPhoneNumbers = getPlayerPhoneNumbers(player);
   const isCaller = playerPhoneNumbers.includes(phoneCall.caller);
-  console.log('answer 2');
 
   phoneCall.status = PhoneCallStatus.Ongoing;
 
   await phoneCall.save();
-  console.log('answer 3');
 
   const targetPhoneNumber = isCaller ? phoneCall.receiver : phoneCall.caller;
   const target = getPlayerByPhoneNumber(targetPhoneNumber);
 
   triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
-  console.log('answer 3');
 
   if (target && mp.players.exists(target)) {
-    console.log('answer 4 target');
-
     target.setVariable(PlayerSharedDataType.PhoneState, PlayerPhoneState.InCall);
     triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
   }
 };
 
 export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) => {
-  console.log('playerHangupPhoneCall 0, callid', callId);
-
   const phoneCall = await getPhoneCallById(callId);
-  console.log('hangup 0', phoneCall);
 
   if (!phoneCall || !ACTIVA_CALL_STATUS.includes(phoneCall.status)) return;
 
-  console.log('hangup 1');
   const playerPhoneNumbers = getPlayerPhoneNumbers(player);
   const isCaller = playerPhoneNumbers.includes(phoneCall.caller);
-  console.log('hangup3');
 
   phoneCall.status = phoneCall.status === PhoneCallStatus.Dialing
     ? PhoneCallStatus.Rejected
     : PhoneCallStatus.Ended;
 
   await phoneCall.save();
-  console.log('hangup 4');
 
   const targetPhoneNumber = isCaller ? phoneCall.receiver : phoneCall.caller;
   const target = getPlayerByPhoneNumber(targetPhoneNumber);
@@ -300,11 +290,8 @@ export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) =>
   triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
   player.outputChatBox(`!{${hexColors.GARGOYLE_GAS}}${t('phone')} ${targetPhoneNumber} ${t('phone_call_hangup')}`);
   player.setVariable(PlayerSharedDataType.PhoneState, PlayerPhoneState.Idle);
-  console.log('hangup 5');
 
   if (target && mp.players.exists(target)) {
-    console.log('hangup 5 target');
-
     target.setVariable(PlayerSharedDataType.PhoneState, PlayerPhoneState.Idle);
     target.outputChatBox(`!{${hexColors.GARGOYLE_GAS}}${t('phone')} ${isCaller ? phoneCall.caller : phoneCall.receiver} ${t('phone_call_hangup')}`);
     triggerBrowsers(target, ProcedureKey.BROWSER_SET_PHONE_CALL, phoneCall);
