@@ -1,28 +1,28 @@
 import * as L from 'leaflet';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, debounceTime } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { BehaviorSubject, debounceTime } from 'rxjs';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChipsModule } from 'primeng/chips';
+import { BadgeModule } from 'primeng/badge';
+import { DialogModule } from 'primeng/dialog';
 import { ButtonDirective } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { IPhoneContact, IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
+import { IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
+import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
+import { getConversations } from '../../../../../domain/util/phone.util';
 import {
   PhoneState,
   selectPhoneMessages, updateManyPhoneMessages
 } from '../../../../../store/phone';
-import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
-import { getConversations } from '../../../../../domain/util/phone.util';
 import { dayjs } from '../../../../../domain/util/dajys.util';
-import { DialogModule } from 'primeng/dialog';
 import { ComposeMessageComponent } from '../compose-message';
-import { BadgeModule } from 'primeng/badge';
-import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
 
 
 @Component({
@@ -57,8 +57,6 @@ export class MessengerComponent implements OnInit {
 
   maps: Map<string, L.Map> = new Map();
   markerIcon!: L.Icon;
-
-  contacts: IPhoneContact[] = [];
 
   _selectedConversation = new BehaviorSubject<string | null>(null);
   messageContent = '';
@@ -109,7 +107,7 @@ export class MessengerComponent implements OnInit {
   }
 
   getContactName(phoneNumber: string) {
-    const contact = this.contacts.find(c => c.phoneNumber === phoneNumber);
+    const contact = this.phoneItem.phoneInfo.contacts.find(c => c.phoneNumber === phoneNumber);
     return contact ? contact.name : phoneNumber;
   }
 

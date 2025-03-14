@@ -94,6 +94,8 @@ export const phoneReducer = createReducer(
     return { ...state, messages };
   }),
   on(updateManyPhoneMessages, (state, { messages }) => {
+
+
     console.log('messages to update ', JSON.stringify(messages));
     const messageMap = new Map(messages.map(msg => [msg.id, msg]));
     console.log('messageMap ', JSON.stringify(messageMap));
