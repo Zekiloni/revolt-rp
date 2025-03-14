@@ -1,23 +1,35 @@
 import { registerCommand } from '../../player-command.service';
-import { getActivePhoneCallByPhoneNumber, getPlayerPhoneNumbers, playerSpeakPhoneCall } from './player-phone.service';
-import { PhoneCallStatus } from '@revolt-rp/common';
+import { getPlayerActivePhoneCall, playerAnswerPhoneCall, playerHangupPhoneCall } from './player-phone.service';
 
 
 registerCommand({
-  name: 'ph',
+  name: 'hangup',
   description: 'todo',
-  params: ['content'],
-  async handle(player: PlayerMp, ...args) {
-    const phoneNumbers = getPlayerPhoneNumbers(player);
+  async handle(player: PlayerMp) {
 
-    if (!phoneNumbers.length)
+    const activePhoneCall = await getPlayerActivePhoneCall(player);
+
+    if (!activePhoneCall)
       return;
 
-    const activeCall = await getActivePhoneCallByPhoneNumber(phoneNumbers);
-
-    if (!activeCall)
-      return;
-
-    await playerSpeakPhoneCall(player, phoneNumbers, activeCall, args.join(' '));
+    await playerHangupPhoneCall(player, activePhoneCall.id);
   }
 })
+
+
+registerCommand({
+  name: 'pickup',
+  description: 'todo',
+  async handle(player: PlayerMp) {
+
+    const activePhoneCall = await getPlayerActivePhoneCall(player);
+
+    if (!activePhoneCall)
+      return;
+
+    await playerAnswerPhoneCall(player, activePhoneCall.id);
+  }
+})
+
+
+

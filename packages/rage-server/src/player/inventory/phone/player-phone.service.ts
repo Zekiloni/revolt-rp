@@ -298,9 +298,10 @@ export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) =>
   }
 };
 
-export const playerSpeakPhoneCall = async (player: PlayerMp, playerPhoneNumbers: string[], phoneCall: PhoneCall, content: string) => {
+export const playerSpeakPhoneCall = async (player: PlayerMp, phoneCall: PhoneCall, content: string) => {
   if (phoneCall.status !== PhoneCallStatus.Ongoing) return;
 
+  const playerPhoneNumbers = getPlayerPhoneNumbers(player);
   const isCaller = playerPhoneNumbers.includes(phoneCall.caller);
 
   const targetPhoneNumber = isCaller ? phoneCall.receiver : phoneCall.caller;
@@ -311,4 +312,14 @@ export const playerSpeakPhoneCall = async (player: PlayerMp, playerPhoneNumbers:
   if (target && mp.players.exists(target)) {
     target.outputChatBox(`!{${hexColors.GARGOYLE_GAS}}${t('phone')} ${isCaller ? phoneCall.caller : phoneCall.receiver}: ${content}`);
   }
+};
+
+
+export const getPlayerActivePhoneCall = async (player: PlayerMp) => {
+  const phoneNumbers = getPlayerPhoneNumbers(player);
+
+  if (!phoneNumbers.length)
+    return;
+
+  return getActivePhoneCallByPhoneNumber(phoneNumbers);
 };

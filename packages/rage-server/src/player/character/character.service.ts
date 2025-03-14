@@ -220,10 +220,21 @@ export const setPlayerHealth = (player: PlayerMp, health: number) => {
 
 
 export const revivePlayer = (player: PlayerMp, position: Vector3) => {
+  let vehicle: VehicleMp | null = null, seat: number | null = null;
+
+  if (player.vehicle) {
+    vehicle = player.vehicle;
+    seat = player.seat;
+  }
+
   setPlayerWounded(player, false);
   setPlayerHealth(player, characterConfig.defaultHealth);
   player.spawn(position);
   clearPlayerDamages(player);
+
+  if (vehicle) {
+    player.putIntoVehicle(vehicle, seat);
+  }
 };
 
 export const setPlayerOrganization = (player: PlayerMp, organization: Organization | null, isLeader = false) => {
