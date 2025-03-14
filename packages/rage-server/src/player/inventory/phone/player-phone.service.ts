@@ -190,6 +190,7 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
     if (toggle) {
       const messages = await getPhoneMessages(phone.phoneInfo.phoneNumber);
 
+      console.log('playerTogglePhone-messages', messages);
       triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE, phone);
       triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_MESSAGES, messages);
 
@@ -217,6 +218,8 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
   }
 
   triggerBrowsers(player, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
+
+  console.log('playerSendPhoneMessage', message);
 };
 
 export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneNumber: string) => {
