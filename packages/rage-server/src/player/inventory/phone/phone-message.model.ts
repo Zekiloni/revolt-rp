@@ -10,6 +10,12 @@ import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
   schemaOptions: {
     timestamps: {
       createdAt: true
+    },
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
     }
   }
 })
