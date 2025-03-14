@@ -53,7 +53,7 @@ export const getActivePhoneCallByPhoneNumber = async (phoneNumber: string | stri
       { receiver: Array.isArray(phoneNumber) ? { $in: phoneNumber } : phoneNumber }
     ],
     status: { $in: ACTIVA_CALL_STATUS }
-  });
+  }).sort({ createdAt: -1 });
 };
 
 export const getPlayerPhoneByPhoneNumber = (player: PlayerMp, phoneNumber: string | string[]) => {
