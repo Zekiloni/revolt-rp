@@ -10,7 +10,9 @@ import { IPhoneCall, PhoneCallStatus } from '@revolt-rp/common';
   schemaOptions: {
     timestamps: {
       createdAt: true
-    }
+    },
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
   }
 })
 export class PhoneCall extends Document implements IPhoneCall {
