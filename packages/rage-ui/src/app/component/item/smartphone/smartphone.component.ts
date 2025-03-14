@@ -108,6 +108,7 @@ export class SmartphoneComponent implements OnInit {
   }
 
   private newMessage(message: IPhoneMessage) {
+    console.log('new message', JSON.stringify(message));
     this.store.dispatch(addPhoneMessage({ message }));
     if (message.receiver === this.phoneItem.phoneInfo.phoneNumber) {
       this.notify({
