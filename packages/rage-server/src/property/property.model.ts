@@ -1,4 +1,5 @@
 import { Document, Types } from 'mongoose';
+import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
   CommercialType, IDoor,
   IEntrance,
@@ -8,7 +9,6 @@ import {
   IPropertyPoint, IWorker, PropertySharedDataType,
   PropertyType
 } from '@revolt-rp/common';
-import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
 
@@ -20,6 +20,7 @@ export class PropertyOwner implements IPropertyOwner {
   @prop({ refPath: 'owner.type' })
   entity: Ref<Character | Organization>;
 }
+
 
 @modelOptions({
   schemaOptions: {
