@@ -94,7 +94,7 @@ async function playerStreamInPhoneStateHandler(player: PlayerMp) {
     return;
 
   const playerPhoneState = player.getVariable<PlayerPhoneState | null>(PlayerSharedDataType.PhoneState);
-  await syncPlayerPhoneState(player, playerPhoneState);
+  await syncPlayerPhoneState(player, playerPhoneState, undefined);
 }
 
 function phoneMapInitializeHandler(toggle: boolean) {
