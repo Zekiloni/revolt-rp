@@ -312,6 +312,8 @@ export const playerHangupPhoneCall = async (player: PlayerMp, callId: string) =>
 };
 
 export const playerSpeakPhoneCall = async (player: PlayerMp, playerPhoneNumbers: string[], phoneCall: PhoneCall, content: string) => {
+  if (phoneCall.status !== PhoneCallStatus.Ongoing) return;
+
   const isCaller = playerPhoneNumbers.includes(phoneCall.caller);
 
   const targetPhoneNumber = isCaller ? phoneCall.receiver : phoneCall.caller;

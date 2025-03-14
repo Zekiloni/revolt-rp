@@ -130,6 +130,5 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
   }
 };
