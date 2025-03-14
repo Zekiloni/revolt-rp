@@ -27,6 +27,7 @@ export class SmartphoneItemModel extends BaseItem {
   deselect(player: PlayerMp, _item: Item) {
     player.setVariable(PlayerSharedDataType.PhoneState, null);
     playerRemoveAttachment(player, PlayerAttachmentTypeEnum.HoldAmbPhone);
+    hidePlayerGameInterface(player, GameUiKey.Smartphone);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
