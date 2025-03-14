@@ -15,6 +15,9 @@ import {
 } from '@libertymp/rage-rpc';
 import { ApiError } from '@revolt-rp/common';
 
+
+type MpInvokeNative = 'setTypingInChatState' | 'focus' | string;
+
 @Injectable()
 export class RageClientService {
   private socket: WebSocket | null = null;
@@ -51,7 +54,7 @@ export class RageClientService {
     return mp.events.callProc(name, ...args);
   }
 
-  invoke(name: string, ...args: unknown[]) {
+  invoke(name: MpInvokeNative, ...args: unknown[]) {
     mp.invoke(name, ...args);
   }
 

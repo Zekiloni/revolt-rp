@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ButtonDirective } from 'primeng/button';
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
@@ -15,11 +15,14 @@ import { playAudio } from '../../../../../domain/util/audio.util';
   templateUrl: './keypad.component.html',
   styleUrl: './keypad.component.css'
 })
-export class KeypadComponent {
+export class KeypadComponent implements OnInit, OnDestroy {
   numberButtons = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '*', '0', '#'];
   phoneNumber = '';
 
-  constructor(private staticAssetPipe: StaticAssetPipe, private rageClientServie: RageClientService) {
+  constructor(
+    private staticAssetPipe: StaticAssetPipe,
+    private rageClientServie: RageClientService
+  ) {
   }
 
   onNumberClick(number: string) {
@@ -59,5 +62,13 @@ export class KeypadComponent {
     }
 
     this.rageClientServie.triggerServer(ProcedureKey.SERVER_CREATE_PHONE_CALL, this.phoneNumber);
+  }
+
+  ngOnInit(): void {
+    this.rageClientServie.invoke('setTypingInChatState', true);
+  }
+
+  ngOnDestroy(): void {
+    this.rageClientServie.invoke('setTypingInChatState', false);
   }
 }
