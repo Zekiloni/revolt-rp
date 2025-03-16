@@ -99,4 +99,8 @@ export class ManageBankAccountsComponent {
       detail: error.message
     });
   };
+
+  connectPhone() {
+
+  }
 }

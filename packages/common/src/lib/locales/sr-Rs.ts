@@ -434,4 +434,6 @@ export const srRs = {
   'no_title': 'Bez naslova',
   'phone': 'Telefon',
   'phone_call_hangup': 'Poziv prekinut.',
+  'no_phone_connected': 'Nema povezanog telefona.',
+  'connect_phone': 'Poveži Telefon',
 };
