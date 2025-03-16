@@ -11,7 +11,7 @@ import {
   setPhoneOpacity, updateManyPhoneMessages, updatePhoneContact,
   updatePhoneMessage
 } from './phone.actions';
-import { testMessages, testPhoneCall, testPhoneData } from './test-phone.data';
+import { testMessages, testPhoneData } from './test-phone.data';
 
 
 export interface PhoneState {
@@ -22,8 +22,8 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  phone: null,
-  messages: [],
+  phone: testPhoneData as IPhoneItem,
+  messages: testMessages,
   currentCall: null,
   phoneCalls: []
 };
@@ -94,12 +94,8 @@ export const phoneReducer = createReducer(
     return { ...state, messages };
   }),
   on(updateManyPhoneMessages, (state, { messages }) => {
-
-
-    console.log('messages to update ', JSON.stringify(messages));
     const messageMap = new Map(messages.map(msg => [msg.id, msg]));
-    console.log('messageMap ', JSON.stringify(messageMap));
-
+    console.log('messagesMap', messageMap);
     const updatedMessages = state.messages.map(m => messageMap.has(m.id) ? messageMap.get(m.id)! : m);
     console.log('updatedMessages ', JSON.stringify(updatedMessages));
 
