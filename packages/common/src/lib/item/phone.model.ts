@@ -22,6 +22,11 @@ export enum PhoneMessageType {
 }
 
 
+export interface IPhoneSettingsUpdate {
+  opacity: number;
+  backgroundImage: string;
+}
+
 export interface IPhoneContactCreate {
   phoneItemId: string;
   name: string;
@@ -54,12 +59,6 @@ export interface IPhoneMessage extends Base {
   createdAt: Date;
 }
 
-export interface IPhoneSettingsUpdate {
-  itemId: string;
-  power: boolean;
-  opacity: number;
-  backgroundImage: string;
-}
 
 export interface IPhoneInfo {
   power: boolean;

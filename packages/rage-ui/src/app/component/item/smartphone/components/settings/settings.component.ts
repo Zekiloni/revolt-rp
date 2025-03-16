@@ -2,11 +2,14 @@ import { Store } from '@ngrx/store';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { debounceTime, Subject, switchMap } from 'rxjs';
+import { Component, Input, OnInit } from '@angular/core';
+import { InputTextModule } from 'primeng/inputtext';
 import { SliderChangeEvent, SliderModule } from 'primeng/slider';
+import { IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
 import { PhoneState, setPhoneBackground, setPhoneOpacity } from '../../../../../store/phone';
 import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
-import { InputTextModule } from 'primeng/inputtext';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
 
 
 @Component({
@@ -27,20 +30,47 @@ export class SettingsComponent implements OnInit {
     'assets/images/phone/backgrounds/5.jpg'
   ];
 
-  opacity!: number;
+  settings!: IPhoneSettingsUpdate;
+  private opacityChangeSubject = new Subject<number>();
 
-  constructor(@Inject(Store) private store: Store<PhoneState>) {
+  constructor(private rageClientService: RageClientService, private store: Store<PhoneState>) {
   }
 
   ngOnInit(): void {
-    this.opacity = this.phoneItem.phoneInfo.opacity;
+    this.settings = {
+      opacity: this.phoneItem.phoneInfo.opacity,
+      backgroundImage: this.phoneItem.phoneInfo.backgroundImage
+    };
+
+    this.opacityChangeSubject.next(this.settings.opacity);
+    this.opacityChangeSubject.pipe(
+      debounceTime(500),
+      switchMap((opacity) => {
+        this.settings.opacity = opacity;
+        return this.rageClientService.callServer<IPhoneSettingsUpdate>(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, this.settings);
+      })
+    ).subscribe({
+      next: this.handlePhoneSettingsUpdate,
+      error: (err) => console.error('Error updating phone settings', err)
+    });
+  }
+
+  private handlePhoneSettingsUpdate = () => {
+    this.store.dispatch(setPhoneOpacity({ opacity: this.settings.opacity }));
+    this.store.dispatch(setPhoneBackground({ background: this.settings.backgroundImage }));
+  };
+
+  private updateSettings() {
+    this.rageClientService.callServer<IPhoneSettingsUpdate>(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, this.settings)
+      .subscribe({ next: this.handlePhoneSettingsUpdate });
   }
 
   onOpacityChange(event: SliderChangeEvent) {
-    this.store.dispatch(setPhoneOpacity({ opacity: (<number>event.value) }));
+    this.opacityChangeSubject.next(event.value as number);
   }
 
   changePhoneBackground(background: string) {
-    this.store.dispatch(setPhoneBackground({ background }));
+    this.settings.backgroundImage = background;
+    this.updateSettings();
   }
 }

@@ -22,7 +22,7 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  phone: null,
+  phone: testPhoneData as IPhoneItem,
   messages: [],
   currentCall: null,
   phoneCalls: []

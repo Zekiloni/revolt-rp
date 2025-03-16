@@ -141,12 +141,12 @@ export const deletePhoneContact = async (item: Item, contactId: string) => {
 };
 
 export const updatePhoneSettings = async (phone: Item, settings: IPhoneSettingsUpdate) => {
-  delete settings.itemId;
-
   phone.phoneInfo = {
     ...phone.phoneInfo,
     ...settings
   };
+
+  phone.markModified('phoneInfo');
 
   return phone.save();
 };

@@ -38,15 +38,6 @@ async function sendPhoneMessageHandler(messageCreate: IPhoneMessageCreate, { pla
   await playerSendPhoneMessage(player, messageCreate);
 }
 
-async function playerUpdatePhoneSettings(settings: IPhoneSettingsUpdate) {
-  const item = await getItemById(settings.itemId);
-
-  if (!item) {
-    return;
-  }
-
-  return updatePhoneSettings(item, settings);
-}
 
 async function playerCreatePhoneContactHandler(contactCreate: IPhoneContactCreate, { player }: ProcedureListenerInfo<PlayerMp>) {
   const playerSelectedItem = getPlayerSelectedItem(player);
@@ -87,12 +78,17 @@ function updatePhoneNotesHandler(notes: string[], { player }: ProcedureListenerI
   return updatePhoneNotes(item, notes);
 }
 
+function playerUpdatePhoneSettingsHandler(settings: IPhoneSettingsUpdate, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const item = getPlayerSelectedItem(player);
+  return updatePhoneSettings(item, settings);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
 on(ProcedureKey.SERVER_HANGUP_PHONE_CALL, hangupPhoneCallHandler);
 on(ProcedureKey.SERVER_ANSWER_PHONE_CALL, answerPhoneCallHandler);
-register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettings);
+register(ProcedureKey.SERVER_UPDATE_PHONE_SETTINGS, playerUpdatePhoneSettingsHandler);
 register(ProcedureKey.SERVER_CREATE_PHONE_CONTACT, playerCreatePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandler);
 register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
