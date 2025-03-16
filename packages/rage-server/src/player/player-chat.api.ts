@@ -1,4 +1,4 @@
-import { hexColors } from '@revolt-rp/common';
+import { hexColors, PhoneCallStatus } from '@revolt-rp/common';
 import { t } from 'i18next';
 import { sendProximityMessage } from './util/player.util';
 import { getPlayerActivePhoneCall, playerSpeakPhoneCall } from './inventory/phone/player-phone.service';
@@ -11,7 +11,7 @@ mp.events.add({
 
     const activePhoneCall = await getPlayerActivePhoneCall(player);
 
-    if (activePhoneCall) {
+    if (activePhoneCall && activePhoneCall.status === PhoneCallStatus.Ongoing) {
       await playerSpeakPhoneCall(player, activePhoneCall, text);
       return;
     }
