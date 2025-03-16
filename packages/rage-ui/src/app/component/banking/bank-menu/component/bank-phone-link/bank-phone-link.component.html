@@ -1,0 +1,11 @@
+<div class="p-fluid">
+  <div class="field mb-4">
+    <label class="block" for="phone-number">{{ 'phone_number' | translate }}</label>
+    <input pInputText id="phone-number" [(ngModel)]="phoneNumber" />
+  </div>
+
+  <div class="field">
+    <p-button class="block" [label]="'submit' | translate" [disabled]="isInValidPhoneNumber"
+              (onClick)="submit()" />
+  </div>
+</div>

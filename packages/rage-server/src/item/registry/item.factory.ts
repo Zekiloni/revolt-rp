@@ -97,7 +97,7 @@ new WeaponItem('HK G3', 'A versatile and reliable battle rifle chambered in 7.62
 // Assault Rifles Chambered in 7.62x39mm
 new WeaponItem('AK-47', 'The legendary rifle known for durability and ease of use.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_7_62_X39_MM, 'w_ar_assaultrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 4.3);
 new WeaponItem('AKM', 'An improved version of the AK-47, chambered in 7.62x39mm.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_7_62_X39_MM, 'w_ar_assaultrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 4.2);
-new WeaponItem('SKS', 'A semi-automatic rifle chambered in 7.62x39mm, known for accuracy.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_7_62_X39_MM, 'w_sr_marksmanrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 4.4);
+new WeaponItem('SKS', 'A semi-automatic rifle chambered in 7.62x39mm, known for accuracy.', RageEnums.Hashes.Weapon.MARKSMANRIFLE, CaliberType.CALIBER_7_62_X39_MM, 'w_sr_marksmanrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 4.4);
 
 // Assault Rifles Chambered in .223 Remington
 new WeaponItem('Ruger Mini-14', 'A lightweight semi-automatic rifle in .223 Remington.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_223_REMINGTON, 'w_sr_marksmanrifle', [ItemType.WEAPON_ASSAULT_RIFLE], 3.5);
@@ -105,24 +105,24 @@ new WeaponItem('Bushmaster XM15', 'An AR-15 variant chambered in .223 Remington.
 
 // Assault Rifles Chambered in .300 Blackout
 new WeaponItem('AAC Honey Badger', 'A compact assault rifle optimized for .300 Blackout.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_300_BLACKOUT, 'w_ar_honeybadger', [ItemType.WEAPON_ASSAULT_RIFLE], 3.9);
-new WeaponItem('SIG MCX', 'A versatile rifle chambered in .300 Blackout, suitable for CQB.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_300_BLACKOUT, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.0);
-new WeaponItem('Daniel Defense DDM4', 'A reliable AR-platform rifle chambered in .300 Blackout.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_300_BLACKOUT, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.1);
+new WeaponItem('SIG MCX', 'A versatile rifle chambered in .300 Blackout, suitable for CQB.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_300_BLACKOUT, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.0);
+new WeaponItem('Daniel Defense DDM4', 'A reliable AR-platform rifle chambered in .300 Blackout.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_300_BLACKOUT, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.1);
 
 // Assault Rifles Chambered in 5.45x39mm
-new WeaponItem('AK-74', 'An upgraded AK variant chambered in 5.45x39mm for reduced recoil.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_5_45_X39_MM, 'w_ar_assaultriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.0);
-new WeaponItem('RPK-74', 'A squad support variant of the AK-74, chambered in 5.45x39mm.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_5_45_X39_MM, 'w_ar_assaultriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 5.0);
+new WeaponItem('AK-74', 'An upgraded AK variant chambered in 5.45x39mm for reduced recoil.', RageEnums.Hashes.Weapon.ASSAULTRIFLE_MK2, CaliberType.CALIBER_5_45_X39_MM, 'w_ar_assaultriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.0);
+new WeaponItem('RPK-74', 'A squad support variant of the AK-74, chambered in 5.45x39mm.', RageEnums.Hashes.Weapon.ASSAULTRIFLE_MK2, CaliberType.CALIBER_5_45_X39_MM, 'w_ar_assaultriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 5.0);
 
 // Assault Rifles Chambered in .204 Ruger
-new WeaponItem('AR-15 .204 Ruger', 'A custom AR-15 optimized for high-velocity .204 Ruger rounds.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_204_RUGER, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 3.7);
-new WeaponItem('Savage MSR 15', 'A lightweight semi-auto rifle chambered in .204 Ruger.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_204_RUGER, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 3.6);
+new WeaponItem('AR-15 .204 Ruger', 'A custom AR-15 optimized for high-velocity .204 Ruger rounds.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_204_RUGER, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 3.7);
+new WeaponItem('Savage MSR 15', 'A lightweight semi-auto rifle chambered in .204 Ruger.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_204_RUGER, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 3.6);
 
 // Assault Rifles Chambered in .277 Fury
-new WeaponItem('SIG MCX Spear', 'A modular rifle chambered in .277 Fury, designed for maximum power.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_277_FURY, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.5);
-new WeaponItem('SIG Cross', 'A lightweight bolt-action rifle chambered in .277 Fury.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_277_FURY, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.4);
+new WeaponItem('SIG MCX Spear', 'A modular rifle chambered in .277 Fury, designed for maximum power.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_277_FURY, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.5);
+new WeaponItem('SIG Cross', 'A lightweight bolt-action rifle chambered in .277 Fury.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_277_FURY, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.4);
 
 // Assault Rifles Chambered in 6.5 Grendel
-new WeaponItem('Alexander Arms 6.5 Grendel AR-15', 'A powerful AR-15 variant chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_6_5_GRENDEL, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.3);
-new WeaponItem('Howa 1500 Mini Action', 'A bolt-action rifle chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.ASSAULTRIFLE, CaliberType.CALIBER_6_5_GRENDEL, 'w_sr_precisionrifle_reh', [ItemType.WEAPON_ASSAULT_RIFLE], 4.2);
+new WeaponItem('Alexander Arms 6.5 Grendel AR-15', 'A powerful AR-15 variant chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.CARBINERIFLE_MK2, CaliberType.CALIBER_6_5_GRENDEL, 'w_ar_carbineriflemk2', [ItemType.WEAPON_ASSAULT_RIFLE], 4.3);
+new WeaponItem('Howa 1500 Mini Action', 'A bolt-action rifle chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.PRECISIONRIFLE, CaliberType.CALIBER_6_5_GRENDEL, 'w_sr_precisionrifle_reh', [ItemType.WEAPON_ASSAULT_RIFLE], 4.2);
 
 
 new AmmoItem('.22 LR', 'Ammunition for .22 caliber pistols and rifles.', CaliberType.CALIBER_22_LR, 'ammo_22lr', [ItemType.AMMUNITION], 0.3);

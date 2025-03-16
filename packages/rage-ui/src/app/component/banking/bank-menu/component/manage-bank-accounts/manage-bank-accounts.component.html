@@ -31,7 +31,12 @@
         <span class="text-lg text-color-secondary">{{ 'created_at' | translate }}</span>
         <div class="flex justify-content-between align-items-center gap-3">
           <span>{{ selectedBankAccount.phoneNumber || ('no_phone_connected' | translate) }}</span>
-          <button pButton icon="pi pi-link" label="{{ 'connect_phone' | translate }}" (click)="connectPhone()"></button>
+
+          @if (!selectedBankAccount.phoneNumber) {
+            <button pButton icon="pi pi-link" severity="success" label="{{ 'connect_phone' | translate }}" (click)="connectPhone()"></button>
+          } @else {
+            <button pButton  severity="danger" icon="pi pi-minus" label="{{ 'disconnect_phone' | translate }}" (click)="disconnectPhone()"></button>
+          }
         </div>
       </div>
       <div class="flex align-items-center justify-content-between py-4 border-bottom-1 surface-border">

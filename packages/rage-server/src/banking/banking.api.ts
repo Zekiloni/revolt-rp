@@ -1,7 +1,8 @@
 import { t } from 'i18next';
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { BankAccountType, catchError, IBankInteraction, ProcedureKey } from '@revolt-rp/common';
+import { BankAccountType, catchError, IBankInteraction, IBankPhoneLink, ProcedureKey } from '@revolt-rp/common';
 import {
+  bankAccountPhoneLink,
   createBankAccount, getBankAccountByNumber,
   getBankAccountsByCharacter, getBankAccountTransactions, getBankCardsByNumber,
   getSavingAccountByCharacter, playerCreateBankCard, playerDeactivateBankCard, playerDepositMoney, playerTransferMoney,
@@ -86,6 +87,12 @@ async function playerCreateBankCardHandler(bankAccountId: string, { player }: Pr
 
 }
 
+async function updateBankAccountPhoneNumber(linkBankAccount: IBankPhoneLink, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return bankAccountPhoneLink(player ,linkBankAccount.bankAccountId, linkBankAccount.phoneNumber)
+    .then(bankAccount => bankAccount)
+    .catch(catchError);
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_SAVING_ACCOUNT, playerCreateSavingAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNTS, playerGetBankAccountsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, playerGetBankAccountByNumberHandler);
@@ -96,3 +103,4 @@ register(ProcedureKey.SERVER_PLAYER_BANK_GET_TRANSACTIONS, playerBankGetTransact
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_CARDS, playerBankGetCardsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_DEACTIVATE_CARD, playerBankCardDeactivateHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_CREATE_CARD, playerCreateBankCardHandler);
+register(ProcedureKey.SERVER_BANK_UPDATE_PHONE, updateBankAccountPhoneNumber);

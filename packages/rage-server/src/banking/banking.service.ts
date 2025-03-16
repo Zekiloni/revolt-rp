@@ -11,6 +11,7 @@ import { bankingConfig } from './banking.config';
 import dayjs from 'dayjs';
 import { Item, ItemModel } from '../item/item.model';
 import { getItemById } from '../item/item.service';
+import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.service';
 
 export const generateBankAccountNumber = () => {
   const generate = customAlphabet('0123456789', 16);
@@ -236,8 +237,8 @@ export const playerCreateBankCard = async (player: PlayerMp, bankAccountId: stri
   }
 
   const activeCard = await ItemModel.findOne({
-    "bankCardInfo.bankAccountNo": bankAccount.number,
-    "bankCardInfo.active": true
+    'bankCardInfo.bankAccountNo': bankAccount.number,
+    'bankCardInfo.active': true
   }).sort({ createdAt: -1 });
 
   if (activeCard) {
@@ -251,4 +252,26 @@ export const playerCreateBankCard = async (player: PlayerMp, bankAccountId: stri
   notifyPlayer(player, { severity: 'success', detail: t('bank_card_created') });
 
   return bankCard;
+};
+
+
+export const bankAccountPhoneLink = async (player: PlayerMp, bankAccountId: string, phoneNumber: string | null) => {
+  const bankAccount = await getBankAccountById(bankAccountId);
+
+  if (!bankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
+  const phone  = await getPhoneByPhoneNumber(phoneNumber);
+
+  if (!phone) {
+    throw new Error(t('invalid_phone_number'));
+  }
+
+  bankAccount.phoneNumber = phoneNumber;
+  await bankAccount.save();
+
+  notifyPlayer(player, { severity: 'success', detail: t(phoneNumber ? 'bank_phone_linked' : 'bank_phone_unlinked') });
+
+  return bankAccount;
 };

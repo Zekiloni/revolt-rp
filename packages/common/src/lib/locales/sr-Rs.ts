@@ -436,4 +436,8 @@ export const srRs = {
   'phone_call_hangup': 'Poziv prekinut.',
   'no_phone_connected': 'Nema povezanog telefona.',
   'connect_phone': 'Poveži Telefon',
+  'bank_phone_link': 'Poveži Bankovni Telefon',
+  'disconnect_phone': 'Odveži Telefon',
+  'bank_phone_linked': 'Bankovni telefon je uspešno povezan.',
+  'bank_phone_unlinked': 'Bankovni telefon je uspešno odvezan.',
 };
