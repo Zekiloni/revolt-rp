@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TabViewModule } from 'primeng/tabview';
-import { BankAccountType, IBankAccount, IBankInteraction, ProcedureKey } from '@revolt-rp/common';
+import { BankAccountType, IBankAccount, IBankInteraction, IBankPhoneLink, ProcedureKey } from '@revolt-rp/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { playAudio } from '../../../../../domain/util/audio.util';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BANK_API_EVENTS } from '../../../../../domain/config/bank-api.config';
 import { ManageBankCardsComponent } from '../manage-bank-cards';
-
+import { BankPhoneLinkComponent } from '../bank-phone-link';
 
 
 @Component({
@@ -101,6 +101,33 @@ export class ManageBankAccountsComponent {
   };
 
   connectPhone() {
+    const dialogRef = this.dialogService.open(BankPhoneLinkComponent, {
+      header: this.translateService.instant('bank_phone_link'),
+      data: this.selectedBankAccount?.phoneNumber
+    });
 
+    dialogRef.onClose.subscribe((result?: string) => {
+      if (result && this.selectedBankAccount && this.selectedBankAccount?.phoneNumber !== result) {
+        const phoneLink: IBankPhoneLink = {
+          bankAccountId: this.selectedBankAccount.id,
+          phoneNumber: result
+        };
+        this.rageClientService.callServer<IBankAccount>(ProcedureKey.SERVER_BANK_UPDATE_PHONE, phoneLink)
+          .subscribe({ next: this.updateBankAccount, error: this.handleBankError });
+      }
+    });
+  }
+
+  disconnectPhone() {
+    if (!this.selectedBankAccount)
+      return;
+
+    const phoneLink: IBankPhoneLink = {
+      bankAccountId: this.selectedBankAccount.id,
+      phoneNumber: null
+    };
+
+    this.rageClientService.callServer<IBankAccount>(ProcedureKey.SERVER_BANK_UPDATE_PHONE, phoneLink)
+      .subscribe({ next: this.updateBankAccount, error: this.handleBankError });
   }
 }

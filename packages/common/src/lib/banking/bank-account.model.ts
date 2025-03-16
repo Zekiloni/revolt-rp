@@ -8,11 +8,17 @@ export enum BankAccountType {
   Savings = 'savings'
 }
 
+
+export interface IBankPhoneLink {
+  bankAccountId: string;
+  phoneNumber: string | null;
+}
+
 export interface IBankAccount extends Base {
   character: Ref<ICharacter>;
   number: string;
   balance: number;
   type: BankAccountType;
-  phoneNumber?: string;
+  phoneNumber: string | null;
   createdAt: Date;
 }

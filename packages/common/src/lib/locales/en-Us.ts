@@ -434,4 +434,8 @@ export const enUs = {
   'phone_call_hangup': 'Call has been hung up.',
   'no_phone_connected': 'No phone connected.',
   'connect_phone': 'Connect Phone',
+  'bank_phone_link': 'Bank Phone Link',
+  'disconnect_phone': 'Disconnect Phone',
+  'bank_phone_linked': 'Bank account phone linked.',
+  'bank_phone_unlinked': 'Bank account phone unlinked.',
 };
