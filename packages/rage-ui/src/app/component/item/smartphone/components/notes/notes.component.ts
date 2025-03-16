@@ -6,7 +6,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
 import { ButtonDirective } from 'primeng/button';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-import { PhoneState } from '../../../../../store/phone';
+import { ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { PhoneState, setPhone } from '../../../../../store/phone';
 
 
 @Component({
@@ -21,7 +23,9 @@ export class NotesComponent implements OnInit {
 
   notes: string[] = [];
 
-  constructor(private store: Store<PhoneState>) {
+  unsavedChanges = false;
+
+  constructor(private rageClientService: RageClientService, private store: Store<PhoneState>) {
   }
 
   get isAddNoteDisabled(): boolean {
@@ -34,7 +38,28 @@ export class NotesComponent implements OnInit {
   }
 
   addNote() {
+    this.unsavedChanges = true;
     this.notes.push('');
+  }
+
+  removeNote(index: number) {
+    this.unsavedChanges = true;
+    this.notes.splice(index, 1);
+  }
+
+  private handleNotesUpdate = (notes: string[]) => {
+    this.unsavedChanges = false;
+    this.store.dispatch(setPhone({ phone: { ...this.phoneItem, phoneInfo: { ...this.phoneItem.phoneInfo, notes } } }));
+  };
+
+  save() {
+    this.rageClientService.callServer<string[]>(ProcedureKey.SERVER_PHONE_UPDATE_NOTES, this.notes)
+      .subscribe({ next: this.handleNotesUpdate });
+  }
+
+  cancel() {
+    this.notes = [...this.phoneItem.phoneInfo.notes];
+    this.unsavedChanges = false;
   }
 
   ngOnInit() {

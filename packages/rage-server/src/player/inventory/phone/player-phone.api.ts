@@ -16,7 +16,7 @@ import {
   playerTogglePhone,
   updateManyPhoneMessages,
   updatePhoneContact,
-  updatePhoneMessage,
+  updatePhoneMessage, updatePhoneNotes,
   updatePhoneSettings
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
@@ -82,6 +82,11 @@ async function answerPhoneCallHandler(callId: string, { player }: ProcedureListe
   await playerAnswerPhoneCall(player, callId);
 }
 
+function updatePhoneNotesHandler(notes: string[], { player }: ProcedureListenerInfo<PlayerMp>) {
+  const item = getPlayerSelectedItem(player);
+  return updatePhoneNotes(item, notes);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
@@ -93,3 +98,4 @@ register(ProcedureKey.SERVER_UPDATE_PHONE_CONTACT, playerUpdatePhoneContactHandl
 register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, playerUpdatePhoneMessageHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, playerUpdateManyPhoneMessagesHandler);
+register(ProcedureKey.SERVER_PHONE_UPDATE_NOTES, updatePhoneNotesHandler);

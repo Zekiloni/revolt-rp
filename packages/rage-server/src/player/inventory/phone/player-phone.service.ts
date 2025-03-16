@@ -326,3 +326,9 @@ export const getPlayerActivePhoneCall = async (player: PlayerMp) => {
 
   return getActivePhoneCallByPhoneNumber(phoneNumbers);
 };
+
+export const updatePhoneNotes = async (item: Item, notes: string[]) => {
+  item.phoneInfo.notes = notes;
+  item.markModified('phoneInfo.notes');
+  return item.save();
+}
