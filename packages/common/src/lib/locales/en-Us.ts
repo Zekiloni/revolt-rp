@@ -432,4 +432,6 @@ export const enUs = {
   'no_title': 'No Title',
   'phone': 'Phone',
   'phone_call_hangup': 'Call has been hung up.',
+  'no_phone_connected': 'No phone connected.',
+  'connect_phone': 'Connect Phone',
 };

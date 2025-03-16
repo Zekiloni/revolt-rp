@@ -30,6 +30,9 @@ export class BankAccount extends Document implements IBankAccount {
   @prop({ type: String, required: true, enum: Object.values(BankAccountType)})
   type: BankAccountType;
 
+  @prop({ type: String, required: false })
+  phoneNumber?: string;
+
   createdAt!: Date;
   updatedAt?: Date;
 }
