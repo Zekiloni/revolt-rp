@@ -139,4 +139,5 @@ export const enum ProcedureKey {
   SERVER_ANSWER_PHONE_CALL = 'server_answerPhoneCall',
   SERVER_HANGUP_PHONE_CALL = 'server_hangupPhoneCall',
   SERVER_PHONE_UPDATE_NOTES = 'server_phoneUpdateNotes',
+  SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER = 'server_getBankAccountByPhoneNumber',
 }

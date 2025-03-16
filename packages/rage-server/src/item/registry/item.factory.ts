@@ -125,50 +125,50 @@ new WeaponItem('Alexander Arms 6.5 Grendel AR-15', 'A powerful AR-15 variant cha
 new WeaponItem('Howa 1500 Mini Action', 'A bolt-action rifle chambered in 6.5 Grendel.', RageEnums.Hashes.Weapon.PRECISIONRIFLE, CaliberType.CALIBER_6_5_GRENDEL, 'w_sr_precisionrifle_reh', [ItemType.WEAPON_ASSAULT_RIFLE], 4.2);
 
 
-new AmmoItem('.22 LR', 'Ammunition for .22 caliber pistols and rifles.', CaliberType.CALIBER_22_LR, 'ammo_22lr', [ItemType.AMMUNITION], 0.3);
-new AmmoItem('.25 ACP', 'Ammunition for .25 caliber pocket pistols.', CaliberType.CALIBER_25_ACP, 'ammo_25acp', [ItemType.AMMUNITION], 0.35);
-new AmmoItem('.32 ACP', 'Ammunition for .32 caliber pistols.', CaliberType.CALIBER_32_ACP, 'ammo_32acp', [ItemType.AMMUNITION], 0.4);
-new AmmoItem('.380 ACP', 'Ammunition for .380 caliber pistols.', CaliberType.CALIBER_380_ACP, 'ammo_380acp', [ItemType.AMMUNITION], 0.45);
-new AmmoItem('9mm', 'Ammunition for 9mm pistols and submachine guns.', CaliberType.CALIBER_9_MM, 'ammo_9mm', [ItemType.AMMUNITION], 0.5);
-new AmmoItem('.38 Special', 'Ammunition for .38 caliber revolvers.', CaliberType.CALIBER_38_SPECIAL, 'ammo_38special', [ItemType.AMMUNITION], 0.55);
-new AmmoItem('.40 S&W', 'Ammunition for .40 caliber pistols.', CaliberType.CALIBER_40_S_W, 'ammo_40sw', [ItemType.AMMUNITION], 0.6);
-new AmmoItem('.44 Special', 'Ammunition for .44 caliber revolvers.', CaliberType.CALIBER_44_SPECIAL, 'ammo_44special', [ItemType.AMMUNITION], 0.65);
-new AmmoItem('.357 Magnum', 'Ammunition for .357 caliber revolvers.', CaliberType.CALIBER_357_MAGNUM, 'ammo_357magnum', [ItemType.AMMUNITION], 0.7);
-new AmmoItem('.45 ACP', 'Ammunition for .45 caliber pistols and submachine guns.', CaliberType.CALIBER_45_ACP, 'ammo_45acp', [ItemType.AMMUNITION], 0.75);
-new AmmoItem('.44 Magnum', 'Ammunition for .44 caliber revolvers.', CaliberType.CALIBER_44_MAGNUM, 'ammo_44magnum', [ItemType.AMMUNITION], 0.8);
-new AmmoItem('.45 Colt', 'Ammunition for .45 Colt revolvers.', CaliberType.CALIBER_45_COLT, 'ammo_45colt', [ItemType.AMMUNITION], 0.85);
-new AmmoItem('10mm Auto', 'Ammunition for 10mm pistols.', CaliberType.CALIBER_10MM_AUTO, 'ammo_10mm', [ItemType.AMMUNITION], 0.9);
-new AmmoItem('.357 SIG', 'Ammunition for .357 SIG pistols.', CaliberType.CALIBER_357_SIG, 'ammo_357sig', [ItemType.AMMUNITION], 0.95);
-new AmmoItem('.45 GAP', 'Ammunition for .45 GAP pistols.', CaliberType.CALIBER_45_GAP, 'ammo_45gap', [ItemType.AMMUNITION], 1.0);
-new AmmoItem('.500 S&W', 'Ammunition for .500 caliber revolvers.', CaliberType.CALIBER_500_S_W, 'ammo_500sw', [ItemType.AMMUNITION], 1.1);
+new AmmoItem('.22 LR', 'Ammunition for .22 caliber pistols and rifles.', CaliberType.CALIBER_22_LR, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.3);
+new AmmoItem('.25 ACP', 'Ammunition for .25 caliber pocket pistols.', CaliberType.CALIBER_25_ACP, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.35);
+new AmmoItem('.32 ACP', 'Ammunition for .32 caliber pistols.', CaliberType.CALIBER_32_ACP, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.4);
+new AmmoItem('.380 ACP', 'Ammunition for .380 caliber pistols.', CaliberType.CALIBER_380_ACP, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.45);
+new AmmoItem('9mm', 'Ammunition for 9mm pistols and submachine guns.', CaliberType.CALIBER_9_MM, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.5);
+new AmmoItem('.38 Special', 'Ammunition for .38 caliber revolvers.', CaliberType.CALIBER_38_SPECIAL, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.55);
+new AmmoItem('.40 S&W', 'Ammunition for .40 caliber pistols.', CaliberType.CALIBER_40_S_W, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.6);
+new AmmoItem('.44 Special', 'Ammunition for .44 caliber revolvers.', CaliberType.CALIBER_44_SPECIAL, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.65);
+new AmmoItem('.357 Magnum', 'Ammunition for .357 caliber revolvers.', CaliberType.CALIBER_357_MAGNUM, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.7);
+new AmmoItem('.45 ACP', 'Ammunition for .45 caliber pistols and submachine guns.', CaliberType.CALIBER_45_ACP, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.75);
+new AmmoItem('.44 Magnum', 'Ammunition for .44 caliber revolvers.', CaliberType.CALIBER_44_MAGNUM, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.8);
+new AmmoItem('.45 Colt', 'Ammunition for .45 Colt revolvers.', CaliberType.CALIBER_45_COLT, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.85);
+new AmmoItem('10mm Auto', 'Ammunition for 10mm pistols.', CaliberType.CALIBER_10MM_AUTO, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.9);
+new AmmoItem('.357 SIG', 'Ammunition for .357 SIG pistols.', CaliberType.CALIBER_357_SIG, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 0.95);
+new AmmoItem('.45 GAP', 'Ammunition for .45 GAP pistols.', CaliberType.CALIBER_45_GAP, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 1.0);
+new AmmoItem('.500 S&W', 'Ammunition for .500 caliber revolvers.', CaliberType.CALIBER_500_S_W, 'w_pi_vintage_pistol_mag1', [ItemType.AMMUNITION], 1.1);
 
-new AmmoItem('5.56mm', 'Ammunition for AR-15 and similar rifles.', CaliberType.CALIBER_5_56_MM, 'ammo_556mm', [ItemType.AMMUNITION], 1.2);
-new AmmoItem('7.62mm', 'Ammunition for battle rifles and snipers.', CaliberType.CALIBER_7_62_MM, 'ammo_762mm', [ItemType.AMMUNITION], 1.3);
-new AmmoItem('.308 Winchester', 'Ammunition for hunting and military rifles.', CaliberType.CALIBER_308_WINCHESTER, 'ammo_308win', [ItemType.AMMUNITION], 1.4);
-new AmmoItem('.300 Blackout', 'Ammunition for suppressed and short-barreled rifles.', CaliberType.CALIBER_300_BLACKOUT, 'ammo_300blk', [ItemType.AMMUNITION], 1.5);
-new AmmoItem('.223 Remington', 'Ammunition for AR-15 rifles.', CaliberType.CALIBER_223_REMINGTON, 'ammo_223rem', [ItemType.AMMUNITION], 1.2);
-new AmmoItem('5.45x39mm', 'Ammunition for AK-74 rifles.', CaliberType.CALIBER_5_45_X39_MM, 'ammo_545x39', [ItemType.AMMUNITION], 1.2);
-new AmmoItem('.277 Fury', 'Ammunition for next-generation military rifles.', CaliberType.CALIBER_277_FURY, 'ammo_277fury', [ItemType.AMMUNITION], 1.3);
-new AmmoItem('6.5 Grendel', 'Ammunition for precision rifles.', CaliberType.CALIBER_6_5_GRENDEL, 'ammo_65grendel', [ItemType.AMMUNITION], 1.3);
-new AmmoItem('.204 Ruger', 'Ammunition for high-velocity rifles.', CaliberType.CALIBER_204_RUGER, 'ammo_204ruger', [ItemType.AMMUNITION], 1.1);
+new AmmoItem('5.56mm', 'Ammunition for AR-15 and similar rifles.', CaliberType.CALIBER_5_56_MM, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.2);
+new AmmoItem('7.62mm', 'Ammunition for battle rifles and snipers.', CaliberType.CALIBER_7_62_MM, 'w_sr_heavysniper_mag1', [ItemType.AMMUNITION], 1.3);
+new AmmoItem('.308 Winchester', 'Ammunition for hunting and military rifles.', CaliberType.CALIBER_308_WINCHESTER, 'w_sr_sniperrifle_mag1', [ItemType.AMMUNITION], 1.4);
+new AmmoItem('.300 Blackout', 'Ammunition for suppressed and short-barreled rifles.', CaliberType.CALIBER_300_BLACKOUT, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.5);
+new AmmoItem('.223 Remington', 'Ammunition for AR-15 rifles.', CaliberType.CALIBER_223_REMINGTON, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.2);
+new AmmoItem('5.45x39mm', 'Ammunition for AK-74 rifles.', CaliberType.CALIBER_5_45_X39_MM, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.2);
+new AmmoItem('.277 Fury', 'Ammunition for next-generation military rifles.', CaliberType.CALIBER_277_FURY, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.3);
+new AmmoItem('6.5 Grendel', 'Ammunition for precision rifles.', CaliberType.CALIBER_6_5_GRENDEL, 'w_sr_heavysniper_mag1', [ItemType.AMMUNITION], 1.3);
+new AmmoItem('.204 Ruger', 'Ammunition for high-velocity rifles.', CaliberType.CALIBER_204_RUGER, 'w_sr_heavysniper_mag1', [ItemType.AMMUNITION], 1.1);
 
-new AmmoItem('12 Gauge', 'Shotgun shells for 12 gauge shotguns.', CaliberType.CALIBER_12_GAUGE, 'ammo_12gauge', [ItemType.AMMUNITION], 1.8);
-new AmmoItem('10 Gauge', 'Shotgun shells for 10 gauge shotguns.', CaliberType.CALIBER_10_GAUGE, 'ammo_10gauge', [ItemType.AMMUNITION], 2.0);
+new AmmoItem('12 Gauge', 'Shotgun shells for 12 gauge shotguns.', CaliberType.CALIBER_12_GAUGE, 'w_sg_assaultshotgun_mag1', [ItemType.AMMUNITION], 1.8);
+new AmmoItem('10 Gauge', 'Shotgun shells for 10 gauge shotguns.', CaliberType.CALIBER_10_GAUGE, 'w_sg_assaultshotgun_mag1', [ItemType.AMMUNITION], 2.0);
 
-new AmmoItem('.50 BMG', 'Ammunition for heavy machine guns and anti-materiel rifles.', CaliberType.CALIBER_50_BMG, 'ammo_50bmg', [ItemType.AMMUNITION], 2.5);
-new AmmoItem('.338 Lapua', 'Ammunition for long-range sniper rifles.', CaliberType.CALIBER_338_LAPUA, 'ammo_338lapua', [ItemType.AMMUNITION], 2.2);
+new AmmoItem('.50 BMG', 'Ammunition for heavy machine guns and anti-materiel rifles.', CaliberType.CALIBER_50_BMG, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 2.5);
+new AmmoItem('.338 Lapua', 'Ammunition for long-range sniper rifles.', CaliberType.CALIBER_338_LAPUA, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 2.2);
 
-new AmmoItem('40mm Grenade', 'Explosive grenade rounds for grenade launchers.', CaliberType.CALIBER_40MM_GRENADE, 'ammo_40mm', [ItemType.AMMUNITION], 3.0);
-new AmmoItem('RPG', 'Rocket-propelled grenade rounds.', CaliberType.CALIBER_RPG, 'ammo_rpg', [ItemType.AMMUNITION], 5.0);
+new AmmoItem('40mm Grenade', 'Explosive grenade rounds for grenade launchers.', CaliberType.CALIBER_40MM_GRENADE, 'w_sg_assaultshotgun_mag1', [ItemType.AMMUNITION], 3.0);
+new AmmoItem('RPG', 'Rocket-propelled grenade rounds.', CaliberType.CALIBER_RPG, 'w_lr_rpg_rocket', [ItemType.AMMUNITION], 5.0);
 
-new AmmoItem('Flare', 'Signal flares used for illumination or signaling.', CaliberType.CALIBER_FLARE, 'ammo_flare', [ItemType.AMMUNITION], 0.8);
-new AmmoItem('Paintball', 'Non-lethal paintball rounds.', CaliberType.CALIBER_PAINTBALL, 'ammo_paintball', [ItemType.AMMUNITION], 0.5);
-new AmmoItem('.50 AE', 'Ammunition for Desert Eagle and similar handguns.', CaliberType.CALIBER_50_AE, 'ammo_50ae', [ItemType.AMMUNITION], 1.2);
-new AmmoItem('9mm Parabellum', 'Standard 9mm NATO ammunition.', CaliberType.CALIBER_9_MM_PARABELLUM, 'ammo_9mmpara', [ItemType.AMMUNITION], 0.55);
-new AmmoItem('5.7x28mm', 'Ammunition for FN P90 and Five-seveN pistols.', CaliberType.CALIBER_5_7_X28_MM, 'ammo_57x28', [ItemType.AMMUNITION], 0.7);
-new AmmoItem('5.56x45mm NATO', 'Military-grade rifle ammunition.', CaliberType.CALIBER_5_56_X45_MM_NATO, 'ammo_556x45', [ItemType.AMMUNITION], 1.2);
-new AmmoItem('7.62x51mm NATO', 'Ammunition for battle rifles.', CaliberType.CALIBER_7_62_X51_MM_NATO, 'ammo_762x51', [ItemType.AMMUNITION], 1.4);
-new AmmoItem('7.62x39mm', 'Ammunition for AK-47 rifles.', CaliberType.CALIBER_7_62_X39_MM, 'ammo_762x39', [ItemType.AMMUNITION], 1.3);
+new AmmoItem('Flare', 'Signal flares used for illumination or signaling.', CaliberType.CALIBER_FLARE, 'hei_prop_heist_deposit_box', [ItemType.AMMUNITION], 0.8);
+new AmmoItem('Paintball', 'Non-lethal paintball rounds.', CaliberType.CALIBER_PAINTBALL, 'w_ar_bullpuprifle_mag2', [ItemType.AMMUNITION], 0.5);
+new AmmoItem('.50 AE', 'Ammunition for Desert Eagle and similar handguns.', CaliberType.CALIBER_50_AE, 'w_pi_appistol_mag1', [ItemType.AMMUNITION], 1.2);
+new AmmoItem('9mm Parabellum', 'Standard 9mm NATO ammunition.', CaliberType.CALIBER_9_MM_PARABELLUM, 'w_pi_appistol_mag1', [ItemType.AMMUNITION], 0.55);
+new AmmoItem('5.7x28mm', 'Ammunition for FN P90 and Five-seveN pistols.', CaliberType.CALIBER_5_7_X28_MM, 'w_pi_appistol_mag2', [ItemType.AMMUNITION], 0.7);
+new AmmoItem('5.56x45mm NATO', 'Military-grade rifle ammunition.', CaliberType.CALIBER_5_56_X45_MM_NATO, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.2);
+new AmmoItem('7.62x51mm NATO', 'Ammunition for battle rifles.', CaliberType.CALIBER_7_62_X51_MM_NATO, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.4);
+new AmmoItem('7.62x39mm', 'Ammunition for AK-47 rifles.', CaliberType.CALIBER_7_62_X39_MM, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.3);
 
 
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);

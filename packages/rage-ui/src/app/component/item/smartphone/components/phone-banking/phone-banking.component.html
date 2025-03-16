@@ -1,0 +1,9 @@
+
+@if ($bankAccount | async; as bankAccount) {
+  @if (bankAccount) {
+    <span>bank account</span>
+
+  } @else {
+    <span>no bank account</span>
+  }
+}
