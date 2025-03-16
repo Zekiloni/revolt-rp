@@ -1,19 +1,33 @@
 <div class="flex flex-column h-full">
   <div class="flex align-items-center justify-content-between py-2 px-3">
     <span>{{ 'notes' | translate }}</span>
-    <button pButton size="small" [rounded]="true" icon="pi pi-plus" (click)="addNote()"
-            [disabled]="isAddNoteDisabled"></button>
+
+    @if (unsavedChanges) {
+      <div class="flex align-items-center gap-2">
+        <button pButton size="small" [rounded]="true" [text]="true" severity="success" icon="pi pi-check"
+                (click)="save()"></button>
+        <button pButton size="small" [rounded]="true" [text]="true" severity="danger" icon="pi pi-times"
+                (click)="cancel()"></button>
+      </div>
+    } @else {
+      <button pButton size="small" [rounded]="true" icon="pi pi-plus" (click)="addNote()"
+              [disabled]="isAddNoteDisabled"></button>
+    }
   </div>
 
   <div class="overflow-y-scroll flex-grow-1">
     @for (note of notes; let i = $index; track i) {
-      <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true">
+      <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true" expandIcon="pi pi-chevron-down"
+               collapseIcon="pi pi-chevron-up">
      <textarea
        rows="5"
        pInputTextarea
        class="w-full"
+       (ngModelChange)="unsavedChanges = true"
        [(ngModel)]="notes[i]">
     </textarea>
+        <button pButton size="small" [rounded]="true" severity="danger" icon="pi pi-trash" class="mt-2"
+                (click)="removeNote(i)"></button>
       </p-panel>
     }
   </div>

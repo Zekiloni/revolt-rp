@@ -9,7 +9,9 @@ export const testPhoneData: Partial<IPhoneItem> = {
     power: true,
     opacity: 0.9,
     phoneNumber: '1234567890',
-    notes: [],
+    notes: [
+      'kako je konelova mama postala kurva recept'
+    ],
     contacts: [
       {
         id: '546457457345',

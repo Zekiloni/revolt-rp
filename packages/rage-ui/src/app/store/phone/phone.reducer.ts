@@ -22,8 +22,8 @@ export interface PhoneState {
 }
 
 export const initialPhoneState: PhoneState = {
-  phone: testPhoneData as IPhoneItem,
-  messages: testMessages,
+  phone: null,
+  messages: [],
   currentCall: null,
   phoneCalls: []
 };
