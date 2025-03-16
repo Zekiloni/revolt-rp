@@ -90,10 +90,10 @@ export const testMessages: IPhoneMessage[] = [
     sender: '321199',
     receiver: testPhoneData.phoneInfo!.phoneNumber,
     content: 'imam',
-    seen: false,
+    seen: true,
     createdAt: dayjs().subtract(3, 'minutes').toDate(),
-    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C2'),
-    id: '4BFD7ED40E74F7461702D4C2'
+    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C4'),
+    id: '4BFD7ED40E74F7461702D4C4'
   },
   {
     type: PhoneMessageType.Location,
@@ -102,8 +102,8 @@ export const testMessages: IPhoneMessage[] = [
     content: '{"lat":43.8563,"lng":18.4131}',
     seen: false,
     createdAt: dayjs().subtract(2, 'minutes').toDate(),
-    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C2'),
-    id: '4BFD7ED40E74F7461702D4C2'
+    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C5'),
+    id: '4BFD7ED40E74F7461702D4C5'
   },
   {
     type: PhoneMessageType.Text,
@@ -112,7 +112,7 @@ export const testMessages: IPhoneMessage[] = [
     content: 'dodji kod ferhatovica',
     seen: false,
     createdAt: dayjs().subtract(1, 'minutes').toDate(),
-    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C2'),
-    id: '4BFD7ED40E74F7461702D4C2'
+    _id: new Types.ObjectId('4BFD7ED40E74F7461702D4C6'),
+    id: '4BFD7ED40E74F7461702D4C6'
   },
 ];

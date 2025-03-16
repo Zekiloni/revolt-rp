@@ -139,7 +139,8 @@ export class MessengerComponent implements OnInit {
   }
 
   getUnreadMessages(conversation: string) {
-    return this.getConversationMessages(conversation).filter(msg => !msg.seen && msg.sender === conversation);
+    return this.getConversationMessages(conversation)
+      .filter(msg => msg.sender === conversation && !msg.seen);
   }
 
   navigateMeTo(message: IPhoneMessage) {
@@ -147,11 +148,13 @@ export class MessengerComponent implements OnInit {
   }
 
   private updateMessagesAsSeen(conversation: string) {
-    const unseenMessages = this.getUnreadMessages(conversation)
-      .map(message => ({ ...message, seen: true }));
+    const unreadMessages = this.getUnreadMessages(conversation);
 
-    if (unseenMessages.length) {
-      this.rageClientService.callServer<IPhoneMessage[]>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, unseenMessages)
+    if (unreadMessages.length) {
+      const updateSeenMessages = unreadMessages
+        .map(message => ({ ...message, seen: true }));
+
+      this.rageClientService.callServer<IPhoneMessage[]>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, updateSeenMessages)
         .subscribe({
           next: (messages) => this.store.dispatch(updateManyPhoneMessages({ messages })),
           error: (error) => console.error(JSON.stringify(error))
