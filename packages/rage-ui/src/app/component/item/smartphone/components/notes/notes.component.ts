@@ -39,7 +39,7 @@ export class NotesComponent implements OnInit {
 
   addNote() {
     this.unsavedChanges = true;
-    this.notes.push('');
+    this.notes.unshift('');
   }
 
   removeNote(index: number) {
