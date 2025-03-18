@@ -68,14 +68,10 @@ export class PhoneBankingComponent implements OnInit {
 
   private getBankAccount() {
     this.$bankAccount = this.rageClientService
-      .callServer<IBankAccount | null>(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, this.phoneItem.phoneInfo.phoneNumber)
+      .callServer<IBankAccount>(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, this.phoneItem.phoneInfo.phoneNumber)
       .pipe(
         delay(500),
         tap((bankAccount) => {
-          if (!bankAccount) {
-            this.isLoading = false;
-            return;
-          }
           this.getBankStats(bankAccount.id);
           this.isLoading = false;
         }),
