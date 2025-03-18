@@ -438,4 +438,9 @@ export const enUs = {
   'disconnect_phone': 'Disconnect Phone',
   'bank_phone_linked': 'Bank account phone linked.',
   'bank_phone_unlinked': 'Bank account phone unlinked.',
+  'bank_phone_not_connected': 'There is no bank account connected to the phone.',
+  'unavailable': 'Unavailable',
+  'connect_bank_phone_hint': 'Visit any bank branch to connect it to your phone number.',
+  'account_balance': 'Account Balance',
+  'bank_account_no': 'Bank Account No',
 };
