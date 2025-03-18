@@ -133,6 +133,7 @@ export class PhoneBankingComponent implements OnInit {
         .subscribe(() =>  {
           this.refreshTransferAction();
           this.getBankAccount();
+          // todo: handle errors (invalid amount, target bank account no doesnt exist, etc.
         });
     }
   }
