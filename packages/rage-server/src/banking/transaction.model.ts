@@ -1,9 +1,25 @@
 import { ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
-import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { Document, Types } from 'mongoose';
 import { BankAccount } from './bank-account.model';
 
 
+@modelOptions({
+  options: {
+    customName: 'transactions'
+  },
+  schemaOptions: {
+    timestamps: {
+      createdAt: true
+    },
+    toJSON: {
+      virtuals: true
+    },
+    toObject: {
+      virtuals: true
+    }
+  }
+})
 export class Transaction extends Document implements ITransaction {
   declare _id: Types.ObjectId;
   declare id: string;
@@ -26,8 +42,7 @@ export class Transaction extends Document implements ITransaction {
   @prop({ ref: () => BankAccount, required: false })
   targetBankAccount?: Ref<BankAccount>;
 
-  @prop({ required: true, default: () => new Date() })
-  createdAt: Date;
+  createdAt!: Date;
 }
 
 

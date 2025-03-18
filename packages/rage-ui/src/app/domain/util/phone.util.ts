@@ -1,5 +1,6 @@
 import { TooltipOptions } from 'primeng/api';
-import { IPhoneMessage } from '@revolt-rp/common';
+import { IPhoneMessage, ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
+
 
 export const getPhoneDockTooltip = (label: string): TooltipOptions => {
   return {
@@ -16,4 +17,21 @@ export const getConversations = (phoneNumber: string, messages: IPhoneMessage[])
   return [...new Set(
     messages.flatMap(msg => [msg.sender, msg.receiver])
   )].filter(number => number !== phoneNumber);
+};
+
+
+export const getBankMonthlyStats = (transactions: ITransaction[]): [number, number] => {
+  return transactions.reduce(
+    ([income, outcome], transaction) => {
+      if (transaction.status === TransactionStatus.Completed) {
+        if (transaction.type === TransactionType.Deposit || transaction.type === TransactionType.Payment) {
+          return [income + transaction.amount, outcome];
+        } else if (transaction.type === TransactionType.Withdraw || transaction.type === TransactionType.Transfer) {
+          return [income, outcome + transaction.amount];
+        }
+      }
+      return [income, outcome];
+    },
+    [0, 0]
+  );
 };

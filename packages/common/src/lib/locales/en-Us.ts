@@ -443,4 +443,7 @@ export const enUs = {
   'connect_bank_phone_hint': 'Visit any bank branch to connect it to your phone number.',
   'account_balance': 'Account Balance',
   'bank_account_no': 'Bank Account No',
+  'income': 'Income',
+  'outcome': 'Outcome',
+  'monthly_income_outcome': 'Monthly Income/Outcome',
 };

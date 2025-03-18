@@ -71,7 +71,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
   CLIENT_PLAYER_USE_BANK_CARD = 'client_playerUseBankCard',
   BROWSER_ATM_INIT = 'browser_atmInit',
-  SERVER_PLAYER_BANK_GET_TRANSACTIONS = 'server_playerBankGetTransactions',
+  SERVER_BANK_GET_TRANSACTIONS = 'server_bankGetTransactions',
   SERVER_PLAYER_DEPOSIT_MONEY = 'server_playerDepositMoney',
   SERVER_PLAYER_WITHDRAW_MONEY = 'server_playerWithdrawMoney',
   SERVER_PLAYER_TRANSFER_MONEY = 'server_playerTransferMoney',

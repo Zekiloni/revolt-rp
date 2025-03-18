@@ -1,19 +1,21 @@
-import { Types } from 'mongoose';
+import dayjs from 'dayjs';
+import { ChartData } from 'chart.js';
 import { CommonModule } from '@angular/common';
-import { delay, Observable, of, tap } from 'rxjs';
-import { TranslatePipe } from '@ngx-translate/core';
 import { Component, Input, OnInit } from '@angular/core';
+import { catchError, delay, Observable, of, tap } from 'rxjs';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ChartModule } from 'primeng/chart';
 import { TooltipModule } from 'primeng/tooltip';
 import { ButtonDirective } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { BankAccountType, IBankAccount } from '@revolt-rp/common';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { fadeInOutTrigger } from '../../../../../domain/util/animation.util';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
+import { IBankAccount, ITransaction, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { fadeInOutTrigger } from '../../../../../domain/util/animation.util';
+import { getBankMonthlyStats } from '../../../../../domain/util/phone.util';
 
 
 @Component({
@@ -37,22 +39,8 @@ export class PhoneBankingComponent implements OnInit {
   documentStyle = getComputedStyle(document.documentElement);
   surfaceBorder = this.documentStyle.getPropertyValue('--surface-border');
 
-  data = {
-    datasets: [
-      {
-        data: [11, 3, 14],
-        backgroundColor: [
-          this.documentStyle.getPropertyValue('--red-500'),
-          this.documentStyle.getPropertyValue('--green-500'),
-          this.documentStyle.getPropertyValue('--yellow-500')
-        ],
-        label: 'My dataset'
-      }
-    ],
-    labels: ['Red', 'Green', 'Yellow']
-  };
-
-  options = {
+  chartData: ChartData | null = null;
+  chartOptions = {
     plugins: {
       legend: {
         display: false
@@ -67,8 +55,7 @@ export class PhoneBankingComponent implements OnInit {
     }
   };
 
-
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private translateService: TranslateService) {
   }
 
   get isTransferValid() {
@@ -84,22 +71,51 @@ export class PhoneBankingComponent implements OnInit {
     //
   }
 
-  ngOnInit(): void {
-    const bac: Partial<IBankAccount> = {
-      phoneNumber: '123456789',
-      number: '1234-5678-9123-4567',
-      createdAt: new Date(),
-      id: 'AA37142F9BE852C184924BC7',
-      _id: new Types.ObjectId('AA37142F9BE852C184924BC7'),
-      balance: 10065670,
-      type: BankAccountType.Main
-    };
+  getBankStats(bankAccountId: string) {
+    this.rageClientService.callServer<ITransaction[]>(ProcedureKey.SERVER_BANK_GET_TRANSACTIONS, {
+      bankAccountId,
+      filter: {
+        createdAt: {
+          $gte: dayjs().startOf('month').toDate()
+        }
+      }
+    }).subscribe((transactions => {
+      this.buildChartData(getBankMonthlyStats(transactions));
+    }));
+  }
 
-    this.$bankAccount = of(bac as IBankAccount).pipe(
-      delay(1000),
-      tap(() => this.isLoading = false)
-    );
-    // this.$bankAccount = this.rageClientService
-    //   .callServer<IBankAccount | null>(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, this.phoneItem.phoneInfo.phoneNumber);
+  buildChartData(data: [number, number]) {
+    this.chartData = {
+      datasets: [
+        {
+          data,
+          backgroundColor: [
+            this.documentStyle.getPropertyValue('--green-500'),
+            this.documentStyle.getPropertyValue('--red-500')
+          ]
+        }
+      ],
+      labels: [this.translateService.instant('income'), this.translateService.instant('outcome')]
+    };
+  }
+
+  ngOnInit(): void {
+    this.$bankAccount = this.rageClientService
+      .callServer<IBankAccount | null>(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, this.phoneItem.phoneInfo.phoneNumber)
+      .pipe(
+        delay(500),
+        tap((bankAccount) => {
+          if (!bankAccount) {
+            this.isLoading = false;
+            return;
+          }
+          this.getBankStats(bankAccount.id);
+          this.isLoading = false;
+        }),
+        catchError(() => {
+          this.isLoading = false;
+          return of(null);
+        })
+      );
   }
 }

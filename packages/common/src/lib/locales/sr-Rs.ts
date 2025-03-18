@@ -445,4 +445,7 @@ export const srRs = {
   'connect_bank_phone_hint': 'Posetite banku kako biste povezali telefon.',
   'account_balance': 'Stanje računa',
   'bank_account_no': 'Broj računa',
+  'income': 'Prihod',
+  'outcome': 'Rashod',
+  'monthly_income_outcome': 'Mesečni prihod i rashod',
 };
