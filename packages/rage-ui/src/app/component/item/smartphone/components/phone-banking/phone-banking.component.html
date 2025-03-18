@@ -14,6 +14,7 @@
             <div class="field mb-3">
               <label class="text-700" for="amount">{{ 'amount' | translate }}</label>
               <p-inputNumber [(ngModel)]="transferAmount" id="amount" mode="decimal" [minFractionDigits]="2"
+                             [max]="bankAccount.balance"
                              [maxFractionDigits]="5" placeholder="3200" />
 
             </div>
@@ -23,7 +24,7 @@
                            placeholder="1234-5678-9101-1121" />
             </div>
 
-            <button pButton type="button" label="{{ 'submit' | translate }}" (click)="transfer()"
+            <button pButton type="button" label="{{ 'submit' | translate }}" (click)="transfer(bankAccount.id)"
                     [disabled]="!isTransferValid"></button>
           </div>
         </div>

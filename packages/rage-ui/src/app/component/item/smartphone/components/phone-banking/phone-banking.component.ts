@@ -12,7 +12,7 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
-import { IBankAccount, ITransaction, ProcedureKey } from '@revolt-rp/common';
+import { IBankAccount, IBankInteraction, ITransaction, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../../../../domain/util/animation.util';
 import { getBankMonthlyStats } from '../../../../../domain/util/phone.util';
@@ -66,40 +66,7 @@ export class PhoneBankingComponent implements OnInit {
     await navigator.clipboard.writeText(number);
   }
 
-  transfer() {
-
-    //
-  }
-
-  getBankStats(bankAccountId: string) {
-    this.rageClientService.callServer<ITransaction[]>(ProcedureKey.SERVER_BANK_GET_TRANSACTIONS, {
-      bankAccountId,
-      filter: {
-        createdAt: {
-          $gte: dayjs().startOf('month').toDate()
-        }
-      }
-    }).subscribe((transactions => {
-      this.buildChartData(getBankMonthlyStats(transactions));
-    }));
-  }
-
-  buildChartData(data: [number, number]) {
-    this.chartData = {
-      datasets: [
-        {
-          data,
-          backgroundColor: [
-            this.documentStyle.getPropertyValue('--green-500'),
-            this.documentStyle.getPropertyValue('--red-500')
-          ]
-        }
-      ],
-      labels: [this.translateService.instant('income'), this.translateService.instant('outcome')]
-    };
-  }
-
-  ngOnInit(): void {
+  private getBankAccount() {
     this.$bankAccount = this.rageClientService
       .callServer<IBankAccount | null>(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, this.phoneItem.phoneInfo.phoneNumber)
       .pipe(
@@ -117,5 +84,60 @@ export class PhoneBankingComponent implements OnInit {
           return of(null);
         })
       );
+  }
+
+  private getBankStats(bankAccountId: string) {
+    this.rageClientService.callServer<ITransaction[]>(ProcedureKey.SERVER_BANK_GET_TRANSACTIONS, {
+      bankAccountId,
+      filter: {
+        createdAt: {
+          $gte: dayjs().startOf('month').toDate()
+        }
+      }
+    }).subscribe((transactions => {
+      this.buildChartData(getBankMonthlyStats(transactions));
+    }));
+  }
+
+  private buildChartData(data: [number, number]) {
+    this.chartData = {
+      datasets: [
+        {
+          data,
+          backgroundColor: [
+            this.documentStyle.getPropertyValue('--green-500'),
+            this.documentStyle.getPropertyValue('--red-500')
+          ]
+        }
+      ],
+      labels: [this.translateService.instant('income'), this.translateService.instant('outcome')]
+    };
+  }
+
+  private refreshTransferAction() {
+    this.transferMoneyAction = false;
+    this.transferAmount = null;
+    this.targetBankAccount = null;
+  }
+
+  transfer(bankAccountId: string) {
+    if (this.transferAmount) {
+      const bankInteraction: IBankInteraction = {
+        bankAccountId,
+        type: 'online',
+        targetAccountNumber: this.targetBankAccount,
+        amount: this.transferAmount
+      };
+
+      this.rageClientService.callServer(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, bankInteraction)
+        .subscribe(() =>  {
+          this.refreshTransferAction();
+          this.getBankAccount();
+        });
+    }
+  }
+
+  ngOnInit(): void {
+    this.getBankAccount();
   }
 }
