@@ -107,7 +107,7 @@ export const getSavingAccountByCharacter = (character: Character) => {
   return BankAccountModel.findOne({ character: character._id, type: BankAccountType.Savings });
 };
 
-export const playerWithdrawMoney = async (player: PlayerMp, type: 'bank' | 'atm', bankAccountId: string, amount: number) => {
+export const playerWithdrawMoney = async (player: PlayerMp, type: 'bank' | 'atm' | 'online', bankAccountId: string, amount: number) => {
   const bankAccount = await getBankAccountById(bankAccountId);
 
   if (!bankAccount) {
@@ -141,7 +141,7 @@ export const playerWithdrawMoney = async (player: PlayerMp, type: 'bank' | 'atm'
 };
 
 
-export const playerDepositMoney = async (player: PlayerMp, type: 'bank' | 'atm', bankAccountId: string, amount: number) => {
+export const playerDepositMoney = async (player: PlayerMp, type: 'bank' | 'atm' | 'online', bankAccountId: string, amount: number) => {
   const bankAccount = await getBankAccountById(bankAccountId);
 
   if (!bankAccount) {
