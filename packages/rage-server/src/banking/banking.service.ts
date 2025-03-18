@@ -1,17 +1,19 @@
+import dayjs from 'dayjs';
 import { t } from 'i18next';
+import { FilterQuery } from 'mongoose';
 import { customAlphabet } from 'nanoid';
 import { BankAccountType, IBankCardInfo, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccount, BankAccountModel } from './bank-account.model';
-import { TransactionModel } from './transaction.model';
+import { Transaction, TransactionModel } from './transaction.model';
 import { giveMoney } from '../player/character/character.service';
 import { getPlayerByItemId, getPlayerItemById, playerGiveItem } from '../player/inventory/player-inventory.service';
 import { bankingConfig } from './banking.config';
-import dayjs from 'dayjs';
 import { Item, ItemModel } from '../item/item.model';
 import { getItemById } from '../item/item.service';
 import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.service';
+
 
 export const generateBankAccountNumber = () => {
   const generate = customAlphabet('0123456789', 16);
@@ -31,7 +33,7 @@ export const getBankAccountById = (bankAccountId: string) => {
 
 export const getBankAccountByPhoneNumber = (phoneNumber: string) => {
   return BankAccountModel.findOne({ phoneNumber }).exec();
-}
+};
 
 export const createBankAccount = (character: Character, type: BankAccountType, balance = 0) => {
   return BankAccountModel.create({
@@ -58,12 +60,13 @@ export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAcco
   return item;
 };
 
-export const getBankAccountTransactions = (bankAccountId: string) => {
+export const getBankAccountTransactions = async (bankAccountId: string, filter: FilterQuery<Transaction> = {}) => {
   return TransactionModel.find({
     $or: [
       { bankAccount: bankAccountId },
       { targetBankAccount: bankAccountId }
-    ]
+    ],
+    ...filter
   }).sort({ createdAt: -1 }).exec();
 };
 
@@ -145,7 +148,7 @@ export const playerDepositMoney = async (player: PlayerMp, type: 'bank' | 'atm',
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Deposit, amount, t('withdraw_transaction'));
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Deposit, amount, t('deposit_transaction'));
 
   if (player.character.cash < amount) {
     throw new Error(t('not_enough_money'));
@@ -267,10 +270,12 @@ export const bankAccountPhoneLink = async (player: PlayerMp, bankAccountId: stri
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const phone  = await getPhoneByPhoneNumber(phoneNumber);
+  if (phoneNumber && !/^\d{9,12}$/.test(phoneNumber)) {
+    const phone = await getPhoneByPhoneNumber(phoneNumber);
 
-  if (!phone) {
-    throw new Error(t('invalid_phone_number'));
+    if (!phone) {
+      throw new Error(t('invalid_phone_number'));
+    }
   }
 
   bankAccount.phoneNumber = phoneNumber;

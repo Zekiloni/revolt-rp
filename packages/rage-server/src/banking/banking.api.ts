@@ -11,6 +11,8 @@ import {
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { giveMoney } from '../player/character/character.service';
 import { bankingConfig } from './banking.config';
+import { FilterQuery } from 'mongoose';
+import { Transaction } from './transaction.model';
 
 
 async function playerCreateSavingAccountHandler(balance: number, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -56,8 +58,10 @@ async function playerDepositMoneyHandler(data: IBankInteraction, { player }: Pro
     .catch(catchError);
 }
 
-function playerBankGetTransactionsHandler(bankAccountId: string) {
-  return getBankAccountTransactions(bankAccountId);
+async function bankGetTransactionsHandler(query: { bankAccountId: string, filter?: FilterQuery<Transaction> }) {
+  return getBankAccountTransactions(query.bankAccountId, query.filter ?? {})
+    .then(transactions => transactions)
+    .catch(catchError);
 }
 
 async function playerTransferMoneyHandler(data: IBankInteraction, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -88,7 +92,7 @@ async function playerCreateBankCardHandler(bankAccountId: string, { player }: Pr
 }
 
 async function updateBankAccountPhoneNumber(linkBankAccount: IBankPhoneLink, { player }: ProcedureListenerInfo<PlayerMp>) {
-  return bankAccountPhoneLink(player ,linkBankAccount.bankAccountId, linkBankAccount.phoneNumber)
+  return bankAccountPhoneLink(player, linkBankAccount.bankAccountId, linkBankAccount.phoneNumber)
     .then(bankAccount => bankAccount)
     .catch(catchError);
 }
@@ -99,7 +103,7 @@ register(ProcedureKey.SERVER_PLAYER_BANK_GET_ACCOUNT, playerGetBankAccountByNumb
 register(ProcedureKey.SERVER_PLAYER_WITHDRAW_MONEY, playerWithdrawMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_DEPOSIT_MONEY, playerDepositMoneyHandler);
 register(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, playerTransferMoneyHandler);
-register(ProcedureKey.SERVER_PLAYER_BANK_GET_TRANSACTIONS, playerBankGetTransactionsHandler);
+register(ProcedureKey.SERVER_BANK_GET_TRANSACTIONS, bankGetTransactionsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_GET_CARDS, playerBankGetCardsHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_DEACTIVATE_CARD, playerBankCardDeactivateHandler);
 register(ProcedureKey.SERVER_PLAYER_BANK_CREATE_CARD, playerCreateBankCardHandler);

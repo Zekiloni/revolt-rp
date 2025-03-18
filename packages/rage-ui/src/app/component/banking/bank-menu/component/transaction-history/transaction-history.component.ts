@@ -29,7 +29,7 @@ export class TransactionHistoryComponent implements OnInit {
   }
 
   private loadTransactions() {
-    this.rageClientService.callServer<ITransaction[]>(ProcedureKey.SERVER_PLAYER_BANK_GET_TRANSACTIONS, this.bankAccount.id)
+    this.rageClientService.callServer<ITransaction[]>(ProcedureKey.SERVER_BANK_GET_TRANSACTIONS, { bankAccountId: this.bankAccount.id })
       .subscribe({ next: this.setTransactions });
   }
 

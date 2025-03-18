@@ -13,7 +13,8 @@
           <div class="p-fluid mt-3">
             <div class="field mb-3">
               <label class="text-700" for="amount">{{ 'amount' | translate }}</label>
-              <p-inputNumber [(ngModel)]="transferAmount" id="amount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" placeholder="3200" />
+              <p-inputNumber [(ngModel)]="transferAmount" id="amount" mode="decimal" [minFractionDigits]="2"
+                             [maxFractionDigits]="5" placeholder="3200" />
 
             </div>
             <div class="field mb-3">
@@ -39,9 +40,10 @@
                     label="{{ 'bank_account_no' | translate }}"
                     [pTooltip]="bankAccount.number"
                     tooltipPosition="bottom"
-                    class="mb-2"
-                    size="small" (click)="copyNumber(bankAccount.number)"></button>
-            <button pButton type="button" icon="pi pi-send" pTooltip="{{ 'transfer' | translate }}" [rounded]="true"
+                    size="small"
+                    (click)="copyNumber(bankAccount.number)"></button>
+            <button pButton type="button" icon="pi pi-send"
+                    pTooltip="{{ 'transfer' | translate }}"
                     tooltipPosition="bottom"
                     (click)="transferMoneyAction = true"
                     size="small"></button>
@@ -49,9 +51,14 @@
           </div>
         </div>
         <div class="px-3 py-3 surface-section border-round-2xl">
-          <div class="font-medium line-height-3 mb-2">{{ 'account_balance' | translate }}</div>
+          <div class="line-height-3 mb-2">{{ 'monthly_income_outcome' | translate }}</div>
           <div class="flex align-items-center justify-content-center">
-            <p-chart type="polarArea" [data]="data" [options]="options" width="110px" height="110px" />
+            @if (chartData) {
+              <p-chart type="polarArea" [data]="chartData" [options]="chartOptions" width="110px"
+                       height="110px" />
+            } @else {
+              <p-progressSpinner ariaLabel="loading" />
+            }
           </div>
         </div>
       </div>

@@ -79,8 +79,6 @@ export const updatePhoneMessage = async (message: IPhoneMessage) => {
 };
 
 export const updateManyPhoneMessages = async (messages: IPhoneMessage[]) => {
-  console.log('messages to update ', messages);
-
   try {
     await PhoneMessageModel.bulkWrite(messages.map((message: IPhoneMessage) => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -190,7 +188,6 @@ export const playerTogglePhone = async (player: PlayerMp, phone: Item, toggle: b
     if (toggle) {
       const messages = await getPhoneMessages(phone.phoneInfo.phoneNumber);
 
-      console.log('playerTogglePhone-messages', messages);
       triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE, phone);
       triggerBrowsers(player, ProcedureKey.BROWSER_SET_PHONE_MESSAGES, messages);
 
@@ -218,8 +215,6 @@ export const playerSendPhoneMessage = async (player: PlayerMp, messageCreate: IP
   }
 
   triggerBrowsers(player, ProcedureKey.BROWSER_ADD_PHONE_MESSAGE, message);
-
-  console.log('playerSendPhoneMessage', message);
 };
 
 export const playerCallPhone = async (player: PlayerMp, item: Item, targetPhoneNumber: string) => {
