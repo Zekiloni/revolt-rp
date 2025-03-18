@@ -440,4 +440,9 @@ export const srRs = {
   'disconnect_phone': 'Odveži Telefon',
   'bank_phone_linked': 'Bankovni telefon je uspešno povezan.',
   'bank_phone_unlinked': 'Bankovni telefon je uspešno odvezan.',
+  'bank_phone_not_connected': 'Ovaj broj telefona nije povezan ni sa jednim bankovnim računom.',
+  'unavailable': 'Nedostupno',
+  'connect_bank_phone_hint': 'Posetite banku kako biste povezali telefon.',
+  'account_balance': 'Stanje računa',
+  'bank_account_no': 'Broj računa',
 };

@@ -21,6 +21,7 @@ import {
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
 import { getItemById } from '../../../item/item.service';
+import { getBankAccountByPhoneNumber } from '../../../banking/banking.service';
 
 
 async function playerTogglePhoneHandler(toggle: boolean, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -83,6 +84,10 @@ function playerUpdatePhoneSettingsHandler(settings: IPhoneSettingsUpdate, { play
   return updatePhoneSettings(item, settings);
 }
 
+function getBankAccountByPhoneNumberHandler(phoneNumber: string) {
+  return getBankAccountByPhoneNumber(phoneNumber);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
@@ -95,3 +100,4 @@ register(ProcedureKey.SERVER_DELETE_PHONE_CONTACT, playerDeletePhoneContactHandl
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, playerUpdatePhoneMessageHandler);
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, playerUpdateManyPhoneMessagesHandler);
 register(ProcedureKey.SERVER_PHONE_UPDATE_NOTES, updatePhoneNotesHandler);
+register(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, getBankAccountByPhoneNumberHandler);

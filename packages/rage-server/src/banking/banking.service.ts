@@ -28,6 +28,11 @@ export const getBankAccountById = (bankAccountId: string) => {
   return BankAccountModel.findById(bankAccountId);
 };
 
+
+export const getBankAccountByPhoneNumber = (phoneNumber: string) => {
+  return BankAccountModel.findOne({ phoneNumber }).exec();
+}
+
 export const createBankAccount = (character: Character, type: BankAccountType, balance = 0) => {
   return BankAccountModel.create({
     character,
