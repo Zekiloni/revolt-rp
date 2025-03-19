@@ -21,6 +21,11 @@ export const getPlayerSelectedItem = (player: PlayerMp) => {
 };
 
 
+export const setSelectedItem = (player: PlayerMp, item: Item) => {
+  player.character.selectedItemId = item;
+  player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
+}
+
 export const getPlayerItemById = (player: PlayerMp, itemId: string) => {
   return player.character.inventory.find((item: Item) => item.id === itemId) as Item | undefined;
 };
@@ -70,9 +75,21 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
 };
 
 export const clearPlayerInventory = async (player: PlayerMp) => {
-  player.character.inventory.forEach(destroyItem);
+  player.character.inventory.forEach((item: Item) => {
+    const itemHandler = item.data;
+    if (item.equipped && itemHandler.isEquipable) {
+      const wearableItem = itemHandler as WearableItem;
+      item.equipped = false;
+      if (wearableItem.unequip)
+        (<WearableItem>itemHandler).unequip(player, item);
+    }
+    destroyItem(item);
+  });
+
   player.character.inventory = [];
   await player.character.save();
+
+  triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
 };
 
 export const removePlayerWeapons = async (player: PlayerMp) => {
@@ -95,6 +112,7 @@ export const removePlayerWeapons = async (player: PlayerMp) => {
   player.character.inventory = player.character.inventory.filter(item => !playerWeaponItems.includes(item.id));
   await player.character.save();
 
+  triggerBrowsers(player, ProcedureKey.BROWSER_SET_INVENTORY, player.character.inventory);
   playerWeaponItems.forEach(destroyItemById);
 };
 
@@ -130,7 +148,6 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
     item.equipped = false;
     if (wearableItem.unequip)
       (<WearableItem>itemHandler).unequip(player, item);
-
   }
 
   item.dropped = true;

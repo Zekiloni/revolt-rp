@@ -263,15 +263,6 @@ registerCommand({
   }
 });
 
-registerCommand({
-  name: 'forecast',
-  description: 'todo',
-  handle(player: PlayerMp) {
-    const forecast = getForecast();
-    forecast.forEach(f => player.outputChatBox(`!{${hexColors.YELLOW}}${f.weather}: ${f.temperature}C`));
-  }
-});
-
 
 registerCommand({
   name: 'r',
