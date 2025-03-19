@@ -9,6 +9,7 @@ import { KeypadComponent } from '../../component/item/smartphone/components/keyp
 import { NotesComponent } from '../../component/item/smartphone/components/notes';
 import { PhoneBankingComponent } from '../../component/item/smartphone/components/phone-banking';
 import { ForecastComponent } from '../../component/item/smartphone/components/forecast';
+import { AdvertisementComponent } from '../../component/item/smartphone/components/advertisement';
 
 
 export const phoneApplications: IApplication[] = [
@@ -75,4 +76,10 @@ export const phoneApplications: IApplication[] = [
     icon: 'assets/images/phone/icons/wallet.svg',
     component: PhoneBankingComponent
   },
+  {
+    key: 'advertisements',
+    name: 'advertisements',
+    icon: 'assets/images/phone/icons/advertisement.svg',
+    component: AdvertisementComponent
+  }
 ];

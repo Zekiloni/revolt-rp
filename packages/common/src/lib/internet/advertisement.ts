@@ -2,10 +2,11 @@ import { Ref } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { ICharacter } from '../player/character/character.model';
 
+
 export enum AdvertisementType {
-  BUY = 'buy',
-  SELL = 'sell',
-  TRADE = 'trade',
+  Buy = 'buy',
+  Sell = 'sell',
+  Trade = 'trade',
 }
 
 export enum AdvertisementCategory {
@@ -18,19 +19,22 @@ export enum AdvertisementCategory {
 }
 
 
-export enum AdvertisementStatus {
-  ACTIVE = 'active',
-  INACTIVE = 'inactive',
-  DELETED = 'deleted',
-}
-
-export interface Advertisement extends Base {
-  author: Ref<ICharacter>;
+export interface IAdvertisementCreate {
   type: AdvertisementType;
-  status: AdvertisementStatus;
+  public: boolean;
   category: AdvertisementCategory;
   content: string;
-  phoneNum: string;
+  price?: number;
+}
+
+export interface IAdvertisement extends Base {
+  author: Ref<ICharacter>;
+  type: AdvertisementType;
+  public: boolean;
+  status: 'active' | 'inactive';
+  category: AdvertisementCategory;
+  content: string;
+  phoneNumber: string;
   price?: number;
   createdAt: Date;
 }
