@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { AdvertisementCategory, AdvertisementType, IAdvertisement } from '@revolt-rp/common';
+import { AdvertisementCategory, IAdvertisement } from '@revolt-rp/common';
 import { Character } from '../../player/character/character.model';
 
 
@@ -24,9 +24,6 @@ export class Advertisement extends Document implements IAdvertisement {
   @prop({ ref: () => Character, required: true })
   author: Ref<Character>;
 
-  @prop({ type: String, required: true, enum: Object.values(AdvertisementType) })
-  type: AdvertisementType;
-
   @prop({ type: String, required: true, enum: Object.values(AdvertisementCategory) })
   category: AdvertisementCategory;
 
@@ -40,7 +37,7 @@ export class Advertisement extends Document implements IAdvertisement {
   phoneNumber: string;
 
   @prop({ type: Number, required: false })
-  price?: number;
+  price: number | null;
 
   @prop({ type: String, enum: ['active', 'inactive'], default: 'active' })
   status: 'active' | 'inactive';

@@ -465,4 +465,13 @@ export const enUs = {
   'XMAS': 'Christmas Snow',
   'no_advertisements': 'No advertisements found.',
   'create_advertisement': 'Create Advertisement',
+  'content': 'Content',
+  'select_category': 'Select Category',
+  'electronics': 'Electronics',
+  'furniture': 'Furniture',
+  'clothing': 'Clothing',
+  'properties': 'Properties',
+  'private': 'Private',
+  'public': 'Public',
+  'ad_price_help': 'Optional: Enter a price or leave empty if negotiable.',
 };

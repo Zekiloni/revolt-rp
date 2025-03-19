@@ -17,7 +17,7 @@
 
   <div class="overflow-y-scroll flex-grow-1">
     @for (note of notes; let i = $index; track i) {
-      <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true" expandIcon="pi pi-chevron-down"
+      <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true" expandIcon="pi pi-chevron-down" [collapsed]="true"
                collapseIcon="pi pi-chevron-up">
      <textarea
        rows="5"

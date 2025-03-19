@@ -1,5 +1,5 @@
 @if (form) {
-  <form [formGroup]="form" (submit)="submit()" class="grid formgrid p-fluid">
+  <form [formGroup]="form" (ngSubmit)="submit()" class="grid formgrid p-fluid">
     <div class="field col-12 md:col-6">
       <label for="name" class="text-500">{{ 'name' | translate }}</label>
       <input pInputText id="name" formControlName="name" type="text" class="w-full" />
