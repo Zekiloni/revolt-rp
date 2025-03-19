@@ -5,7 +5,7 @@
               (click)="creatingAd = false"></button>
       <span>{{ 'create_advertisement' | translate }}</span>
     </div>
-    <app-create-advertisement />
+    <app-create-advertisement  (createAdvertisement)="onAdvertisementCreate($event)"/>
   </div>
 } @else {
   <p-table [value]="products">
