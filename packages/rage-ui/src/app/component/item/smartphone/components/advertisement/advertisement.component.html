@@ -1,0 +1,38 @@
+@if (creatingAd) {
+  <div class="flex flex-column h-full">
+    <div class="flex align-items-center justify-content-between py-2 px-3">
+      <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
+              (click)="creatingAd = false"></button>
+      <span>{{ 'create_advertisement' | translate }}</span>
+    </div>
+    <app-create-advertisement />
+  </div>
+} @else {
+  <p-table [value]="products">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        <span>{{ 'advertisements' | translate }}</span>
+        <button pButton type="button" size="small" label="{{ 'create' | translate}}" icon="pi pi-plus"
+                (click)="creatingAd = true"></button>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-advertisement>
+      <tr>
+        <td>
+
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="1">{{ 'no_advertisements' | translate }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+}

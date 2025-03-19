@@ -398,6 +398,8 @@ export const srRs = {
   'contacts': 'Kontakti',
   'calculator': 'Kalkulator',
   'forecast': 'Vremenska prognoza',
+  'wallet':'Novčanik',
+  'advertisements': 'Oglasi',
   'notes': 'Beleške',
   'map': 'Mapa',
   'camera': 'Kamera',
@@ -465,4 +467,6 @@ export const srRs = {
   },
   'min_temp': 'Min. temp.',
   'max_temp': 'Max. temp.',
+  'no_advertisements': 'Nema oglasa.',
+  'create_advertisement': 'Kreiraj Oglas'
 };

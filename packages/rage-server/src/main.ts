@@ -39,4 +39,6 @@ import './organization/organization.command';
 import './property/property.api';
 import './property/property-command';
 
+import './internet/advertisement/advertisement.api';
+
 
