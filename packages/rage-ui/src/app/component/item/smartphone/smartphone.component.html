@@ -30,7 +30,7 @@
               @for (app of otherApps; let index = $index; track app.key) {
                 <div (click)="openApp($event, app, index)" class="col-4 flex flex-column align-items-center mb-3">
                   <img [ngSrc]="app.icon | staticAsset" [alt]="app.name" width="45" height="45" />
-                  <span class="text-xs mt-1"> {{ app.name | translate }}</span>
+                  <span class="text-xs text-center mt-1"> {{ app.name | translate }}</span>
                 </div>
               }
             </div>
