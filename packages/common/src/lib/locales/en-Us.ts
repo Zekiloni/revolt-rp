@@ -396,6 +396,7 @@ export const enUs = {
   'calls': 'Calls',
   'contacts': 'Contacts',
   'calculator': 'Calculator',
+  'forecast': 'Forecast',
   'notes': 'Notes',
   'map': 'Map',
   'camera': 'Camera',
@@ -446,4 +447,18 @@ export const enUs = {
   'income': 'Income',
   'outcome': 'Outcome',
   'monthly_income_outcome': 'Monthly Income/Outcome',
+  'weather': {
+    'BLIZZARD': "Blizzard",
+    'CLEAR': "Clear",
+    'CLEARING': "Clearing",
+    'CLOUDS': "Cloudy",
+    'EXTRASUNNY': "Extra Sunny",
+    'FOGGY': "Foggy",
+    'OVERCAST': "Overcast",
+    'RAIN': "Rain",
+    'SMOG': "Smog",
+  },
+  'SNOWLIGHT': "Light Snow",
+  'THUNDER': "Thunderstorm",
+  'XMAS': "Christmas Snow"
 };

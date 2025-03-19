@@ -8,6 +8,7 @@ import { IApplication } from '../../component/item/smartphone';
 import { KeypadComponent } from '../../component/item/smartphone/components/keypad';
 import { NotesComponent } from '../../component/item/smartphone/components/notes';
 import { PhoneBankingComponent } from '../../component/item/smartphone/components/phone-banking';
+import { ForecastComponent } from '../../component/item/smartphone/components/forecast';
 
 
 export const phoneApplications: IApplication[] = [
@@ -63,9 +64,15 @@ export const phoneApplications: IApplication[] = [
     component: MapComponent
   },
   {
+    key: 'forecast',
+    name: 'forecast',
+    icon: 'assets/images/phone/icons/forecast.svg',
+    component: ForecastComponent
+  },
+  {
     key: 'wallet',
     name: 'wallet',
     icon: 'assets/images/phone/icons/wallet.svg',
     component: PhoneBankingComponent
-  }
+  },
 ];

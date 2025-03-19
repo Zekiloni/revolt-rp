@@ -12,10 +12,11 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
 import { InputMaskModule } from 'primeng/inputmask';
-import { IBankAccount, IBankInteraction, ITransaction, ProcedureKey } from '@revolt-rp/common';
+import { ApiError, IBankAccount, IBankInteraction, ITransaction, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../../../../domain/util/animation.util';
 import { getBankMonthlyStats } from '../../../../../domain/util/phone.util';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
@@ -36,10 +37,11 @@ export class PhoneBankingComponent implements OnInit {
 
   $bankAccount: Observable<IBankAccount | null> = of(null);
 
+  chartData: ChartData | null = null;
+
   documentStyle = getComputedStyle(document.documentElement);
   surfaceBorder = this.documentStyle.getPropertyValue('--surface-border');
 
-  chartData: ChartData | null = null;
   chartOptions = {
     plugins: {
       legend: {
@@ -55,7 +57,7 @@ export class PhoneBankingComponent implements OnInit {
     }
   };
 
-  constructor(private rageClientService: RageClientService, private translateService: TranslateService) {
+  constructor(private rageClientService: RageClientService, private translateService: TranslateService, private messageService: MessageService) {
   }
 
   get isTransferValid() {
@@ -126,10 +128,14 @@ export class PhoneBankingComponent implements OnInit {
       };
 
       this.rageClientService.callServer(ProcedureKey.SERVER_PLAYER_TRANSFER_MONEY, bankInteraction)
-        .subscribe(() =>  {
-          this.refreshTransferAction();
-          this.getBankAccount();
-          // todo: handle errors (invalid amount, target bank account no doesnt exist, etc.
+        .subscribe({
+          next: () => {
+            this.refreshTransferAction();
+            this.getBankAccount();
+          },
+          error: (error: ApiError) => {
+            this.messageService.add({ severity: 'error', detail: error.message });
+          }
         });
     }
   }

@@ -183,15 +183,15 @@ export const playerTransferMoney = async (player: PlayerMp, bankAccountId: strin
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
+  if (!targetBankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
   if (bankAccount.number === targetAccountNumber) {
     throw new Error(t('cant_transfer_to_same_account'));
   }
 
   const transaction = await createBankTransaction(bankAccountId, TransactionType.Transfer, amount, t('transfer_transaction'), targetBankAccount.id);
-
-  if (!targetBankAccount) {
-    throw new Error(t('bank_account_doesnt_exist'));
-  }
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));
