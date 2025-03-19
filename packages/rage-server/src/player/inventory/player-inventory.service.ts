@@ -21,11 +21,6 @@ export const getPlayerSelectedItem = (player: PlayerMp) => {
 };
 
 
-export const setSelectedItem = (player: PlayerMp, item: Item) => {
-  player.character.selectedItemId = item;
-  player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
-}
-
 export const getPlayerItemById = (player: PlayerMp, itemId: string) => {
   return player.character.inventory.find((item: Item) => item.id === itemId) as Item | undefined;
 };
