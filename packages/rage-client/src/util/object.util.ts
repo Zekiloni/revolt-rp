@@ -1,6 +1,10 @@
 const WEAPON_MODEL_PREFIX = 'w_';
 
+
 export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number) => {
+  if (!mp.game.streaming.isModelValid(mp.game.joaat(model)))
+    return;
+
   const newPos = new mp.Vector3(
     position.x + Math.cos(((heading + 90) * Math.PI) / 180) * 0.6,
     position.y + Math.sin(((heading + 90) * Math.PI) / 180) * 0.6,
