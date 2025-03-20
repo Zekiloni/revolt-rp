@@ -34,7 +34,7 @@
 
   <div class="field mb-4 col-12 md:col-12">
     <label class="text-700">{{ 'content' | translate }}</label>
-    <p-editor formControlName="content" />
+    <p-editor formControlName="content"  (focus)="focusContent()"/>
     <small id="content-help" class="text-500 text-sm">
       {{ 'min_max_length_validation' | translate: { min: MIN_LENGTH, max: MAX_LENGTH } }}
     </small>

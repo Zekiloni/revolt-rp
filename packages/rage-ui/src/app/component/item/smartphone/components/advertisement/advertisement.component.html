@@ -5,10 +5,30 @@
               (click)="creatingAd = false"></button>
       <span>{{ 'create_advertisement' | translate }}</span>
     </div>
-    <app-create-advertisement  (createAdvertisement)="onAdvertisementCreate($event)"/>
+    <app-create-advertisement (createAdvertisement)="onAdvertisementCreate($event)" />
+  </div>
+} @else if (selectedAd) {
+  <div class="flex flex-column h-full">
+    <div class="flex align-items-center justify-content-between py-2 px-3">
+      <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
+              (click)="selectedAd = null"></button>
+      <span>{{ 'advertisement' | translate }}</span>
+    </div>
+    <pre>{{ selectedAd | json }}</pre>
   </div>
 } @else {
-  <p-table [value]="products">
+  <p-table
+    #adsTable
+    [value]="advertisements"
+    [paginator]="true"
+    [rows]="5"
+    selectionMode="single"
+    [(selection)]="selectedAd"
+    [rowsPerPageOptions]="[5, 10, 20]"
+    [lazy]="true"
+    [showFirstLastIcon]="false"
+    [totalRecords]="totalRecords"
+    (onLazyLoad)="lazyLoadAdvertisements($event)">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         <span>{{ 'advertisements' | translate }}</span>
@@ -22,9 +42,9 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-advertisement>
-      <tr>
+      <tr [pSelectableRow]="advertisement">
         <td>
-
+          <p [innerHTML]="advertisement.content | safeHtml"></p>
         </td>
       </tr>
     </ng-template>

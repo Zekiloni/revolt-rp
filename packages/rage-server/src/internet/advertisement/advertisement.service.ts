@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, QueryOptions } from 'mongoose';
 import { IAdvertisementCreate } from '@revolt-rp/common';
 import { Advertisement, AdvertisementModel } from './advertisement.model';
 import { Character } from '../../player/character/character.model';
@@ -20,16 +20,23 @@ export const createAdvertisement = async (author: Character, phoneNumber: string
 };
 
 
-export const getAdvertisements = async (query: FilterQuery<Advertisement> = {}) => {
-  return AdvertisementModel.find({ ...query })
-    .sort({ createdAt: -1 })
-    .populate('author')
-    .exec();
+export const getAdvertisements = async (skip: number, limit: number, query: FilterQuery<Advertisement> = {}) => {
+  const [advertisements, total] = await Promise.all([
+    AdvertisementModel.find({ ...query })
+      .skip(skip)
+      .limit(limit)
+      .sort({ createdAt: -1 })
+      .populate('author')
+      .exec(),
+    AdvertisementModel.count(query)
+  ]);
+
+  return { advertisements, total };
 };
 
 
 export const getMyAdvertisements = async (author: Character) => {
-  return getAdvertisements({ author: author._id });
+  return getAdvertisements(0, 100, { author: author._id });
 };
 
 
