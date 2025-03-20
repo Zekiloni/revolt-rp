@@ -11,12 +11,12 @@ function createAdvertisementHandler(adCreate: IAdvertisementCreate, { player }: 
   return createAdvertisement(player.character, selectedItem.phoneInfo.phoneNumber, adCreate);
 }
 
-function getAdvertisementsHandler(filter?: FilterQuery<Advertisement>) {
-  return getAdvertisements(filter);
+function getAdvertisementsHandler(query: { skip: number, limit: number, filter?: FilterQuery<Advertisement> }) {
+  return getAdvertisements(query.skip, query.limit, query.filter);
 }
 
 function getMyAdvertisementsHandler(_args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
-  return getAdvertisements({ author: player.character._id });
+  return getAdvertisements(0, 100, { author: player.character._id });
 }
 
 

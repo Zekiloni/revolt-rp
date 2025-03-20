@@ -33,9 +33,9 @@ export class CreateAdvertisementComponent {
 
   private buildForm() {
     this.form = this.formBuilder.group({
-      public: [true, Validators.required],
-      category: [null, Validators.required, Validators.maxLength(this.MAX_LENGTH), Validators.minLength(this.MIN_LENGTH)],
-      content: [null, Validators.required],
+      public: [true, [Validators.required]],
+      category: [null,[ Validators.required]],
+      content: [null, [Validators.required, Validators.maxLength(this.MAX_LENGTH), Validators.minLength(this.MIN_LENGTH)]],
       price: [null]
     });
   }
@@ -45,5 +45,9 @@ export class CreateAdvertisementComponent {
       return;
 
     this.createAdvertisement.emit(this.form.value);
+  }
+
+  focusContent() {
+    console.log('focusContent');
   }
 }

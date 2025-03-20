@@ -478,4 +478,5 @@ export const srRs = {
   'private': 'Privatno',
   'public': 'Javno',
   'ad_price_help': 'Opciono: Ostavite prazno ako je cena po dogovoru.',
+  'advertisement': 'Oglas',
 };
