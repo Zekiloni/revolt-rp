@@ -97,6 +97,7 @@ export * from './lib/world/weather.model';
 
 export * from './lib/util/error.util';
 export * from './lib/util/number.util';
+export * from './lib/util/text.util';
 
 export * from './lib/internet/advertisement';
 

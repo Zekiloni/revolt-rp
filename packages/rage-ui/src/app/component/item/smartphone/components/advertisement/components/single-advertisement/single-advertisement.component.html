@@ -1,0 +1,32 @@
+<div class="grid grid-nogutter border-top-1 surface-border py-2 px-3">
+  <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'category' | translate }}</div>
+    <div class="text-900">
+      <p-tag severity="info" value="{{ advertisement.category | translate }}" />
+    </div>
+  </div>
+  <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'price' | translate }}</div>
+    <div class="text-900">
+      @if (advertisement['price']) {
+        <span class="text-green-500 font-bold">{{ advertisement['price'] | currency }}</span>
+      } @else {
+        <span>{{ 'negotiable' | translate }}</span>
+      }
+    </div>
+  </div>
+  <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'content' | translate }}</div>
+    <div class="text-900 line-height-3">
+      <p-editor [(ngModel)]="advertisement.content" [readonly]="true" [modules]="[]" />
+    </div>
+  </div>
+  <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'author' | translate }}</div>
+    <div class="text-900">{{ advertisement.public ? author.fullName : ('private' | translate) }}</div>
+  </div>
+  <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'created_at' | translate }}</div>
+    <div class="text-900">{{ advertisement.createdAt | date }}</div>
+  </div>
+</div>

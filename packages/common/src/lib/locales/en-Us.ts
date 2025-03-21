@@ -475,4 +475,6 @@ export const enUs = {
   'public': 'Public',
   'ad_price_help': 'Optional: Enter a price or leave empty if negotiable.',
   'advertisement': 'Advertisement',
+  'negotiable': 'Negotiable',
+  'author': 'Author',
 };

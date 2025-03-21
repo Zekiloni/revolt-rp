@@ -19,7 +19,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 })
 export class CreateAdvertisementComponent {
   MIN_LENGTH = 10;
-  MAX_LENGTH = 512;
+  MAX_LENGTH = 1024;
 
   @Output() createAdvertisement = new EventEmitter<IAdvertisementCreate>();
 
