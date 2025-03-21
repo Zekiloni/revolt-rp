@@ -1,34 +1,39 @@
-import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { PlayerPhoneState, ProcedureKey } from '@revolt-rp/common';
 import { ButtonDirective } from 'primeng/button';
+import { ImgurClientService } from '../../../../../domain/service/imgur-client.service';
+import { blobToBase64, imageElementToBlob, loadImageFromUrl } from '../../../../../domain/util/camera.util';
 
 
 @Component({
   selector: 'app-camera',
   standalone: true,
   imports: [CommonModule, ButtonDirective],
+  providers: [ImgurClientService],
   templateUrl: './camera.component.html',
   styleUrl: './camera.component.css'
 })
 export class CameraComponent implements OnInit, OnDestroy {
+  @Input() phoneItem!: IPhoneItem;
+
   @ViewChild('cameraRef', { static: false }) cameraRef!: ElementRef<HTMLImageElement>;
 
   cameraCaptureInterval: NodeJS.Timeout | null = null;
   cameraType: PlayerPhoneState.BackCamera | PlayerPhoneState.FrontCamera = PlayerPhoneState.FrontCamera;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private imgurClientService: ImgurClientService) {
   }
 
   @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent): void {
+  async onKeyDown(event: KeyboardEvent) {
     switch (event.key) {
       case 'Control':
-        this.changeCameraType()
+        this.changeCameraType();
         break;
       case ' ':
-        this.captureCamera(false);
+        await this.takePhoto();
         break;
     }
   }
@@ -58,9 +63,22 @@ export class CameraComponent implements OnInit, OnDestroy {
     }
   }
 
-  takePhoto() {
+  async takePhoto() {
     this.captureCamera(false);
+
+    const img  = await loadImageFromUrl(this.cameraRef.nativeElement.src);
+
+    const blob = await imageElementToBlob(img as HTMLImageElement);
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
+
+    const name = Date.now().toString()
+    const base64 = await blobToBase64(blob);
+
+    this.imgurClientService.uploadImage(blob)
+      .subscribe({
+        next: (response) => console.log(JSON.stringify(response)),
+        error: (error) => console.error(JSON.stringify(error))
+      });
   }
 
   ngOnInit(): void {
