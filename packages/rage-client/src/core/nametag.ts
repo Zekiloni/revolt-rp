@@ -50,7 +50,7 @@ function nameTagHandler() {
                 if (target.isTypingInTextChat) {
                   mp.game.graphics.drawText(
                     ". . .",
-                    [screenX, y - 0.040],
+                    [screenX, y - 0.0375],
                     {
                       font: 4,
                       color: [238, 198, 80, 255],
@@ -62,8 +62,8 @@ function nameTagHandler() {
 
                 if (getIsAfk(target)) {
                   mp.game.graphics.drawText(
-                    "(( AFK ))",
-                    [screenX, y - 0.050],
+                    "AFK",
+                    [screenX, y - 0.047],
                     {
                       centre: true,
                       font: 4,

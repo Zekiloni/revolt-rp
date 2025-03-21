@@ -11,10 +11,8 @@ function afkCheck() {
   if (afkState === undefined)
     return;
 
-  mp.gui.chat.push(`afkState: ${afkState}, newAfkState: ${newAfkState}`);
   if (afkState != newAfkState) {
     if (mp.system.isFocused != !afkState) {
-      mp.gui.chat.push('triggering afk state update');
       triggerServer(ProcedureKey.SERVER_PLAYER_SET_VARIABLE, [PlayerSharedDataType.Afk, newAfkState]);
     }
   }
