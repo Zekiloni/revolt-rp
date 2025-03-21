@@ -28,9 +28,13 @@ export const inventoryReducer = createReducer(
   }),
   on(addItem, (state, { item }) => {
     const updatedItems = [...state.items];
-    const availableSlot = updatedItems.findIndex(a => a === null);
-    if (availableSlot !== -1) {
-      updatedItems[availableSlot] = { ...item, localSlot: availableSlot };
+    if (item.localSlot != null && item.localSlot >= 0 && item.localSlot < updatedItems.length) {
+      updatedItems[item.localSlot] = item;
+    } else {
+      const availableSlot = updatedItems.findIndex(a => a === null);
+      if (availableSlot !== -1) {
+        updatedItems[availableSlot] = { ...item, localSlot: availableSlot };
+      }
     }
     return { ...state, items: updatedItems };
   }),
