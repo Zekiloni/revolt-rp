@@ -42,19 +42,19 @@ function nameTagHandler() {
                 mp.game.graphics.drawText(`${target.name} [${target.remoteId}]`, [screenX, y], {
                   centre: true,
                   font: 4,
-                  color: [255, 255, 255, 180],
-                  scale: [0.325, 0.325],
+                  color: [255, 255, 255, 250],
+                  scale: [0.385, 0.385],
                   outline: false
                 });
 
                 if (target.isTypingInTextChat) {
                   mp.game.graphics.drawText(
-                    "...",
-                    [screenX, y - 0.042],
+                    ". . .",
+                    [screenX, y - 0.041],
                     {
                       font: 4,
                       color: [238, 198, 80, 255],
-                      scale: [0.325, 0.325],
+                      scale: [0.335, 0.335],
                       outline: false
                     }
                   );
