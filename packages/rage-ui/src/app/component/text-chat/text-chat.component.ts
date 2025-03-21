@@ -170,7 +170,9 @@ export class TextChatComponent implements OnInit {
     });
 
     this.changeDetectorRef.detectChanges();
-    await this.scrollToBottom();
+
+    if (!this.isTyping)
+      await this.scrollToBottom();
   };
 
   async closeChat() {
