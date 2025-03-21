@@ -14,7 +14,7 @@
               (click)="selectedAd = null"></button>
       <span>{{ 'advertisement' | translate }}</span>
     </div>
-    <pre>{{ selectedAd | json }}</pre>
+    <app-single-advertisement [advertisement]="selectedAd!" />
   </div>
 } @else {
   <p-table
@@ -24,6 +24,7 @@
     [rows]="5"
     selectionMode="single"
     [(selection)]="selectedAd"
+    styleClass="p-datatable-gridlines"
     [rowsPerPageOptions]="[5, 10, 20]"
     [lazy]="true"
     [showFirstLastIcon]="false"
@@ -35,6 +36,23 @@
         <button pButton type="button" size="small" label="{{ 'create' | translate}}" icon="pi pi-plus"
                 (click)="creatingAd = true"></button>
       </div>
+      <div class="p-fluid flex flex-column gap-3 mt-3">
+        <input pInputText [(ngModel)]="contentSearch" (ngModelChange)="onContentSearchChange()"
+               placeholder="{{ 'search' | translate}}">
+        <p-dropdown
+          [options]="categories"
+          [(ngModel)]="selectedCategory"
+          (onChange)="onSelectedCategoryChange($event)"
+          [showClear]="true"
+          placeholder="{{'select_category' | translate }}">
+          <ng-template let-selectedItem pTemplate="selectedItem">
+            <span>{{ selectedItem | translate }}</span>
+          </ng-template>
+          <ng-template let-category pTemplate="item">
+            <span>{{ category | translate }}</span>
+          </ng-template>
+        </p-dropdown>
+      </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
@@ -44,7 +62,17 @@
     <ng-template pTemplate="body" let-advertisement>
       <tr [pSelectableRow]="advertisement">
         <td>
-          <p [innerHTML]="advertisement.content | safeHtml"></p>
+          <div class="flex align-items-center justify-content-between">
+            <p-tag severity="info" value="{{ advertisement['category'] | translate }}" />
+            @if (advertisement['price']) {
+              <span class="text-green-500 text-sm font-bold">{{ advertisement['price'] | currency }}</span>
+            } @else {
+              <span class="text-700 text-sm">{{ 'negotiable' | translate }}</span>
+            }
+          </div>
+          <div class="mt-3">
+            <p-editor [(ngModel)]="advertisement['content']" [readonly]="true" [modules]="[]" />
+          </div>
         </td>
       </tr>
     </ng-template>
