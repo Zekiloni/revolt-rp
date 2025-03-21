@@ -30,7 +30,7 @@ export const getIsNotCuffed = (target?: PlayerMp) => {
 }
 
 export const getIsAfk = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.Afk);
+  return getTarget(target).getVariable<boolean | undefined>(PlayerSharedDataType.Afk);
 }
 
 export const getIsAlive = (target?: PlayerMp) => {
