@@ -7,6 +7,7 @@ function playerGetVariableHandler(variable: string | PlayerSharedDataType, { pla
 }
 
 function playerSetVariableHandler(data: [string | PlayerSharedDataType, unknown], { player }: ProcedureListenerInfo<PlayerMp>) {
+  console.log('playerSetVariableHandler', data);
   const [variable, value] = data;
   player.setVariable(variable, value);
 }
