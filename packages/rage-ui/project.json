@@ -20,7 +20,9 @@
         ],
         "allowedCommonJsDependencies": [
           "leaflet",
-          "dayjs"
+          "dayjs",
+          "quill",
+          "quill-delta"
         ],
         "tsConfig": "packages/rage-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
