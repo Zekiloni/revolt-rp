@@ -51,7 +51,7 @@ export const srRs = {
   'hair': 'Kosa',
   'face_features': 'Facijalne karakteristike',
   'heritage': 'Nasleđe',
-  'blood_type': 'Krvi tip',
+  'blood_type': 'Krvna grupa',
   'birthday': 'Datum rođenja',
   'origin': 'Poreklo',
   'select_a_blood_type': 'Izaberite krvnu grupu',
