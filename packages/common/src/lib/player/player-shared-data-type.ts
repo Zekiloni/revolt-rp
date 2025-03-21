@@ -16,4 +16,5 @@ export const enum PlayerSharedDataType {
   AdminDuty = 'admin_duty',
   Organization = 'organization',
   PhoneState = 'phone_state',
+  Afk = 'afk',
 }
