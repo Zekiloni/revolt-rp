@@ -22,8 +22,15 @@
     </div>
   </div>
   <div class="col-12 p-3">
+    <div class="text-500 font-medium mb-2">{{ 'phone_number' | translate }}</div>
+    <div class="text-900">
+      <button pButton type="button" [text]="true" severity="success" [label]="advertisement.phoneNumber" size="small" icon="pi pi-phone"
+              (click)="call(advertisement.phoneNumber)"></button>
+    </div>
+  </div>
+  <div class="col-12 p-3">
     <div class="text-500 font-medium mb-2">{{ 'author' | translate }}</div>
-    <div class="text-900">{{ advertisement.public ? author.fullName : ('private' | translate) }}</div>
+    <div class="text-900">{{ advertisement.public && author ? author.fullName : ('private' | translate) }}</div>
   </div>
   <div class="col-12 p-3">
     <div class="text-500 font-medium mb-2">{{ 'created_at' | translate }}</div>
