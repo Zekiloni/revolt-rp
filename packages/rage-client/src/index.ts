@@ -2,6 +2,7 @@ import './core/browser';
 import './core/default-prevention';
 import './core/nametag';
 import './core/disabled-control';
+import './core/afk';
 
 import './player/authorization/authorization';
 import './player/authorization/character-creator';

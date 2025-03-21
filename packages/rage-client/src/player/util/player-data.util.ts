@@ -29,6 +29,10 @@ export const getIsNotCuffed = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.IsRestrained) == false;
 }
 
+export const getIsAfk = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.Afk);
+}
+
 export const getIsAlive = (target?: PlayerMp) => {
   return !getTarget(target).getVariable(PlayerSharedDataType.IsWounded);
 }
