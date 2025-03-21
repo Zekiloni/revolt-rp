@@ -31,7 +31,7 @@ export const getPlayerItemBySlot = (player: PlayerMp, slot: number) => {
 
 export const getPlayerItemByType = (player: PlayerMp, type: ItemType) => {
   return player.character.inventory.find((item: Item) => item.data.type.includes(type)) as Item | undefined;
-}
+};
 
 
 export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: string) => {
@@ -41,26 +41,31 @@ export const playerRemoveItemFromInventory = async (player: PlayerMp, itemId: st
 };
 
 export const playerGetAvailableItemSlot = (player: PlayerMp) => {
-  let localSlot = -1;
+  const occupiedSlots = new Set(
+    player.character.inventory
+      .filter((item: Item) => item && item.localSlot != null)
+      .map((item: Item) => item.localSlot)
+  );
 
   for (let i = 0; i < characterConfig.maxInventoryItems; i++) {
-    if (!player.character.inventory[i]) {
-      localSlot = i;
-      break;
+    if (!occupiedSlots.has(i)) {
+      return i;
     }
   }
 
-  return localSlot;
+  return -1;
 };
 
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number, options: Partial<Item> = {}) => {
   const availableItemSlot = playerGetAvailableItemSlot(player);
 
+  console.log('availableItemSlot', availableItemSlot);
   if (availableItemSlot == -1)
     return;
 
   const item = await createItem(itemName, quantity, { ...options, localSlot: availableItemSlot });
 
+  console.log('item', item);
   player.character.inventory.push(item);
   await player.character.save();
 
@@ -214,6 +219,15 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
 
   item.localSlot = slot;
   await item.save();
+
+  if (getPlayerSelectedItem(player)?.id === item.id) {
+    if (item.localSlot > 5) {
+      const itemHandler = item.data;
+      if (itemHandler && itemHandler.deselect) {
+        itemHandler.deselect(player, item);
+      }
+    }
+  }
 
   triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
 };
