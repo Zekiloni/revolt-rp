@@ -22,7 +22,7 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
   object.placeOnGroundProperly();
 
   if (model.startsWith(WEAPON_MODEL_PREFIX)) {
-    // rotation to lay on ground
+    object.rotation.x = 90;
   }
 
   const groundPosition = [
