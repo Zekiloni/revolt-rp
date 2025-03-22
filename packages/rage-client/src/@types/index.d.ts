@@ -4,7 +4,7 @@ declare global {
     lastDamageAt: number | null;
   }
 
-  enum RotationOrder {
+  const enum RotationOrder {
     XYZ = 0,
     XZY,
     YXZ,
