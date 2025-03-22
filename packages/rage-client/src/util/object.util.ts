@@ -31,7 +31,7 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     object.setDynamic(true);
 
     mp.gui.chat.push(`Object speed: ${object.getSpeed()}`);
-    while (object.getSpeed() > 0.75) {
+    while (object.getSpeed() > 0.5) {
       await mp.game.waitAsync(0);
     }
   }
