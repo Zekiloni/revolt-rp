@@ -4,6 +4,16 @@ declare global {
     lastDamageAt: number | null;
   }
 
+  enum RotationOrder {
+    XYZ = 0,
+    XZY,
+    YXZ,
+    YZX,
+    ZXY,
+    ZYX,
+    MAX,
+  }
+
   declare namespace RageEnums {
 
     namespace Hud {
