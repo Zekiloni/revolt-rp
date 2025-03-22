@@ -14,6 +14,24 @@ declare global {
     MAX,
   }
 
+  declare class ObjectMp {
+    applyForceTo(
+      forceType: number,
+      x: number,
+      y: number,
+      z: number,
+      xRot: number,
+      yRot: number,
+      zRot: number,
+      boneIndex: number,
+      isRel: boolean,
+      p9: boolean,
+      highForce: boolean,
+      p11: boolean,
+      p12: boolean
+    ): void;
+  }
+
   declare namespace RageEnums {
 
     namespace Hud {

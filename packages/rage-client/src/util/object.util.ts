@@ -1,7 +1,4 @@
-const WEAPON_MODEL_PREFIX = 'w_';
-
-
-export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number) => {
+export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number, freeFall = false) => {
   if (!mp.game.streaming.isModelValid(mp.game.joaat(model)))
     return;
 
@@ -19,10 +16,23 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     await mp.game.waitAsync(0);
   }
 
-  object.placeOnGroundProperly();
+  if (freeFall) {
+    const velocityVector = new mp.Vector3(
+      object.getForwardX() * (1 + (1 / 7)),
+      object.getForwardY() * (1 + (1 / 7)),
+      0.0
+    );
 
-  if (model.startsWith(WEAPON_MODEL_PREFIX)) {
-    object.setRotation(object.rotation.x + 90, object.rotation.y, object.rotation.z, RotationOrder.XYZ, false);
+    object.setAsMission(true, true);
+    object.setActivatePhysicsAsSoonAsItIsUnfrozen(true);
+    object.placeOnGroundProperly();
+    object.freezePosition(false);
+    object.setVelocity(velocityVector.x, velocityVector.y, velocityVector.z);
+    object.setDynamic(true);
+
+    while (object.getSpeed() > 0.5) {
+      await mp.game.waitAsync(0);
+    }
   }
 
   const groundPosition = [
