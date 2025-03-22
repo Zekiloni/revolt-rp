@@ -42,7 +42,7 @@ function nameTagHandler() {
                 mp.game.graphics.drawText(`${target.name} [${target.remoteId}]`, [screenX, y], {
                   centre: true,
                   font: 4,
-                  color: [255, 255, 255, 250],
+                  color: target.hasBeenDamagedByAnyPed() ? [255, 0, 0, 250] : [255, 255, 255, 250],
                   scale: [0.385, 0.385],
                   outline: false
                 });
@@ -83,5 +83,8 @@ function nameTagHandler() {
 }
 
 mp.events.add({
-  render: nameTagHandler
+  render: nameTagHandler,
+  playerWeaponShot: (targetPosition, targetEntity) => {
+
+  }
 });
