@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
-import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { createItem, destroyItem, destroyItemById, getItemById, isWeaponItem } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
@@ -59,13 +59,11 @@ export const playerGetAvailableItemSlot = (player: PlayerMp) => {
 export const playerGiveItem = async (player: PlayerMp, itemName: string, quantity: number, options: Partial<Item> = {}) => {
   const availableItemSlot = playerGetAvailableItemSlot(player);
 
-  console.log('availableItemSlot', availableItemSlot);
   if (availableItemSlot == -1)
     return;
 
   const item = await createItem(itemName, quantity, { ...options, localSlot: availableItemSlot });
 
-  console.log('item', item);
   player.character.inventory.push(item);
   await player.character.save();
 
@@ -123,7 +121,7 @@ export const isPlayerItemOwner = (player: PlayerMp, itemId: Types.ObjectId | str
 };
 
 
-export const playerDropItem = async (player: PlayerMp, itemId: string, position: Vector3, rotation: Vector3) => {
+export const playerDropItem = async (player: PlayerMp, itemId: string) => {
   const item: Item = await getItemById(itemId);
 
   if (!item)
@@ -151,23 +149,40 @@ export const playerDropItem = async (player: PlayerMp, itemId: string, position:
   }
 
   item.dropped = true;
-  item.position = position;
-  item.rotation = rotation;
   item.dimension = player.dimension;
   item.localSlot = null;
+
+  await item.save();
+
+  await playerRemoveItemFromInventory(player, item.id);
+
+  mp.players.forEachInRange(player.position, 50.0, (target) => {
+    if (player.dimension !== target.dimension)
+      return;
+
+    triggerClient(target, ProcedureKey.CLIENT_PLAYER_DROP_ITEM, { playerRemoteId: player.id, item });
+  });
+
+  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
+  playAnimation(player, 'random@domestic', 'pickup_low', AnimationFlag.NORMAL);
+};
+
+
+export const syncDropItem = async (player: PlayerMp, itemId: string, position: Vector3, rotation: Vector3) => {
+  const item: Item = await getItemById(itemId);
+
+  if (!item)
+    return;
+
+  item.position = position;
+  item.rotation = rotation;
 
   item.object = mp.objects.new(mp.joaat(item.data.model), position, {
     rotation, dimension: item.dimension, alpha: 255
   });
 
   await item.save();
-
-  await playerRemoveItemFromInventory(player, item.id);
-
-  triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_REMOVE_ITEM, item.id);
-  playAnimation(player, 'random@domestic', 'pickup_low', AnimationFlag.NORMAL);
 };
-
 
 export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
   const availableItemSlot = playerGetAvailableItemSlot(player);

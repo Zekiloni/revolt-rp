@@ -146,7 +146,7 @@ export class InventoryComponent {
     const itemToDrop = draggingItem ?? this.selectedItem;
 
     if (itemToDrop && itemToDrop.id)
-      this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_DROP_ITEM, itemToDrop);
+      this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, itemToDrop.id);
   }
 
   private equipItem = () => {
