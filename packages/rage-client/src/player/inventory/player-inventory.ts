@@ -31,20 +31,31 @@ function toggleInventory() {
   }
 }
 
-async function dropItemHandler(item: IItem) {
+async function dropItemHandler({ playerRemoteId, item}: { playerRemoteId: number, item: IItem }) {
   if (!item || !item.data.model)
+    return;
+
+  const player = mp.players.atRemoteId(playerRemoteId);
+
+  if (!player)
     return;
 
   const [position, rotation] = await getObjectGroundPosition(
     item.data.model,
-    mp.players.local.position,
-    mp.players.local.getHeading(),
-    mp.players.local.getRotation(2),
-    mp.players.local.dimension,
+    player.position,
+    player.getHeading(),
+    player.getRotation(2),
+    player.dimension,
     true
   );
 
-  return triggerServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
+  const alreadySyncedItem = mp.objects.getClosest(position, 0.5)
+    .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);
+
+  if (alreadySyncedItem)
+    return;
+
+  triggerServer(ProcedureKey.SERVER_DROPPED_ITEM_SYNC, { itemId: item.id, position, rotation });
 }
 
 function pickupItem() {
