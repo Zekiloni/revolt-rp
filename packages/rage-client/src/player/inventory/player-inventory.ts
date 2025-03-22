@@ -40,7 +40,8 @@ async function dropItemHandler(item: IItem) {
     mp.players.local.position,
     mp.players.local.getHeading(),
     mp.players.local.getRotation(2),
-    mp.players.local.dimension
+    mp.players.local.dimension,
+    true
   );
 
   return triggerServer(ProcedureKey.SERVER_PLAYER_DROP_ITEM, { itemId: item.id, position, rotation });
