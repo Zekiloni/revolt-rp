@@ -15,7 +15,7 @@ const SELECT_ITEM_KEYBINDINGS = [
 ];
 
 const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive],
-  PICKUP_ITEM_MAX_DISTANCE = 1.25,
+  PICKUP_ITEM_MAX_DISTANCE = 1.45,
   ITEM_SELECT_COOLDOWN_MS = 1500;
 
 let inventoryActive = false,
@@ -35,10 +35,13 @@ async function dropItemHandler({ playerRemoteId, item}: { playerRemoteId: number
   if (!item || !item.data.model)
     return;
 
+  mp.gui.chat.push(`Dropping item ${item.id}`);
   const player = mp.players.atRemoteId(playerRemoteId);
 
   if (!player)
     return;
+
+  mp.gui.chat.push(`Target player found ` + player.name);
 
   const [position, rotation] = await getObjectGroundPosition(
     item.data.model,
@@ -49,8 +52,12 @@ async function dropItemHandler({ playerRemoteId, item}: { playerRemoteId: number
     true
   );
 
+  mp.gui.chat.push(`Dropping item ${item.id} at ${position.x}, ${position.y}, ${position.z}`);
+
   const alreadySyncedItem = mp.objects.getClosest(position, 0.5)
     .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);
+
+  mp.gui.chat.push(`Already synced item: ${alreadySyncedItem}`);
 
   if (alreadySyncedItem)
     return;
