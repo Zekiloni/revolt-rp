@@ -12,6 +12,8 @@ const nameTagsConfig = {
   SHOW_IN_VEHICLE: true
 };
 
+
+
 function nameTagHandler() {
   const { position } = mp.players.local;
 
@@ -42,19 +44,19 @@ function nameTagHandler() {
                 mp.game.graphics.drawText(`${target.name} [${target.remoteId}]`, [screenX, y], {
                   centre: true,
                   font: 4,
-                  color: target.hasBeenDamagedByAnyPed() ? [255, 0, 0, 250] : [255, 255, 255, 250],
+                  color: (Date.now() - target.lastDamageAt < 750) ? [255, 0, 0, 250] : [255, 255, 255, 250],
                   scale: [0.385, 0.385],
                   outline: false
                 });
 
                 if (target.isTypingInTextChat) {
                   mp.game.graphics.drawText(
-                    ". . .",
-                    [screenX, y - 0.0375],
+                    "[. . .]",
+                    [screenX, y - 0.037],
                     {
                       font: 4,
                       color: [238, 198, 80, 255],
-                      scale: [0.425, 0.425],
+                      scale: [0.435, 0.435],
                       outline: false
                     }
                   );
@@ -68,7 +70,7 @@ function nameTagHandler() {
                       centre: true,
                       font: 4,
                       color: [139, 139, 139, 200],
-                      scale: [0.345, 0.345],
+                      scale: [0.355, 0.355],
                       outline: false
                     }
                   );
@@ -84,7 +86,4 @@ function nameTagHandler() {
 
 mp.events.add({
   render: nameTagHandler,
-  playerWeaponShot: (targetPosition, targetEntity) => {
-
-  }
 });

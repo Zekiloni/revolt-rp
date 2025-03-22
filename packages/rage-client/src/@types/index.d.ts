@@ -1,4 +1,9 @@
 declare global {
+
+  interface PlayerMp {
+    lastDamageAt: number | null;
+  }
+
   declare namespace RageEnums {
 
     namespace Hud {

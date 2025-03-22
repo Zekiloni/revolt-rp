@@ -55,6 +55,7 @@ function incomingDamageHandler(
   if (sourceEntity.type === RageEnums.EntityType.PLAYER && sourcePlayer) {
     if (targetEntity.type === RageEnums.EntityType.PLAYER) {
       const target = targetEntity as PlayerMp;
+      target.lastDamageAt = Date.now();
 
       if (target.remoteId === mp.players.local.remoteId) {
         const playerDamage: IPlayerDamageData<PlayerMp> = {
@@ -63,6 +64,7 @@ function incomingDamageHandler(
           boneIndex: boneIndex,
           damage: damage
         };
+
         triggerServer(ProcedureKey.SERVER_PLAYER_DAMAGE, playerDamage);
       }
     }
