@@ -2,11 +2,12 @@ import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   IPhoneContact,
   IPhoneContactCreate, IPhoneMessage,
-  IPhoneMessageCreate,
+  IPhoneMessageCreate, IPhonePhoto,
   IPhoneSettingsUpdate,
   ProcedureKey
 } from '@revolt-rp/common';
 import {
+  addPhonePhoto,
   createPhoneContact,
   deletePhoneContact,
   playerAnswerPhoneCall,
@@ -20,7 +21,6 @@ import {
   updatePhoneSettings
 } from './player-phone.service';
 import { getPlayerSelectedItem } from '../player-inventory.service';
-import { getItemById } from '../../../item/item.service';
 import { getBankAccountByPhoneNumber } from '../../../banking/banking.service';
 
 
@@ -88,6 +88,11 @@ function getBankAccountByPhoneNumberHandler(phoneNumber: string) {
   return getBankAccountByPhoneNumber(phoneNumber);
 }
 
+function addPhonePhotoHandler(photo: IPhonePhoto, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const item = getPlayerSelectedItem(player);
+  return addPhonePhoto(item, photo);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
@@ -101,3 +106,4 @@ register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGE, playerUpdatePhoneMessageHandl
 register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, playerUpdateManyPhoneMessagesHandler);
 register(ProcedureKey.SERVER_PHONE_UPDATE_NOTES, updatePhoneNotesHandler);
 register(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, getBankAccountByPhoneNumberHandler);
+register(ProcedureKey.SERVER_PHONE_ADD_PHOTO, addPhonePhotoHandler)

@@ -1,5 +1,6 @@
 import { TooltipOptions } from 'primeng/api';
-import { IPhoneMessage, ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { IPhoneMessage, IPhonePhoto, ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { ImgurUploadResponse } from '../model/imgur/imgur.model';
 
 
 export const getPhoneDockTooltip = (label: string): TooltipOptions => {
@@ -34,4 +35,13 @@ export const getBankMonthlyStats = (transactions: ITransaction[]): [number, numb
     },
     [0, 0]
   );
+};
+
+
+export const mapToPhonePhoto = (photo: ImgurUploadResponse): Partial<IPhonePhoto> => {
+  return {
+    id: photo.id,
+    url: photo.link,
+    deleteHash: photo.deletehash
+  };
 };

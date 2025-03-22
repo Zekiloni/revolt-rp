@@ -60,6 +60,13 @@ export interface IPhoneMessage extends Base {
 }
 
 
+export interface IPhonePhoto {
+  id: string;
+  url: string;
+  deleteHash: string;
+  createdAt: Date;
+}
+
 export interface IPhoneInfo {
   power: boolean;
   phoneNumber: string;
@@ -67,6 +74,7 @@ export interface IPhoneInfo {
   backgroundImage: string;
   notes: string[];
   contacts: IPhoneContact[];
+  gallery: IPhonePhoto[];
 }
 
 export const ACTIVA_CALL_STATUS = [PhoneCallStatus.Dialing, PhoneCallStatus.Ongoing];

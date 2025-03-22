@@ -7,7 +7,7 @@ import {
   IPhoneContact,
   IPhoneContactCreate,
   IPhoneInfo, IPhoneMessage,
-  IPhoneMessageCreate,
+  IPhoneMessageCreate, IPhonePhoto,
   IPhoneSettingsUpdate, PhoneCallStatus, PlayerPhoneState, PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
@@ -24,7 +24,8 @@ const DEFAULT_PHONE_INFO: IPhoneInfo = {
   notes: [],
   opacity: 1.0,
   phoneNumber: '',
-  power: true
+  power: true,
+  gallery: []
 };
 
 
@@ -324,4 +325,19 @@ export const updatePhoneNotes = async (item: Item, notes: string[]) => {
   item.phoneInfo.notes = notes;
   item.markModified('phoneInfo.notes');
   return item.save();
-}
+};
+
+
+export const addPhonePhoto = async (item: Item, photo: IPhonePhoto) => {
+  photo.createdAt = new Date();
+  item.phoneInfo.gallery.push(photo);
+  item.markModified('phoneInfo.gallery');
+  await item.save();
+  return photo;
+};
+
+export const deletePhonePhoto = async (item: Item, photoId: string) => {
+  item.phoneInfo.gallery = item.phoneInfo.gallery.filter((photo: IPhonePhoto) => photo.id !== photoId);
+  item.markModified('phoneInfo.gallery');
+  return item.save();
+};
