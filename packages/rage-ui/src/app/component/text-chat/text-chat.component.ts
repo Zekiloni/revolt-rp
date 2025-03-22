@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { SafeHtmlPipe } from '../../domain/util/safe-html.pipe';
 import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
-import { ICommandBase } from '@revolt-rp/common';
+import { ICommandBase, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -90,6 +90,8 @@ export class TextChatComponent implements OnInit {
         this.rageClientService.addEvent(fn, events[fn] as VoidFunction);
       }
     }
+
+    this.rageClientService.on(ProcedureKey.BROWSER_CLEAR_CHAT, this.clearChat);
 
     window.chatAPI = {
       activate: this.activateChat,
