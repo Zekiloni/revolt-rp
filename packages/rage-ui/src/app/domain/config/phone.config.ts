@@ -10,6 +10,7 @@ import { NotesComponent } from '../../component/item/smartphone/components/notes
 import { PhoneBankingComponent } from '../../component/item/smartphone/components/phone-banking';
 import { ForecastComponent } from '../../component/item/smartphone/components/forecast';
 import { AdvertisementComponent } from '../../component/item/smartphone/components/advertisement';
+import { GalleryComponent } from '../../component/item/smartphone/components/gallery';
 
 
 export const phoneApplications: IApplication[] = [
@@ -51,6 +52,12 @@ export const phoneApplications: IApplication[] = [
     name: 'camera',
     icon: 'assets/images/phone/icons/camera.svg',
     component: CameraComponent
+  },
+  {
+    key: 'gallery',
+    name: 'gallery',
+    icon: 'assets/images/phone/icons/gallery.svg',
+    component: GalleryComponent
   },
   {
     key: 'notes',

@@ -479,4 +479,5 @@ export const enUs = {
   'negotiable': 'Negotiable',
   'author': 'Author',
   'chat_cleared_by_administrator': 'Chat has been cleared by administrator.',
+  'gallery_is_empty': 'Gallery is empty.',
 };
