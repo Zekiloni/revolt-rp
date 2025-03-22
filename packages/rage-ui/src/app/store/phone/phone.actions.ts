@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { IPhoneCall, IPhoneContact, IPhoneMessage } from '@revolt-rp/common';
+import { IPhoneCall, IPhoneContact, IPhoneMessage, IPhonePhoto } from '@revolt-rp/common';
 
 
 export type PhoneAction = typeof setPhone | typeof setPhoneMessages | typeof setPhoneOpacity;
@@ -51,6 +51,16 @@ export const addPhoneMessage = createAction(
 );
 
 
+export const addPhonePhoto = createAction(
+  '[Phone] Add Phone Photo',
+  props<{ photo: IPhonePhoto }>()
+);
+
+export const removePhonePhoto = createAction(
+  '[Phone] Remove Phone Photo',
+  props<{ photoId: string }>()
+);
+
 export const updatePhoneMessage = createAction(
   '[Phone] Update Phone Message',
   props<{ message: IPhoneMessage }>()
@@ -60,3 +70,4 @@ export const updateManyPhoneMessages = createAction(
   '[Phone] Update Many Phone Messages',
   props<{ messages: IPhoneMessage[] }>()
 );
+

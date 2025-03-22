@@ -31,7 +31,7 @@ export class ImgurClientService {
     formData.append('type', typeof image === 'string' ? 'base64' : 'file');
 
     if (title) formData.append('title', title);
-    if (description) formData.append('description', description);
+    if (description) formData.append('description', environment.SERVER_NAME);
 
     const headers = new HttpHeaders({
       'Authorization': `Client-ID ${this.CLIENT_ID}`,

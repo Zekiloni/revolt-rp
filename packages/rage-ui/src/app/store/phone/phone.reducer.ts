@@ -2,8 +2,8 @@ import { createReducer, on } from '@ngrx/store';
 import { IPhoneCall, IPhoneMessage } from '@revolt-rp/common';
 import {
   addPhoneContact,
-  addPhoneMessage,
-  deletePhoneContact,
+  addPhoneMessage, addPhonePhoto,
+  deletePhoneContact, removePhonePhoto,
   setPhone,
   setPhoneBackground,
   setPhoneCall,
@@ -50,7 +50,24 @@ export const phoneReducer = createReducer(
       }
     };
   }),
-
+  on(addPhonePhoto, (state, { photo }) => {
+    return {
+      ...state,
+      phone: {
+        ...state.phone!,
+        phoneInfo: { ...state.phone!.phoneInfo, photos: [...state.phone!.phoneInfo.gallery, photo] }
+      }
+    };
+  }),
+  on(removePhonePhoto, (state, { photoId }) => {
+    return {
+      ...state,
+      phone: {
+        ...state.phone!,
+        phoneInfo: { ...state.phone!.phoneInfo, photos: state.phone!.phoneInfo.gallery.filter(p => p.id !== photoId) }
+      }
+    };
+  }),
   on(deletePhoneContact, (state, { contactId }) => {
     return {
       ...state,

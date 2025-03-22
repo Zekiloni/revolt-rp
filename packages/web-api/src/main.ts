@@ -19,6 +19,8 @@ app.use('/assets', express.static(assetsPath, {
   etag: false,
 }));
 
+
+
 app.use('/api', controller);
 
 app.listen(port, host, () => {

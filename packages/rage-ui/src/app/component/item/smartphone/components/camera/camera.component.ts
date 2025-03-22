@@ -1,10 +1,14 @@
-import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { PlayerPhoneState, ProcedureKey } from '@revolt-rp/common';
+import { Component, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
+import { IPhonePhoto, PlayerPhoneState, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { ImgurClientService } from '../../../../../domain/service/imgur-client.service';
-import { blobToBase64, imageElementToBlob, loadImageFromUrl } from '../../../../../domain/util/camera.util';
+import { imageElementToBlob, loadImageFromUrl } from '../../../../../domain/util/camera.util';
+import { ImgurUploadResponse } from '../../../../../domain/model/imgur/imgur.model';
+import { mapToPhonePhoto } from '../../../../../domain/util/phone.util';
+import { addPhonePhoto, PhoneState } from '../../../../../store/phone';
 
 
 @Component({
@@ -23,7 +27,11 @@ export class CameraComponent implements OnInit, OnDestroy {
   cameraCaptureInterval: NodeJS.Timeout | null = null;
   cameraType: PlayerPhoneState.BackCamera | PlayerPhoneState.FrontCamera = PlayerPhoneState.FrontCamera;
 
-  constructor(private rageClientService: RageClientService, private imgurClientService: ImgurClientService) {
+
+  constructor(
+    private rageClientService: RageClientService,
+    private imgurClientService: ImgurClientService,
+    private store: Store<PhoneState>) {
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -64,21 +72,31 @@ export class CameraComponent implements OnInit, OnDestroy {
   }
 
   async takePhoto() {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
     this.captureCamera(false);
+  }
 
-    const img  = await loadImageFromUrl(this.cameraRef.nativeElement.src);
+  handlePhotoUploaded = (image: ImgurUploadResponse) => {
+    this.rageClientService.callServer<IPhonePhoto>(ProcedureKey.SERVER_PHONE_ADD_PHOTO, mapToPhonePhoto(image))
+      .subscribe({ next: (photo) => this.store.dispatch(addPhonePhoto({ photo })) });
+
+    this.captureCamera(true);
+  };
+
+  async savePhoto() {
+    const img = await loadImageFromUrl(this.cameraRef.nativeElement.src);
 
     const blob = await imageElementToBlob(img as HTMLImageElement);
-    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
-
-    const name = Date.now().toString()
-    const base64 = await blobToBase64(blob);
 
     this.imgurClientService.uploadImage(blob)
       .subscribe({
-        next: (response) => console.log(JSON.stringify(response)),
+        next: (response) => this.handlePhotoUploaded(response),
         error: (error) => console.error(JSON.stringify(error))
       });
+  }
+
+  cancelPhoto() {
+    this.captureCamera(true);
   }
 
   ngOnInit(): void {
