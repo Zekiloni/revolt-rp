@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   AdminType,
   GameUiKey,
@@ -636,5 +636,19 @@ registerCommand({
     await destroyProperty(property);
 
     notifyPlayer(player, { severity: 'info', detail: t('property_deleted') });
+  }
+});
+
+
+registerCommand({
+  name: 'clearchat',
+  aliases: ['cc'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  handle(_player: PlayerMp) {
+    mp.players.forEach(target => {
+      triggerBrowsers(target, ProcedureKey.BROWSER_CLEAR_CHAT);
+      notifyPlayer(target, { severity: 'info', detail: t('chat_cleared_by_administrator') });
+    });
   }
 });
