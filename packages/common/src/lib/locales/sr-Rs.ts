@@ -481,4 +481,5 @@ export const srRs = {
   'advertisement': 'Oglas',
   'negotiable': 'Po dogovoru',
   'author': 'Autor',
+  'chat_cleared_by_administrator': 'Čet je očišćen od strane administratora.',
 };

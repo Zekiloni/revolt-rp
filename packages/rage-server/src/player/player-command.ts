@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { GameUiKey, hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import {
   filterPlayer,
@@ -12,7 +12,6 @@ import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
-import { getForecast } from '../world/weather.service';
 import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
 import { playerBuyInteraction } from './player-buy.service';
 
@@ -289,5 +288,15 @@ registerCommand({
   description: 'todo',
   handle(player: PlayerMp) {
     showPlayerGameInterface(player, GameUiKey.HelpMenu);
+  }
+});
+
+
+registerCommand({
+  name: 'clearmychat',
+  aliases: ['cmc'],
+  description: 'todo',
+  handle(player: PlayerMp) {
+    triggerBrowsers(player, ProcedureKey.BROWSER_CLEAR_CHAT);
   }
 });
