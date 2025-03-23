@@ -1,16 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ButtonDirective } from 'primeng/button';
-import { TooltipModule } from 'primeng/tooltip';
+import { ChipModule } from 'primeng/chip';
 import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
+import { ButtonDirective } from 'primeng/button';
+import { DropdownModule } from 'primeng/dropdown';
+import { ConfirmationService } from 'primeng/api';
+import { InputTextModule } from 'primeng/inputtext';
 import { deepCopy, IProperty, IPropertyPoint, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { ChipModule } from 'primeng/chip';
-import { DropdownModule } from 'primeng/dropdown';
-import { FormsModule } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { ConfirmationService } from 'primeng/api';
 
 
 @Component({
