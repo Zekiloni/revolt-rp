@@ -37,8 +37,6 @@ export class ImgurClientService {
       'Authorization': `Client-ID ${this.CLIENT_ID}`,
     });
 
-    console.log('formData.type', formData.get('type'))
-
     return this.http.post(`${this.API_URL}/image`, formData, { headers })
       .pipe(
         map((response: any) => response.data as ImgurUploadResponse),

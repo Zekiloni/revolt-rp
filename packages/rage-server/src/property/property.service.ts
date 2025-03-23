@@ -137,11 +137,9 @@ export const getPropertyByColShape = async (colShape: ColshapeMp, type: Property
   const propertyId = colShape.getVariable(PropertySharedDataType.PropertyId);
   const pointType = colShape.getVariable(PropertySharedDataType.InteractionType);
 
-  console.log(propertyId, pointType, type);
   if (!propertyId || pointType !== type)
     return null;
 
-  console.log('getting property by colshape', propertyId);
   return getPropertyById(propertyId);
 };
 
