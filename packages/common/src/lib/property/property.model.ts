@@ -31,8 +31,10 @@ export interface IEntrance {
 }
 
 export interface IPropertyPoint {
+  id: string;
   type: PropertyPointType;
   position: Vector3;
+  rotation: Vector3;
   dimension: number;
 }
 
@@ -65,7 +67,7 @@ export interface IProperty {
   interiorPosition: Vector3;
   balance: number;
   entrances?: IEntrance[];
-  points?: IPropertyPoint[];
+  points: IPropertyPoint[];
   doors?: Ref<IDoor>[];
   locked: boolean;
   workers: IWorker[];

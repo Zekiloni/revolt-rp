@@ -6,11 +6,13 @@ import {
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
-  PropertyType, PublicServiceType, purchasablePropertyTypes
+  PropertyType,
+  PublicServiceType,
+  purchasablePropertyTypes
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Property, PropertyModel, PropertyOwner } from './property.model';
+import { Property, PropertyModel, PropertyOwner, PropertyPoint } from './property.model';
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
@@ -31,6 +33,10 @@ export const getPropertyById = (propertyId: string) => {
     .populate('owner.entity');
 };
 
+export const getPropertyByPointId = async (pointId: string) => {
+  return PropertyModel.findOne({ 'points.id': pointId }).exec();
+};
+
 export const isPropertyOwner = (property: Property, character: Character) => {
   return property.owner?.type === 'Character' && (<Types.ObjectId>property.owner.entity).equals(character._id);
 };
@@ -47,6 +53,24 @@ export const createProperty = async (position: Vector3, dimension: number, prope
   return property;
 };
 
+
+export const createPropertyPoint = async (property: Property, position: Vector3, rotation: Vector3, dimension: number, type: PropertyPointType = PropertyPointType.MainPoint) => {
+  const point: PropertyPoint = {
+    id: new Types.ObjectId().toString(),
+    position, rotation, dimension, type
+  };
+
+  property.points.push(point);
+  await property.save();
+  return point;
+};
+
+
+export const deletePropertyPoint = async (property: Property, pointId: string) => {
+  property.points = property.points.filter((point) => point.id !== pointId);
+  await property.save();
+  return true;
+}
 
 export const destroyProperty = async (property: Property) => {
   const colShape = property.colShape;
@@ -79,7 +103,7 @@ export const initializeProperty = (property: Property) => {
   };
 
   colshape.setVariable(PropertySharedDataType.PropertyId, property.id);
-  colshape.setVariable(PropertySharedDataType.InteractionType, PropertyPointType.Main);
+  colshape.setVariable(PropertySharedDataType.InteractionType, PropertyPointType.MainPoint);
 
   property.colShape = colshape;
 
@@ -102,25 +126,36 @@ export const getPropertyByColShape = async (colShape: ColshapeMp, type: Property
   const propertyId = colShape.getVariable(PropertySharedDataType.PropertyId);
   const pointType = colShape.getVariable(PropertySharedDataType.InteractionType);
 
+  console.log(propertyId, pointType, type);
   if (!propertyId || pointType !== type)
     return null;
 
+  console.log('getting property by colshape', propertyId);
   return getPropertyById(propertyId);
 };
 
 
-export const getClosesProperty = (position: Vector3, dimension: number, pointType: PropertyPointType) => {
-  const colShapes = mp.colshapes.getClosestInDimension(position, dimension, 1);
+export const getClosestProperty = (position: Vector3, dimension: number, pointType: PropertyPointType) => {
+  const colShapes = mp.colshapes.getClosestInDimension(position, dimension, 15);
 
   if (colShapes.length) {
-    const [closestColShape] = colShapes;
+    // TODO: Workaround because RAGE:MP doesn't have a method to get closest colshape that is actually working
+    const closestColShape = colShapes
+      .filter((colShape) => colShape.getVariable(PropertySharedDataType.InteractionType) === pointType)
+      .find((colShape) => colShape.isPointWithin(position));
 
-    if (closestColShape && closestColShape.isPointWithin(position)) {
+    if (closestColShape) {
       return getPropertyByColShape(closestColShape, pointType);
     }
   }
 
   return null;
+};
+
+export const getPropertyByName = async (name: string) => {
+  return PropertyModel.findOne({
+    name: { $regex: new RegExp(name, 'i') }
+  }).exec();
 };
 
 async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {

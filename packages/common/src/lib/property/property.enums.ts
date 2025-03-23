@@ -40,8 +40,8 @@ export enum PublicServiceType {
 }
 
 export enum PropertyPointType {
-  Main = 'main',
-  Menu = 'menu',
+  MainPoint = 'main_point',
+  MenuPoint = 'menu_point',
   DeliveryPoint = 'delivery_point',
   ParkingSpot = 'parking_spot',
 }

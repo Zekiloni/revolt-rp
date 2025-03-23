@@ -6,7 +6,7 @@ import {
   IProduct,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, IWorker, PropertySharedDataType,
+  IPropertyPoint, IWorker, PropertyPointType, PropertySharedDataType,
   PropertyType, PublicServiceType
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
@@ -19,6 +19,24 @@ export class PropertyOwner implements IPropertyOwner {
 
   @prop({ refPath: 'owner.type' })
   entity: Ref<Character | Organization>;
+}
+
+
+export class PropertyPoint implements IPropertyPoint {
+  @prop({ type: String, required: true })
+  id: string;
+
+  @prop({ type: String, enum: Object.values(PropertyPointType), required: true })
+  type: PropertyPointType;
+
+  @prop({ type: Object, required: true })
+  position: Vector3;
+
+  @prop({ type: Object, required: true })
+  rotation: Vector3;
+
+  @prop({ required: true })
+  dimension: number;
 }
 
 
@@ -36,7 +54,11 @@ export class Property extends Document implements IProperty {
   @prop({ enum: Object.values(PropertyType), type: String, required: true })
   type: PropertyType;
 
-  @prop({ enum: [...Object.values(CommercialType), ...Object.values(PublicServiceType)], type: String, required: false })
+  @prop({
+    enum: [...Object.values(CommercialType), ...Object.values(PublicServiceType)],
+    type: String,
+    required: false
+  })
   subType: CommercialType | PublicServiceType;
 
   @prop({ default: 0 })
@@ -65,6 +87,7 @@ export class Property extends Document implements IProperty {
   @prop({ type: PropertyOwner })
   owner: PropertyOwner;
 
+  @prop({ type: [PropertyPoint], required: false, default: [] })
   points: IPropertyPoint[];
 
   @prop({ required: false })

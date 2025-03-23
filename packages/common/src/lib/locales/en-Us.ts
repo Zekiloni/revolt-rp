@@ -539,4 +539,13 @@ export const enUs = {
   'failed': 'Failed',
   'driving_test_failed': 'Unfortunately, you have failed the driving test. Better luck next time!',
   'driving_test_passed': 'Congratulations! You have passed the driving test. You can proceed to the practical part, enter the vehicle and follow the instructions.',
+  'interaction_point_type': 'Interaction Point Type',
+  'position': 'Position',
+  'rotation': 'Rotation',
+  'dimension': 'Dimension',
+  'main_point': 'Main Point',
+  'menu_point': 'Menu Point',
+  'delivery_point': 'Delivery Point',
+  'parking_spot': 'Parking Spot',
+  'delete_property_point': 'Are you sure you want to delete property point?',
 };
