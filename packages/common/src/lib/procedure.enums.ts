@@ -152,4 +152,7 @@ export const enum ProcedureKey {
   BROWSER_CLEAR_CHAT = 'browser_clearChat',
 
   SERVER_GET_DRIVING_QUIZ = 'server_dmvGetQuiz',
+  SERVER_FINISH_DRIVING_TEST = 'server_finishDrivingTest',
+  CLIENT_START_DRIVING_TEST = 'client_startDrivingTest',
+  SERVER_START_DRIVING_TEST = 'server_startDrivingTest',
 }

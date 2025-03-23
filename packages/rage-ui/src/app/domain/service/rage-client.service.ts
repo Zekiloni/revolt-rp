@@ -58,7 +58,7 @@ export class RageClientService {
     mp.invoke(name, ...args);
   }
 
-  triggerServer(name: string, args: unknown) {
+  triggerServer(name: string, args?: unknown) {
     rpcTriggerServer(name, args);
   }
 

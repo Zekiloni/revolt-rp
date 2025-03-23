@@ -30,6 +30,7 @@ import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 import { destroyProperty, getClosesProperty } from '../../property/property.service';
+import { savePlayerPosition } from '../../util/save-position.util';
 
 
 registerCommand({
@@ -652,3 +653,15 @@ registerCommand({
     });
   }
 });
+
+
+registerCommand({
+  name: 'savepos',
+  aliases: ['sp'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  handle(player: PlayerMp, ...args) {
+    const name = (Array.isArray(args) && args.length > 0) ? args.join(' ') : 'Unknown';
+    savePlayerPosition(player, name);
+  }
+})
