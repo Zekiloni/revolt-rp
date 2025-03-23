@@ -39,8 +39,6 @@ export class ManageInteractionPointsComponent {
     this.rageClientService.callServer<IPropertyPoint>(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, this.property.id)
       .subscribe({
         next: point => {
-          console.log('new', JSON.stringify(point));
-          console.log('old', JSON.stringify(this.points));
           this.points.push(point);
         }
       });
