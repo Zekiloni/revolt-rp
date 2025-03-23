@@ -11,12 +11,14 @@ import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
 import { deepCopy, IProperty, IPropertyPoint, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
 
 @Component({
   selector: 'app-manage-interaction-points',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, TooltipModule, ChipModule, DropdownModule, FormsModule, InputTextModule],
+  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, TooltipModule, ChipModule, DropdownModule, FormsModule, InputTextModule, ConfirmPopupModule],
+  providers: [ConfirmationService],
   templateUrl: './manage-interaction-points.component.html',
   styleUrl: './manage-interaction-points.component.css'
 })
@@ -68,6 +70,9 @@ export class ManageInteractionPointsComponent {
   }
 
   editSave(point: IPropertyPoint, index: number) {
-    this.rageClientService.callServer<IPropertyPoint>(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, point);
+    const update = point;
+    this.editCancel(point, index);
+    this.rageClientService.callServer<IPropertyPoint>(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, update)
+      .subscribe({ next: updated => this.points[index] = updated });
   }
 }

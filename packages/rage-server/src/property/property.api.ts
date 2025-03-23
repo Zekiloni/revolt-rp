@@ -1,11 +1,11 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { GameUiKey, IPropertyCreate, IPropertyUpdate, ProcedureKey } from '@revolt-rp/common';
+import { GameUiKey, IPropertyCreate, IPropertyPoint, IPropertyUpdate, ProcedureKey } from '@revolt-rp/common';
 import {
   createProperty, createPropertyPoint, deletePropertyPoint,
   getAllProperties,
   getPropertyById, getPropertyByPointId,
   initializeProperty, isPropertyOwner,
-  playerLockProperty, propertyMainInteraction
+  playerLockProperty, propertyMainInteraction, updatePropertyPoint
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
@@ -66,6 +66,11 @@ async function deletePropertyPointHandler(propertyPointId: string) {
     .then(property => deletePropertyPoint(property, propertyPointId));
 }
 
+async function updatePropertyPointHandler(pointUpdate: IPropertyPoint) {
+  return getPropertyByPointId(pointUpdate.id)
+    .then(property => updatePropertyPoint(property, pointUpdate));
+}
+
 
 mp.events.add({
   packagesLoaded: loadAllPropertiesHandler
@@ -77,3 +82,4 @@ register(ProcedureKey.SERVER_PROPERTY_LOCK, lockPropertyHandler);
 register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
 register(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, createPropertyPointHandler);
 register(ProcedureKey.SERVER_DELETE_PROPERTY_POINT, deletePropertyPointHandler);
+register(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, updatePropertyPointHandler);
