@@ -146,10 +146,9 @@ export const getPropertyByColShape = async (colShape: ColshapeMp, type: Property
 };
 
 
-export const getPropertyAvailableParkingSpot = (property: Property, position: Vector3, dimension: number) => {
+export const getPropertyAvailableParkingSpot = (property: Property) => {
   return property.points
     .filter((spot) => spot.type === PropertyPointType.ParkingSpot)
-    .filter((spot) => spot.dimension === dimension && distanceBetweenVectors(spot.position as Vector3, position) < 2.0)
     .find(spot => !isAnyVehicleOnPosition(spot.position as Vector3, 2.0));
 };
 
