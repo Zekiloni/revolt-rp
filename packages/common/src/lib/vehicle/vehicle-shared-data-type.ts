@@ -8,4 +8,5 @@ export const enum VehicleSharedDataType {
   Indicators = 'indicators',
   Windows = 'windows',
   Doors = 'doors',
+  DrivingTest = 'driving_test',
 }

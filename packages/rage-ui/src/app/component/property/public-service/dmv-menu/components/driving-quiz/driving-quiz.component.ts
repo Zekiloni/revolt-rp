@@ -1,12 +1,12 @@
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MeterGroupModule, MeterItem } from 'primeng/metergroup';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonDirective } from 'primeng/button';
-import { IDrivingQuestionAnswer, IDrivingQuiz, ProcedureKey } from '@revolt-rp/common';
+import { IDrivingQuestionAnswer, IDrivingQuiz, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 
 
@@ -17,7 +17,8 @@ import { RageClientService } from '../../../../../../domain/service/rage-client.
   templateUrl: './driving-quiz.component.html',
   styleUrl: './driving-quiz.component.css'
 })
-export class DrivingQuizComponent implements OnInit {
+export class DrivingQuizComponent implements OnInit, OnDestroy {
+  property!: IProperty;
   quiz!: IDrivingQuiz;
 
   selectedAnswer: IDrivingQuestionAnswer | null = null;
@@ -60,7 +61,7 @@ export class DrivingQuizComponent implements OnInit {
     ];
 
     if (this.isPassed)
-      this.rageClientService.triggerServer(ProcedureKey.SERVER_START_DRIVING_TEST);
+      this.rageClientService.triggerServer(ProcedureKey.SERVER_START_DRIVING_TEST, this.property.id);
   }
 
   nextQuestion() {
@@ -83,14 +84,23 @@ export class DrivingQuizComponent implements OnInit {
     }
   }
 
+  private setProperty = (property: IProperty) => {
+    this.property = property;
+  };
+
+  private setQuiz = (quiz: IDrivingQuiz) => {
+    this.quiz = quiz;
+    if (this.currentQuestion)
+      this.currentAnswers = this.shuffleAnswers(this.currentQuestion.answers);
+  };
+
   ngOnInit() {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PROPERTY, this.setProperty);
     this.rageClientService.callServer<IDrivingQuiz>(ProcedureKey.SERVER_GET_DRIVING_QUIZ)
-      .subscribe({
-        next: quiz => {
-          this.quiz = quiz;
-          if (this.currentQuestion)
-            this.currentAnswers = this.shuffleAnswers(this.currentQuestion.answers);
-        }
-      });
+      .subscribe({ next: this.setQuiz });
+  }
+
+  ngOnDestroy(): void {
+    this.rageClientService.off(ProcedureKey.BROWSER_SET_PROPERTY, this.setProperty);
   }
 }
