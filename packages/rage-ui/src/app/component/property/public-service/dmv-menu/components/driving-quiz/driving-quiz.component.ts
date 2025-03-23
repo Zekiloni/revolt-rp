@@ -60,8 +60,10 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
       }
     ];
 
-    if (this.isPassed)
+    if (this.isPassed) {
+      console.log('Quiz passed');
       this.rageClientService.triggerServer(ProcedureKey.SERVER_START_DRIVING_TEST, this.property.id);
+    }
   }
 
   nextQuestion() {
@@ -85,6 +87,7 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
   }
 
   private setProperty = (property: IProperty) => {
+    console.log('setProperty', JSON.stringify(property));
     this.property = property;
   };
 

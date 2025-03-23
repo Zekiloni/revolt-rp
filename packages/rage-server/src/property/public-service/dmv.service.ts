@@ -1,9 +1,10 @@
 import { GameUiKey, IDrivingQuiz, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
 import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { getPropertyAvailableParkingSpot } from '../property.service';
 import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+import { showPlayerGameInterface } from '../../player/util/player.util';
 
 
 export const getDrivingQuiz = (): IDrivingQuiz => {
@@ -19,7 +20,7 @@ export const getDrivingQuiz = (): IDrivingQuiz => {
 };
 
 export function openDmvMenu(player: PlayerMp, property: Property) {
-  triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, GameUiKey.DmvMenu);
+  showPlayerGameInterface(player, GameUiKey.DmvMenu, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
 }
 
 export function startDrivingTest(player: PlayerMp, property: Property) {

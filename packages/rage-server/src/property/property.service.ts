@@ -16,7 +16,6 @@ import { Property, PropertyModel, PropertyOwner, PropertyPoint } from './propert
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
-import { distanceBetweenVectors } from '../util/vector3.util';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
 
 
