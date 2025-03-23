@@ -29,6 +29,15 @@ export enum CommercialType {
   Casino = 'casino'
 }
 
+export enum PublicServiceType {
+  DMV = 'dmv',
+  CityHall = 'city_hall',
+  Hospital = 'hospital',
+  PoliceStation = 'police_station',
+  FireStation = 'fire_station',
+  Bank = 'bank',
+  PostOffice = 'post_office',
+}
 
 export enum PropertyPointType {
   Main = 'main',

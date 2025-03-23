@@ -2,8 +2,8 @@ import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { ICharacter, IOrganization, IProperty, ProcedureKey } from '@revolt-rp/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ICharacter, IOrganization, IProperty, ProcedureKey, purchasablePropertyTypes } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
 
@@ -21,6 +21,9 @@ export class PropertyInfoComponent implements OnInit, OnDestroy {
   }
 
   get isForSale() {
+    if (!purchasablePropertyTypes.includes(this.property!.type))
+      return false;
+
     return this.property?.forSale || !this.property?.owner;
   }
 

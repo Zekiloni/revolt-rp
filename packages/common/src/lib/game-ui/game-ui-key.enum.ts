@@ -20,4 +20,5 @@ export enum GameUiKey {
   ManageProperty = 'manageProperty',
   HandheldRadio = 'handheldRadio',
   Smartphone = 'smartphone',
+  DmvMenu = 'dmvMenu',
 }

@@ -117,6 +117,7 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_LOCK = 'server_propertyLock',
   CLIENT_TOGGLE_PROPERTY_MENU = 'client_togglePropertyMenu',
   SERVER_PROPERTY_UPDATE = 'server_propertyUpdate',
+  SERVER_PROPERTY_MAIN_INTERACTION = 'server_propertyMainInteraction',
 
   SERVER_GET_COMMANDS = 'server_getCommands',
 
@@ -149,4 +150,6 @@ export const enum ProcedureKey {
   SERVER_PHONE_DELETE_PHOTO = 'server_phoneDeletePhoto',
 
   BROWSER_CLEAR_CHAT = 'browser_clearChat',
+
+  SERVER_GET_DRIVING_QUIZ = 'server_dmvGetQuiz',
 }

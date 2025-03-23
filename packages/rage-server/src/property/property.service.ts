@@ -1,27 +1,26 @@
 import { t } from 'i18next';
+import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  hexColors,
   IPropertyCreate,
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
-  PropertyType
+  PropertyType, PublicServiceType, purchasablePropertyTypes
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
-import { Property, PropertyModel, PropertyOwner } from './property.model';
-import { propertyConfig } from './property.config';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Types, UpdateQuery } from 'mongoose';
-import { sendProximityMessage } from '../player/util/player.util';
+import { Property, PropertyModel, PropertyOwner } from './property.model';
 import { Character } from '../player/character/character.model';
-import { Organization } from '../organization/organization.model';
+import { propertyConfig } from './property.config';
+import { openDmvMenu } from './public-service/dmv.service';
 
 
-const notPurchasableTypes = [
-  PropertyType.PublicService,
-  PropertyType.Utility
-];
+const propertyMenuHandlers = {
+  [PropertyType.PublicService]: {
+    [PublicServiceType.DMV]: openDmvMenu
+  }
+};
 
 export const getAllProperties = () => {
   return PropertyModel.find();
@@ -34,13 +33,14 @@ export const getPropertyById = (propertyId: string) => {
 
 export const isPropertyOwner = (property: Property, character: Character) => {
   return property.owner?.type === 'Character' && (<Types.ObjectId>property.owner.entity).equals(character._id);
-}
+};
 
 export const createProperty = async (position: Vector3, dimension: number, propertyCreate: IPropertyCreate) => {
   const property = await PropertyModel.create({
     position, dimension,
     ...propertyCreate
   });
+
 
   initializeProperty(property);
 
@@ -133,7 +133,7 @@ async function playerShowPropertyInfo(player: PlayerMp, propertyId: string) {
 
 
 export async function playerBuyProperty(player: PlayerMp, property: Property) {
-  if (notPurchasableTypes.includes(property.type))
+  if (!purchasablePropertyTypes.includes(property.type))
     return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('property_not_for_sale') });
 
   if (!property.forSale && property.owner)
@@ -154,7 +154,7 @@ export async function playerBuyProperty(player: PlayerMp, property: Property) {
 }
 
 export async function playerLockProperty(player: PlayerMp, property: Property) {
-  if (notPurchasableTypes.includes(property.type))
+  if (!purchasablePropertyTypes.includes(property.type))
     return;
 
   if (!property.owner)
@@ -180,4 +180,19 @@ export async function playerLockProperty(player: PlayerMp, property: Property) {
   sendInfoMessage(player, t('property_locked', { locked: property.locked ? t('closed') : t('opened') }));
 
   return property.locked;
+}
+
+
+export const propertyMainInteraction = (player: PlayerMp, property: Property) => {
+  if (!property.interiorPosition)
+    return propertyMenuInteraction(player, property);
+
+  // TODO: enter interior
+};
+
+function propertyMenuInteraction(player: PlayerMp, property: Property) {
+  const menuHandler = propertyMenuHandlers[property.type]?.[property.subType];
+
+  if (menuHandler)
+    return menuHandler(player, property);
 }

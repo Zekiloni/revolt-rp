@@ -1,4 +1,3 @@
-
 import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -36,11 +35,12 @@ import { PlayerDamageInfoComponent } from './component/player-damage-info';
 import { CreateOrganizationComponent } from './component/organization/create-organization';
 import { ManageOrganizationComponent } from './component/organization/manage-organization';
 import { HandheldRadioComponent } from './component/item/handheld-radio/handheld-radio.component';
-import { BanInfoComponent } from './component/ban-info';
 import { CreatePropertyComponent } from './component/property/create-property';
-import { PropertyInfoComponent } from './component/property/property-info';
 import { ManagePropertyComponent } from './component/property/manage-property';
+import { PropertyInfoComponent } from './component/property/property-info';
+import { DmvMenuComponent } from './component/property/public-service';
 import { SmartphoneComponent } from './component/item/smartphone';
+import { BanInfoComponent } from './component/ban-info';
 import { HelpComponent } from './component/help';
 import { dayjs } from './domain/util/dajys.util';
 
@@ -72,7 +72,8 @@ import { dayjs } from './domain/util/dajys.util';
     PropertyInfoComponent,
     ManagePropertyComponent,
     SmartphoneComponent,
-    HelpComponent
+    HelpComponent,
+    DmvMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
@@ -106,7 +107,7 @@ export class AppComponent implements OnInit {
     this.translateService.setTranslation('sr-RS', srRs);
     this.translateService.setDefaultLang(environment.DEFAULT_LANGUAGE);
 
-    dayjs.locale(this.translateService.currentLang || this.translateService.defaultLang)
+    dayjs.locale(this.translateService.currentLang || this.translateService.defaultLang);
     this.translateService.onLangChange.subscribe(() => {
       dayjs.locale(this.translateService.currentLang);
     });

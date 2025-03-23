@@ -5,7 +5,7 @@ import {
   getAllProperties,
   getPropertyById,
   initializeProperty, isPropertyOwner,
-  playerLockProperty
+  playerLockProperty, propertyMainInteraction
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
@@ -46,10 +46,17 @@ async function updatePropertyHandler(update: IPropertyUpdate, { player }: Proced
   return property.save();
 }
 
+
+function propertyMainInteractionHandler(propertyId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  getPropertyById(propertyId)
+    .then(property => propertyMainInteraction(player, property));
+}
+
 mp.events.add({
   packagesLoaded: loadAllPropertiesHandler
 });
 
 on(ProcedureKey.SERVER_PROPERTY_CREATE, createPropertyHandler);
+on(ProcedureKey.SERVER_PROPERTY_MAIN_INTERACTION, propertyMainInteractionHandler);
 register(ProcedureKey.SERVER_PROPERTY_LOCK, lockPropertyHandler);
 register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
