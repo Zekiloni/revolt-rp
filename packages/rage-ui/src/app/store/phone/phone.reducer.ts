@@ -11,7 +11,6 @@ import {
   setPhoneOpacity, updateManyPhoneMessages, updatePhoneContact,
   updatePhoneMessage
 } from './phone.actions';
-import { testPhoneData } from './test-phone.data';
 
 
 export interface PhoneState {

@@ -1,38 +1,49 @@
 <div class="absolute-center surface-card p-4 shadow-2 border-round-2xl w-full lg:w-4 md:w-5">
   <div class="border-bottom-1 surface-border p-2">
     <article
-      class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary"
-      (click)="createSavingAccount()">
+      class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary ">
       <div class="flex align-items-center">
         <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
-        <i class="pi pi-plus text-lg"></i>
+        <i class="pi pi-file-plus text-lg"></i>
       </span>
         <div class="ml-2 p-2">
-          <p class="font-semibold text-sm mt-0 mb-1">{{ 'bank_menu.open_savings_account' | translate }}</p>
-          <p class="font-normal text-xs text-600 mt-0 mb-0">{{ 'bank_menu.savings_account_desc' | translate }}</p>
+          <p class="font-semibold text-sm mt-0 mb-1">{{ 'dmv_menu.register_vehicle' | translate }}</p>
+          <p class="font-normal text-xs text-600 mt-0 mb-0">{{ 'dmv_menu.register_vehicle_desc' | translate }}</p>
         </div>
       </div>
     </article>
-
+  </div>
+  <div class="border-bottom-1 surface-border p-2">
     <article
       class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary"
-      (click)="manageBankAccounts()">
+      (click)="takeDrivingQuiz()">
       <div class="flex align-items-center">
         <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
-        <i class="pi pi-user text-lg"></i>
+        <i class="pi pi-car text-lg"></i>
       </span>
         <div class="ml-2 p-2">
-          <p class="font-semibold text-sm mt-0 mb-1">{{ 'bank_menu.my_accounts' | translate }}</p>
-          <p class="font-normal text-xs text-600 mt-0 mb-0">{{ 'bank_menu.my_account_desc' | translate }}</p>
+          <p class="font-semibold text-sm mt-0 mb-1">{{ 'dmv_menu.driving_license' | translate }}</p>
+          <p class="font-normal text-xs text-600 mt-0 mb-0">{{ 'bank_menu.driving_license_desc' | translate }}</p>
         </div>
       </div>
     </article>
-
+    <article
+      class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary">
+      <div class="flex align-items-center">
+        <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
+        <i class="pi pi-truck text-lg"></i>
+      </span>
+        <div class="ml-2 p-2">
+          <p class="font-semibold text-sm mt-0 mb-1">{{ 'dmv_menu.trucking_license' | translate }}</p>
+          <p class="font-normal text-xs text-600 mt-0 mb-0">{{ 'bank_menu.trucking_license_desc' | translate }}</p>
+        </div>
+      </div>
+    </article>
   </div>
   <div class="p-2">
     <article
       class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary"
-      (click)="closeMenu()">
+      (click)="close()">
       <div class="flex align-items-center">
         <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
           <i class="pi pi-sign-out text-lg"></i>

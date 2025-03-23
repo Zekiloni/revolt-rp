@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
-import { ImageModule } from 'primeng/image';
-import { dayjs } from '../../../../../domain/util/dajys.util';
-import { ButtonDirective } from 'primeng/button';
-import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { ProcedureKey } from '@revolt-rp/common';
-import { PhoneState, removePhonePhoto } from '../../../../../store/phone';
 import { Store } from '@ngrx/store';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ButtonDirective } from 'primeng/button';
+import { ImageModule } from 'primeng/image';
+import { ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { PhoneState, removePhonePhoto } from '../../../../../store/phone';
+import { dayjs } from '../../../../../domain/util/dajys.util';
 
 
 @Component({

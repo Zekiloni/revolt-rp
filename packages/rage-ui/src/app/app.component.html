@@ -79,6 +79,10 @@
     <app-manage-property [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.DmvMenu) | async) {
+    <app-dmv-menu @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

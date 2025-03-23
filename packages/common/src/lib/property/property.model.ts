@@ -1,5 +1,5 @@
 import { Ref } from '@typegoose/typegoose';
-import { CommercialType, PropertyPointType, PropertyType } from './property.enums';
+import { CommercialType, PropertyPointType, PropertyType, PublicServiceType } from './property.enums';
 import { Vector3 } from '../core.interface';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
@@ -57,7 +57,7 @@ export interface IProperty {
   owner?: IPropertyOwner;
   dimension: number;
   type: PropertyType;
-  subType?: CommercialType;
+  subType?: CommercialType | PublicServiceType;
   price?: number;
   spriteType?: number;
   forSale?: true;

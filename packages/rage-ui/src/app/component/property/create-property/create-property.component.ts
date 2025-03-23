@@ -8,12 +8,11 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
-  CommercialType,
   gameUiConfig,
   GameUiKey,
   IPropertyCreate,
-  ProcedureKey,
-  PropertyType
+  ProcedureKey, propertySubTypeMap,
+  PropertyType, purchasablePropertyTypes
 } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
@@ -28,16 +27,18 @@ export class CreatePropertyComponent {
   @Input() isActive: boolean = gameUiConfig.createProperty.isActive;
 
   propertyTypes = Object.values(PropertyType);
-  commercialTypes = Object.values(CommercialType);
+  propertySubTypes: string[] = [];
 
   form!: FormGroup;
+
 
   constructor(private formBuilder: FormBuilder, private rageClientService: RageClientService) {
     this.buildForm();
   }
 
-  get isCommercialType() {
-    return this.form.get('type')?.value === PropertyType.Commercial;
+  get isPurchasableType() {
+    const type = this.form.get('type')?.value as PropertyType;
+    return purchasablePropertyTypes.includes(type);
   }
 
   private buildForm() {
@@ -48,12 +49,27 @@ export class CreatePropertyComponent {
     });
 
     this.form.get('type')?.valueChanges.subscribe((value) => {
-      if (value === 'commercial') {
-        this.form.addControl('subType', this.formBuilder.control(null, [Validators.required]));
-        this.form.get('price')?.addValidators(Validators.required)
-      } else {
+      const type = value as PropertyType;
+      this.propertySubTypes = propertySubTypeMap[type] || [];
+
+      const subTypeControlExists = this.form.contains('subType');
+      if (this.propertySubTypes.length > 1) {
+        if (!subTypeControlExists) {
+          this.form.addControl('subType', this.formBuilder.control(null, [Validators.required]));
+        } else {
+          this.form.get('subType')?.setValue(null);
+        }
+      } else if (subTypeControlExists) {
         this.form.removeControl('subType');
-        this.form.get('price')?.removeValidators(Validators.required)
+      }
+
+      const priceControlExists = this.form.contains('price');
+      if (purchasablePropertyTypes.includes(type)) {
+        if (!priceControlExists) {
+          this.form.addControl('price', this.formBuilder.control(null, [Validators.required]));
+        }
+      } else if (priceControlExists) {
+        this.form.removeControl('price');
       }
     });
   };

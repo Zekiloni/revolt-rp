@@ -1,6 +1,6 @@
 @if (phoneItem.phoneInfo.gallery.length) {
   <div class="flex flex-column">
-    @for (image of phoneItem.phoneInfo.gallery; track image.id) {
+    @for (image of images; track image.id) {
       <div class="mb-3 border-bottom-1 surface-border">
         <p-image
           class="w-full"

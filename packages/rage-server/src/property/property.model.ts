@@ -7,7 +7,7 @@ import {
   IProperty,
   IPropertyOwner,
   IPropertyPoint, IWorker, PropertySharedDataType,
-  PropertyType
+  PropertyType, PublicServiceType
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
@@ -36,8 +36,8 @@ export class Property extends Document implements IProperty {
   @prop({ enum: Object.values(PropertyType), type: String, required: true })
   type: PropertyType;
 
-  @prop({ enum: Object.values(CommercialType), type: String, required: false })
-  subType: CommercialType;
+  @prop({ enum: [...Object.values(CommercialType), ...Object.values(PublicServiceType)], type: String, required: false })
+  subType: CommercialType | PublicServiceType;
 
   @prop({ default: 0 })
   balance: number;
