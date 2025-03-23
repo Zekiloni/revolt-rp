@@ -37,3 +37,8 @@ export const isPlayerInVehicleCommandValidator: ICommandValidator<PlayerMp> = {
   validate: (player) => player.vehicle !== undefined,
   message: t('not_in_vehicle')
 };
+
+
+export const isAnyVehicleOnPosition = (position: Vector3, range: number) => {
+  return mp.vehicles.toArray().some(vehicle => vehicle.dist(position) <= range);
+}

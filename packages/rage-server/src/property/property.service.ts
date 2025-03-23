@@ -16,6 +16,8 @@ import { Property, PropertyModel, PropertyOwner, PropertyPoint } from './propert
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
+import { distanceBetweenVectors } from '../util/vector3.util';
+import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
 
 
 const propertyMenuHandlers = {
@@ -141,6 +143,14 @@ export const getPropertyByColShape = async (colShape: ColshapeMp, type: Property
     return null;
 
   return getPropertyById(propertyId);
+};
+
+
+export const getPropertyAvailableParkingSpot = (property: Property, position: Vector3, dimension: number) => {
+  return property.points
+    .filter((spot) => spot.type === PropertyPointType.ParkingSpot)
+    .filter((spot) => spot.dimension === dimension && distanceBetweenVectors(spot.position as Vector3, position) < 2.0)
+    .find(spot => !isAnyVehicleOnPosition(spot.position as Vector3, 2.0));
 };
 
 
