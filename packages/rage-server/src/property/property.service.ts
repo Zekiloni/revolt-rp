@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  IPropertyCreate,
+  IPropertyCreate, IPropertyPoint,
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
@@ -70,7 +70,18 @@ export const deletePropertyPoint = async (property: Property, pointId: string) =
   property.points = property.points.filter((point) => point.id !== pointId);
   await property.save();
   return true;
-}
+};
+
+export const updatePropertyPoint = async (property: Property, update: IPropertyPoint) => {
+  const point = property.points.find((point) => point.id === update.id);
+
+  if (!point)
+    return;
+
+  Object.assign(point, update);
+  await property.save();
+  return point;
+};
 
 export const destroyProperty = async (property: Property) => {
   const colShape = property.colShape;
