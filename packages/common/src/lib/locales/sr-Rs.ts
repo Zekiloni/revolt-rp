@@ -484,4 +484,5 @@ export const srRs = {
   'author': 'Autor',
   'chat_cleared_by_administrator': 'Čet je očišćen od strane administratora.',
   'gallery_is_empty': 'Galerija je prazna.',
+  'phone_memory_full': 'Memorija telefona je puna.',
 };

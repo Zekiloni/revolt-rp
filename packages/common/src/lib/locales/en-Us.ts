@@ -480,4 +480,5 @@ export const enUs = {
   'author': 'Author',
   'chat_cleared_by_administrator': 'Chat has been cleared by administrator.',
   'gallery_is_empty': 'Gallery is empty.',
+  'phone_memory_full': 'Phone memory is full.',
 };

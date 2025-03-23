@@ -4,7 +4,10 @@
 
   <div class="absolute-bottom-center w-full mb-3 flex align-items-center justify-content-center gap-3">
     @if (cameraCaptureInterval) {
-      <button pButton icon="pi pi-camera" [rounded]="true" label="Space" (click)="takePhoto()"></button>
+      <button pButton icon="pi pi-camera" [rounded]="true" label="Space" [disabled]="isFullMemory"
+              pTooltip="{{ 'phone_memory_full' | translate }}"
+              [tooltipDisabled]="!isFullMemory"
+              (click)="takePhoto()"></button>
       <button pButton icon="pi pi-sync" [outlined]="true" [rounded]="true" size="small" label="Ctrl"
               (click)="changeCameraType()"></button>
     } @else {

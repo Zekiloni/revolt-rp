@@ -9,12 +9,14 @@ import { imageElementToBlob, loadImageFromUrl } from '../../../../../domain/util
 import { ImgurUploadResponse } from '../../../../../domain/model/imgur/imgur.model';
 import { mapToPhonePhoto } from '../../../../../domain/util/phone.util';
 import { addPhonePhoto, PhoneState } from '../../../../../store/phone';
+import { TooltipModule } from 'primeng/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-camera',
   standalone: true,
-  imports: [CommonModule, ButtonDirective],
+  imports: [CommonModule, ButtonDirective, TooltipModule, TranslatePipe],
   providers: [ImgurClientService],
   templateUrl: './camera.component.html',
   styleUrl: './camera.component.css'
@@ -33,6 +35,10 @@ export class CameraComponent implements OnInit, OnDestroy {
     private rageClientService: RageClientService,
     private imgurClientService: ImgurClientService,
     private store: Store<PhoneState>) {
+  }
+
+  get isFullMemory(): boolean {
+    return this.phoneItem.phoneInfo.gallery.length >= 25;
   }
 
   @HostListener('document:keydown', ['$event'])
@@ -73,6 +79,9 @@ export class CameraComponent implements OnInit, OnDestroy {
   }
 
   async takePhoto() {
+    if (this.isFullMemory)
+      return;
+
     const image = await loadImageFromUrl(this.cameraRef.nativeElement.src)
     this.image = await imageElementToBlob(image as HTMLImageElement);
 
