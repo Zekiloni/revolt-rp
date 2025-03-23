@@ -9,9 +9,10 @@ function getDrivingQuizHandler() {
 }
 
 function startDrivingTestHandler(propertyId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  console.log('startDrivingTestHandler', propertyId);
   getPropertyById(propertyId)
     .then(property => startDrivingTest(player, property));
 }
 
-register(ProcedureKey.SERVER_GET_DRIVING_QUIZ, getDrivingQuizHandler);
 on(ProcedureKey.SERVER_START_DRIVING_TEST, startDrivingTestHandler);
+register(ProcedureKey.SERVER_GET_DRIVING_QUIZ, getDrivingQuizHandler);

@@ -514,6 +514,7 @@ export const enUs = {
     '30_kmh': '30 km/h',
     '50_kmh': '50 km/h',
     '70_kmh': '70 km/h',
+    '80_kmh': '80 km/h',
     '90_kmh': '90 km/h',
     '100_kmh': '100 km/h',
     '120_kmh': '120 km/h',
