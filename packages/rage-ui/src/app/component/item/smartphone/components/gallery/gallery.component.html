@@ -1,35 +1,22 @@
 @if (phoneItem.phoneInfo.gallery.length) {
-  <p-carousel
-    [value]="phoneItem.phoneInfo.gallery"
-    [numVisible]="3"
-    [numScroll]="3"
-    [circular]="false"
-  >
-    <ng-template let-photo pTemplate="item">
-      <div class="border-1 surface-border border-round m-2 p-3">
-        <div class="mb-3">
-          <div class="relative mx-auto">
-            <img
-              [src]="photo.url"
-              [alt]="photo.id"
-              class="w-full border-round" />
-          </div>
-        </div>
-        <div class="mb-3 font-medium">
-<!--          {{ product.name }}-->
-        </div>
-        <div class="flex justify-content-between align-items-center">
-<!--          <div class="mt-0 font-semibold text-xl">-->
-<!--            {{ '$' + product.price }}-->
-<!--          </div>-->
-<!--          <span>-->
-<!--                        <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />-->
-<!--                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />-->
-<!--                    </span>-->
+  <div class="flex flex-column">
+    @for (image of phoneItem.phoneInfo.gallery; track image.id) {
+      <div class="mb-3 border-bottom-1 surface-border">
+        <p-image
+          class="w-full"
+          [src]="image.url"
+          alt="Image"
+          width="240"
+          [preview]="true" />
+
+        <div class="flex justify-content-between align-items-center bg-black-alpha-30 py-2 px-3">
+          <span class="text-700">{{ fromNow(image.createdAt) }}</span>
+          <button pButton icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" size="small"
+                  (click)="deleteImage(image.id)"></button>
         </div>
       </div>
-    </ng-template>
-  </p-carousel>
+    }
+  </div>
 } @else {
   <div class="flex justify-center items-center">
     <p>{{ 'gallery_is_empty' | translate }}</p>

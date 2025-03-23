@@ -146,6 +146,7 @@ export const enum ProcedureKey {
   SERVER_GET_ADVERTISEMENTS = 'server_getAdvertisements',
   SERVER_GET_MY_ADVERTISEMENTS = 'server_getMyAdvertisements',
   SERVER_PHONE_ADD_PHOTO = 'server_phoneAddPhoto',
+  SERVER_PHONE_DELETE_PHOTO = 'server_phoneDeletePhoto',
 
   BROWSER_CLEAR_CHAT = 'browser_clearChat',
 }

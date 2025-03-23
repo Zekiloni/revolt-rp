@@ -27,6 +27,7 @@ export class CameraComponent implements OnInit, OnDestroy {
   cameraCaptureInterval: NodeJS.Timeout | null = null;
   cameraType: PlayerPhoneState.BackCamera | PlayerPhoneState.FrontCamera = PlayerPhoneState.FrontCamera;
 
+  image: Blob | null = null;
 
   constructor(
     private rageClientService: RageClientService,
@@ -72,6 +73,9 @@ export class CameraComponent implements OnInit, OnDestroy {
   }
 
   async takePhoto() {
+    const image = await loadImageFromUrl(this.cameraRef.nativeElement.src)
+    this.image = await imageElementToBlob(image as HTMLImageElement);
+
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PHONE_CAMERA_TAKE_PHOTO);
     this.captureCamera(false);
   }
@@ -80,15 +84,16 @@ export class CameraComponent implements OnInit, OnDestroy {
     this.rageClientService.callServer<IPhonePhoto>(ProcedureKey.SERVER_PHONE_ADD_PHOTO, mapToPhonePhoto(image))
       .subscribe({ next: (photo) => this.store.dispatch(addPhonePhoto({ photo })) });
 
+    this.image = null;
     this.captureCamera(true);
   };
 
   async savePhoto() {
-    const img = await loadImageFromUrl(this.cameraRef.nativeElement.src);
+    if (!this.image) {
+      return;
+    }
 
-    const blob = await imageElementToBlob(img as HTMLImageElement);
-
-    this.imgurClientService.uploadImage(blob)
+    this.imgurClientService.uploadImage(this.image)
       .subscribe({
         next: (response) => this.handlePhotoUploaded(response),
         error: (error) => console.error(JSON.stringify(error))
@@ -96,6 +101,7 @@ export class CameraComponent implements OnInit, OnDestroy {
   }
 
   cancelPhoto() {
+    this.image = null;
     this.captureCamera(true);
   }
 

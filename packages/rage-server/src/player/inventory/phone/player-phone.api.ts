@@ -9,7 +9,7 @@ import {
 import {
   addPhonePhoto,
   createPhoneContact,
-  deletePhoneContact,
+  deletePhoneContact, deletePhonePhoto,
   playerAnswerPhoneCall,
   playerCallPhone,
   playerHangupPhoneCall,
@@ -93,6 +93,11 @@ function addPhonePhotoHandler(photo: IPhonePhoto, { player }: ProcedureListenerI
   return addPhonePhoto(item, photo);
 }
 
+function deletePhonePhotoHandler(photoId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const item = getPlayerSelectedItem(player);
+  return deletePhonePhoto(item, photoId);
+}
+
 on(ProcedureKey.SERVER_TOGGLE_PHONE, playerTogglePhoneHandler);
 on(ProcedureKey.SERVER_SEND_PHONE_MESSAGE, sendPhoneMessageHandler);
 on(ProcedureKey.SERVER_CREATE_PHONE_CALL, createPhoneCallHandler);
@@ -107,3 +112,4 @@ register(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, playerUpdateManyPhoneMessage
 register(ProcedureKey.SERVER_PHONE_UPDATE_NOTES, updatePhoneNotesHandler);
 register(ProcedureKey.SERVER_GET_BANK_ACCOUNT_BY_PHONE_NUMBER, getBankAccountByPhoneNumberHandler);
 register(ProcedureKey.SERVER_PHONE_ADD_PHOTO, addPhonePhotoHandler)
+register(ProcedureKey.SERVER_PHONE_DELETE_PHOTO, deletePhonePhotoHandler)
