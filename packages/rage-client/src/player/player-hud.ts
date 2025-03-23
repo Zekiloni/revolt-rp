@@ -1,4 +1,4 @@
-import { triggerBrowser } from '@libertymp/rage-rpc';
+import { register, triggerBrowser } from '@libertymp/rage-rpc';
 import { gameUiConfig, GameUiKey, HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { defaultHiddenHudComponents } from './player-hud.config';

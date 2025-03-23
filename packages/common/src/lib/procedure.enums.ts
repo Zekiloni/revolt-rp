@@ -118,6 +118,9 @@ export const enum ProcedureKey {
   CLIENT_TOGGLE_PROPERTY_MENU = 'client_togglePropertyMenu',
   SERVER_PROPERTY_UPDATE = 'server_propertyUpdate',
   SERVER_PROPERTY_MAIN_INTERACTION = 'server_propertyMainInteraction',
+  SERVER_CREATE_PROPERTY_POINT = 'server_createPropertyPoint',
+  SERVER_UPDATE_PROPERTY_POINT = 'server_updatePropertyPoint',
+  SERVER_DELETE_PROPERTY_POINT = 'server_deletePropertyPoint',
 
   SERVER_GET_COMMANDS = 'server_getCommands',
 

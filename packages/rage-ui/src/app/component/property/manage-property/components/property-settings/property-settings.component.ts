@@ -5,12 +5,13 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { TranslatePipe } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonDirective } from 'primeng/button';
+import { ManageInteractionPointsComponent } from '../manage-interaciton-points';
 
 
 @Component({
   selector: 'app-property-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, InputTextModule, ButtonDirective],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe, InputTextModule, ButtonDirective, ManageInteractionPointsComponent],
   templateUrl: './property-settings.component.html',
   styleUrl: './property-settings.component.css'
 })

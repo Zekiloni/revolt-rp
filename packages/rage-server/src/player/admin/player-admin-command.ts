@@ -29,7 +29,7 @@ import {
 import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
-import { destroyProperty, getClosesProperty } from '../../property/property.service';
+import { destroyProperty, getClosestProperty, getPropertyByName } from '../../property/property.service';
 import { savePlayerPosition } from '../../util/save-position.util';
 
 
@@ -624,12 +624,30 @@ registerCommand({
 
 
 registerCommand({
+  name: 'editproperty',
+  description: 'todo',
+  params: ['name'],
+  administrator: AdminType.SENIOR_ADMIN,
+  async handle(player: PlayerMp, ...args) {
+    const name = args.join(' ');
+
+    const property = await getPropertyByName(name);
+
+    if (!property)
+      return notifyPlayer(player, { severity: 'error', detail: t('property_not_found') });
+
+    showPlayerGameInterface(player, GameUiKey.ManageProperty,
+      () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
+  }
+});
+
+registerCommand({
   name: 'deleteproperty',
   aliases: ['destroyproperty'],
   description: 'todo',
   administrator: AdminType.SENIOR_ADMIN,
   async handle(player: PlayerMp) {
-    const property = await getClosesProperty(player.position, player.dimension, PropertyPointType.Main);
+    const property = await getClosestProperty(player.position, player.dimension, PropertyPointType.MainPoint);
 
     if (!property)
       return notifyPlayer(player, { severity: 'error', detail: t('property_not_found') });
@@ -664,4 +682,4 @@ registerCommand({
     const name = (Array.isArray(args) && args.length > 0) ? args.join(' ') : 'Unknown';
     savePlayerPosition(player, name);
   }
-})
+});

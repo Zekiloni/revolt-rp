@@ -1,0 +1,81 @@
+<p-table [value]="points"
+         [scrollable]="true"
+         editMode="row"
+         dataKey="id"
+         [rowHover]="true"
+         scrollHeight="325px"
+         styleClass="p-datatable-gridlines">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <span>{{ 'advertisements' | translate }}</span>
+      <button pButton type="button" size="small" label="{{ 'create' | translate}}" icon="pi pi-plus"
+              (click)="create()"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width:5%">#</th>
+      <th>{{ 'interaction_point_type' | translate }}</th>
+      <th>{{ 'position' | translate }}</th>
+      <th>{{ 'dimension' | translate }}</th>
+      <td>{{ 'options' | translate }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-point let-editing="editing" let-rowIndex="rowIndex">
+    <tr [pEditableRow]="point">
+      <td>{{ rowIndex + 1 }}</td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-dropdown
+              [options]="pointTypes"
+              appendTo="body"
+              optionLabel="name"
+              [(ngModel)]="point['type']"
+              [style]="{'width':'100%'}">
+              <ng-template let-selectedItem pTemplate="selectedItem">
+                <span>{{ selectedItem | translate }}</span>
+              </ng-template>
+              <ng-template let-type pTemplate="item">
+                <span>{{ type | translate }}</span>
+              </ng-template>
+            </p-dropdown>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ point['type'] | translate }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td><input pInputText [value]="point['position'] | json" readonly></td>
+      <td>{{ point['dimension'] }}</td>
+      <td>
+        @if (editing) {
+          <button
+            pButton
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            (click)="editSave(point, rowIndex)"
+            class="p-button-rounded p-button-text p-button-success mr-2">
+          </button>
+          <button
+            pButton
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            (click)="editCancel(point, rowIndex)"
+            class="p-button-rounded p-button-text p-button-danger">
+          </button>
+        } @else {
+          <button pButton icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger"
+                  [pTooltip]="'delete' | translate" tooltipPosition="bottom"
+                  (click)="remove($event, point)"></button>
+          <button pButton icon="pi pi-pencil" [rounded]="true" [text]="true"
+                  [pTooltip]="'edit' | translate" tooltipPosition="bottom"
+                  (click)="editInit(point)"
+                  pInitEditableRow></button>
+        }
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
