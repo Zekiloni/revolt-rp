@@ -4,7 +4,7 @@ import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ButtonDirective } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
-import { deepCopy, ICharacter, IProperty, IPropertyPoint, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
+import { deepCopy, IProperty, IPropertyPoint, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { ChipModule } from 'primeng/chip';
 import { DropdownModule } from 'primeng/dropdown';
