@@ -537,5 +537,10 @@ export const srRs = {
     'trucking_license_desc': 'Polaganje ispita za kamione.',
     'driving_quiz': 'Test za polaganje vozačkog ispita',
     'driving_quiz_help': 'Pred vama je test sa {{questions}} teoriskih pitanja Da biste položili, morate imati {{score}}% tačnih odgovora. Nakon što završite test sledi praktični deo.',
-  }
+  },
+  'correct_answers': 'Tačni odgovori',
+  'incorrect_answers': 'Netačni odgovori',
+  'failed': 'Neuspešno',
+  'driving_test_failed': 'Niste položili vozački ispit. Više sreće sledeći put!',
+  'driving_test_passed': 'Položili ste vozački ispit! Čestitamo! Sada prelazite na praktični deo ispita. Možete se uputiti ka vozilu.',
 };

@@ -1,6 +1,7 @@
-import { IDrivingQuiz } from '@revolt-rp/common';
+import { GameUiKey, IDrivingQuiz, ProcedureKey } from '@revolt-rp/common';
 import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
+import { triggerClient } from '@libertymp/rage-rpc';
 
 
 export const getDrivingQuiz = (): IDrivingQuiz => {
@@ -13,8 +14,8 @@ export const getDrivingQuiz = (): IDrivingQuiz => {
     ...quiz,
     questions: selectedQuestions
   };
-}
+};
 
 export function openDmvMenu(player: PlayerMp, property: Property) {
-
+  triggerClient(player, ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, GameUiKey.DmvMenu);
 }

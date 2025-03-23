@@ -532,6 +532,11 @@ export const enUs = {
     'trucking_license': 'Trucking License',
     'trucking_license_desc': 'Get a trucking license.',
     'driving_quiz': 'Driving Quiz',
-    'driving_quiz_help': 'Pred vama je test sa {{questions}} teoriskih pitanja Da biste položili, morate imati {{score}}% tačnih odgovora. Nakon što završite test sledi praktični deo.',
-  }
+    'driving_quiz_help': 'Pred vama je test sa {{questions}} teoriskih pitanja Da biste položili, morate imati {{score}}% tačnih odgovora. Nakon što završite test sledi praktični deo.'
+  },
+  'correct_answers': 'Correct Answers',
+  'incorrect_answers': 'Incorrect Answers',
+  'failed': 'Failed',
+  'driving_test_failed': 'Unfortunately, you have failed the driving test. Better luck next time!',
+  'driving_test_passed': 'Congratulations! You have passed the driving test. You can proceed to the practical part, enter the vehicle and follow the instructions.',
 };
