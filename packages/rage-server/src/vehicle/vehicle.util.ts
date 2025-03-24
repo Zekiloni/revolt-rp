@@ -40,5 +40,6 @@ export const isPlayerInVehicleCommandValidator: ICommandValidator<PlayerMp> = {
 
 
 export const isAnyVehicleOnPosition = (position: Vector3, range: number) => {
-  return mp.vehicles.toArray().some(vehicle => vehicle.dist(position) <= range);
-}
+  const closestVehicles = mp.vehicles.getClosest(new mp.Vector3(position.x, position.y, position.z), 1);
+  return closestVehicles.length ? closestVehicles[0].dist(position) < range : false;
+};

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { FilterQuery } from 'mongoose';
 import { customAlphabet } from 'nanoid';
-import { BankAccountType, IBankCardInfo, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { BankAccountType, IBankCardInfo, ProcedureKey, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccount, BankAccountModel } from './bank-account.model';
@@ -13,6 +13,8 @@ import { bankingConfig } from './banking.config';
 import { Item, ItemModel } from '../item/item.model';
 import { getItemById } from '../item/item.service';
 import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.service';
+import { triggerClient } from '@libertymp/rage-rpc';
+import { Property } from '../property/property.model';
 
 
 export const generateBankAccountNumber = () => {
@@ -20,6 +22,10 @@ export const generateBankAccountNumber = () => {
   return generate().replace(/(\d{4})(?=\d)/g, '$1-');
 };
 
+
+export const openBankMenu = (player: PlayerMp, _property: Property) => {
+  triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_BANK_MENU, true);
+}
 
 export const generatePinCode = () => {
   const generate = customAlphabet('0123456789', 4);

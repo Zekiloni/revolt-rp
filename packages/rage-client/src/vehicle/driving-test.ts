@@ -1,10 +1,55 @@
 import { on, triggerServer } from '@libertymp/rage-rpc';
-import { ProcedureKey } from '@revolt-rp/common';
+import { DrivingTestMistakeType, ProcedureKey } from '@revolt-rp/common';
+import { getRoadProperties } from './map.util';
 import { drivingTestCheckpoints } from './driving-test.config';
 
 
+const MISTAKE_CHECK_INTERVAL = 1000,
+  MISTAKE_COOLDOWN = 3000;
 let isDrivingTestActive = false;
 let currentCheckpointIndex: null | number = null;
+let lastMistakeAt: number | null = null;
+let lastBodyHealth: number | null = null;
+let drivingMistakes: DrivingTestMistakeType[] = [];
+let mistakeCheckInterval: NodeJS.Timeout | null = null;
+
+
+function drivingTestChecker() {
+  const vehicle = mp.players.local.vehicle;
+  if (!vehicle)
+    return;
+
+  const { x, y, z } = mp.players.local.position;
+  const roadProperties = getRoadProperties(x, y, z);
+
+  const currentTime = Date.now();
+
+  if (vehicle.getSpeed() > roadProperties.speedLimit) {
+    if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
+      drivingMistakes.push(DrivingTestMistakeType.Speeding);
+      lastMistakeAt = currentTime;
+    }
+  }
+
+  if (!roadProperties.isOnRoad) {
+    if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
+      drivingMistakes.push(DrivingTestMistakeType.OffRoadDriving);
+      lastMistakeAt = currentTime;
+    }
+  }
+
+  mp.gui.chat.push(`Vehicle body health: ${vehicle.getBodyHealth()}`);
+  if (lastBodyHealth && vehicle.getBodyHealth() < lastBodyHealth) {
+    mp.gui.chat.push(`Body health dropped}`);
+    if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
+      mp.gui.chat.push(`Body health dropped mistake`);
+      drivingMistakes.push(DrivingTestMistakeType.Collision);
+      lastMistakeAt = currentTime;
+    }
+  }
+
+  lastBodyHealth = vehicle.getBodyHealth();
+}
 
 function initializeDrivingTest(vehicle: VehicleMp) {
   if (isDrivingTestActive) {
@@ -21,6 +66,9 @@ function initializeDrivingTest(vehicle: VehicleMp) {
     color: [255, 255, 255, 255],
     visible: true
   });
+
+  mistakeCheckInterval = setInterval(drivingTestChecker, MISTAKE_CHECK_INTERVAL);
+  lastBodyHealth = vehicle.getBodyHealth();
 
   const playerEnterDrivingTestCheckpoint = (enteredCheckpoint: CheckpointMp) => {
     if (!mp.players.local.vehicle) {
@@ -42,8 +90,17 @@ function initializeDrivingTest(vehicle: VehicleMp) {
         checkpoint.destroy();
       }
 
-      triggerServer(ProcedureKey.SERVER_FINISH_DRIVING_TEST);
+      triggerServer(ProcedureKey.SERVER_FINISH_DRIVING_TEST, drivingMistakes);
       isDrivingTestActive = false;
+
+      lastMistakeAt = null;
+      drivingMistakes = [];
+
+      if (mistakeCheckInterval)
+        clearInterval(mistakeCheckInterval);
+
+      mistakeCheckInterval = null;
+      lastBodyHealth = null;
 
       mp.events.remove('playerEnterCheckpoint', playerEnterDrivingTestCheckpoint);
     } else {

@@ -6,6 +6,7 @@ import { IBankCardInfo } from './bank-card.model';
 import { IWearableInfo } from './wearable-info.model';
 import { IHandheldRadioConfig } from './handheld-radio.model';
 import { IPhoneInfo } from './phone.model';
+import { IDocumentInfo } from './document.model';
 
 export interface IItem extends Base {
   name: string;
@@ -26,6 +27,7 @@ export interface IItem extends Base {
   bankCardInfo?: IBankCardInfo;
   wearableInfo?: IWearableInfo;
   radioConfig?: IHandheldRadioConfig;
+  documentInfo?: IDocumentInfo;
   phoneInfo?: IPhoneInfo;
   createdAt: Date;
   updatedAt?: Date;

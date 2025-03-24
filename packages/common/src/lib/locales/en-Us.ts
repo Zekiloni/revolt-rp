@@ -158,7 +158,9 @@ export const enUs = {
     'handheld_radio_description': 'A handheld radio for communication.',
     'smartphone': 'Smartphone',
     'smartphone_description': 'Smartphone for communication and internet.',
-    'ruger_mark_description': 'A semi-automatic pistol.'
+    'ruger_mark_description': 'A semi-automatic pistol.',
+    'driving_license': 'Driving License',
+    'driving_license_description': 'Driving license for driving vehicles.',
   },
   'submit': 'Submit',
   'clear': 'Clear',

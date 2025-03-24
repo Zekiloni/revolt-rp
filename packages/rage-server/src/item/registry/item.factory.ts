@@ -7,6 +7,7 @@ import { WearableItem } from './clothing/wearable-item.model';
 import { ArmourItem } from './equipment/armour-item.model';
 import { HandheldRadioItemModel } from './electronic/handheld-radio-item.model';
 import { SmartphoneItemModel } from './electronic/smartphone-item.model';
+import { LicenseItem } from './license-item.model';
 
 new DrinkItemModel('Water Bottle', 'Flow water bottle, contains 0.3l of pure taste of water.', [], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Beer Bottle', 'Pißwasser beer bottle, contains 0.3l of best German beer.', [ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.3, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -172,9 +173,10 @@ new AmmoItem('7.62x39mm', 'Ammunition for AK-47 rifles.', CaliberType.CALIBER_7_
 
 
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);
+new LicenseItem('items.driving_license', 'items.driving_license_description', 'prop_cs_license', [ItemType.DRIVING_LICENSE], 0.1);
 
 new WearableItem('items.wearable_undershirt', 'items.wearable_undershirt_description', RageEnums.ClothesComponent.ACCESSORIES_1, 'prop_ld_tshirt_02', [], 0.3);
-new WearableItem('items.wearable_top', 'items.wearable_top_description', RageEnums.ClothesComponent.DECALS, 'prop_ld_tshirt_02', [], 0.4)
+new WearableItem('items.wearable_top', 'items.wearable_top_description', RageEnums.ClothesComponent.DECALS, 'prop_ld_tshirt_02', [], 0.4);
 new WearableItem('items.wearable_bottom', 'items.wearable_bottom_description', RageEnums.ClothesComponent.LEGS, 'prop_ld_jeans_01', [], 0.4);
 new WearableItem('items.wearable_footwear', 'items.wearable_footwear_description', RageEnums.ClothesComponent.FOOT, 'prop_ld_shoe_01', [], 0.5);
 new WearableItem('items.wearable_mask', 'items.wearable_mask_description', RageEnums.ClothesComponent.MASK, 'prop_mask_bugstar', [], 0.3);

@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop } from '@typegoose/typegoose';
 import {
-  IBankCardInfo,
+  IBankCardInfo, IDocumentInfo,
   IHandheldRadioConfig,
   IItem, IPhoneInfo,
   ItemFlag,
@@ -75,6 +75,9 @@ export class Item extends Document implements IItem {
 
   @prop({ type: Object, required: false })
   phoneInfo?: IPhoneInfo;
+
+  @prop({ type: Object, required: false })
+  documentInfo?: IDocumentInfo;
 
   @prop({ enum: ItemFlag, type: String, required: false })
   flag?: ItemFlag;

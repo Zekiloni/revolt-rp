@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MeterGroupModule, MeterItem } from 'primeng/metergroup';
 import { ProgressBarModule } from 'primeng/progressbar';
@@ -8,6 +8,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { ButtonDirective } from 'primeng/button';
 import { IDrivingQuestionAnswer, IDrivingQuiz, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { RageClientService } from '../../../../../../domain/service/rage-client.
   templateUrl: './driving-quiz.component.html',
   styleUrl: './driving-quiz.component.css'
 })
-export class DrivingQuizComponent implements OnInit, OnDestroy {
+export class DrivingQuizComponent implements OnInit {
   property!: IProperty;
   quiz!: IDrivingQuiz;
 
@@ -27,7 +28,11 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
   currentAnswers: IDrivingQuestionAnswer[] = [];
   result: MeterItem[] | undefined;
 
-  constructor(private rageClientService: RageClientService, private translateService: TranslateService) {
+  constructor(
+    private dialogConfig: DynamicDialogConfig,
+    private rageClientService: RageClientService,
+    private translateService: TranslateService) {
+    this.property = this.dialogConfig.data;
   }
 
   get currentQuestion() {
@@ -61,7 +66,6 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
     ];
 
     if (this.isPassed) {
-      console.log('Quiz passed');
       this.rageClientService.triggerServer(ProcedureKey.SERVER_START_DRIVING_TEST, this.property.id);
     }
   }
@@ -86,11 +90,6 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
     }
   }
 
-  private setProperty = (property: IProperty) => {
-    console.log('setProperty', JSON.stringify(property));
-    this.property = property;
-  };
-
   private setQuiz = (quiz: IDrivingQuiz) => {
     this.quiz = quiz;
     if (this.currentQuestion)
@@ -98,12 +97,7 @@ export class DrivingQuizComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    this.rageClientService.on(ProcedureKey.BROWSER_SET_PROPERTY, this.setProperty);
     this.rageClientService.callServer<IDrivingQuiz>(ProcedureKey.SERVER_GET_DRIVING_QUIZ)
       .subscribe({ next: this.setQuiz });
-  }
-
-  ngOnDestroy(): void {
-    this.rageClientService.off(ProcedureKey.BROWSER_SET_PROPERTY, this.setProperty);
   }
 }

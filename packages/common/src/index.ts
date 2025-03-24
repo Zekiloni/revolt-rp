@@ -69,6 +69,7 @@ export * from './lib/item/wearable-info.model';
 export * from './lib/item/bank-card.model';
 export * from './lib/item/handheld-radio.model';
 export * from './lib/item/phone.model';
+export * from './lib/item/document.model';
 
 export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
@@ -92,7 +93,7 @@ export * from './lib/property/property.enums';
 export * from './lib/property/property.config';
 export * from './lib/property/door.model';
 
-export * from './lib/property/public-service/dmv.model';
+export * from './lib/property/public-service/dmv';
 
 export * from './lib/world/world.enum';
 export * from './lib/world/weather-type';

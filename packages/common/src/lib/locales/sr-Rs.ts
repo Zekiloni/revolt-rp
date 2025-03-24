@@ -159,7 +159,9 @@ export const srRs = {
     'handheld_radio_description': 'Ručni radio uređaj za komunikaciju.',
     'smartphone': 'Telefon',
     'smartphone_description': 'Pametni telefon za komunikaciju i druge funkcije.',
-    'ruger_mark_description': 'Poluautomatski pištolj.'
+    'ruger_mark_description': 'Poluautomatski pištolj.',
+    'driving_license': 'Vozačka Dozvola',
+    'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.',
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',

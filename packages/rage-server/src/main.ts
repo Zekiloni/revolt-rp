@@ -26,7 +26,6 @@ import './player/payday/player-payday.api';
 import './player/damage/player-damage.api';
 
 import './banking/banking.api';
-import './banking/banking.command';
 
 import './vehicle/vehicle.api';
 import './vehicle/vehicle-command';
