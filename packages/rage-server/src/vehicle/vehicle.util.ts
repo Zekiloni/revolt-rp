@@ -1,5 +1,6 @@
 import { t } from 'i18next';
 import { ICommandValidator, IVehicle } from '@revolt-rp/common';
+import { customAlphabet } from 'nanoid';
 
 
 export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: string, position: Vector3, vehicle: VehicleMp) => {
@@ -43,3 +44,9 @@ export const isAnyVehicleOnPosition = (position: Vector3, range: number) => {
   const closestVehicles = mp.vehicles.getClosest(new mp.Vector3(position.x, position.y, position.z), 1);
   return closestVehicles.length ? closestVehicles[0].dist(position) < range : false;
 };
+
+
+export const generateNumberPlate = (length: number) => {
+  const generate = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', length);
+  return generate();
+}

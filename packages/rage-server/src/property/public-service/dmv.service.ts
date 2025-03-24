@@ -1,3 +1,4 @@
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   DrivingLicenseCategory,
   DrivingTestMistakeType,
@@ -8,11 +9,11 @@ import {
 } from '@revolt-rp/common';
 import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
-import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { getPropertyAvailableParkingSpot } from '../property.service';
-import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
 import { showPlayerGameInterface } from '../../player/util/player.util';
+import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
 import { playerCreateDrivingLicense } from '../../player/inventory/player-document.service';
+import { generateNumberPlate } from '../../vehicle/vehicle.util';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
@@ -45,11 +46,12 @@ export function startDrivingTest(player: PlayerMp, property: Property) {
   const { x, y, z } = propertyAvailableParkingSpot.position;
   const { x: rotX, y: rotY, z: rotZ } = propertyAvailableParkingSpot.rotation;
 
-  const vehicle = createTemporaryVehicle('sultan', new mp.Vector3(x, y, z), 1, 1, {
+  const color = dmvConfig.drivingTest.vehicleColor;
+  const vehicle = createTemporaryVehicle(dmvConfig.drivingTest.vehicleModel, new mp.Vector3(x, y, z), color, color, {
     rotation: new mp.Vector3(rotX, rotY, rotZ)
   });
 
-  vehicle.numberPlate = 'DRIVING TEST';
+  vehicle.numberPlate = dmvConfig.drivingTest.vehicleNumberplate + generateNumberPlate(4);
   setVehicleOwner(vehicle, player.character);
 
   vehicle.setVariable(VehicleSharedDataType.DrivingTest, true);

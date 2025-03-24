@@ -7,6 +7,12 @@
 </div>
 
 
+@if (speedLimit) {
+  <div class="absolute-bottom-center bottom-10">
+    <img [src]="getSpeedLimitImage() | staticAsset" alt="speed limit icon" width="50">
+  </div>
+}
+
 <div class="absolute-top-right flex flex-column text-shadow">
   <h2 class="text-green-500 mr-5">{{ cash | currency }}</h2>
 </div>

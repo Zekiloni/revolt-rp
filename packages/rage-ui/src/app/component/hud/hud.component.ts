@@ -27,6 +27,8 @@ export class HudComponent implements OnInit, OnDestroy {
   zoneName = 'Zone Name';
   headingTo = 'N';
 
+  speedLimit: number | null = null;
+
   selectedItemId: string | null = null;
 
   $quickSlots: Observable<(IItem | null)[]>;
@@ -62,22 +64,32 @@ export class HudComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   };
 
-  private handleSetPlayerRemoteId(value: number) {
+  private handleSetPlayerRemoteId = (value: number) => {
     this.remoteId = value;
     this.changeDetectorRef.detectChanges();
-  }
+  };
+
+  private handleSetSpeedLimit = (value: number | null) => {
+    this.speedLimit = value;
+  };
 
   ngOnInit() {
-    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, (value: string | null) => this.handleSelectedItemUpdate(value));
-    this.rageClientService.on(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, (value: number) => this.handleSetPlayerRemoteId(value));
-    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_CASH, (value: number) => this.handleCashUpdate(value));
-    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_LOCATION, (data: [string, string, string]) => this.handleUpdateLocation(data));
+    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_CASH, this.handleCashUpdate);
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_SPEED_LIMIT, this.handleSetSpeedLimit);
+    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_LOCATION, this.handleUpdateLocation);
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, this.handleSetPlayerRemoteId);
+    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, this.handleSelectedItemUpdate);
   }
 
   ngOnDestroy() {
-    this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, this.handleSelectedItemUpdate);
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_CASH, this.handleCashUpdate);
+    this.rageClientService.off(ProcedureKey.BROWSER_SET_SPEED_LIMIT, this.handleSetSpeedLimit);
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_LOCATION, this.handleUpdateLocation);
     this.rageClientService.off(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, this.handleSetPlayerRemoteId);
+    this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, this.handleSelectedItemUpdate);
+  }
+
+  getSpeedLimitImage() {
+    return `assets/images/road_sign/${this.speedLimit}.png`;
   }
 }

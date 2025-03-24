@@ -1,7 +1,8 @@
-import { on, triggerServer } from '@libertymp/rage-rpc';
+import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { DrivingTestMistakeType, ProcedureKey } from '@revolt-rp/common';
 import { getRoadProperties } from './map.util';
 import { drivingTestCheckpoints } from './driving-test.config';
+import { browser } from '../core/browser';
 
 
 const MISTAKE_CHECK_INTERVAL = 1000,
@@ -22,6 +23,8 @@ function drivingTestChecker() {
   const { x, y, z } = mp.players.local.position;
   const roadProperties = getRoadProperties(x, y, z);
 
+  triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, roadProperties.speedLimit);
+
   const currentTime = Date.now();
 
   if (vehicle.getSpeed() > roadProperties.speedLimit) {
@@ -38,11 +41,8 @@ function drivingTestChecker() {
     }
   }
 
-  mp.gui.chat.push(`Vehicle body health: ${vehicle.getBodyHealth()}`);
   if (lastBodyHealth && vehicle.getBodyHealth() < lastBodyHealth) {
-    mp.gui.chat.push(`Body health dropped}`);
     if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
-      mp.gui.chat.push(`Body health dropped mistake`);
       drivingMistakes.push(DrivingTestMistakeType.Collision);
       lastMistakeAt = currentTime;
     }
