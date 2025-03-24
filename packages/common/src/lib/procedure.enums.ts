@@ -125,6 +125,7 @@ export const enum ProcedureKey {
   SERVER_GET_COMMANDS = 'server_getCommands',
 
   BROWSER_SET_CURRENT_LOCATION = 'browser_setCurrentLocation',
+  BROWSER_SET_SPEED_LIMIT = 'browser_setSpeedLimit',
   BROWSER_SET_PHONE_MESSAGES = 'browser_setPhoneMessages',
   BROWSER_ADD_PHONE_MESSAGE = 'browser_addPhoneMessage',
   CLIENT_PHONE_MAP_INIT = 'client_phoneMapInit',
