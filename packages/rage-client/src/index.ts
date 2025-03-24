@@ -27,6 +27,7 @@ import './player/other/player-offer';
 import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';
 import './vehicle/driving-test';
+import './vehicle/seatbelt';
 
 import './banking/bank-menu';
 import './banking/bank-atm';
