@@ -1,7 +1,10 @@
 import { IDrivingQuiz } from '@revolt-rp/common';
 
 export const dmvConfig = {
-
+  drivingLicenseExpireDays: 62,
+  drivingTest: {
+    maxMistakes: 3,
+  },
   quiz: {
     maxQuestions: 7,
     questions: [

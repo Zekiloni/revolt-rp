@@ -1,3 +1,11 @@
+
+export const enum DrivingTestMistakeType {
+  Speeding = 'speeding',
+  OffRoadDriving = 'off_road_driving',
+  Collision = 'collision',
+}
+
+
 export interface IDrivingQuestionAnswer {
   answer: string;
   correct?: true;

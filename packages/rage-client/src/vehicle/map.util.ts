@@ -5,7 +5,7 @@ const roadBuffers = {
   lastKnownZone: -1
 };
 
-function getRoadProperties(x: number, y: number, z: number, density: number, flags: number) {
+export function getRoadProperties(x: number, y: number, z: number) {
   roadBuffers.currentBuffer++;
   if (roadBuffers.currentBuffer > 4) {
     roadBuffers.currentBuffer = 1;

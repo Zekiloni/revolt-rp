@@ -16,12 +16,14 @@ import { Property, PropertyModel, PropertyOwner, PropertyPoint } from './propert
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
+import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
 
 
 const propertyMenuHandlers = {
   [PropertyType.PublicService]: {
-    [PublicServiceType.DMV]: openDmvMenu
+    [PublicServiceType.DMV]: openDmvMenu,
+    [PublicServiceType.Bank]: openBankMenu
   }
 };
 
@@ -148,7 +150,7 @@ export const getPropertyByColShape = async (colShape: ColshapeMp, type: Property
 export const getPropertyAvailableParkingSpot = (property: Property) => {
   return property.points
     .filter((spot) => spot.type === PropertyPointType.ParkingSpot)
-    .find(spot => !isAnyVehicleOnPosition(spot.position as Vector3, 2.0));
+    .find(spot => !isAnyVehicleOnPosition(spot.position as Vector3, 3.0));
 };
 
 
