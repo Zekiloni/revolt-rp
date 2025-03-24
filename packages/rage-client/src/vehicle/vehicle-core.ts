@@ -11,7 +11,7 @@ import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { isValidVehicleWindow } from './vehicle.util';
 
-const KMH_FRACTION = 3.6;
+export const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
 const FUEL_CONSUMPTION_RATE = 0.001;
 const MILEAGE_CONVERSION = 1 / 1000;

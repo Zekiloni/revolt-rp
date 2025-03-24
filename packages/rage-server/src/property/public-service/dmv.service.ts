@@ -74,14 +74,14 @@ export async function completeDrivingTest(player: PlayerMp, mistakes: DrivingTes
     }, 2500);
 
     if (mistakes.length >= dmvConfig.drivingTest.maxMistakes) {
-      // todo fail driving test
+      player.outputChatBox('You have failed the driving test!');
     } else {
       await playerCreateDrivingLicense(player, DrivingLicenseCategory.Vehicle);
-      // todo send info message
+      player.outputChatBox('You have successfully passed the driving test!');
     }
 
     mistakes.forEach((mistake) => {
-
+      player.outputChatBox(`Mistake: ${mistake}`);
     });
   }
 }
