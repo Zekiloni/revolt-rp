@@ -60,6 +60,7 @@ export const enum ProcedureKey {
 
   BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE = 'server_playerToggleVehicleEngine',
+  SERVER_PLAYER_TOGGLE_SEATBELT = 'server_playerToggleSeatbelt',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
   SERVER_PLAYER_LOCK_VEHICLE = 'server_playerLockVehicle',

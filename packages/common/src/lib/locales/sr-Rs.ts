@@ -161,7 +161,7 @@ export const srRs = {
     'smartphone_description': 'Pametni telefon za komunikaciju i druge funkcije.',
     'ruger_mark_description': 'Poluautomatski pištolj.',
     'driving_license': 'Vozačka Dozvola',
-    'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.',
+    'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.'
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',
@@ -555,4 +555,6 @@ export const srRs = {
   'delivery_point': 'Tačka dostave',
   'parking_spot': 'Parking mesto',
   'delete_property_point': 'Da li ste sigurni da želite da obrišete ovu tačku?',
+  'instructor': 'Instruktor',
+  'dmv_hint_head_tove_vehicle': 'Idite do vozila kako biste započeli test.'
 };

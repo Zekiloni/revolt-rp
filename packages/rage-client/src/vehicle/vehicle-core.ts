@@ -7,7 +7,7 @@ import {
   IVehicleHudUpdate,
   IVehicleUpdateData, VehicleIndicator
 } from '@revolt-rp/common';
-import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
+import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { isValidVehicleWindow } from './vehicle.util';
 
@@ -30,6 +30,10 @@ function toggleVehicleEngine() {
   if (vehicle && vehicle.getPedInSeat(RageEnums.VehicleSeat.DRIVER) === mp.players.local.handle) {
     triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE);
   }
+}
+
+function toggleSeatbelt() {
+  triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_SEATBELT);
 }
 
 function toggleVehicleLeftIndicator() {
@@ -116,9 +120,17 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
     currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
     currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
 
+    if (
+      !mp.game.vehicle.isThisModelABicycle(vehicle.model) &&
+      !mp.game.vehicle.isThisModelABike(vehicle.model) &&
+      !mp.game.vehicle.isThisModelABoat(vehicle.model)
+    ) {
+      registerKeyBind(HexKeyCodes.B, true, toggleSeatbelt);
+    }
+
     registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
-    registerKeyBind(HexKeyCodes.Left, false, toggleVehicleLeftIndicator);
-    registerKeyBind(HexKeyCodes.Right, false, toggleVehicleRightIndicator);
+    registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
+    registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
 
     toggleVehicleHud(true);
   }
@@ -130,6 +142,10 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
       unregisterKeyBind(HexKeyCodes.Left, toggleVehicleLeftIndicator);
       unregisterKeyBind(HexKeyCodes.Right, toggleVehicleRightIndicator);
+    }
+
+    if (isKeyBindRegistered(HexKeyCodes.B, toggleSeatbelt)) {
+      unregisterKeyBind(HexKeyCodes.B, toggleSeatbelt);
     }
 
     toggleVehicleHud(false);
@@ -181,7 +197,7 @@ function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
   });
 }
 
-function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], oldValue?: boolean[]) {
+function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], _oldValue?: boolean[]) {
   if (vehicle.type != RageEnums.EntityType.VEHICLE)
     return;
 
@@ -194,7 +210,7 @@ function handleVehicleIndicators(vehicle: VehicleMp, value: [boolean, boolean]) 
   vehicle.setIndicatorLights(VehicleIndicator.Right, right);
 }
 
-function vehicleIndicatorDataHandler(vehicle: VehicleMp, value: [boolean, boolean], oldValue?: [boolean, boolean]) {
+function vehicleIndicatorDataHandler(vehicle: VehicleMp, value: [boolean, boolean], _oldValue?: [boolean, boolean]) {
   if (vehicle.type != RageEnums.EntityType.VEHICLE)
     return;
 

@@ -160,7 +160,7 @@ export const enUs = {
     'smartphone_description': 'Smartphone for communication and internet.',
     'ruger_mark_description': 'A semi-automatic pistol.',
     'driving_license': 'Driving License',
-    'driving_license_description': 'Driving license for driving vehicles.',
+    'driving_license_description': 'Driving license for driving vehicles.'
   },
   'submit': 'Submit',
   'clear': 'Clear',
@@ -551,4 +551,6 @@ export const enUs = {
   'delivery_point': 'Delivery Point',
   'parking_spot': 'Parking Spot',
   'delete_property_point': 'Are you sure you want to delete property point?',
+  'instructor': 'Instructor',
+  'dmv_hint_head_tove_vehicle': 'Head to the vehicle and get in.'
 };

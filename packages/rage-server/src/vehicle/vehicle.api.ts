@@ -1,7 +1,7 @@
 import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
-  IVehicleUpdateData,
+  IVehicleUpdateData, PlayerSharedDataType,
   ProcedureKey,
   VehicleIndicator,
   VehicleSharedDataType
@@ -73,6 +73,15 @@ function playerToggleVehicleIndicatorHandler(index: VehicleIndicator, { player }
   toggleVehicleIndicator(vehicle, index);
 }
 
+function playerToggleSeatbeltHandler(_args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const vehicle = player.vehicle;
+
+  if (!vehicle)
+    return;
+
+  const seatbelt = !player.getVariable(PlayerSharedDataType.Seatbelt);
+  player.setVariable(PlayerSharedDataType.Seatbelt, seatbelt);
+}
 
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
@@ -81,5 +90,6 @@ mp.events.add({
 
 on(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, playerUpdateVehicleDataHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngineHandler);
+on(ProcedureKey.SERVER_PLAYER_TOGGLE_SEATBELT, playerToggleSeatbeltHandler);
 on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);
