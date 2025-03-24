@@ -105,21 +105,7 @@ function updateVehicleHud() {
 
 
 function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
-  if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
-    mp.game.vehicle.defaultEngineBehaviour = false;
-    mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
-    mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
-
-    if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
-      if (!vehicle.getIsEngineRunning())
-        toggleVehicleEngine();
-
-      return;
-    }
-
-    currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
-    currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
-
+  if (vehicle) {
     if (
       !mp.game.vehicle.isThisModelABicycle(vehicle.model) &&
       !mp.game.vehicle.isThisModelABike(vehicle.model) &&
@@ -128,39 +114,58 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.B, true, toggleSeatbelt);
     }
 
-    registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
-    registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
-    registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
+    if (seat == RageEnums.VehicleSeat.DRIVER) {
+      mp.game.vehicle.defaultEngineBehaviour = false;
+      mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
+      mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-    toggleVehicleHud(true);
+      if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
+        if (!vehicle.getIsEngineRunning())
+          toggleVehicleEngine();
+
+        return;
+      }
+
+      currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
+      currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
+
+
+      registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
+      registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
+      registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
+
+      toggleVehicleHud(true);
+    }
   }
 }
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
-  if (vehicle && seat == RageEnums.VehicleSeat.DRIVER) {
-    if (!mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
-      unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
-      unregisterKeyBind(HexKeyCodes.Left, toggleVehicleLeftIndicator);
-      unregisterKeyBind(HexKeyCodes.Right, toggleVehicleRightIndicator);
-    }
-
+  if (vehicle) {
     if (isKeyBindRegistered(HexKeyCodes.B, toggleSeatbelt)) {
       unregisterKeyBind(HexKeyCodes.B, toggleSeatbelt);
     }
 
-    toggleVehicleHud(false);
+    if (seat == RageEnums.VehicleSeat.DRIVER) {
+      if (!mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
+        unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
+        unregisterKeyBind(HexKeyCodes.Left, toggleVehicleLeftIndicator);
+        unregisterKeyBind(HexKeyCodes.Right, toggleVehicleRightIndicator);
+      }
 
-    const vehicleUpdate: IVehicleUpdateData = {
-      vehicleId: vehicle.remoteId,
-      mileage: currentMileage,
-      fuel: currentFuel
-    };
+      toggleVehicleHud(false);
 
-    triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
+      const vehicleUpdate: IVehicleUpdateData = {
+        vehicleId: vehicle.remoteId,
+        mileage: currentMileage,
+        fuel: currentFuel
+      };
 
-    currentMileage = 0.0;
-    currentFuel = 0;
-    lastVehiclePosition = null;
+      triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
+
+      currentMileage = 0.0;
+      currentFuel = 0;
+      lastVehiclePosition = null;
+    }
   }
 }
 
