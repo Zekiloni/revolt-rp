@@ -13,8 +13,8 @@ function startDrivingTestHandler(propertyId: string, { player }: ProcedureListen
     .then(property => startDrivingTest(player, property));
 }
 
-function finishDrivingTestHandler(mistakes: DrivingTestMistakeType[], { player }: ProcedureListenerInfo<PlayerMp>) {
-  completeDrivingTest(player, mistakes);
+async function finishDrivingTestHandler(mistakes: DrivingTestMistakeType[], { player }: ProcedureListenerInfo<PlayerMp>) {
+  await completeDrivingTest(player, mistakes);
 }
 
 on(ProcedureKey.SERVER_START_DRIVING_TEST, startDrivingTestHandler);

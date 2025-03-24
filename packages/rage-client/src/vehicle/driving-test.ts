@@ -23,7 +23,8 @@ function drivingTestChecker() {
   const { x, y, z } = mp.players.local.position;
   const roadProperties = getRoadProperties(x, y, z);
 
-  triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, roadProperties.speedLimit);
+  if (roadProperties.speedLimit)
+    triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, roadProperties.speedLimit);
 
   const currentTime = Date.now();
 
@@ -90,6 +91,7 @@ function initializeDrivingTest(vehicle: VehicleMp) {
         checkpoint.destroy();
       }
 
+      triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, null);
       triggerServer(ProcedureKey.SERVER_FINISH_DRIVING_TEST, drivingMistakes);
       isDrivingTestActive = false;
 
