@@ -25,7 +25,7 @@ export function registerKeyBind(
   holdTime = 0,
   validators?: KeyBindValidatorFn[]
 ): void {
-  if (isKeyBindRegistered(keyCode, keydown, handler)) return;
+  if (isKeyBindRegistered(keyCode, handler)) return;
 
   const keyBind: KeyBind = { keyCode, handler, keydown, holdTime, startTime: undefined };
   activeKeyBinds.push(keyBind);
@@ -71,7 +71,7 @@ export function unregisterKeyBind(keyCode: number, handler: KeyBindHandler): voi
   }
 }
 
-export function isKeyBindRegistered(keycode: number, keydown: boolean, handler: KeyBindHandler): boolean {
+export function isKeyBindRegistered(keycode: number, handler: KeyBindHandler): boolean {
   const keyBind = activeKeyBinds.find(keyBind => keyBind.keyCode === keycode && keyBind.handler === handler);
   return !!keyBind && keyBind.handler === handler;
 }

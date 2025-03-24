@@ -17,4 +17,5 @@ export const enum PlayerSharedDataType {
   Organization = 'organization',
   PhoneState = 'phone_state',
   Afk = 'afk',
+  Seatbelt = 'seatbelt',
 }

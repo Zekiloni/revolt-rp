@@ -1,8 +1,9 @@
+import { t } from 'i18next';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   DrivingLicenseCategory,
   DrivingTestMistakeType,
-  GameUiKey,
+  GameUiKey, hexColors,
   IDrivingQuiz,
   ProcedureKey,
   VehicleSharedDataType
@@ -50,6 +51,9 @@ export function startDrivingTest(player: PlayerMp, property: Property) {
   const vehicle = createTemporaryVehicle(dmvConfig.drivingTest.vehicleModel, new mp.Vector3(x, y, z), color, color, {
     rotation: new mp.Vector3(rotX, rotY, rotZ)
   });
+
+  const content = t('says', { person: t('instructor'), text: 'dmv_hint_head_tove_vehicle' });
+  player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
 
   vehicle.numberPlate = dmvConfig.drivingTest.vehicleNumberplate + generateNumberPlate(4);
   setVehicleOwner(vehicle, player.character);

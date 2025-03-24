@@ -5,7 +5,9 @@ import { Character } from '../player/character/character.model';
 
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
-  const vehicle = mp.vehicles.new(mp.joaat(model), position);
+  const vehicle = mp.vehicles.new(mp.joaat(model), position, {
+    heading: options && options.rotation ? options.rotation.z : 0
+  });
 
   vehicle.engine = options?.engine ?? false;
   vehicle.locked = options?.locked ?? false;
@@ -38,7 +40,7 @@ function loadVehicleVariables(vehicle: VehicleMp, info: IVehicle) {
     [VehicleSharedDataType.IsTemporary]: info.isTemporary,
     [VehicleSharedDataType.VehicleId]: info.id || undefined,
     [VehicleSharedDataType.Windows]: [false, false, false, false],
-    [VehicleSharedDataType.Indicators]: [false, false],
+    [VehicleSharedDataType.Indicators]: [false, false]
   });
 }
 
