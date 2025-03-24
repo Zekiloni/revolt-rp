@@ -3,6 +3,9 @@ import { DrivingTestMistakeType, ProcedureKey } from '@revolt-rp/common';
 import { getRoadProperties } from './map.util';
 import { drivingTestCheckpoints } from './driving-test.config';
 import { browser } from '../core/browser';
+import { KMH_FRACTION } from './vehicle-core';
+import { setCheckpointDirection } from '../util/checkpoint.util';
+import { getDistance } from '../util/vector.util';
 
 
 const MISTAKE_CHECK_INTERVAL = 1000,
@@ -13,6 +16,8 @@ let lastMistakeAt: number | null = null;
 let lastBodyHealth: number | null = null;
 let drivingMistakes: DrivingTestMistakeType[] = [];
 let mistakeCheckInterval: NodeJS.Timeout | null = null;
+let initialPosition: Vector3 | null = null;
+const OFF_ROAD_DISTANCE = 25;
 
 
 function drivingTestChecker() {
@@ -23,12 +28,12 @@ function drivingTestChecker() {
   const { x, y, z } = mp.players.local.position;
   const roadProperties = getRoadProperties(x, y, z);
 
-  if (roadProperties.speedLimit)
+  if (roadProperties.speedLimit && roadProperties.speedLimit != -1)
     triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, roadProperties.speedLimit);
 
   const currentTime = Date.now();
 
-  if (vehicle.getSpeed() > roadProperties.speedLimit) {
+  if ((vehicle.getSpeed() * KMH_FRACTION) > roadProperties.speedLimit) {
     if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
       drivingMistakes.push(DrivingTestMistakeType.Speeding);
       lastMistakeAt = currentTime;
@@ -36,9 +41,12 @@ function drivingTestChecker() {
   }
 
   if (!roadProperties.isOnRoad) {
-    if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
-      drivingMistakes.push(DrivingTestMistakeType.OffRoadDriving);
-      lastMistakeAt = currentTime;
+    const distance = getDistance(vehicle.position, initialPosition);
+    if (distance > OFF_ROAD_DISTANCE) {
+      if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
+        drivingMistakes.push(DrivingTestMistakeType.OffRoadDriving);
+        lastMistakeAt = currentTime;
+      }
     }
   }
 
@@ -59,17 +67,19 @@ function initializeDrivingTest(vehicle: VehicleMp) {
 
   isDrivingTestActive = true;
 
-  const [position] = drivingTestCheckpoints;
+  const [position, positionSecond] = drivingTestCheckpoints;
   currentCheckpointIndex = drivingTestCheckpoints.indexOf(position);
 
-  const checkpoint = mp.checkpoints.new(1, new mp.Vector3(position.x, position.y, position.z), 3, {
+  const checkpoint = mp.checkpoints.new(1, new mp.Vector3(position.x, position.y, position.z - 2), 3, {
     dimension: mp.players.local.dimension,
     color: [255, 255, 255, 255],
+    direction: new mp.Vector3(positionSecond.x, positionSecond.y, positionSecond.z),
     visible: true
   });
 
   mistakeCheckInterval = setInterval(drivingTestChecker, MISTAKE_CHECK_INTERVAL);
   lastBodyHealth = vehicle.getBodyHealth();
+  initialPosition = vehicle.position;
 
   const playerEnterDrivingTestCheckpoint = (enteredCheckpoint: CheckpointMp) => {
     if (!mp.players.local.vehicle) {
@@ -93,6 +103,7 @@ function initializeDrivingTest(vehicle: VehicleMp) {
 
       triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, null);
       triggerServer(ProcedureKey.SERVER_FINISH_DRIVING_TEST, drivingMistakes);
+
       isDrivingTestActive = false;
 
       lastMistakeAt = null;
@@ -103,12 +114,18 @@ function initializeDrivingTest(vehicle: VehicleMp) {
 
       mistakeCheckInterval = null;
       lastBodyHealth = null;
+      initialPosition = null;
 
       mp.events.remove('playerEnterCheckpoint', playerEnterDrivingTestCheckpoint);
     } else {
       currentCheckpointIndex++;
       const position = drivingTestCheckpoints[currentCheckpointIndex];
+      const positionSecond = drivingTestCheckpoints[currentCheckpointIndex + 1];
+
       checkpoint.position = new mp.Vector3(position.x, position.y, position.z);
+      if (positionSecond) {
+        setCheckpointDirection(checkpoint, new mp.Vector3(positionSecond.x, positionSecond.y, positionSecond.z));
+      }
 
       mp.game.ui.setNewWaypoint(checkpoint.position.x, checkpoint.position.y);
     }

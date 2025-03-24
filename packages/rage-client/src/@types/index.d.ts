@@ -40,6 +40,12 @@ declare global {
       }
     }
 
+    namespace Natives {
+      const enum GRAPHICS {
+        SET_CHECKPOINT_DIRECTION = '0x3C788E7F6438754D'
+      }
+    }
+
     const enum HeadOverlays {
       Blemishes = 0,
       FacialHair = 1,
