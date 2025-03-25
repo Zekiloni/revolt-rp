@@ -21,7 +21,7 @@ let mistakeCheckInterval: NodeJS.Timeout | null = null;
 
 let initialPosition: Vector3 | null = null;
 const INSTRUCTOR_MODEL = mp.game.joaat('ig_andreas');
-
+const SPEED_TOLERANCE = 5;
 
 function drivingTestChecker() {
   const vehicle = mp.players.local.vehicle;
@@ -37,7 +37,7 @@ function drivingTestChecker() {
   const currentTime = Date.now();
   let mistake: DrivingTestMistakeType | null = null
 
-  if ((vehicle.getSpeed() * KMH_FRACTION) > roadProperties.speedLimit) {
+  if (((vehicle.getSpeed() * KMH_FRACTION) - SPEED_TOLERANCE) > roadProperties.speedLimit) {
     if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
       mistake = DrivingTestMistakeType.Speeding;
     }
