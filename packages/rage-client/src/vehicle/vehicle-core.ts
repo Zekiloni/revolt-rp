@@ -311,4 +311,4 @@ mp.events.add({
   entityStreamIn: vehicleStreamInHandler
 });
 
-registerKeyBind(HexKeyCodes.M, true, toggleVehicleCompartmentHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
+registerKeyBind(HexKeyCodes.Y, true, toggleVehicleCompartmentHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
