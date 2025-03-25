@@ -72,7 +72,7 @@ function initializeDrivingTest(vehicle: VehicleMp) {
 
   const checkpoint = mp.checkpoints.new(1, new mp.Vector3(position.x, position.y, position.z - 2), 3, {
     dimension: mp.players.local.dimension,
-    color: [255, 255, 255, 255],
+    color: [220, 30, 30, 200],
     direction: new mp.Vector3(positionSecond.x, positionSecond.y, positionSecond.z),
     visible: true
   });
