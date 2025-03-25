@@ -160,4 +160,5 @@ export const enum ProcedureKey {
   SERVER_FINISH_DRIVING_TEST = 'server_finishDrivingTest',
   CLIENT_START_DRIVING_TEST = 'client_startDrivingTest',
   SERVER_START_DRIVING_TEST = 'server_startDrivingTest',
+  SERVER_ADD_DRIVING_TEST_MISTAKE = 'server_addDrivingTestMistake',
 }

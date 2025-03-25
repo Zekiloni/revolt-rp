@@ -1,8 +1,8 @@
 
 export const enum DrivingTestMistakeType {
-  Speeding = 'speeding',
-  OffRoadDriving = 'off_road_driving',
-  Collision = 'collision',
+  Speeding = 'dmv_speeding',
+  OffRoadDriving = 'dmv_off_road_driving',
+  Collision = 'dmv_collision',
 }
 
 

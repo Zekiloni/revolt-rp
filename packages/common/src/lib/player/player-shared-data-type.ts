@@ -1,4 +1,5 @@
 export const enum PlayerSharedDataType {
+  Username = 'username',
   CharacterId = 'character_id',
   TextBubble = 'text_bubble',
   IsSpawned = 'is_spawned',
