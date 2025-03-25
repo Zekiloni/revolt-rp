@@ -88,6 +88,19 @@ declare global {
       }
     }
 
+    namespace Vehicle {
+      const enum DoorIndex {
+        FRONT_LEFT_DOOR,
+        FRONT_RIGHT_DOOR,
+        BACK_LEFT_DOOR,
+        BACK_RIGHT_DOOR,
+        HOOD,
+        TRUNK,
+        BACK,
+        BACK_2
+      }
+    }
+
     const enum HeadOverlays {
       Blemishes = 0,
       FacialHair = 1,

@@ -65,6 +65,8 @@ export const enum ProcedureKey {
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
   SERVER_PLAYER_LOCK_VEHICLE = 'server_playerLockVehicle',
   SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR = 'server_playerToggleVehicleIndicator',
+  SERVER_VEHICLE_TOGGLE_TRUNK = 'server_vehicleToggleTrunk',
+  SERVER_VEHICLE_TOGGLE_HOOD =  'server_vehicleToggleHood',
 
   BROWSER_INIT_OFFER = 'browser_initOffer',
   SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',

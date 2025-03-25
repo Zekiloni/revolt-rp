@@ -39,7 +39,9 @@ function loadVehicleVariables(vehicle: VehicleMp, info: IVehicle) {
     [VehicleSharedDataType.IsTemporary]: info.isTemporary,
     [VehicleSharedDataType.VehicleId]: info.id || undefined,
     [VehicleSharedDataType.Windows]: [false, false, false, false],
-    [VehicleSharedDataType.Indicators]: [false, false]
+    [VehicleSharedDataType.Indicators]: [false, false],
+    [VehicleSharedDataType.Trunk]: false,
+    [VehicleSharedDataType.Hood]: false
   });
 }
 
@@ -98,8 +100,7 @@ export function toggleVehicleWindow(vehicle: VehicleMp, seat: RageEnums.VehicleS
 }
 
 
-export function toggleVehicleDoor(vehicle: VehicleMp, doorId: number) {
-  const doors = vehicle.getVariable(VehicleSharedDataType.Doors);
-  doors[doorId] = !doors[doorId] ?? true;
-  vehicle.setVariable(VehicleSharedDataType.Doors, doors);
+export function toggleVehicleTrunk(vehicle: VehicleMp) {
+  const trunk = vehicle.getVariable<boolean>(VehicleSharedDataType.Trunk);
+  vehicle.setVariable(VehicleSharedDataType.Trunk, !trunk);
 }
