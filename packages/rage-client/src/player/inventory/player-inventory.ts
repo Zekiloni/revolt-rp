@@ -54,7 +54,7 @@ async function dropItemHandler({ playerRemoteId, item}: { playerRemoteId: number
 
   mp.gui.chat.push(`Dropping item ${item.id} at ${position.x}, ${position.y}, ${position.z}`);
 
-  const alreadySyncedItem = mp.objects.getClosest(position, 0.5)
+  const alreadySyncedItem = mp.objects.getClosest(position, 5)
     .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);
 
   mp.gui.chat.push(`Already synced item: ${alreadySyncedItem}`);
