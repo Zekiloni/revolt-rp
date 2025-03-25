@@ -34,6 +34,8 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     while (object.getSpeed() > 0.5) {
       await mp.game.waitAsync(0);
     }
+
+    mp.gui.chat.push(`drop item stop`);
   }
 
   const groundPosition = [
