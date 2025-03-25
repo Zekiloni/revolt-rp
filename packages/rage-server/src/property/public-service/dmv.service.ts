@@ -49,10 +49,11 @@ export function startDrivingTest(player: PlayerMp, property: Property) {
 
   const color = dmvConfig.drivingTest.vehicleColor;
   const vehicle = createTemporaryVehicle(dmvConfig.drivingTest.vehicleModel, new mp.Vector3(x, y, z), color, color, {
-    rotation: new mp.Vector3(rotX, rotY, rotZ)
+    rotation: new mp.Vector3(rotX, rotY, rotZ),
+    engine: false
   });
 
-  const content = t('says', { person: t('instructor'), text: 'dmv_hint_head_tove_vehicle' });
+  const content = t('says', { person: t('instructor'), text: t('dmv_hint_head_to_vehicle') });
   player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
 
   vehicle.numberPlate = dmvConfig.drivingTest.vehicleNumberplate + generateNumberPlate(4);
@@ -69,23 +70,30 @@ export async function completeDrivingTest(player: PlayerMp, mistakes: DrivingTes
   if (vehicle && isDrivingTestVehicle(vehicle)) {
     player.removeFromVehicle();
 
-    // todo output mistakes
-
+    vehicle.setVariable(VehicleSharedDataType.DrivingTest, false);
     setTimeout(() => {
       if (vehicle && mp.vehicles.exists(vehicle)) {
         vehicle.destroy();
       }
     }, 2500);
 
+    let content = '';
+
     if (mistakes.length >= dmvConfig.drivingTest.maxMistakes) {
-      player.outputChatBox('You have failed the driving test!');
+      content = t('says', { person: t('instructor'), text: t('dmv_failed_driving_test') });
+      player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
     } else {
       await playerCreateDrivingLicense(player, DrivingLicenseCategory.Vehicle);
-      player.outputChatBox('You have successfully passed the driving test!');
+      content = t('says', { person: t('instructor'), text: t('dmv_passed_driving_test') });
+      player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
     }
 
-    mistakes.forEach((mistake) => {
-      player.outputChatBox(`Mistake: ${mistake}`);
-    });
+    content = t('says', { person: t('instructor'), text: t('mistake_count', { count: mistakes.length }) });
+    player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
   }
 }
+
+export const dmvInstructorSays = (player: PlayerMp, mistake: DrivingTestMistakeType) => {
+  const content = t('says', { person: t('instructor'), text: t(mistake) });
+  player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
+};

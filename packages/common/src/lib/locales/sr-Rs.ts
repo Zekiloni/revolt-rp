@@ -556,5 +556,11 @@ export const srRs = {
   'parking_spot': 'Parking mesto',
   'delete_property_point': 'Da li ste sigurni da želite da obrišete ovu tačku?',
   'instructor': 'Instruktor',
-  'dmv_hint_head_tove_vehicle': 'Idite do vozila kako biste započeli test.'
+  'dmv_hint_head_to_vehicle': 'Idite do vozila kako biste započeli test.',
+  'dmv_speeding': 'Molim vas da usporite.',
+  'dmv_off_road_driving': 'Molim vas da se vratite na put.',
+  'dmv_collision': 'Molim vas da pokušate da izbegnete sudar.',
+  'mistake_count': 'Imali ste {{count}} grešaka.',
+  'dmv_passed_driving_test': 'Položili ste vozački ispit! Čestitamo!',
+  'dmv_failed_driving_test': 'Niste položili vozački ispit. Više sreće sledeći put!',
 };

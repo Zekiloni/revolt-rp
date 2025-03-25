@@ -1,6 +1,6 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { DrivingTestMistakeType, ProcedureKey } from '@revolt-rp/common';
-import { completeDrivingTest, getDrivingQuiz, startDrivingTest } from './dmv.service';
+import { completeDrivingTest, dmvInstructorSays, getDrivingQuiz, startDrivingTest } from './dmv.service';
 import { getPropertyById } from '../property.service';
 
 
@@ -17,6 +17,11 @@ async function finishDrivingTestHandler(mistakes: DrivingTestMistakeType[], { pl
   await completeDrivingTest(player, mistakes);
 }
 
+function addDrivingTestMistakeHandler(mistake: DrivingTestMistakeType, { player }: ProcedureListenerInfo<PlayerMp>) {
+  dmvInstructorSays(player, mistake);
+}
+
 on(ProcedureKey.SERVER_START_DRIVING_TEST, startDrivingTestHandler);
 on(ProcedureKey.SERVER_FINISH_DRIVING_TEST, finishDrivingTestHandler);
+on(ProcedureKey.SERVER_ADD_DRIVING_TEST_MISTAKE, addDrivingTestMistakeHandler);
 register(ProcedureKey.SERVER_GET_DRIVING_QUIZ, getDrivingQuizHandler);

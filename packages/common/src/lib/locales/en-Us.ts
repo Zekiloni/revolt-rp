@@ -552,5 +552,11 @@ export const enUs = {
   'parking_spot': 'Parking Spot',
   'delete_property_point': 'Are you sure you want to delete property point?',
   'instructor': 'Instructor',
-  'dmv_hint_head_tove_vehicle': 'Head to the vehicle and get in.'
+  'dmv_hint_head_to_vehicle': 'Head to the vehicle and get in.',
+  'dmv_speeding': 'Please slow down.',
+  'dmv_off_road_driving': 'Please stay on the road.',
+  'dmv_collision': 'Please avoid collisions.',
+  'mistake_count': 'You have made {{count}} mistakes.',
+  'dmv_passed_driving_test': 'You have passed the driving test!',
+  'dmv_failed_driving_test': 'You have failed the driving test.'
 };
