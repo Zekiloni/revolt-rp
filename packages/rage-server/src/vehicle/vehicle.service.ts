@@ -4,7 +4,7 @@ import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
 
 
-export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options: Partial<IVehicle> = {}) => {
+export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
     heading: options?.rotation?.z ?? 0,
     engine: options?.engine ?? false,
