@@ -110,3 +110,12 @@ export const getAngleSumBetweenPositionAndVertices = (position: Vector3, vertice
   }
   return (angleSum);
 };
+
+
+export const isPositionInRange = (position: Vector3, range: number, target: Vector3) => {
+  return Math.sqrt(
+    Math.pow(position.x - target.x, 2) +
+    Math.pow(position.y - target.y, 2) +
+    Math.pow(position.z - target.z, 2)
+  ) <= range;
+}

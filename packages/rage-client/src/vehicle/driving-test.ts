@@ -5,7 +5,7 @@ import { drivingTestCheckpoints } from './driving-test.config';
 import { browser } from '../core/browser';
 import { KMH_FRACTION } from './vehicle-core';
 import { setCheckpointDirection } from '../util/checkpoint.util';
-import { getDistance } from '../util/vector.util';
+import { getDistance, isPositionInRange } from '../util/vector.util';
 
 
 const MISTAKE_CHECK_INTERVAL = 1000,
@@ -35,7 +35,7 @@ function drivingTestChecker() {
     triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEED_LIMIT, roadProperties.speedLimit);
 
   const currentTime = Date.now();
-  let mistake: DrivingTestMistakeType | null = null
+  let mistake: DrivingTestMistakeType | null = null;
 
   if (((vehicle.getSpeed() * KMH_FRACTION) - SPEED_TOLERANCE) > roadProperties.speedLimit) {
     if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
@@ -44,8 +44,12 @@ function drivingTestChecker() {
   }
 
   if (!roadProperties.isOnRoad) {
-    const distance = getDistance(vehicle.position, initialPosition);
-    if (distance > OFF_ROAD_DISTANCE) {
+    const lastCheckpoint = drivingTestCheckpoints[currentCheckpointIndex - 1];
+
+    const shouldCheck = isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, initialPosition)
+      || isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, new mp.Vector3(lastCheckpoint.x, lastCheckpoint.y, lastCheckpoint.z));
+
+    if (shouldCheck) {
       if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
         mistake = DrivingTestMistakeType.OffRoadDriving;
       }
