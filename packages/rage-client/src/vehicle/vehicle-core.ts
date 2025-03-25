@@ -10,6 +10,7 @@ import {
 import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { isValidVehicleWindow } from './vehicle.util';
+import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
 
 export const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
@@ -222,6 +223,11 @@ function vehicleIndicatorDataHandler(vehicle: VehicleMp, value: [boolean, boolea
   handleVehicleIndicators(vehicle, value);
 }
 
+
+function toggleVehicleDoorHandler() {
+
+}
+
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Indicators, vehicleIndicatorDataHandler);
 mp.events.add({
@@ -229,3 +235,5 @@ mp.events.add({
   playerLeaveVehicle: playerLeaveVehicleHandler,
   entityStreamIn: vehicleStreamInHandler
 });
+
+registerKeyBind(HexKeyCodes.M, true, toggleVehicleDoorHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);

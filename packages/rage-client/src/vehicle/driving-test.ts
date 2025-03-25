@@ -47,7 +47,7 @@ function drivingTestChecker() {
     const lastCheckpoint = drivingTestCheckpoints[currentCheckpointIndex - 1];
 
     const shouldCheck = isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, initialPosition)
-      || isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, new mp.Vector3(lastCheckpoint.x, lastCheckpoint.y, lastCheckpoint.z));
+      && isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, new mp.Vector3(lastCheckpoint.x, lastCheckpoint.y, lastCheckpoint.z));
 
     if (shouldCheck) {
       if (!lastMistakeAt || currentTime - lastMistakeAt >= MISTAKE_COOLDOWN) {
