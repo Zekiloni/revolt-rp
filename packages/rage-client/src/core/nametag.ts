@@ -70,7 +70,7 @@ function nameTagHandler() {
                       centre: true,
                       font: 4,
                       color: [139, 139, 139, 200],
-                      scale: [0.355, 0.355],
+                      scale: [0.375, 0.375],
                       outline: false
                     }
                   );
