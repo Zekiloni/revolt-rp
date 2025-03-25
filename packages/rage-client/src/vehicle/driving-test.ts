@@ -44,7 +44,7 @@ function drivingTestChecker() {
   }
 
   if (!roadProperties.isOnRoad) {
-    const lastCheckpoint = drivingTestCheckpoints[currentCheckpointIndex - 1];
+    const lastCheckpoint = drivingTestCheckpoints[drivingTestCheckpoints.length - 1];
 
     const shouldCheck = isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, initialPosition)
       && isPositionInRange(vehicle.position, OFF_ROAD_DISTANCE, new mp.Vector3(lastCheckpoint.x, lastCheckpoint.y, lastCheckpoint.z));

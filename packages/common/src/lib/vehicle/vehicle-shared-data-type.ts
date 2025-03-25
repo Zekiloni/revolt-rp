@@ -7,6 +7,7 @@ export const enum VehicleSharedDataType {
   Locked = 'locked',
   Indicators = 'indicators',
   Windows = 'windows',
-  Doors = 'doors',
+  Trunk = 'trunk',
+  Hood = 'hood',
   DrivingTest = 'driving_test',
 }

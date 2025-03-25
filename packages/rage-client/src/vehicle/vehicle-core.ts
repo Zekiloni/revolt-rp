@@ -11,6 +11,8 @@ import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { isValidVehicleWindow } from './vehicle.util';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
+import { getDistance } from '../util/vector.util';
+
 
 export const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
@@ -170,6 +172,14 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   }
 }
 
+function handleVehicleTrunk(vehicle: VehicleMp, toggle: boolean, immediate = false) {
+  if (toggle) {
+    vehicle.setDoorOpen(RageEnums.Vehicle.DoorIndex.TRUNK, false, immediate);
+  } else {
+    vehicle.setDoorShut(RageEnums.Vehicle.DoorIndex.TRUNK, immediate);
+  }
+}
+
 function vehicleStreamInHandler(entity: VehicleMp) {
   if (entity.type != RageEnums.EntityType.VEHICLE)
     return;
@@ -178,6 +188,8 @@ function vehicleStreamInHandler(entity: VehicleMp) {
 
   if (vehicle.getVariable(VehicleSharedDataType.Engine))
     vehicle.setEngineOn(true, true, true);
+
+  handleVehicleTrunk(vehicle, vehicle.getVariable<boolean>(VehicleSharedDataType.Trunk));
 
   const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
   if (windows)
@@ -223,17 +235,67 @@ function vehicleIndicatorDataHandler(vehicle: VehicleMp, value: [boolean, boolea
   handleVehicleIndicators(vehicle, value);
 }
 
+function vehicleTrunkDataHandler(vehicle: VehicleMp, value: boolean, oldValue: boolean | undefined) {
+  if (vehicle.type != RageEnums.EntityType.VEHICLE)
+    return;
 
-function toggleVehicleDoorHandler() {
+  if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, RageEnums.Vehicle.DoorIndex.TRUNK))
+    return;
 
+  if (oldValue == undefined)
+    return;
+
+  handleVehicleTrunk(vehicle, value, false);
 }
+
+function toggleVehicleCompartmentHandler() {
+  if (!mp.players.local.vehicle)
+    return;
+
+  if (!mp.vehicles.length)
+    return;
+
+  const [closestVehicle] = mp.vehicles.getClosest(mp.players.local.position, 1);
+
+  if (!closestVehicle)
+    return;
+
+  const trunkBoneIndex = closestVehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BOOT);
+  const hoodBoneIndex = closestVehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BONNET);
+
+  let selectedBoneIndex: number | null = null;
+
+  if (trunkBoneIndex !== -1) {
+    const trunkBonePosition = closestVehicle.getWorldPositionOfBone(trunkBoneIndex);
+    if (trunkBonePosition && getDistance(mp.players.local.position, trunkBonePosition) <= 1.55) {
+      selectedBoneIndex = trunkBoneIndex;
+    }
+  }
+
+  if (selectedBoneIndex === null && hoodBoneIndex !== -1) {
+    const hoodBonePosition = closestVehicle.getWorldPositionOfBone(hoodBoneIndex);
+    if (hoodBonePosition && getDistance(mp.players.local.position, hoodBonePosition) <= 1.55) {
+      selectedBoneIndex = hoodBoneIndex;
+    }
+  }
+
+  if (selectedBoneIndex === null) return;
+
+  const eventName = selectedBoneIndex === trunkBoneIndex
+    ? ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK
+    : ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD;
+
+  triggerServer(eventName, closestVehicle);
+}
+
 
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Indicators, vehicleIndicatorDataHandler);
+mp.events.addDataHandler(VehicleSharedDataType.Trunk, vehicleTrunkDataHandler);
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,
   entityStreamIn: vehicleStreamInHandler
 });
 
-registerKeyBind(HexKeyCodes.M, true, toggleVehicleDoorHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
+registerKeyBind(HexKeyCodes.M, true, toggleVehicleCompartmentHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
