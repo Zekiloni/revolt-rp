@@ -6,11 +6,10 @@ import { Character } from '../player/character/character.model';
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
-    heading: options && options.rotation ? options.rotation.z : 0
+    heading: options && options.rotation ? options.rotation.z : 0,
+    engine: options.engine ?? false,
+    locked: options.locked ?? false
   });
-
-  vehicle.engine = options?.engine ?? false;
-  vehicle.locked = options?.locked ?? false;
 
   if (options && options.rotation)
     vehicle.rotation = new mp.Vector3(options.rotation.x, options.rotation.y, options.rotation.z);
@@ -19,7 +18,7 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
 
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle));
 
-  vehicle.info.locked = false;
+  vehicle.info.locked = vehicle.locked;
   vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
   vehicle.info.position = position;
 
