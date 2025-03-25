@@ -10,8 +10,8 @@ import {
   hasPlayerVehicleKeys,
   lockVehicle,
   saveVehicle,
-  toggleVehicleEngine,
-  toggleVehicleIndicator
+  toggleVehicleEngine, toggleVehicleHood,
+  toggleVehicleIndicator, toggleVehicleTrunk
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 
@@ -84,9 +84,12 @@ function playerToggleSeatbeltHandler(_args: undefined, { player }: ProcedureList
 }
 
 
-
 function toggleVehicleTrunkHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
-  toggleVehicleEngine(vehicle);
+  toggleVehicleTrunk(vehicle);
+}
+
+function toggleVehicleHoodHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
+  toggleVehicleHood(vehicle);
 }
 
 mp.events.add({
@@ -99,4 +102,5 @@ on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE, playerToggleVehicleEngineHa
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_SEATBELT, playerToggleSeatbeltHandler);
 on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);
-on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler)
+on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler);
+on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);

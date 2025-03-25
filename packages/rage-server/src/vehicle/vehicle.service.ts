@@ -104,3 +104,8 @@ export function toggleVehicleTrunk(vehicle: VehicleMp) {
   const trunk = vehicle.getVariable<boolean>(VehicleSharedDataType.Trunk);
   vehicle.setVariable(VehicleSharedDataType.Trunk, !trunk);
 }
+
+export function toggleVehicleHood(vehicle: VehicleMp) {
+  const hood = vehicle.getVariable<boolean>(VehicleSharedDataType.Hood);
+  vehicle.setVariable(VehicleSharedDataType.Hood, !hood);
+}

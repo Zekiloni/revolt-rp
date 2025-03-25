@@ -172,11 +172,14 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   }
 }
 
-function handleVehicleTrunk(vehicle: VehicleMp, toggle: boolean, immediate = false) {
+function toggleVehicleDoor(vehicle: VehicleMp, index: RageEnums.Vehicle.DoorIndex, toggle: boolean, immediate = false) {
+  if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, index))
+    return;
+
   if (toggle) {
-    vehicle.setDoorOpen(RageEnums.Vehicle.DoorIndex.TRUNK, false, immediate);
+    vehicle.setDoorOpen(index, false, immediate);
   } else {
-    vehicle.setDoorShut(RageEnums.Vehicle.DoorIndex.TRUNK, immediate);
+    vehicle.setDoorShut(index, immediate);
   }
 }
 
@@ -189,7 +192,8 @@ function vehicleStreamInHandler(entity: VehicleMp) {
   if (vehicle.getVariable(VehicleSharedDataType.Engine))
     vehicle.setEngineOn(true, true, true);
 
-  handleVehicleTrunk(vehicle, vehicle.getVariable<boolean>(VehicleSharedDataType.Trunk));
+  toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.TRUNK, vehicle.getVariable<boolean>(VehicleSharedDataType.Trunk), true);
+  toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.HOOD, vehicle.getVariable<boolean>(VehicleSharedDataType.Hood), true);
 
   const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
   if (windows)
@@ -239,13 +243,21 @@ function vehicleTrunkDataHandler(vehicle: VehicleMp, value: boolean, oldValue: b
   if (vehicle.type != RageEnums.EntityType.VEHICLE)
     return;
 
-  if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, RageEnums.Vehicle.DoorIndex.TRUNK))
+  if (oldValue == undefined)
+    return;
+
+  toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.TRUNK, value, false);
+}
+
+
+function vehicleHoodDataHandler(vehicle: VehicleMp, value: boolean, oldValue: boolean | undefined) {
+  if (vehicle.type != RageEnums.EntityType.VEHICLE)
     return;
 
   if (oldValue == undefined)
     return;
 
-  handleVehicleTrunk(vehicle, value, false);
+  toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.HOOD, value, false);
 }
 
 function toggleVehicleCompartmentHandler() {
@@ -292,6 +304,7 @@ function toggleVehicleCompartmentHandler() {
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Indicators, vehicleIndicatorDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Trunk, vehicleTrunkDataHandler);
+mp.events.addDataHandler(VehicleSharedDataType.Hood, vehicleHoodDataHandler);
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,
