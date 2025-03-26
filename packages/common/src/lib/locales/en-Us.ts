@@ -558,5 +558,6 @@ export const enUs = {
   'dmv_collision': 'Please avoid collisions.',
   'mistake_count': 'You have made {{count}} mistakes.',
   'dmv_passed_driving_test': 'You have passed the driving test!',
-  'dmv_failed_driving_test': 'You have failed the driving test.'
+  'dmv_failed_driving_test': 'You have failed the driving test.',
+  'trunk': 'Trunk'
 };

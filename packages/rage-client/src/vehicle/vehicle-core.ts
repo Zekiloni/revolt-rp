@@ -12,6 +12,7 @@ import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { isValidVehicleWindow } from './vehicle.util';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
 import { getDistance } from '../util/vector.util';
+import { isVehicleTrunkOpened } from './vehicle-data';
 
 
 export const KMH_FRACTION = 3.6;
@@ -260,8 +261,37 @@ function vehicleHoodDataHandler(vehicle: VehicleMp, value: boolean, oldValue: bo
   toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.HOOD, value, false);
 }
 
+export const isNearTrunk = (vehicle: VehicleMp) => {
+  const trunkBoneIndex = vehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BOOT);
+  if (trunkBoneIndex === -1)
+    return false;
+
+  const trunkBonePosition = vehicle.getWorldPositionOfBone(trunkBoneIndex);
+  return trunkBonePosition && getDistance(mp.players.local.position, trunkBonePosition) <= 1.55;
+};
+
+
+export const isNearHood = (vehicle: VehicleMp) => {
+  const hoodBoneIndex = vehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BONNET);
+  if (hoodBoneIndex === -1)
+    return false;
+
+  let hoodBonePosition = vehicle.getWorldPositionOfBone(hoodBoneIndex);
+  if (hoodBonePosition) {
+    hoodBonePosition = new mp.Vector3(
+      hoodBonePosition.x + Math.cos(((vehicle.getHeading() + 90) * Math.PI) / 180) * 0.75,
+      hoodBonePosition.y + Math.sin(((vehicle.getHeading() + 90) * Math.PI) / 180) * 0.75,
+      hoodBonePosition.z
+    );
+
+    return hoodBonePosition && getDistance(mp.players.local.position, hoodBonePosition) <= 1.55;
+  }
+
+  return false;
+};
+
 function toggleVehicleCompartmentHandler() {
-  if (!mp.players.local.vehicle)
+  if (mp.players.local.vehicle)
     return;
 
   if (!mp.vehicles.length)
@@ -272,33 +302,37 @@ function toggleVehicleCompartmentHandler() {
   if (!closestVehicle)
     return;
 
-  const trunkBoneIndex = closestVehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BOOT);
-  const hoodBoneIndex = closestVehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BONNET);
+  let selectedBoneIndex: string | null = null;
 
-  let selectedBoneIndex: number | null = null;
-
-  if (trunkBoneIndex !== -1) {
-    const trunkBonePosition = closestVehicle.getWorldPositionOfBone(trunkBoneIndex);
-    if (trunkBonePosition && getDistance(mp.players.local.position, trunkBonePosition) <= 1.55) {
-      selectedBoneIndex = trunkBoneIndex;
-    }
+  if (isNearTrunk(closestVehicle)) {
+    selectedBoneIndex = RageEnums.Vehicle.Bones.BOOT;
   }
 
-  if (selectedBoneIndex === null && hoodBoneIndex !== -1) {
-    const hoodBonePosition = closestVehicle.getWorldPositionOfBone(hoodBoneIndex);
-    if (hoodBonePosition && getDistance(mp.players.local.position, hoodBonePosition) <= 1.55) {
-      selectedBoneIndex = hoodBoneIndex;
-    }
+  if (isNearHood(closestVehicle)) {
+    selectedBoneIndex = RageEnums.Vehicle.Bones.BONNET;
   }
 
   if (selectedBoneIndex === null) return;
 
-  const eventName = selectedBoneIndex === trunkBoneIndex
+  const eventName = selectedBoneIndex === RageEnums.Vehicle.Bones.BOOT
     ? ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK
     : ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD;
 
   triggerServer(eventName, closestVehicle);
 }
+
+
+export const isNearAnyOpenedTrunk = () => {
+  if (!mp.vehicles.length)
+    return false;
+
+  const [closestVehicle] = mp.vehicles.getClosest(mp.players.local.position, 1);
+
+  if (!closestVehicle)
+    return false;
+
+  return isNearTrunk(closestVehicle) && isVehicleTrunkOpened(closestVehicle) ? closestVehicle : false;
+};
 
 
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);

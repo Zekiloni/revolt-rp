@@ -563,4 +563,5 @@ export const srRs = {
   'mistake_count': 'Imali ste {{count}} grešaka.',
   'dmv_passed_driving_test': 'Položili ste vozački ispit! Čestitamo!',
   'dmv_failed_driving_test': 'Niste položili vozački ispit. Više sreće sledeći put!',
+  'trunk': 'Gepek',
 };

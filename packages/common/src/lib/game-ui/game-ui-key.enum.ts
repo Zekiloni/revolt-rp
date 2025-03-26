@@ -21,4 +21,5 @@ export enum GameUiKey {
   HandheldRadio = 'handheldRadio',
   Smartphone = 'smartphone',
   DmvMenu = 'dmvMenu',
+  Trunk = 'trunk',
 }

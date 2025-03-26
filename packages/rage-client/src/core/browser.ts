@@ -24,6 +24,9 @@ function toggleCursor(freezeControls: boolean, mouse: boolean) {
   setTimeout(() => mp.gui.cursor.show(freezeControls, mouse), CURSOR_TIMEOUT_MS);
 }
 
+
+export const isGameInterfaceActive = (interfaceKey: GameUiKey) => activeGameInterfaces.has(interfaceKey);
+
 export function showGameInterface(interfaceKey: GameUiKey) {
   if (activeGameInterfaces.has(interfaceKey))
     return;

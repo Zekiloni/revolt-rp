@@ -1,6 +1,7 @@
 import { Vector3 } from '../core.interface';
 import { ICharacter } from '../player/character/character.model';
 import { Ref } from '@typegoose/typegoose';
+import { IItem } from '../item/item.model';
 
 export interface IVehicleMod {
   type: number;
@@ -27,6 +28,7 @@ export interface IVehicle {
   mileage: number;
   price?: number;
   locked: boolean;
+  trunk: Ref<IItem>[];
   color: [[number, number, number], [number, number, number]];
   pearlescentColor: number;
   dashboardColor: number;
@@ -53,7 +55,7 @@ export interface IVehicle {
 
 
 export interface IVehicleUpdateData {
-  vehicleId: number
-  mileage: number
-  fuel: number
+  vehicleId: number;
+  mileage: number;
+  fuel: number;
 }
