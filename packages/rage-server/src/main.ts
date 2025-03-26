@@ -28,6 +28,7 @@ import './player/damage/player-damage.api';
 import './banking/banking.api';
 
 import './vehicle/vehicle.api';
+import './vehicle/vehicle-inventory.api';
 import './vehicle/vehicle-command';
 
 import './world/weather.api';

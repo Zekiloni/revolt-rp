@@ -1,0 +1,35 @@
+<div class="absolute-center" @fadeInOut>
+  <p-pickList
+    #itemTrunkPickList
+    [source]="($playerInventory | async)!"
+    [target]="($vehicleTrunk | async)!"
+    sourceHeader="{{ 'inventory' | translate }}"
+    targetHeader="{{ 'trunk' | translate }}"
+    [dragdrop]="true"
+    (onSourceSelect)="onSourceSelect($event)"
+    (onTargetSelect)="onTargetSelect($event)"
+    [responsive]="true"
+    [showTargetControls]="false"
+    [showSourceControls]="false"
+    (onMoveToSource)="moveToSource($event)"
+    (onMoveToTarget)="moveToTarget($event)"
+    [stripedRows]="true"
+    [sourceStyle]="{ height: '25rem', minWidth: '20rem' }"
+    [targetStyle]="{ height: '25rem', minWidth: '20rem' }"
+    breakpoint="1400px">
+    <ng-template let-item pTemplate="item">
+      <div class="flex flex-wrap p-2 align-items-center gap-3">
+        <img [ngSrc]="getItemIcon(item.data) | staticAsset" alt="item icon" width="45" height="45"
+             class="flex-shrink-0">
+        <div class="flex-1 flex flex-column gap-2">
+              <span class="font-bold">
+                  {{ item['name'] | translate }}
+              </span>
+        </div>
+        <span class="font-bold text-900">
+              {{ item['quantity'] }}
+            </span>
+      </div>
+    </ng-template>
+  </p-pickList>
+</div>

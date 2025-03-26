@@ -18,6 +18,7 @@ export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: stri
     trimColor: 0,
     mods: [],
     wheelColor: 0,
+    trunk: [],
     windowTint: 1,
     neonColor: 0,
     engineHealth: 1000.0,

@@ -1,9 +1,10 @@
-import { on, triggerServer } from '@libertymp/rage-rpc';
+import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind } from '../../core/keybind-manager';
 import { getObjectGroundPosition } from '../../util/object.util';
-import { hideGameInterface, showGameInterface } from '../../core/browser';
+import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../util/player-data.util';
+import { isNearAnyOpenedTrunk } from '../../vehicle/vehicle-core';
 
 
 const SELECT_ITEM_KEYBINDINGS = [
@@ -14,24 +15,35 @@ const SELECT_ITEM_KEYBINDINGS = [
   HexKeyCodes.Five
 ];
 
-const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive],
+export const INVENTORY_VALIDATORS = [getIsSpawned, getIsNotCuffed, getIsAlive],
   PICKUP_ITEM_MAX_DISTANCE = 1.45,
   ITEM_SELECT_COOLDOWN_MS = 1500;
 
-let inventoryActive = false,
-  lastSelectTimestamp: null | number = null;
+let lastSelectTimestamp: null | number = null;
 
 function toggleInventory() {
-  inventoryActive = !inventoryActive;
-
-  if (inventoryActive) {
-    showGameInterface(GameUiKey.Inventory);
-  } else {
-    hideGameInterface(GameUiKey.Inventory);
+  if (isGameInterfaceActive(GameUiKey.Trunk)) {
+    hideGameInterface(GameUiKey.Trunk);
+    return;
   }
+
+  const vehicle = isNearAnyOpenedTrunk();
+
+  if (vehicle) {
+    if (isGameInterfaceActive(GameUiKey.Inventory))
+      return hideGameInterface(GameUiKey.Inventory);
+
+    showGameInterface(GameUiKey.Trunk);
+    setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_VEHICLE, vehicle.remoteId), 150);
+    return;
+  }
+
+  isGameInterfaceActive(GameUiKey.Inventory)
+    ? hideGameInterface(GameUiKey.Inventory)
+    : showGameInterface(GameUiKey.Inventory);
 }
 
-async function dropItemHandler({ playerRemoteId, item}: { playerRemoteId: number, item: IItem }) {
+async function dropItemHandler({ playerRemoteId, item }: { playerRemoteId: number, item: IItem }) {
   if (!item || !item.data.model)
     return;
 

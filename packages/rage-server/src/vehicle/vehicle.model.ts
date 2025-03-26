@@ -3,6 +3,7 @@ import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose'
 import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revolt-rp/common';
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
+import { Item } from '../item/item.model';
 
 @modelOptions({
   schemaOptions: {
@@ -48,6 +49,9 @@ export class Vehicle extends Document implements IVehicle {
 
   bodyHealth: number;
   engineHealth: number;
+
+  @prop({ ref: () => Item, default: [] })
+  trunk: Ref<Item>[];
 
   @prop({ type: [Object], default: [] })
   extras: IVehicleExtra[];

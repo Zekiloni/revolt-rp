@@ -83,6 +83,10 @@
     <app-dmv-menu @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.Trunk) | async) {
+    <app-vehicle-inventory />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />
