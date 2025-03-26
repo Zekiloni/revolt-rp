@@ -36,7 +36,8 @@ export class BankMenuComponent {
   createSavingAccount() {
     const dialogRef = this.dialogService.open(CreateSavingAccountComponent, {
       header: this.translateService.instant('bank_menu.open_savings_account'),
-      width: '30%'
+      width: '30%',
+      draggable: true
     });
 
     dialogRef.onClose.subscribe((amount: number) => {

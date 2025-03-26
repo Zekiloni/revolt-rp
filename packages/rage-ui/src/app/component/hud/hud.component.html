@@ -18,17 +18,19 @@
 </div>
 
 @if ($quickSlots | async; as quickSlots) {
-  <div class="absolute-bottom-center flex gap-4 justify-content-between mb-3">
-    @for (item of quickSlots; let idx = $index; track idx) {
-      <div
-        class="w-4rem h-4rem surface-section border-round w-full flex justify-content-center align-items-center opacity-40"
-        [ngClass]="{ 'opacity-80': item && isItemSelected(item.id) }">
-        @if (item) {
-          <img [ngSrc]="getItemIcon(item.data) | staticAsset" alt="item icon" width="45" height="45">
-        } @else {
-          <i class="pi pi pi-ban text-200"></i>
-        }
-      </div>
-    }
-  </div>
+  @if ($showQuickSlots | async;) {
+    <div class="absolute-bottom-center flex gap-4 justify-content-between mb-3" @fadeInOut>
+      @for (item of quickSlots; let idx = $index; track idx) {
+        <div
+          class="w-4rem h-4rem surface-section border-round w-full flex justify-content-center align-items-center opacity-40"
+          [ngClass]="{ 'opacity-80': item && isItemSelected(item.id) }">
+          @if (item) {
+            <img [ngSrc]="getItemIcon(item.data) | staticAsset" alt="item icon" width="45" height="45">
+          } @else {
+            <i class="pi pi pi-ban text-200"></i>
+          }
+        </div>
+      }
+    </div>
+  }
 }
