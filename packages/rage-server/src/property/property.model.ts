@@ -11,6 +11,7 @@ import {
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
+import { Vehicle } from '../vehicle/vehicle.model';
 
 
 export class PropertyOwner implements IPropertyOwner {
@@ -20,7 +21,6 @@ export class PropertyOwner implements IPropertyOwner {
   @prop({ refPath: 'owner.type' })
   entity: Ref<Character | Organization>;
 }
-
 
 export class PropertyPoint implements IPropertyPoint {
   @prop({ type: String, required: true })
@@ -95,6 +95,9 @@ export class Property extends Document implements IProperty {
 
   @prop({ required: false })
   spriteType?: number;
+
+  @prop({ ref: () => Vehicle, default: [] })
+  vehicles: Ref<Vehicle>[];
 
   products: IProduct[];
   workers: IWorker[];

@@ -22,4 +22,5 @@ export enum GameUiKey {
   Smartphone = 'smartphone',
   DmvMenu = 'dmvMenu',
   Trunk = 'trunk',
+  RentCatalog = 'rentCatalog',
 }

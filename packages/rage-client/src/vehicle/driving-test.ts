@@ -1,6 +1,6 @@
 import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { DrivingTestMistakeType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { getRoadProperties } from './map.util';
+import { getRoadProperties } from '../util/map.util';
 import { drivingTestCheckpoints } from './driving-test.config';
 import { browser } from '../core/browser';
 import { KMH_FRACTION } from './vehicle-core';

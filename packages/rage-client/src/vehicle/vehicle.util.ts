@@ -3,7 +3,7 @@ export const INVALID_BONE_INDEX = 1;
 
 
 export const isVehicleModelValid = (modelHash: number) => {
-  return mp.game.streaming.isModelValid(modelHash);
+  return mp.game.streaming.isModelValid(modelHash) && mp.game.streaming.isModelAVehicle(modelHash);
 };
 
 export const getVehicleMaxSpeed = (modelHash: number) => {

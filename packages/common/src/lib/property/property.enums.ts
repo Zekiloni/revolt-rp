@@ -44,6 +44,7 @@ export enum PropertyPointType {
   MenuPoint = 'menu_point',
   DeliveryPoint = 'delivery_point',
   ParkingSpot = 'parking_spot',
+  PreviewPoint = 'preview_point',
 }
 
 export enum PropertySharedDataType {

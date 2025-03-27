@@ -71,6 +71,7 @@ export const enum ProcedureKey {
   SERVER_GET_VEHICLE_TRUNK = 'server_getVehicleTrunk',
   SERVER_VEHICLE_TRUNK_PUT_ITEM = 'server_vehicleTrunkPutItem',
   SERVER_VEHICLE_TRUNK_TAKE_ITEM = 'server_vehicleTrunkTakeItem',
+  CLIENT_GET_VEHICLE_STATS = 'client_getVehicleStats',
 
   BROWSER_INIT_OFFER = 'browser_initOffer',
   SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',

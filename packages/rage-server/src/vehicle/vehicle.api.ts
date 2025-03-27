@@ -14,6 +14,7 @@ import {
   toggleVehicleIndicator, toggleVehicleTrunk
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
+import { isVehicleTrunkOpen } from './vehicle-inventory.service';
 
 function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
   if (seat == RageEnums.VehicleSeat.DRIVER) {
@@ -85,10 +86,16 @@ function playerToggleSeatbeltHandler(_args: undefined, { player }: ProcedureList
 
 
 function toggleVehicleTrunkHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
+  if (!isVehicleTrunkOpen(vehicle) && vehicle.locked)
+    return;
+
   toggleVehicleTrunk(vehicle);
 }
 
 function toggleVehicleHoodHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
+  if (!isVehicleTrunkOpen(vehicle) && vehicle.locked)
+    return;
+
   toggleVehicleHood(vehicle);
 }
 

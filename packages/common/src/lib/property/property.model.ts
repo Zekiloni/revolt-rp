@@ -4,6 +4,8 @@ import { Vector3 } from '../core.interface';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
 import { IDoor } from './door.model';
+import { IVehicle } from '../vehicle/vehicle.model';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 
 export interface IPropertyOwner {
@@ -53,8 +55,7 @@ export interface IPropertyUpdate {
   name?: string;
 }
 
-export interface IProperty {
-  id: string;
+export interface IProperty extends Base {
   name?: string;
   owner?: IPropertyOwner;
   dimension: number;
@@ -72,4 +73,5 @@ export interface IProperty {
   locked: boolean;
   workers: IWorker[];
   products: IProduct[];
+  vehicles: Ref<IVehicle>[];
 }
