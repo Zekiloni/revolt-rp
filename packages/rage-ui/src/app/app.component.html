@@ -87,6 +87,10 @@
     <app-vehicle-inventory />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.RentCatalog) | async) {
+    <app-rent-catalog @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

@@ -554,6 +554,7 @@ export const srRs = {
   'menu_point': 'Meni tačka',
   'delivery_point': 'Tačka dostave',
   'parking_spot': 'Parking mesto',
+  'preview_point': 'Tačka pregleda',
   'delete_property_point': 'Da li ste sigurni da želite da obrišete ovu tačku?',
   'instructor': 'Instruktor',
   'dmv_hint_head_to_vehicle': 'Idite do vozila kako biste započeli test.',
@@ -564,4 +565,8 @@ export const srRs = {
   'dmv_passed_driving_test': 'Položili ste vozački ispit! Čestitamo!',
   'dmv_failed_driving_test': 'Niste položili vozački ispit. Više sreće sledeći put!',
   'trunk': 'Gepek',
+  'catalog_is_empty': 'Katalog je prazan.',
+  'available': 'Dostupno',
+  'not_available': 'Nije dostupno',
+  'per_hour': 'po satu',
 };

@@ -1,15 +1,22 @@
-import { triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
+import { register, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import {
   GameUiKey,
   HexKeyCodes,
   ProcedureKey,
   VehicleSharedDataType,
   IVehicleHudUpdate,
-  IVehicleUpdateData, VehicleIndicator
+  IVehicleUpdateData, VehicleIndicator, IVehicleStats
 } from '@revolt-rp/common';
 import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
-import { isValidVehicleWindow } from './vehicle.util';
+import {
+  getVehicleAcceleration, getVehicleClassName,
+  getVehicleDisplayName, getVehicleMaxBraking,
+  getVehicleMaxNumberOfPassengers,
+  getVehicleMaxSpeed, getVehicleModelMaxTraction,
+  isValidVehicleWindow,
+  isVehicleModelValid
+} from './vehicle.util';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
 import { getDistance } from '../util/vector.util';
 import { isVehicleTrunkOpened } from './vehicle-data';
@@ -335,14 +342,32 @@ export const isNearAnyOpenedTrunk = () => {
 };
 
 
+function getVehicleStatsHandler(model: string): IVehicleStats | undefined {
+  const hash = mp.game.joaat(model);
+  if (isVehicleModelValid(hash)) {
+    return {
+      maxSpeed: getVehicleMaxSpeed(hash),
+      className: getVehicleClassName(hash),
+      displayName: getVehicleDisplayName(hash),
+      maxNumberOfPassengers: getVehicleMaxNumberOfPassengers(hash),
+      acceleration: getVehicleAcceleration(hash),
+      maxBraking: getVehicleMaxBraking(hash),
+      maxTraction: getVehicleModelMaxTraction(hash)
+    };
+  }
+}
+
+registerKeyBind(HexKeyCodes.Y, true, toggleVehicleCompartmentHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
+
 mp.events.addDataHandler(VehicleSharedDataType.Windows, vehicleWindowDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Indicators, vehicleIndicatorDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Trunk, vehicleTrunkDataHandler);
 mp.events.addDataHandler(VehicleSharedDataType.Hood, vehicleHoodDataHandler);
+
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler,
   entityStreamIn: vehicleStreamInHandler
 });
 
-registerKeyBind(HexKeyCodes.Y, true, toggleVehicleCompartmentHandler, 0, [getIsSpawned, getIsAlive, getIsNotCuffed]);
+register(ProcedureKey.CLIENT_GET_VEHICLE_STATS, getVehicleStatsHandler);

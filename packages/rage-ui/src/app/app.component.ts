@@ -44,6 +44,7 @@ import { BanInfoComponent } from './component/ban-info';
 import { HelpComponent } from './component/help';
 import { dayjs } from './domain/util/dajys.util';
 import { VehicleInventoryComponent } from './component/vehicle/vehicle-inventory';
+import { RentCatalogComponent } from './component/property/commercial/rent-catalog';
 
 
 @Component({
@@ -75,7 +76,8 @@ import { VehicleInventoryComponent } from './component/vehicle/vehicle-inventory
     SmartphoneComponent,
     HelpComponent,
     DmvMenuComponent,
-    VehicleInventoryComponent
+    VehicleInventoryComponent,
+    RentCatalogComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

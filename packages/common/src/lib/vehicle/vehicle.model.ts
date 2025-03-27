@@ -2,6 +2,7 @@ import { Vector3 } from '../core.interface';
 import { ICharacter } from '../player/character/character.model';
 import { Ref } from '@typegoose/typegoose';
 import { IItem } from '../item/item.model';
+import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 
 export interface IVehicleMod {
   type: number;
@@ -19,15 +20,31 @@ export interface IVehicleExtra {
   enabled: boolean;
 }
 
+export interface IVehicleRent {
+  renter?: Ref<ICharacter>;
+  hours?: number;
+  price: number;
+  rentedAt?: Date;
+}
 
-export interface IVehicle {
-  id?: string;
+export interface IVehicleStats {
+  displayName: string;
+  className: string;
+  maxSpeed: number;
+  maxNumberOfPassengers: number;
+  acceleration: number;
+  maxBraking: number;
+  maxTraction: number;
+}
+
+export interface IVehicle extends Base {
   model: string;
   owner?: Ref<ICharacter>;
   fuel: number;
   mileage: number;
   price?: number;
   locked: boolean;
+  rent?: IVehicleRent;
   trunk: Ref<IItem>[];
   color: [[number, number, number], [number, number, number]];
   pearlescentColor: number;
@@ -49,7 +66,7 @@ export interface IVehicle {
   mods: IVehicleMod[];
   extras: IVehicleExtra[];
   numberplate?: IVehicleNumberplate;
-  createdAt?: Date;
+  createdAt: Date;
   updatedAt?: Date;
 }
 

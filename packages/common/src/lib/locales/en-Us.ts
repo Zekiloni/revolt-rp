@@ -550,6 +550,7 @@ export const enUs = {
   'menu_point': 'Menu Point',
   'delivery_point': 'Delivery Point',
   'parking_spot': 'Parking Spot',
+  'preview_point': 'Preview Point',
   'delete_property_point': 'Are you sure you want to delete property point?',
   'instructor': 'Instructor',
   'dmv_hint_head_to_vehicle': 'Head to the vehicle and get in.',
@@ -559,5 +560,9 @@ export const enUs = {
   'mistake_count': 'You have made {{count}} mistakes.',
   'dmv_passed_driving_test': 'You have passed the driving test!',
   'dmv_failed_driving_test': 'You have failed the driving test.',
-  'trunk': 'Trunk'
+  'trunk': 'Trunk',
+  'catalog_is_empty': 'Catalog is empty.',
+  'available': 'Dostupno',
+  'not_available': 'Nije dostupno',
+  'per_hour': 'per hour',
 };
