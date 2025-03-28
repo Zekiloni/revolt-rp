@@ -387,7 +387,7 @@ export const srRs = {
   'you_dont_have_keys': 'Ne posedujete ključeve ove nekretnine.',
   'workers': 'Radnici',
   'tenants': 'Stanari',
-  'products': 'Proizvodi',
+  'catalog': 'Katalog',
   'orders': 'Narudžbine',
   'settings': 'Podešavanja',
   'opened': 'Otvoreno',
@@ -569,4 +569,9 @@ export const srRs = {
   'available': 'Dostupno',
   'not_available': 'Nije dostupno',
   'per_hour': 'po satu',
+  'manage_vehicle': 'Upravljanje Vozilom',
+  'model': 'Model',
+  'is_temporary': 'Privremeno',
+  'interaction_points': 'Tačke interakcije',
+  'add_current_position': 'Dodaj trenutnu poziciju',
 };

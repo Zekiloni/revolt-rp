@@ -1,7 +1,9 @@
-import { IVehicle, VehicleIndicator, VehicleSharedDataType } from '@revolt-rp/common';
+import { GameUiKey, IVehicle, ProcedureKey, VehicleIndicator, VehicleSharedDataType } from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
+import { showPlayerGameInterface } from '../player/util/player.util';
+import { triggerBrowsers } from '@libertymp/rage-rpc';
 
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
@@ -16,7 +18,7 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
 
   vehicle.setColor(primaryColor, secondaryColor);
 
-  vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle));
+  vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, true));
 
   vehicle.info.locked = vehicle.locked;
   vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
@@ -109,3 +111,8 @@ export function toggleVehicleHood(vehicle: VehicleMp) {
   const hood = vehicle.getVariable<boolean>(VehicleSharedDataType.Hood);
   vehicle.setVariable(VehicleSharedDataType.Hood, !hood);
 }
+
+export const toggleVehicleEditMenu = (player: PlayerMp, vehicle: VehicleMp) => {
+  showPlayerGameInterface(player, GameUiKey.ManageVehicle,
+    () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_VEHICLE, vehicle.info));
+};

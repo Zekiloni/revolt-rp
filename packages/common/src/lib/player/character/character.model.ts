@@ -76,4 +76,5 @@ export interface ICharacter extends Base {
   createdAt: Date;
   status?: ICharacterStatus;
   deletedAt?: Date;
+  lastExitType?: 'disconnect'| 'timeout' | 'kicked';
 }

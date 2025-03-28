@@ -386,7 +386,7 @@ export const enUs = {
   'you_dont_have_keys': 'You don\'t have keys to this property.',
   'workers': 'Workers',
   'tenants': 'Tenants',
-  'products': 'Products',
+  'catalog': 'Catalog',
   'orders': 'Orders',
   'settings': 'Settings',
   'opened': 'Opened',
@@ -565,4 +565,9 @@ export const enUs = {
   'available': 'Dostupno',
   'not_available': 'Nije dostupno',
   'per_hour': 'per hour',
+  'manage_vehicle': 'Manage Vehicle',
+  'model': 'Model',
+  'is_temporary': 'Is Temporary',
+  'interaction_points': 'Interaction Points',
+  'add_current_position': 'Add Current Position'
 };

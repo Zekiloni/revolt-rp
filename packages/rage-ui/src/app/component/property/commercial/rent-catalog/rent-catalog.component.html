@@ -1,41 +1,41 @@
 <div class="absolute-center surface-card p-4 shadow-2 border-round-2xl w-full lg:w-4 md:w-5 px-5 py-4">
   @if (property) {
     <div class="text-900 font-bold text-2xl">{{ property.name }}</div>
-    <div class="mt-5">
-      @if (property.vehicles && property.vehicles.length) {
+    <div class="mt-3">
+      @if (property.catalog && property.catalog.length) {
         <p-carousel
-          [value]="catalog"
+          [value]="property.catalog"
           [numVisible]="2"
           [numScroll]="3"
           [circular]="false"
           [responsiveOptions]="carouselResponsiveOptions">
-          <ng-template let-vehicle pTemplate="item">
-            <div class="border-1 surface-border border-round m-2 p-3">
+          <ng-template let-model pTemplate="item">
+            <div class="border-1 surface-border border-round m-2 p-3 surface-ground">
               <div class="mb-3">
                 <div class="relative mx-auto text-center">
                   <img
-                    [src]="getVehicleImage(vehicle['model']) | staticAsset"
-                    [alt]="vehicle['model']"
+                    [src]="getVehicleImage(model['name']) | staticAsset"
+                    [alt]="model['name']"
                     class="w-full mt-3 border-round max-w-20rem" />
                   <p-tag
-                    [value]="getAvailabilityLabel(vehicle) | translate"
-                    [severity]="getAvailabilitySeverity(vehicle)"
+                    [value]="getAvailabilityLabel(model) | translate"
+                    [severity]="getAvailabilitySeverity(model)"
                     class="absolute"
                     [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
                 </div>
               </div>
               <div class="mb-3 font-medium">
-                {{ vehicle['model'] | titlecase }}
+                {{ model['name'] | titlecase }}
               </div>
               <div class="flex justify-content-between align-items-center">
                 <div class="mt-0 font-semibold text-green-500 text-xl max-w-10rem">
-                  <span>{{ vehicle['rent']['price'] | currency }}</span>
+                  <span>{{ model['price'] | currency }}</span>
                   <span class="text-700 text-sm font-medium"> / {{ 'per_hour' | translate }}</span>
                 </div>
                 <span>
                   <button pButton type="button" icon="pi pi-eye" [rounded]="true"
-                          [disabled]="!isAvailable(vehicle)"
-                          (click)="selectVehicle(vehicle)"></button>
+                          [disabled]="!isAvailable(model)"
+                          (click)="selectVehicle(model)"></button>
                 </span>
               </div>
             </div>
@@ -55,7 +55,7 @@
     <p-dialog header="Edit Profile" [modal]="true" [draggable]="false" [(visible)]="previewVehicle"
               [style]="{ width: '25rem' }">
       <span class="p-text-secondary block mb-5">Update your information.</span>
-      <app-vehicle-stats [model]="selectedVehicle.model" />
+      <app-vehicle-stats [model]="selectedVehicle.name" />
       <div class="flex justify-content-end gap-2">
         <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="previewVehicle = false" />
         <p-button label="{{ 'rent' | translate }}" (onClick)="previewVehicle = false" />

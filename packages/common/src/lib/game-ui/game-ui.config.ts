@@ -116,7 +116,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.PropertyInfo]: {
-    isActive: false,
+    isActive: false
   },
 
   [GameUiKey.ManageProperty]: {
@@ -130,10 +130,17 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     disableChat: true,
-    freezeControls: true,
+    freezeControls: true
   },
 
   [GameUiKey.DmvMenu]: {
+    isActive: false,
+    mouse: true,
+    freezeControls: true,
+    disableChat: true
+  },
+
+  [GameUiKey.ManageVehicle]: {
     isActive: false,
     mouse: true,
     freezeControls: true,
@@ -148,7 +155,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.RentCatalog]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
     freezeControls: true,
     disableChat: true

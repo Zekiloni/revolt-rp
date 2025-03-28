@@ -1,0 +1,34 @@
+<p-dialog header="{{ 'manage_vehicle' | translate }}" [modal]="true" [(visible)]="isActive"
+          (onHide)="close()"
+          [focusOnShow]="false"
+          styleClass="border-round-2xl"
+          [style]="{ width: '40%', 'max-height': '35vh' }" [draggable]="false">
+
+  @if (vehicle) {
+    <div class="grid formgrid p-fluid py-2 px-3">
+      <div class="field mb-4 col-12 md:col-4">
+        <label for="model" class="text-700">{{ 'model' | translate }}</label>
+        <input id="model" pInputText [value]="vehicle.model" readonly />
+      </div>
+
+      <div class="field mb-4 col-12 md:col-4">
+        <label for="price" class="text-700">{{ 'price' | translate }}</label>
+        <p-inputNumber [(ngModel)]="vehicle.price" id="price" mode="decimal" [minFractionDigits]="2"
+                       [maxFractionDigits]="5" placeholder="3200" />
+      </div>
+
+      <div class="field mb-4 col-12 md:col-4 flex align-items-center gap-1 py-5">
+        <p-checkbox
+          [(ngModel)]="vehicle.isTemporary"
+          [binary]="true"
+          id="is-temporary" />
+        <label for="is-temporary" class="text-900 mb-0 ml-2">{{ 'is_temporary' | translate }}</label>
+      </div>
+
+      <div class="col-12">
+        <button pButton type="button" severity="secondary" label="{{ 'cancel' | translate }}" class="w-auto" (click)="close()"></button>
+        <button pButton type="button" label="{{ 'save' | translate }}" class="w-auto ml-3" (click)="save()" [disabled]="!anyChanges"></button>
+      </div>
+    </div>
+  }
+</p-dialog>

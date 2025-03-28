@@ -1,15 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GameUiKey, IProperty, IVehicle, ProcedureKey } from '@revolt-rp/common';
-import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { CarouselModule } from 'primeng/carousel';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TagModule } from 'primeng/tag';
+import { DialogModule } from 'primeng/dialog';
+import { CarouselModule } from 'primeng/carousel';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TranslatePipe } from '@ngx-translate/core';
+import { GameUiKey, IProduct, IProperty, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
-import { DialogModule } from 'primeng/dialog';
 import { VehicleStatsComponent } from '../../../vehicle/vehicle-stats';
+
 
 @Component({
   selector: 'app-rent-catalog',
@@ -37,37 +38,9 @@ export class RentCatalogComponent implements OnInit, OnDestroy {
     }
   ];
 
-  property: Partial<IProperty> = {
-    name: 'Test Property',
-    vehicles: [
-      {
-        model: 'blista',
-        rent: {
-          price: 100
-        }
-      } as IVehicle,
-      {
-        model: 'elegy',
-        rent: {
-          price: 345
-        }
-      } as IVehicle,
-      {
-        model: 'jester',
-        rent: {
-          price: 67
-        }
-      } as IVehicle
-    ]
-  };
-
-  selectedVehicle: IVehicle | null = null;
+  property!: IProperty;
+  selectedVehicle: IProduct | null = null;
   previewVehicle = false;
-
-  get catalog() {
-    return this.property?.vehicles!.filter(vehicle => (<IVehicle>vehicle).rent) || [];
-  }
-
 
   constructor(private rageClientService: RageClientService) {
   }
@@ -81,19 +54,19 @@ export class RentCatalogComponent implements OnInit, OnDestroy {
     return `assets/images/vehicles/${model}.png`;
   }
 
-  isAvailable(vehicle: IVehicle) {
-    return !vehicle.rent?.renter;
+  isAvailable(product: IProduct) {
+    return product.stock;
   }
 
-  getAvailabilityLabel(vehicle: IVehicle) {
-    return vehicle.rent?.renter ? 'not_available' : 'available';
+  getAvailabilityLabel(product: IProduct) {
+    return product.stock ? 'available' : 'not_available';
   }
 
-  getAvailabilitySeverity(vehicle: IVehicle) {
-    return vehicle.rent?.renter ? 'danger' : 'success';
+  getAvailabilitySeverity(product: IProduct) {
+    return product.stock ? 'success' : 'danger';
   }
 
-  selectVehicle(vehicle: IVehicle) {
+  selectVehicle(vehicle: IProduct) {
     this.selectedVehicle = vehicle;
     this.previewVehicle = true;
   }
