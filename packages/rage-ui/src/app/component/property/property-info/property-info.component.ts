@@ -23,10 +23,9 @@ export class PropertyInfoComponent implements OnInit, OnDestroy {
   }
 
   get isForSale() {
-    if (!purchasablePropertyTypes.includes(this.property!.type))
-      return false;
-
-    return this.property?.forSale || !this.property?.owner;
+    return this.property
+      && purchasablePropertyTypes.includes(this.property.type)
+      && (!this.property.owner || this.property.forSale);
   }
 
   private setProperty = (property: IProperty) => {
