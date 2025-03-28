@@ -14,7 +14,7 @@ export enum ItemType {
   /* Document types */
   IDENTITY_DOCUMENT,
   BADGE,
-  CREDIT_CARD,
+  BANK_CARD,
   DRIVING_LICENSE,
   FISHING_LICENSE,
   SAILING_LICENSE,

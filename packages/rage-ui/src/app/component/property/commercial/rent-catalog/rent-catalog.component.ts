@@ -6,41 +6,37 @@ import { DialogModule } from 'primeng/dialog';
 import { CarouselModule } from 'primeng/carousel';
 import { Button, ButtonDirective } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { GameUiKey, IProduct, IProperty, ProcedureKey } from '@revolt-rp/common';
+import { GameUiKey, IPayment, IProduct, IProperty, IVehicleRent, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { VehicleStatsComponent } from '../../../vehicle/vehicle-stats';
+import { responsiveCarouselOptions } from './catalog-carousel.config';
+import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
+import { CheckboxModule } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+import { SliderModule } from 'primeng/slider';
 
 
 @Component({
   selector: 'app-rent-catalog',
   standalone: true,
-  imports: [CommonModule, CarouselModule, TagModule, Button, ProgressSpinnerModule, TranslatePipe, ButtonDirective, StaticAssetPipe, DialogModule, VehicleStatsComponent],
+  imports: [CommonModule, CarouselModule, TagModule, Button, ProgressSpinnerModule, TranslatePipe, ButtonDirective, StaticAssetPipe, DialogModule, VehicleStatsComponent, SelectPaymentMethodComponent, CheckboxModule, FormsModule, SliderModule],
   templateUrl: './rent-catalog.component.html',
   styleUrl: './rent-catalog.component.css'
 })
 export class RentCatalogComponent implements OnInit, OnDestroy {
-  carouselResponsiveOptions = [
-    {
-      breakpoint: '1199px',
-      numVisible: 1,
-      numScroll: 1
-    },
-    {
-      breakpoint: '991px',
-      numVisible: 2,
-      numScroll: 1
-    },
-    {
-      breakpoint: '767px',
-      numVisible: 1,
-      numScroll: 1
-    }
-  ];
+  readonly carouselResponsiveOptions = responsiveCarouselOptions;
 
   property!: IProperty;
   selectedVehicle: IProduct | null = null;
   previewVehicle = false;
+
+  paymentMethod: IPayment = {
+    type: PaymentType.Cash
+  };
+
+  duration = 0.5;
+  termsAccepted = false;
 
   constructor(private rageClientService: RageClientService) {
   }
@@ -48,7 +44,6 @@ export class RentCatalogComponent implements OnInit, OnDestroy {
   private setProperty = (property: IProperty) => {
     this.property = property;
   };
-
 
   getVehicleImage(model: string) {
     return `assets/images/vehicles/${model}.png`;
@@ -73,6 +68,23 @@ export class RentCatalogComponent implements OnInit, OnDestroy {
 
   close() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.RentCatalog);
+  }
+
+  rentVehicle() {
+    if (!this.selectedVehicle)
+      return;
+
+    if (!this.termsAccepted)
+      return;
+
+    const body: IVehicleRent = {
+      propertyId: this.property.id,
+      model: this.selectedVehicle.name,
+      duration: this.duration,
+      payment: this.paymentMethod
+    };
+
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_PROPERTY_RENT_VEHICLE, body);
   }
 
   ngOnInit() {

@@ -58,6 +58,7 @@ export interface IVehicle extends Base {
   mods: IVehicleMod[];
   extras: IVehicleExtra[];
   numberplate?: IVehicleNumberplate;
+  rented?: true;
   expiringAt?: Date;
   createdAt: Date;
   updatedAt?: Date;

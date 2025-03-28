@@ -168,4 +168,8 @@ export const enum ProcedureKey {
   CLIENT_START_DRIVING_TEST = 'client_startDrivingTest',
   SERVER_START_DRIVING_TEST = 'server_startDrivingTest',
   SERVER_ADD_DRIVING_TEST_MISTAKE = 'server_addDrivingTestMistake',
+
+  SERVER_PLAYER_INVENTORY_GET_BANK_CARDS = 'server_playerInventoryGetBankCards',
+
+  SERVER_PROPERTY_RENT_VEHICLE = 'server_propertyRentVehicle',
 }

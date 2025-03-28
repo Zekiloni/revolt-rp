@@ -15,6 +15,8 @@ import { getItemById } from '../item/item.service';
 import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.service';
 import { triggerClient } from '@libertymp/rage-rpc';
 import { Property } from '../property/property.model';
+import { calculateTaxRate } from '../economy/economy.util';
+import { economyConfig } from '../economy/economy.config';
 
 
 export const generateBankAccountNumber = () => {
@@ -25,7 +27,7 @@ export const generateBankAccountNumber = () => {
 
 export const openBankMenu = (player: PlayerMp, _property: Property) => {
   triggerClient(player, ProcedureKey.CLIENT_PLAYER_TOGGLE_BANK_MENU, true);
-}
+};
 
 export const generatePinCode = () => {
   const generate = customAlphabet('0123456789', 4);
@@ -291,3 +293,39 @@ export const bankAccountPhoneLink = async (player: PlayerMp, bankAccountId: stri
 
   return bankAccount;
 };
+
+
+export const makeOnlinePayment = async (player: PlayerMp, bankAccountId: string, property: Property, amount: number) => {
+  const bankAccount = await getBankAccountById(bankAccountId);
+
+  if (!bankAccount) {
+    throw new Error(t('bank_account_doesnt_exist'));
+  }
+
+  const transaction = await createBankTransaction(bankAccountId, TransactionType.Payment, amount, t('online_commerce_payment', { property: property.name }));
+
+  if (bankAccount.balance < amount) {
+    throw new Error(t('insufficient_funds'));
+  }
+
+  transaction.property = property;
+  transaction.status = TransactionStatus.Completed;
+
+  bankAccount.balance -= amount;
+  await bankAccount.save();
+
+  const taxAmount = calculateTaxRate(property);
+  property.balance += (amount - taxAmount);
+  await property.save();
+
+  notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
+
+  await transaction.save();
+
+  return bankAccount;
+};
+
+
+export const isBankCardActive = (item: Item) => {
+  return item.bankCardInfo?.active && dayjs().isBefore(dayjs(item.expiringAt));
+}

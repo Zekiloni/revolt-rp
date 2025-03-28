@@ -94,6 +94,7 @@ export * from './lib/property/property.config';
 export * from './lib/property/door.model';
 
 export * from './lib/property/public-service/dmv';
+export * from './lib/property/commercial.model';
 
 export * from './lib/world/world.enum';
 export * from './lib/world/weather-type';

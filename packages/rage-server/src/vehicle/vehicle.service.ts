@@ -30,6 +30,31 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
 };
 
 
+export const createVehicle = async (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
+  const vehicle = mp.vehicles.new(mp.joaat(model), position, {
+    heading: options?.rotation?.z ?? 0,
+    engine: options?.engine ?? false,
+    locked: options?.locked ?? false
+  });
+
+  if (options && options.rotation)
+    vehicle.rotation = new mp.Vector3(options.rotation.x, options.rotation.y, options.rotation.z);
+
+  vehicle.setColor(primaryColor, secondaryColor);
+
+  vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, false));
+
+  await vehicle.info.save()
+
+  vehicle.info.locked = vehicle.locked;
+  vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
+  vehicle.info.position = position;
+
+  loadVehicleVariables(vehicle, vehicle.info);
+
+  return vehicle;
+}
+
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
   vehicle.info.owner = character;
 };

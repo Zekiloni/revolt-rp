@@ -10,7 +10,7 @@ export class BankCardItem extends BaseItem {
   holType = PlayerAttachmentTypeEnum.HoldBankCard;
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
-    super(name, description, model, [ItemType.CREDIT_CARD, ...type], weight);
+    super(name, description, model, [ItemType.BANK_CARD, ...type], weight);
   }
 
   select(player: PlayerMp, item: Item) {

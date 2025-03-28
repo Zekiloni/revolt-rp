@@ -1,6 +1,7 @@
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
+import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
 import {
+  getPlayerInventoryBankCards,
   getPlayerItemById,
   getPlayerSelectedItem,
   playerChangeItemSlot, playerDestroyItem,
@@ -72,6 +73,10 @@ async function playerDestroyItemHandler(itemId: string, { player }: ProcedureLis
   await playerDestroyItem(player, itemId);
 }
 
+function playerGetInventoryBankCardsHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return getPlayerInventoryBankCards(player);
+}
+
 on(ProcedureKey.SERVER_PLAYER_DROP_ITEM, playerDropItemHandler);
 on(ProcedureKey.SERVER_PLAYER_PICKUP_ITEM, playerPickupItemHandler);
 on(ProcedureKey.SERVER_PLAYER_CHANGE_ITEM_SLOT, playerChangeItemSlotHandler);
@@ -82,3 +87,5 @@ on(ProcedureKey.SERVER_P2P_GIVE_ITEM, playerGiveItemToPlayerHandler);
 on(ProcedureKey.SERVER_PLAYER_DESTROY_ITEM, playerDestroyItemHandler);
 on(ProcedureKey.SERVER_PLAYER_EQUIP_ITEM, playerEquipItemHandler);
 on(ProcedureKey.SERVER_DROPPED_ITEM_SYNC, playerDroppedItemSyncHandler);
+
+register(ProcedureKey.SERVER_PLAYER_INVENTORY_GET_BANK_CARDS, playerGetInventoryBankCardsHandler);

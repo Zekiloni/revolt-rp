@@ -1,6 +1,7 @@
-import { ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
-import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { Document, Types } from 'mongoose';
+import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { ITransaction, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { Property } from '../property/property.model';
 import { BankAccount } from './bank-account.model';
 
 
@@ -38,6 +39,9 @@ export class Transaction extends Document implements ITransaction {
 
   @prop({ type: String, required: true })
   description: string;
+
+  @prop({ ref: () => Property, required: false })
+  property?: Ref<Property>;
 
   @prop({ ref: () => BankAccount, required: false })
   targetBankAccount?: Ref<BankAccount>;
