@@ -41,6 +41,8 @@ import './property/property-command';
 
 import './property/public-service/dmv.api';
 
+import './property/commercial/vehicle-rent.api'
+
 import './internet/advertisement/advertisement.api';
 
 

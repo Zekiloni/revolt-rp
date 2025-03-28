@@ -53,6 +53,10 @@ export abstract class BaseItem implements IBaseItem {
     return this.type.includes(ItemType.AMMUNITION);
   }
 
+  get isBankCard() {
+    return this.type.includes(ItemType.BANK_CARD);
+  }
+
   get isEquipable() {
     return this.type.includes(ItemType.EQUIPABLE);
   }

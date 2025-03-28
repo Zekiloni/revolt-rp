@@ -73,6 +73,9 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: [Object], default: [] })
   mods: IVehicleMod[];
 
+  @prop({ type: Boolean, required: false })
+  rented?: true;
+
   @prop({ type: Date, required: false })
   expiringAt?: Date;
 

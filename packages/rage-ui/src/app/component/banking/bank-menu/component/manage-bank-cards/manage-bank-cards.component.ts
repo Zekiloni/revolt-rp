@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TableModule } from 'primeng/table';
+import { ButtonDirective } from 'primeng/button';
+import { StyleClassModule } from 'primeng/styleclass';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
 import { IBankAccount, IItem, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { RadioButtonModule } from 'primeng/radiobutton';
-import { StyleClassModule } from 'primeng/styleclass';
-import { ConfirmationService, MessageService, PrimeTemplate } from 'primeng/api';
-import { TableModule } from 'primeng/table';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { ButtonDirective } from 'primeng/button';
-import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { playAudio } from '../../../../../domain/util/audio.util';
+
 
 @Component({
   selector: 'app-manage-bank-cards',

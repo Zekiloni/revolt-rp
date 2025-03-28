@@ -406,3 +406,8 @@ export const playerUseItem = async (player: PlayerMp, item: Item) => {
 export const getPlayerByItemId = async (itemId: string) => {
   return mp.players.toArray().find(player => player.character != undefined && isPlayerItemOwner(player, itemId));
 };
+
+
+export const getPlayerInventoryBankCards = (player: PlayerMp) => {
+  return player.character.inventory.filter((item: Item) => item.data && item.data.isBankCard);
+};
