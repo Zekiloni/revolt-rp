@@ -3,8 +3,8 @@ import { ICommandValidator, IVehicle } from '@revolt-rp/common';
 import { customAlphabet } from 'nanoid';
 
 
-export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: string, position: Vector3, vehicle: VehicleMp) => {
-  const info: IVehicle = {
+export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: string, position: Vector3, vehicle: VehicleMp, isTemporary: boolean) => {
+  const info: Partial<IVehicle> = {
     ...options,
     model,
     position,

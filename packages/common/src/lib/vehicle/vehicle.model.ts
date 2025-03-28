@@ -20,13 +20,6 @@ export interface IVehicleExtra {
   enabled: boolean;
 }
 
-export interface IVehicleRent {
-  renter?: Ref<ICharacter>;
-  hours?: number;
-  price: number;
-  rentedAt?: Date;
-}
-
 export interface IVehicleStats {
   displayName: string;
   className: string;
@@ -44,7 +37,6 @@ export interface IVehicle extends Base {
   mileage: number;
   price?: number;
   locked: boolean;
-  rent?: IVehicleRent;
   trunk: Ref<IItem>[];
   color: [[number, number, number], [number, number, number]];
   pearlescentColor: number;
@@ -62,10 +54,11 @@ export interface IVehicle extends Base {
   paint?: number;
   bodyHealth: number;
   liveryId: number;
-  isTemporary?: true;
+  isTemporary: boolean;
   mods: IVehicleMod[];
   extras: IVehicleExtra[];
   numberplate?: IVehicleNumberplate;
+  expiringAt?: Date;
   createdAt: Date;
   updatedAt?: Date;
 }

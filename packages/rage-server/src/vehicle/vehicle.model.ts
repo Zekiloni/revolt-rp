@@ -1,6 +1,6 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate, IVehicleRent } from '@revolt-rp/common';
+import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revolt-rp/common';
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 import { Item } from '../item/item.model';
@@ -16,7 +16,8 @@ export class Vehicle extends Document implements IVehicle {
   declare _id: Types.ObjectId;
   declare id: string;
 
-  isTemporary: true;
+  @prop({ required: true, default: false })
+  isTemporary: boolean;
 
   @prop({ type: String, required: true })
   model: string;
@@ -72,11 +73,12 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: [Object], default: [] })
   mods: IVehicleMod[];
 
-  @prop({ type: Object, required: false })
-  rent: IVehicleRent;
+  @prop({ type: Date, required: false })
+  expiringAt?: Date;
 
   @prop({ type: Object, required: false })
   numberplate?: IVehicleNumberplate;
+
 
   @prop({ ref: () => Character })
   owner: Ref<Character>;

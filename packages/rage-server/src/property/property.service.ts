@@ -2,6 +2,7 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
+  CommercialType,
   IPropertyCreate, IPropertyPoint,
   ProcedureKey,
   PropertyPointType,
@@ -18,13 +19,17 @@ import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
 import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
+import { openRentMenu } from './commercial/vehicle-rent.service';
 
 
 const propertyMenuHandlers = {
   [PropertyType.PublicService]: {
     [PublicServiceType.DMV]: openDmvMenu,
     [PublicServiceType.Bank]: openBankMenu
-  }
+  },
+  [PropertyType.Commercial]: {
+    [CommercialType.VehicleRent]: openRentMenu
+  },
 };
 
 export const getAllProperties = () => {

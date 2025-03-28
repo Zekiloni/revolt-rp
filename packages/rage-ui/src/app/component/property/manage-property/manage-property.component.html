@@ -51,8 +51,8 @@
         <p-tabPanel [header]="'workers' | translate" leftIcon="pi pi-users" [disabled]="isResidential">
           <h2><i class="pi pi-hammer"></i> TODO</h2>
         </p-tabPanel>
-        <p-tabPanel [header]="'products' | translate" leftIcon="pi pi-box" [disabled]="isResidential">
-          <h2><i class="pi pi-hammer"></i> TODO</h2>
+        <p-tabPanel [header]="'catalog' | translate" leftIcon="pi pi-box" [disabled]="isResidential">
+          <app-manage-catalog [catalog]="property.catalog" />
         </p-tabPanel>
       }
 

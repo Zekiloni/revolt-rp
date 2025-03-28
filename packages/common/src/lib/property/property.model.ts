@@ -72,6 +72,6 @@ export interface IProperty extends Base {
   doors?: Ref<IDoor>[];
   locked: boolean;
   workers: IWorker[];
-  products: IProduct[];
+  catalog: IProduct[];
   vehicles: Ref<IVehicle>[];
 }

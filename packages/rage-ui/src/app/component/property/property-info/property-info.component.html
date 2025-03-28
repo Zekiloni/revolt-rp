@@ -1,7 +1,7 @@
-<div class="absolute-middle-right mr-5 surface-card border-round-2xl shadow-2 p-4 lg:w-2">
-  @if (property) {
+@if (property) {
+<div class="absolute-middle-right mr-5 surface-card border-round-2xl shadow-2 p-4 lg:w-2 overflow-hidden" @resizeTransition>
     @if (property.name) {
-      <span class="text-xl font-medium text-900">{{ property.name }}</span>
+      <span class="text-xl font-medium text-900" >{{ property.name }}</span>
     }
     <ul class="list-none p-0 m-0 mt-3">
       <li class="flex align-items-center justify-content-between py-3 px-2 flex-wrap">
@@ -44,11 +44,5 @@
         </li>
       }
     </ul>
-  } @else {
-    <p-skeleton styleClass="mb-2" />
-    <p-skeleton styleClass="mb-2" />
-    <p-skeleton styleClass="mb-2" />
-    <p-skeleton styleClass="mb-2" />
-    <p-skeleton width="7rem"/>
-  }
 </div>
+}

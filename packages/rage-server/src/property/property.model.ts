@@ -99,7 +99,7 @@ export class Property extends Document implements IProperty {
   @prop({ ref: () => Vehicle, default: [] })
   vehicles: Ref<Vehicle>[];
 
-  products: IProduct[];
+  catalog: IProduct[];
   workers: IWorker[];
 
   createdAt: Date;

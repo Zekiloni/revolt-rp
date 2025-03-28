@@ -12,7 +12,7 @@ import {
 } from '@revolt-rp/common';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
-import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+import { createTemporaryVehicle, setVehicleOwner, toggleVehicleEditMenu } from '../../vehicle/vehicle.service';
 import { isValidItem } from '../../item/registry/util/item-registry.util';
 import { findPlayer, freezePlayer, showPlayerGameInterface, teleportPlayerToPlayer } from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
@@ -53,6 +53,16 @@ registerCommand({
     const vehicle = createTemporaryVehicle(model, player.position, parseInt(primaryColor), parseInt(secondaryColor));
     setVehicleOwner(vehicle, player.character);
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
+  }
+});
+
+registerCommand({
+  name: 'editvehicle',
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  validators: [isPlayerInVehicleCommandValidator],
+  handle(player: PlayerMp) {
+    toggleVehicleEditMenu(player, player.vehicle);
   }
 });
 

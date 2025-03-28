@@ -12,12 +12,13 @@ import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { PropertySettingsComponent } from './components/property-settings';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ManageCatalogComponent } from './components/manage-catalog';
 
 
 @Component({
   selector: 'app-manage-property',
   standalone: true,
-  imports: [CommonModule, DialogModule, TabViewModule, TranslatePipe, WorldMapComponent, PropertySettingsComponent, ButtonDirective, Ripple, ProgressSpinnerModule],
+  imports: [CommonModule, DialogModule, TabViewModule, TranslatePipe, WorldMapComponent, PropertySettingsComponent, ButtonDirective, Ripple, ProgressSpinnerModule, ManageCatalogComponent],
   providers: [StaticAssetPipe],
   templateUrl: './manage-property.component.html',
   styleUrl: './manage-property.component.css'

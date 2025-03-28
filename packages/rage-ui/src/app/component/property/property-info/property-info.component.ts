@@ -1,18 +1,20 @@
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
-import { SkeletonModule } from 'primeng/skeleton';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ICharacter, IOrganization, IProperty, ProcedureKey, purchasablePropertyTypes } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
+import { resizeAnimationTrigger } from '../../../domain/util/animation.util';
 
 
 @Component({
   selector: 'app-property-info',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, TagModule, SkeletonModule],
+  imports: [CommonModule, TranslatePipe, TagModule, ProgressSpinnerModule],
   templateUrl: './property-info.component.html',
-  styleUrl: './property-info.component.css'
+  styleUrl: './property-info.component.css',
+  animations: [resizeAnimationTrigger]
 })
 export class PropertyInfoComponent implements OnInit, OnDestroy {
   property: IProperty | null = null;

@@ -23,4 +23,5 @@ export enum GameUiKey {
   DmvMenu = 'dmvMenu',
   Trunk = 'trunk',
   RentCatalog = 'rentCatalog',
+  ManageVehicle = 'manageVehicle',
 }

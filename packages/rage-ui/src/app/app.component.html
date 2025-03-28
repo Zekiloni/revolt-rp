@@ -72,7 +72,7 @@
   }
 
   @if ($isGameInterfaceActive(GameUiKey.PropertyInfo) | async) {
-    <app-property-info @fadeInOut />
+    <app-property-info />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.ManageProperty) | async; as isActive) {
@@ -89,6 +89,10 @@
 
   @if ($isGameInterfaceActive(GameUiKey.RentCatalog) | async) {
     <app-rent-catalog @fadeInOut />
+  }
+
+  @if ($isGameInterfaceActive(GameUiKey.ManageVehicle) | async; as isActive) {
+    <app-manage-vehicle [isActive]="isActive" />
   }
 
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
