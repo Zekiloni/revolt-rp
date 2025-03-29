@@ -161,7 +161,9 @@ export const srRs = {
     'smartphone_description': 'Pametni telefon za komunikaciju i druge funkcije.',
     'ruger_mark_description': 'Poluautomatski pištolj.',
     'driving_license': 'Vozačka Dozvola',
-    'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.'
+    'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.',
+    'flow_water_bottle_description': 'Ultra pročišćena flaširana voda.',
+    'pibwasser_beer_bottle_description': 'Flaša piva nemačkog porekla.',
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',

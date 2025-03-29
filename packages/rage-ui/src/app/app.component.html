@@ -99,6 +99,10 @@
     <app-manage-vehicle [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.GroceryStore) | async) {
+    <app-grocery-store @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

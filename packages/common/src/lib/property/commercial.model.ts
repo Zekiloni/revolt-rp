@@ -18,3 +18,14 @@ export interface IVehicleRent {
   duration: number;
   payment: IPayment;
 }
+
+export interface IShoppingCart<T> {
+  product: T;
+  quantity: number;
+}
+
+export interface IGroceryBuy<T> {
+  propertyId: string;
+  shoppingCart: IShoppingCart<T>[];
+  payment: IPayment;
+}

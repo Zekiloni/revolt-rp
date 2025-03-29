@@ -175,4 +175,5 @@ export const enum ProcedureKey {
 
   SERVER_PROPERTY_RENT_VEHICLE = 'server_propertyRentVehicle',
   SERVER_RETURN_RENT_VEHICLE = 'server_returnRentVehicle',
+  SERVER_GROCERY_STORE_BUY = 'server_groceryStoreBuy',
 }

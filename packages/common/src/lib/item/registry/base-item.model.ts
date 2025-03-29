@@ -5,5 +5,6 @@ export interface IBaseItem {
   description: string;
   type: ItemType[];
   weight: number;
+  icon?: string;
   model: string;
 }

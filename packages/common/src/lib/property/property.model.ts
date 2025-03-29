@@ -6,6 +6,7 @@ import { ICharacter } from '../player/character/character.model';
 import { IDoor } from './door.model';
 import { IVehicle } from '../vehicle/vehicle.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { IBaseItem } from '../item/registry/base-item.model';
 
 
 export interface IPropertyOwner {
@@ -22,6 +23,7 @@ export interface IProduct {
   name: string;
   stock: number;
   price: number;
+  info?: Partial<IBaseItem>;
   discount?: number;
 }
 

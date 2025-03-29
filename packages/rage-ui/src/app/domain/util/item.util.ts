@@ -1,5 +1,4 @@
-import { IBaseItem } from '@revolt-rp/common';
 
-export const getItemIcon = (item: IBaseItem) => {
-  return `assets/images/items/${item.model}.png`;
+export const getItemIcon = (name: string) => {
+  return `assets/images/items/${name}.png`;
 };

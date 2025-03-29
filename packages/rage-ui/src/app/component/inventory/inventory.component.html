@@ -22,7 +22,7 @@
                 (mouseleave)="itemInfoPanel.hide()"
                 (contextmenu)="onContextMenu($event, item)"
               >
-                <img [ngSrc]="getItemIcon(item.data) | staticAsset" alt="item icon" width="45" height="45">
+                <img [ngSrc]="getItemIcon(item.data.model) | staticAsset" alt="item icon" width="45" height="45">
               </div>
             } @else {
               <i class="pi pi pi-ban text-200"></i>
