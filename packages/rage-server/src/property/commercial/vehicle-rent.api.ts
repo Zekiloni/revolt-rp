@@ -12,7 +12,7 @@ function rentVehicleHandler(data: IVehicleRent, { player }: ProcedureListenerInf
 
 async function returnVehicleHandler(_args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
   if (player.vehicle)
-    await returnVehicle(player.vehicle);
+    await returnVehicle(player.vehicle, player);
 }
 
 setInterval(() => {
