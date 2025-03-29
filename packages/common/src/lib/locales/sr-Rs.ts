@@ -594,4 +594,5 @@ export const srRs = {
   'max_breaking': 'Maksimalno kočenje',
   'max_traction': 'Maksimalna vuča',
   'vehicle_info': 'Informacije o vozilu',
+  'rent_vehicle': 'Iznajmi Vozilo',
 };

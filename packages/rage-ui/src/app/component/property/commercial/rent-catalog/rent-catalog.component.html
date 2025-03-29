@@ -51,14 +51,14 @@
     </div>
   }
 
-  <button pButton type="button" severity="danger" label="{{ 'close' | translate }}" [text]="true" icon="pi pi-times"
+  <button pButton type="button" severity="danger" label="{{ 'close' | translate }}" icon="pi pi-times"
           class="mt-3"
           (click)="close()"></button>
 </div>
 
 
 @if (selectedVehicle) {
-  <p-dialog header="Edit Profile" [modal]="true" [draggable]="false" [(visible)]="previewVehicle"
+  <p-dialog header="{{ 'rent_vehicle' | translate }}" [modal]="true" [draggable]="false" [(visible)]="previewVehicle"
             [focusOnShow]="false"
             [style]="{ width: '45%' }">
     <span class="p-text-secondary block mb-3 py-3">{{ 'vehicle_rent_confirmation' | translate }}</span>
