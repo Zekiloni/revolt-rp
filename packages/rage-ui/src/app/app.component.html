@@ -83,6 +83,10 @@
     <app-dmv-menu @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.VehicleMenu) | async) {
+    <app-vehicle-menu @fadeInOut />
+  }
+
   @if ($isGameInterfaceActive(GameUiKey.Trunk) | async) {
     <app-vehicle-inventory />
   }

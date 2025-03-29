@@ -46,6 +46,7 @@ import { dayjs } from './domain/util/dajys.util';
 import { VehicleInventoryComponent } from './component/vehicle/vehicle-inventory';
 import { RentCatalogComponent } from './component/property/commercial/rent-catalog';
 import { ManageVehicleComponent } from './component/vehicle/manage-vehicle';
+import { VehicleMenuComponent } from './component/vehicle/vehicle-menu';
 
 
 @Component({
@@ -79,7 +80,8 @@ import { ManageVehicleComponent } from './component/vehicle/manage-vehicle';
     DmvMenuComponent,
     VehicleInventoryComponent,
     RentCatalogComponent,
-    ManageVehicleComponent
+    ManageVehicleComponent,
+    VehicleMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

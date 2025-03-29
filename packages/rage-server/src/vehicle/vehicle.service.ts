@@ -1,10 +1,15 @@
-import { GameUiKey, IVehicle, ProcedureKey, VehicleIndicator, VehicleSharedDataType } from '@revolt-rp/common';
+import {
+  GameUiKey,
+  IVehicle,
+  ProcedureKey,
+  VehicleIndicator,
+  VehicleSharedDataType
+} from '@revolt-rp/common';
 import { VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
@@ -78,8 +83,17 @@ export const isTemporaryVehicle = (vehicle: VehicleMp) => {
   return vehicle.getVariable<boolean>(VehicleSharedDataType.IsTemporary);
 };
 
+export const isRentVehicle = (vehicle: VehicleMp) => {
+  return vehicle.info.rented;
+};
+
+
 export const getVehicleId = (vehicle: VehicleMp) => {
   return vehicle.getVariable<string | undefined>(VehicleSharedDataType.VehicleId);
+};
+
+export const getRentedVehicle = async () => {
+  return VehicleModel.find({ rented: true });
 };
 
 export const saveVehicle = async (vehicle: VehicleMp) => {
