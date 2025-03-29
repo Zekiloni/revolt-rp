@@ -1,10 +1,43 @@
 @if (vehicleStats) {
-  <pre> {{ vehicleStats | json }}</pre>
-  <div class="flex align-items-center gap-3 mb-3">
-    <label class="font-semibold w-6rem">Username</label>
-  </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label class="font-semibold w-6rem">Email</label>
+  <div class="grid grid-nogutter border-top-1 surface-border pt-2">
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'model_name' | translate }}</div>
+      <div class="text-900">{{ vehicleStats.displayName }}</div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'vehicle_class' | translate }}</div>
+      <div class="text-900">{{ vehicleStats.className | translate }}</div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'max_speed' | translate }}</div>
+      <div class="text-900">{{ vehicleStats.maxSpeed.toFixed() }}</div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'max_acceleration' | translate }}</div>
+      <div class="text-900">
+        <p-progressBar [value]="((vehicleStats.acceleration / 0.4) * 100).toFixed()" />
+      </div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'max_breaking' | translate }}</div>
+      <div class="text-900">
+        <p-progressBar [value]="((vehicleStats.maxBraking / 3) * 100).toFixed()" />
+      </div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'max_traction' | translate }}</div>
+      <div class="text-900">
+        <p-progressBar [value]="((vehicleStats.maxTraction / 3.3) * 100).toFixed()" />
+      </div>
+    </div>
+    <div class="col-12 md:col-6 p-3">
+      <div class="text-500 font-medium mb-2">{{ 'number_of_seats' | translate }}</div>
+      <div class="text-900 flex align-items-center gap-3">
+        @for (seat of getSeats(vehicleStats.maxNumberOfPassengers); track seat) {
+          <i class="pi pi-user text-primary"></i>
+        }
+      </div>
+    </div>
   </div>
 } @else {
   <div class="mb-3">
