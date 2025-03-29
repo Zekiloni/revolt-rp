@@ -160,7 +160,9 @@ export const enUs = {
     'smartphone_description': 'Smartphone for communication and internet.',
     'ruger_mark_description': 'A semi-automatic pistol.',
     'driving_license': 'Driving License',
-    'driving_license_description': 'Driving license for driving vehicles.'
+    'driving_license_description': 'Driving license for driving vehicles.',
+    'flow_water_bottle_description': 'Ultra purified water bottle.',
+    'pibwasser_beer_bottle_description': 'German beer bottle.',
   },
   'submit': 'Submit',
   'clear': 'Clear',
