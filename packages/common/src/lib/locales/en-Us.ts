@@ -589,4 +589,5 @@ export const enUs = {
   'max_breaking': 'Max Breaking',
   'max_traction': 'Max Traction',
   'vehicle_info': 'Vehicle Info',
+  'rent_vehicle': 'Rent Vehicle',
 };
