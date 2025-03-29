@@ -1,18 +1,28 @@
 import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { GameUiKey, IPayment, PaymentType, ProcedureKey } from '@revolt-rp/common';
-import { hidePlayerGameInterface, showPlayerGameInterface } from '../../player/util/player.util';
-import { notifyPlayer } from '../../player/util/player-notify.util';
+import { GameUiKey, IPayment, PaymentType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import {
+  findPlayerByCharacterId,
+  hidePlayerGameInterface,
+  showPlayerGameInterface
+} from '../../player/util/player.util';
+import { notifyPlayer, sendInfoMessage } from '../../player/util/player-notify.util';
 import { generateNumberPlate } from '../../vehicle/vehicle.util';
 import { createVehicle } from '../../vehicle/vehicle.service';
 import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { VehicleModel } from '../../vehicle/vehicle.model';
+import { Vehicle, VehicleModel } from '../../vehicle/vehicle.model';
 import { Property } from '../property.model';
-import { getPropertyAvailableParkingSpot } from '../property.service';
+import { getPropertyAvailableParkingSpot, getPropertyById } from '../property.service';
 import { giveMoney } from '../../player/character/character.service';
 import { makeOnlinePayment } from '../../banking/banking.service';
+import { Types } from 'mongoose';
+import { calculateTaxRate } from '../../economy/economy.util';
 
+
+const rentConfig = {
+  expireAnnounceMinutes: 5
+};
 
 export function openRentMenu(player: PlayerMp, property: Property) {
   showPlayerGameInterface(player, GameUiKey.RentCatalog,
@@ -25,6 +35,39 @@ export const isPlayerRentingVehicle = async (player: PlayerMp) => {
 };
 
 
+export const getRentedVehicle = async () => {
+  return VehicleModel.find({ rented: true });
+};
+
+
+export const returnVehicle = async (vehicle: Vehicle) => {
+  const model = vehicle.model;
+  // const propertySource = getPropertyById(vehicle.source);
+
+  const mpVehicle = mp.vehicles.toArray().find(v => v.getVariable(VehicleSharedDataType.VehicleId) === vehicle.id);
+};
+
+export const checkVehicleRent = async (vehicle: Vehicle) => {
+  const now = dayjs();
+  const expiresAt = dayjs(vehicle.expiringAt);
+
+  console.log('vehicle.owner', vehicle.owner);
+  console.log('vehicle.owner.id', vehicle.owner.id);
+
+  const player = findPlayerByCharacterId((<Types.ObjectId>vehicle.owner).toString());
+
+  if (expiresAt.diff(now, 'minute') === rentConfig.expireAnnounceMinutes) {
+    if (player)
+      sendInfoMessage(player, t('vehicle_rent_expiring', { min: rentConfig.expireAnnounceMinutes }));
+  }
+
+  if (dayjs(vehicle.expiringAt).isBefore(dayjs())) {
+    await returnVehicle(vehicle);
+    if (player)
+      sendInfoMessage(player, t('vehicle_rent_expired'));
+  }
+};
+
 export const rentVehicle = async (player: PlayerMp, property: Property, model: string, duration: number, payment: IPayment) => {
   const alreadyRented = await isPlayerRentingVehicle(player);
 
@@ -33,7 +76,7 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
 
   const product = property.catalog.find(p => p.name === model);
 
-  if (!product)
+  if (!product || !product.stock)
     return notifyPlayer(player, { severity: 'error', detail: t('catalog_vehicle_not_found') });
 
   const parkingSpot = getPropertyAvailableParkingSpot(property);
@@ -43,6 +86,7 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
   }
 
   const total = product.price * duration;
+  product.stock = (product.stock - 1);
 
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
     try {
@@ -57,7 +101,10 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
     }
 
     await giveMoney(player, -total);
+    property.balance = (property.balance + (total - calculateTaxRate(property)));
   }
+
+  await property.save();
 
   const expiringAt = dayjs()
     .add(duration, 'hour')
@@ -75,7 +122,8 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
       numberplate: `RV${generateNumberPlate(4)}`,
       expiringAt,
       modelType: vehicleConfig.defaultNumberPlateType
-    }
+    },
+    rentAgencyId: property.id
   });
 
   // todo: messages

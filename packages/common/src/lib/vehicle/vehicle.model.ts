@@ -3,6 +3,7 @@ import { ICharacter } from '../player/character/character.model';
 import { Ref } from '@typegoose/typegoose';
 import { IItem } from '../item/item.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
+import { IProperty } from '../property/property.model';
 
 export interface IVehicleMod {
   type: number;
@@ -59,6 +60,7 @@ export interface IVehicle extends Base {
   extras: IVehicleExtra[];
   numberplate?: IVehicleNumberplate;
   rented?: true;
+  rentAgencyId?: string;
   expiringAt?: Date;
   createdAt: Date;
   updatedAt?: Date;

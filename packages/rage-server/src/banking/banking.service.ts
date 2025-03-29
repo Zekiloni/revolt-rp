@@ -16,7 +16,6 @@ import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.se
 import { triggerClient } from '@libertymp/rage-rpc';
 import { Property } from '../property/property.model';
 import { calculateTaxRate } from '../economy/economy.util';
-import { economyConfig } from '../economy/economy.config';
 
 
 export const generateBankAccountNumber = () => {
@@ -315,7 +314,7 @@ export const makeOnlinePayment = async (player: PlayerMp, bankAccountId: string,
   await bankAccount.save();
 
   const taxAmount = calculateTaxRate(property);
-  property.balance += (amount - taxAmount);
+  property.balance = (property.balance + (amount - taxAmount));
   await property.save();
 
   notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });

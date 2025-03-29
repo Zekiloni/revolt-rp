@@ -590,4 +590,6 @@ export const enUs = {
   'max_traction': 'Max Traction',
   'vehicle_info': 'Vehicle Info',
   'rent_vehicle': 'Rent Vehicle',
+  'vehicle_rent_expiring': 'Your vehicle rent is expiring in {{min}} minutes.',
+  'vehicle_rent_expired': 'Your vehicle rent has expired.',
 };

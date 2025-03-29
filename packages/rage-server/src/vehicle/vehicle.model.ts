@@ -4,6 +4,7 @@ import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revo
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 import { Item } from '../item/item.model';
+import { Property } from '../property/property.model';
 
 
 @modelOptions({
@@ -76,12 +77,14 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: Boolean, required: false })
   rented?: true;
 
+  @prop({ required: false })
+  rentAgencyId?: string;
+
   @prop({ type: Date, required: false })
   expiringAt?: Date;
 
   @prop({ type: Object, required: false })
   numberplate?: IVehicleNumberplate;
-
 
   @prop({ ref: () => Character })
   owner: Ref<Character>;
