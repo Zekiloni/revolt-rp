@@ -33,7 +33,7 @@ export const isPlayerRentingVehicle = async (player: PlayerMp) => {
     .exec();
 };
 
-export const returnVehicle = async (vehicle: VehicleMp) => {
+export const returnVehicle = async (vehicle: VehicleMp, player?: PlayerMp) => {
   const model = vehicle.info.model;
 
   await vehicle.info.delete();
@@ -51,6 +51,9 @@ export const returnVehicle = async (vehicle: VehicleMp) => {
       await property.save();
     }
   }
+
+  if (player && mp.players.exists(player))
+    sendInfoMessage(player, t('vehicle_rent_returned'));
 };
 
 export const checkVehicleRent = async (vehicle: VehicleMp) => {

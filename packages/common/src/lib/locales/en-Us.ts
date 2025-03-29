@@ -593,4 +593,5 @@ export const enUs = {
   'vehicle_rent_expiring': 'Your vehicle rent is expiring in {{min}} minutes.',
   'vehicle_rent_expired': 'Your vehicle rent has expired.',
   'return_rent_vehicle': 'Return Rent Vehicle',
+  'vehicle_rent_returned': 'Rented vehicle has been returned.',
 };
