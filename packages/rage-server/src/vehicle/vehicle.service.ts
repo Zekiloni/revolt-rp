@@ -44,16 +44,18 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
 
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, false));
 
-  await vehicle.info.save()
+  await vehicle.info.save();
 
   vehicle.info.locked = vehicle.locked;
   vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
   vehicle.info.position = position;
+  vehicle.numberPlate = options && options.numberplate ? options.numberplate.numberplate : undefined;
+  vehicle.numberPlateType = options && options.numberplate ? options.numberplate.modelType : undefined;
 
   loadVehicleVariables(vehicle, vehicle.info);
 
   return vehicle;
-}
+};
 
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
   vehicle.info.owner = character;

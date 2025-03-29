@@ -582,4 +582,11 @@ export const enUs = {
   'vehicle_rent_confirmation': 'By renting this vehicle, you agree to take responsibility and adhere to the rules, ensuring that you will return it in the same condition and on time. Failure to do so will result in compensation for any damage or delay',
   'duration': 'Duration',
   'total': 'Total',
+  'number_of_seats': 'Number of Seats',
+  'model_name': 'Model Name',
+  'vehicle_class': 'Vehicle Class',
+  'max_speed': 'Max Speed',
+  'max_breaking': 'Max Breaking',
+  'max_traction': 'Max Traction',
+  'vehicle_info': 'Vehicle Info',
 };

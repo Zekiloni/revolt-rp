@@ -586,4 +586,12 @@ export const srRs = {
   'vehicle_rent_confirmation': 'Iznajmljivanjem ovog vozila prihvatate odgovornost i pravila da ćete ga vratiti u istom stanju i na vreme. U suprotnom, biće tražena nadoknada za štetu ili kašnjenje.',
   'duration': 'Vremenski period',
   'total': 'Ukupno',
+  'number_of_seats': 'Broj sedišta',
+  'model_name': 'Ime modela',
+  'vehicle_class': 'Klasa vozila',
+  'Sports': 'Sportski',
+  'max_speed': 'Maksimalna brzina',
+  'max_breaking': 'Maksimalno kočenje',
+  'max_traction': 'Maksimalna vuča',
+  'vehicle_info': 'Informacije o vozilu',
 };

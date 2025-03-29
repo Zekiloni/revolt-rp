@@ -36,7 +36,7 @@ export const getAllProperties = () => {
   return PropertyModel.find();
 };
 
-export const getPropertyById = (propertyId: string) => {
+export const getPropertyById = async (propertyId: string) => {
   return PropertyModel.findById(propertyId)
     .populate('owner.entity');
 };

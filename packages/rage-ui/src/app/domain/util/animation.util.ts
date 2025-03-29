@@ -38,18 +38,16 @@ export const scaleInOutTrigger = trigger('scaleInOut', [
 
 export const resizeAnimationTrigger = trigger('resizeTransition', [
   transition(':enter', [
-    style({ opacity: 0, height: '0px', overflow: 'hidden' }),
+    style({ opacity: 0, height: '0px', }),
     animate('250ms ease-in-out', style({
       opacity: 1,
       height: '*',
-      overflow: 'visible'
     }))
   ]),
   transition(':leave', [
     animate('250ms ease-in-out', style({
       opacity: 0,
       height: '0px',
-      overflow: 'hidden'
     }))
   ])
 ]);

@@ -61,37 +61,38 @@
   <p-dialog header="Edit Profile" [modal]="true" [draggable]="false" [(visible)]="previewVehicle"
             [focusOnShow]="false"
             [style]="{ width: '45%' }">
-    <span class="p-text-secondary block mb-5">{{ 'vehicle_rent_confirmation' | translate }}</span>
+    <span class="p-text-secondary block mb-3 py-3">{{ 'vehicle_rent_confirmation' | translate }}</span>
+
     <app-vehicle-stats [model]="selectedVehicle.name" />
 
-    <div class="field mb-3">
+    <div class="field p-3 mb-3">
       <label for="duration" class="text-900">{{ 'duration' | translate }}</label>
-      <p-slider id="duration" [(ngModel)]="duration" styleClass="w-14rem" [step]="0.5" [max]="24" [min]="0.5" />
+      <p-slider id="duration" [(ngModel)]="duration" styleClass="w-20rem mt-1" [step]="0.5" [max]="24" [min]="0.5" />
     </div>
 
     <p-checkbox
       [(ngModel)]="termsAccepted"
       [binary]="true"
       label="{{ 'accept_terms' | translate }}"
-      class="mb-3 mt-3"
+      class="p-3"
       id="accept-terms" />
 
     <app-select-payment-method [payment]="paymentMethod" />
 
-    <div class="py-2 mt-3 border-bottom-1 surface-border">
+    <div class="p-3 mt-3 border-bottom-1 surface-border">
       <div class="flex justify-content-between align-items-center mb-3">
         <span class="text-900">{{ 'duration' | translate }}</span>
         <span class="text-900">{{ duration }}h</span>
       </div>
       <div class="flex justify-content-between align-items-center mb-3">
-        <span class="text-900">{{ 'total' |translate }}</span>
+        <span class="text-900">{{ 'total' | translate }}</span>
         <span class="text-900 text-green-500 font-bold">{{ duration * selectedVehicle.price | currency }}</span>
       </div>
     </div>
 
-    <div class="flex justify-content-end gap-2">
-      <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="previewVehicle = false" />
-      <p-button label="{{ 'submit' | translate }}" (onClick)="rentVehicle()" />
+    <div class="flex justify-content-end gap-2 mt-3">
+      <p-button label="{{ 'cancel' | translate }}" severity="secondary" (click)="previewVehicle = false" />
+      <p-button label="{{ 'submit' | translate }}" (click)="rentVehicle()" [disabled]="!termsAccepted" />
     </div>
   </p-dialog>
 }

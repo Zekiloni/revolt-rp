@@ -78,5 +78,6 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
     }
   });
 
+  // todo: messages
   hidePlayerGameInterface(player, GameUiKey.RentCatalog);
 };
