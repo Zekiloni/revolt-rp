@@ -2,18 +2,23 @@ import { register, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import {
   GameUiKey,
   HexKeyCodes,
-  ProcedureKey,
-  VehicleSharedDataType,
   IVehicleHudUpdate,
-  IVehicleUpdateData, VehicleIndicator, IVehicleStats
+  IVehicleStats,
+  IVehicleUpdateData,
+  ProcedureKey,
+  VehicleIndicator,
+  VehicleSharedDataType
 } from '@revolt-rp/common';
 import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
-import { browser, hideGameInterface, showGameInterface } from '../core/browser';
+import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../core/browser';
 import {
-  getVehicleAcceleration, getVehicleClassName,
-  getVehicleDisplayName, getVehicleMaxBraking,
+  getVehicleAcceleration,
+  getVehicleClassName,
+  getVehicleDisplayName,
+  getVehicleMaxBraking,
   getVehicleMaxNumberOfPassengers,
-  getVehicleMaxSpeed, getVehicleModelMaxTraction,
+  getVehicleMaxSpeed,
+  getVehicleModelMaxTraction,
   isValidVehicleWindow,
   isVehicleModelValid
 } from './vehicle.util';
@@ -21,6 +26,8 @@ import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-
 import { getDistance } from '../util/vector.util';
 import { isVehicleTrunkOpened } from './vehicle-data';
 
+
+mp.game.vehicle.defaultEngineBehaviour = false;
 
 export const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;
@@ -40,6 +47,16 @@ function toggleVehicleEngine() {
   const vehicle = mp.players.local.vehicle;
   if (vehicle && vehicle.getPedInSeat(RageEnums.VehicleSeat.DRIVER) === mp.players.local.handle) {
     triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE);
+  }
+}
+
+function toggleVehicleMenu() {
+  if (mp.players.local.vehicle) {
+    if (isGameInterfaceActive(GameUiKey.VehicleMenu)) {
+      hideGameInterface(GameUiKey.VehicleMenu);
+    } else {
+      showGameInterface(GameUiKey.VehicleMenu);
+    }
   }
 }
 
@@ -126,9 +143,10 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
     }
 
     if (seat == RageEnums.VehicleSeat.DRIVER) {
-      mp.game.vehicle.defaultEngineBehaviour = false;
       mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
       mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
+
+      registerKeyBind(HexKeyCodes.Y, false, toggleVehicleMenu, 300);
 
       if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
         if (!vehicle.getIsEngineRunning())
@@ -139,7 +157,6 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
 
       currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
       currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
-
 
       registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
       registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
@@ -156,6 +173,10 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       unregisterKeyBind(HexKeyCodes.B, toggleSeatbelt);
     }
 
+    if (isGameInterfaceActive(GameUiKey.VehicleMenu)) {
+      hideGameInterface(GameUiKey.VehicleMenu);
+    }
+
     if (seat == RageEnums.VehicleSeat.DRIVER) {
       if (!mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
         unregisterKeyBind(HexKeyCodes.Y, toggleVehicleEngine);
@@ -163,6 +184,7 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
         unregisterKeyBind(HexKeyCodes.Right, toggleVehicleRightIndicator);
       }
 
+      unregisterKeyBind(HexKeyCodes.Y, toggleVehicleMenu);
       toggleVehicleHud(false);
 
       const vehicleUpdate: IVehicleUpdateData = {

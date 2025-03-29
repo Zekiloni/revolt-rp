@@ -60,6 +60,8 @@ export const enum ProcedureKey {
 
   BROWSER_SET_PLAYER_REMOTE_ID = 'browser_setPlayerRemoteId',
   SERVER_PLAYER_TOGGLE_VEHICLE_ENGINE = 'server_playerToggleVehicleEngine',
+  SERVER_GET_VEHICLE_OPTIONS = 'server_getVehicleOptions',
+  SERVER_VEHICLE_OPTION = 'server_vehicleOption',
   SERVER_PLAYER_TOGGLE_SEATBELT = 'server_playerToggleSeatbelt',
   BROWSER_UPDATE_VEHICLE_HUD = 'browser_updateVehicleHud',
   SERVER_PLAYER_UPDATE_VEHICLE_DATA = 'server_playerUpdateVehicleData',
@@ -172,4 +174,5 @@ export const enum ProcedureKey {
   SERVER_PLAYER_INVENTORY_GET_BANK_CARDS = 'server_playerInventoryGetBankCards',
 
   SERVER_PROPERTY_RENT_VEHICLE = 'server_propertyRentVehicle',
+  SERVER_RETURN_RENT_VEHICLE = 'server_returnRentVehicle',
 }

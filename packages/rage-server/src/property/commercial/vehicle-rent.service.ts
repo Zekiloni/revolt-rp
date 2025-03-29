@@ -1,23 +1,22 @@
 import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { GameUiKey, IPayment, PaymentType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import { GameUiKey, IPayment, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import {
   findPlayerByCharacterId,
   hidePlayerGameInterface,
   showPlayerGameInterface
 } from '../../player/util/player.util';
-import { notifyPlayer, sendInfoMessage } from '../../player/util/player-notify.util';
-import { generateNumberPlate } from '../../vehicle/vehicle.util';
-import { createVehicle } from '../../vehicle/vehicle.service';
-import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { Vehicle, VehicleModel } from '../../vehicle/vehicle.model';
-import { Property } from '../property.model';
 import { getPropertyAvailableParkingSpot, getPropertyById } from '../property.service';
+import { notifyPlayer, sendInfoMessage } from '../../player/util/player-notify.util';
 import { giveMoney } from '../../player/character/character.service';
 import { makeOnlinePayment } from '../../banking/banking.service';
-import { Types } from 'mongoose';
+import { generateNumberPlate } from '../../vehicle/vehicle.util';
 import { calculateTaxRate } from '../../economy/economy.util';
+import { createVehicle } from '../../vehicle/vehicle.service';
+import { vehicleConfig } from '../../vehicle/vehicle.config';
+import { VehicleModel } from '../../vehicle/vehicle.model';
+import { Property } from '../property.model';
 
 
 const rentConfig = {
@@ -34,34 +33,40 @@ export const isPlayerRentingVehicle = async (player: PlayerMp) => {
     .exec();
 };
 
+export const returnVehicle = async (vehicle: VehicleMp) => {
+  const model = vehicle.info.model;
 
-export const getRentedVehicle = async () => {
-  return VehicleModel.find({ rented: true });
+  await vehicle.info.delete();
+
+  vehicle.getOccupants().forEach(p => p.removeFromVehicle());
+
+  if (vehicle && mp.vehicles.exists(vehicle))
+    vehicle.destroy();
+
+  const property = await getPropertyById(vehicle.info.rentAgencyId);
+  if (property) {
+    const product = property.catalog.find(p => p.name === model);
+    if (product) {
+      product.stock = (product.stock + 1);
+      await property.save();
+    }
+  }
 };
 
+export const checkVehicleRent = async (vehicle: VehicleMp) => {
+  const info = vehicle.info;
 
-export const returnVehicle = async (vehicle: Vehicle) => {
-  const model = vehicle.model;
-  // const propertySource = getPropertyById(vehicle.source);
-
-  const mpVehicle = mp.vehicles.toArray().find(v => v.getVariable(VehicleSharedDataType.VehicleId) === vehicle.id);
-};
-
-export const checkVehicleRent = async (vehicle: Vehicle) => {
   const now = dayjs();
-  const expiresAt = dayjs(vehicle.expiringAt);
+  const expiresAt = dayjs(info.expiringAt);
 
-  console.log('vehicle.owner', vehicle.owner);
-  console.log('vehicle.owner.id', vehicle.owner.id);
-
-  const player = findPlayerByCharacterId((<Types.ObjectId>vehicle.owner).toString());
+  const player = findPlayerByCharacterId(info.owner._id.toHexString());
 
   if (expiresAt.diff(now, 'minute') === rentConfig.expireAnnounceMinutes) {
     if (player)
       sendInfoMessage(player, t('vehicle_rent_expiring', { min: rentConfig.expireAnnounceMinutes }));
   }
 
-  if (dayjs(vehicle.expiringAt).isBefore(dayjs())) {
+  if (dayjs(info.expiringAt).isBefore(dayjs())) {
     await returnVehicle(vehicle);
     if (player)
       sendInfoMessage(player, t('vehicle_rent_expired'));

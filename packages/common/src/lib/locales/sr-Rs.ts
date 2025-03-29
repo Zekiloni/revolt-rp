@@ -597,4 +597,5 @@ export const srRs = {
   'rent_vehicle': 'Iznajmi Vozilo',
   'vehicle_rent_expiring': 'Vaše iznajmljivanje vozila ističe za {{min}} minuta.',
   'vehicle_rent_expired': 'Vaše iznajmljivanje vozila je isteklo.',
+  'return_rent_vehicle': 'Vratite iznajmljeno vozilo',
 };

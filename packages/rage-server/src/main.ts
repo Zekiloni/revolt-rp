@@ -28,6 +28,7 @@ import './player/damage/player-damage.api';
 import './banking/banking.api';
 
 import './vehicle/vehicle.api';
+import './vehicle/vehicle-menu.api';
 import './vehicle/vehicle-inventory.api';
 import './vehicle/vehicle-command';
 
@@ -41,7 +42,7 @@ import './property/property-command';
 
 import './property/public-service/dmv.api';
 
-import './property/commercial/vehicle-rent.api'
+import './property/commercial/vehicle-rent.api';
 
 import './internet/advertisement/advertisement.api';
 

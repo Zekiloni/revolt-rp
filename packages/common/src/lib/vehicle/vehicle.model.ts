@@ -4,6 +4,8 @@ import { Ref } from '@typegoose/typegoose';
 import { IItem } from '../item/item.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IProperty } from '../property/property.model';
+import { MenuItem } from 'primeng/api';
+import { ProcedureKey } from '../procedure.enums';
 
 export interface IVehicleMod {
   type: number;
@@ -71,4 +73,11 @@ export interface IVehicleUpdateData {
   vehicleId: number;
   mileage: number;
   fuel: number;
+}
+
+
+export interface IVehicleOption extends MenuItem {
+  label: string;
+  description?: string;
+  eventKey: ProcedureKey;
 }
