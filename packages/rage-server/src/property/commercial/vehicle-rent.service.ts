@@ -17,11 +17,8 @@ import { createVehicle } from '../../vehicle/vehicle.service';
 import { vehicleConfig } from '../../vehicle/vehicle.config';
 import { VehicleModel } from '../../vehicle/vehicle.model';
 import { Property } from '../property.model';
+import { vehicleRentConfig } from './vehicle-rent.config';
 
-
-const rentConfig = {
-  expireAnnounceMinutes: 5
-};
 
 export function openRentMenu(player: PlayerMp, property: Property) {
   showPlayerGameInterface(player, GameUiKey.RentCatalog,
@@ -64,9 +61,9 @@ export const checkVehicleRent = async (vehicle: VehicleMp) => {
 
   const player = findPlayerByCharacterId(info.owner._id.toHexString());
 
-  if (expiresAt.diff(now, 'minute') === rentConfig.expireAnnounceMinutes) {
+  if (expiresAt.diff(now, 'minute') === vehicleRentConfig.expireAnnounceMinutes) {
     if (player)
-      sendInfoMessage(player, t('vehicle_rent_expiring', { min: rentConfig.expireAnnounceMinutes }));
+      sendInfoMessage(player, t('vehicle_rent_expiring', { min: vehicleRentConfig.expireAnnounceMinutes }));
   }
 
   if (dayjs(info.expiringAt).isBefore(dayjs())) {

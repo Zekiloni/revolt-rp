@@ -13,6 +13,7 @@ import { characterCreatorConfig } from './character-creator.config';
 import { togglePlayerPreviewCamera } from '../util/player-preview-camera';
 import { applyBestTorso } from '../util/player-clothing.util';
 
+
 async function toggleCharacterCreator(toggle: boolean) {
   if (toggle) {
     await toggleAuthorization(false);

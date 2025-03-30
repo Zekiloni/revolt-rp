@@ -1,1 +1,17 @@
-<p>manage-catalog works!</p>
+<p-table [value]="property.catalog"
+         [scrollable]="true"
+         editMode="row"
+         dataKey="id"
+         [rowHover]="true"
+         scrollHeight="325px"
+         styleClass="p-datatable-gridlines">
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <span>{{ 'interaction_points' | translate }}</span>
+      <button pButton type="button" size="small" label="{{ 'add_current_position' | translate}}" icon="pi pi-plus"
+              (click)="create()"></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+  </ng-template>
+</p-table>
