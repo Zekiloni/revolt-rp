@@ -601,4 +601,5 @@ export const srRs = {
   'vehicle_rent_expired': 'Vaše iznajmljivanje vozila je isteklo.',
   'return_rent_vehicle': 'Vratite iznajmljeno vozilo',
   'vehicle_rent_returned': 'Vratili ste iznajmljeno vozilo.',
+  'shopping_cart_is_empty': 'Korpa je prazna.',
 };

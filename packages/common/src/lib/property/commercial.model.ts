@@ -19,13 +19,13 @@ export interface IVehicleRent {
   payment: IPayment;
 }
 
-export interface IShoppingCart<T> {
+export interface ICartItem<T> {
   product: T;
   quantity: number;
 }
 
-export interface IGroceryBuy<T> {
+export interface IShopping<T> {
   propertyId: string;
-  shoppingCart: IShoppingCart<T>[];
+  shoppingCart: ICartItem<T>[];
   payment: IPayment;
 }

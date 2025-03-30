@@ -39,6 +39,7 @@ import './organization/organization.command';
 
 import './property/property.api';
 import './property/property-command';
+import './property/property-catalog.api';
 
 import './property/public-service/dmv.api';
 

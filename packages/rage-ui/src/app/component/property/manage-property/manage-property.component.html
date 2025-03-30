@@ -52,7 +52,7 @@
           <h2><i class="pi pi-hammer"></i> TODO</h2>
         </p-tabPanel>
         <p-tabPanel [header]="'catalog' | translate" leftIcon="pi pi-box" [disabled]="isResidential">
-          <app-manage-catalog [catalog]="property.catalog" />
+          <app-manage-catalog [property]="property" />
         </p-tabPanel>
       }
 

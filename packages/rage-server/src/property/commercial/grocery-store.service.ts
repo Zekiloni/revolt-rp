@@ -1,0 +1,79 @@
+import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { GameUiKey, IPayment, ICartItem, ProcedureKey, IProduct, PaymentType } from '@revolt-rp/common';
+import { hidePlayerGameInterface, showPlayerGameInterface } from '../../player/util/player.util';
+import { Property } from '../property.model';
+import { getBaseItem } from '../../item/registry/util/item-registry.util';
+import { playerGiveItem } from '../../player/inventory/player-inventory.service';
+import { makeOnlinePayment } from '../../banking/banking.service';
+import { notifyPlayer } from '../../player/util/player-notify.util';
+import { t } from 'i18next';
+import { giveMoney } from '../../player/character/character.service';
+import { calculateTaxRate } from '../../economy/economy.util';
+
+
+export const openGroceryStoreMenu = (player: PlayerMp, property: Property) => {
+  showPlayerGameInterface(player, GameUiKey.GroceryStore, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
+};
+
+
+export const calculateTotalPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {
+  return cartItems.reduce(
+    (total, item) => total + item.quantity * catalog.find(product => product.name === item.product).price, 0);
+};
+
+export const buyGroceries = async (player: PlayerMp, property: Property, cartItems: ICartItem<string>[], payment: IPayment) => {
+  const total = calculateTotalPrice(cartItems, property.catalog);
+
+  if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
+    try {
+      await makeOnlinePayment(player, payment.bankAccountNo, property, total);
+      notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
+    } catch (error) {
+      return notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
+    }
+  } else {
+    if (player.character.cash < total) {
+      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+    }
+
+    await giveMoney(player, -total);
+    property.balance = (property.balance + (total - calculateTaxRate(property)));
+  }
+
+  for (const item of cartItems) {
+    const product = property.catalog.find(product => product.name === item.product);
+
+    if (!product) {
+      player.notify('This product is not available');
+      continue;
+    }
+
+    const baseItem = getBaseItem(product.name);
+
+    if (!baseItem) {
+      player.notify('This product is not available');
+      continue;
+    }
+
+    if (baseItem.isStackable) {
+      await playerGiveItem(player, baseItem.name, item.quantity);
+    } else {
+      for (let i = 0; i < item.quantity; i++) {
+        await playerGiveItem(player, baseItem.name, 1);
+      }
+    }
+
+    if (product.stock < item.quantity) {
+      player.notify('This product is out of stock');
+      continue;
+    }
+
+    product.stock = product.stock - item.quantity;
+    player.notify(`You bought ${item.quantity}x ${item.product}`);
+  }
+
+  property.markModified('catalog');
+  await property.save();
+
+  hidePlayerGameInterface(player, GameUiKey.GroceryStore);
+};

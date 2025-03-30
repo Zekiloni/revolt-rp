@@ -20,6 +20,7 @@ import { openDmvMenu } from './public-service/dmv.service';
 import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
 import { openRentMenu } from './commercial/vehicle-rent.service';
+import { openGroceryStoreMenu } from './commercial/grocery-store.service';
 
 
 const propertyMenuHandlers = {
@@ -28,6 +29,7 @@ const propertyMenuHandlers = {
     [PublicServiceType.Bank]: openBankMenu
   },
   [PropertyType.Commercial]: {
+    [CommercialType.GroceryStore]: openGroceryStoreMenu,
     [CommercialType.VehicleRent]: openRentMenu
   },
 };
