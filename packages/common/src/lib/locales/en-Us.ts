@@ -600,4 +600,6 @@ export const enUs = {
   'add_product': 'Add Product',
   'stock': 'Stock',
   'discount': 'Discount',
+  'checkout': 'Checkout',
+  'shopping_cart': 'Shopping Cart',
 };

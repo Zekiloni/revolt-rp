@@ -26,7 +26,7 @@
     <tr>
       <td>{{ rowIndex + 1 }}</td>
       <td>
-        <span>{{ product['name'] | translate }}</span>
+        <span>{{ product['name'] | translate | titlecase }}</span>
       </td>
       <td>
         <span>{{ product['price'] | currency }}</span>

@@ -7,13 +7,14 @@
       inputId="name"
       id="name"
       [emptyMessage]="'no_results' | translate"
-      [suggestions]="availableItems"
+      [suggestions]="filteredItems"
+      appendTo="body"
       (completeMethod)="filterItems($event)">
       <ng-template let-item pTemplate="selectedItem">
-        <span>{{ item | translate }}</span>
+        <span>{{ item | translate | titlecase }}</span>
       </ng-template>
       <ng-template let-item pTemplate="item">
-        <span>{{ item | translate }}</span>
+        <span>{{ item | translate | titlecase }}</span>
       </ng-template>
     </p-autoComplete>
   </div>

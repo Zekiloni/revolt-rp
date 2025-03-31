@@ -605,4 +605,6 @@ export const srRs = {
   'add_product': 'Dodaj proizvod',
   'stock': 'Zaliha',
   'discount': 'Popust',
+  'checkout': 'Naplata',
+  'shopping_cart': 'Korpa',
 };
