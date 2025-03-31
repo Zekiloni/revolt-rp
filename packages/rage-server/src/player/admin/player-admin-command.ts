@@ -2,11 +2,13 @@ import { t } from 'i18next';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   AdminType,
+  CommandCategory,
   GameUiKey,
   hexColors,
   isNumber,
   PlayerSharedDataType,
-  ProcedureKey, PropertyPointType,
+  ProcedureKey,
+  PropertyPointType,
   WeatherType,
   WeatherTypes
 } from '@revolt-rp/common';
@@ -24,12 +26,18 @@ import {
   deleteOrganization,
   getOrganizationByName,
   makePlayerOrganization,
-  makePlayerOrganizationLeader, unsetPlayerOrganization
+  makePlayerOrganizationLeader,
+  unsetPlayerOrganization
 } from '../../organization/organization.service';
 import { banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
-import { destroyProperty, getClosestProperty, getPropertyByName } from '../../property/property.service';
+import {
+  destroyProperty,
+  fillPropertyStock,
+  getClosestProperty,
+  getPropertyByName
+} from '../../property/property.service';
 import { savePlayerPosition } from '../../util/save-position.util';
 
 
@@ -631,6 +639,30 @@ registerCommand({
     showPlayerGameInterface(player, GameUiKey.CreateProperty);
   }
 });
+
+registerCommand({
+  name: 'refillstock',
+  category: CommandCategory.Admin,
+  description: t('refill_stock_command_description'),
+  params: ['quantity', 'name'],
+  administrator: AdminType.SENIOR_ADMIN,
+  async handle(player: PlayerMp, quantity: string, ...name: string[]) {
+    if (!isNumber(quantity))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'quantity', type: 'number' })
+      });
+
+    const property = await getPropertyByName(name.join(' '));
+
+    if (!property)
+      return notifyPlayer(player, { severity: 'error', detail: t('property_not_found') });
+
+    await fillPropertyStock(property, parseInt(quantity));
+    notifyPlayer(player, { severity: 'info', detail: t('property_stock_filled') });
+  }
+})
 
 
 registerCommand({

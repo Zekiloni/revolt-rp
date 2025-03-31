@@ -31,7 +31,7 @@ const propertyMenuHandlers = {
   [PropertyType.Commercial]: {
     [CommercialType.GroceryStore]: openGroceryStoreMenu,
     [CommercialType.VehicleRent]: openRentMenu
-  },
+  }
 };
 
 export const getAllProperties = () => {
@@ -257,3 +257,16 @@ function propertyMenuInteraction(player: PlayerMp, property: Property) {
   if (menuHandler)
     return menuHandler(player, property);
 }
+
+
+export const fillPropertyStock = async (property: Property, quantity: number) => {
+  if (!property.catalog)
+    return;
+
+  property.catalog.forEach(product => {
+    product.stock = (product.stock || 0) + quantity;
+  });
+
+  property.markModified('catalog');
+  await property.save();
+};
