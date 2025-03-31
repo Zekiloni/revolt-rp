@@ -2,41 +2,41 @@ export const vehicleRentConfig = {
   expireAnnounceMinutes: 5,
   availableVehicles: [
     // compact
-    RageEnums.Hashes.Vehicle.RHAPSODY,
-    RageEnums.Hashes.Vehicle.DILETTANTE,
+    'rhapsody',
+    'dilettante',
 
     // bike
-    RageEnums.Hashes.Vehicle.CRUISER,
-    RageEnums.Hashes.Vehicle.FIXTER,
-    RageEnums.Hashes.Vehicle.SCORCHER,
+    'cruiser',
+    'fixter',
+    'scorcher',
 
     // motorcycle
-    RageEnums.Hashes.Vehicle.FAGGIO,
-    RageEnums.Hashes.Vehicle.SANCHEZ,
-    RageEnums.Hashes.Vehicle.VADER,
+    'faggio',
+    'sanchez',
+    'vader',
 
     // off-road
-    RageEnums.Hashes.Vehicle.BLAZER,
-    RageEnums.Hashes.Vehicle.BODHI2,
-    RageEnums.Hashes.Vehicle.DLOADER,
-    RageEnums.Hashes.Vehicle.HELLION,
-    RageEnums.Hashes.Vehicle.RANCHERXL,
-    RageEnums.Hashes.Vehicle.REBEL2,
+    'blazer',
+    'bodhi2',
+    'dloader',
+    'hellion',
+    'rancherxl',
+    'rebel2',
 
     // suv
-    RageEnums.Hashes.Vehicle.BALLER,
-    RageEnums.Hashes.Vehicle.CAVALCADE,
-    RageEnums.Hashes.Vehicle.RADI,
+    'baller',
+    'cavalcade',
+    'radi',
 
     // sedan
-    RageEnums.Hashes.Vehicle.ASEA,
-    RageEnums.Hashes.Vehicle.ASTEROPE,
-    RageEnums.Hashes.Vehicle.PRIMO,
-    RageEnums.Hashes.Vehicle.REGINA,
+    'asea',
+    'asterope',
+    'primo',
+    'regina',
 
     // van
-    RageEnums.Hashes.Vehicle.BISON,
-    RageEnums.Hashes.Vehicle.SPEEDO,
-    RageEnums.Hashes.Vehicle.SURFER,
+    'bison',
+    'speedo',
+    'surfer'
   ]
 };

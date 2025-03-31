@@ -25,6 +25,8 @@ export class AddProductComponent {
 
   form!: FormGroup;
 
+  filteredItems: string[] = [];
+
   constructor(private formBuilder: FormBuilder) {
     this.buildForm();
   }
@@ -38,7 +40,7 @@ export class AddProductComponent {
 
   filterItems(event: AutoCompleteCompleteEvent) {
     const query = event.query;
-    this.availableItems = this.availableItems.filter(item => item.toLowerCase().includes(query.toLowerCase()));
+    this.filteredItems = this.availableItems.filter(item => item.toLowerCase().includes(query.toLowerCase()));
   }
 
   submit() {

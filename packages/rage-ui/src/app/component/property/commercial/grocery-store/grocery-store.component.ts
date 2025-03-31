@@ -2,15 +2,16 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import {
   GameUiKey,
-  IShopping,
+  ICartItem,
   IPayment,
   IProduct,
   IProperty,
-  ICartItem,
+  IShopping,
+  ItemType,
   PaymentType,
   ProcedureKey
 } from '@revolt-rp/common';
@@ -25,7 +26,7 @@ import { BadgeModule } from 'primeng/badge';
 @Component({
   selector: 'app-grocery-store',
   standalone: true,
-  imports: [CommonModule, ProgressSpinnerModule, Ripple, Button, NgOptimizedImage, StaticAssetPipe, TranslatePipe, PaginatorModule, SelectPaymentMethodComponent, BadgeModule],
+  imports: [CommonModule, ProgressSpinnerModule, Ripple, Button, NgOptimizedImage, StaticAssetPipe, TranslatePipe, PaginatorModule, SelectPaymentMethodComponent, BadgeModule, ButtonDirective],
   templateUrl: './grocery-store.component.html',
   styleUrl: './grocery-store.component.css'
 })
@@ -45,10 +46,12 @@ export class GroceryStoreComponent implements OnInit, OnDestroy {
 
   private setProperty = (property: IProperty) => {
     this.property = property;
-  }
+  };
 
   isOutOfStock(product: IProduct) {
-    return product.stock <= 0;
+    const cartItem = this.shoppingCart.find(item => item.product.name === product.name);
+    const cartQuantity = cartItem ? cartItem.quantity : 0;
+    return product.stock <= cartQuantity;
   }
 
   getRealPrice(product: IProduct) {
@@ -63,15 +66,13 @@ export class GroceryStoreComponent implements OnInit, OnDestroy {
     return this.shoppingCart.reduce((total, item) => total + this.getRealPrice(item.product) * item.quantity, 0);
   }
 
-  buy(product: IProduct) {
-    this.shoppingCart.push({
-      product: product,
-      quantity: 1
-    });
-  }
-
   addToCart(product: IProduct) {
+    if (this.isOutOfStock(product)) {
+      return;
+    }
+
     const shoppingCartItem = this.shoppingCart.find(item => item.product.name === product.name);
+
     if (shoppingCartItem) {
       shoppingCartItem.quantity++;
     } else {
@@ -88,7 +89,7 @@ export class GroceryStoreComponent implements OnInit, OnDestroy {
 
   checkout() {
     const request: IShopping<string> = {
-      propertyId: this.property.id,
+      propertyId: this.property.id!,
       shoppingCart: this.shoppingCart.map(item => ({ ...item, product: item.product.name })),
       payment: this.paymentMethod
     };
