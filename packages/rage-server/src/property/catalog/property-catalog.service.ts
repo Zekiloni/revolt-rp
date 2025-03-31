@@ -31,7 +31,7 @@ export const addProductToCatalog = async (property: Property, productAdd: IProdu
 };
 
 export const removeProductFromCatalog = async (property: Property, product: IProduct) => {
-  property.catalog = property.catalog.filter(p => p.name !== product.name);
+  property.catalog = property.catalog.filter(p => p.id !== product.id);
   await property.save();
 };
 

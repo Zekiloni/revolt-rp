@@ -603,4 +603,6 @@ export const srRs = {
   'vehicle_rent_returned': 'Vratili ste iznajmljeno vozilo.',
   'shopping_cart_is_empty': 'Korpa je prazna.',
   'add_product': 'Dodaj proizvod',
+  'stock': 'Zaliha',
+  'discount': 'Popust',
 };

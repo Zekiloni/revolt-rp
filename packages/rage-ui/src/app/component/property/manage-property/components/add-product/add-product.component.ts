@@ -7,12 +7,13 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
-  imports: [CommonModule, Button, TranslatePipe, InputTextModule, ReactiveFormsModule, InputNumberModule, AutoCompleteModule],
+  imports: [CommonModule, Button, TranslatePipe, InputTextModule, ReactiveFormsModule, InputNumberModule, AutoCompleteModule, DropdownModule],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })
@@ -41,6 +42,9 @@ export class AddProductComponent {
   }
 
   submit() {
+    if (this.form.invalid)
+      return;
+
     const product = this.form.value;
     this.submitAddProduct.emit(product);
   }

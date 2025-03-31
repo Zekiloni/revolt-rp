@@ -598,4 +598,6 @@ export const enUs = {
   'vehicle_rent_returned': 'Rented vehicle has been returned.',
   'shopping_cart_is_empty': 'Shopping cart is empty.',
   'add_product': 'Add Product',
+  'stock': 'Stock',
+  'discount': 'Discount',
 };

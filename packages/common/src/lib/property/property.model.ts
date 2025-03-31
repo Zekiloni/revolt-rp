@@ -34,6 +34,11 @@ export interface IProductAdd {
   price: number;
 }
 
+export interface IProductRemove {
+  propertyId: string;
+  product: IProduct;
+}
+
 export interface IEntrance {
   fromPosition: Vector3;
   dimension: number;
