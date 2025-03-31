@@ -1,17 +1,22 @@
 <p-table [value]="property.catalog"
          [scrollable]="true"
          editMode="row"
-         dataKey="id"
+         dataKey="name"
          [rowHover]="true"
          scrollHeight="325px"
          styleClass="p-datatable-gridlines">
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
-      <span>{{ 'interaction_points' | translate }}</span>
-      <button pButton type="button" size="small" label="{{ 'add_current_position' | translate}}" icon="pi pi-plus"
-              (click)="create()"></button>
+      <span>{{ 'catalog' | translate }}</span>
+      <button pButton type="button" size="small" label="{{ 'add_product' | translate}}" icon="pi pi-plus"
+              (click)="isCreateDialogVisible = true"></button>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
   </ng-template>
 </p-table>
+
+<p-dialog header="{{ 'add_product' | translate }}" [modal]="true" [(visible)]="isCreateDialogVisible" appendTo="body">
+  <app-add-product [availableItems]="availableItems" (cancelAddProduct)="isCreateDialogVisible = false"
+                   (submitAddProduct)="addProduct($event)"></app-add-product>
+</p-dialog>
