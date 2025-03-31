@@ -1,13 +1,15 @@
 import { Property } from '../property.model';
 import { CommercialType, IProduct, IProductAdd, ItemType } from '@revolt-rp/common';
-import { itemRegistry } from '../../item/registry/base-item.model';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
 import { Product } from './product.model';
+import { filterItemsByType } from '../../item/registry/util/item-registry.util';
 
 
 const catalogItems = {
-  [CommercialType.GroceryStore]: [...itemRegistry.values()]
-    .filter(item => item.type.includes(ItemType.PRODUCT_GROCERY))
+  [CommercialType.GroceryStore]: filterItemsByType(ItemType.PRODUCT_GROCERY)
+    .map(item => item.name),
+
+  [CommercialType.ClothingStore]: filterItemsByType(ItemType.PRODUCT_CLOTHING_STORE)
     .map(item => item.name),
 
   [CommercialType.VehicleRent]: vehicleRentConfig.availableVehicles
