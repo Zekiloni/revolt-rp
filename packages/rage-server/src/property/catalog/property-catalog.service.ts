@@ -1,8 +1,8 @@
 import { Property } from '../property.model';
 import { CommercialType, IProduct, IProductAdd, ItemType } from '@revolt-rp/common';
+import { filterItemsByType } from '../../item/registry/util/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
 import { Product } from './product.model';
-import { filterItemsByType } from '../../item/registry/util/item-registry.util';
 
 
 const catalogItems = {
