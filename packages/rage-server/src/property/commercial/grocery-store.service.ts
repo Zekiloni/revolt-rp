@@ -16,13 +16,17 @@ export const openGroceryStoreMenu = (player: PlayerMp, property: Property) => {
 };
 
 
-export const calculateTotalPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {
+export const calculateTotalCartPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {
   return cartItems.reduce(
-    (total, item) => total + item.quantity * catalog.find(product => product.name === item.product).price, 0);
+    (total, item) => {
+      const product = catalog.find(product => product.name === item.product);
+      const discount = product.discount !== undefined ? product.discount : 0;
+      return total + (item.quantity * product.price * (1 - discount));
+    }, 0);
 };
 
 export const buyGroceries = async (player: PlayerMp, property: Property, cartItems: ICartItem<string>[], payment: IPayment) => {
-  const total = calculateTotalPrice(cartItems, property.catalog);
+  const total = calculateTotalCartPrice(cartItems, property.catalog);
 
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
     try {

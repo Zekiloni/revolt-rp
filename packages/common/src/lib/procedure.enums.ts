@@ -178,4 +178,5 @@ export const enum ProcedureKey {
   SERVER_GROCERY_STORE_BUY = 'server_groceryStoreBuy',
 
   SERVER_GET_CATALOG_AVAILABLE_ITEMS = 'server_getCatalogAvailableItems',
+  SERVER_CATALOG_ADD_PRODUCT = 'server_catalogAddProduct',
 }

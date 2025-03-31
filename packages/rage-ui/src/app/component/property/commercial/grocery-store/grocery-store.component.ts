@@ -32,19 +32,7 @@ import { BadgeModule } from 'primeng/badge';
 export class GroceryStoreComponent implements OnInit, OnDestroy {
   protected readonly getItemIcon = getItemIcon;
 
-  property: Partial<IProperty> = {
-    name: 'Grocery Store',
-    catalog: [
-      { name: 'Flow 0.3l', price: 3, stock: 10, info: { name: 'Flow 0.3l', model: 'prop_ld_flow_bottle' } },
-      {
-        name: 'Pißwasser 0.35l',
-        price: 5,
-        stock: 5,
-        discount: 0.2,
-        info: { name: 'Pißwasser 0.35l', model: 'prop_amb_beer_bottle' }
-      }
-    ]
-  };
+  property!: IProperty;
 
   checkoutActive = false;
   shoppingCart: ICartItem<IProduct>[] = [];
@@ -55,7 +43,7 @@ export class GroceryStoreComponent implements OnInit, OnDestroy {
   constructor(private rageClientService: RageClientService) {
   }
 
-  private setProperty(property: IProperty) {
+  private setProperty = (property: IProperty) => {
     this.property = property;
   }
 
@@ -100,7 +88,7 @@ export class GroceryStoreComponent implements OnInit, OnDestroy {
 
   checkout() {
     const request: IShopping<string> = {
-      propertyId: this.property.id!,
+      propertyId: this.property.id,
       shoppingCart: this.shoppingCart.map(item => ({ ...item, product: item.product.name })),
       payment: this.paymentMethod
     };

@@ -1,0 +1,29 @@
+import { IProduct } from '@revolt-rp/common';
+import { getBaseItem, isValidItem } from '../../item/registry/util/item-registry.util';
+import { modelOptions, prop } from '@typegoose/typegoose';
+import { Types } from 'mongoose';
+
+
+@modelOptions({
+  schemaOptions: { toObject: { getters: true }, toJSON: { getters: true } }
+})
+export class Product implements IProduct {
+  declare _id: Types.ObjectId;
+  declare id: string;
+
+  @prop({ required: true })
+  name: string;
+
+  @prop({ required: true })
+  price: number;
+
+  @prop({ required: false, default: 0 })
+  stock: number;
+
+  @prop({ required: false })
+  discount?: number;
+
+  get info() {
+    return isValidItem(this.name) ? getBaseItem(this.name) : null;
+  }
+}

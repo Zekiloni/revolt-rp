@@ -20,11 +20,18 @@ export interface IWorker {
 }
 
 export interface IProduct {
+  id: string;
   name: string;
   stock: number;
   price: number;
-  info?: Partial<IBaseItem>;
+  info: IBaseItem | null;
   discount?: number;
+}
+
+export interface IProductAdd {
+  propertyId: string;
+  name: string;
+  price: number;
 }
 
 export interface IEntrance {

@@ -3,7 +3,6 @@ import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose'
 import {
   CommercialType, IDoor,
   IEntrance,
-  IProduct,
   IProperty,
   IPropertyOwner,
   IPropertyPoint, IWorker, PropertyPointType, PropertySharedDataType,
@@ -12,6 +11,7 @@ import {
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
 import { Vehicle } from '../vehicle/vehicle.model';
+import { Product } from './catalog/product.model';
 
 
 export class PropertyOwner implements IPropertyOwner {
@@ -99,8 +99,8 @@ export class Property extends Document implements IProperty {
   @prop({ ref: () => Vehicle, default: [] })
   vehicles: Ref<Vehicle>[];
 
-  @prop({ type: [Object], default: [] })
-  catalog: IProduct[];
+  @prop({ type: [Product], default: [] })
+  catalog: Product[];
 
   workers: IWorker[];
 
