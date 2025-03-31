@@ -607,4 +607,9 @@ export const srRs = {
   'discount': 'Popust',
   'checkout': 'Naplata',
   'shopping_cart': 'Korpa',
+  'property_stock_filled': 'Zaliha biznisa je popunjena.',
+  'refill_stock_command_description': 'Dopunite zalihe biznisa.',
+  'product_not_found': 'Proizvod {{product}} nije pronađen.',
+  'product_out_of_stock': 'Proizvod {{product}} nema na stanju.',
+  'product_bought': 'Kupili ste {{quantity}}x {{product}}.',
 };

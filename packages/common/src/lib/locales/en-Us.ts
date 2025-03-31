@@ -602,4 +602,9 @@ export const enUs = {
   'discount': 'Discount',
   'checkout': 'Checkout',
   'shopping_cart': 'Shopping Cart',
+  'property_stock_filled': 'Property stock has been filled.',
+  'refill_stock_command_description': 'Refill property stock.',
+  'product_not_found': 'Product {{product}} not found.',
+  'product_out_of_stock': '{{product}} is out of stock.',
+  'product_bought': '{{quantity}}x {{product}} bought.',
 };

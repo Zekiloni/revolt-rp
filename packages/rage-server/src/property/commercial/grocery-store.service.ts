@@ -48,14 +48,13 @@ export const buyGroceries = async (player: PlayerMp, property: Property, cartIte
     const product = property.catalog.find(product => product.name === item.product);
 
     if (!product) {
-      player.notify('This product is not available');
+      notifyPlayer(player, { severity: 'error', detail: t('product_not_found', { product: t(product.name) }) });
       continue;
     }
 
     const baseItem = getBaseItem(product.name);
 
     if (!baseItem) {
-      player.notify('This product is not available');
       continue;
     }
 
@@ -68,12 +67,12 @@ export const buyGroceries = async (player: PlayerMp, property: Property, cartIte
     }
 
     if (product.stock < item.quantity) {
-      player.notify('This product is out of stock');
+      notifyPlayer(player, { severity: 'error', detail: t('product_out_of_stock', { product: t(product.name) }) });
       continue;
     }
 
     product.stock = product.stock - item.quantity;
-    player.notify(`You bought ${item.quantity}x ${item.product}`);
+    notifyPlayer(player, { severity: 'info', detail: t('product_bought', { quantity: item.quantity, product: t(product.name) }) });
   }
 
   property.markModified('catalog');
