@@ -26,4 +26,5 @@ export enum GameUiKey {
   VehicleMenu = 'vehicleMenu',
   RentCatalog = 'rentCatalog',
   GroceryStore = 'groceryStore',
+  ClothingStore = 'clothingStore',
 }
