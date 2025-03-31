@@ -6,6 +6,7 @@
       formControlName="name"
       inputId="name"
       id="name"
+      [emptyMessage]="'no_results' | translate"
       [suggestions]="availableItems"
       (completeMethod)="filterItems($event)">
       <ng-template let-item pTemplate="selectedItem">
@@ -24,6 +25,6 @@
   </div>
   <div class="flex justify-content-end gap-2">
     <p-button label="Cancel" severity="secondary" (onClick)="cancelAddProduct.emit()" />
-    <p-button type="submit" label="Save" />
+    <p-button type="submit" label="Save" [disabled]="form.invalid" />
   </div>
 </form>

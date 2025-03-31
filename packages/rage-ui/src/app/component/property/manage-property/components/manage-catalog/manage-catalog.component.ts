@@ -5,7 +5,7 @@ import { Button, ButtonDirective } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
-import { IProduct, IProductAdd, IProperty, ProcedureKey } from '@revolt-rp/common';
+import { IProduct, IProductAdd, IProductRemove, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { AddProductComponent } from '../add-product';
 
@@ -36,10 +36,24 @@ export class ManageCatalogComponent implements OnInit {
       .subscribe({ next: (items) => this.allAvailableItems = items });
   }
 
+  private handleProductAdded = (product: IProduct) => {
+    this.isCreateDialogVisible = false;
+    return this.property.catalog.push(product);
+  };
+
   addProduct(productAdd: IProductAdd) {
     productAdd.propertyId = this.property.id;
     this.rageClientService.callServer<IProduct>(ProcedureKey.SERVER_CATALOG_ADD_PRODUCT, productAdd)
-      .subscribe({ next: (product) => this.property.catalog.push(product) });
+      .subscribe({ next: this.handleProductAdded });
+  }
+
+  deleteProduct(product: IProduct) {
+    const deleteProduct: IProductRemove = {
+      propertyId: this.property.id,
+      product
+    };
+
+    this.rageClientService.callServer<void>(ProcedureKey.SERVER_CATALOG_REMOVE_PRODUCT, deleteProduct);
   }
 
   ngOnInit() {
