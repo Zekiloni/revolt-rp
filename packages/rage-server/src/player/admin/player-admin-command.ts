@@ -15,7 +15,7 @@ import {
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { createTemporaryVehicle, setVehicleOwner, toggleVehicleEditMenu } from '../../vehicle/vehicle.service';
-import { isValidItem } from '../../item/registry/util/item-registry.util';
+import { getAllBaseItemModels, isValidItem } from '../../item/registry/util/item-registry.util';
 import { findPlayer, freezePlayer, showPlayerGameInterface, teleportPlayerToPlayer } from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
@@ -662,7 +662,7 @@ registerCommand({
     await fillPropertyStock(property, parseInt(quantity));
     notifyPlayer(player, { severity: 'info', detail: t('property_stock_filled') });
   }
-})
+});
 
 
 registerCommand({
@@ -723,5 +723,23 @@ registerCommand({
   handle(player: PlayerMp, ...args) {
     const name = (Array.isArray(args) && args.length > 0) ? args.join(' ') : 'Unknown';
     savePlayerPosition(player, name);
+  }
+});
+
+
+registerCommand({
+  name: 'screenshot',
+  params: ['type (CLOTHING, PROP)'],
+  description: 'todo',
+  handle(player: PlayerMp, type: string) {
+
+    switch (type) {
+      case 'CLOTHING' || 'PROP':
+        triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_CLOTHING, type);
+        break;
+
+      case 'ITEM_OBJECTS':
+        triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_ITEM_OBJECTS, getAllBaseItemModels());
+    }
   }
 });

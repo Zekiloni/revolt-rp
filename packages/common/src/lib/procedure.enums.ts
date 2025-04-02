@@ -180,4 +180,10 @@ export const enum ProcedureKey {
   SERVER_GET_CATALOG_AVAILABLE_ITEMS = 'server_getCatalogAvailableItems',
   SERVER_CATALOG_ADD_PRODUCT = 'server_catalogAddProduct',
   SERVER_CATALOG_REMOVE_PRODUCT = 'server_catalogRemoveProduct',
+
+  CLIENT_TOGGLE_CLOTHING_STORE = 'client_toggleClothingStore',
+  CLIENT_CLOTHING_PREVIEW = 'client_clothingPreview',
+
+  CLIENT_SCREENSHOT_CLOTHING = 'client_screenshotClothing',
+  CLIENT_SCREENSHOT_ITEM_OBJECTS = 'client_screenshotItemObjects',
 }

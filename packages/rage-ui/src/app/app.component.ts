@@ -48,6 +48,7 @@ import { RentCatalogComponent } from './component/property/commercial/rent-catal
 import { ManageVehicleComponent } from './component/vehicle/manage-vehicle';
 import { VehicleMenuComponent } from './component/vehicle/vehicle-menu';
 import { GroceryStoreComponent } from './component/property/commercial/grocery-store';
+import { ClothingStoreComponent } from './component/property/commercial/clothing-store';
 
 
 @Component({
@@ -83,7 +84,8 @@ import { GroceryStoreComponent } from './component/property/commercial/grocery-s
     RentCatalogComponent,
     ManageVehicleComponent,
     VehicleMenuComponent,
-    GroceryStoreComponent
+    GroceryStoreComponent,
+    ClothingStoreComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

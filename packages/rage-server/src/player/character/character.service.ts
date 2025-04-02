@@ -140,6 +140,7 @@ async function createPlayerOutfit(player: PlayerMp, selectedOutfit: number) {
         await playerGiveItem(player, wearableItem.name, 1, {
           equipped: true,
           wearableInfo: {
+            model: player.model === RageEnums.Hashes.Ped.MP_M_FREEMODE_01 ? 'mp_m_freemode_01' : 'mp_f_freemode_01',
             drawable: clothing.drawable,
             texture: clothing.texture,
             palette: clothing.palette
