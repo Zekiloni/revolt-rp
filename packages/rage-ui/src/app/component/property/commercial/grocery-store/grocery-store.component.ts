@@ -11,7 +11,6 @@ import {
   IProduct,
   IProperty,
   IShopping,
-  ItemType,
   PaymentType,
   ProcedureKey
 } from '@revolt-rp/common';
