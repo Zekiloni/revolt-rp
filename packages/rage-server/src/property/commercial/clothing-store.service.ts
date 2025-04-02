@@ -1,9 +1,8 @@
-import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
-import { showPlayerGameInterface } from '../../player/util/player.util';
+import { triggerClient } from '@libertymp/rage-rpc';
+import { ProcedureKey } from '@revolt-rp/common';
 import { Property } from '../property.model';
-import { triggerBrowsers } from '@libertymp/rage-rpc';
 
 
 export const openClothingStore = async (player: PlayerMp, property: Property) => {
-  showPlayerGameInterface(player, GameUiKey.ClothingStore, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
-}
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CLOTHING_STORE, property);
+};

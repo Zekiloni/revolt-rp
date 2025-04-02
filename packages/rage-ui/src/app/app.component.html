@@ -103,6 +103,10 @@
     <app-grocery-store @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.ClothingStore) | async; as isActive) {
+    <app-clothing-store [isActive]="isActive" />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

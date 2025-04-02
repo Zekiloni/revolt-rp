@@ -1,8 +1,11 @@
-import { IWearableInfo } from '../../../item/wearable-info.model';
 import { CharacterGender } from '../../character/character.enums';
 
-export interface IDefaultOutfit extends IWearableInfo {
+
+export interface IDefaultOutfit  {
   componentId: number;
+  drawable: number;
+  texture: number;
+  palette: number;
 }
 
 export const defaultOutfits: Record<CharacterGender, IDefaultOutfit[][]> = {

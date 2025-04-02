@@ -38,7 +38,7 @@ mkdir -p "$DEV_SERVER/client_packages"
 
 # Copy files from ./dist (root)
 echo "📂 Copying files from ./dist to $DEV_SERVER..."
-cp -r "./game_resources" "$DEV_SERVER/client_packages/game_resources"
+cp -r "./game_resources" "$DEV_SERVER/client_packages"
 cp "./server-config.json" "$DEV_SERVER/conf.json"
 cp "./dist/packages/rage-server/package.json" "$DEV_SERVER/package.json"
 cp "./dist/packages/rage-server/main.js" "$DEV_SERVER/packages/core/index.js"
