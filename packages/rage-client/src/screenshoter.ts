@@ -14,7 +14,7 @@ let object: ObjectMp | null = null;
 let isTakingScreenshot = false;
 const modelScreenshots: Set<string>= new Set();
 
-async function processComponent(pedType, type, componentId) {
+async function processComponent(pedType: 'mp_f_freemode_01' | 'mp_m_freemode_01', type: 'CLOTHING' | 'PROP', componentId: number) {
   await resetPedComponents();
   const drawableVariations = mp.players.local.getNumberOfDrawableVariations(componentId);
 
@@ -38,7 +38,7 @@ async function processComponent(pedType, type, componentId) {
   }
 }
 
-async function processAllComponents(pedType, type) {
+async function processAllComponents(pedType: 'mp_f_freemode_01' | 'mp_m_freemode_01', type: 'CLOTHING' | 'PROP') {
   for (const component of Object.keys(greenScreenConfig.cameraSettings[type])) {
     await processComponent(pedType, type, Number(component));
   }
