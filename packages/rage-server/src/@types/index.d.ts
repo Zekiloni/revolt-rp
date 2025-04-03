@@ -17,17 +17,22 @@ declare global {
 
   interface DummyMp {
     getVariable<T = any>(name: string): T | null;
+
     getOwnVariable<T = any>(name: string): T | null;
+
     setVariable(name: string, value: any): void;
+
     setVariables(values: KeyValueCollection): void;
   }
 
   interface ColshapeMp {
     onPlayerEnter(player: PlayerMp): void;
+
     onPlayerExit(player: PlayerMp): void;
   }
 
   declare namespace RageEnums {
+
     export const enum HeadOverlays {
       Blemishes = 0,
       FacialHair = 1,
@@ -44,13 +49,28 @@ declare global {
       AddBodyBlemishes = 12
     }
 
+    export const enum ClothesComponent {
+      HEAD = 0,
+      MASK = 1,
+      HAIR = 2,
+      TORSO = 3,
+      LEGS = 4,
+      BAGS = 5,
+      SHOES = 6,
+      ACCESSORIES_1 = 7,
+      ACCESSORIES_2 = 8,
+      BODY_ARMORS = 9,
+      DECALS = 10,
+      AUXILIARY = 11
+    }
+
     export const enum Weather {
       NEUTRAL = 'NEUTRAL',
       SNOW = 'SNOW',
     }
   }
 
-  declare declare type EmbedField = {
+  declare type EmbedField = {
     name: string;
     value: string;
     inline?: boolean;
@@ -78,4 +98,8 @@ declare global {
   };
 
   declare type ServerProcedureListenerInfo = ProcedureListenerInfo<PlayerMp>;
+}
+
+declare module "@ragempcommunity/types-server" {
+
 }

@@ -186,4 +186,7 @@ export const enum ProcedureKey {
 
   CLIENT_SCREENSHOT_CLOTHING = 'client_screenshotClothing',
   CLIENT_SCREENSHOT_ITEM_OBJECTS = 'client_screenshotItemObjects',
+  CLIENT_GET_DRAWABLE_VARIATIONS = 'client_getComponentDrawableVariations',
+  CLIENT_GET_PLAYER_MODEL = 'client_getPlayerModel',
+  CLIENT_GET_TEXTURE_VARIATIONS = 'client_getComponentTextureVariations',
 }

@@ -6,7 +6,7 @@ export class ArmourItem extends WearableItem {
   armourAmount: number;
 
   constructor(name: string, description: string, model: string, armorAmount: number, weight: number) {
-    super(name, description, RageEnums.ClothesComponent.ACCESSORIES_2, model, [ItemType.EQUIPABLE, ItemType.CLOTHING, ItemType.ARMOUR], weight);
+    super(name, description, RageEnums.ClothesComponent.BODY_ARMORS, model, [ItemType.EQUIPABLE, ItemType.CLOTHING, ItemType.ARMOUR], weight);
     this.armourAmount = armorAmount;
   }
 

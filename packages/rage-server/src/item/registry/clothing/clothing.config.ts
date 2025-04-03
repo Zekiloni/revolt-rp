@@ -17,7 +17,7 @@ export const NO_CLOTHING = {
       texture: 0,
       palette: 2
     },
-    [RageEnums.ClothesComponent.FOOT]: {
+    [RageEnums.ClothesComponent.SHOES]: {
       drawable: 34,
       texture: 0,
       palette: 2
@@ -60,7 +60,7 @@ export const NO_CLOTHING = {
       texture: 0,
       palette: 2
     },
-    [RageEnums.ClothesComponent.FOOT]: {
+    [RageEnums.ClothesComponent.SHOES]: {
       drawable: 35,
       texture: 0,
       palette: 2
