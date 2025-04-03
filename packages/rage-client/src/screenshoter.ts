@@ -14,6 +14,36 @@ let object: ObjectMp | null = null;
 let isTakingScreenshot = false;
 const modelScreenshots: Set<string>= new Set();
 
+async function processComponent(pedType, type, componentId) {
+  await resetPedComponents();
+  const drawableVariations = mp.players.local.getNumberOfDrawableVariations(componentId);
+
+  for (let drawable = 0; drawable < drawableVariations; drawable++) {
+    const textureVariations = mp.players.local.getNumberOfTextureVariations(componentId, drawable);
+    const tasks = [];
+
+    if (textureVariations === 0) {
+      tasks.push(loadComponentVariation(componentId, drawable, 0).then(() =>
+        takeClothingComponentScreenshot(pedType, type, componentId, drawable, 0)
+      ));
+    } else {
+      for (let texture = 0; texture < textureVariations; texture++) {
+        tasks.push(loadComponentVariation(componentId, drawable, texture).then(() =>
+          takeClothingComponentScreenshot(pedType, type, componentId, drawable, texture)
+        ));
+      }
+    }
+
+    await Promise.all(tasks);
+  }
+}
+
+async function processAllComponents(pedType, type) {
+  for (const component of Object.keys(greenScreenConfig.cameraSettings[type])) {
+    await processComponent(pedType, type, Number(component));
+  }
+}
+
 async function screenShotClothingHandler(data : ['CLOTHING' | 'PROP', number | undefined]) {
   const [type, componentId] = data;
 
@@ -39,38 +69,10 @@ async function screenShotClothingHandler(data : ['CLOTHING' | 'PROP', number | u
   await mp.game.waitAsync(50);
   mp.game.player.setControl(true, 0);
 
-  if (componentId == undefined) {
-    for (const component of Object.keys(greenScreenConfig.cameraSettings[type])) {
-      await resetPedComponents();
-      const drawableVariations = mp.players.local.getNumberOfDrawableVariations(parseInt(component));
-      for (let drawable = 0; drawable < drawableVariations; drawable++) {
-        const textureVariations = mp.players.local.getNumberOfTextureVariations(parseInt(component), drawable);
-        if (textureVariations === 0) {
-          await loadComponentVariation(parseInt(component), drawable, 0);
-          await takeClothingComponentScreenshot(pedType, type, parseInt(component), drawable, 0);
-        } else {
-          for (let texture = 0; texture < textureVariations; texture++) {
-            await loadComponentVariation(parseInt(component), drawable, texture);
-            await takeClothingComponentScreenshot(pedType, type, parseInt(component), drawable, 0);
-          }
-        }
-      }
-    }
+  if (componentId === undefined) {
+    await processAllComponents(pedType, type);
   } else {
-    await resetPedComponents();
-    const drawableVariations = mp.players.local.getNumberOfDrawableVariations(componentId);
-    for (let drawable = 0; drawable < drawableVariations; drawable++) {
-      const textureVariations = mp.players.local.getNumberOfTextureVariations(componentId, drawable);
-      if (textureVariations === 0) {
-        await loadComponentVariation(componentId, drawable, 0);
-        await takeClothingComponentScreenshot(pedType, type, componentId, drawable, 0);
-      } else {
-        for (let texture = 0; texture < textureVariations; texture++) {
-          await loadComponentVariation(componentId, drawable, texture);
-          await takeClothingComponentScreenshot(pedType, type, componentId, drawable, 0);
-        }
-      }
-    }
+    await processComponent(pedType, type, componentId);
   }
 
   clearInterval(interval);
