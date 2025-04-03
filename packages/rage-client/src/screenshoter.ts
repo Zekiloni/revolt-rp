@@ -1,5 +1,5 @@
-import { ProcedureKey } from '@revolt-rp/common';
 import { on } from '@libertymp/rage-rpc';
+import { ProcedureKey } from '@revolt-rp/common';
 import { greenScreenConfig } from './util/green-screen/green-screen.config';
 import {
   loadComponentVariation,
