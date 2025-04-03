@@ -62,6 +62,7 @@ export * from './lib/player/damage/player-damage.model';
 export * from './lib/player/damage/player-death.model';
 
 export * from './lib/item/registry/base-item.model';
+export * from './lib/item/registry/wearable-item.model';
 export * from './lib/item/registry/item-type';
 export * from './lib/item/item-shared-data-type';
 export * from './lib/item/item.model';

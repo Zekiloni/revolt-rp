@@ -7,7 +7,7 @@ const CLOTHES = [
   RageEnums.ClothesComponent.MASK,
   RageEnums.ClothesComponent.LEGS,
   RageEnums.ClothesComponent.HANDS,
-  RageEnums.ClothesComponent.FOOT,
+  RageEnums.ClothesComponent.SHOES,
   RageEnums.ClothesComponent.AUXILIARY,
   RageEnums.ClothesComponent.ACCESSORIES_1,
   RageEnums.ClothesComponent.DECALS,

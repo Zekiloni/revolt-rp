@@ -10,7 +10,7 @@ export const takeObjectScreenshot = async (object: ObjectMp, model: string) => {
     z: maximum.z - minimum.z
   }
 
-  const fov = Math.min(Math.max(modelSize.x, modelSize.z) / 0.15 * 10, 60);
+  let fov = Math.min(Math.max(modelSize.x, modelSize.z) / 0.15 * 10, 60);
   const coords = object.getCoords(false);
   const fwd = object.getForwardVector();
 
@@ -20,12 +20,15 @@ export const takeObjectScreenshot = async (object: ObjectMp, model: string) => {
     z: coords.z + (minimum.z + maximum.z) / 2,
   }
 
+  if (fov >= 30) {
+    fov = 30;
+  }
+
   const fwdPos = {
     x: center.x + fwd.x * 1.2 + Math.max(modelSize.x, modelSize.z) / 2,
     y: center.y + fwd.y * 1.2 + Math.max(modelSize.x, modelSize.z) / 2,
     z: center.z + fwd.z,
   };
-
 
   if (camera && mp.cameras.exists(camera)) {
     camera.setCoord(fwdPos.x, fwdPos.y, fwdPos.z);
@@ -40,8 +43,8 @@ export const takeObjectScreenshot = async (object: ObjectMp, model: string) => {
     mp.game.cam.renderScriptCams(true, false, 0, true, false, 0);
   }
 
-  await mp.game.waitAsync(50);
+  await mp.game.waitAsync(150);
 
   mp.gui.takeScreenshot(`${model}.png`, 1, 100, 0);
-  await mp.game.waitAsync(150);
+  await mp.game.waitAsync(250);
 };

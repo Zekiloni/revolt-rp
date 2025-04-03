@@ -732,7 +732,6 @@ registerCommand({
   params: ['type (CLOTHING, PROP)'],
   description: 'todo',
   handle(player: PlayerMp, type: string) {
-
     switch (type) {
       case 'CLOTHING' || 'PROP':
         triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_CLOTHING, type);

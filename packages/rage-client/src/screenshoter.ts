@@ -12,10 +12,9 @@ import { takeObjectScreenshot } from './util/green-screen/object-screenshot.util
 let interval: NodeJS.Timeout;
 let object: ObjectMp | null = null;
 let isTakingScreenshot = false;
-let modelScreenshots: Set<string>= new Set();
+const modelScreenshots: Set<string>= new Set();
 
 async function screenShotClothingHandler(type: 'CLOTHING' | 'PROP') {
-  mp.gui.chat.push(`Starting screenshot process ${type}`);
   if (isTakingScreenshot) {
     clearInterval(interval);
     mp.players.local.freezePosition(false);
