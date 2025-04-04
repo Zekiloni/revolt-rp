@@ -4,19 +4,24 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Button, ButtonDirective } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { IProduct, IProperty, IWearableItem, ProcedureKey } from '@revolt-rp/common';
+import { ICartItem, IProduct, IProperty, IWearableItem, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { getItemIcon } from '../../../../domain/util/item.util';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { ScrollerModule } from 'primeng/scroller';
 import { ImageModule } from 'primeng/image';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
+import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
 
+type ClothingProduct = (IProduct & { info: IWearableItem });
+
+type ClothingCartItem = ICartItem<IProduct> & { drawable: number, texture: number };
 
 interface IDrawableVariation {
   drawableId: number;
   textureId: number;
 }
+
 
 @Component({
   selector: 'app-clothing-store',
@@ -25,7 +30,7 @@ interface IDrawableVariation {
   templateUrl: './clothing-store.component.html',
   styleUrl: './clothing-store.component.css'
 })
-export class ClothingStoreComponent implements OnInit, OnDestroy {
+export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, OnDestroy {
   @Input() isActive!: boolean;
 
   title = '';
@@ -34,24 +39,27 @@ export class ClothingStoreComponent implements OnInit, OnDestroy {
   pedModel: 'mp_m_freemode_01' | 'mp_f_freemode_01' = 'mp_m_freemode_01';
   type = 'clothing';
 
-  selectedComponentId: number | null = null;
-  activePreviewClothing: Record<number, IDrawableVariation> = {};
-
   componentVariations: Record<number, IDrawableVariation[]> = {};
-
+  selectedCategory: ClothingProduct | null = null;
   pageIndex = 0;
   pageSize = 10;
   pageItems: IDrawableVariation[] = [];
+  activePreviewClothing: Record<number, IDrawableVariation> = {};
+
+  override shoppingCart: ClothingCartItem[] = [];
+  checkoutActive = false;
 
   constructor(private rageClientService: RageClientService) {
+    super();
   }
 
   get products() {
-    return this.property.catalog as (IProduct & { info: IWearableItem })[];
+    return this.property.catalog as ClothingProduct[];
   }
 
   private setProperty = (property: IProperty) => {
     this.property = property;
+    this.title = property.name || '';
   };
 
   private getComponentVariations(componentId: number) {
@@ -95,6 +103,22 @@ export class ClothingStoreComponent implements OnInit, OnDestroy {
     return this.rageClientService.callClient<number[]>(ProcedureKey.CLIENT_GET_TEXTURE_VARIATIONS, [componentId, drawableId]);
   }
 
+  addClothingToCart(product: IProduct, drawable: number, texture: number) {
+    this.shoppingCart.push({
+      product,
+      quantity: 1,
+      drawable,
+      texture
+    });
+  }
+
+  removeClothingFromCart(product: IProduct, drawable: number, texture: number) {
+    const index = this.shoppingCart.findIndex(item => item.product.id === product.id && item.drawable === drawable && item.texture === texture);
+    if (index !== -1) {
+      this.shoppingCart.splice(index, 1);
+    }
+  }
+
   getClothingImage(componentId: number, drawableId: number, textureId: number) {
     return getItemIcon(`${this.pedModel}_${this.type}_${componentId}_${drawableId}_${textureId}_${textureId}`);
   }
@@ -104,7 +128,7 @@ export class ClothingStoreComponent implements OnInit, OnDestroy {
   }
 
   selectCategory(product: IProduct & { info: IWearableItem }) {
-    this.selectedComponentId = product.info.componentId;
+    this.selectedCategory = product;
     this.getComponentVariations(product.info.componentId);
   }
 
@@ -118,14 +142,14 @@ export class ClothingStoreComponent implements OnInit, OnDestroy {
   }
 
   onPageChange(event: PaginatorState) {
-    if (!this.selectedComponentId) {
+    if (!this.selectedCategory) {
       return;
     }
 
     this.pageIndex = event.first || 0;
     this.pageSize = event.rows || 10;
 
-    this.pageItems = this.componentVariations[this.selectedComponentId].slice(this.pageIndex, this.pageIndex + this.pageSize);
+    this.pageItems = this.componentVariations[this.selectedCategory.info.componentId].slice(this.pageIndex, this.pageIndex + this.pageSize);
   }
 
   ngOnInit() {

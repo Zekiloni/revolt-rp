@@ -6,9 +6,7 @@ import { Button, ButtonDirective } from 'primeng/button';
 import { Ripple } from 'primeng/ripple';
 import {
   GameUiKey,
-  ICartItem,
   IPayment,
-  IProduct,
   IProperty,
   IShopping,
   PaymentType,
@@ -20,6 +18,7 @@ import { getItemIcon } from '../../../../domain/util/item.util';
 import { PaginatorModule } from 'primeng/paginator';
 import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
 import { BadgeModule } from 'primeng/badge';
+import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
 
 
 @Component({
@@ -29,62 +28,24 @@ import { BadgeModule } from 'primeng/badge';
   templateUrl: './grocery-store.component.html',
   styleUrl: './grocery-store.component.css'
 })
-export class GroceryStoreComponent implements OnInit, OnDestroy {
+export class GroceryStoreComponent extends ShoppingCartBase implements OnInit, OnDestroy {
   protected readonly getItemIcon = getItemIcon;
 
   property!: IProperty;
 
   checkoutActive = false;
-  shoppingCart: ICartItem<IProduct>[] = [];
   paymentMethod: IPayment = {
     type: PaymentType.Cash
   };
 
   constructor(private rageClientService: RageClientService) {
+    super();
   }
 
   private setProperty = (property: IProperty) => {
     this.property = property;
   };
 
-  isOutOfStock(product: IProduct) {
-    const cartItem = this.shoppingCart.find(item => item.product.name === product.name);
-    const cartQuantity = cartItem ? cartItem.quantity : 0;
-    return product.stock <= cartQuantity;
-  }
-
-  getRealPrice(product: IProduct) {
-    return product.price * (1 - (product.discount || 0));
-  }
-
-  getTotalItems() {
-    return this.shoppingCart.reduce((total, item) => total + item.quantity, 0);
-  }
-
-  getTotalPrice() {
-    return this.shoppingCart.reduce((total, item) => total + this.getRealPrice(item.product) * item.quantity, 0);
-  }
-
-  addToCart(product: IProduct) {
-    if (this.isOutOfStock(product)) {
-      return;
-    }
-
-    const shoppingCartItem = this.shoppingCart.find(item => item.product.name === product.name);
-
-    if (shoppingCartItem) {
-      shoppingCartItem.quantity++;
-    } else {
-      this.shoppingCart.push({
-        product: product,
-        quantity: 1
-      });
-    }
-  }
-
-  removeFromCart(product: IProduct) {
-    this.shoppingCart = this.shoppingCart.filter(item => item.product.name !== product.name);
-  }
 
   checkout() {
     const request: IShopping<string> = {
