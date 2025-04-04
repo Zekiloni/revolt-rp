@@ -12,7 +12,8 @@ import { takeObjectScreenshot } from './util/green-screen/object-screenshot.util
 let interval: NodeJS.Timeout;
 let object: ObjectMp | null = null;
 let isTakingScreenshot = false;
-const modelScreenshots: Set<string>= new Set();
+const modelScreenshots: Set<string> = new Set();
+
 
 async function processComponent(pedType: 'mp_f_freemode_01' | 'mp_m_freemode_01', type: 'CLOTHING' | 'PROP', componentId: number) {
   await resetPedComponents();
@@ -20,21 +21,22 @@ async function processComponent(pedType: 'mp_f_freemode_01' | 'mp_m_freemode_01'
 
   for (let drawable = 0; drawable < drawableVariations; drawable++) {
     const textureVariations = mp.players.local.getNumberOfTextureVariations(componentId, drawable);
-    const tasks = [];
 
     if (textureVariations === 0) {
-      tasks.push(loadComponentVariation(componentId, drawable, 0).then(() =>
-        takeClothingComponentScreenshot(pedType, type, componentId, drawable, 0)
-      ));
+      if (mp.players.local.isComponentVariationValid(componentId, drawable, 0)) {
+        await loadComponentVariation(componentId, drawable, 0);
+        await takeClothingComponentScreenshot(pedType, type, componentId, drawable, 0);
+      }
     } else {
       for (let texture = 0; texture < textureVariations; texture++) {
-        tasks.push(loadComponentVariation(componentId, drawable, texture).then(() =>
-          takeClothingComponentScreenshot(pedType, type, componentId, drawable, texture)
-        ));
+        if (!mp.players.local.isComponentVariationValid(componentId, drawable, texture)) {
+          continue;
+        }
+
+        await loadComponentVariation(componentId, drawable, texture);
+        await takeClothingComponentScreenshot(pedType, type, componentId, drawable, texture);
       }
     }
-
-    await Promise.all(tasks);
   }
 }
 
@@ -44,7 +46,7 @@ async function processAllComponents(pedType: 'mp_f_freemode_01' | 'mp_m_freemode
   }
 }
 
-async function screenShotClothingHandler(data : ['CLOTHING' | 'PROP', number | undefined]) {
+async function screenShotClothingHandler(data: ['CLOTHING' | 'PROP', number | undefined]) {
   const [type, componentId] = data;
 
   if (isTakingScreenshot) {
