@@ -5,65 +5,75 @@
   [(visible)]="isActive"
   (onHide)="close()"
   position="right"
-  [style]="{ width: '25rem' }">
-
-  {{ pedModel }}
+  [style]="{ width: '35rem' }">
   @if (property) {
     @for (product of products; let i = $index; track i) {
       <button pButton label="{{ product.name | translate }}"
+              [disabled]="isOutOfStock(product)"
               (click)="selectCategory(product)"></button>
     }
 
-    @if (selectedComponentId !== null) {
-      {{ componentVariations[selectedComponentId].length }}
+    <p-button (click)="checkoutActive = !checkoutActive" label="{{ 'shopping_cart' | translate }}"
+              icon="pi pi-shopping-cart"
+              [badge]="getTotalItems().toString()" />
 
-      <div class="grid">
-        @for (item of pageItems; let index = $index; track item) {
-          <div
-            class="col-12 md:col-4 flex align-items-center p-2"
-            [ngClass]="{ 'surface-ground' : index % 2 }">
-            <p-image
-              [src]="getClothingImage(selectedComponentId, item['drawableId'], item['textureId']) | staticAsset"
-              alt="Image"
-              loading="lazy"
-              (click)="previewClothing(selectedComponentId, item['drawableId'], item['textureId'])"
-              width="150" />
+    @if (checkoutActive) {
+      <pre>{{ shoppingCart | json }}</pre>
+    } @else {
+      @if (selectedCategory !== null && componentVariations[selectedCategory]) {
+        {{ componentVariations[selectedCategory].length }}
+        <div class="grid">
+          @for (item of pageItems; let index = $index; track item) {
+            <div
+              class="col-12 md:col-6 lg:col-4 xl:col-3 border-round border-bottom-1 surface-border md:border-bottom-none">
+              <img [src]="getClothingImage(selectedCategory.info.componentId, item['drawableId'], item['textureId']) | staticAsset"
+                   alt="Image"
+                   style="object-fit: contain"
+                   (click)="previewClothing(selectedCategory.info.componentId, item['drawableId'], item['textureId'])"
+                   width="175"
+                   height="100" />
 
-<!--            {{ selectedComponentId }} / {{ item['drawableId'] }} / {{ item['textureId'] }}-->
-          </div>
-        }
-      </div>
+              <button pButton
+                      label="{{ item['name'] | translate }}"
+                      [disabled]="isOutOfStock(selectedCategory)"
+                      (click)="addClothingToCart(selectedCategory, item['drawableId'], item['textureId'])"
+                      class="w-full mt-2">
 
+              </button>
+            </div>
+          }
+        </div>
 
-      <div class="flex-auto mt-3">
-        <p-paginator
-          (onPageChange)="onPageChange($event)"
-          [first]="pageIndex"
-          [rows]="pageSize"
-          dropdownAppendTo="body"
-          [totalRecords]="componentVariations[selectedComponentId].length"
-          [rowsPerPageOptions]="[10, 20, 30]" />
-      </div>
+        <div class="flex-auto mt-3">
+          <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [first]="pageIndex"
+            [rows]="pageSize"
+            dropdownAppendTo="body"
+            [totalRecords]="componentVariations[selectedCategory].length"
+            [rowsPerPageOptions]="[10, 20, 30]" />
+        </div>
+      }
     }
-  }
+    }
 
-  <!--        <span class="p-text-secondary block mb-5">-->
-  <!--            Update your information.-->
-  <!--        </span>-->
-  <!--  <div class="flex align-items-center gap-3 mb-3">-->
-  <!--    <label for="username" class="font-semibold w-6rem">-->
-  <!--      Username-->
-  <!--    </label>-->
-  <!--    <input pInputText id="username" class="flex-auto" autocomplete="off" />-->
-  <!--  </div>-->
-  <!--  <div class="flex align-items-center gap-3 mb-5">-->
-  <!--    <label for="email" class="font-semibold w-6rem">-->
-  <!--      Email-->
-  <!--    </label>-->
-  <!--    <input pInputText id="email" class="flex-auto" autocomplete="off" />-->
-  <!--  </div>-->
-  <!--  <div class="flex justify-content-end gap-2">-->
-  <!--    <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="close()" />-->
-  <!--    <p-button label="Save" (onClick)="isActive = false" />-->
-  <!--  </div>-->
-</p-dialog>
+    <!--        <span class="p-text-secondary block mb-5">-->
+      <!--            Update your information.-->
+      <!--        </span>-->
+      <!--  <div class="flex align-items-center gap-3 mb-3">-->
+      <!--    <label for="username" class="font-semibold w-6rem">-->
+      <!--      Username-->
+      <!--    </label>-->
+      <!--    <input pInputText id="username" class="flex-auto" autocomplete="off" />-->
+      <!--  </div>-->
+      <!--  <div class="flex align-items-center gap-3 mb-5">-->
+      <!--    <label for="email" class="font-semibold w-6rem">-->
+      <!--      Email-->
+      <!--    </label>-->
+      <!--    <input pInputText id="email" class="flex-auto" autocomplete="off" />-->
+      <!--  </div>-->
+      <!--  <div class="flex justify-content-end gap-2">-->
+      <!--    <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="close()" />-->
+      <!--    <p-button label="Save" (onClick)="isActive = false" />-->
+      <!--  </div>-->
+    </p-dialog>
