@@ -15,17 +15,35 @@
     }
 
     @if (selectedComponentId !== null) {
-      <span>selectedComponentId {{ selectedComponentId }}</span>
-      @for (variation of (componentVariations | keyvalue); track variation) {
-        @for (texture of variation.value; track texture) {
-          <span (click)="previewClothing(selectedComponentId, variation.key, texture)">{{ variation.key }} {{ texture }}</span>
-          <img [src]="getClothingImage(selectedComponentId, variation.key, texture)"
-               [alt]="selectedComponentId"
-               width="100"
-               height="100"
-               (click)="previewClothing(selectedComponentId, variation.key, texture)" />
+      {{ componentVariations[selectedComponentId].length }}
+
+      <div class="grid">
+        @for (item of pageItems; let index = $index; track item) {
+          <div
+            class="col-12 md:col-4 flex align-items-center p-2"
+            [ngClass]="{ 'surface-ground' : index % 2 }">
+            <p-image
+              [src]="getClothingImage(selectedComponentId, item['drawableId'], item['textureId']) | staticAsset"
+              alt="Image"
+              loading="lazy"
+              (click)="previewClothing(selectedComponentId, item['drawableId'], item['textureId'])"
+              width="150" />
+
+<!--            {{ selectedComponentId }} / {{ item['drawableId'] }} / {{ item['textureId'] }}-->
+          </div>
         }
-      }
+      </div>
+
+
+      <div class="flex-auto mt-3">
+        <p-paginator
+          (onPageChange)="onPageChange($event)"
+          [first]="pageIndex"
+          [rows]="pageSize"
+          dropdownAppendTo="body"
+          [totalRecords]="componentVariations[selectedComponentId].length"
+          [rowsPerPageOptions]="[10, 20, 30]" />
+      </div>
     }
   }
 

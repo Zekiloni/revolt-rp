@@ -39,7 +39,8 @@ export async function takeClothingComponentScreenshot(
 
   mp.players.local.setRotation(camInfo.rotation.x, camInfo.rotation.y, camInfo.rotation.z, 2, false);
 
-  const name = `${pedType}_${type.toLowerCase()}_${component}_${drawable}_${texture}_${texture}.png`;
+  const palette = 0;
+  const name = `${pedType}_${type.toLowerCase()}_${component}_${drawable}_${texture}_${palette}.png`;
 
   mp.gui.takeScreenshot(name, 1, 100, 0);
   await mp.game.waitAsync(350);

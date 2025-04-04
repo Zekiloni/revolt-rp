@@ -731,10 +731,10 @@ registerCommand({
   name: 'screenshot',
   params: ['type (CLOTHING, PROP)'],
   description: 'todo',
-  handle(player: PlayerMp, type: string) {
+  handle(player: PlayerMp, type: string, componentId?: string) {
     switch (type) {
       case 'CLOTHING' || 'PROP':
-        triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_CLOTHING, type);
+        triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_CLOTHING, [type, parseInt(componentId)]);
         break;
 
       case 'ITEM_OBJECTS':
