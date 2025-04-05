@@ -148,7 +148,7 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     }
 
     if (event.value)
-      this.getComponentVariations(event.value.info.componentId);
+      this.getComponentVariations(event.value.data.componentId);
   }
 
   previewClothing(selectedComponentId: number, drawable: number, texture: number) {

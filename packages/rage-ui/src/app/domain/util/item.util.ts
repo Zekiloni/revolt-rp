@@ -22,7 +22,7 @@ export const getItemIcon = (item: IItem | IProduct) => {
   if (isWearableItem(item)) {
     const wearableInfo = (<IItem>item).wearableInfo as IWearableInfo;
     const baseItem = item.data as IWearableItem;
-    return `${wearableInfo.model}_${baseItem.wearableType}_${baseItem.componentId}_${wearableInfo.drawable}_${wearableInfo.texture}_${wearableInfo.texture}`;
+    return `assets/images/items/${wearableInfo.model}_${baseItem.wearableType}_${baseItem.componentId}_${wearableInfo.drawable}_${wearableInfo.texture}_${wearableInfo.texture}.png`;
   }
 
   return `assets/images/items/${data.model}.png`;
