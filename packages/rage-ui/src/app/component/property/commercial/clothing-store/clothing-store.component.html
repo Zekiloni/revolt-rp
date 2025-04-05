@@ -1,6 +1,7 @@
 <p-dialog
   [header]="title"
   [modal]="false"
+  [draggable]="false"
   [maximizable]="true"
   [(visible)]="isActive"
   (onHide)="close()"
@@ -71,8 +72,9 @@
                    alt="Image"
                    style="object-fit: contain"
                    (click)="previewClothing(selectedCategory.info.componentId, item['drawableId'], item['textureId'])"
-                   width="175"
-                   height="100" />
+                   width="235"
+                   class="w-full"
+                   height="125" />
 
               <button pButton
                       icon="pi pi-shopping-cart"
