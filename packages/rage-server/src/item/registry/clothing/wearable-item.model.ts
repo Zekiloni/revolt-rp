@@ -5,6 +5,7 @@ import { getRemoveClothing, setPlayerBestTorso } from './clothing.util';
 
 export class WearableItem extends BaseItem {
   componentId: RageEnums.ClothesComponent;
+  wearableType = 'clothing';
 
   constructor(name: string, description: string, componentId: RageEnums.ClothesComponent, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.PRODUCT_CLOTHING_STORE, ItemType.EQUIPABLE, ItemType.CLOTHING, ...type], weight);

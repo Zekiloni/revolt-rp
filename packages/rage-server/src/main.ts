@@ -41,7 +41,8 @@ import './property/property.api';
 import './property/property-command';
 import './property/catalog/property-catalog.api';
 
-import './property/commercial/grocery-store.api'
+import './property/commercial/grocery-store.api';
+import './property/commercial/clothing-store.api';
 import './property/commercial/vehicle-rent.api';
 
 import './property/public-service/dmv.api';

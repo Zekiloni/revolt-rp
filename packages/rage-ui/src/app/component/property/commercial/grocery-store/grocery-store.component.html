@@ -6,7 +6,7 @@
         @for (item of shoppingCart; let index = $index; track index) {
           <div
             class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-            <img [ngSrc]="getItemIcon(item.product!.info!.icon || item.product!.info!.model!) | staticAsset"
+            <img [ngSrc]="getItemIcon(item.product!) | staticAsset"
                  alt="item icon"
                  width="75"
                  height="75"
@@ -50,7 +50,7 @@
               <div class="surface-ground border-round-2xl p-4 cursor-pointer cursor-pointer surface-border hover:surface-hover border-round-lg text-800 hover:text-primary"
                    (click)="addToCart(product)">
                 <div class="flex border-bottom-1 surface-border pb-4">
-                  <img [ngSrc]="getItemIcon(product.info!.icon || product.info!.model) | staticAsset" alt="item icon"
+                  <img [ngSrc]="getItemIcon(product) | staticAsset" alt="item icon"
                        width="70"
                        height="70"
                        class="mr-3">

@@ -21,7 +21,7 @@ import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
 import { openRentMenu } from './commercial/vehicle-rent.service';
 import { openGroceryStoreMenu } from './commercial/grocery-store.service';
-import { openClothingStore } from './commercial/clothing-store.service';
+import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 
 
 const propertyMenuHandlers = {
@@ -31,7 +31,7 @@ const propertyMenuHandlers = {
   },
   [PropertyType.Commercial]: {
     [CommercialType.GroceryStore]: openGroceryStoreMenu,
-    [CommercialType.ClothingStore]: openClothingStore,
+    [CommercialType.ClothingStore]: toggleClothingStoreMenu,
     [CommercialType.VehicleRent]: openRentMenu
   }
 };

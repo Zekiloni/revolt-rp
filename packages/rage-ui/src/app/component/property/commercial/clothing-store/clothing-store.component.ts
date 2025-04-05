@@ -4,9 +4,17 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Button, ButtonDirective } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ICartItem, IPayment, IProduct, IProperty, IWearableItem, PaymentType, ProcedureKey } from '@revolt-rp/common';
+import {
+  IClothingCartItem,
+  IClothingProduct,
+  IPayment,
+  IProperty,
+  PaymentType,
+  ProcedureKey,
+  IShopping, ICartItem
+} from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { getItemIcon } from '../../../../domain/util/item.util';
+import { getClothingIcon, getItemIcon } from '../../../../domain/util/item.util';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { ScrollerModule } from 'primeng/scroller';
 import { ImageModule } from 'primeng/image';
@@ -16,9 +24,7 @@ import { SelectPaymentMethodComponent } from '../../../misc/select-payment-metho
 import { Ripple } from 'primeng/ripple';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 
-type ClothingProduct = (IProduct & { info: IWearableItem });
 
-type ClothingCartItem = ICartItem<ClothingProduct> & { drawable: number, texture: number };
 
 interface IDrawableVariation {
   drawableId: number;
@@ -40,16 +46,16 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
   property!: IProperty;
 
   pedModel: 'mp_m_freemode_01' | 'mp_f_freemode_01' = 'mp_m_freemode_01';
-  type = 'clothing';
+  type = 'clothing' as const;
 
   componentVariations: Record<number, IDrawableVariation[]> = {};
-  selectedCategory: ClothingProduct | null = null;
+  selectedCategory: IClothingProduct | null = null;
   pageIndex = 0;
   pageSize = 10;
   pageItems: IDrawableVariation[] = [];
   activePreviewClothing: Record<number, IDrawableVariation> = {};
 
-  override shoppingCart: ClothingCartItem[] = [];
+  override shoppingCart:IClothingCartItem[] = [];
   checkoutActive = false;
 
   paymentMethod: IPayment = {
@@ -61,7 +67,7 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
   }
 
   get products() {
-    return this.property.catalog as ClothingProduct[];
+    return this.property.catalog as IClothingProduct[];
   }
 
   private setProperty = (property: IProperty) => {
@@ -110,7 +116,8 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     return this.rageClientService.callClient<number[]>(ProcedureKey.CLIENT_GET_TEXTURE_VARIATIONS, [componentId, drawableId]);
   }
 
-  addClothingToCart(product: ClothingProduct, drawable: number, texture: number) {
+  addClothingToCart(product: IClothingProduct, drawable: number, texture: number) {
+
     this.shoppingCart.push({
       product,
       quantity: 1,
@@ -119,7 +126,7 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     });
   }
 
-  removeClothingFromCart(cartItem: ClothingCartItem) {
+  removeClothingFromCart(cartItem: IClothingCartItem) {
     const index = this.shoppingCart.findIndex(item => item.product.id === cartItem.product.id
       && item.drawable === cartItem.drawable && item.texture === cartItem.texture);
     if (index !== -1) {
@@ -128,7 +135,7 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
   }
 
   getClothingImage(componentId: number, drawableId: number, textureId: number) {
-    return getItemIcon(`${this.pedModel}_${this.type}_${componentId}_${drawableId}_${textureId}_${textureId}`);
+    return getClothingIcon(this.pedModel, this.type, componentId, drawableId, textureId);
   }
 
   close() {
@@ -161,11 +168,19 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     this.pageIndex = event.first || 0;
     this.pageSize = event.rows || 10;
 
-    this.pageItems = this.componentVariations[this.selectedCategory.info.componentId].slice(this.pageIndex, this.pageIndex + this.pageSize);
+    this.pageItems = this.componentVariations[this.selectedCategory.data.componentId].slice(this.pageIndex, this.pageIndex + this.pageSize);
   }
 
   checkout() {
-    //
+    const request: IShopping<IClothingProduct> = {
+      propertyId: this.property.id,
+      shoppingCart: this.shoppingCart,
+      payment: this.paymentMethod
+    };
+
+    console.log(JSON.stringify(request));
+
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_CLOTHING_STORE_BUY, request)
   }
 
   ngOnInit() {

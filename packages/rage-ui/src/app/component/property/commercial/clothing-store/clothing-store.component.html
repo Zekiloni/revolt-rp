@@ -38,7 +38,7 @@
       @for (item of shoppingCart; let index = $index; track index) {
         <div
           class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
-          <img [ngSrc]="getClothingImage(item.product.info.componentId, item.drawable, item.texture) | staticAsset"
+          <img [ngSrc]="getClothingImage(item.product.data.componentId, item.drawable, item.texture) | staticAsset"
                alt="item icon"
                width="75"
                height="75"
@@ -62,16 +62,16 @@
               icon="pi pi-check"
               (click)="checkout()"></button>
     } @else {
-      @if (selectedCategory !== null && componentVariations[selectedCategory.info.componentId]) {
-        {{ componentVariations[selectedCategory.info.componentId].length }}
+      @if (selectedCategory !== null && componentVariations[selectedCategory.data.componentId]) {
+        {{ componentVariations[selectedCategory.data.componentId].length }}
         <div class="grid">
           @for (item of pageItems; let index = $index; track item) {
             <div
               class="col-12 md:col-6 lg:col-4 xl:col-3 border-round border-bottom-1 surface-border md:border-bottom-none">
-              <img [src]="getClothingImage(selectedCategory.info.componentId, item['drawableId'], item['textureId']) | staticAsset"
+              <img [src]="getClothingImage(selectedCategory.data.componentId, item['drawableId'], item['textureId']) | staticAsset"
                    alt="Image"
                    style="object-fit: contain"
-                   (click)="previewClothing(selectedCategory.info.componentId, item['drawableId'], item['textureId'])"
+                   (click)="previewClothing(selectedCategory.data.componentId, item['drawableId'], item['textureId'])"
                    width="235"
                    class="w-full"
                    height="125" />
@@ -93,7 +93,7 @@
             [first]="pageIndex"
             [rows]="pageSize"
             dropdownAppendTo="body"
-            [totalRecords]="componentVariations[selectedCategory.info.componentId].length"
+            [totalRecords]="componentVariations[selectedCategory.data.componentId].length"
             [rowsPerPageOptions]="[10, 20, 30]" />
         </div>
       }
