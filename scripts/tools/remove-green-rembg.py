@@ -68,4 +68,4 @@ def batch_process(input_folder, output_folder, num_workers=4):
     pool.map(process_image, images)
 
 if __name__ == "__main__":
-  batch_process("./input", "./output_test", num_workers=2)
+  batch_process("./input", "./output", num_workers=2)
