@@ -140,8 +140,8 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
       this.checkoutActive = false;
     }
 
-    this.selectedCategory = event.value;
-    this.getComponentVariations(event.value.info.componentId);
+    if (event.value)
+      this.getComponentVariations(event.value.info.componentId);
   }
 
   previewClothing(selectedComponentId: number, drawable: number, texture: number) {
