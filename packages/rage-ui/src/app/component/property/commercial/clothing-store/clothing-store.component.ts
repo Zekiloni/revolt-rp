@@ -4,7 +4,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Button, ButtonDirective } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
-import { ICartItem, IProduct, IProperty, IWearableItem, ProcedureKey } from '@revolt-rp/common';
+import { ICartItem, IPayment, IProduct, IProperty, IWearableItem, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { getItemIcon } from '../../../../domain/util/item.util';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
@@ -12,10 +12,13 @@ import { ScrollerModule } from 'primeng/scroller';
 import { ImageModule } from 'primeng/image';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
 import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
+import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
+import { Ripple } from 'primeng/ripple';
+import { DropdownChangeEvent } from 'primeng/dropdown';
 
 type ClothingProduct = (IProduct & { info: IWearableItem });
 
-type ClothingCartItem = ICartItem<IProduct> & { drawable: number, texture: number };
+type ClothingCartItem = ICartItem<ClothingProduct> & { drawable: number, texture: number };
 
 interface IDrawableVariation {
   drawableId: number;
@@ -26,7 +29,7 @@ interface IDrawableVariation {
 @Component({
   selector: 'app-clothing-store',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, Button, TranslatePipe, ButtonDirective, StaticAssetPipe, ScrollerModule, NgOptimizedImage, ImageModule, PaginatorModule],
+  imports: [CommonModule, DialogModule, InputTextModule, Button, TranslatePipe, ButtonDirective, StaticAssetPipe, ScrollerModule, NgOptimizedImage, ImageModule, PaginatorModule, SelectPaymentMethodComponent, Ripple],
   templateUrl: './clothing-store.component.html',
   styleUrl: './clothing-store.component.css'
 })
@@ -48,6 +51,10 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
 
   override shoppingCart: ClothingCartItem[] = [];
   checkoutActive = false;
+
+  paymentMethod: IPayment = {
+    type: PaymentType.Cash
+  };
 
   constructor(private rageClientService: RageClientService) {
     super();
@@ -103,7 +110,7 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     return this.rageClientService.callClient<number[]>(ProcedureKey.CLIENT_GET_TEXTURE_VARIATIONS, [componentId, drawableId]);
   }
 
-  addClothingToCart(product: IProduct, drawable: number, texture: number) {
+  addClothingToCart(product: ClothingProduct, drawable: number, texture: number) {
     this.shoppingCart.push({
       product,
       quantity: 1,
@@ -112,8 +119,9 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     });
   }
 
-  removeClothingFromCart(product: IProduct, drawable: number, texture: number) {
-    const index = this.shoppingCart.findIndex(item => item.product.id === product.id && item.drawable === drawable && item.texture === texture);
+  removeClothingFromCart(cartItem: ClothingCartItem) {
+    const index = this.shoppingCart.findIndex(item => item.product.id === cartItem.product.id
+      && item.drawable === cartItem.drawable && item.texture === cartItem.texture);
     if (index !== -1) {
       this.shoppingCart.splice(index, 1);
     }
@@ -127,9 +135,13 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_TOGGLE_CLOTHING_STORE, null);
   }
 
-  selectCategory(product: IProduct & { info: IWearableItem }) {
-    this.selectedCategory = product;
-    this.getComponentVariations(product.info.componentId);
+  selectCategory(event: DropdownChangeEvent) {
+    if (this.checkoutActive) {
+      this.checkoutActive = false;
+    }
+
+    this.selectedCategory = event.value;
+    this.getComponentVariations(event.value.info.componentId);
   }
 
   previewClothing(selectedComponentId: number, drawable: number, texture: number) {
@@ -150,6 +162,10 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
     this.pageSize = event.rows || 10;
 
     this.pageItems = this.componentVariations[this.selectedCategory.info.componentId].slice(this.pageIndex, this.pageIndex + this.pageSize);
+  }
+
+  checkout() {
+    //
   }
 
   ngOnInit() {
