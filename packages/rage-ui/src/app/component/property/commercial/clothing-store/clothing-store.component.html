@@ -7,21 +7,62 @@
   position="right"
   [style]="{ width: '35rem' }">
   @if (property) {
-    @for (product of products; let i = $index; track i) {
-      <button pButton label="{{ product.name | translate }}"
-              [disabled]="isOutOfStock(product)"
-              (click)="selectCategory(product)"></button>
-    }
+    <div class="flex justify-content-between align-items-center">
+      <p-dropdown
+        [options]="products"
+        [(ngModel)]="selectedCategory"
+        optionLabel="name"
+        appendTo="body"
+        [showClear]="true"
+        (onChange)="selectCategory($event)"
+        placeholder="{{ 'select_category' | translate }}">
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="selectedCategory;">
+            <div>{{ selectedCategory.name | translate }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-category pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ category.name | translate }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
 
-    <p-button (click)="checkoutActive = !checkoutActive" label="{{ 'shopping_cart' | translate }}"
-              icon="pi pi-shopping-cart"
-              [badge]="getTotalItems().toString()" />
+      <p-button (click)="checkoutActive = !checkoutActive" label="{{ 'shopping_cart' | translate }}"
+                icon="pi pi-shopping-cart"
+                [badge]="getTotalItems().toString()" />
+    </div>
 
     @if (checkoutActive) {
-      <pre>{{ shoppingCart | json }}</pre>
+      @for (item of shoppingCart; let index = $index; track index) {
+        <div
+          class="flex flex-column lg:flex-row flex-wrap lg:align-items-center py-3 my-3 border-bottom-1 surface-border">
+          <img [ngSrc]="getClothingImage(item.product.info.componentId, item.drawable, item.texture) | staticAsset"
+               alt="item icon"
+               width="75"
+               height="75"
+               class="w-8rem h-8rem flex-shrink-0 mb-3">
+          <div class="flex-auto lg:ml-3">
+            <div class="flex align-items-center justify-content-between mb-3">
+              <span class="text-900 font-medium">{{ item.product.name | translate }}</span>
+              <span class="text-900 font-bold">{{ item.quantity * getRealPrice(item.product) | currency }}</span>
+            </div>
+            <div class="text-600 text-sm mb-3">Black | Large</div>
+            <div class="flex justify-content-end align-items-center">
+              <p-button pRipple type="button" icon="pi pi-trash" (click)="removeClothingFromCart(item)"
+                        [rounded]="true" [text]="true" severity="danger" />
+            </div>
+          </div>
+        </div>
+      }
+      <app-select-payment-method [payment]="paymentMethod" />
+      <button pButton
+              label="{{ 'checkout' | translate }}"
+              icon="pi pi-check"
+              (click)="checkout()"></button>
     } @else {
-      @if (selectedCategory !== null && componentVariations[selectedCategory]) {
-        {{ componentVariations[selectedCategory].length }}
+      @if (selectedCategory !== null && componentVariations[selectedCategory.info.componentId]) {
+        {{ componentVariations[selectedCategory.info.componentId].length }}
         <div class="grid">
           @for (item of pageItems; let index = $index; track item) {
             <div
@@ -34,7 +75,7 @@
                    height="100" />
 
               <button pButton
-                      label="{{ item['name'] | translate }}"
+                      icon="pi pi-shopping-cart"
                       [disabled]="isOutOfStock(selectedCategory)"
                       (click)="addClothingToCart(selectedCategory, item['drawableId'], item['textureId'])"
                       class="w-full mt-2">
@@ -50,7 +91,7 @@
             [first]="pageIndex"
             [rows]="pageSize"
             dropdownAppendTo="body"
-            [totalRecords]="componentVariations[selectedCategory].length"
+            [totalRecords]="componentVariations[selectedCategory.info.componentId].length"
             [rowsPerPageOptions]="[10, 20, 30]" />
         </div>
       }
