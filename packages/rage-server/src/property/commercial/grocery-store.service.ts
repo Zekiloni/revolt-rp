@@ -16,7 +16,7 @@ export const openGroceryStoreMenu = (player: PlayerMp, property: Property) => {
 };
 
 
-export const calculateTotalCartPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {
+const calculateTotalCartPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {
   return cartItems.reduce(
     (total, item) => {
       const product = catalog.find(product => product.name === item.product);

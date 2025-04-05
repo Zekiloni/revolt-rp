@@ -19,7 +19,7 @@
     breakpoint="1400px">
     <ng-template let-item pTemplate="item">
       <div class="flex flex-wrap p-2 align-items-center gap-3">
-        <img [ngSrc]="getItemIcon(item.data.model) | staticAsset" alt="item icon" width="75" height="75" style="object-fit: contain"
+        <img [ngSrc]="getItemIcon(item.data) | staticAsset" alt="item icon" width="75" height="75" style="object-fit: contain"
              class="flex-shrink-0">
         <div class="flex-1 flex flex-column gap-2">
               <span class="font-bold">

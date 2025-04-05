@@ -23,7 +23,7 @@ export class Product implements IProduct {
   @prop({ required: false })
   discount?: number;
 
-  get info() {
+  get data() {
     return isValidItem(this.name) ? getBaseItem(this.name) : null;
   }
 }

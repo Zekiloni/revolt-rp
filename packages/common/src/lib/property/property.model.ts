@@ -24,7 +24,7 @@ export interface IProduct {
   name: string;
   stock: number;
   price: number;
-  info: IBaseItem | null;
+  data: IBaseItem | null;
   discount?: number;
 }
 

@@ -1,4 +1,5 @@
-
+import { IProduct } from './property.model';
+import { IWearableItem } from '../item/registry/wearable-item.model';
 
 
 export enum PaymentType {
@@ -19,6 +20,7 @@ export interface IVehicleRent {
   payment: IPayment;
 }
 
+
 export interface ICartItem<T> {
   product: T;
   quantity: number;
@@ -28,4 +30,15 @@ export interface IShopping<T> {
   propertyId: string;
   shoppingCart: ICartItem<T>[];
   payment: IPayment;
+}
+
+
+export interface IClothingProduct extends IProduct {
+  data: IWearableItem
+}
+
+
+export type IClothingCartItem = ICartItem<IClothingProduct> & {
+  drawable: number;
+  texture: number;
 }
