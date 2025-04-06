@@ -107,6 +107,10 @@
     <app-clothing-store [isActive]="isActive" />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.VehicleDealership) | async; as isActive) {
+    <app-vehicle-dealership [isActive]="isActive" />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />
