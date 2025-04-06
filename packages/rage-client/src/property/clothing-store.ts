@@ -44,7 +44,6 @@ function previewClothingComponent(data: [number, number, number]) {
   }
 
   if (mp.players.local.isComponentVariationValid(componentId, drawableId, textureId)) {
-    mp.console.logInfo(`Previewing clothing component: ${getClothingComponentName(componentId, drawableId, textureId)}`);
     mp.players.local.setComponentVariation(componentId, drawableId, textureId, 0);
   }
 }
