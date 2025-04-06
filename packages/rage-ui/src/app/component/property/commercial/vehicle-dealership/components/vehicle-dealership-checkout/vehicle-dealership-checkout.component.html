@@ -1,0 +1,9 @@
+
+<div class="flex align-items-center gap-3 mb-5">
+  <app-select-payment-method [payment]="paymentMethod" />
+</div>
+
+<div class="flex justify-content-end gap-2">
+  <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="cancel()" />
+  <p-button label="{{ 'submit' | translate }}" severity="success" (onClick)="submit()" />
+</div>
