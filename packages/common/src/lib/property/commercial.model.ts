@@ -20,6 +20,11 @@ export interface IVehicleRent {
   payment: IPayment;
 }
 
+export interface IDealershipCheckout {
+  propertyId: string;
+  vehicle: IProduct;
+  payment: IPayment;
+}
 
 export interface ICartItem<T> {
   product: T;

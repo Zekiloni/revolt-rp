@@ -9,7 +9,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
   const args = fullCommand.split(/ +/);
   const commandKey = args.splice(0, 1)[0];
 
-  const command = getCommand(commandKey);
+  const command = getCommand(commandKey.toLowerCase());
 
   if (!command)
     return notifyPlayer(player, {

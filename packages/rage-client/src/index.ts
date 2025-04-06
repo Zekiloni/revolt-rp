@@ -40,8 +40,10 @@ import './organization/organization-menu';
 
 import './property/property-core';
 import './property/clothing-store';
+import './property/vehicle-dealership';
 
 import './screenshoter';
+
 // Object.defineProperty(mp.nesto, 'enableSnow', {
 //   get: function() {
 //     return this._enableSnow;

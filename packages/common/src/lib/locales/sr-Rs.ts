@@ -163,7 +163,7 @@ export const srRs = {
     'driving_license': 'Vozačka Dozvola',
     'driving_license_description': 'Vozačka dozvola za upravljanje vozilima.',
     'flow_water_bottle_description': 'Ultra pročišćena flaširana voda.',
-    'pibwasser_beer_bottle_description': 'Flaša piva nemačkog porekla.',
+    'pibwasser_beer_bottle_description': 'Flaša piva nemačkog porekla.'
   },
   'submit': 'Potvrdi',
   'clear': 'Očisti',
@@ -592,8 +592,10 @@ export const srRs = {
   'model_name': 'Ime modela',
   'vehicle_class': 'Klasa vozila',
   'Sports': 'Sportski',
+  'Compacts': 'Kompaktni',
   'max_speed': 'Maksimalna brzina',
   'max_breaking': 'Maksimalno kočenje',
+  'max_acceleration': 'Maksimalna ubrzanja',
   'max_traction': 'Maksimalna vuča',
   'vehicle_info': 'Informacije o vozilu',
   'rent_vehicle': 'Iznajmi Vozilo',
@@ -612,4 +614,6 @@ export const srRs = {
   'product_not_found': 'Proizvod {{product}} nije pronađen.',
   'product_out_of_stock': 'Proizvod {{product}} nema na stanju.',
   'product_bought': 'Kupili ste {{quantity}}x {{product}}.',
+  'no_preview_point': 'Izložbena tačka nije konfigurisana. Kontaktirajte administratora ili menadžera salona.',
+  'vehicle_dealership_checkout': 'Kupovina vozila - {{property}}',
 };
