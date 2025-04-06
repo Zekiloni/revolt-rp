@@ -11,7 +11,7 @@ import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../economy/economy.util';
 
 
-export const openGroceryStoreMenu = (player: PlayerMp, property: Property) => {
+export const toggleGroceryStoreMenu = (player: PlayerMp, property: Property) => {
   showPlayerGameInterface(player, GameUiKey.GroceryStore, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
 };
 
