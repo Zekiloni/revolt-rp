@@ -19,9 +19,10 @@ import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
 import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
-import { openRentMenu } from './commercial/vehicle-rent.service';
-import { openGroceryStoreMenu } from './commercial/grocery-store.service';
+import { toggleVehicleRentMenu } from './commercial/vehicle-rent.service';
+import { toggleGroceryStoreMenu } from './commercial/grocery-store.service';
 import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
+import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
 
 
 const propertyMenuHandlers = {
@@ -30,9 +31,10 @@ const propertyMenuHandlers = {
     [PublicServiceType.Bank]: openBankMenu
   },
   [PropertyType.Commercial]: {
-    [CommercialType.GroceryStore]: openGroceryStoreMenu,
+    [CommercialType.GroceryStore]: toggleGroceryStoreMenu,
     [CommercialType.ClothingStore]: toggleClothingStoreMenu,
-    [CommercialType.VehicleRent]: openRentMenu
+    [CommercialType.VehicleRent]: toggleVehicleRentMenu,
+    [CommercialType.VehicleDealership]: toggleVehicleDealershipMenu
   }
 };
 
@@ -256,8 +258,9 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
   const menuHandler = propertyMenuHandlers[property.type]?.[property.subType];
 
-  if (menuHandler)
+  if (menuHandler) {
     return menuHandler(player, property);
+  }
 }
 
 

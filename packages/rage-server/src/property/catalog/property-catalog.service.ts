@@ -1,4 +1,4 @@
-import { CommercialType, IProduct, IProductAdd, ItemType } from '@revolt-rp/common';
+import { CommercialType, IProduct, IProductAdd, ItemType, vehicleModels } from '@revolt-rp/common';
 import { filterItemsByType } from '../../item/registry/util/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
 import { Property } from '../property.model';
@@ -12,7 +12,8 @@ const catalogItems = {
   [CommercialType.ClothingStore]: filterItemsByType(ItemType.PRODUCT_CLOTHING_STORE)
     .map(item => item.name),
 
-  [CommercialType.VehicleRent]: vehicleRentConfig.availableVehicles
+  [CommercialType.VehicleRent]: vehicleRentConfig.availableVehicles,
+  [CommercialType.VehicleDealership]: vehicleModels
 };
 
 
