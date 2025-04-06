@@ -20,7 +20,7 @@ import { Property } from '../property.model';
 import { vehicleRentConfig } from './vehicle-rent.config';
 
 
-export function openRentMenu(player: PlayerMp, property: Property) {
+export function toggleVehicleRentMenu(player: PlayerMp, property: Property) {
   showPlayerGameInterface(player, GameUiKey.RentCatalog,
     () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
 }
