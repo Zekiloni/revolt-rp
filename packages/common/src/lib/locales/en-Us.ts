@@ -589,6 +589,7 @@ export const enUs = {
   'vehicle_class': 'Vehicle Class',
   'max_speed': 'Max Speed',
   'max_breaking': 'Max Breaking',
+  'max_acceleration': 'Max Acceleration',
   'max_traction': 'Max Traction',
   'vehicle_info': 'Vehicle Info',
   'rent_vehicle': 'Rent Vehicle',
@@ -607,4 +608,6 @@ export const enUs = {
   'product_not_found': 'Product {{product}} not found.',
   'product_out_of_stock': '{{product}} is out of stock.',
   'product_bought': '{{quantity}}x {{product}} bought.',
+  'no_preview_point': 'Preview point is not configured. Contact administrator or property manager.',
+  'vehicle_dealership_checkout': 'Vehicle Checkout - {{property}}',
 };

@@ -190,4 +190,8 @@ export const enum ProcedureKey {
   CLIENT_GET_PLAYER_MODEL = 'client_getPlayerModel',
   CLIENT_GET_TEXTURE_VARIATIONS = 'client_getComponentTextureVariations',
   SERVER_CLOTHING_STORE_BUY = 'server_clothingStoreBuy',
+
+  CLIENT_TOGGLE_DEALERSHIP_MENU = 'client_toggleDealershipMenu',
+  CLIENT_PREVIEW_VEHICLE_MODEL = 'client_previewVehicleModel',
+  SERVER_VEHICLE_DEALERSHIP_BUY = 'server_vehicleDealershipBuy',
 }
