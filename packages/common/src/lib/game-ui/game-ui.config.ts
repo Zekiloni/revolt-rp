@@ -180,5 +180,11 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     mouse: true,
     freezeControls: true,
     disableChat: true
+  },
+
+  [GameUiKey.VehicleDealership]: {
+    isActive: false,
+    mouse: true,
+    freezeControls: true,
   }
 };
