@@ -582,7 +582,9 @@ export const srRs = {
   'no_available_parking_spots': 'Nema dostupnih parking mesta.',
   'online_payment_failed': 'Online plaćanje nije uspelo.',
   'online_commerce_payment': 'Online Plaćanje - {{property}}',
+  'payment_method': 'Metod Plaćanja',
   'pay_with_cash': 'Plati gotovinom',
+  'pay_with_cash_description': 'Plaćanje gotovinom na licu mesta.',
   'pay_with_bank_card': 'Plati karticom',
   'accept_terms': 'Prihvatam uslove',
   'vehicle_rent_confirmation': 'Iznajmljivanjem ovog vozila prihvatate odgovornost i pravila da ćete ga vratiti u istom stanju i na vreme. U suprotnom, biće tražena nadoknada za štetu ili kašnjenje.',
@@ -615,5 +617,5 @@ export const srRs = {
   'product_out_of_stock': 'Proizvod {{product}} nema na stanju.',
   'product_bought': 'Kupili ste {{quantity}}x {{product}}.',
   'no_preview_point': 'Izložbena tačka nije konfigurisana. Kontaktirajte administratora ili menadžera salona.',
-  'vehicle_dealership_checkout': 'Kupovina vozila - {{property}}',
+  'vehicle_dealership_checkout': 'Kupovina vozila - {{property}}'
 };

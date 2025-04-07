@@ -6,6 +6,7 @@ import { Button } from 'primeng/button';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SelectPaymentMethodComponent } from '../../../../../misc/select-payment-method';
 
+
 @Component({
   selector: 'app-vehicle-dealership-checkout',
   standalone: true,

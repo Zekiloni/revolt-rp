@@ -10,6 +10,7 @@ import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { vehicleConfig } from './vehicle.config';
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
@@ -54,8 +55,11 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   vehicle.info.locked = vehicle.locked;
   vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
   vehicle.info.position = position;
-  vehicle.numberPlate = options && options.numberplate ? options.numberplate.numberplate : undefined;
-  vehicle.numberPlateType = options && options.numberplate ? options.numberplate.modelType : undefined;
+
+  if (options && options.numberplate) {
+    vehicle.numberPlate = options.numberplate.numberplate ?? '';
+    vehicle.numberPlateType = options.numberplate.modelType ?? vehicleConfig.defaultNumberPlateType;
+  }
 
   loadVehicleVariables(vehicle, vehicle.info);
 
