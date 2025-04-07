@@ -11,7 +11,7 @@ export const createDefaultVehicleInfo = (options: Partial<IVehicle>, model: stri
     rotation: vehicle.rotation,
     dimension: vehicle.dimension,
     engine: false,
-    isTemporary: true,
+    isTemporary: isTemporary,
     color: [[0, 0, 0], [0, 0, 0]],
     pearlescentColor: 0,
     dashboardColor: 0,

@@ -1,7 +1,7 @@
 import {
   GameUiKey,
   IVehicle,
-  ProcedureKey,
+  ProcedureKey, vehicleColors,
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
@@ -33,7 +33,7 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, true));
 
   vehicle.info.locked = vehicle.locked;
-  vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
+  vehicle.info.color =  [vehicleColors[primaryColor], vehicleColors[secondaryColor]]
   vehicle.info.position = position;
 
   loadVehicleVariables(vehicle, vehicle.info);
@@ -54,12 +54,15 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
 
   vehicle.setColor(primaryColor, secondaryColor);
 
-  vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, false));
-  await vehicle.info.save();
+  const defaultVehicleInfo = {
+    ...createDefaultVehicleInfo(options, model, position, vehicle, false),
+    locked: vehicle.locked,
+    position: vehicle.position,
+    color: [vehicleColors[primaryColor], vehicleColors[secondaryColor]]
+  };
 
-  vehicle.info.locked = vehicle.locked;
-  vehicle.info.color = [vehicle.getColorRGB(0), vehicle.getColorRGB(1)];
-  vehicle.info.position = position;
+  vehicle.info = new VehicleModel(defaultVehicleInfo);
+  await vehicle.info.save();
 
   if (options && options.numberplate) {
     vehicle.numberPlate = options.numberplate.numberplate ?? '';
@@ -82,6 +85,8 @@ export const loadVehicle = (vehicle: Vehicle) => {
     locked: vehicle.locked
   });
 
+  vehicleMp.info = vehicle;
+
   vehicle.rotation = rotation;
 
   if (vehicle.numberplate) {
@@ -89,7 +94,7 @@ export const loadVehicle = (vehicle: Vehicle) => {
     vehicleMp.numberPlateType = vehicle.numberplate.modelType ?? vehicleConfig.defaultNumberPlateType;
   }
 
-  loadVehicleVariables(vehicleMp, vehicleMp.info);
+  loadVehicleVariables(vehicleMp, vehicle);
 };
 
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
