@@ -5,7 +5,6 @@ import { getPropertyById } from '../property.service';
 
 
 function dealershipBuyVehicleHandler(checkout: IDealershipCheckout, { player }: ProcedureListenerInfo<PlayerMp>) {
-  console.log(checkout);
   getPropertyById(checkout.propertyId)
     .then(property => buyVehicle(player, property, checkout.vehicle, checkout.payment));
 }

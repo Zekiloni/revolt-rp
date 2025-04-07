@@ -162,7 +162,7 @@ export const enUs = {
     'driving_license': 'Driving License',
     'driving_license_description': 'Driving license for driving vehicles.',
     'flow_water_bottle_description': 'Ultra purified water bottle.',
-    'pibwasser_beer_bottle_description': 'German beer bottle.',
+    'pibwasser_beer_bottle_description': 'German beer bottle.'
   },
   'submit': 'Submit',
   'clear': 'Clear',
@@ -612,4 +612,5 @@ export const enUs = {
   'product_bought': '{{quantity}}x {{product}} bought.',
   'no_preview_point': 'Preview point is not configured. Contact administrator or property manager.',
   'vehicle_dealership_checkout': 'Vehicle Checkout - {{property}}',
+  'vehicle_dealership_purchase_success': 'You have successfully purchased {{model}} for {{price}}.'
 };
