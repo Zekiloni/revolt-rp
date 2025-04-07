@@ -89,6 +89,9 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ ref: () => Character })
   owner: Ref<Character>;
 
+  @prop({ type: Boolean, required: false, default: true })
+  isSpawned: boolean;
+
   createdAt!: Date;
   updatedAt?: Date;
 }

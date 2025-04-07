@@ -5,12 +5,13 @@ import {
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { VehicleModel } from './vehicle.model';
+import { Vehicle, VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { vehicleConfig } from './vehicle.config';
+import { UpdateQuery } from 'mongoose';
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
@@ -66,6 +67,10 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   return vehicle;
 };
 
+export const spawnVehicle = (vehicle: Vehicle) => {
+
+};
+
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
   vehicle.info.owner = character;
 };
@@ -101,12 +106,16 @@ export const getRentedVehicle = async () => {
 };
 
 export const saveVehicle = async (vehicle: VehicleMp) => {
-  const vehicleId = getVehicleId(vehicle);
+  vehicle.info.position = vehicle.position;
+  vehicle.info.rotation = vehicle.rotation;
 
-  if (!vehicleId)
-    return;
+  vehicle.info.mileage = vehicle.getVariable<number>(VehicleSharedDataType.Mileage);
+  vehicle.info.fuel = vehicle.getVariable<number>(VehicleSharedDataType.Fuel);
+  vehicle.info.bodyHealth = vehicle.bodyHealth;
+  vehicle.info.engineHealth = vehicle.engineHealth;
 
-  await VehicleModel.findByIdAndUpdate(vehicleId, {});
+  if (!vehicle.info.isTemporary)
+    await vehicle.info.save();
 };
 
 

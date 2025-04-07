@@ -8,24 +8,20 @@ import {
 } from '@revolt-rp/common';
 import {
   hasPlayerVehicleKeys,
-  lockVehicle,
-  saveVehicle,
+  lockVehicle, saveVehicle,
   toggleVehicleEngine, toggleVehicleHood,
   toggleVehicleIndicator, toggleVehicleTrunk
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
 
-function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
+
+async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
   if (seat == RageEnums.VehicleSeat.DRIVER) {
-
-
-    saveVehicle(vehicle);
   }
 }
 
 function playerExitVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: number) {
-
 }
 
 function playerToggleVehicleEngineHandler(params: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -56,12 +52,14 @@ function playerLockVehicleHandler(vehicleId: number, { player }: ProcedureListen
   lockVehicle(vehicle);
 }
 
-function playerUpdateVehicleDataHandler(data: IVehicleUpdateData, { player }: ProcedureListenerInfo<PlayerMp>) {
+async function playerUpdateVehicleDataHandler(data: IVehicleUpdateData, { player }: ProcedureListenerInfo<PlayerMp>) {
   const vehicle = mp.vehicles.at(data.vehicleId);
 
   if (vehicle) {
     vehicle.setVariable(VehicleSharedDataType.Mileage, parseFloat(data.mileage.toFixed(2)));
     vehicle.setVariable(VehicleSharedDataType.Fuel, data.fuel);
+
+    await saveVehicle(vehicle);
   }
 }
 
