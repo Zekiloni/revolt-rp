@@ -64,6 +64,7 @@ export interface IVehicle extends Base {
   rented?: true;
   rentAgencyId?: string;
   expiringAt?: Date;
+  isSpawned: boolean;
   createdAt: Date;
   updatedAt?: Date;
 }
