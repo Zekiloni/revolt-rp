@@ -7,8 +7,9 @@ import {
   VehicleSharedDataType
 } from '@revolt-rp/common';
 import {
+  findAllVehicles,
   hasPlayerVehicleKeys,
-  lockVehicle, saveVehicle,
+  lockVehicle, saveVehicle, loadVehicle,
   toggleVehicleEngine, toggleVehicleHood,
   toggleVehicleIndicator, toggleVehicleTrunk
 } from './vehicle.service';
@@ -109,3 +110,9 @@ on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);
+
+
+(async () => {
+  findAllVehicles({ isSpawned: true })
+    .then(vehicles => vehicles.forEach(loadVehicle));
+})();

@@ -11,7 +11,12 @@ import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { vehicleConfig } from './vehicle.config';
-import { UpdateQuery } from 'mongoose';
+import { FilterQuery } from 'mongoose';
+
+
+export const findAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
+  return VehicleModel.find(filterQuery).exec();
+};
 
 export const createTemporaryVehicle = (model: string, position: Vector3, primaryColor: number, secondaryColor: number, options?: Partial<IVehicle>) => {
   const vehicle = mp.vehicles.new(mp.joaat(model), position, {
@@ -50,7 +55,6 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   vehicle.setColor(primaryColor, secondaryColor);
 
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, false));
-
   await vehicle.info.save();
 
   vehicle.info.locked = vehicle.locked;
@@ -67,8 +71,25 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   return vehicle;
 };
 
-export const spawnVehicle = (vehicle: Vehicle) => {
+export const loadVehicle = (vehicle: Vehicle) => {
+  const position = new mp.Vector3(vehicle.position.x, vehicle.position.y, vehicle.position.z);
+  const rotation = new mp.Vector3(vehicle.rotation.x, vehicle.rotation.y, vehicle.rotation.z);
 
+  const vehicleMp = mp.vehicles.new(mp.joaat(vehicle.model), position, {
+    heading: vehicle.rotation.z,
+    engine: false,
+    color: vehicle.color,
+    locked: vehicle.locked
+  });
+
+  vehicle.rotation = rotation;
+
+  if (vehicle.numberplate) {
+    vehicleMp.numberPlate = vehicle.numberplate.numberplate ?? '';
+    vehicleMp.numberPlateType = vehicle.numberplate.modelType ?? vehicleConfig.defaultNumberPlateType;
+  }
+
+  loadVehicleVariables(vehicleMp, vehicleMp.info);
 };
 
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
