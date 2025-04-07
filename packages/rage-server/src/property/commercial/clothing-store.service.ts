@@ -35,8 +35,6 @@ const calculateTotalCartPrice = (cartItems: ICartItem<IClothingProduct>[], catal
 export const buyClothes = async (player: PlayerMp, property: Property, cartItems: IClothingCartItem[], payment: IPayment) => {
   const total = calculateTotalCartPrice(cartItems, property.catalog);
 
-  console.log('shoppingCart', cartItems);
-
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
     try {
       await makeOnlinePayment(player, payment.bankAccountNo, property, total);

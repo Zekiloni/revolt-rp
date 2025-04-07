@@ -617,5 +617,6 @@ export const srRs = {
   'product_out_of_stock': 'Proizvod {{product}} nema na stanju.',
   'product_bought': 'Kupili ste {{quantity}}x {{product}}.',
   'no_preview_point': 'Izložbena tačka nije konfigurisana. Kontaktirajte administratora ili menadžera salona.',
-  'vehicle_dealership_checkout': 'Kupovina vozila - {{property}}'
+  'vehicle_dealership_checkout': 'Kupovina vozila - {{property}}',
+  'vehicle_dealership_purchase_success': 'Uspešno ste kupili vozilo {{model}} za {{price}}.',
 };

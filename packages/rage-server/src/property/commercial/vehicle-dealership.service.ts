@@ -1,6 +1,7 @@
 import { t } from 'i18next';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
+  formatCurrency,
   IPayment,
   IProduct,
   PaymentType,
@@ -68,6 +69,7 @@ export const buyVehicle = async (player: PlayerMp, property: Property, vehicle: 
   }
 
   product.stock = (product.stock - 1);
+  await property.save();
 
   const color = Math.round(Math.random() * (159));
   const { x, y, z } = parkingSpot.position;
@@ -79,5 +81,9 @@ export const buyVehicle = async (player: PlayerMp, property: Property, vehicle: 
   });
 
   triggerClient(player, ProcedureKey.CLIENT_TOGGLE_DEALERSHIP_MENU, null);
-  // todo: messages
+
+  notifyPlayer(player, {
+    severity: 'success',
+    detail: t('vehicle_dealership_purchase_success', { model: vehicle.name, price: formatCurrency(vehicle.price) })
+  });
 };

@@ -178,8 +178,6 @@ export class ClothingStoreComponent extends ShoppingCartBase implements OnInit, 
       payment: this.paymentMethod
     };
 
-    console.log(JSON.stringify(request));
-
     this.rageClientService.triggerServer(ProcedureKey.SERVER_CLOTHING_STORE_BUY, request)
   }
 
