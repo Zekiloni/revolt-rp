@@ -47,13 +47,10 @@ async function dropItemHandler({ playerRemoteId, item }: { playerRemoteId: numbe
   if (!item || !item.data.model)
     return;
 
-  mp.gui.chat.push(`Dropping item ${item.id}`);
   const player = mp.players.atRemoteId(playerRemoteId);
 
   if (!player)
     return;
-
-  mp.gui.chat.push(`Target player found ` + player.name);
 
   const [position, rotation] = await getObjectGroundPosition(
     item.data.model,
@@ -64,12 +61,8 @@ async function dropItemHandler({ playerRemoteId, item }: { playerRemoteId: numbe
     true
   );
 
-  mp.gui.chat.push(`Dropping item ${item.id} at ${position.x}, ${position.y}, ${position.z}`);
-
   const alreadySyncedItem = mp.objects.getClosest(position, 5)
     .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);
-
-  mp.gui.chat.push(`Already synced item: ${alreadySyncedItem}`);
 
   if (alreadySyncedItem)
     return;

@@ -30,12 +30,9 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     object.setVelocity(velocityVector.x, velocityVector.y, velocityVector.z);
     object.setDynamic(true);
 
-    mp.gui.chat.push(`Object speed: ${object.getSpeed()}`);
     while (object.getSpeed() > 0.5) {
       await mp.game.waitAsync(0);
     }
-
-    mp.gui.chat.push(`drop item stop`);
   }
 
   const groundPosition = [

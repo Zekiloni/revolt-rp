@@ -2,6 +2,7 @@ import { on, register, triggerBrowser } from '@libertymp/rage-rpc';
 import { GameUiKey, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { togglePlayerPreviewCamera } from '../player/util/player-preview-camera';
+import { getClothingComponentName } from '../util/clothing.util';
 
 const fallbackClothingComponent: { [key: number]: [number, number, number] } = {};
 

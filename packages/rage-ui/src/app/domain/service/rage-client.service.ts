@@ -21,6 +21,7 @@ type MpInvokeNative = 'setTypingInChatState' | 'focus' | string;
 @Injectable()
 export class RageClientService {
   private socket: WebSocket | null = null;
+  private eventCallbacks = new Map<ProcedureListener, ProcedureListener>();
 
   constructor(private ngZone: NgZone) {
   }
@@ -67,13 +68,25 @@ export class RageClientService {
   }
 
   on(name: string, callback: ProcedureListener) {
+    const wrappedCallback: ProcedureListener = (...args) =>
+      this.ngZone.run(() => callback(...args));
+
+    this.eventCallbacks.set(callback, wrappedCallback);
+
     this.ngZone.runOutsideAngular(() => {
-      rpcOn(name, (...args) => this.ngZone.run(() => callback(...args)));
+      rpcOn(name, wrappedCallback);
     });
   }
 
   off(name: string, callback: ProcedureListener) {
-    rpcOff(name, callback);
+    const wrappedCallback = this.eventCallbacks.get(callback);
+
+    if (wrappedCallback) {
+      rpcOff(name, wrappedCallback);
+      this.eventCallbacks.delete(callback);
+    } else {
+      rpcOff(name, callback);
+    }
   }
 
   register(name: string, callback: ProcedureListener) {
