@@ -1,4 +1,10 @@
-export const vehicleColors = {
+export type VehicleColorData = {
+  name: string;
+  hexColor: string;
+  rgbColor: [number, number, number];
+}
+
+export const vehicleColors: Record<string, VehicleColorData> = {
   '0': {
     name: 'Metallic Black',
     hexColor: '#0d1116',

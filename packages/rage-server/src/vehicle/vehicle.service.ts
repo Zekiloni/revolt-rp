@@ -33,7 +33,7 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, true));
 
   vehicle.info.locked = vehicle.locked;
-  vehicle.info.color =  [vehicleColors[primaryColor], vehicleColors[secondaryColor]]
+  vehicle.info.color =  [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor]
   vehicle.info.position = position;
 
   loadVehicleVariables(vehicle, vehicle.info);
@@ -58,7 +58,7 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
     ...createDefaultVehicleInfo(options, model, position, vehicle, false),
     locked: vehicle.locked,
     position: vehicle.position,
-    color: [vehicleColors[primaryColor], vehicleColors[secondaryColor]]
+    color: [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor]
   };
 
   vehicle.info = new VehicleModel(defaultVehicleInfo);
