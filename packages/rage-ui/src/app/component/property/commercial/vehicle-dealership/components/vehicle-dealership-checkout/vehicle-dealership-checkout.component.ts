@@ -19,9 +19,11 @@ export class VehicleDealershipCheckoutComponent {
   };
 
   vehicle!: IProduct;
+  propertyId!: string;
 
   constructor(private dialogRef: DynamicDialogRef, private dialogConfig: DynamicDialogConfig) {
-    this.vehicle = this.dialogConfig.data;
+    this.vehicle = this.dialogConfig.data.vehicle;
+    this.propertyId = this.dialogConfig.data.propertyId;
   }
 
   cancel() {
@@ -30,7 +32,7 @@ export class VehicleDealershipCheckoutComponent {
 
   submit() {
     const checkout: IDealershipCheckout = {
-      propertyId: '',
+      propertyId: this.propertyId,
       vehicle: this.vehicle,
       payment: this.paymentMethod
     };

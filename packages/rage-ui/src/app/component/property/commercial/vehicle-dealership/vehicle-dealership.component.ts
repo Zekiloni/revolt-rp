@@ -27,6 +27,7 @@ export class VehicleDealershipComponent implements OnInit, OnDestroy {
 
   title = '';
   property!: IProperty;
+  initialCall = true;
 
   currentVehicle: IProduct | null = null;
 
@@ -46,7 +47,10 @@ export class VehicleDealershipComponent implements OnInit, OnDestroy {
     if (property.name)
       this.title = property.name;
 
-    this.onCatalogPage({ page: 0 });
+    if (this.initialCall) {
+      this.onCatalogPage({ page: 0 });
+      this.initialCall = false;
+    }
   };
 
   close() {
@@ -68,9 +72,13 @@ export class VehicleDealershipComponent implements OnInit, OnDestroy {
     this.dialogService.open(VehicleDealershipCheckoutComponent, {
       header: this.translateService.instant('vehicle_dealership_checkout', { property: this.property.name }),
       width: '40%',
+      data: {
+        vehicle: this.currentVehicle,
+        propertyId: this.property.id
+      }
     }).onClose.subscribe(((checkout?: IDealershipCheckout) => {
       if (checkout) {
-        this.rageClientService.triggerClient(ProcedureKey.SERVER_VEHICLE_DEALERSHIP_BUY, checkout);
+        this.rageClientService.triggerServer(ProcedureKey.SERVER_VEHICLE_DEALERSHIP_BUY, checkout);
       }
     }));
   }

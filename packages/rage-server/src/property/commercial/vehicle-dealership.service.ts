@@ -78,5 +78,6 @@ export const buyVehicle = async (player: PlayerMp, property: Property, vehicle: 
     rotation: new mp.Vector3(rotX, rotY, rotZ)
   });
 
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_DEALERSHIP_MENU, null);
   // todo: messages
 };
