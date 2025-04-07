@@ -14,7 +14,7 @@ import { vehicleConfig } from './vehicle.config';
 import { FilterQuery } from 'mongoose';
 
 
-export const findAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
+export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
   return VehicleModel.find(filterQuery).exec();
 };
 
