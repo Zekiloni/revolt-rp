@@ -27,8 +27,8 @@
     <app-inventory @fadeInOut />
   }
 
-  @if ($isGameInterfaceActive(GameUiKey.PlayerMenu) | async) {
-    <app-player-menu @fadeInOut />
+  @if ($isGameInterfaceActive(GameUiKey.PlayerMenu) | async; as isActive) {
+    <app-player-menu [isActive]="isActive" />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.Offer) | async) {

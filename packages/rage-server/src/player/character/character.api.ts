@@ -1,4 +1,4 @@
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
+import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
 import { createCharacter, selectCharacter, spawnPlayerCharacter } from './character.service';
 
@@ -16,5 +16,10 @@ const playerSelectCharacterHandler = (characterId: string, { player }: Procedure
   selectCharacter(player, characterId);
 };
 
+function playerGetCharacterHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return player.character;
+}
+
 on(ProcedureKey.SERVER_PLAYER_CREATE_CHARACTER, playerCreateCharacterHandler);
 on(ProcedureKey.SERVER_PLAYER_SELECT_CHARACTER, playerSelectCharacterHandler);
+register(ProcedureKey.SERVER_GET_PLAYER_CHARACTER, playerGetCharacterHandler);

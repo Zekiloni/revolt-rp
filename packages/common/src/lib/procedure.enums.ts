@@ -68,7 +68,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_LOCK_VEHICLE = 'server_playerLockVehicle',
   SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR = 'server_playerToggleVehicleIndicator',
   SERVER_VEHICLE_TOGGLE_TRUNK = 'server_vehicleToggleTrunk',
-  SERVER_VEHICLE_TOGGLE_HOOD =  'server_vehicleToggleHood',
+  SERVER_VEHICLE_TOGGLE_HOOD = 'server_vehicleToggleHood',
   BROWSER_SET_VEHICLE = 'browser_setVehicle',
   SERVER_GET_VEHICLE_TRUNK = 'server_getVehicleTrunk',
   SERVER_VEHICLE_TRUNK_PUT_ITEM = 'server_vehicleTrunkPutItem',
@@ -151,7 +151,7 @@ export const enum ProcedureKey {
   SERVER_UPDATE_PHONE_MESSAGES = 'server_updatePhoneMessages',
   CLIENT_PHONE_CAMERA_TAKE_PHOTO = 'client_phoneCameraTakePhoto',
   BROWSER_SET_PHONE_CALL = 'browser_setPhoneCall',
-  SERVER_CREATE_PHONE_CALL= 'server_createPhoneCall',
+  SERVER_CREATE_PHONE_CALL = 'server_createPhoneCall',
   SERVER_ANSWER_PHONE_CALL = 'server_answerPhoneCall',
   SERVER_HANGUP_PHONE_CALL = 'server_hangupPhoneCall',
   SERVER_PHONE_UPDATE_NOTES = 'server_phoneUpdateNotes',
@@ -194,4 +194,10 @@ export const enum ProcedureKey {
   CLIENT_TOGGLE_DEALERSHIP_MENU = 'client_toggleDealershipMenu',
   CLIENT_PREVIEW_VEHICLE_MODEL = 'client_previewVehicleModel',
   SERVER_VEHICLE_DEALERSHIP_BUY = 'server_vehicleDealershipBuy',
+
+  CLIENT_TOGGLE_PLAYER_MENU = 'client_togglePlayerMenu',
+  SERVER_GET_PLAYER_ACCOUNT = 'server_getPlayerAccount',
+  SERVER_GET_PLAYER_CHARACTER = 'server_getPlayerCharacter',
+  SERVER_GET_PLAYER_PROPERTIES = 'server_getPlayerProperties',
+  SERVER_GET_PLAYER_VEHICLES = 'server_getPlayerVehicles',
 }

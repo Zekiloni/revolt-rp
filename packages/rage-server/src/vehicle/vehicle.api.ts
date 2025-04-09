@@ -1,4 +1,4 @@
-import { on, ProcedureListenerInfo } from '@libertymp/rage-rpc';
+import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
   IVehicleUpdateData, PlayerSharedDataType,
@@ -11,7 +11,7 @@ import {
   hasPlayerVehicleKeys,
   lockVehicle, saveVehicle, loadVehicle,
   toggleVehicleEngine, toggleVehicleHood,
-  toggleVehicleIndicator, toggleVehicleTrunk
+  toggleVehicleIndicator, toggleVehicleTrunk, getVehiclesByOwner
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
@@ -19,10 +19,12 @@ import { isVehicleTrunkOpen } from './vehicle-inventory.service';
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
   if (seat == RageEnums.VehicleSeat.DRIVER) {
+    // TODO: do something
   }
 }
 
 function playerExitVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: number) {
+  // TODO: do something
 }
 
 function playerToggleVehicleEngineHandler(params: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
@@ -46,6 +48,7 @@ function playerLockVehicleHandler(vehicleId: number, { player }: ProcedureListen
   if (player.dist(vehicle.position) > 10)
     return;
 
+  console.log('has keys', hasPlayerVehicleKeys(player, vehicle));
   if (!hasPlayerVehicleKeys(player, vehicle))
     return;
 
@@ -98,6 +101,10 @@ function toggleVehicleHoodHandler(vehicle: VehicleMp, { player }: ProcedureListe
   toggleVehicleHood(vehicle);
 }
 
+function getPlayerVehiclesHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return getVehiclesByOwner(player.character.id);
+}
+
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerExitVehicle: playerExitVehicleHandler
@@ -110,7 +117,7 @@ on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);
-
+register(ProcedureKey.SERVER_GET_PLAYER_VEHICLES, getPlayerVehiclesHandler);
 
 (async () => {
   getAllVehicles({ isSpawned: true })

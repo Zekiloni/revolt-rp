@@ -136,7 +136,7 @@ export const enUs = {
   'select_bank_account': 'Select Bank Account',
   'error': 'Error',
   'cant_transfer_to_same_account': 'You can\'t transfer money to the same account.',
-  'admin_level': ['Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
+  'admin_level': ['Korisnik', 'Moderator', 'Junior Admin', 'Administrator', 'Senior Admin', 'Lead Admin', 'Super Admin'],
   'items': {
     'credit_card': 'Credit Card',
     'credit_card_description': 'A standard credit card for making electronic payments.',
@@ -612,5 +612,26 @@ export const enUs = {
   'product_bought': '{{quantity}}x {{product}} bought.',
   'no_preview_point': 'Preview point is not configured. Contact administrator or property manager.',
   'vehicle_dealership_checkout': 'Vehicle Checkout - {{property}}',
-  'vehicle_dealership_purchase_success': 'You have successfully purchased {{model}} for {{price}}.'
+  'vehicle_dealership_purchase_success': 'You have successfully purchased {{model}} for {{price}}.',
+  'player_menu': {
+    'info': 'Info',
+    'account_overview': 'Account Overview',
+    'character_overview': 'Character Overview',
+    'assets': 'Assets',
+    'properties': 'Properties',
+    'vehicles': 'Vehicles',
+    'affiliations': 'Affiliations',
+    'organization': 'Organization',
+    'account_overview_description': 'Account overview and settings.',
+    'character_overview_description': 'Character overview and settings.',
+    'properties_description': 'Manage and view your properties.',
+    'vehicles_description': 'Manage and view your vehicles.',
+    'organization_description': 'Manage and view your organization.'
+  },
+  'email': 'E-mail Address',
+  'social_club_id': 'Social Club ID',
+  'social_club_username': 'Social Club Username',
+  'discord_id': 'Discord ID',
+  'registration_date': 'Registration Date',
+  'max_characters': 'Max Characters',
 };

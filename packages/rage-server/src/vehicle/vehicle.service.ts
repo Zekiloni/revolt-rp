@@ -146,7 +146,7 @@ export const saveVehicle = async (vehicle: VehicleMp) => {
 
 
 export const hasPlayerVehicleKeys = (player: PlayerMp, vehicle: VehicleMp) => {
-  return vehicle.info.owner.id === player.character.id;
+  return vehicle.info.owner._id.equals(player.character.id);
 };
 
 export function toggleVehicleEngine(vehicle: VehicleMp) {
@@ -196,3 +196,8 @@ export const toggleVehicleEditMenu = (player: PlayerMp, vehicle: VehicleMp) => {
   showPlayerGameInterface(player, GameUiKey.ManageVehicle,
     () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_VEHICLE, vehicle.info));
 };
+
+
+export const getVehiclesByOwner = async (ownerId: string) => {
+  return VehicleModel.find({ owner: ownerId }).exec();
+}

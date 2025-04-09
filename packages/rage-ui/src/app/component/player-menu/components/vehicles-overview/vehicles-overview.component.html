@@ -1,0 +1,7 @@
+@if ($vehicles | async; as vehicles) {
+  @for (vehicle of vehicles; track vehicle.id) {
+    <div class="vehicle-card">
+      {{ vehicle }}
+    </div>
+  }
+}

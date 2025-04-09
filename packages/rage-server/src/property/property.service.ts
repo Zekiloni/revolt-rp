@@ -47,6 +47,11 @@ export const getPropertyById = async (propertyId: string) => {
     .populate('owner.entity');
 };
 
+
+export const getPropertiesByOwnerId = async (type: 'Character' | 'Organization', ownerId: string) => {
+  return PropertyModel.find({ 'owner.type': type, 'owner.entity': ownerId }).exec();
+};
+
 export const getPropertyByPointId = async (pointId: string) => {
   return PropertyModel.findOne({ 'points.id': pointId }).exec();
 };

@@ -20,7 +20,7 @@ export interface IAccount extends Base {
   lastIpAddress?: string;
   referralCode: string;
   referer?: string;
-  administrator?: AdminType;
+  administrator: AdminType;
   maxCharacters: number;
   serial: string;
   socialClubUsername: string;
