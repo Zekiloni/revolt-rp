@@ -25,6 +25,20 @@ async function playerDiscordAuthorizeAccountHandler(authorizationCode: string, {
     .catch(catchError);
 }
 
+function getPlayerAccountHandler(playerId: number | undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  if (!playerId) {
+    return player.account;
+  }
+
+  const target = mp.players.at(playerId);
+  if (!target) {
+    return null;
+  }
+
+  return target.account;
+}
+
 register(ProcedureKey.SERVER_PLAYER_CREATE_ACCOUNT, playerCreateAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_AUTHORIZE, playerAuthorizeAccountHandler);
 register(ProcedureKey.SERVER_PLAYER_AUTHORIZE_DISCORD, playerDiscordAuthorizeAccountHandler);
+register(ProcedureKey.SERVER_GET_PLAYER_ACCOUNT, getPlayerAccountHandler);

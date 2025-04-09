@@ -1,6 +1,33 @@
-<div class="absolute-center surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-7" >
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-    <h2 class="text-lg font-bold mb-2">Inventory</h2>
+<p-dialog [showHeader]="false" [(visible)]="isActive"
+          (onHide)="close()"
+          [focusOnShow]="false"
+          contentStyleClass="py-3 px-3 border-round-2xl h-full flex overflow-hidden"
+          styleClass="border-round-2xl"
+          [style]="{ width: '65rem', maxHeight: '55%' }" [draggable]="false">
+  <div class="flex w-full flex-auto">
+    <div class="border-round select-none py-3 px-2 ">
+      @for (item of menuItems; track $index) {
+        <article
+          class="py-2 px-3 flex w-full justify-content-between align-items-center mb-3 select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary"
+          [ngClass]="{
+            'surface-hover text-primary': isActiveMenuItem(item)
+          }"
+          (click)="show(item)">
+          <div class="flex align-items-center"><span
+            class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100"><i
+            class="pi text-lg" [ngClass]="item.icon"></i></span>
+            <div class="ml-2"><p class="font-semibold text-sm mt-0 mb-1">{{ item.label! | translate }}</p>
+              <p class="font-normal text-xs text-600 mt-0 mb-0">{{ item['description'] | translate }}</p>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+    <div
+      class="h-full py-2 px-3 flex flex-column relative flex-auto border-left-1 surface-border ml-2 overflow-hidden">
+      <div class="min-h-0 overflow-y-auto flex-auto">
+        <ng-container [ngComponentOutlet]="activeMenuItem['component']"></ng-container>
+      </div>
+    </div>
   </div>
-</div>
-
+</p-dialog>

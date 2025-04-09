@@ -8,6 +8,7 @@ import './player/authorization/authorization';
 import './player/authorization/character-creator';
 import './player/authorization/player-spawn';
 
+import './player/player-menu';
 import './player/player-animation';
 import './player/player-animation-menu';
 import './player/p2p-interaction';

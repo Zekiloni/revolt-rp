@@ -1,0 +1,12 @@
+@if ($properties | async; as properties) {
+  @for (property of properties; track property.id) {
+    <div class="property">
+      <div class="property-name">
+        {{ property.name }}
+      </div>
+      <div class="property-value">
+        {{ property }}
+      </div>
+    </div>
+  }
+}

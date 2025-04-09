@@ -2,7 +2,7 @@ import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { GameUiKey, IPropertyCreate, IPropertyPoint, IPropertyUpdate, ProcedureKey } from '@revolt-rp/common';
 import {
   createProperty, createPropertyPoint, deletePropertyPoint,
-  getAllProperties,
+  getAllProperties, getPropertiesByOwnerId,
   getPropertyById, getPropertyByPointId,
   initializeProperty, isPropertyOwner,
   playerLockProperty, propertyMainInteraction, updatePropertyPoint
@@ -72,6 +72,10 @@ async function updatePropertyPointHandler(pointUpdate: IPropertyPoint) {
 }
 
 
+function getPlayerPropertiesHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return getPropertiesByOwnerId('Character', player.character.id);
+}
+
 mp.events.add({
   packagesLoaded: loadAllPropertiesHandler
 });
@@ -83,3 +87,4 @@ register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
 register(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, createPropertyPointHandler);
 register(ProcedureKey.SERVER_DELETE_PROPERTY_POINT, deletePropertyPointHandler);
 register(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, updatePropertyPointHandler);
+register(ProcedureKey.SERVER_GET_PLAYER_PROPERTIES, getPlayerPropertiesHandler);
