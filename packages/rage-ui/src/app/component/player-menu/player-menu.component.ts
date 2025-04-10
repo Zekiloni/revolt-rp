@@ -8,6 +8,7 @@ import { MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 import { playerMenuItems } from './player-menu.config';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-player-menu',
@@ -38,4 +39,6 @@ export class PlayerMenuComponent {
   isActiveMenuItem(item: MenuItem) {
     return this.activeMenuItem === item;
   }
+
+  protected readonly environment = environment;
 }

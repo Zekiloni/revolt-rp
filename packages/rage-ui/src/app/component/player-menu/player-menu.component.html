@@ -13,9 +13,10 @@
             'surface-hover text-primary': isActiveMenuItem(item)
           }"
           (click)="show(item)">
-          <div class="flex align-items-center"><span
-            class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100"><i
-            class="pi text-lg" [ngClass]="item.icon"></i></span>
+          <div class="flex align-items-center">
+            <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
+              <i class="pi text-lg" [ngClass]="item.icon"></i>
+            </span>
             <div class="ml-2"><p class="font-semibold text-sm mt-0 mb-1">{{ item.label! | translate }}</p>
               <p class="font-normal text-xs text-600 mt-0 mb-0">{{ item['description'] | translate }}</p>
             </div>

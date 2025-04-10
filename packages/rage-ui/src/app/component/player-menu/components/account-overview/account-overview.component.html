@@ -1,5 +1,4 @@
 @if ($account | async; as account) {
-
   <div class="flex align-items-start flex-column md:flex-row">
     <p-avatar
       [label]="account.username[0].toUpperCase()"
@@ -50,19 +49,19 @@
           }
         </ul>
       </div>
-      <div class="col-12 p-3">
-        <div class="text-500 font-medium mb-2">Bio</div>
-        <div class="text-900 line-height-3">Faucibus pulvinar elementum integer enim neque volutpat ac tincidunt vitae.
-          Commodo odio aenean sed adipiscing diam donec adipiscing tristique. Eget felis eget nunc lobortis mattis
-          aliquam
-          faucibus purus in.
-        </div>
+      <div class="col-12 md:col-6 p-3">
+        <div class="text-500 font-medium mb-2">{{ 'current_session' | translate }}</div>
+        <div class="text-900">{{ (account.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss')! | translate }} - <span
+          class="text-green-300">{{ $sessionDuration(account.lastLoginAt!) | async }}</span></div>
+      </div>
+      <div class="col-12 md:col-6 p-3">
+        <div class="text-500 font-medium mb-2">{{ 'last_ip_address' | translate }}</div>
+        <div class="text-900">{{ account.lastIpAddress }}</div>
+      </div>
+      <div class="col-12 md:col-6 p-3">
+        <div class="text-500 font-medium mb-2">{{ 'premium_coins' | translate }}</div>
+        <div class="text-900">{{ account.coins }} <i class="pi pi-bitcoin text-yellow-400"></i></div>
       </div>
     </div>
   </div>
-  <!--
-   last session info, last ip, coins
-  -->
-
-  <pre>{{ account | json }}</pre>
 }

@@ -121,7 +121,7 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
 
   await createVehicle(model, new mp.Vector3(x, y, z), color, color, {
     expiringAt, rented: true,
-    owner: player.character,
+    owner: player.character._id,
     rotation: new mp.Vector3(rotX, rotY, rotZ),
     numberplate: {
       numberplate: `RV${generateNumberPlate(4)}`,

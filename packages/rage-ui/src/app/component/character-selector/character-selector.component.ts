@@ -6,6 +6,7 @@ import { DatePipe } from '@angular/common';
 import { IAccount, ICharacter, ProcedureKey, calculateLevelUpQuota } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { TranslatePipe } from '@ngx-translate/core';
     KnobModule,
     FormsModule,
     DatePipe,
-    TranslatePipe
+    TranslatePipe,
+    TooltipModule
   ],
   templateUrl: './character-selector.component.html',
   styleUrl: './character-selector.component.css'

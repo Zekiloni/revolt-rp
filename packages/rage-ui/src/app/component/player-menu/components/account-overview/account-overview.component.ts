@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { Observable } from 'rxjs';
+import { interval, map, Observable, startWith } from 'rxjs';
 import { AdminType, IAccount, ProcedureKey } from '@revolt-rp/common';
 import { AvatarModule } from 'primeng/avatar';
 import { TagModule } from 'primeng/tag';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { dayjs } from '../../../../domain/util/dajys.util';
 
 @Component({
   selector: 'app-account-overview',
@@ -23,6 +24,24 @@ export class AccountOverviewComponent {
 
   private getAccount() {
     this.$account = this.rageClientService.callServer<IAccount>(ProcedureKey.SERVER_GET_PLAYER_ACCOUNT);
+  }
+
+  $sessionDuration(lastLoginAt: Date): Observable<string> {
+    const loginTime = dayjs(lastLoginAt);
+
+    return interval(1000).pipe(
+      startWith(0),
+      map(() => {
+        const diffMs = dayjs().diff(loginTime);
+        const dur = dayjs.duration(diffMs);
+
+        const hours = dur.hours().toString().padStart(2, '0');
+        const minutes = dur.minutes().toString().padStart(2, '0');
+        const seconds = dur.seconds().toString().padStart(2, '0');
+
+        return `${hours}:${minutes}:${seconds}`;
+      })
+    );
   }
 
   createArray(length: number) {
