@@ -15,11 +15,11 @@
     <div class="grid grid-nogutter border-top-1 surface-border pt-2 mt-3">
       <div class="col-12 p-3">
         <div class="text-500 font-medium mb-2">{{ 'level' | translate }}</div>
-        <p-progressBar [value]="(character.hours / calculateLevelUpQuota(character.level + 1)) * 100"
+        <p-progressBar [value]="(character.hours / levelUpQuota) * 100"
                        [showValue]="false" />
         <div class="flex justify-content-between align-items-center mt-1">
-          <span class="text-900">{{  character.hours }}/{{  calculateLevelUpQuota(character.level + 1) }}</span>
-          <span class="text-primary font-medium">{{  getLevelUpLeft(character.hours, character.minutes, calculateLevelUpQuota(character.level + 1)) }}</span>
+          <span class="text-900">{{  character.hours }}/{{ levelUpQuota }}</span>
+          <span class="text-primary font-medium">{{ getLevelUpLeft(character.hours, character.minutes, levelUpQuota) }}</span>
         </div>
       </div>
       <div class="col-12 md:col-4 p-3">
