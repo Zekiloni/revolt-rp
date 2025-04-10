@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { calculateLevelUpQuota, ICharacter, ProcedureKey } from '@revolt-rp/common';
@@ -25,12 +25,21 @@ export class CharacterOverviewComponent {
 
   $character!: Observable<ICharacter>;
 
+  levelUpQuota = 0;
+
   constructor(private rageClientService: RageClientService) {
     this.getCharacter();
   }
 
   private getCharacter() {
-    this.$character = this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_GET_PLAYER_CHARACTER);
+    this.$character = this.rageClientService.callServer<ICharacter>(ProcedureKey.SERVER_GET_PLAYER_CHARACTER)
+      .pipe(
+        tap(character => {
+          if (character) {
+            this.levelUpQuota = calculateLevelUpQuota(character.level + 1);
+          }
+        })
+      );
   }
 
   getLevelUpLeft(hours: number, minutes: number, levelUpQuota: number) {
