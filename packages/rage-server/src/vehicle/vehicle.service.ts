@@ -101,7 +101,7 @@ export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
   vehicle.info.owner = character;
 };
 
-function loadVehicleVariables(vehicle: VehicleMp, info: IVehicle) {
+function loadVehicleVariables(vehicle: VehicleMp, info: Vehicle) {
   vehicle.setVariables({
     [VehicleSharedDataType.Engine]: info.engine,
     [VehicleSharedDataType.Locked]: info.locked,

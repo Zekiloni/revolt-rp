@@ -4,7 +4,6 @@ import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revo
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 import { Item } from '../item/item.model';
-import { Property } from '../property/property.model';
 
 
 @modelOptions({
