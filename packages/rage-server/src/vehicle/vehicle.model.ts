@@ -4,6 +4,7 @@ import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revo
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 import { Item } from '../item/item.model';
+import { Organization } from '../organization/organization.model';
 
 
 @modelOptions({
@@ -87,6 +88,9 @@ export class Vehicle extends Document implements IVehicle {
 
   @prop({ ref: () => Character })
   owner: Ref<Character>;
+
+  @prop({ ref: () => Organization })
+  organization?: Ref<Organization>;
 
   @prop({ type: Boolean, required: false, default: true })
   isSpawned: boolean;

@@ -47,7 +47,7 @@ export class CharacterOverviewComponent {
     const requiredTotalMinutes = levelUpQuota * 60;
     const remainingMinutes = requiredTotalMinutes - currentTotalMinutes;
 
-    return dayjs().add(remainingMinutes, 'minutes').fromNow();
+    return dayjs().to(dayjs().add(remainingMinutes, 'minutes'));
   }
 
   getInitials(fullName: string) {

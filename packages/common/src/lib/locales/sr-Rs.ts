@@ -655,4 +655,11 @@ export const srRs = {
   'max_vehicles': 'Maksimalno Vozila',
   'max_properties': 'Maksimalno Nekretnina',
   'level': 'Level',
+  'vehicle_type_rented': 'Iznajmljeno Vozilo',
+  'vehicle_type_organization': 'Organizacijsko Vozilo',
+  'vehicle_type_owned': 'Privatno Vozilo',
+  'mileage': 'Kilometraža',
+  'numberplate': 'Registracija',
+  'not_registered': 'Nije registrovano',
+  'is_parked': 'Parkirano',
 };
