@@ -1,7 +1,50 @@
-@if ($vehicles | async; as vehicles) {
-  @for (vehicle of vehicles; track vehicle.id) {
-    <div class="vehicle-card">
-      {{ vehicle }}
-    </div>
-  }
-}
+<div class="max-w-fit">
+  <div class="grid grid-nogutter pt-2">
+    @if ($vehicles | async; as vehicles) {
+      @for (vehicle of vehicles; track vehicle.id) {
+        <div class="col-12 md:col-6 p-3">
+          <div class="surface-ground border-round-xl p-3" style="border-radius: 6px;">
+            <img [src]="getVehicleImage(vehicle.model) | staticAsset" class="mb-3 w-full" [alt]="vehicle.model">
+            <div class="flex justify-content-between align-items-start">
+              <div>
+                <div class="text-xl font-medium text-900 mb-2">{{ vehicle.model | titlecase }}</div>
+                <p class="mt-0 mb-3 text-600">{{ getVehicleTypeLabel(vehicle) | translate }}</p>
+              </div>
+
+              <p-menu #vehicleOptions [model]="vehicleMenuItems" [popup]="true" appendTo="body">
+                <ng-template pTemplate="item" let-item>
+                  <div class="flex align-items-center p-menuitem-link">
+                    <i [class]="item.icon"></i>
+                    <span class="ml-2">{{ item.label | translate }}</span>
+                  </div>
+                </ng-template>
+              </p-menu>
+
+              <button pButton pRipple icon="pi pi-ellipsis-h" [text]="true" [rounded]="true" (click)="toggleVehicleOptions(vehicleOptions, $event, vehicle)"></button>
+            </div>
+            <ul class="list-none m-0 p-0">
+              <li class="px-0 py-2 flex justify-content-between align-items-center border-bottom-1 surface-border"><span
+                class="text-600 font-medium text-sm">{{ 'color' | translate }}</span>
+                <span class="text-900 font-medium text-sm flex align-items-center gap-2">
+                  <div class="w-1rem h-1rem border-circle"
+                       [ngStyle]="{ 'background-color': getVehicleColorStyle(vehicle.color[0]) }"></div>
+                  <div class="w-1rem h-1rem border-circle"
+                       [ngStyle]="{ 'background-color': getVehicleColorStyle(vehicle.color[1]) }"></div>
+                </span>
+              </li>
+              <li class="px-0 py-2 flex justify-content-between align-items-center border-bottom-1 surface-border"><span
+                class="text-600 font-medium text-sm">{{ 'mileage' | translate }}</span>
+                <span class="text-900 font-medium text-sm">{{ vehicle.mileage.toFixed(2) }}km </span>
+              </li>
+              <li class="px-0 py-2 flex justify-content-between align-items-center">
+                <span class="text-600 font-medium text-sm">{{ 'numberplate' | translate }}</span>
+                <span
+                  class="text-900 font-medium text-sm">{{ vehicle.numberplate ? vehicle.numberplate.numberplate : ('not_registered' | translate) }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</div>

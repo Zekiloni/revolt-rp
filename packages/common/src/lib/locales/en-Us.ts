@@ -649,4 +649,11 @@ export const enUs = {
   'max_vehicles': 'Max No. of Vehicles',
   'max_properties': 'Max No. of Properties',
   'level': 'Level',
+  'vehicle_type_rented': 'Rent Vehicle',
+  'vehicle_type_organization': 'Organization Vehicle',
+  'vehicle_type_owned': 'Private Vehicle',
+  'mileage': 'Mileage',
+  'numberplate': 'Numberplate',
+  'not_registered': 'Not Registered',
+  'is_parked': 'Is Parked',
 };

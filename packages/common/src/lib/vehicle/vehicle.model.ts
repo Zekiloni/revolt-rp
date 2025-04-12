@@ -6,6 +6,7 @@ import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IProperty } from '../property/property.model';
 import { MenuItem } from 'primeng/api';
 import { ProcedureKey } from '../procedure.enums';
+import { IOrganization } from '../organization/organization.model';
 
 export interface IVehicleMod {
   type: number;
@@ -36,6 +37,7 @@ export interface IVehicleStats {
 export interface IVehicle extends Base {
   model: string;
   owner?: Ref<ICharacter>;
+  organization?: Ref<IOrganization>;
   fuel: number;
   mileage: number;
   price?: number;
