@@ -28,6 +28,8 @@ import { isVehicleTrunkOpened } from './vehicle-data';
 
 
 mp.game.vehicle.defaultEngineBehaviour = false;
+mp.players.local.setConfigFlag(241, true);
+mp.players.local.setConfigFlag(429, true);
 
 export const KMH_FRACTION = 3.6;
 const RPM_MULTIPLIER = 5000;

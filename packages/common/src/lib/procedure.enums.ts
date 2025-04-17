@@ -201,4 +201,5 @@ export const enum ProcedureKey {
   SERVER_GET_PLAYER_PROPERTIES = 'server_getPlayerProperties',
   SERVER_GET_PLAYER_VEHICLES = 'server_getPlayerVehicles',
   SERVER_VEHICLE_LOAD = 'server_vehicleLoad',
+  SERVER_PARK_VEHICLE = 'server_parkVehicle',
 }
