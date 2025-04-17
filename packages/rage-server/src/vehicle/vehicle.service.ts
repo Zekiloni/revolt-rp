@@ -33,7 +33,7 @@ export const createTemporaryVehicle = (model: string, position: Vector3, primary
   vehicle.info = new VehicleModel(createDefaultVehicleInfo(options, model, position, vehicle, true));
 
   vehicle.info.locked = vehicle.locked;
-  vehicle.info.color =  [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor]
+  vehicle.info.color = [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor];
   vehicle.info.position = position;
 
   loadVehicleVariables(vehicle, vehicle.info);
@@ -74,7 +74,10 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   return vehicle;
 };
 
-export const loadVehicle = (vehicle: Vehicle) => {
+export const loadVehicle = async (vehicle: Vehicle) => {
+  if (!vehicle)
+    return;
+
   const position = new mp.Vector3(vehicle.position.x, vehicle.position.y, vehicle.position.z);
   const rotation = new mp.Vector3(vehicle.rotation.x, vehicle.rotation.y, vehicle.rotation.z);
 
@@ -85,7 +88,10 @@ export const loadVehicle = (vehicle: Vehicle) => {
     locked: vehicle.locked
   });
 
+  vehicle.isSpawned = true;
   vehicleMp.info = vehicle;
+
+  await vehicleMp.info.save();
 
   vehicle.rotation = rotation;
 
@@ -95,6 +101,22 @@ export const loadVehicle = (vehicle: Vehicle) => {
   }
 
   loadVehicleVariables(vehicleMp, vehicle);
+};
+
+export const parkVehicle = async (vehicle: VehicleMp) => {
+  vehicle.info.position = vehicle.position;
+  vehicle.info.rotation = vehicle.rotation;
+
+  vehicle.info.engineHealth = vehicle.engineHealth;
+  vehicle.info.bodyHealth = vehicle.bodyHealth;
+
+  vehicle.info.isSpawned = false;
+
+  await vehicle.info.save();
+
+  if (vehicle && mp.vehicles.exists(vehicle)) {
+    vehicle.destroy();
+  }
 };
 
 export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
@@ -200,4 +222,8 @@ export const toggleVehicleEditMenu = (player: PlayerMp, vehicle: VehicleMp) => {
 
 export const getVehiclesByOwner = async (ownerId: string) => {
   return VehicleModel.find({ owner: ownerId }).exec();
+};
+
+export const getVehicleById = (vehicleId: string) => {
+  return VehicleModel.findById(vehicleId).exec();
 }

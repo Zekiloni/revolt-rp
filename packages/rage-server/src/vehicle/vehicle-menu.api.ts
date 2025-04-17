@@ -11,6 +11,14 @@ const vehicleActions: { isSupported: (player: PlayerMp, vehicle: VehicleMp) => b
       icon: 'pi pi-undo',
       eventKey: ProcedureKey.SERVER_RETURN_RENT_VEHICLE
     }
+  },
+  {
+    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle),
+    action: {
+      label: 'vehicle_park',
+      icon: 'pi pi-car',
+      eventKey: ProcedureKey.SERVER_PARK_VEHICLE
+    }
   }
 ];
 
