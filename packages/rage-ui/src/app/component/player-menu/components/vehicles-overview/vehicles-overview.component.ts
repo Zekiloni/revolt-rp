@@ -99,7 +99,7 @@ export class VehiclesOverviewComponent {
 
     if (this.isRentVehicle(vehicle)) {
       this.vehicleMenuItems.push({
-        label: 'vehicle_menu_return_vehicle',
+        label: 'return_rent_vehicle',
         icon: 'pi pi-refresh',
         command: () => {
           this.rageClientService.triggerServer(ProcedureKey.SERVER_RETURN_RENT_VEHICLE, vehicle.id);

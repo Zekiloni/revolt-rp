@@ -11,7 +11,7 @@ import {
   hasPlayerVehicleKeys,
   lockVehicle, saveVehicle, loadVehicle,
   toggleVehicleEngine, toggleVehicleHood,
-  toggleVehicleIndicator, toggleVehicleTrunk, getVehiclesByOwner
+  toggleVehicleIndicator, toggleVehicleTrunk, getVehiclesByOwner, parkVehicle, getVehicleById
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
@@ -105,6 +105,21 @@ function getPlayerVehiclesHandler(args: undefined, { player }: ProcedureListener
   return getVehiclesByOwner(player.character.id);
 }
 
+async function parkVehicleHandler(vehicle: VehicleMp | undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
+  if (!vehicle)
+    vehicle = player.vehicle;
+
+  if (!vehicle)
+    return;
+
+  await parkVehicle(vehicle);
+}
+
+async function loadVehicleHandler(vehicleId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  getVehicleById(vehicleId)
+    .then(vehicle => loadVehicle(vehicle));
+}
+
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerExitVehicle: playerExitVehicleHandler
@@ -117,6 +132,8 @@ on(ProcedureKey.SERVER_PLAYER_LOCK_VEHICLE, playerLockVehicleHandler);
 on(ProcedureKey.SERVER_PLAYER_TOGGLE_VEHICLE_INDICATOR, playerToggleVehicleIndicatorHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);
+on(ProcedureKey.SERVER_PARK_VEHICLE, parkVehicleHandler);
+on(ProcedureKey.SERVER_VEHICLE_LOAD, loadVehicleHandler);
 register(ProcedureKey.SERVER_GET_PLAYER_VEHICLES, getPlayerVehiclesHandler);
 
 (async () => {

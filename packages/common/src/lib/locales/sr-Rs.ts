@@ -604,6 +604,7 @@ export const srRs = {
   'vehicle_rent_expiring': 'Vaše iznajmljivanje vozila ističe za {{min}} minuta.',
   'vehicle_rent_expired': 'Vaše iznajmljivanje vozila je isteklo.',
   'return_rent_vehicle': 'Vratite iznajmljeno vozilo',
+  'vehicle_park': 'Parkiraj vozilo',
   'vehicle_rent_returned': 'Vratili ste iznajmljeno vozilo.',
   'shopping_cart_is_empty': 'Korpa je prazna.',
   'add_product': 'Dodaj proizvod',
@@ -662,4 +663,6 @@ export const srRs = {
   'numberplate': 'Registracija',
   'not_registered': 'Nije registrovano',
   'is_parked': 'Parkirano',
+  'vehicle_menu_vehicle_info': 'Informacije o vozilu',
+  'vehicle_menu_spawn_vehicle': 'Izaberi vozilo',
 };
