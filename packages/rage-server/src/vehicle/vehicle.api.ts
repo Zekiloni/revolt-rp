@@ -1,20 +1,30 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
-  IVehicleUpdateData, PlayerSharedDataType,
+  GameUiKey,
+  IVehicleUpdateData,
+  PlayerSharedDataType,
   ProcedureKey,
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
 import {
   getAllVehicles,
+  getVehicleById,
+  getVehiclesByOwner,
   hasPlayerVehicleKeys,
-  lockVehicle, saveVehicle, loadVehicle,
-  toggleVehicleEngine, toggleVehicleHood,
-  toggleVehicleIndicator, toggleVehicleTrunk, getVehiclesByOwner, parkVehicle, getVehicleById
+  loadVehicle,
+  lockVehicle,
+  parkVehicle,
+  saveVehicle,
+  toggleVehicleEngine,
+  toggleVehicleHood,
+  toggleVehicleIndicator,
+  toggleVehicleTrunk
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
+import { hidePlayerGameInterface } from '../player/util/player.util';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -113,6 +123,7 @@ async function parkVehicleHandler(vehicle: VehicleMp | undefined, { player }: Pr
     return;
 
   await parkVehicle(vehicle);
+  hidePlayerGameInterface(player, GameUiKey.VehicleMenu);
 }
 
 async function loadVehicleHandler(vehicleId: string, { player }: ProcedureListenerInfo<PlayerMp>) {

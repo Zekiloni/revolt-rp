@@ -148,7 +148,7 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
       mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-      registerKeyBind(HexKeyCodes.Y, false, toggleVehicleMenu, 300);
+      registerKeyBind(HexKeyCodes.Y, true, toggleVehicleMenu, 0);
 
       if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
         if (!vehicle.getIsEngineRunning())

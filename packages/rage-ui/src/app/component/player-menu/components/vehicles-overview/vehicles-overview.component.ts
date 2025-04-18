@@ -2,13 +2,15 @@ import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
+import { MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
+import { Menu, MenuModule } from 'primeng/menu';
 import { ButtonDirective } from 'primeng/button';
+import { DialogService } from 'primeng/dynamicdialog';
 import { IVehicle, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
-import { Menu, MenuModule } from 'primeng/menu';
-import { MenuItem } from 'primeng/api';
+import { VehicleSellOfferComponent } from '../../../vehicle/vehicle-sell-offer';
 
 
 declare type VehicleOwnershipType = 'vehicle_type_rented' | 'vehicle_type_owned' | 'vehicle_type_organization';
@@ -16,11 +18,13 @@ declare type VehicleOwnershipType = 'vehicle_type_rented' | 'vehicle_type_owned'
 /**
  * The VehiclesOverviewComponent is responsible for displaying the overview of vehicles owned by the player.
  * It fetches the list of vehicles from the server and provides it to the template for rendering.
+ * It also provides functionality to interact with the vehicles, such as spawning, selling, or returning rented vehicles.
  */
 @Component({
   selector: 'app-vehicles-overview',
   standalone: true,
   imports: [CommonModule, StaticAssetPipe, TranslatePipe, ButtonDirective, Ripple, MenuModule],
+  providers: [DialogService],
   templateUrl: './vehicles-overview.component.html',
   styleUrl: './vehicles-overview.component.css'
 })
@@ -31,8 +35,9 @@ export class VehiclesOverviewComponent {
   /**
    * Constructor for VehiclesOverviewComponent.
    * @param rageClientService - Service to interact with the game client and server.
+   * @param dialogService
    */
-  constructor(private rageClientService: RageClientService) {
+  constructor(private rageClientService: RageClientService, private dialogService: DialogService) {
     this.getVehicles();
   }
 
@@ -50,6 +55,10 @@ export class VehiclesOverviewComponent {
    */
   getVehicleImage(model: string) {
     return `assets/images/vehicles/${model}.png`;
+  }
+
+  isPrivateVehicle(vehicle: IVehicle): boolean {
+    return vehicle.owner != undefined && vehicle.organization == undefined && !this.isRentVehicle(vehicle);
   }
 
   /**
@@ -95,7 +104,7 @@ export class VehiclesOverviewComponent {
       command: () => {
         // todo
       }
-    })
+    });
 
     if (this.isRentVehicle(vehicle)) {
       this.vehicleMenuItems.push({
@@ -104,7 +113,7 @@ export class VehiclesOverviewComponent {
         command: () => {
           this.rageClientService.triggerServer(ProcedureKey.SERVER_RETURN_RENT_VEHICLE, vehicle.id);
         }
-      })
+      });
     }
 
     if (!vehicle.isSpawned) {
@@ -113,6 +122,19 @@ export class VehiclesOverviewComponent {
         icon: 'pi pi-fw pi-car',
         command: () => {
           this.rageClientService.triggerServer(ProcedureKey.SERVER_VEHICLE_LOAD, vehicle.id);
+        }
+      });
+    }
+
+    if (this.isPrivateVehicle(vehicle)) {
+      this.vehicleMenuItems.push({
+        label: 'vehicle_sell_offer',
+        icon: 'pi pi-dollar',
+        command: () => {
+          this.dialogService.open(VehicleSellOfferComponent, {
+            header: 'vehicle_sell_offer',
+            data: vehicle
+          });
         }
       });
     }
