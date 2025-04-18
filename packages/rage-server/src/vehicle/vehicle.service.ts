@@ -144,6 +144,9 @@ export const isRentVehicle = (vehicle: VehicleMp) => {
   return vehicle.info.rented;
 };
 
+export const isPrivateVehicle = (vehicle: VehicleMp) => {
+  return vehicle.info.owner && !vehicle.info.organization && !vehicle.info.rented;
+}
 
 export const getVehicleId = (vehicle: VehicleMp) => {
   return vehicle.getVariable<string | undefined>(VehicleSharedDataType.VehicleId);

@@ -599,6 +599,7 @@ export const enUs = {
   'vehicle_rent_expired': 'Your vehicle rent has expired.',
   'return_rent_vehicle': 'Return Rent Vehicle',
   'vehicle_park': 'Park Vehicle',
+  'vehicle_sell_offer': 'Vehicle Sell Offer',
   'vehicle_rent_returned': 'Rented vehicle has been returned.',
   'shopping_cart_is_empty': 'Shopping cart is empty.',
   'add_product': 'Add Product',
