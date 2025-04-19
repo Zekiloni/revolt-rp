@@ -1,7 +1,7 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
-  GameUiKey,
+  GameUiKey, IVehicleSellOffer,
   IVehicleUpdateData,
   PlayerSharedDataType,
   ProcedureKey,
@@ -9,7 +9,8 @@ import {
   VehicleSharedDataType
 } from '@revolt-rp/common';
 import {
-  getAllVehicles,
+  createVehicleSellOffer,
+  getAllVehicles, getSpawnedVehicleById,
   getVehicleById,
   getVehiclesByOwner,
   hasPlayerVehicleKeys,
@@ -25,6 +26,8 @@ import {
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
+import { notifyPlayer } from '../player/util/player-notify.util';
+import { t } from 'i18next';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -131,6 +134,21 @@ async function loadVehicleHandler(vehicleId: string, { player }: ProcedureListen
     .then(vehicle => loadVehicle(vehicle));
 }
 
+
+function createVehicleSellOfferHandler(offer: IVehicleSellOffer, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const target = mp.players.at(offer.targetId);
+
+  if (!target || !target.character)
+    return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+  if (player.dist(target.position) > 10)
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('target_not_close') });
+
+  getSpawnedVehicleById(offer.vehicleId)
+    .then(vehicle => createVehicleSellOffer(player, vehicle, offer.price, target));
+}
+
+
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
   playerExitVehicle: playerExitVehicleHandler
@@ -145,6 +163,7 @@ on(ProcedureKey.SERVER_VEHICLE_TOGGLE_TRUNK, toggleVehicleTrunkHandler);
 on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);
 on(ProcedureKey.SERVER_PARK_VEHICLE, parkVehicleHandler);
 on(ProcedureKey.SERVER_VEHICLE_LOAD, loadVehicleHandler);
+on(ProcedureKey.SERVER_VEHICLE_SELL_OFFER, createVehicleSellOfferHandler);
 register(ProcedureKey.SERVER_GET_PLAYER_VEHICLES, getPlayerVehiclesHandler);
 
 (async () => {

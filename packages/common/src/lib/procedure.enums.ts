@@ -204,4 +204,5 @@ export const enum ProcedureKey {
   SERVER_PARK_VEHICLE = 'server_parkVehicle',
   BROWSER_VEHICLE_SELL_OFFER_DIALOG = 'browser_vehicleSellOfferDialog',
   SERVER_VEHICLE_SELL_OFFER_DIALOG = 'server_vehicleSellOfferDialog',
+  SERVER_VEHICLE_SELL_OFFER = 'server_vehicleSellOffer',
 }

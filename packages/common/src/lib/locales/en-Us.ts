@@ -660,4 +660,9 @@ export const enUs = {
   'is_parked': 'Is Parked',
   'vehicle_menu_vehicle_info': 'Vehicle Info',
   'vehicle_menu_spawn_vehicle': 'Spawn Vehicle',
+  'vehicle_sell_offer_info': '{{offerer}} has offered to sell you their {{model}} for {{price}}.',
+  'you_declined_vehicle_buy': 'You have declined the vehicle buy offer.',
+  'vehicle_sell_offer_declined': '{{player}} has declined your vehicle sell offer.',
+  'vehicle_sell_offer_accepted': '{{player}} has accepted your vehicle sell offer.',
+  'vehicle_sell_offer_expired': 'Vehicle sell offer has expired.',
 };

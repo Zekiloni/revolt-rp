@@ -666,4 +666,9 @@ export const srRs = {
   'is_parked': 'Parkirano',
   'vehicle_menu_vehicle_info': 'Informacije o vozilu',
   'vehicle_menu_spawn_vehicle': 'Izaberi vozilo',
+  'vehicle_sell_offer_info': '{{offerer}} vam je ponudio {{model}} za {{price}}.',
+  'you_declined_vehicle_buy': 'Odbili ste ponudu za kupovinu vozila od {{player}}.',
+  'vehicle_sell_offer_declined': '{{player}} je odbio vašu ponudu za kupovinu vozila.',
+  'vehicle_sell_offer_accepted': '{{player}} je prihvatio vašu ponudu za kupovinu vozila.',
+  'vehicle_sell_offer_expired': 'Ponuda za kupovinu vozila je istekla.',
 };
