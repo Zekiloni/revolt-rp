@@ -84,3 +84,10 @@ export interface IVehicleOption extends MenuItem {
   description?: string;
   eventKey: ProcedureKey;
 }
+
+
+export interface IVehicleSellOffer {
+  vehicleId: string;
+  targetId: number;
+  price: number;
+}

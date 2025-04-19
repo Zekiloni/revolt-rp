@@ -1,19 +1,20 @@
 import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { Ripple } from 'primeng/ripple';
 import { Menu, MenuModule } from 'primeng/menu';
 import { ButtonDirective } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
-import { IVehicle, ProcedureKey } from '@revolt-rp/common';
+import { IVehicle, IVehicleSellOffer, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { VehicleSellOfferComponent } from '../../../vehicle/vehicle-sell-offer';
 
 
 declare type VehicleOwnershipType = 'vehicle_type_rented' | 'vehicle_type_owned' | 'vehicle_type_organization';
+
 
 /**
  * The VehiclesOverviewComponent is responsible for displaying the overview of vehicles owned by the player.
@@ -35,9 +36,10 @@ export class VehiclesOverviewComponent {
   /**
    * Constructor for VehiclesOverviewComponent.
    * @param rageClientService - Service to interact with the game client and server.
-   * @param dialogService
+   * @param dialogService - Service to handle dialog interactions.
+   * @param translateService - Service to handle translations.
    */
-  constructor(private rageClientService: RageClientService, private dialogService: DialogService) {
+  constructor(private rageClientService: RageClientService, private dialogService: DialogService, private translateService: TranslateService) {
     this.getVehicles();
   }
 
@@ -132,8 +134,12 @@ export class VehiclesOverviewComponent {
         icon: 'pi pi-dollar',
         command: () => {
           this.dialogService.open(VehicleSellOfferComponent, {
-            header: 'vehicle_sell_offer',
+            header: this.translateService.instant('vehicle_sell_offer'),
             data: vehicle
+          }).onClose.subscribe((offer?: IVehicleSellOffer) => {
+            if (offer) {
+              this.rageClientService.triggerServer(ProcedureKey.SERVER_VEHICLE_SELL_OFFER, offer);
+            }
           });
         }
       });

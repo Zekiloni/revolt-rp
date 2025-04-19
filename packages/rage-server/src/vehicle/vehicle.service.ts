@@ -1,4 +1,7 @@
+import { FilterQuery } from 'mongoose';
+import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
+  formatCurrency,
   GameUiKey,
   IVehicle,
   ProcedureKey, vehicleColors,
@@ -9,9 +12,10 @@ import { Vehicle, VehicleModel } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
 import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
-import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { vehicleConfig } from './vehicle.config';
-import { FilterQuery } from 'mongoose';
+import { createPlayerOffer } from '../player/offer/player-offer.service';
+import { t } from 'i18next';
+import { notifyPlayer } from '../player/util/player-notify.util';
 
 
 export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
@@ -146,7 +150,7 @@ export const isRentVehicle = (vehicle: VehicleMp) => {
 
 export const isPrivateVehicle = (vehicle: VehicleMp) => {
   return vehicle.info.owner && !vehicle.info.organization && !vehicle.info.rented;
-}
+};
 
 export const getVehicleId = (vehicle: VehicleMp) => {
   return vehicle.getVariable<string | undefined>(VehicleSharedDataType.VehicleId);
@@ -222,11 +226,50 @@ export const toggleVehicleEditMenu = (player: PlayerMp, vehicle: VehicleMp) => {
     () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_VEHICLE, vehicle.info));
 };
 
+export const acceptVehicleSellOffer = async (player: PlayerMp, offerer: PlayerMp, vehicle: VehicleMp, price: number) => {
+  if (!offerer || !mp.players.exists(offerer.id)) {
+    return notifyPlayer(player, { severity: 'error', detail: t('vehicle_sell_offer_expired') });
+  }
+
+  setVehicleOwner(vehicle, player.character);
+
+  await vehicle.info.save();
+};
+
+export const declineVehicleSellOffer = async (player: PlayerMp, offerer: PlayerMp) => {
+  notifyPlayer(player, { severity: 'info', detail: t('you_declined_vehicle_buy', { player: offerer.name }) });
+
+  if (offerer && mp.players.at(offerer.id))
+    notifyPlayer(offerer, { severity: 'info', detail: t('vehicle_sell_offer_declined', { player: player.name }) });
+};
+
+export const createVehicleSellOffer = async (player: PlayerMp, vehicle: VehicleMp, price: number, target: PlayerMp) => {
+  const acceptOffer = async (_target: PlayerMp) => acceptVehicleSellOffer(_target, player, vehicle, price),
+    declineOffer = async (_target: PlayerMp) => declineVehicleSellOffer(_target, player);
+
+  createPlayerOffer(
+    target,
+    t('vehicle_sell_offer_info', { model: vehicle.model, offerer: player.name, price: formatCurrency(price) }),
+    acceptOffer,
+    declineOffer,
+    player
+  );
+};
+
 
 export const getVehiclesByOwner = async (ownerId: string) => {
   return VehicleModel.find({ owner: ownerId }).exec();
 };
 
 export const getVehicleById = (vehicleId: string) => {
-  return VehicleModel.findById(vehicleId).exec();
-}
+  return VehicleModel.findById(vehicleId);
+};
+
+
+export const getSpawnedVehicleById = async (vehicleId: string) => {
+  const vehicle = mp.vehicles.toArray().find(v => v.info?.id === vehicleId);
+  if (!vehicle) throw new Error('Vehicle not found');
+  return vehicle; // This auto-resolves the promise
+};
+
+

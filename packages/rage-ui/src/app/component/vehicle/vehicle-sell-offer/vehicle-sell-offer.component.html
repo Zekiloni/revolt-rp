@@ -1,1 +1,25 @@
-<p>vehicle-sell-offer works!</p>
+<div class="field mb-4 flex-auto">
+  <label class="block" for="target">{{ 'target_player' | translate }}</label>
+  <p-dropdown
+    [options]="nearbyPlayers"
+    [(ngModel)]="selectedTarget"
+    id="target"
+    optionLabel="name"
+    optionValue="id"
+    [filter]="true"
+    [emptyFilterMessage]="'no_results' | translate"
+    [emptyMessage]="'no_results' | translate"
+    appendTo="body"
+    (onFilter)="filterNearbyPlayers($event)"
+    [placeholder]="'select_player' | translate" />
+</div>
+
+<div class="field mb-4 flex-auto">
+  <label class="block" for="offer-price">{{ 'price' | translate }}</label>
+  <p-inputNumber [(ngModel)]="price" id="offer-price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5"
+                 placeholder="5000" [min]="0" />
+</div>
+
+<p-button class="block"
+          label="{{ 'submit' | translate }}"
+          [disabled]="!selectedTarget" (onClick)="submit()" />
