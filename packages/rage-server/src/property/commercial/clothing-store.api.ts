@@ -5,7 +5,6 @@ import { buyClothes } from './clothing-store.service';
 
 
 function clothingStoreBuyHandler(data: IShopping<IClothingProduct>, { player }: ProcedureListenerInfo<PlayerMp>) {
-  console.log('clothingStoreBuyHandler', data);
   getPropertyById(data.propertyId)
     .then(property => buyClothes(player, property, data.shoppingCart as IClothingCartItem[], data.payment));
 }

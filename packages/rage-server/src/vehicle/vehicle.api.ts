@@ -61,7 +61,6 @@ function playerLockVehicleHandler(vehicleId: number, { player }: ProcedureListen
   if (player.dist(vehicle.position) > 10)
     return;
 
-  console.log('has keys', hasPlayerVehicleKeys(player, vehicle));
   if (!hasPlayerVehicleKeys(player, vehicle))
     return;
 

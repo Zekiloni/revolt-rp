@@ -1,5 +1,5 @@
 import { Observable, tap } from 'rxjs';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { calculateLevelUpQuota, ICharacter, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
@@ -21,8 +21,6 @@ import { dayjs } from '../../../../domain/util/dajys.util';
   styleUrl: './character-overview.component.css'
 })
 export class CharacterOverviewComponent {
-  protected readonly calculateLevelUpQuota = calculateLevelUpQuota;
-
   $character!: Observable<ICharacter>;
 
   levelUpQuota = 0;

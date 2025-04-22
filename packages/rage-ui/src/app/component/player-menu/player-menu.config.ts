@@ -2,6 +2,7 @@ import { AccountOverviewComponent } from './components/account-overview';
 import { CharacterOverviewComponent } from './components/character-overview';
 import { PropertiesOverviewComponent } from './components/properties-overview';
 import { VehiclesOverviewComponent } from './components/vehicles-overview';
+import { OrganizationOverviewComponent } from './components/organization-overview';
 
 
 export const playerMenuItems = [
@@ -32,6 +33,7 @@ export const playerMenuItems = [
   {
     label: 'player_menu.organization',
     icon: 'pi pi-users',
-    description: 'player_menu.organization_description'
+    description: 'player_menu.organization_description',
+    component: OrganizationOverviewComponent
   }
 ];
