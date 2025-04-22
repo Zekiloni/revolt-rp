@@ -671,4 +671,5 @@ export const srRs = {
   'vehicle_sell_offer_declined': '{{player}} je odbio vašu ponudu za kupovinu vozila.',
   'vehicle_sell_offer_accepted': '{{player}} je prihvatio vašu ponudu za kupovinu vozila.',
   'vehicle_sell_offer_expired': 'Ponuda za kupovinu vozila je istekla.',
+  'you_dont_have_membership': 'Niste član organizacije.',
 };

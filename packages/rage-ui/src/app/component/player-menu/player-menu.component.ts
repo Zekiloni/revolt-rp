@@ -32,7 +32,6 @@ export class PlayerMenuComponent {
   }
 
   show(item: MenuItem) {
-    console.log('item', item);
     this.activeMenuItem = item;
   }
 

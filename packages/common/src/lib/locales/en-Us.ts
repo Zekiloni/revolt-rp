@@ -665,4 +665,5 @@ export const enUs = {
   'vehicle_sell_offer_declined': '{{player}} has declined your vehicle sell offer.',
   'vehicle_sell_offer_accepted': '{{player}} has accepted your vehicle sell offer.',
   'vehicle_sell_offer_expired': 'Vehicle sell offer has expired.',
+  'you_dont_have_membership': 'You are not a member of any organization.',
 };
