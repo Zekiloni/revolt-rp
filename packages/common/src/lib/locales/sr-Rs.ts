@@ -634,7 +634,9 @@ export const srRs = {
     'character_overview_description': 'Pregled vašeg karaktera i podešavanja.',
     'properties_description': 'Upravljanje i pregled vaših nekretnina.',
     'vehicles_description': 'Upravljanje i pregled vaših vozila.',
-    'organization_description': 'Upravljanje i pregled vaše organizacije.'
+    'organization_description': 'Upravljanje i pregled vaše organizacije.',
+    'online_players': 'Online Igrači',
+    'online_players_description': 'Pregled svih online igrača.',
   },
   'email': 'E-mail Adresa',
   'social_club_id': 'Social Club ID',

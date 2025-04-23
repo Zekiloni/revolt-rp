@@ -3,6 +3,7 @@ import { CharacterOverviewComponent } from './components/character-overview';
 import { PropertiesOverviewComponent } from './components/properties-overview';
 import { VehiclesOverviewComponent } from './components/vehicles-overview';
 import { OrganizationOverviewComponent } from './components/organization-overview';
+import { OnlinePlayersComponent } from './components/online-players';
 
 
 export const playerMenuItems = [
@@ -35,5 +36,11 @@ export const playerMenuItems = [
     icon: 'pi pi-users',
     description: 'player_menu.organization_description',
     component: OrganizationOverviewComponent
+  },
+  {
+    label: 'player_menu.online_players',
+    icon: 'pi pi-users',
+    description: 'player_menu.online_players_description',
+    component: OnlinePlayersComponent
   }
 ];

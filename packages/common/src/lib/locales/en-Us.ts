@@ -628,7 +628,9 @@ export const enUs = {
     'character_overview_description': 'Character overview and settings.',
     'properties_description': 'Manage and view your properties.',
     'vehicles_description': 'Manage and view your vehicles.',
-    'organization_description': 'Manage and view your organization.'
+    'organization_description': 'Manage and view your organization.',
+    'online_players': 'Online Players',
+    'online_players_description': 'View online players and their information.',
   },
   'email': 'E-mail Address',
   'social_club_id': 'Social Club ID',
