@@ -23,7 +23,6 @@ function toggleDealershipMenu(data: { property: IProperty, rotation: Vector3, po
     showGameInterface(GameUiKey.VehicleDealership);
     setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PROPERTY, property), 150);
   } else {
-    mp.gui.chat.push('/hide');
     hideGameInterface(GameUiKey.VehicleDealership);
 
     if (vehicle && mp.vehicles.exists(vehicle)) {
