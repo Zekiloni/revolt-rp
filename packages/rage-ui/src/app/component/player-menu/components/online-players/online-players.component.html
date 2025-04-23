@@ -1,25 +1,28 @@
-<p-table [value]="players">
-  <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
-      {{ 'player_menu.online_players' | translate }}
-      <p-button icon="pi pi-refresh" />
-    </div>
-  </ng-template>
-  <ng-template pTemplate="header">
-    <tr>
-      <th>#</th>
-      <th>{{ 'name' | translate }}</th>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="body" let-player>
-    <tr>
-      <td>{{ player['id'] }}</td>
-      <td>{{ player['name'] }}</td>
-    </tr>
-  </ng-template>
-  <ng-template pTemplate="summary">
-    <div class="flex align-items-center justify-content-between">
-      In total there are {{ players ? players.length : 0 }} products.
-    </div>
-  </ng-template>
-</p-table>
+
+@if ($players | async; as players) {
+  <p-table [value]="players">
+    <ng-template pTemplate="caption">
+      <div class="flex align-items-center justify-content-between">
+        {{ 'player_menu.online_players' | translate }}
+        <p-button icon="pi pi-refresh" />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>{{ 'name' | translate }}</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-player>
+      <tr>
+        <td>{{ player['id'] }}</td>
+        <td>{{ player['name'] }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="flex align-items-center justify-content-between">
+        In total there are {{ $players ? players.length : 0 }} products.
+      </div>
+    </ng-template>
+  </p-table>
+}
