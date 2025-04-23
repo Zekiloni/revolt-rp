@@ -65,7 +65,7 @@ function getVehicleOptionsHandler(_args: undefined, { player }: ProcedureListene
  * @param player
  */
 function toggleVehicleSellOfferDialogHandler(_args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
-  triggerBrowsers(player, ProcedureKey.BROWSER_VEHICLE_SELL_OFFER_DIALOG, player.vehicle);
+  triggerBrowsers(player, ProcedureKey.BROWSER_VEHICLE_SELL_OFFER_DIALOG, player.vehicle.info);
 }
 
 /**
