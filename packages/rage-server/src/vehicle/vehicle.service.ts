@@ -267,7 +267,11 @@ export const getVehicleById = (vehicleId: string) => {
 
 
 export const getSpawnedVehicleById = async (vehicleId: string) => {
-  const vehicle = mp.vehicles.toArray().find(v => v.info?.id === vehicleId);
+  console.log('getSpawnedVehicleById', vehicleId);
+  const vehicle = mp.vehicles.toArray().find(v => {
+    console.log('find', v.info?.id, vehicleId);
+    return v.info?.id === vehicleId;
+  });
   if (!vehicle) throw new Error('Vehicle not found');
   return vehicle; // This auto-resolves the promise
 };
