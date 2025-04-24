@@ -6,6 +6,10 @@ import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { IOnlinePlayer, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
+import { filterGlobal } from '../../../../domain/util/table.util';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 /**
@@ -14,7 +18,7 @@ import { RageClientService } from '../../../../domain/service/rage-client.servic
 @Component({
   selector: 'app-online-players',
   standalone: true,
-  imports: [CommonModule, TableModule, Button, TranslatePipe],
+  imports: [CommonModule, TableModule, Button, TranslatePipe, IconFieldModule, InputIconModule, InputTextModule],
   templateUrl: './online-players.component.html',
   styleUrl: './online-players.component.css'
 })
@@ -31,5 +35,18 @@ export class OnlinePlayersComponent {
 
   refresh() {
     this.getPlayers();
+  }
+
+  protected readonly filterGlobal = filterGlobal;
+
+  getNickNameColor(player: IOnlinePlayer) {
+    switch (true) {
+      case player.administrator === 1:
+        return 'text-green-400';
+      case player.administrator > 1:
+        return 'text-red-400';
+      default:
+        return 'text-white';
+    }
   }
 }

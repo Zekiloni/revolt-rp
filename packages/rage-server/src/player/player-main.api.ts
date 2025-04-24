@@ -19,6 +19,7 @@ function getPlayersHandler(): IOnlinePlayer[] {
       name: player.name,
       username: player.account.username,
       administrator: player.account.administrator,
+      sessionStartAt: player.account.lastLoginAt,
       ping: player.ping
     }));
 }

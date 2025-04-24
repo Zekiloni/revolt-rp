@@ -1,27 +1,50 @@
-
 @if ($players | async; as players) {
-  <p-table [value]="players">
+  <p-table #playersTable
+           [value]="players" [rows]="10" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+           styleClass="p-datatable-striped" [scrollable]="true" scrollHeight="400px"
+           dataKey="id" [globalFilterFields]="['name', 'username', 'id']" sortField="id" [sortOrder]="1">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         {{ 'player_menu.online_players' | translate }}
-        <p-button icon="pi pi-refresh" />
+        <p-iconField iconPosition="left">
+          <p-inputIcon>
+            <i class="pi pi-search"></i>
+          </p-inputIcon>
+          <input
+            pInputText
+            type="text"
+            (input)="filterGlobal(playersTable, $event.target!)"
+            [placeholder]="'search' | translate" />
+        </p-iconField>
+        <p-button icon="pi pi-refresh" [text]="true" [rounded]="true" (onClick)="refresh()" />
       </div>
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th>#</th>
-        <th>{{ 'name' | translate }}</th>
+        <th pSortableColumn="id" style="width:15%">
+          <span>#</span>
+          <p-sortIcon field="id" />
+        </th>
+        <th pSortableColumn="name">
+          <span>{{ 'name' | translate }}</span>
+          <p-sortIcon field="name" />
+        </th>
+        <th pSortableColumn="ping" style="width:15%">
+          <span>{{ 'ping' | translate }}</span>
+          <p-sortIcon field="ping" />
+        </th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-player>
       <tr>
         <td>{{ player['id'] }}</td>
-        <td>{{ player['name'] }}</td>
+        <td>{{ player['name'] }} <span class="text-500" [ngClass]="getNickNameColor(player)">{{ player['username'] }}</span></td>
+        <td>{{ player['ping'] }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
       <div class="flex align-items-center justify-content-between">
-        In total there are {{ $players ? players.length : 0 }} products.
+        {{ 'total_players_online' | translate: { players: players.length } }}
       </div>
     </ng-template>
   </p-table>

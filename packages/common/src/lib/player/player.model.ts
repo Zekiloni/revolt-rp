@@ -11,5 +11,6 @@ export interface IOnlinePlayer {
   name: string;
   username: string;
   administrator: AdminType;
+  sessionStartAt: Date;
   ping: number;
 }
