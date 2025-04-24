@@ -46,7 +46,7 @@ export class OnlinePlayersComponent {
       case player.administrator > 1:
         return 'text-red-400';
       default:
-        return 'text-white';
+        return 'text-color';
     }
   }
 }
