@@ -630,7 +630,7 @@ export const enUs = {
     'vehicles_description': 'Manage and view your vehicles.',
     'organization_description': 'Manage and view your organization.',
     'online_players': 'Online Players',
-    'online_players_description': 'View online players and their information.',
+    'online_players_description': 'View online players and their information.'
   },
   'email': 'E-mail Address',
   'social_club_id': 'Social Club ID',
@@ -668,4 +668,6 @@ export const enUs = {
   'vehicle_sell_offer_accepted': '{{player}} has accepted your vehicle sell offer.',
   'vehicle_sell_offer_expired': 'Vehicle sell offer has expired.',
   'you_dont_have_membership': 'You are not a member of any organization.',
+  'ping': 'Ping',
+  'total_players_online': 'There are {{players}} players online.',
 };

@@ -636,7 +636,7 @@ export const srRs = {
     'vehicles_description': 'Upravljanje i pregled vaših vozila.',
     'organization_description': 'Upravljanje i pregled vaše organizacije.',
     'online_players': 'Online Igrači',
-    'online_players_description': 'Pregled svih online igrača.',
+    'online_players_description': 'Pregled svih online igrača.'
   },
   'email': 'E-mail Adresa',
   'social_club_id': 'Social Club ID',
@@ -674,4 +674,6 @@ export const srRs = {
   'vehicle_sell_offer_accepted': '{{player}} je prihvatio vašu ponudu za kupovinu vozila.',
   'vehicle_sell_offer_expired': 'Ponuda za kupovinu vozila je istekla.',
   'you_dont_have_membership': 'Niste član organizacije.',
+  'ping': 'Ping',
+  'total_players_online': 'Trenutno ima {{players}} igrača online.',
 };
