@@ -1,5 +1,20 @@
 @if ($organization | async; as organization) {
-  {{ organization | json }}
+  <pre>{{ organization | json }}</pre>
+
+  @if ($members) {
+    @if ($members | async; as members) {
+      <div class="flex gap-3 flex-wrap">
+        @for (member of members; track member.id) {
+          <p-chip styleClass="py-2 px-3">
+            <i [ngClass]="getMemberIcon(member.inGame)" ></i>
+            <span class="ml-2">
+                {{ member.fullName }} <span class="text-500">{{ getMemberUsername(member) }}</span>
+            </span>
+          </p-chip>
+        }
+      </div>
+    }
+  }
 } @else {
   <p-messages severity="warn">
     <ng-template pTemplate>
