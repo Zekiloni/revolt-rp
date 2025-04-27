@@ -670,4 +670,5 @@ export const enUs = {
   'you_dont_have_membership': 'You are not a member of any organization.',
   'ping': 'Ping',
   'total_players_online': 'There are {{players}} players online.',
+  'organization_menu': 'Organization Menu'
 };
