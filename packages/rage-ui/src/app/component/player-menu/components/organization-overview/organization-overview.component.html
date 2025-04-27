@@ -1,25 +1,61 @@
-@if ($organization | async; as organization) {
-  <pre>{{ organization | json }}</pre>
+<div class="px-2 py-3 ">
+  @if ($organization | async; as organization) {
+    <div class="flex align-items-center justify-content-between">
+      <div class="font-medium text-2xl mb-3 text-900 pl-3" style="border-left: 8px solid;"
+           [ngStyle]="{'border-color': organization.color}">
+        {{ organization.name }} <span class="font-light block text-lg">{{ organization.shortName }}</span>
+      </div>
+      <p-button label="{{ 'organization_menu' | translate }}" icon="pi pi-cog" class="mr-3" [text]="true"
+                (click)="toggleOrganizationPanel(organization.id)" />
+    </div>
 
-  @if ($members) {
-    @if ($members | async; as members) {
-      <div class="flex gap-3 flex-wrap">
-        @for (member of members; track member.id) {
-          <p-chip styleClass="py-2 px-3">
-            <i [ngClass]="getMemberIcon(member.inGame)" ></i>
-            <span class="ml-2">
+    <ul class="list-none p-0 m-0 border-top-1 border-300">
+      <li class="flex align-items-center py-3 px-2 flex-wrap">
+        <div class="text-500 w-full md:w-4 font-medium">{{ 'organization_type' | translate }}</div>
+        <div class="text-900 w-full md:w-8 line-height-3">
+          {{ organization.type | translate }}
+        </div>
+      </li>
+      <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
+        <div class="text-500 w-full md:w-4 font-medium">{{ 'created_at' | translate }}</div>
+        <div class="text-900 w-full md:w-8 line-height-3">
+          {{ organization.createdAt | date: 'dd/MM/yyyy' }}
+        </div>
+      </li>
+      <li class="flex align-items-center py-3 px-2 flex-wrap">
+        <div class="text-500 w-full md:w-4 font-medium">{{ 'parent_organization' | translate }}</div>
+        <div class="text-900 w-full md:w-8 line-height-3">
+          {{ organization.parentOrganization ? getParentOrganization(organization).name : 'N/A' }}
+        </div>
+      </li>
+      <li class="flex flex-column py-3 px-2 surface-ground">
+        <span class="text-500 w-full md:w-4 font-medium">{{ 'members' | translate }}</span>
+        <div class="text-900 w-full mt-3">
+          @if ($members) {
+            @if ($members | async; as members) {
+              <div class="flex gap-3 flex-wrap">
+                @for (member of members; track member.id) {
+                  <p-chip styleClass="py-2 px-3">
+                    <i [ngClass]="getMemberIcon(member.inGame)" class="text-xs"></i>
+                    <span class="ml-2 text-sm">
                 {{ member.fullName }} <span class="text-500">{{ getMemberUsername(member) }}</span>
             </span>
-          </p-chip>
-        }
-      </div>
-    }
+                  </p-chip>
+                }
+              </div>
+            } @else {
+              <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
+            }
+          }
+        </div>
+      </li>
+    </ul>
+  } @else {
+    <p-messages severity="warn">
+      <ng-template pTemplate>
+        <i class="pi pi-exclamation-circle"></i>
+        <div class="ml-2">{{ 'you_dont_have_membership' | translate }}</div>
+      </ng-template>
+    </p-messages>
   }
-} @else {
-  <p-messages severity="warn">
-    <ng-template pTemplate>
-      <i class="pi pi-exclamation-circle"></i>
-      <div class="ml-2">{{ 'you_dont_have_membership' | translate }}</div>
-    </ng-template>
-  </p-messages>
-}
+</div>

@@ -676,4 +676,5 @@ export const srRs = {
   'you_dont_have_membership': 'Niste član organizacije.',
   'ping': 'Ping',
   'total_players_online': 'Trenutno ima {{players}} igrača online.',
+  'organization_menu': 'Organizacijski Meni',
 };
