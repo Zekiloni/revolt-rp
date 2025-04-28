@@ -6,6 +6,8 @@ import { ICharacterAppearance } from './char-appeaarance.model';
 import { IAccount } from '../account/account.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import type { IItem } from '../../item/item.model';
+import { JobKey } from '../../job/job.enums';
+import { IProperty } from '../../property/property.model';
 
 
 export interface ICharacterSpawn {
@@ -29,6 +31,13 @@ export interface ICharacterOrganization {
   organization: Ref<IOrganization>;
   rank?: Ref<IOrganizationRank>;
 }
+
+export interface ICharacterJob {
+  job?: JobKey;
+  property: Ref<IProperty>;
+  salary?: number;
+}
+
 
 export interface ICharacter extends Base {
   firstName: string;
@@ -62,6 +71,7 @@ export interface ICharacter extends Base {
   hours: number;
   inGame: boolean;
   minutes: number;
+  // job: ICharacterJob | null;
   maxVehicles: number;
   maxProperties: number;
   marriedTo?: Ref<ICharacter>;

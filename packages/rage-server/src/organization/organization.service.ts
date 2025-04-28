@@ -1,4 +1,5 @@
 import { t } from 'i18next';
+import { Types, UpdateQuery } from 'mongoose';
 import {
   IMemberUpdate,
   IOrganizationRankCreate,
@@ -14,7 +15,6 @@ import {
   setPlayerOrganization,
   setPlayerOrganizationRank
 } from '../player/character/character.service';
-import { CharacterModel } from '../player/account-character.ref';
 import {
   createOrganizationRank,
   deleteOrganizationRankById,
@@ -22,7 +22,7 @@ import {
 } from './rank/organization-rank.service';
 import { findPlayerByCharacterId } from '../player/util/player.util';
 import { OrganizationRank } from './rank/organization-rank.model';
-import { Types, UpdateQuery } from 'mongoose';
+import { CharacterModel } from '../common/entity-ref';
 
 
 const permissionHierarchy = [

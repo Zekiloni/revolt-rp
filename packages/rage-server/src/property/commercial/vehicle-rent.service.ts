@@ -15,9 +15,9 @@ import { generateNumberPlate } from '../../vehicle/vehicle.util';
 import { calculateTaxRate } from '../../economy/economy.util';
 import { createVehicle } from '../../vehicle/vehicle.service';
 import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { VehicleModel } from '../../vehicle/vehicle.model';
 import { Property } from '../property.model';
 import { vehicleRentConfig } from './vehicle-rent.config';
+import { VehicleModel } from '../../common/entity-ref';
 
 
 export function toggleVehicleRentMenu(player: PlayerMp, property: Property) {

@@ -109,3 +109,5 @@ export * from './lib/util/text.util';
 
 export * from './lib/internet/advertisement';
 
+export * from './lib/job/job.enums';
+export * from './lib/job/job.model';

@@ -50,4 +50,4 @@ import './property/public-service/dmv.api';
 
 import './internet/advertisement/advertisement.api';
 
-
+import './job/base-job.api';

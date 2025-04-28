@@ -6,20 +6,31 @@ import {
   ICharacter,
   ICharacterAppearance,
   ICharacterInjury,
-  ICharacterSpawn,
+  ICharacterSpawn, ICharacterJob, JobKey
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
 import { Account } from '../account/account.model';
 import { Item } from '../../item/item.model';
 import { Organization } from '../../organization/organization.model';
 import { OrganizationRank } from '../../organization/rank/organization-rank.model';
-
+import { Property } from '../../property/property.model';
 
 
 export class CharacterSpawnOption {
   type: CharacterSpawnType;
   propertyId?: string;
 }
+
+// export class CharacterJob implements ICharacterJob {
+//   @prop({ enum: Object.values(JobKey), type: String, required: false })
+//   job?: JobKey;
+//
+//   @prop({ ref: () => Property, required: true })
+//   property: Ref<Property>;
+//
+//   @prop({ required: false })
+//   salary?: number;
+// }
 
 class CharacterMembership {
   @prop({ ref: () => Organization })
@@ -115,7 +126,7 @@ export class Character extends Document implements ICharacter {
   @prop({ default: 0 })
   minutes: number;
 
-  @prop({ required: false, default: false})
+  @prop({ required: false, default: false })
   inGame: boolean;
 
   @prop({ type: () => CharacterMembership, default: null })
@@ -134,7 +145,7 @@ export class Character extends Document implements ICharacter {
   prisonTime: number;
 
   @prop({ default: false })
-  isWounded: boolean
+  isWounded: boolean;
 
   @prop({ type: Object, default: null })
   status: ICharacterStatus;
@@ -173,6 +184,9 @@ export class Character extends Document implements ICharacter {
 
   @prop({ ref: () => Account })
   account: Ref<Account>;
+
+  // @prop({ type: CharacterJob, default: null })
+  // job: ICharacterJob | null;
 
   get fullName(): string {
     return this.middleName

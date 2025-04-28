@@ -10,7 +10,6 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import { characterConfig } from './character.config';
-import { CharacterModel } from '../account-character.ref';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
 import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
@@ -20,6 +19,7 @@ import { Organization } from '../../organization/organization.model';
 import { Character } from './character.model';
 import { OrganizationRank } from '../../organization/rank/organization-rank.model';
 import { UpdateQuery } from 'mongoose';
+import { CharacterModel } from '../../common/entity-ref';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
