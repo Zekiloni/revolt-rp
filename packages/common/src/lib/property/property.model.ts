@@ -8,15 +8,9 @@ import { IVehicle } from '../vehicle/vehicle.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IBaseItem } from '../item/registry/base-item.model';
 
-
 export interface IPropertyOwner {
   type: 'Character' | 'Organization';
   entity: Ref<ICharacter | IOrganization>;
-}
-
-export interface IWorker {
-  character: Ref<ICharacter>;
-  salary: number;
 }
 
 export interface IProduct {
@@ -85,7 +79,6 @@ export interface IProperty extends Base {
   points: IPropertyPoint[];
   doors?: Ref<IDoor>[];
   locked: boolean;
-  workers: IWorker[];
   catalog: IProduct[];
   vehicles: Ref<IVehicle>[];
 }

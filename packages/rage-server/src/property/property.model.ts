@@ -5,7 +5,7 @@ import {
   IEntrance,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, IWorker, PropertyPointType, PropertySharedDataType,
+  IPropertyPoint, PropertyPointType, PropertySharedDataType,
   PropertyType, PublicServiceType
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
@@ -102,8 +102,6 @@ export class Property extends Document implements IProperty {
   @prop({ type: [Product], default: [] })
   catalog: Product[];
 
-  workers: IWorker[];
-
   createdAt: Date;
   updatedAt?: Date;
 
@@ -126,4 +124,3 @@ export class Property extends Document implements IProperty {
   }
 }
 
-export const PropertyModel = getModelForClass(Property);

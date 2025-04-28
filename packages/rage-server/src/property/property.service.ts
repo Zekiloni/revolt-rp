@@ -13,7 +13,7 @@ import {
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Property, PropertyModel, PropertyOwner, PropertyPoint } from './property.model';
+import { Property, PropertyOwner, PropertyPoint } from './property.model';
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
@@ -23,6 +23,7 @@ import { toggleVehicleRentMenu } from './commercial/vehicle-rent.service';
 import { toggleGroceryStoreMenu } from './commercial/grocery-store.service';
 import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
+import { PropertyModel } from '../common/entity-ref';
 
 
 const propertyMenuHandlers = {

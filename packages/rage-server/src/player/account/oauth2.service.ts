@@ -2,7 +2,7 @@ import axios from 'axios';
 import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
 import { oauth2Config } from '../../core/oauth2.config';
 import { getAccountByDiscordId, setAuthorized } from './account.service';
-import { AccountModel } from '../account-character.ref';
+import { AccountModel } from '../../common/entity-ref';
 
 async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
   return axios.post<DiscordOAuth2TokenResponse>(

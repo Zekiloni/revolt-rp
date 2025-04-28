@@ -86,8 +86,8 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: Object, required: false })
   numberplate?: IVehicleNumberplate;
 
-  @prop({ ref: () => Character })
-  owner: Ref<Character>;
+  @prop({ ref: () => Character, required: false })
+  owner?: Ref<Character>;
 
   @prop({ ref: () => Organization })
   organization?: Ref<Organization>;
@@ -100,4 +100,3 @@ export class Vehicle extends Document implements IVehicle {
 }
 
 
-export const VehicleModel = getModelForClass(Vehicle);
