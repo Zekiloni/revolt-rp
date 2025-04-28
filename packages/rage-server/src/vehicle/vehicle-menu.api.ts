@@ -24,7 +24,7 @@ const vehicleActions: VehicleMenuActionItem[] = [
     }
   },
   {
-    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle),
+    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle) && isPrivateVehicle(vehicle),
     action: {
       label: 'vehicle_park',
       icon: 'pi pi-car',
@@ -72,4 +72,4 @@ function toggleVehicleSellOfferDialogHandler(_args: undefined, { player }: Proce
  * Register vehicle menu procedures
  */
 register(ProcedureKey.SERVER_GET_VEHICLE_OPTIONS, getVehicleOptionsHandler);
-on(ProcedureKey.SERVER_VEHICLE_SELL_OFFER_DIALOG, toggleVehicleSellOfferDialogHandler)
+on(ProcedureKey.SERVER_VEHICLE_SELL_OFFER_DIALOG, toggleVehicleSellOfferDialogHandler);
