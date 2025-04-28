@@ -249,7 +249,7 @@ export const createVehicleSellOffer = async (player: PlayerMp, vehicle: VehicleM
 
   createPlayerOffer(
     target,
-    t('vehicle_sell_offer_info', { model: vehicle.model, offerer: player.name, price: formatCurrency(price) }),
+    t('vehicle_sell_offer_info', { model: vehicle.info.model, offerer: player.name, price: formatCurrency(price) }),
     acceptOffer,
     declineOffer,
     player
