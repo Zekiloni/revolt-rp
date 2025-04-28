@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
   private getAllCommands() {
     this.rageClientService.callServer<ICommandBase[]>(ProcedureKey.SERVER_GET_COMMANDS)
       .subscribe(commands => {
-        this.commands = commands;
+        this.commands = Array.from(new Set(commands));
       });
   }
 
