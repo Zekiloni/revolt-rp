@@ -1,5 +1,7 @@
+import { t } from 'i18next';
 import { PlayerAttachmentTypeEnum, PlayerSharedDataType } from '@revolt-rp/common';
 import { playerAddAttachment, playerRemoveAttachment } from '../player/util/player-attachment.util';
+import { notifyPlayer } from '../player/util/player-notify.util';
 
 
 const COLLECTED_TRASH: Map<number, Date> = new Map();
@@ -10,15 +12,14 @@ export const collectGarbage = (player: PlayerMp, objectHandle: number) => {
   const lastCollected = COLLECTED_TRASH.get(objectHandle);
 
   if (lastCollected && now.getTime() - lastCollected.getTime() < TRASH_COOLDOWN) {
-    player.notify('~r~You need to wait before collecting this trash again.');
-    return;
+    const cooldown = Math.ceil((TRASH_COOLDOWN - (now.getTime() - lastCollected.getTime())) / 1000);
+    return notifyPlayer(player, { severity: 'error', detail: t('trash_already_collected', { time: cooldown }) });
   }
 
   COLLECTED_TRASH.set(objectHandle, now);
 
   playerAddAttachment(player, PlayerAttachmentTypeEnum.HoldBinBag);
   player.setVariable(PlayerSharedDataType.HoldingGarbage, true);
-  player.notify('~g~You collected the trash!');
 };
 
 
