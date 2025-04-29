@@ -18,7 +18,7 @@ import {
   getVehicleMaxBraking,
   getVehicleMaxNumberOfPassengers,
   getVehicleMaxSpeed,
-  getVehicleModelMaxTraction,
+  getVehicleModelMaxTraction, isNearHood, isNearTrunk,
   isValidVehicleWindow,
   isVehicleModelValid
 } from './vehicle.util';
@@ -292,34 +292,7 @@ function vehicleHoodDataHandler(vehicle: VehicleMp, value: boolean, oldValue: bo
   toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.HOOD, value, false);
 }
 
-export const isNearTrunk = (vehicle: VehicleMp) => {
-  const trunkBoneIndex = vehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BOOT);
-  if (trunkBoneIndex === -1)
-    return false;
 
-  const trunkBonePosition = vehicle.getWorldPositionOfBone(trunkBoneIndex);
-  return trunkBonePosition && getDistance(mp.players.local.position, trunkBonePosition) <= 1.55;
-};
-
-
-export const isNearHood = (vehicle: VehicleMp) => {
-  const hoodBoneIndex = vehicle.getBoneIndexByName(RageEnums.Vehicle.Bones.BONNET);
-  if (hoodBoneIndex === -1)
-    return false;
-
-  let hoodBonePosition = vehicle.getWorldPositionOfBone(hoodBoneIndex);
-  if (hoodBonePosition) {
-    hoodBonePosition = new mp.Vector3(
-      hoodBonePosition.x + Math.cos(((vehicle.getHeading() + 90) * Math.PI) / 180) * 0.75,
-      hoodBonePosition.y + Math.sin(((vehicle.getHeading() + 90) * Math.PI) / 180) * 0.75,
-      hoodBonePosition.z
-    );
-
-    return hoodBonePosition && getDistance(mp.players.local.position, hoodBonePosition) <= 1.55;
-  }
-
-  return false;
-};
 
 function toggleVehicleCompartmentHandler() {
   if (mp.players.local.vehicle)

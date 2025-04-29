@@ -7,4 +7,5 @@ export const enum PlayerAttachmentTypeEnum {
   HoldFishingRod01,
   HoldAmbBeerBottle,
   HoldBankCard,
+  HoldBinBag,
 }

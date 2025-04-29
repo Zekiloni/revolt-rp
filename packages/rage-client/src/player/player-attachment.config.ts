@@ -5,6 +5,11 @@ const attackAction = [
   RageEnums.Controls.INPUT_ATTACK2
 ];
 
+const springAndJumpAction = [
+  RageEnums.Controls.INPUT_JUMP,
+  RageEnums.Controls.INPUT_SPRINT
+];
+
 export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAttachment> = {
   [PlayerAttachmentTypeEnum.HoldToolPickaxe]: {
     model: 'prop_tool_pickaxe',
@@ -53,5 +58,13 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     rotation: { x: -100.0, y: 150.0, z: 28.0 },
     fixedRot: true,
     disableControls: attackAction
+  },
+  [PlayerAttachmentTypeEnum.HoldBinBag]: {
+    model: 'prop_cs_street_binbag_01',
+    boneId: RageEnums.Ped.Bones.SKEL_R_HAND,
+    position: { x: 0.4, y: 0.0, z: 0.0 },
+    rotation: { x: 0.0, y: 270.0, z: 60.0 },
+    fixedRot: true,
+    disableControls: [...attackAction, ...springAndJumpAction]
   }
 };
