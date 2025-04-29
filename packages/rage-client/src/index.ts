@@ -43,6 +43,8 @@ import './property/property-core';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 
+import './job/garbage-collecting';
+
 import './screenshoter';
 
 // Object.defineProperty(mp.nesto, 'enableSnow', {

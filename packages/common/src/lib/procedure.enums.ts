@@ -206,4 +206,7 @@ export const enum ProcedureKey {
   SERVER_VEHICLE_SELL_OFFER_DIALOG = 'server_vehicleSellOfferDialog',
   SERVER_VEHICLE_SELL_OFFER = 'server_vehicleSellOffer',
   SERVER_GET_PLAYERS = 'server_getPlayers',
+
+  SERVER_PLAYER_COLLECT_GARBAGE = 'server_playerCollectGarbage',
+  SERVER_PLAYER_LOAD_GARBAGE = 'server_playerLoadGarbage',
 }

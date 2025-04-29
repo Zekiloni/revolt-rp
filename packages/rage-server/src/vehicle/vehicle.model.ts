@@ -97,6 +97,8 @@ export class Vehicle extends Document implements IVehicle {
 
   createdAt!: Date;
   updatedAt?: Date;
+
+  load?: number;
 }
 
 

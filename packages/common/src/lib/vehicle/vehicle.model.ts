@@ -68,6 +68,7 @@ export interface IVehicle extends Base {
   expiringAt?: Date;
   isSpawned: boolean;
   createdAt: Date;
+  load?: number;
   updatedAt?: Date;
 }
 
