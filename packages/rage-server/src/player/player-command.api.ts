@@ -1,5 +1,5 @@
 import { t } from 'i18next';
-import { getBaseCommands, getCommand } from './player-command.service';
+import { getAllCommands, getCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { register } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
@@ -43,7 +43,7 @@ function playerCommandHandler(player: PlayerMp, fullCommand: string) {
 }
 
 function getCommandsHandler() {
-  return getBaseCommands();
+  return getAllCommands();
 }
 
 mp.events.add({

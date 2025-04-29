@@ -21,14 +21,22 @@ export const registerCommand = (command: ICommand<PlayerMp>) => {
 };
 
 
-export const getBaseCommands = (): ICommandBase[] => {
-  return Array.from(commands.values()).map((command) => {
-    return {
+export const getAllCommands = (): ICommandBase[] => {
+  const seen = new Set<string>();
+  const uniqueCommands: ICommandBase[] = [];
+
+  for (const command of commands.values()) {
+    if (seen.has(command.name)) continue;
+    seen.add(command.name);
+
+    uniqueCommands.push({
       name: command.name,
       description: command.description,
       category: command.category,
       params: command.params,
       aliases: command.aliases
-    };
-  });
+    });
+  }
+
+  return uniqueCommands;
 };
