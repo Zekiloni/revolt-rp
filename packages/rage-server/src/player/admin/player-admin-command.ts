@@ -58,7 +58,7 @@ registerCommand({
   administrator: AdminType.ADMINISTRATOR,
   params: ['model', 'primary color', 'secondary color'],
   handle(player: PlayerMp, model: string, primaryColor: string, secondaryColor: string) {
-    const vehicle = createTemporaryVehicle(model, player.position, parseInt(primaryColor), parseInt(secondaryColor));
+    const vehicle = createTemporaryVehicle(model, player.position, parseInt(primaryColor), parseInt(secondaryColor), { admin: true });
     setVehicleOwner(vehicle, player.character);
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
   }

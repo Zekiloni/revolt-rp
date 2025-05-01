@@ -1,10 +1,10 @@
 import { Document, Types } from 'mongoose';
-import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate } from '@revolt-rp/common';
+import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
 import { Item } from '../item/item.model';
-import { Organization } from '../organization/organization.model';
 
 
 @modelOptions({
@@ -99,6 +99,7 @@ export class Vehicle extends Document implements IVehicle {
   updatedAt?: Date;
 
   load?: number;
+  admin?: true;
 }
 
 
