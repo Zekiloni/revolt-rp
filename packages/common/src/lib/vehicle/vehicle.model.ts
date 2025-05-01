@@ -60,6 +60,7 @@ export interface IVehicle extends Base {
   bodyHealth: number;
   liveryId: number;
   isTemporary: boolean;
+  admin?: true;
   mods: IVehicleMod[];
   extras: IVehicleExtra[];
   numberplate?: IVehicleNumberplate;

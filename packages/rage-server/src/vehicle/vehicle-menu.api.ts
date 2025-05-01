@@ -16,7 +16,7 @@ type VehicleMenuActionItem = {
  */
 const vehicleActions: VehicleMenuActionItem[] = [
   {
-    isSupported: (player, vehicle) => isRentVehicle(vehicle) && hasPlayerVehicleKeys(player, vehicle),
+    isSupported: (player, vehicle) => isRentVehicle(vehicle) && hasPlayerVehicleKeys(player, vehicle) && !vehicle.info.admin,
     action: {
       label: 'return_rent_vehicle',
       icon: 'pi pi-undo',
@@ -24,7 +24,7 @@ const vehicleActions: VehicleMenuActionItem[] = [
     }
   },
   {
-    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle) && isPrivateVehicle(vehicle),
+    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle) && isPrivateVehicle(vehicle) && !vehicle.info.admin,
     action: {
       label: 'vehicle_park',
       icon: 'pi pi-car',
@@ -32,7 +32,7 @@ const vehicleActions: VehicleMenuActionItem[] = [
     }
   },
   {
-    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle) && isPrivateVehicle(vehicle),
+    isSupported: (player, vehicle) => hasPlayerVehicleKeys(player, vehicle) && isPrivateVehicle(vehicle) && !vehicle.info.admin,
     action: {
       label: 'vehicle_sell_offer',
       icon: 'pi pi-dollar',
