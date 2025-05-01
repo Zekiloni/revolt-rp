@@ -8,19 +8,19 @@
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitepress dev apps/wiki"
+        "command": "vitepress dev packages/wiki"
       }
     },
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitepress build apps/wiki"
+        "command": "vitepress build packages/wiki"
       }
     },
     "preview": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "vitepress preview apps/wiki"
+        "command": "vitepress preview packages/wiki"
       }
     }
   }
