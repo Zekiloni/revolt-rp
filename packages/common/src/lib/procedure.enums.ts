@@ -209,4 +209,8 @@ export const enum ProcedureKey {
 
   SERVER_PLAYER_COLLECT_GARBAGE = 'server_playerCollectGarbage',
   SERVER_PLAYER_LOAD_GARBAGE = 'server_playerLoadGarbage',
+
+  SERVER_PLAYER_TAKE_JOB = 'server_playerTakeJob',
+  SERVER_PLAYER_QUIT_JOB = 'server_playerQuitJob',
+  BROWSER_SET_JOB_MENU = 'browser_setJobMenu',
 }

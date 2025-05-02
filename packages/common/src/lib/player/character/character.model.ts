@@ -33,7 +33,7 @@ export interface ICharacterOrganization {
 }
 
 export interface ICharacterJob {
-  job?: JobKey;
+  jobKey?: JobKey;
   property: Ref<IProperty>;
   salary?: number;
 }
@@ -71,7 +71,7 @@ export interface ICharacter extends Base {
   hours: number;
   inGame: boolean;
   minutes: number;
-  // job: ICharacterJob | null;
+  job: ICharacterJob | null;
   maxVehicles: number;
   maxProperties: number;
   marriedTo?: Ref<ICharacter>;

@@ -21,16 +21,16 @@ export class CharacterSpawnOption {
   propertyId?: string;
 }
 
-// export class CharacterJob implements ICharacterJob {
-//   @prop({ enum: Object.values(JobKey), type: String, required: false })
-//   job?: JobKey;
-//
-//   @prop({ ref: () => Property, required: true })
-//   property: Ref<Property>;
-//
-//   @prop({ required: false })
-//   salary?: number;
-// }
+export class CharacterJob implements ICharacterJob {
+  @prop({ enum: Object.values(JobKey), type: String, required: false })
+  jobKey?: JobKey;
+
+  @prop({ ref: () => Property, required: true })
+  property: Ref<Property>;
+
+  @prop({ required: false })
+  salary?: number;
+}
 
 class CharacterMembership {
   @prop({ ref: () => Organization })
@@ -185,8 +185,8 @@ export class Character extends Document implements ICharacter {
   @prop({ ref: () => Account })
   account: Ref<Account>;
 
-  // @prop({ type: CharacterJob, default: null })
-  // job: ICharacterJob | null;
+  @prop({ type: CharacterJob, default: null })
+  job: ICharacterJob | null;
 
   get fullName(): string {
     return this.middleName

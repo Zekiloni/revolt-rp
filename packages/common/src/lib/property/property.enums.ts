@@ -39,6 +39,10 @@ export enum PublicServiceType {
   PostOffice = 'post_office',
 }
 
+export enum UtilityType {
+  RecyclingCenter = 'recycling_center',
+}
+
 export enum PropertyPointType {
   MainPoint = 'main_point',
   MenuPoint = 'menu_point',
@@ -51,3 +55,4 @@ export enum PropertySharedDataType {
   PropertyId = 'property_id',
   InteractionType = 'interaction_type'
 }
+
