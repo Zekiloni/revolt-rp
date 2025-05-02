@@ -5,13 +5,14 @@ import {
   IEntrance,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, PropertyPointType, PropertySharedDataType,
-  PropertyType, PublicServiceType
+  IPropertyPoint, propertyJobMap, PropertyPointType, PropertySharedDataType,
+  PropertyType, PublicServiceType, UtilityType
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
 import { Vehicle } from '../vehicle/vehicle.model';
 import { Product } from './catalog/product.model';
+import { getJob } from '../job/base-job.service';
 
 
 export class PropertyOwner implements IPropertyOwner {
@@ -55,7 +56,7 @@ export class Property extends Document implements IProperty {
   type: PropertyType;
 
   @prop({
-    enum: [...Object.values(CommercialType), ...Object.values(PublicServiceType)],
+    enum: [...Object.values(CommercialType), ...Object.values(PublicServiceType), ...Object.values(UtilityType)],
     type: String,
     required: false
   })
@@ -121,6 +122,11 @@ export class Property extends Document implements IProperty {
   get marker() {
     return mp.markers.toArray()
       .find(marker => marker.getVariable(PropertySharedDataType.PropertyId) === this.id);
+  }
+
+  get job() {
+    const jobKey = propertyJobMap[this.subType];
+    return jobKey ? getJob(jobKey) : undefined;
   }
 }
 

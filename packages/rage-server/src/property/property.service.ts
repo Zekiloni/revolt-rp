@@ -9,7 +9,7 @@ import {
   PropertySharedDataType,
   PropertyType,
   PublicServiceType,
-  purchasablePropertyTypes
+  purchasablePropertyTypes, UtilityType
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
@@ -24,6 +24,7 @@ import { toggleGroceryStoreMenu } from './commercial/grocery-store.service';
 import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
 import { PropertyModel } from '../common/entity-ref';
+import { openJobMenu } from '../job/base-job.service';
 
 
 const propertyMenuHandlers = {
@@ -36,6 +37,9 @@ const propertyMenuHandlers = {
     [CommercialType.ClothingStore]: toggleClothingStoreMenu,
     [CommercialType.VehicleRent]: toggleVehicleRentMenu,
     [CommercialType.VehicleDealership]: toggleVehicleDealershipMenu
+  },
+  [PropertyType.Utility]: {
+    [UtilityType.RecyclingCenter]: openJobMenu
   }
 };
 

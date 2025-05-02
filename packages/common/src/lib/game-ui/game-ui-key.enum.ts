@@ -28,4 +28,5 @@ export enum GameUiKey {
   GroceryStore = 'groceryStore',
   ClothingStore = 'clothingStore',
   VehicleDealership = 'vehicleDealership',
+  JobMenu = 'jobMenu',
 }
