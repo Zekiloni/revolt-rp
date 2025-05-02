@@ -1,9 +1,14 @@
-import { Message } from 'primeng/api';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { hexColors, ProcedureKey } from '@revolt-rp/common';
 
 
-export const notifyPlayer = (player: PlayerMp, message: Message) => {
+export interface IMessage {
+  severity: 'success' | 'error' | 'info' | 'warn';
+  summary?: string;
+  detail?: string;
+}
+
+export const notifyPlayer = (player: PlayerMp, message: IMessage) => {
   triggerBrowsers(player, ProcedureKey.BROWSER_NOTIFICATION, message);
 };
 

@@ -1,12 +1,10 @@
-import { Vector3 } from '../core.interface';
-import { ICharacter } from '../player/character/character.model';
 import { Ref } from '@typegoose/typegoose';
-import { IItem } from '../item/item.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { IProperty } from '../property/property.model';
-import { MenuItem } from 'primeng/api';
-import { ProcedureKey } from '../procedure.enums';
 import { IOrganization } from '../organization/organization.model';
+import { ICharacter } from '../player/character/character.model';
+import { ProcedureKey } from '../procedure.enums';
+import { Vector3 } from '../core.interface';
+import { IItem } from '../item/item.model';
 
 export interface IVehicleMod {
   type: number;
@@ -81,8 +79,9 @@ export interface IVehicleUpdateData {
 }
 
 
-export interface IVehicleOption extends MenuItem {
+export interface IVehicleOption {
   label: string;
+  icon?: string;
   description?: string;
   eventKey: ProcedureKey;
 }
