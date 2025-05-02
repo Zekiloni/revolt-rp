@@ -678,4 +678,10 @@ export const srRs = {
   'total_players_online': 'Trenutno ima {{players}} igrača online.',
   'organization_menu': 'Organizacijski Meni',
   'trash_already_collected': 'Smeće je već prikupljeno. Pokušajte ponovo za {{cooldown}} sekundi.',
+  'close_menu': 'Zatvori Meni',
+  'take_job': 'Zaposli se',
+  'quit_job': 'Daj otkaz',
+  'start_job': 'Započni posao',
+  'stop_job': 'Prekini posao',
+  'recycling_center': 'Centar za reciklažu',
 };

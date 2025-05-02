@@ -36,6 +36,7 @@ export interface ICharacterJob {
   jobKey?: JobKey;
   property: Ref<IProperty>;
   salary?: number;
+  createdAt: Date;
 }
 
 

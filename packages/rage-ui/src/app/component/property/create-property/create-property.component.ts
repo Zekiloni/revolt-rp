@@ -53,7 +53,7 @@ export class CreatePropertyComponent {
       this.propertySubTypes = propertySubTypeMap[type] || [];
 
       const subTypeControlExists = this.form.contains('subType');
-      if (this.propertySubTypes.length > 1) {
+      if (this.propertySubTypes.length) {
         if (!subTypeControlExists) {
           this.form.addControl('subType', this.formBuilder.control(null, [Validators.required]));
         } else {
