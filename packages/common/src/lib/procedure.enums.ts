@@ -213,4 +213,6 @@ export const enum ProcedureKey {
   SERVER_PLAYER_TAKE_JOB = 'server_playerTakeJob',
   SERVER_PLAYER_QUIT_JOB = 'server_playerQuitJob',
   BROWSER_SET_JOB_MENU = 'browser_setJobMenu',
+  SERVER_PLAYER_START_JOB = 'server_playerStartJob',
+  SERVER_PLAYER_STOP_JOB = 'server_playerStopJob',
 }

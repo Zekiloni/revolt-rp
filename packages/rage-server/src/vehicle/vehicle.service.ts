@@ -17,6 +17,7 @@ import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { t } from 'i18next';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { VehicleModel } from '../common/entity-ref';
+import { giveMoney } from '../player/character/character.service';
 
 
 export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
@@ -233,6 +234,9 @@ export const acceptVehicleSellOffer = async (player: PlayerMp, offerer: PlayerMp
   }
 
   setVehicleOwner(vehicle, player.character);
+
+  await giveMoney(player, -price);
+  await giveMoney(offerer, price);
 
   await vehicle.info.save();
 };

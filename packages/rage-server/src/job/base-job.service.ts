@@ -1,8 +1,9 @@
+import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IJobOption, JobKey, ProcedureKey } from '@revolt-rp/common';
+import { showPlayerGameInterface } from '../player/util/player.util';
 import { Property } from '../property/property.model';
 import { BaseJob } from './base-job.model';
-import { showPlayerGameInterface } from '../player/util/player.util';
-import { triggerBrowsers } from '@libertymp/rage-rpc';
+
 
 type JobMenuActionItem = {
   isSupported: (player: PlayerMp, property: Property) => boolean;
@@ -12,9 +13,10 @@ type JobMenuActionItem = {
 
 const jobRegistry: Map<JobKey, BaseJob> = new Map();
 
-const jobActions: JobMenuActionItem[] = [
+const jobMenuOptions: JobMenuActionItem[] = [
   {
-    isSupported: (player, property) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    isSupported: (player, _property) => {
       return !player.character.job;
     },
     action: {
@@ -31,6 +33,26 @@ const jobActions: JobMenuActionItem[] = [
       label: 'quit_job',
       icon: 'pi pi-sign-out',
       eventKey: ProcedureKey.SERVER_PLAYER_QUIT_JOB
+    }
+  },
+  {
+    isSupported: (player, property) => {
+      return true;
+    },
+    action: {
+      label: 'start_job',
+      icon: 'pi pi-play-circle',
+      eventKey: ProcedureKey.SERVER_PLAYER_START_JOB
+    }
+  },
+  {
+    isSupported: (player, property) => {
+      return true;
+    },
+    action: {
+      label: 'stop_job',
+      icon: 'pi pi-stop-circle',
+      eventKey: ProcedureKey.SERVER_PLAYER_STOP_JOB
     }
   }
 ];
@@ -52,6 +74,27 @@ export const getAllJobs = (): BaseJob[] => {
 };
 
 
+export const playerTakeJob = async (player: PlayerMp, property: Property) => {
+  const job = property.job;
+
+  if (!job) {
+    return;
+  }
+
+  await job.takeJob(player, property);
+};
+
+export const playerQuitJob = async (player: PlayerMp, property: Property) => {
+  const job = property.job;
+
+  if (!job) {
+    return;
+  }
+
+  job.stopJob(player, false);
+  await job.quitJob(player);
+};
+
 export const openJobMenu = (player: PlayerMp, property: Property) => {
   const job = property.job;
 
@@ -59,8 +102,9 @@ export const openJobMenu = (player: PlayerMp, property: Property) => {
     return;
   }
 
-  const menu = jobActions
-    .filter((action) => action.isSupported(player, property));
+  const menu = jobMenuOptions
+    .filter((option) => option.isSupported(player, property))
+    .map(option => option.action);
 
   showPlayerGameInterface(player, GameUiKey.JobMenu, () => {
     triggerBrowsers(player, ProcedureKey.BROWSER_SET_JOB_MENU, menu);

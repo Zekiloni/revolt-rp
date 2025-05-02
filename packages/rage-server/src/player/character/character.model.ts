@@ -30,6 +30,9 @@ export class CharacterJob implements ICharacterJob {
 
   @prop({ required: false })
   salary?: number;
+
+  @prop({ required: true, default: () => new Date() })
+  createdAt: Date;
 }
 
 class CharacterMembership {

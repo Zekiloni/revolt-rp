@@ -672,4 +672,10 @@ export const enUs = {
   'total_players_online': 'There are {{players}} players online.',
   'organization_menu': 'Organization Menu',
   'trash_already_collected': 'Trash has already been collected. Please wait {{time}} seconds.',
+  'close_menu': 'Close Menu',
+  'take_job': 'Take Job',
+  'quit_job': 'Quit Job',
+  'start_job': 'Start Job',
+  'stop_job': 'Stop Job',
+  'recycling_center': 'Recycling Center'
 };

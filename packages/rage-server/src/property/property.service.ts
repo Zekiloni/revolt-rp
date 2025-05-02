@@ -268,6 +268,7 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
   const menuHandler = propertyMenuHandlers[property.type]?.[property.subType];
 
+  console.log('propertyMenuInteraction', property.type, property.subType, menuHandler);
   if (menuHandler) {
     return menuHandler(player, property);
   }
