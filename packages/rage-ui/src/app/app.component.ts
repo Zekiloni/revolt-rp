@@ -50,6 +50,7 @@ import { VehicleMenuComponent } from './component/vehicle/vehicle-menu';
 import { GroceryStoreComponent } from './component/property/commercial/grocery-store';
 import { ClothingStoreComponent } from './component/property/commercial/clothing-store';
 import { VehicleDealershipComponent } from './component/property/commercial/vehicle-dealership';
+import { JobMenuComponent } from './component/jobs/job-menu';
 
 
 @Component({
@@ -87,7 +88,8 @@ import { VehicleDealershipComponent } from './component/property/commercial/vehi
     VehicleMenuComponent,
     GroceryStoreComponent,
     ClothingStoreComponent,
-    VehicleDealershipComponent
+    VehicleDealershipComponent,
+    JobMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
