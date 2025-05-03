@@ -20,6 +20,7 @@ import { Character } from './character.model';
 import { OrganizationRank } from '../../organization/rank/organization-rank.model';
 import { UpdateQuery } from 'mongoose';
 import { CharacterModel } from '../../common/entity-ref';
+import { Property } from '../../property/property.model';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -81,6 +82,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.AdminDuty]: false,
     [PlayerSharedDataType.Seatbelt]: false,
     [PlayerSharedDataType.Afk]: false,
+    [PlayerSharedDataType.Job]: player.character.job ? player.character.job.jobKey : null,
     [PlayerSharedDataType.Organization]: player.character.membership ? player.character.membership.organization : null
   });
 };
@@ -259,4 +261,26 @@ export const setPlayerOrganizationRank = (player: PlayerMp, rank: OrganizationRa
 
 export const getPlayerOrganizationId = (player: PlayerMp) => {
   return player.getVariable<string | null>(PlayerSharedDataType.Organization);
+};
+
+export const setPlayerJob = async (player: PlayerMp, property: Property | null) => {
+  if (property) {
+    const job = property.job;
+    if (job) {
+      player.character.job = {
+        jobKey: job.key,
+        property: property._id,
+        salary: job.baseSalary,
+        createdAt: new Date()
+      };
+
+      player.setVariable(PlayerSharedDataType.Job, job.key);
+    }
+  } else {
+    player.character.job = null;
+    player.setVariable(PlayerSharedDataType.Job, null);
+  }
+
+
+  await player.character.save();
 };
