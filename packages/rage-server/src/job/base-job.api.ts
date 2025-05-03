@@ -6,6 +6,7 @@ import { SanitationJob } from './sanitation-job.model';
 
 
 function playerTakeJobHandler(propertyId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
+  console.log('playerTakeJobHandler', propertyId, player);
   getPropertyById(propertyId)
     .then(property => playerTakeJob(player, property));
 }
