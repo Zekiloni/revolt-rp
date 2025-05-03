@@ -1,8 +1,12 @@
 import { ProcedureKey } from '../procedure.enums';
 import { JobKey } from './job.enums';
 
-export interface IJobStartOptions {
+export interface IWorkStartOptions {
   vehicle?: string;
+}
+
+export interface IWorkOptions {
+  startedAt: Date;
 }
 
 export interface IJobOption {

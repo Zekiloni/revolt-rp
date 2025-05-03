@@ -1,4 +1,4 @@
-import { IBaseJob, IJobStartOptions, JobKey } from '@revolt-rp/common';
+import { IBaseJob, IWorkStartOptions, JobKey } from '@revolt-rp/common';
 import { Property } from '../property/property.model';
 import { economyConfig } from '../economy/economy.config';
 import { setPlayerJob } from '../player/character/character.service';
@@ -30,7 +30,7 @@ export abstract class BaseJob implements IBaseJob {
     await setPlayerJob(player, null);
   }
 
-  abstract startJob(player: PlayerMp, options: IJobStartOptions): void;
+  abstract startJob(player: PlayerMp, options: IWorkStartOptions): void;
 
   abstract stopJob(player: PlayerMp, completed: boolean): void;
 }
