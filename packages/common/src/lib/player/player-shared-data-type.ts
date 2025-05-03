@@ -21,4 +21,5 @@ export const enum PlayerSharedDataType {
   Seatbelt = 'seatbelt',
   HoldingGarbage = 'holding_garbage',
   Job = 'job',
+  Work = 'work',
 }

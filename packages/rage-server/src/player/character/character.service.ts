@@ -80,6 +80,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.Attachments]: [],
     [PlayerSharedDataType.PhoneState]: null,
     [PlayerSharedDataType.AdminDuty]: false,
+    [PlayerSharedDataType.Work]: null,
     [PlayerSharedDataType.Seatbelt]: false,
     [PlayerSharedDataType.Afk]: false,
     [PlayerSharedDataType.Job]: player.character.job ? player.character.job.jobKey : null,

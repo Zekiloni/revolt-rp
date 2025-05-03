@@ -1,4 +1,4 @@
-import { IJobStartOptions, JobKey } from '@revolt-rp/common';
+import { IWorkStartOptions, JobKey } from '@revolt-rp/common';
 import { BaseJob } from './base-job.model';
 
 
@@ -8,7 +8,7 @@ export class SanitationJob extends BaseJob {
     super(JobKey.Sanitation, 'Sanitation', 'Sanitation Job');
   }
 
-  startJob(player: PlayerMp, options: IJobStartOptions): void {
+  startJob(player: PlayerMp, options: IWorkStartOptions): void {
     throw new Error('Method not implemented.');
   }
 
