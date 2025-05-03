@@ -1,6 +1,7 @@
 import { IBaseJob, IJobStartOptions, JobKey } from '@revolt-rp/common';
 import { Property } from '../property/property.model';
 import { economyConfig } from '../economy/economy.config';
+import { setPlayerJob } from '../player/character/character.service';
 
 export abstract class BaseJob implements IBaseJob {
   key: JobKey;
@@ -22,19 +23,11 @@ export abstract class BaseJob implements IBaseJob {
   }
 
   async takeJob(player: PlayerMp, property: Property) {
-    player.character.job = {
-      jobKey: this.key,
-      property: property._id,
-      salary: this.baseSalary,
-      createdAt: new Date()
-    };
-
-    await player.character.save();
+    await setPlayerJob(player, property);
   };
 
   async quitJob(player: PlayerMp) {
-    player.character.job = null;
-    await player.character.save();
+    await setPlayerJob(player, null);
   }
 
   abstract startJob(player: PlayerMp, options: IJobStartOptions): void;

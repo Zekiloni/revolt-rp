@@ -1,6 +1,8 @@
+import { t } from 'i18next';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IJobOption, JobKey, ProcedureKey } from '@revolt-rp/common';
 import { showPlayerGameInterface } from '../player/util/player.util';
+import { notifyPlayer } from '../player/util/player-notify.util';
 import { Property } from '../property/property.model';
 import { BaseJob } from './base-job.model';
 
@@ -82,6 +84,7 @@ export const playerTakeJob = async (player: PlayerMp, property: Property) => {
   }
 
   await job.takeJob(player, property);
+  notifyPlayer(player, { severity: 'info', summary: t('you_took_job', { job: t(job.name) }) });
 };
 
 export const playerQuitJob = async (player: PlayerMp, property: Property) => {
@@ -93,6 +96,8 @@ export const playerQuitJob = async (player: PlayerMp, property: Property) => {
 
   job.stopJob(player, false);
   await job.quitJob(player);
+
+  notifyPlayer(player, { severity: 'info', summary: t('you_quit_job', { job: t(job.name) }) });
 };
 
 export const openJobMenu = (player: PlayerMp, property: Property) => {

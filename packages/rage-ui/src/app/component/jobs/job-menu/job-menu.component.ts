@@ -19,6 +19,10 @@ export class JobMenuComponent implements OnInit, OnDestroy {
   constructor(private rageClientService: RageClientService) {
   }
 
+  private setPropertyId = (propertyId: string) => {
+    this.propertyId = propertyId;
+  };
+
   private setOptions = (options: IJobOption[]) => {
     this.options = options;
   };
@@ -35,10 +39,12 @@ export class JobMenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.rageClientService.on(ProcedureKey.BROWSER_SET_PROPERTY_ID, this.setPropertyId);
     this.rageClientService.on(ProcedureKey.BROWSER_SET_JOB_MENU, this.setOptions);
   }
 
   ngOnDestroy() {
+    this.rageClientService.off(ProcedureKey.BROWSER_SET_PROPERTY_ID, this.setPropertyId);
     this.rageClientService.off(ProcedureKey.BROWSER_SET_JOB_MENU, this.setOptions);
   }
 }

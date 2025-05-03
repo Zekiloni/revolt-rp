@@ -123,6 +123,7 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_CREATE = 'server_propertyCreate',
   BROWSER_SET_PROPERTY_INFO = 'browser_setPropertyInfo',
   BROWSER_SET_PROPERTY = 'browser_setProperty',
+  BROWSER_SET_PROPERTY_ID = 'browser_setPropertyId',
   CLIENT_TOGGLE_PROPERTY_INFO = 'client_togglePropertyInfo',
   SERVER_PROPERTY_LOCK = 'server_propertyLock',
   CLIENT_TOGGLE_PROPERTY_MENU = 'client_togglePropertyMenu',
