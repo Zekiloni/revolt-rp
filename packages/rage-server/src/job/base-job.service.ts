@@ -5,6 +5,7 @@ import { showPlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Property } from '../property/property.model';
 import { BaseJob } from './base-job.model';
+import { Types } from 'mongoose';
 
 
 type JobMenuActionItem = {
@@ -29,7 +30,7 @@ const jobMenuOptions: JobMenuActionItem[] = [
   },
   {
     isSupported: (player, property) => {
-      return player.character.job && property._id === player.character.job.property;
+      return player.character.job && property._id.equals((<Types.ObjectId>player.character.job.property));
     },
     action: {
       label: 'quit_job',
@@ -77,12 +78,14 @@ export const getAllJobs = (): BaseJob[] => {
 
 
 export const playerTakeJob = async (player: PlayerMp, property: Property) => {
+  console.log('playerTakeJob', property);
   const job = property.job;
 
   if (!job) {
     return;
   }
 
+  console.log('playerTakeJob', job);
   await job.takeJob(player, property);
   notifyPlayer(player, { severity: 'info', summary: t('you_took_job', { job: t(job.name) }) });
 };
@@ -112,6 +115,7 @@ export const openJobMenu = (player: PlayerMp, property: Property) => {
     .map(option => option.action);
 
   showPlayerGameInterface(player, GameUiKey.JobMenu, () => {
+    triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY_ID, property.id);
     triggerBrowsers(player, ProcedureKey.BROWSER_SET_JOB_MENU, menu);
   });
 };

@@ -677,7 +677,7 @@ export const srRs = {
   'ping': 'Ping',
   'total_players_online': 'Trenutno ima {{players}} igrača online.',
   'organization_menu': 'Organizacijski Meni',
-  'trash_already_collected': 'Smeće je već prikupljeno. Pokušajte ponovo za {{cooldown}} sekundi.',
+  'trash_already_collected': 'Smeće je već prikupljeno. Pokušajte ponovo za {{time}} sekundi.',
   'close_menu': 'Zatvori Meni',
   'take_job': 'Zaposli se',
   'quit_job': 'Daj otkaz',
