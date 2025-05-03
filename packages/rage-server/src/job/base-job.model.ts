@@ -30,7 +30,7 @@ export abstract class BaseJob implements IBaseJob {
     await setPlayerJob(player, null);
   }
 
-  abstract startJob(player: PlayerMp, options: IWorkStartOptions): void;
+  abstract startJob(player: PlayerMp, property: Property, options: IWorkStartOptions): void;
 
   abstract stopJob(player: PlayerMp, completed: boolean): void;
 }
