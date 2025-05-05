@@ -103,6 +103,27 @@ export const playerQuitJob = async (player: PlayerMp, property: Property) => {
   notifyPlayer(player, { severity: 'info', summary: t('you_quit_job', { job: t(job.name) }) });
 };
 
+export const playerStartJob = async (player: PlayerMp, property: Property) => {
+  const job = property.job;
+
+  if (!job) {
+    return;
+  }
+
+  job.startJob(player, property, {});
+};
+
+export const playerStopJob = async (player: PlayerMp, property: Property) => {
+  const job = property.job;
+
+  if (!job) {
+    return;
+  }
+
+  // TODO: Add job completion logic
+  job.stopJob(player, true);
+};
+
 export const openJobMenu = (player: PlayerMp, property: Property) => {
   const job = property.job;
 

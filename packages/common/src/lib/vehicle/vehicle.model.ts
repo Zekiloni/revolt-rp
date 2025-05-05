@@ -5,6 +5,7 @@ import { ICharacter } from '../player/character/character.model';
 import { ProcedureKey } from '../procedure.enums';
 import { Vector3 } from '../core.interface';
 import { IItem } from '../item/item.model';
+import { JobKey } from '../job/job.enums';
 
 export interface IVehicleMod {
   type: number;
@@ -64,6 +65,7 @@ export interface IVehicle extends Base {
   numberplate?: IVehicleNumberplate;
   rented?: true;
   rentAgencyId?: string;
+  job?: JobKey
   expiringAt?: Date;
   isSpawned: boolean;
   createdAt: Date;

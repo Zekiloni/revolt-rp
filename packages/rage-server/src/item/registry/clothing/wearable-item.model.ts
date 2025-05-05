@@ -37,7 +37,7 @@ export class WearableItem extends BaseItem {
 
     player.setClothes(this.componentId, item.wearableInfo.drawable, item.wearableInfo.texture, item.wearableInfo.palette);
 
-    if (this.componentId === RageEnums.ClothesComponent.DECALS)
+    if (this.componentId === RageEnums.ClothesComponent.AUXILIARY)
       setPlayerBestTorso(player);
   }
 
@@ -46,7 +46,7 @@ export class WearableItem extends BaseItem {
     if (removeClothing) {
       player.setClothes(this.componentId, removeClothing.drawable, removeClothing.texture, removeClothing.palette);
 
-      if (this.componentId === RageEnums.ClothesComponent.DECALS)
+      if (this.componentId === RageEnums.ClothesComponent.AUXILIARY)
         setPlayerBestTorso(player);
     }
   }

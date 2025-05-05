@@ -4,7 +4,7 @@ import { registerKeyBind } from '../core/keybind-manager';
 import { isNearTrunk } from '../vehicle/vehicle.util';
 
 
-const CONTAINER_USE_RADIUS = 2.0;
+const TRASH_PICKU_RADIUS = 2.0;
 const TRASH_LOAD_RADIUS = 3.5;
 
 const TRASH_VEHICLE_MODELS = [
@@ -12,7 +12,7 @@ const TRASH_VEHICLE_MODELS = [
   'trash2'
 ].map(name => mp.game.joaat(name));
 
-const TRASH_OBJECTS = [
+const TRASH_OBJECTS_MODELS = [
   'prop_bin_01a',
   'prop_bin_02a',
   'prop_bin_03a',
@@ -34,13 +34,17 @@ const TRASH_OBJECTS = [
   'prop_dumpster_4b'
 ].map(name => mp.game.joaat(name));
 
+const closeTrashObjects = new Map<number, BlipMp>();
+let markInterval: NodeJS.Timeout | null = null;
+
+
 const isNotHoldingGarbage = () => {
   return !mp.players.local.getVariable<boolean | undefined>(PlayerSharedDataType.HoldingGarbage);
 };
 
-function getClosestTrashObject(x: number, y: number, z: number) {
-  for (const model of TRASH_OBJECTS) {
-    const handle = mp.game.object.getClosestObjectOfType(x, y, z, CONTAINER_USE_RADIUS, model, false, true, true);
+function getClosestTrashObject(x: number, y: number, z: number, radius = TRASH_PICKU_RADIUS) {
+  for (const model of TRASH_OBJECTS_MODELS) {
+    const handle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
     if (handle !== 0) return { handle, model };
   }
   return undefined;
@@ -84,5 +88,59 @@ function holdingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: b
   }
 }
 
+function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TRASH_PICKU_RADIUS) {
+  const nearbyObjectHandles = new Set<number>();
+
+  TRASH_OBJECTS_MODELS.forEach((model) => {
+    const trashObjects = mp.game.object.getAllByHash(model);
+
+    if (!trashObjects || trashObjects.length === 0)
+      return;
+
+    trashObjects.forEach((t) => {
+      const objectHandle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
+
+      if (objectHandle !== 0 && !nearbyObjectHandles.has(objectHandle)) {
+        nearbyObjectHandles.add(objectHandle);
+
+        const blip = mp.blips.new(318, t, {
+          color: 12,
+          shortRange: true
+        });
+
+        closeTrashObjects.set(objectHandle, blip);
+      }
+    });
+  });
+}
+
+function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: boolean | undefined) {
+  if (player.type != RageEnums.EntityType.PLAYER)
+    return;
+
+  if (player.handle != mp.players.local.handle)
+    return;
+
+  if (value) {
+    markInterval = setInterval(() => {
+      markAllTrashObjectsInRange(mp.players.local.position.x, mp.players.local.position.y, mp.players.local.position.z, 150);
+    }, 1000);
+  } else {
+    if (markInterval) {
+      clearInterval(markInterval);
+      markInterval = null;
+    }
+
+    closeTrashObjects.forEach((blip) => {
+      if (blip && mp.blips.exists(blip)) {
+        blip.destroy();
+      }
+    });
+
+    closeTrashObjects.clear();
+  }
+}
+
 registerKeyBind(HexKeyCodes.Y, true, collectGarbageHandler, 0, [isNotHoldingGarbage]);
 mp.events.addDataHandler(PlayerSharedDataType.HoldingGarbage, holdingGarbageDataHandler);
+mp.events.addDataHandler(PlayerSharedDataType.Work, handleIsWorkingGarbageDataHandler);
