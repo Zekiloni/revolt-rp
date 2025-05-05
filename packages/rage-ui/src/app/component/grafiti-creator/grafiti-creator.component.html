@@ -1,0 +1,19 @@
+<p>grafiti-creator works!</p>
+<div class="controls">
+  <label>Brush Size:
+    <p-slider [(ngModel)]="brushSize" styleClass="w-14rem" min="1" max="50" />
+  </label>
+  <label>Color:
+    <p-colorPicker [(ngModel)]="brushColor" />
+  </label>
+  <p-button label="clear" (onClick)="clear()" [outlined]="true" />
+  <p-button label="save" (onClick)="save()" />
+</div>
+
+<canvas #canvas width="800" height="600"
+        class="bg-white"
+        (mousedown)="startDrawing($event)"
+        (mouseup)="stopDrawing()"
+        (mouseleave)="stopDrawing()"
+        (mousemove)="draw($event)">
+</canvas>

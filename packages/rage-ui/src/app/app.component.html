@@ -115,6 +115,10 @@
     <app-job-menu />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.GrafitiCreator) | async; as isActive) {
+    <app-grafiti-creator />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />
