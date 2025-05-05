@@ -51,6 +51,7 @@ import { GroceryStoreComponent } from './component/property/commercial/grocery-s
 import { ClothingStoreComponent } from './component/property/commercial/clothing-store';
 import { VehicleDealershipComponent } from './component/property/commercial/vehicle-dealership';
 import { JobMenuComponent } from './component/jobs/job-menu';
+import { GrafitiCreatorComponent } from './component/grafiti-creator';
 
 
 @Component({
@@ -89,7 +90,8 @@ import { JobMenuComponent } from './component/jobs/job-menu';
     GroceryStoreComponent,
     ClothingStoreComponent,
     VehicleDealershipComponent,
-    JobMenuComponent
+    JobMenuComponent,
+    GrafitiCreatorComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
