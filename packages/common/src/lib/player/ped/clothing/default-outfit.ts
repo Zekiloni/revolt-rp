@@ -1,14 +1,14 @@
 import { CharacterGender } from '../../character/character.enums';
 
 
-export interface IDefaultOutfit  {
+export interface IClothingComponent {
   componentId: number;
   drawable: number;
   texture: number;
   palette: number;
 }
 
-export const defaultOutfits: Record<CharacterGender, IDefaultOutfit[][]> = {
+export const defaultOutfits: Record<CharacterGender, IClothingComponent[][]> = {
   [CharacterGender.MALE]: [
     // Outfit 1
     [
