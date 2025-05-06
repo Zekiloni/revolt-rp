@@ -216,4 +216,6 @@ export const enum ProcedureKey {
   BROWSER_SET_JOB_MENU = 'browser_setJobMenu',
   SERVER_PLAYER_START_JOB = 'server_playerStartJob',
   SERVER_PLAYER_STOP_JOB = 'server_playerStopJob',
+
+  CLIENT_CREATE_CHECKPOINT = 'client_createCheckpoint',
 }

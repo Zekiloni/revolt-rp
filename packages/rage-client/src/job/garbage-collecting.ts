@@ -1,10 +1,11 @@
-import { triggerServer } from '@libertymp/rage-rpc';
+import { off, on, triggerServer } from '@libertymp/rage-rpc';
 import { HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind } from '../core/keybind-manager';
 import { isNearTrunk } from '../vehicle/vehicle.util';
+import { getDistance } from '../util/vector.util';
 
 
-const TRASH_PICKU_RADIUS = 2.0;
+const TRASH_PICKUP_RADIUS = 2.0;
 const TRASH_LOAD_RADIUS = 3.5;
 
 const TRASH_VEHICLE_MODELS = [
@@ -42,7 +43,7 @@ const isNotHoldingGarbage = () => {
   return !mp.players.local.getVariable<boolean | undefined>(PlayerSharedDataType.HoldingGarbage);
 };
 
-function getClosestTrashObject(x: number, y: number, z: number, radius = TRASH_PICKU_RADIUS) {
+function getClosestTrashObject(x: number, y: number, z: number, radius = TRASH_PICKUP_RADIUS) {
   for (const model of TRASH_OBJECTS_MODELS) {
     const handle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
     if (handle !== 0) return { handle, model };
@@ -88,8 +89,7 @@ function holdingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: b
   }
 }
 
-function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TRASH_PICKU_RADIUS) {
-  const nearbyObjectHandles = new Set<number>();
+function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TRASH_PICKUP_RADIUS) {
 
   TRASH_OBJECTS_MODELS.forEach((model) => {
     const trashObjects = mp.game.object.getAllByHash(model);
@@ -97,21 +97,40 @@ function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TR
     if (!trashObjects || trashObjects.length === 0)
       return;
 
+    // mp.gui.chat.push(`radius ${radius}`);
+
     trashObjects.forEach((t) => {
-      const objectHandle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
+      if (getDistance(mp.players.local.position, t) < radius) {
+        const objectHandle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
+        if (objectHandle !== 0 && !closeTrashObjects.has(t.x)) {
+          const blip = mp.blips.new(318, t, {
+            color: 12,
+            shortRange: true,
+            dimension: mp.players.local.dimension
+          });
 
-      if (objectHandle !== 0 && !nearbyObjectHandles.has(objectHandle)) {
-        nearbyObjectHandles.add(objectHandle);
-
-        const blip = mp.blips.new(318, t, {
-          color: 12,
-          shortRange: true
-        });
-
-        closeTrashObjects.set(objectHandle, blip);
+          closeTrashObjects.set(t.x, blip);
+        }
       }
     });
   });
+}
+
+function markGarbageDeliveryPointHandler(position: Vector3) {
+  const deliveryCheckpoint = mp.checkpoints.new(4, new mp.Vector3(position.x, position.y, position.z - 1.25), 3, {
+    dimension: mp.players.local.dimension,
+    color: [220, 30, 30, 200],
+    visible: true
+  });
+
+  const playerEnterGarbageDeliveryPoint = (checkpoint: CheckpointMp) => {
+    if (checkpoint.id === deliveryCheckpoint.id) {
+      deliveryCheckpoint.destroy();
+      mp.events.remove('playerEnterCheckpoint', playerEnterGarbageDeliveryPoint);
+    }
+  };
+
+  mp.events.add('playerEnterCheckpoint', playerEnterGarbageDeliveryPoint);
 }
 
 function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: boolean | undefined) {
@@ -125,6 +144,8 @@ function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: boolean, old
     markInterval = setInterval(() => {
       markAllTrashObjectsInRange(mp.players.local.position.x, mp.players.local.position.y, mp.players.local.position.z, 150);
     }, 1000);
+
+    on(ProcedureKey.CLIENT_CREATE_CHECKPOINT, markGarbageDeliveryPointHandler);
   } else {
     if (markInterval) {
       clearInterval(markInterval);
@@ -136,6 +157,8 @@ function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: boolean, old
         blip.destroy();
       }
     });
+
+    off(ProcedureKey.CLIENT_CREATE_CHECKPOINT, markGarbageDeliveryPointHandler);
 
     closeTrashObjects.clear();
   }
