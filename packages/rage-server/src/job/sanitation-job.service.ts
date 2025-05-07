@@ -1,14 +1,15 @@
 import { t } from 'i18next';
+import { Types } from 'mongoose';
+import { triggerClient } from '@libertymp/rage-rpc';
 import { PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
 import { playerAddAttachment, playerRemoveAttachment } from '../player/util/player-attachment.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { getPropertyById } from '../property/property.service';
-import { Types } from 'mongoose';
-import { triggerClient } from '@libertymp/rage-rpc';
 
 
 const COLLECTED_TRASH: Map<number, Date> = new Map();
 const TRASH_COOLDOWN = 10 * 60 * 1000; // 10 minutes
+const MAX_TRASH_LOAD = 10;
 
 export const collectGarbage = (player: PlayerMp, objectHandle: number) => {
   const now = new Date();
@@ -33,9 +34,7 @@ export const loadGarbage = async (player: PlayerMp, vehicle: VehicleMp) => {
     playerRemoveAttachment(player, PlayerAttachmentTypeEnum.HoldBinBag);
     player.setVariable(PlayerSharedDataType.HoldingGarbage, false);
 
-    if (vehicle.info.load >= 3 - 1) {
-      player.notify('~r~The truck is full!');
-
+    if (vehicle.info.load >= (MAX_TRASH_LOAD - 1)) {
       const property = await getPropertyById((<Types.ObjectId>player.character.job.property).toString());
 
       if (property) {
