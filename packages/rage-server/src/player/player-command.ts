@@ -11,7 +11,7 @@ import {
 import { getPlayerDamage, playerGiveUp } from './damage/player-damage.service';
 import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
-import { notifyPlayer } from './util/player-notify.util';
+import { notifyPlayer, sendInfoMessage } from './util/player-notify.util';
 import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
 import { playerBuyInteraction } from './player-buy.service';
 import { giveMoney } from './character/character.service';
@@ -330,10 +330,22 @@ registerCommand({
     if (player.dist(target.position) > 1.5)
       return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('target_not_close') });
 
-    await giveMoney(player, -amount)
-    await giveMoney(target, amount)
+    await giveMoney(player, -amount);
+    await giveMoney(target, amount);
   }
-})
+});
+
+
+registerCommand({
+  name: 'whereami',
+  description: 'todo',
+  handle(player: PlayerMp) {
+    const { x, y, z } = player.position;
+    const { heading, dimension } = player;
+    const info = `X ${x.toFixed(2)}, Y ${y.toFixed(2)}, Z ${z.toFixed(2)}, H ${heading.toFixed(2)} D ${dimension}`;
+    sendInfoMessage(player, info);
+  }
+});
 
 registerCommand({
   name: 'help',
