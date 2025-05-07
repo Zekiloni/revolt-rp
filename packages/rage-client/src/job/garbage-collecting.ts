@@ -3,6 +3,7 @@ import { HexKeyCodes, IWorkOptions, JobKey, PlayerSharedDataType, ProcedureKey }
 import { registerKeyBind } from '../core/keybind-manager';
 import { isNearTrunk } from '../vehicle/vehicle.util';
 import { getDistance } from '../util/vector.util';
+import { t } from 'i18next';
 
 
 const TRASH_PICKUP_RADIUS = 2.0;
@@ -99,17 +100,18 @@ function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TR
     if (!trashObjects || trashObjects.length === 0)
       return;
 
-    trashObjects.forEach((t) => {
-      if (getDistance(mp.players.local.position, t) < radius) {
+    trashObjects.forEach((position) => {
+      if (getDistance(mp.players.local.position, position) < radius) {
         const objectHandle = mp.game.object.getClosestObjectOfType(x, y, z, radius, model, false, true, true);
-        if (objectHandle !== 0 && !closeTrashObjects.has(t.x)) {
-          const blip = mp.blips.new(318, t, {
+        if (objectHandle !== 0 && !closeTrashObjects.has(position.x)) {
+          const blip = mp.blips.new(318, position, {
+            name: t('trash_pickup'),
             color: 12,
             shortRange: true,
             dimension: mp.players.local.dimension
           });
 
-          closeTrashObjects.set(t.x, blip);
+          closeTrashObjects.set(position.x, blip);
         }
       }
     });

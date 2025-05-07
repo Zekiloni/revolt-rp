@@ -1,3 +1,4 @@
+import './core/i18n-config';
 import './core/browser';
 import './core/default-prevention';
 import './core/nametag';

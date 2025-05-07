@@ -100,7 +100,7 @@ export class Vehicle extends Document implements IVehicle {
 
   load?: number;
   admin?: true;
-  job?: JobKey;
+  jobKey?: JobKey;
 }
 
 

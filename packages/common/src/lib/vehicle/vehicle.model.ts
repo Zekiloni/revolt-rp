@@ -65,7 +65,7 @@ export interface IVehicle extends Base {
   numberplate?: IVehicleNumberplate;
   rented?: true;
   rentAgencyId?: string;
-  job?: JobKey
+  jobKey?: JobKey
   expiringAt?: Date;
   isSpawned: boolean;
   createdAt: Date;

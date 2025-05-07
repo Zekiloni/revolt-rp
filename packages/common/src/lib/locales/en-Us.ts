@@ -677,5 +677,6 @@ export const enUs = {
   'quit_job': 'Quit Job',
   'start_job': 'Start Job',
   'stop_job': 'Stop Job',
-  'recycling_center': 'Recycling Center'
+  'recycling_center': 'Recycling Center',
+  'trash_pickup': 'Trash Pickup'
 };

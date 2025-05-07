@@ -1,5 +1,5 @@
 import './core/mongo-db';
-import './core/i18next.config';
+import './core/i18n.config';
 import './core/server-shutdown';
 
 import './util/colshape.api';
