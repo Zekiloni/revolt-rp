@@ -6,6 +6,7 @@ export interface IWorkStartOptions {
 }
 
 export interface IWorkOptions {
+  jobKey: JobKey;
   startedAt: Date;
 }
 
