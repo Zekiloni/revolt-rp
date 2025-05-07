@@ -151,7 +151,7 @@ export const isRentVehicle = (vehicle: VehicleMp) => {
 };
 
 export const isPrivateVehicle = (vehicle: VehicleMp) => {
-  return vehicle.info.owner && !vehicle.info.organization && !vehicle.info.rented;
+  return vehicle.info.owner && !vehicle.info.organization && !vehicle.info.rented && vehicle.info.jobKey === undefined;
 };
 
 export const getVehicleId = (vehicle: VehicleMp) => {

@@ -684,4 +684,5 @@ export const srRs = {
   'start_job': 'Započni posao',
   'stop_job': 'Prekini posao',
   'recycling_center': 'Centar za reciklažu',
+  'trash_pickup': 'Smeće',
 };
