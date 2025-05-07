@@ -57,7 +57,7 @@ export class SanitationJob extends BaseJob {
   startJob(player: PlayerMp, property: Property, options: IWorkStartOptions): void {
     const work: IWorkOptions = {
       startedAt: new Date(),
-      jobKey: this.key,
+      jobKey: this.key
     };
 
     const propertyAvailableParkingSpot = getPropertyAvailableParkingSpot(property);
@@ -69,7 +69,12 @@ export class SanitationJob extends BaseJob {
     const position = new mp.Vector3(propertyAvailableParkingSpot.position.x, propertyAvailableParkingSpot.position.y, propertyAvailableParkingSpot.position.z);
     const rotation = new mp.Vector3(propertyAvailableParkingSpot.rotation.x, propertyAvailableParkingSpot.rotation.y, propertyAvailableParkingSpot.rotation.z);
 
-    const vehicle = createTemporaryVehicle('trash2', position, 0, 0, { owner: player.character, rotation });
+    const vehicle = createTemporaryVehicle('trash2', position, 0, 0, {
+      owner: player.character,
+      rotation,
+      jobKey: this.key
+    });
+
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
 
     player.setVariable(PlayerSharedDataType.Work, work);
