@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
-import { GameUiKey, hexColors, ProcedureKey, rgbColors } from '@revolt-rp/common';
+import { GameUiKey, hexColors, isNumber, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import {
   filterPlayer,
   findPlayer,
@@ -14,6 +14,7 @@ import { registerCommand } from './player-command.service';
 import { notifyPlayer } from './util/player-notify.util';
 import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
 import { playerBuyInteraction } from './player-buy.service';
+import { giveMoney } from './character/character.service';
 
 
 registerCommand({
@@ -283,14 +284,6 @@ registerCommand({
   }
 });
 
-registerCommand({
-  name: 'help',
-  description: 'todo',
-  handle(player: PlayerMp) {
-    showPlayerGameInterface(player, GameUiKey.HelpMenu);
-  }
-});
-
 
 registerCommand({
   name: 'clearmychat',
@@ -300,3 +293,53 @@ registerCommand({
     triggerBrowsers(player, ProcedureKey.BROWSER_CLEAR_CHAT);
   }
 });
+
+
+registerCommand({
+  name: 'pay',
+  description: 'todo',
+  params: ['target', 'amount'],
+  async handle(player: PlayerMp, targetQuery: string, amountString: string) {
+    if (!isNumber(amountString))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'amount', type: 'number' })
+      });
+
+    const amount = Number(amountString);
+    if (amount <= 0)
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_value', { param: 'amount', value: amount })
+      });
+
+    if (amount > player.character.cash)
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('not_enough_money')
+      });
+
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.character)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (player.dist(target.position) > 1.5)
+      return notifyPlayer(player, { severity: 'error', summary: t('bad_request'), detail: t('target_not_close') });
+
+    await giveMoney(player, -amount)
+    await giveMoney(target, amount)
+  }
+})
+
+registerCommand({
+  name: 'help',
+  description: 'todo',
+  handle(player: PlayerMp) {
+    showPlayerGameInterface(player, GameUiKey.HelpMenu);
+  }
+});
+

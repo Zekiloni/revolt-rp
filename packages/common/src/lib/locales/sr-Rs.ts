@@ -8,6 +8,7 @@ export const srRs = {
   'command_usage': 'Upotreba komande: /{{usage}}',
   'bad_request': '403 Loš zahtev',
   'invalid_param_type': 'Parametar {{param}} je tipa {{type}}.',
+  'invalid_param_value': 'Parametar {{param}} ima neispravnu vrednost {{value}}.',
   'item_not_stackable': '{{name}} ne može da se podeli, nije stavljivo u hrpu.',
   'player_not_online': 'Igrač {{query}} nije online.',
   'character_description_not_set': 'Opis lika/izgled nije postavljen.',
