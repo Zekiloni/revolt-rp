@@ -8,6 +8,7 @@ export const enUs = {
   'command_usage': 'Command usage: /{{usage}}',
   'bad_request': '403 Bad Request',
   'invalid_param_type': 'Param {{param}} is type of {{type}}.',
+  'invalid_param_value': 'Value {{value}} of param {{param}} is invalid.',
   'item_not_stackable': '{{name}} cannot be split, not stackable.',
   'player_not_online': 'Player {{query}} is not online.',
   'character_description_not_set': 'Character description/look is not set.',
