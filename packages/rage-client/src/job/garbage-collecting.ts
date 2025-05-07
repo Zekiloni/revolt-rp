@@ -1,12 +1,12 @@
 import { off, on, triggerServer } from '@libertymp/rage-rpc';
-import { HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { HexKeyCodes, IWorkOptions, JobKey, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind } from '../core/keybind-manager';
 import { isNearTrunk } from '../vehicle/vehicle.util';
 import { getDistance } from '../util/vector.util';
 
 
 const TRASH_PICKUP_RADIUS = 2.0;
-const TRASH_LOAD_RADIUS = 3.5;
+const TRASH_LOAD_RADIUS = 2.5;
 
 const TRASH_VEHICLE_MODELS = [
   'trash',
@@ -52,6 +52,9 @@ function getClosestTrashObject(x: number, y: number, z: number, radius = TRASH_P
 }
 
 function collectGarbageHandler() {
+  if (!mp.players.local.isStill())
+    return;
+
   const { x, y, z } = mp.players.local.position;
   const closestTrashObject = getClosestTrashObject(x, y, z);
 
@@ -90,14 +93,11 @@ function holdingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: b
 }
 
 function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TRASH_PICKUP_RADIUS) {
-
   TRASH_OBJECTS_MODELS.forEach((model) => {
     const trashObjects = mp.game.object.getAllByHash(model);
 
     if (!trashObjects || trashObjects.length === 0)
       return;
-
-    // mp.gui.chat.push(`radius ${radius}`);
 
     trashObjects.forEach((t) => {
       if (getDistance(mp.players.local.position, t) < radius) {
@@ -117,15 +117,26 @@ function markAllTrashObjectsInRange(x: number, y: number, z: number, radius = TR
 }
 
 function markGarbageDeliveryPointHandler(position: Vector3) {
-  const deliveryCheckpoint = mp.checkpoints.new(4, new mp.Vector3(position.x, position.y, position.z - 1.25), 3, {
+  const deliveryCheckpoint = mp.checkpoints.new(47, new mp.Vector3(position.x, position.y, position.z - 1.25), 3, {
     dimension: mp.players.local.dimension,
-    color: [220, 30, 30, 200],
+    color: [255, 185, 40, 200],
     visible: true
   });
 
-  const playerEnterGarbageDeliveryPoint = (checkpoint: CheckpointMp) => {
+  mp.game.ui.setNewWaypoint(position.x, position.y);
+
+  const playerEnterGarbageDeliveryPoint = async (checkpoint: CheckpointMp) => {
     if (checkpoint.id === deliveryCheckpoint.id) {
-      deliveryCheckpoint.destroy();
+      if (!mp.players.local.vehicle)
+        return;
+
+      while (!mp.players.local.vehicle.isStopped()) {
+        await mp.game.waitAsync(50);
+      }
+
+      if (deliveryCheckpoint && mp.checkpoints.exists(deliveryCheckpoint))
+        deliveryCheckpoint.destroy();
+
       mp.events.remove('playerEnterCheckpoint', playerEnterGarbageDeliveryPoint);
     }
   };
@@ -133,11 +144,14 @@ function markGarbageDeliveryPointHandler(position: Vector3) {
   mp.events.add('playerEnterCheckpoint', playerEnterGarbageDeliveryPoint);
 }
 
-function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: boolean, oldValue: boolean | undefined) {
+function handleIsWorkingGarbageDataHandler(player: PlayerMp, value: IWorkOptions, oldValue: IWorkOptions | undefined) {
   if (player.type != RageEnums.EntityType.PLAYER)
     return;
 
   if (player.handle != mp.players.local.handle)
+    return;
+
+  if ((value && value.jobKey != JobKey.Sanitation) || (oldValue && oldValue.jobKey != JobKey.Sanitation))
     return;
 
   if (value) {

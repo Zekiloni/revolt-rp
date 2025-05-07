@@ -56,7 +56,8 @@ export class SanitationJob extends BaseJob {
 
   startJob(player: PlayerMp, property: Property, options: IWorkStartOptions): void {
     const work: IWorkOptions = {
-      startedAt: new Date()
+      startedAt: new Date(),
+      jobKey: this.key,
     };
 
     const propertyAvailableParkingSpot = getPropertyAvailableParkingSpot(property);

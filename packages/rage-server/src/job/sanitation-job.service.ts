@@ -33,7 +33,7 @@ export const loadGarbage = async (player: PlayerMp, vehicle: VehicleMp) => {
     playerRemoveAttachment(player, PlayerAttachmentTypeEnum.HoldBinBag);
     player.setVariable(PlayerSharedDataType.HoldingGarbage, false);
 
-    if (vehicle.info.load >= 10) {
+    if (vehicle.info.load >= 3 - 1) {
       player.notify('~r~The truck is full!');
 
       const property = await getPropertyById((<Types.ObjectId>player.character.job.property).toString());
