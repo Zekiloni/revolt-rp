@@ -679,5 +679,10 @@ export const enUs = {
   'start_job': 'Start Job',
   'stop_job': 'Stop Job',
   'recycling_center': 'Recycling Center',
-  'trash_pickup': 'Trash Pickup'
+  'trash_pickup': 'Trash Pickup',
+  'trash_loaded': 'Trash loaded +{{weight}}kg, load status {{load}}/{{max}}kg.',
+  'trash_truck_full': 'Truck is full, please deliver trash to recycling center.',
+  'deliver_trash': 'Truck is full, deliver trash to recycling center.',
+  'trash_truck_empty': 'Truck is empty, please load trash.',
+  'trash_delivered': 'Trash delivered. Weight: {{weight}}kg, payment: {{salary}}.',
 };

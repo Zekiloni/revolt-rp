@@ -686,4 +686,9 @@ export const srRs = {
   'stop_job': 'Prekini posao',
   'recycling_center': 'Centar za reciklažu',
   'trash_pickup': 'Smeće',
+  'trash_loaded': 'Smeće +{{weight}}kg, stanje {{load}}/{{max}}kg.',
+  'trash_truck_full': 'Kamion za smeće je pun. Vratite se u centar za reciklažu.',
+  'deliver_trash': 'Kamion za smeće je pun. Uputite se ka reciklažnom centru.',
+  'trash_truck_empty': 'Kamion za smeće je prazan.',
+  'trash_delivered': 'Smeće je uspešno isporučeno. Težina: {{weight}}kg, isplata: {{salary}}.',
 };

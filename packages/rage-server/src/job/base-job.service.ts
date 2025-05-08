@@ -121,7 +121,7 @@ export const playerStopJob = async (player: PlayerMp, property: Property) => {
   }
 
   // TODO: Add job completion logic
-  job.stopJob(player, true);
+  job.stopJob(player, false);
 };
 
 export const openJobMenu = (player: PlayerMp, property: Property) => {

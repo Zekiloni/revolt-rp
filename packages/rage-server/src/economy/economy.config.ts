@@ -16,7 +16,8 @@ export const economyConfig = {
   // Default salary for jobs
   jobs: {
     [JobKey.Sanitation]: {
-      baseSalary: 1000,
+      baseSalary: 100,
+      trashWeightCashOut: 0.75,
     }
   }
 }
