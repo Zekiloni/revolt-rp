@@ -6,8 +6,8 @@ function collectGarbageHandler(objectHandle: number, { player }: ProcedureListen
   collectGarbage(player, objectHandle);
 }
 
-function loadGarbageHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
-  loadGarbage(player, vehicle);
+async function loadGarbageHandler(vehicle: VehicleMp, { player }: ProcedureListenerInfo<PlayerMp>) {
+  await loadGarbage(player, vehicle);
 }
 
 on(ProcedureKey.SERVER_PLAYER_COLLECT_GARBAGE, collectGarbageHandler);
