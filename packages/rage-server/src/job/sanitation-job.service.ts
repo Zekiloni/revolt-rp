@@ -1,10 +1,17 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
-import { PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
+import {
+  AnimationFlag,
+  PlayerAttachmentTypeEnum,
+  PlayerSharedDataType,
+  ProcedureKey,
+  PropertyPointType
+} from '@revolt-rp/common';
 import { playerAddAttachment, playerRemoveAttachment } from '../player/util/player-attachment.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { getPropertyById } from '../property/property.service';
+import { playAnimation } from '../player/util/player-animation.util';
 
 
 const COLLECTED_TRASH: Map<number, Date> = new Map();
@@ -31,6 +38,7 @@ export const loadGarbage = async (player: PlayerMp, vehicle: VehicleMp) => {
   if (vehicle.info.load === undefined) {
     vehicle.info.load = 1;
   } else {
+    playAnimation(player, 'anim@narcotics@trash', 'drop_front', AnimationFlag.UPPER_BODY_ONLY)
     playerRemoveAttachment(player, PlayerAttachmentTypeEnum.HoldBinBag);
     player.setVariable(PlayerSharedDataType.HoldingGarbage, false);
 

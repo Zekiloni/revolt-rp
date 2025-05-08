@@ -69,7 +69,7 @@ export class SanitationJob extends BaseJob {
     const position = new mp.Vector3(propertyAvailableParkingSpot.position.x, propertyAvailableParkingSpot.position.y, propertyAvailableParkingSpot.position.z);
     const rotation = new mp.Vector3(propertyAvailableParkingSpot.rotation.x, propertyAvailableParkingSpot.rotation.y, propertyAvailableParkingSpot.rotation.z);
 
-    const vehicle = createTemporaryVehicle('trash2', position, 0, 0, {
+    const vehicle = createTemporaryVehicle('trash', position, 60, 60, {
       owner: player.character,
       rotation,
       jobKey: this.key

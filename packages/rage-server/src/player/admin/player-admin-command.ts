@@ -39,6 +39,7 @@ import {
   getPropertyByName
 } from '../../property/property.service';
 import { savePlayerPosition } from '../../util/save-position.util';
+import { playAnimation, stopAnimation } from '../util/player-animation.util';
 
 
 registerCommand({
@@ -740,5 +741,27 @@ registerCommand({
       case 'ITEM_OBJECTS':
         triggerClient(player, ProcedureKey.CLIENT_SCREENSHOT_ITEM_OBJECTS, getAllBaseItemModels());
     }
+  }
+});
+
+
+registerCommand({
+  name: 'playanim',
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  handle(player: PlayerMp, dictionary: string, name: string, flag: string, duration: string = undefined) {
+    if (!isNumber(flag))
+      return;
+
+    playAnimation(player, dictionary, name, parseInt(flag), duration ? parseInt(duration) : undefined);
+  }
+});
+
+registerCommand({
+  name: 'stopanim',
+  description: 'todo',
+  administrator: AdminType.SENIOR_ADMIN,
+  handle(player: PlayerMp) {
+    stopAnimation(player);
   }
 });
