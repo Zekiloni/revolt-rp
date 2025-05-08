@@ -139,6 +139,7 @@ function markGarbageDeliveryPointHandler(position: Vector3) {
       if (deliveryCheckpoint && mp.checkpoints.exists(deliveryCheckpoint))
         deliveryCheckpoint.destroy();
 
+      triggerServer(ProcedureKey.SERVER_PLAYER_DELIVER_GARBAGE);
       mp.events.remove('playerEnterCheckpoint', playerEnterGarbageDeliveryPoint);
     }
   };
