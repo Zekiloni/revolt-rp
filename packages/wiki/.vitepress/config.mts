@@ -8,6 +8,7 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
   themeConfig: {
+    logo: '/logo-1-x.png',
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Početna', link: '/' },
@@ -15,6 +16,38 @@ export default defineConfig({
       { text: 'UCP', link: 'https://lscrp.net' },
       { text: 'Forum', link: 'https://forum.lscrp.net' }
     ],
+
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          root: {
+            translations: {
+              button: {
+                buttonText: 'Pretraga',
+                buttonAriaLabel: 'Pretraga'
+              },
+              modal: {
+                displayDetails: 'Prikaži detaljnu listu',
+                resetButtonTitle: 'Resetuj pretragu',
+                backButtonTitle: 'Zatvori pretragu',
+                noResultsText: 'Nema rezultata',
+                footer: {
+                  selectText: 'Izaberi',
+                  selectKeyAriaLabel: 'Enter',
+                  navigateText: 'Navigacija',
+                  navigateUpKeyAriaLabel: 'Strelica gore',
+                  navigateDownKeyAriaLabel: 'Strelica dole',
+                  closeText: 'Zatvori',
+                  closeKeyAriaLabel: 'Esc'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
 
     sidebar: [
       {
