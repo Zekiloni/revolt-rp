@@ -24,6 +24,8 @@ export interface ICriminalRecord extends Base {
   charges: ICharge[];
   note?: string;
   evidences?: string[];
+  createdAt: Date;
+  updatedAt?: Date;
 }
 
 export interface IWarrant extends Base {
