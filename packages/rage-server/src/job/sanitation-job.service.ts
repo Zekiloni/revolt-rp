@@ -17,7 +17,7 @@ import { economyConfig } from '../economy/economy.config';
 
 const COLLECTED_TRASH: Map<number, Date> = new Map();
 const TRASH_COOLDOWN = 10 * 60 * 1000; // 10 minutes
-const MAX_TRASH_LOAD = 130;
+const MAX_TRASH_LOAD = 115;
 
 export const collectGarbage = (player: PlayerMp, objectHandle: number) => {
   const now = new Date();
@@ -40,8 +40,12 @@ export const loadGarbage = async (player: PlayerMp, vehicle: VehicleMp) => {
   const max = 15;
 
   let weight = Math.floor(Math.random() * (max - min + 1)) + min;
-  const currentLoad = vehicle.info.load || 0;
 
+  if (!vehicle.info.load) {
+    vehicle.info.load = 0;
+  }
+
+  const currentLoad = vehicle.info.load;
   const remainingCapacity = MAX_TRASH_LOAD - currentLoad;
 
   if (remainingCapacity <= 0) {
