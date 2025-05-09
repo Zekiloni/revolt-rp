@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ICharacter, ICharge, ICriminalRecord, RecordType } from '@revolt-rp/common';
 import { Character } from '../../player/character/character.model';
 
@@ -57,3 +57,5 @@ export class CriminalRecord extends Document implements ICriminalRecord {
   @prop()
   updatedAt?: Date;
 }
+
+export const CriminalRecordModel = getModelForClass(CriminalRecord);
