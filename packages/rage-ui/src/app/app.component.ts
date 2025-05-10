@@ -52,6 +52,7 @@ import { ClothingStoreComponent } from './component/property/commercial/clothing
 import { VehicleDealershipComponent } from './component/property/commercial/vehicle-dealership';
 import { JobMenuComponent } from './component/jobs/job-menu';
 import { GrafitiCreatorComponent } from './component/grafiti-creator';
+import { MdcComponent } from './component/organization/law/mdc';
 
 
 @Component({
@@ -91,7 +92,8 @@ import { GrafitiCreatorComponent } from './component/grafiti-creator';
     ClothingStoreComponent,
     VehicleDealershipComponent,
     JobMenuComponent,
-    GrafitiCreatorComponent
+    GrafitiCreatorComponent,
+    MdcComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
@@ -150,7 +152,7 @@ export class AppComponent implements OnInit {
 
   private listenToNotificationEvents() {
     this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
-      this.messageService.add(message);
+      this.messageService.add({ ...message, key: 'global' });
     });
   }
 

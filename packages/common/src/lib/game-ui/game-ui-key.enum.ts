@@ -30,4 +30,5 @@ export enum GameUiKey {
   VehicleDealership = 'vehicleDealership',
   JobMenu = 'jobMenu',
   GrafitiCreator = 'grafitiCreator',
+  MDC = 'mdc',
 }

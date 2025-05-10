@@ -119,10 +119,14 @@
     <app-grafiti-creator />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.MDC) | async) {
+    <app-mdc @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />
 
-  <p-toast />
+  <p-toast key="global" />
 
 </main>
