@@ -1,0 +1,52 @@
+<div class="card absolute-center">
+  <p-menubar [model]="menubarItems">
+    <ng-template pTemplate="item" let-item let-root="root">
+      <a pRipple class="flex align-items-center p-menuitem-link">
+        <span [class]="item.icon"></span>
+        <span class="ml-2">{{ item.label | translate }}</span>
+        <span *ngIf="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
+        <i *ngIf="item.items" [ngClass]="['pi', root ? 'pi-angle-down ml-2' : 'pi-angle-right ml-auto']"></i>
+      </a>
+    </ng-template>
+    <ng-template pTemplate="start">
+      <i class="pi pi-desktop px-2"></i>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <i class="pi pi-video px-2"></i>
+      <i class="pi pi-wifi px-2"></i>
+      <i class="pi pi-volume-up px-2"></i>
+      <span>Fri 13:07</span>
+    </ng-template>
+  </p-menubar>
+  <div class="dock-window dock-advanced">
+    <p-dock [model]="dockItems" position="bottom">
+      <ng-template pTemplate="item" let-item>
+        <img [src]="item.icon" [alt]="item.label" width="100%" />
+      </ng-template>
+    </p-dock>
+
+    <p-toast position="top-center" key="mdc" />
+
+    <p-dialog
+      [(visible)]="displayFinder"
+      [breakpoints]="{ '960px': '50vw' }"
+      [style]="{ width: '30vw', height: '18rem' }"
+      [draggable]="false"
+      [resizable]="false">
+      <p-tree [value]="nodes" />
+    </p-dialog>
+
+    <p-dialog
+      [maximizable]="true"
+      [(visible)]="displayTerminal"
+      [breakpoints]="{ '960px': '50vw' }"
+      [style]="{ width: '30vw' }"
+      [draggable]="false"
+      [resizable]="false">
+      <p-terminal
+        welcomeMessage="Welcome to PrimeNG (cmd: 'date', 'greet {0}', 'random')"
+        prompt="primeng $" />
+    </p-dialog>
+
+  </div>
+</div>
