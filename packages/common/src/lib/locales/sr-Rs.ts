@@ -691,4 +691,6 @@ export const srRs = {
   'deliver_trash': 'Kamion za smeće je pun. Uputite se ka reciklažnom centru.',
   'trash_truck_empty': 'Kamion za smeće je prazan.',
   'trash_delivered': 'Smeće je uspešno isporučeno. Težina: {{weight}}kg, isplata: {{salary}}.',
+  'parent_property': 'Nadređena nekretnina',
+  'select_parent_property': 'Izaberite nadređenu nekretninu',
 };

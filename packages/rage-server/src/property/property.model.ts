@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
+import { modelOptions, prop, Ref } from '@typegoose/typegoose';
 import {
   CommercialType, IDoor,
   IEntrance,
@@ -102,6 +102,9 @@ export class Property extends Document implements IProperty {
 
   @prop({ type: [Product], default: [] })
   catalog: Product[];
+
+  @prop({ ref: () => Property, required: false })
+  parentProperty?: Ref<Property>;
 
   createdAt: Date;
   updatedAt?: Date;

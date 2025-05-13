@@ -54,6 +54,7 @@ export interface IPropertyCreate {
   owner?: IPropertyOwner;
   type: PropertyType;
   subType?: CommercialType;
+  parentProperty?: Ref<IProperty>;
   price?: number;
   spriteType?: number;
 }
@@ -69,6 +70,7 @@ export interface IProperty extends Base {
   dimension: number;
   type: PropertyType;
   subType?: CommercialType | PublicServiceType;
+  parentProperty?: Ref<IProperty>;
   price?: number;
   spriteType?: number;
   forSale?: true;

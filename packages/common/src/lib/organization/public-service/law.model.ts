@@ -37,3 +37,31 @@ export interface IWarrant extends Base {
   isActive: boolean;
   createdAt: Date;
 }
+
+export enum TestType {
+  Alcohol = 'alcohol',
+  Drug = 'drug',
+}
+
+export interface ISobrietyTest extends Base {
+  target: Ref<ICharacter>;
+  testedBy: Ref<ICharacter>;
+  type: TestType;
+  result: boolean;
+  level?: number; // BAC for alcohol, or toxicity level for drugs
+  substances?: string[]; // optional, useful for drugs
+  location: string;
+  note?: string;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
+export interface IGangRecord extends Base {
+  name: string;
+  description: string;
+  location: string;
+  officer: Ref<ICharacter>;
+  createdAt: Date;
+  updatedAt?: Date;
+  note?: string;
+}
