@@ -685,4 +685,6 @@ export const enUs = {
   'deliver_trash': 'Truck is full, deliver trash to recycling center.',
   'trash_truck_empty': 'Truck is empty, please load trash.',
   'trash_delivered': 'Trash delivered. Weight: {{weight}}kg, payment: {{salary}}.',
+  'parent_property': 'Parent Property',
+  'select_parent_property': 'Select Parent Property',
 };

@@ -9,7 +9,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   gameUiConfig,
-  GameUiKey,
+  GameUiKey, IProperty,
   IPropertyCreate,
   ProcedureKey, propertySubTypeMap,
   PropertyType, purchasablePropertyTypes
@@ -29,11 +29,18 @@ export class CreatePropertyComponent {
   propertyTypes = Object.values(PropertyType);
   propertySubTypes: string[] = [];
 
-  form!: FormGroup;
+  properties: IProperty[] = [];
 
+  form!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private rageClientService: RageClientService) {
     this.buildForm();
+    this.getProperties();
+  }
+
+  private getProperties() {
+    this.rageClientService.callServer<IProperty[]>(ProcedureKey.SERVER_GET_PLAYER_PROPERTIES)
+      .subscribe({ next: (properties) => this.properties = properties });
   }
 
   get isPurchasableType() {
@@ -45,7 +52,8 @@ export class CreatePropertyComponent {
     this.form = this.formBuilder.group({
       name: [null, []],
       type: [null, [Validators.required]],
-      price: [null]
+      price: [null],
+      parentProperty: [null]
     });
 
     this.form.get('type')?.valueChanges.subscribe((value) => {
@@ -73,7 +81,6 @@ export class CreatePropertyComponent {
       }
     });
   };
-
 
   close() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateProperty);

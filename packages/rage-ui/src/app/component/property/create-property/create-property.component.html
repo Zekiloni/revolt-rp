@@ -60,6 +60,23 @@
       </div>
     }
 
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="parent-property" class="mb-2">{{ 'parent_property' | translate }}</label>
+      <p-dropdown
+        [options]="properties"
+        formControlName="parentProperty"
+        appendTo="body"
+        [filter]="true"
+        optionValue="id"
+        optionLabel="name"
+        [emptyFilterMessage]="'no_results' | translate"
+        [emptyMessage]="'no_results' | translate"
+        [showClear]="true"
+        id="parent-property"
+        [placeholder]="'select_parent_property' | translate">
+      </p-dropdown>
+    </div>
+
     <div class="flex w-full justify-content-between gap-2 mt-2">
       <button pButton type="button" class="w-full" [label]="'cancel' | translate" severity="secondary"
               (click)="close()"></button>
