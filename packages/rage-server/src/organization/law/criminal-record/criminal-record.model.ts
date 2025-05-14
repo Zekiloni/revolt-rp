@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { getModelForClass, modelOptions, prop, Ref } from '@typegoose/typegoose';
 import { ICharacter, ICharge, ICriminalRecord, RecordType } from '@revolt-rp/common';
-import { Character } from '../../player/character/character.model';
+import { Character } from '../../../player/character/character.model';
 
 
 export class Charge implements ICharge {
@@ -27,7 +27,7 @@ export class CriminalRecord extends Document implements ICriminalRecord {
   declare _id: Types.ObjectId;
   declare id: string;
 
-  @prop({ enum: RecordType, required: true })
+  @prop({ enum: Object.values(RecordType), required: true })
   type: RecordType;
 
   @prop({ ref: () => Character })

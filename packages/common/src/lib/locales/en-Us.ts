@@ -688,4 +688,5 @@ export const enUs = {
   'trash_delivered': 'Trash delivered. Weight: {{weight}}kg, payment: {{salary}}.',
   'parent_property': 'Parent Property',
   'select_parent_property': 'Select Parent Property',
+  'not_officer': 'You are not an officer.'
 };

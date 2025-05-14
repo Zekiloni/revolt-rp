@@ -3,7 +3,7 @@ import { Types, UpdateQuery } from 'mongoose';
 import {
   IMemberUpdate,
   IOrganizationRankCreate,
-  OrganizationPermissionType,
+  OrganizationPermissionType, OrganizationType,
   PlayerSharedDataType
 } from '@revolt-rp/common';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
@@ -347,4 +347,10 @@ export async function deleteOrganization(organization: Organization) {
   }
 
   return organization.remove();
+}
+
+export async function isLawOrganization(organizationId: string) {
+  const organization = await getOrganizationById(organizationId);
+
+  return organization && organization.type === OrganizationType.LAW;
 }

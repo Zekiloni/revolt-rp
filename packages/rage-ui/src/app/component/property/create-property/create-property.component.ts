@@ -39,7 +39,7 @@ export class CreatePropertyComponent {
   }
 
   private getProperties() {
-    this.rageClientService.callServer<IProperty[]>(ProcedureKey.SERVER_GET_PLAYER_PROPERTIES)
+    this.rageClientService.callServer<IProperty[]>(ProcedureKey.SERVER_GET_PROPERTIES)
       .subscribe({ next: (properties) => this.properties = properties });
   }
 

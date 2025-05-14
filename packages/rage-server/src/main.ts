@@ -53,6 +53,4 @@ import './internet/advertisement/advertisement.api';
 import './job/base-job.api';
 import './job/sanitation-job.api';
 
-
-import './organization/law/criminal-record.api';
-
+import './organization/law';
