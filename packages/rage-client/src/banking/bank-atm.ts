@@ -6,11 +6,11 @@ import { toggleClickToUseItem } from '../player/inventory/player-item';
 
 
 const ATM_OBJECT_MODELS = [
-  mp.game.joaat('prop_atm_01'),
-  mp.game.joaat('prop_atm_02'),
-  mp.game.joaat('prop_atm_03'),
-  mp.game.joaat('prop_fleeca_atm')
-];
+  'prop_atm_01',
+  'prop_atm_02',
+  'prop_atm_03',
+  'prop_fleeca_atm'
+].map(element => mp.game.joaat(element));
 
 const ATM_USE_RADIUS = 1.5;
 

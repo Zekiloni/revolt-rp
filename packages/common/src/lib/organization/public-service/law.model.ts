@@ -63,5 +63,13 @@ export interface IGangRecord extends Base {
   officer: Ref<ICharacter>;
   createdAt: Date;
   updatedAt?: Date;
+  deletedAt?: Date;
+  note?: string;
+}
+
+export interface IGangRecordCreate {
+  name: string;
+  description: string;
+  location: string;
   note?: string;
 }
