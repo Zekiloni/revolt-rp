@@ -555,6 +555,7 @@ export const srRs = {
   'dimension': 'Virtuelna dimenzija',
   'main_point': 'Glavna tačka',
   'menu_point': 'Meni tačka',
+  'spawn_point': 'Spawn tačka',
   'delivery_point': 'Tačka dostave',
   'parking_spot': 'Parking mesto',
   'preview_point': 'Tačka pregleda',

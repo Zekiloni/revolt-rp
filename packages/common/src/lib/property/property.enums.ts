@@ -46,6 +46,7 @@ export enum UtilityType {
 export enum PropertyPointType {
   MainPoint = 'main_point',
   MenuPoint = 'menu_point',
+  SpawnPoint = 'spawn_point',
   DeliveryPoint = 'delivery_point',
   ParkingSpot = 'parking_spot',
   PreviewPoint = 'preview_point',

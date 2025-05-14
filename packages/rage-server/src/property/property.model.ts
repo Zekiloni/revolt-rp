@@ -5,12 +5,11 @@ import {
   IEntrance,
   IProperty,
   IPropertyOwner,
-  IPropertyPoint, propertyJobMap, PropertyPointType, PropertySharedDataType,
+  IPropertyPoint, IPropertyVehicle, propertyJobMap, PropertyPointType, PropertySharedDataType,
   PropertyType, PublicServiceType, UtilityType
 } from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
-import { Vehicle } from '../vehicle/vehicle.model';
 import { Product } from './catalog/product.model';
 import { getJob } from '../job/base-job.service';
 
@@ -97,8 +96,8 @@ export class Property extends Document implements IProperty {
   @prop({ required: false })
   spriteType?: number;
 
-  @prop({ ref: () => Vehicle, default: [] })
-  vehicles: Ref<Vehicle>[];
+  @prop({ type: [Object], default: [] })
+  vehicles: IPropertyVehicle[];
 
   @prop({ type: [Product], default: [] })
   catalog: Product[];

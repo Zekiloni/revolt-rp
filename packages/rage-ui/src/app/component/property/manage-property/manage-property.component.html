@@ -43,17 +43,24 @@
         </ul>
       </p-tabPanel>
 
-      @if (isResidential) {
-        <p-tabPanel [header]="'tenants' | translate" leftIcon="pi pi-users" [disabled]="!isResidential">
-          <h2><i class="pi pi-hammer"></i> TODO</h2>
-        </p-tabPanel>
-      } @else {
-        <p-tabPanel [header]="'workers' | translate" leftIcon="pi pi-users" [disabled]="isResidential">
-          <h2><i class="pi pi-hammer"></i> TODO</h2>
-        </p-tabPanel>
-        <p-tabPanel [header]="'catalog' | translate" leftIcon="pi pi-box" [disabled]="isResidential">
-          <app-manage-catalog [property]="property" />
-        </p-tabPanel>
+      @switch (true) {
+        @case (isResidential) {
+          <p-tabPanel [header]="'tenants' | translate" leftIcon="pi pi-users">
+            <h2><i class="pi pi-hammer"></i> TODO</h2>
+          </p-tabPanel>
+        }
+        @case (isCommercial) {
+          <p-tabPanel [header]="'workers' | translate" leftIcon="pi pi-users">
+            <h2><i class="pi pi-hammer"></i> TODO</h2>
+          </p-tabPanel>
+          <p-tabPanel [header]="'catalog' | translate" leftIcon="pi pi-box">
+            <app-manage-catalog [property]="property" />
+          </p-tabPanel>
+        }
+        @case (isGarage) {
+          <p-tabPanel [header]="'vehicles' | translate" leftIcon="pi pi-car">
+          </p-tabPanel>
+        }
       }
 
       <p-tabPanel [header]="'settings' | translate" leftIcon="pi pi-cog" [disabled]="isResidential">
