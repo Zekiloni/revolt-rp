@@ -551,6 +551,7 @@ export const enUs = {
   'dimension': 'Dimension',
   'main_point': 'Main Point',
   'menu_point': 'Menu Point',
+  'spawn_point': 'Spawn Point',
   'delivery_point': 'Delivery Point',
   'parking_spot': 'Parking Spot',
   'preview_point': 'Preview Point',

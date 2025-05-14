@@ -64,6 +64,15 @@ export interface IPropertyUpdate {
   name?: string;
 }
 
+
+export interface IPropertyVehicle {
+  model: string;
+  limit: number;
+  color?: [[number, number, number], [number, number, number]];
+  liveryId?: number;
+  bodyHealth?: number;
+}
+
 export interface IProperty extends Base {
   name?: string;
   owner?: IPropertyOwner;
@@ -82,5 +91,5 @@ export interface IProperty extends Base {
   doors?: Ref<IDoor>[];
   locked: boolean;
   catalog: IProduct[];
-  vehicles: Ref<IVehicle>[];
+  vehicles: IPropertyVehicle[];
 }

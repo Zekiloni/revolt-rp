@@ -40,6 +40,14 @@ export class ManagePropertyComponent implements OnInit, OnDestroy {
     return this.property?.type === PropertyType.Residential;
   }
 
+  get isCommercial() {
+    return this.property?.type === PropertyType.Commercial;
+  }
+
+  get isGarage() {
+    return this.property?.type === PropertyType.Garage;
+  }
+
   private setProperty = (property: IProperty) => {
     this.property = property;
     this.title = property.name ?? this.translateService.instant(this.property.subType || this.property.type);
