@@ -15,3 +15,8 @@ export const createGangRecord = async (
 
   return GangRecordModel.create({ ...gangRecord, officer });
 };
+
+export function getAllGangRecords() {
+  return GangRecordModel.find()
+    .populate('officer');
+}

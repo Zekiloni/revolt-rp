@@ -10,11 +10,12 @@ import { Subscription } from 'rxjs';
 import { TreeModule } from 'primeng/tree';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Ripple } from 'primeng/ripple';
+import { GangRecordComponent } from './components/gang-record';
 
 @Component({
   selector: 'app-mdc',
   standalone: true,
-  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple],
+  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent],
   providers: [MessageService, TerminalService],
   templateUrl: './mdc.component.html',
   styleUrl: './mdc.component.scss'
@@ -39,6 +40,7 @@ export class MdcComponent implements OnInit, OnDestroy {
   nodes: any[] | undefined;
 
   subscription: Subscription | undefined;
+  displayGangRecords = true;
 
   constructor(private messageService: MessageService, private terminalService: TerminalService) {
   }

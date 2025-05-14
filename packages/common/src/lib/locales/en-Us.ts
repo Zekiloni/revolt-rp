@@ -688,5 +688,11 @@ export const enUs = {
   'trash_delivered': 'Trash delivered. Weight: {{weight}}kg, payment: {{salary}}.',
   'parent_property': 'Parent Property',
   'select_parent_property': 'Select Parent Property',
-  'not_officer': 'You are not an officer.'
+  'not_officer': 'You are not an officer.',
+  'location': 'Location',
+  'updated_at': 'Updated At',
+  'note': 'Note',
+  'officer': 'Officer',
+  'gang_records': 'Gang Records',
+  'new_record': 'New Record'
 };

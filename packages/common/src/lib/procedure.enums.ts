@@ -220,5 +220,7 @@ export const enum ProcedureKey {
   SERVER_PLAYER_STOP_JOB = 'server_playerStopJob',
 
   CLIENT_CREATE_CHECKPOINT = 'client_createCheckpoint',
+
   SERVER_CREATE_GANG_RECORD = 'server_createGangRecord',
+  SERVER_GET_GANG_RECORDS = 'server_getGangRecords',
 }

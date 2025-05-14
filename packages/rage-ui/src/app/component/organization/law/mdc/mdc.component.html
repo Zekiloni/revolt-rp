@@ -4,7 +4,8 @@
       <a pRipple class="flex align-items-center p-menuitem-link">
         <span [class]="item.icon"></span>
         <span class="ml-2">{{ item.label | translate }}</span>
-        <span *ngIf="item.shortcut" class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
+        <span *ngIf="item.shortcut"
+              class="ml-auto border-1 surface-border border-round surface-100 text-xs p-1">{{ item.shortcut }}</span>
         <i *ngIf="item.items" [ngClass]="['pi', root ? 'pi-angle-down ml-2' : 'pi-angle-right ml-auto']"></i>
       </a>
     </ng-template>
@@ -26,6 +27,15 @@
     </p-dock>
 
     <p-toast position="top-center" key="mdc" />
+
+    <p-dialog
+      [(visible)]="displayGangRecords"
+      header="GangNet"
+      [style]="{ width: '45vw', height: '18rem' }"
+      [draggable]="false"
+      [resizable]="false">
+      <app-gang-record />
+    </p-dialog>
 
     <p-dialog
       [(visible)]="displayFinder"

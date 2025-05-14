@@ -694,5 +694,11 @@ export const srRs = {
   'trash_delivered': 'Smeće je uspešno isporučeno. Težina: {{weight}}kg, isplata: {{salary}}.',
   'parent_property': 'Nadređena nekretnina',
   'select_parent_property': 'Izaberite nadređenu nekretninu',
-  'not_officer': 'Niste službeno lice.'
+  'not_officer': 'Niste službeno lice.',
+  'location': 'Lokacija',
+  'updated_at': 'Datum ažuriranja',
+  'note': 'Beleška',
+  'officer': 'Službeno lice',
+  'gang_records': 'Registrovane bande',
+  'new_record': 'Novi zapis',
 };
