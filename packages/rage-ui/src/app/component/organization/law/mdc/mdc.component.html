@@ -20,25 +20,27 @@
     </ng-template>
   </p-menubar>
   <div class="dock-window dock-advanced">
-    <p-dock [model]="dockItems" position="bottom">
+    <p-dock [model]="dockItems" position="bottom" styleClass="mb-3">
       <ng-template pTemplate="item" let-item>
-        <img [src]="item.icon" [alt]="item.label" width="100%" />
+        <img [src]="item.icon | staticAsset" [alt]="item.label" width="100%" />
       </ng-template>
     </p-dock>
 
     <p-toast position="top-center" key="mdc" />
 
     <p-dialog
-      [(visible)]="displayGangRecords"
+      [visible]="openedApplications.has('gang_net')"
       header="GangNet"
-      [style]="{ width: '45vw', height: '18rem' }"
+      [style]="{ width: '45vw', height: '19rem' }"
       [draggable]="false"
+      (visibleChange)="closeApplication('gang_net')"
       [resizable]="false">
       <app-gang-record />
     </p-dialog>
 
     <p-dialog
-      [(visible)]="displayFinder"
+      [visible]="openedApplications.has('finder')"
+      (visibleChange)="closeApplication('finder')"
       [breakpoints]="{ '960px': '50vw' }"
       [style]="{ width: '30vw', height: '18rem' }"
       [draggable]="false"
@@ -48,8 +50,10 @@
 
     <p-dialog
       [maximizable]="true"
-      [(visible)]="displayTerminal"
+      [visible]="openedApplications.has('terminal')"
+      (visibleChange)="closeApplication('terminal')"
       [breakpoints]="{ '960px': '50vw' }"
+      header="{{ 'terminal' | translate }}"
       [style]="{ width: '30vw' }"
       [draggable]="false"
       [resizable]="false">

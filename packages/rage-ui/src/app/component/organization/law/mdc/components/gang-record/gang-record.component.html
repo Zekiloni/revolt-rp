@@ -41,4 +41,38 @@
       </tr>
     </ng-template>
   </p-table>
+
+  <p-dialog
+    [(visible)]="newRecordVisible"
+    header="GangNet - {{ 'new_record' | translate }}"
+    [style]="{ width: '35vw', height: '22rem' }"
+    [draggable]="false"
+    [resizable]="false">
+    <form [formGroup]="form" (ngSubmit)="create()" class="grid formgrid p-fluid">
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="name" class="text-700">{{ 'name' | translate }}</label>
+        <input id="name" pInputText formControlName="name" />
+      </div>
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="location" class="text-700">{{ 'location' | translate }}</label>
+        <input id="location" pInputText formControlName="location" />
+      </div>
+
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="description" class="text-700">{{ 'description' | translate }}</label>
+        <input id="description" pInputText formControlName="description" />
+      </div>
+
+      <div class="field mb-4 col-12 md:col-6">
+        <label for="note" class="text-700">{{ 'note' | translate }}</label>
+        <input id="note" pInputText formControlName="note" />
+      </div>
+
+      <div class="col-12">
+        <button pButton type="button" severity="secondary" label="{{ 'cancel' | translate }}" class="w-auto"
+                (click)="newRecordVisible = false"></button>
+        <button pButton type="submit" label="{{ 'create' | translate }}" class="w-auto ml-3"></button>
+      </div>
+    </form>
+  </p-dialog>
 }

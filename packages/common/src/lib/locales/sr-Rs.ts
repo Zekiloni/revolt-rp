@@ -701,4 +701,12 @@ export const srRs = {
   'officer': 'Službeno lice',
   'gang_records': 'Registrovane bande',
   'new_record': 'Novi zapis',
+  'mobile_data_computer': 'Mobilni računar',
+  'records': 'Zapisi',
+  'officers': 'Službenici',
+  'quit': 'Zatvori',
+  'terminal': 'Terminal',
+  'new': 'Novi',
+  'warrant': 'Poternica',
+  'gang_net': 'Gang Net',
 };

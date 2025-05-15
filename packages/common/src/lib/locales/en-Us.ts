@@ -694,5 +694,11 @@ export const enUs = {
   'note': 'Note',
   'officer': 'Officer',
   'gang_records': 'Gang Records',
-  'new_record': 'New Record'
+  'new_record': 'New Record',
+  'mobile_data_computer': 'Mobile Data Computer',
+  'records': 'Records',
+  'officers': 'Officers',
+  'quit': 'Quit',
+  'terminal': 'Terminal',
+  'gang_net': 'Gang Net',
 };
