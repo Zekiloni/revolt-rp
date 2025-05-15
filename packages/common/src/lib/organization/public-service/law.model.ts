@@ -36,6 +36,13 @@ export interface IWarrant extends Base {
   expiringAt?: Date;
   isActive: boolean;
   createdAt: Date;
+  updatedAt?: Date;
+}
+
+export interface IWarrantCreate {
+  reason: string;
+  isActive: boolean;
+  targetCharacterId: string;
 }
 
 export enum TestType {
