@@ -11,11 +11,16 @@ import { TreeModule } from 'primeng/tree';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Ripple } from 'primeng/ripple';
 import { GangRecordComponent } from './components/gang-record';
+import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
+import { dockMenuItems, MdcApplicationKey, menubarItems, responsiveOptions } from './mdc.component.config';
+import { RageClientService } from '../../../../domain/service/rage-client.service';
+import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
+
 
 @Component({
   selector: 'app-mdc',
   standalone: true,
-  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent],
+  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent, StaticAssetPipe],
   providers: [MessageService, TerminalService],
   templateUrl: './mdc.component.html',
   styleUrl: './mdc.component.scss'
@@ -23,208 +28,68 @@ import { GangRecordComponent } from './components/gang-record';
 export class MdcComponent implements OnInit, OnDestroy {
   @Input() isActive!: boolean;
 
-  displayTerminal = false;
+  openedApplications: Set<MdcApplicationKey> = new Set<MdcApplicationKey>();
 
-  displayFinder = false;
+  dockItems: MenuItem[] = dockMenuItems(this.openApplication.bind(this));
 
-  displayGalleria: boolean | undefined;
+  menubarItems!: MenuItem[];
 
-  dockItems: MenuItem[] = [];
-
-  menubarItems: any[] = [];
-
-  responsiveOptions: any[] | undefined;
+  responsiveOptions = responsiveOptions;
 
   images: any[] | undefined;
 
   nodes: any[] | undefined;
 
   subscription: Subscription | undefined;
-  displayGangRecords = true;
 
-  constructor(private messageService: MessageService, private terminalService: TerminalService) {
+  constructor(private rageClientService: RageClientService, private messageService: MessageService, private terminalService: TerminalService) {
+    this.menubarItems = [
+      ...menubarItems(this.openApplication.bind(this)),
+      {
+        label: 'quit',
+        icon: 'pi pi-fw pi-times-circle',
+        command: () => this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.MDC)
+      }
+    ];
+  }
+
+  commandHandler(text: any) {
+    let response;
+    const argsIndex = text.indexOf(' ');
+    const command = argsIndex !== -1 ? text.substring(0, argsIndex) : text;
+
+    switch (command) {
+      case 'date':
+        response = 'Today is ' + new Date().toDateString();
+        break;
+
+      case 'greet':
+        response = 'Hola ' + text.substring(argsIndex + 1) + '!';
+        break;
+
+      case 'random':
+        response = Math.floor(Math.random() * 100);
+        break;
+
+      default:
+        response = 'Unknown command: ' + command;
+        break;
+    }
+
+    if (response) {
+      this.terminalService.sendResponse(response as string);
+    }
+  }
+
+  openApplication(key: MdcApplicationKey) {
+    this.openedApplications.add(key);
+  }
+
+  closeApplication(key: MdcApplicationKey) {
+    this.openedApplications.delete(key);
   }
 
   ngOnInit() {
-    this.dockItems = [
-      {
-        label: 'Finder',
-        tooltipOptions: {
-          tooltipLabel: 'Finder',
-          tooltipPosition: 'top',
-          positionTop: -15,
-          positionLeft: 15,
-          showDelay: 1000
-        },
-        icon: 'https://primefaces.org/cdn/primeng/images/dock/finder.svg',
-        command: () => {
-          this.displayFinder = true;
-        }
-      },
-      {
-        label: 'Terminal',
-        tooltipOptions: {
-          tooltipLabel: 'Terminal',
-          tooltipPosition: 'top',
-          positionTop: -15,
-          positionLeft: 15,
-          showDelay: 1000
-        },
-        icon: 'https://primefaces.org/cdn/primeng/images/dock/terminal.svg',
-        command: () => {
-          this.displayTerminal = true;
-        }
-      },
-      {
-        label: 'App Store',
-        tooltipOptions: {
-          tooltipLabel: 'App Store',
-          tooltipPosition: 'top',
-          positionTop: -15,
-          positionLeft: 15,
-          showDelay: 1000
-        },
-        icon: 'https://primefaces.org/cdn/primeng/images/dock/appstore.svg',
-        command: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'An unexpected error occurred while signing in.',
-            detail: 'UNTRUSTED_CERT_TITLE',
-            key: 'mdc'
-          });
-        }
-      },
-      {
-        label: 'Safari',
-        tooltipOptions: {
-          tooltipLabel: 'Safari',
-          tooltipPosition: 'top',
-          positionTop: -15,
-          positionLeft: 15,
-          showDelay: 1000
-        },
-        icon: 'https://primefaces.org/cdn/primeng/images/dock/safari.svg',
-        command: () => {
-          this.messageService.add({ severity: 'warn', summary: 'Safari has stopped working', key: 'mdc' });
-        }
-      },
-      {
-        label: 'Trash',
-        tooltipOptions: {
-          tooltipLabel: 'Trash',
-          tooltipPosition: 'top',
-          positionTop: -15,
-          positionLeft: 15,
-          showDelay: 1000
-        },
-        icon: 'https://primefaces.org/cdn/primeng/images/dock/trash.png',
-        command: () => {
-          this.messageService.add({ severity: 'info', summary: 'Empty Trash', key: 'mdc' });
-        }
-      }
-    ];
-
-    this.menubarItems = [
-      {
-        label: 'Mobile Data Computer',
-        styleClass: 'menubar-root font-bold'
-      },
-      {
-        label: 'records',
-        items: [
-          {
-            label: 'new',
-            icon: 'pi pi-fw pi-plus',
-            items: [
-              {
-                label: 'warrant',
-                icon: 'pi pi-fw pi-bookmark'
-              },
-              {
-                label: 'criminal_record',
-                icon: 'pi pi-fw pi-video'
-              }
-            ]
-          },
-          {
-            label: 'active_warrants',
-            icon: 'pi pi-fw pi-trash'
-          },
-          {
-            separator: true
-          },
-          {
-            label: 'in_custody',
-            icon: 'pi pi-fw pi-external-link'
-          }
-        ]
-      },
-      {
-        label: 'search',
-        items: [
-
-          {
-            label: 'search_citizen',
-            icon: 'pi pi-fw pi-users'
-          },
-          {
-            label: 'search_vehicle',
-            icon: 'pi pi-fw pi-car'
-          }
-        ]
-      },
-      {
-        label: 'officers',
-        items: [
-          {
-            label: 'on_duty',
-            icon: 'pi pi-fw pi-user-plus'
-          },
-          {
-            label: 'Delete',
-            icon: 'pi pi-fw pi-user-minus'
-          },
-          {
-            label: 'Search',
-            icon: 'pi pi-fw pi-users',
-            items: [
-              {
-                label: 'Filter',
-                icon: 'pi pi-fw pi-filter',
-                items: [
-                  {
-                    label: 'Print',
-                    icon: 'pi pi-fw pi-print'
-                  }
-                ]
-              },
-              {
-                icon: 'pi pi-fw pi-bars',
-                label: 'List'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        label: 'quit'
-      }
-    ];
-
-    this.responsiveOptions = [
-      {
-        breakpoint: '1024px',
-        numVisible: 3
-      },
-      {
-        breakpoint: '768px',
-        numVisible: 2
-      },
-      {
-        breakpoint: '560px',
-        numVisible: 1
-      }
-    ];
 
     this.subscription = this.terminalService.commandHandler.subscribe((command) => this.commandHandler(command));
 
@@ -305,34 +170,6 @@ export class MdcComponent implements OnInit, OnDestroy {
         ]
       }
     ];
-  }
-
-  commandHandler(text: any) {
-    let response;
-    const argsIndex = text.indexOf(' ');
-    const command = argsIndex !== -1 ? text.substring(0, argsIndex) : text;
-
-    switch (command) {
-      case 'date':
-        response = 'Today is ' + new Date().toDateString();
-        break;
-
-      case 'greet':
-        response = 'Hola ' + text.substring(argsIndex + 1) + '!';
-        break;
-
-      case 'random':
-        response = Math.floor(Math.random() * 100);
-        break;
-
-      default:
-        response = 'Unknown command: ' + command;
-        break;
-    }
-
-    if (response) {
-      this.terminalService.sendResponse(response as string);
-    }
   }
 
   ngOnDestroy() {

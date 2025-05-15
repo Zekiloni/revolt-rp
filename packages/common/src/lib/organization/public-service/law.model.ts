@@ -73,3 +73,4 @@ export interface IGangRecordCreate {
   location: string;
   note?: string;
 }
+

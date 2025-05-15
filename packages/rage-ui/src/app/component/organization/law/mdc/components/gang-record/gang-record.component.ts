@@ -1,20 +1,22 @@
 import { TranslatePipe } from '@ngx-translate/core';
 import { ButtonDirective } from 'primeng/button';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 import { Observable, of } from 'rxjs';
 import { IGangRecord, ProcedureKey } from '@revolt-rp/common';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @Component({
   selector: 'app-gang-record',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective],
+  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, DialogModule, ReactiveFormsModule, InputTextModule],
   templateUrl: './gang-record.component.html',
-  styleUrl: './gang-record.component.css'
+  styleUrl: './gang-record.component.scss'
 })
 export class GangRecordComponent {
   $gangRecords!: Observable<IGangRecord[]>;
@@ -37,12 +39,13 @@ export class GangRecordComponent {
   }
 
   private getGangRecords() {
-    this.$gangRecords = of([]);
+    this.$gangRecords = this.rageClientService.callServer<IGangRecord[]>(ProcedureKey.SERVER_GET_GANG_RECORDS);
   }
 
   private handleCreateResponse = () => {
     this.newRecordVisible = false;
     this.form.reset();
+    this.getGangRecords();
   };
 
   create() {
