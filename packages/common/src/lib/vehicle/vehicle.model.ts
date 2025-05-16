@@ -13,7 +13,7 @@ export interface IVehicleMod {
 }
 
 export interface IVehicleNumberplate {
-  numberplate: string;
+  content: string;
   modelType: number;
   expiringAt: Date;
 }

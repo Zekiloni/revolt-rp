@@ -71,7 +71,7 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
   await vehicle.info.save();
 
   if (options && options.numberplate) {
-    vehicle.numberPlate = options.numberplate.numberplate ?? '';
+    vehicle.numberPlate = options.numberplate.content ?? '';
     vehicle.numberPlateType = options.numberplate.modelType ?? vehicleConfig.defaultNumberPlateType;
   }
 
@@ -102,7 +102,7 @@ export const loadVehicle = async (vehicle: Vehicle) => {
   vehicle.rotation = rotation;
 
   if (vehicle.numberplate) {
-    vehicleMp.numberPlate = vehicle.numberplate.numberplate ?? '';
+    vehicleMp.numberPlate = vehicle.numberplate.content ?? '';
     vehicleMp.numberPlateType = vehicle.numberplate.modelType ?? vehicleConfig.defaultNumberPlateType;
   }
 
@@ -282,3 +282,6 @@ export const getSpawnedVehicleById = async (vehicleId: string) => {
 };
 
 
+export const findVehicle = async (query: FilterQuery<Vehicle>) => {
+  return VehicleModel.findOne(query).exec();
+};

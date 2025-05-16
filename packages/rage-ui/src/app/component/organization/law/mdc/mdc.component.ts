@@ -15,12 +15,13 @@ import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { dockMenuItems, MdcApplicationKey, menubarItems, responsiveOptions } from './mdc.component.config';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
+import { FinderComponent } from './components/finder';
 
 
 @Component({
   selector: 'app-mdc',
   standalone: true,
-  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent, StaticAssetPipe],
+  imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent, StaticAssetPipe, FinderComponent],
   providers: [MessageService, TerminalService],
   templateUrl: './mdc.component.html',
   styleUrl: './mdc.component.scss'

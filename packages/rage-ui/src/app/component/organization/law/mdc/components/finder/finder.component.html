@@ -1,0 +1,27 @@
+<div class="grid justify-content-between">
+  <p-selectButton
+    [options]="searchOptions"
+    [allowEmpty]="false"
+    (onChange)="searchInput = null"
+    [(ngModel)]="searchOption">
+    <ng-template let-option pTemplate="item">
+      <span>{{ option | translate }}</span>
+    </ng-template>
+  </p-selectButton>
+
+  <input pInputText placeholder="{{ placeholder | translate }}" [(ngModel)]="searchInput"
+         (ngModelChange)="onInputChange($event)" />
+</div>
+
+@if (response) {
+  @if (isCitizenSearch) {
+    <h2>gradjanin</h2>
+    {{ citizen.fullName }}
+  } @else {
+    <h2>vozilo</h2>
+    <pre>{{ response | json }}</pre>
+    {{ response.position}}
+  }
+} @else {
+  <h2>nema podataka</h2>
+}

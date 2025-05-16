@@ -42,10 +42,11 @@
       [visible]="openedApplications.has('finder')"
       (visibleChange)="closeApplication('finder')"
       [breakpoints]="{ '960px': '50vw' }"
+      header="{{ 'finder' | translate }}"
       [style]="{ width: '30vw', height: '18rem' }"
       [draggable]="false"
       [resizable]="false">
-      <p-tree [value]="nodes" />
+      <app-finder />
     </p-dialog>
 
     <p-dialog
