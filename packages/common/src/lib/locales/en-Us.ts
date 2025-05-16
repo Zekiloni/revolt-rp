@@ -701,5 +701,10 @@ export const enUs = {
   'quit': 'Quit',
   'terminal': 'Terminal',
   'gang_net': 'Gang Net',
-  'archive': 'Archive'
+  'archive': 'Archive',
+  'finder': 'Finder',
+  'search_citizen': 'Search Citizen',
+  'search_vehicle': 'Search Vehicle',
+  'search_citizen_placeholder': 'Search by name, ID or phone number',
+  'search_vehicle_placeholder': 'Search by numberplate'
 };

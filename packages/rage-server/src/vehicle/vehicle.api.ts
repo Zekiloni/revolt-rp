@@ -9,7 +9,7 @@ import {
   VehicleSharedDataType
 } from '@revolt-rp/common';
 import {
-  createVehicleSellOffer,
+  createVehicleSellOffer, findVehicle,
   getAllVehicles, getSpawnedVehicleById,
   getVehicleById,
   getVehiclesByOwner,
@@ -28,6 +28,8 @@ import { isVehicleTrunkOpen } from './vehicle-inventory.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { t } from 'i18next';
+import { FilterQuery } from 'mongoose';
+import { Vehicle } from './vehicle.model';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -147,6 +149,10 @@ function createVehicleSellOfferHandler(offer: IVehicleSellOffer, { player }: Pro
     .then(vehicle => createVehicleSellOffer(player, vehicle, offer.price, target));
 }
 
+function findVehicleHandler(query: FilterQuery<Vehicle>) {
+  return findVehicle(query);
+}
+
 
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
@@ -164,6 +170,7 @@ on(ProcedureKey.SERVER_PARK_VEHICLE, parkVehicleHandler);
 on(ProcedureKey.SERVER_VEHICLE_LOAD, loadVehicleHandler);
 on(ProcedureKey.SERVER_VEHICLE_SELL_OFFER, createVehicleSellOfferHandler);
 register(ProcedureKey.SERVER_GET_PLAYER_VEHICLES, getPlayerVehiclesHandler);
+register(ProcedureKey.SERVER_FIND_VEHICLE, findVehicleHandler);
 
 (async () => {
   getAllVehicles({ isSpawned: true })

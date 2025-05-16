@@ -18,7 +18,7 @@ import { clearPlayerDamages } from '../damage/player-damage.service';
 import { Organization } from '../../organization/organization.model';
 import { Character } from './character.model';
 import { OrganizationRank } from '../../organization/rank/organization-rank.model';
-import { UpdateQuery } from 'mongoose';
+import { FilterQuery, UpdateQuery } from 'mongoose';
 import { CharacterModel } from '../../common/entity-ref';
 import { Property } from '../../property/property.model';
 
@@ -284,4 +284,9 @@ export const setPlayerJob = async (player: PlayerMp, property: Property | null) 
 
 
   await player.character.save();
+};
+
+
+export const findCharacter = async (query: FilterQuery<Character>) => {
+  return CharacterModel.findOne(query).exec();
 };

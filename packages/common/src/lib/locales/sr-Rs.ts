@@ -709,5 +709,10 @@ export const srRs = {
   'new': 'Novi',
   'warrant': 'Poternica',
   'gang_net': 'Gang Net',
-  'archive': 'Arhiva'
+  'archive': 'Arhiva',
+  'finder': 'Pretraga',
+  'search_citizen': 'Pretraga građana',
+  'search_vehicle': 'Pretraga vozila',
+  'search_citizen_placeholder': 'Unesite ime ili prezime',
+  'search_vehicle_placeholder': 'Unesite registraciju vozila',
 };
