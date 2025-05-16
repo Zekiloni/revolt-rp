@@ -224,6 +224,7 @@ export const enum ProcedureKey {
   SERVER_CREATE_GANG_RECORD = 'server_createGangRecord',
   SERVER_GET_GANG_RECORDS = 'server_getGangRecords',
   SERVER_DELETE_GANG_RECORD = 'server_deleteGangRecord',
+  SERVER_UPDATE_GANG_RECORD = 'server_updateGangRecord',
 
   SERVER_CREATE_WARRANT = 'server_createWarrant',
   SERVER_GET_WARRANTS = 'server_getWarrants',

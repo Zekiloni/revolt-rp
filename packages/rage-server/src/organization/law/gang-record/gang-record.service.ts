@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { IGangRecordCreate } from '@revolt-rp/common';
+import { IGangRecord, IGangRecordCreate } from '@revolt-rp/common';
 import { Character } from '../../../player/character/character.model';
 import { isLawOrganization } from '../../organization.service';
 import { GangRecordModel } from './gang-record.model';
@@ -33,4 +33,23 @@ export function deleteGangRecord(id: string, officer: Character) {
   if (!isOfficer) throw new Error('not_officer');
 
   return GangRecordModel.findByIdAndDelete(id);
+}
+
+
+export function updateGangRecord(
+  gangRecord: IGangRecord,
+  officer: Character
+) {
+  const isOfficer = isLawOrganization(
+    (<Types.ObjectId>officer.membership.organization).toString()
+  );
+
+  if (!isOfficer) throw new Error('not_officer');
+
+  return GangRecordModel.findByIdAndUpdate(gangRecord.id, {
+    name: gangRecord.name,
+    description: gangRecord.description,
+    location: gangRecord.location,
+    note: gangRecord.note
+  }, { new: true });
 }
