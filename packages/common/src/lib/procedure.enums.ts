@@ -227,4 +227,7 @@ export const enum ProcedureKey {
 
   SERVER_CREATE_WARRANT = 'server_createWarrant',
   SERVER_GET_WARRANTS = 'server_getWarrants',
+
+  SERVER_CREATE_SOBRIETY_TEST = 'server_createSobrietyTest',
+  SERVER_GET_SOBRIETY_TEST = 'server_getSobrietyTest',
 }
