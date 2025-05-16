@@ -1,0 +1,51 @@
+import { Document, Types } from 'mongoose';
+import { ISobrietyTest, TestType } from '@revolt-rp/common';
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  Ref,
+} from '@typegoose/typegoose';
+import { Character } from '../../../player/character/character.model';
+
+@modelOptions({
+  schemaOptions: {
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+    timestamps: true,
+  },
+})
+export class SobrietyTest extends Document implements ISobrietyTest {
+  declare _id: Types.ObjectId;
+  declare id: string;
+
+  @prop({ ref: () => Character })
+  target: Ref<Character>;
+
+  @prop({ ref: () => Character })
+  testedBy: Ref<Character>;
+
+  @prop({ type: () => TestType, required: true })
+  type: TestType;
+
+  @prop({ required: true })
+  result: boolean;
+
+  @prop({ required: false })
+  level?: number;
+
+  @prop({ required: false })
+  substances?: string[];
+
+  @prop({ required: true })
+  location: string;
+
+  @prop({ required: false })
+  note?: string;
+
+  createdAt: Date;
+
+  updatedAt?: Date;
+}
+
+export const SobrietyTestModel = getModelForClass(SobrietyTest);

@@ -63,6 +63,13 @@ export interface ISobrietyTest extends Base {
   updatedAt?: Date;
 }
 
+export interface ISobrietyTestCreate {
+  targetCharacterId: string;
+  type: TestType;
+  result: boolean;
+  location: string;
+}
+
 export interface IGangRecord extends Base {
   name: string;
   description: string;
