@@ -1,10 +1,10 @@
 import { Document, Types } from 'mongoose';
-import { ISobrietyTest, TestType } from '@revolt-rp/common';
+import { ISobrietyTest, SobrietyTestType } from '@revolt-rp/common';
 import {
   getModelForClass,
   modelOptions,
   prop,
-  Ref,
+  Ref
 } from '@typegoose/typegoose';
 import { Character } from '../../../player/character/character.model';
 
@@ -12,8 +12,8 @@ import { Character } from '../../../player/character/character.model';
   schemaOptions: {
     toObject: { virtuals: true },
     toJSON: { virtuals: true },
-    timestamps: true,
-  },
+    timestamps: true
+  }
 })
 export class SobrietyTest extends Document implements ISobrietyTest {
   declare _id: Types.ObjectId;
@@ -25,8 +25,8 @@ export class SobrietyTest extends Document implements ISobrietyTest {
   @prop({ ref: () => Character })
   testedBy: Ref<Character>;
 
-  @prop({ type: () => TestType, required: true })
-  type: TestType;
+  @prop({ enum: Object.values(SobrietyTestType), type: () => String })
+  type: SobrietyTestType;
 
   @prop({ required: true })
   result: boolean;
