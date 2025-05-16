@@ -12,12 +12,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { deepCopy, IGangRecord, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 import { filterGlobal } from '../../../../../../domain/util/table.util';
+import { TruncatePipe } from '../../../../../../domain/pipe/truncate.pipe';
 
 
 @Component({
   selector: 'app-gang-record',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, DialogModule, ReactiveFormsModule, InputTextModule, IconFieldModule, InputIconModule, Button, TooltipModule, FormsModule],
+  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, DialogModule, ReactiveFormsModule, InputTextModule, IconFieldModule, InputIconModule, Button, TooltipModule, FormsModule, TruncatePipe],
   templateUrl: './gang-record.component.html',
   styleUrl: './gang-record.component.scss'
 })
