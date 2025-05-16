@@ -28,6 +28,13 @@ export interface ICriminalRecord extends Base {
   updatedAt?: Date;
 }
 
+export interface ICriminalRecordCreate {
+  type: RecordType;
+  targetCharacterId: string;
+  location: string;
+  charges: ICharge[];
+}
+
 export interface IWarrant extends Base {
   target: Ref<ICharacter>;
   issuedBy: Ref<ICharacter>;
