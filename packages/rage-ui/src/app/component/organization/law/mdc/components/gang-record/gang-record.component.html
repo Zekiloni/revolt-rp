@@ -1,47 +1,120 @@
-@if ($gangRecords | async; as gangRecords) {
-  <p-table #gangNetTable [value]="gangRecords" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
-           [globalFilterFields]="['name', 'description', 'location', 'note']">
-    <ng-template pTemplate="caption">
-      <div class="flex justify-content-between align-items-center">
-        <h5>{{ 'gang_records' | translate }}</h5>
-        <p-iconField iconPosition="left">
-          <p-inputIcon styleClass="pi pi-search" />
-          <input
-            pInputText
-            type="text"
-            class="w-10rem"
-            (input)="filterGlobal(gangNetTable, $event.target!)"
-            [placeholder]="'search' | translate" />
-        </p-iconField>
-        <button
-          pButton
-          icon="pi pi-file-plus"
-          label="{{ 'new_record' | translate }}"
-          (click)="newRecordVisible = true"
-          size="small"
-        ></button>
-      </div>
-    </ng-template>
-    <ng-template pTemplate="header">
-      <tr>
-        <th>{{ 'name' | translate }}</th>
-        <th>{{ 'location' | translate }}</th>
-        <th>{{ 'description' | translate }}</th>
-        <th>{{ 'note' | translate }}</th>
-        <th>{{ 'officer' | translate }}</th>
-        <th>{{ 'created_at' | translate }}</th>
-        <td style="width: 5%">{{ 'options' | translate }}</td>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-record>
-      <tr>
-        <td>{{ record['name'] }}</td>
-        <td>{{ record['location'] }}</td>
-        <td>{{ record['description'] }}</td>
-        <td>{{ record['note'] ?? 'N/A' }}</td>
-        <td>{{ record['officer']['fullName'] }}</td>
-        <td>{{ record['createdAt'] | date: 'MM/dd/yyyy' }}</td>
-        <td>
+<p-table #gangNetTable [value]="gangRecords" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+         [globalFilterFields]="['name', 'description', 'location', 'note']" editMode="row"
+         [rowHover]="true"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex justify-content-between align-items-center">
+      <h5>{{ 'gang_records' | translate }}</h5>
+      <p-iconField iconPosition="left">
+        <p-inputIcon styleClass="pi pi-search" />
+        <input
+          pInputText
+          type="text"
+          class="w-10rem"
+          (input)="filterGlobal(gangNetTable, $event.target!)"
+          [placeholder]="'search' | translate" />
+      </p-iconField>
+      <button
+        pButton
+        icon="pi pi-file-plus"
+        label="{{ 'new_record' | translate }}"
+        (click)="newRecordVisible = true"
+        size="small"
+      ></button>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>{{ 'name' | translate }}</th>
+      <th>{{ 'location' | translate }}</th>
+      <th>{{ 'description' | translate }}</th>
+      <th>{{ 'note' | translate }}</th>
+      <th>{{ 'officer' | translate }}</th>
+      <th>{{ 'created_at' | translate }}</th>
+      <td style="width: 15%">{{ 'options' | translate }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-record let-editing="editing" let-rowIndex="rowIndex">
+    <tr [pEditableRow]="record">
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="record['name']"
+              [style]="{ width: '100%' }" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ record['name'] }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="record['location']"
+              [style]="{ width: '100%' }" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ record['location'] }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="record['description']"
+              [style]="{ width: '100%' }" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ record['description'] }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <input
+              pInputText
+              type="text"
+              [(ngModel)]="record['note']"
+              [style]="{ width: '100%' }" />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ record['note'] ?? 'N/A' }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>{{ record['officer']['fullName'] }}</td>
+      <td>{{ record['createdAt'] | date: 'MM/dd/yyyy' }}</td>
+      <td>
+        @if (editing) {
+          <button
+            pButton
+            type="button"
+            pSaveEditableRow
+            size="small"
+            icon="pi pi-check"
+            (click)="editSave(record, rowIndex)"
+            class="p-button-rounded p-button-text p-button-success mr-2">
+          </button>
+          <button
+            pButton
+            type="button"
+            pCancelEditableRow
+            size="small"
+            icon="pi pi-times"
+            (click)="editCancel(record, rowIndex)"
+            class="p-button-rounded p-button-text p-button-danger">
+          </button>
+        } @else {
           <p-button
             icon="pi pi-trash"
             [rounded]="true"
@@ -50,48 +123,59 @@
             size="small"
             (onClick)="delete(record)"
           />
-        </td>
-      </tr>
-    </ng-template>
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            [pTooltip]="'edit' | translate" tooltipPosition="bottom"
+            severity="primary"
+            size="small"
+            pInitEditableRow
+            (onClick)="editInit(record)"
+          />
+        }
+      </td>
+    </tr>
+  </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="7">{{ 'no_results' | translate }}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7">{{ 'no_results' | translate }}</td>
+    </tr>
+  </ng-template>
+</p-table>
 
-  <p-dialog
-    [(visible)]="newRecordVisible"
-    header="GangNet - {{ 'new_record' | translate }}"
-    [style]="{ width: '35vw', height: '22rem' }"
-    [draggable]="false"
-    [resizable]="false">
-    <form [formGroup]="form" (ngSubmit)="create()" class="grid formgrid p-fluid">
-      <div class="field mb-4 col-12 md:col-6">
-        <label for="name" class="text-700">{{ 'name' | translate }}</label>
-        <input id="name" pInputText formControlName="name" />
-      </div>
-      <div class="field mb-4 col-12 md:col-6">
-        <label for="location" class="text-700">{{ 'location' | translate }}</label>
-        <input id="location" pInputText formControlName="location" />
-      </div>
+<p-dialog
+  [(visible)]="newRecordVisible"
+  header="GangNet - {{ 'new_record' | translate }}"
+  [style]="{ width: '35vw', height: '22rem' }"
+  [draggable]="false"
+  [resizable]="false">
+  <form [formGroup]="form" (ngSubmit)="create()" class="grid formgrid p-fluid">
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="name" class="text-700">{{ 'name' | translate }}</label>
+      <input id="name" pInputText formControlName="name" />
+    </div>
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="location" class="text-700">{{ 'location' | translate }}</label>
+      <input id="location" pInputText formControlName="location" />
+    </div>
 
-      <div class="field mb-4 col-12 md:col-6">
-        <label for="description" class="text-700">{{ 'description' | translate }}</label>
-        <input id="description" pInputText formControlName="description" />
-      </div>
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="description" class="text-700">{{ 'description' | translate }}</label>
+      <input id="description" pInputText formControlName="description" />
+    </div>
 
-      <div class="field mb-4 col-12 md:col-6">
-        <label for="note" class="text-700">{{ 'note' | translate }}</label>
-        <input id="note" pInputText formControlName="note" />
-      </div>
+    <div class="field mb-4 col-12 md:col-6">
+      <label for="note" class="text-700">{{ 'note' | translate }}</label>
+      <input id="note" pInputText formControlName="note" />
+    </div>
 
-      <div class="col-12">
-        <button pButton type="button" severity="secondary" label="{{ 'cancel' | translate }}" class="w-auto"
-                (click)="newRecordVisible = false"></button>
-        <button pButton type="submit" label="{{ 'create' | translate }}" class="w-auto ml-3"></button>
-      </div>
-    </form>
-  </p-dialog>
-}
+    <div class="col-12">
+      <button pButton type="button" severity="secondary" label="{{ 'cancel' | translate }}" class="w-auto"
+              (click)="newRecordVisible = false"></button>
+      <button pButton type="submit" label="{{ 'create' | translate }}" class="w-auto ml-3"></button>
+    </div>
+  </form>
+</p-dialog>
+
