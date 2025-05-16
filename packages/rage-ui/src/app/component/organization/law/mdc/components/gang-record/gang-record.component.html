@@ -74,7 +74,7 @@
               [style]="{ width: '100%' }" />
           </ng-template>
           <ng-template pTemplate="output">
-            {{ record['description'] }}
+            <span [pTooltip]="record['description']">{{ record['description'] | truncate: [20] }}</span>
           </ng-template>
         </p-cellEditor>
       </td>
