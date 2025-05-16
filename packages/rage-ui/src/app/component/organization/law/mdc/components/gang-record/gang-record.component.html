@@ -1,8 +1,18 @@
 @if ($gangRecords | async; as gangRecords) {
-  <p-table [value]="gangRecords" [tableStyle]="{ 'min-width': '50rem' }">
+  <p-table #gangNetTable [value]="gangRecords" [tableStyle]="{ 'min-width': '50rem' }" dataKey="id"
+           [globalFilterFields]="['name', 'description', 'location', 'note']">
     <ng-template pTemplate="caption">
       <div class="flex justify-content-between align-items-center">
         <h5>{{ 'gang_records' | translate }}</h5>
+        <p-iconField iconPosition="left">
+          <p-inputIcon styleClass="pi pi-search" />
+          <input
+            pInputText
+            type="text"
+            class="w-10rem"
+            (input)="filterGlobal(gangNetTable, $event.target!)"
+            [placeholder]="'search' | translate" />
+        </p-iconField>
         <button
           pButton
           icon="pi pi-file-plus"
@@ -20,7 +30,7 @@
         <th>{{ 'note' | translate }}</th>
         <th>{{ 'officer' | translate }}</th>
         <th>{{ 'created_at' | translate }}</th>
-        <th>{{ 'updated_at' | translate }}</th>
+        <td style="width: 5%">{{ 'options' | translate }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-record>
@@ -30,8 +40,17 @@
         <td>{{ record['description'] }}</td>
         <td>{{ record['note'] ?? 'N/A' }}</td>
         <td>{{ record['officer']['fullName'] }}</td>
-        <td>{{ record['createdAt'] }}</td>
-        <td>{{ record['updatedAt'] }}</td>
+        <td>{{ record['createdAt'] | date: 'MM/dd/yyyy' }}</td>
+        <td>
+          <p-button
+            icon="pi pi-trash"
+            [rounded]="true"
+            pTooltip="{{ 'archive' | translate}} "
+            severity="danger"
+            size="small"
+            (onClick)="delete(record)"
+          />
+        </td>
       </tr>
     </ng-template>
 

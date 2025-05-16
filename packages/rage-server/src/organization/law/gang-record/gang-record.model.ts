@@ -29,15 +29,8 @@ export class GangRecord extends Document implements IGangRecord {
   @prop({ ref: () =>  Character })
   officer: Ref<Character>;
 
-  @prop({ required: false })
-  deletedAt?: Date;
-
   createdAt: Date;
 
   updatedAt?: Date;
-
-  get isDeleted() {
-    return this.deletedAt != undefined;
-  }
 }
 export const GangRecordModel = getModelForClass(GangRecord);

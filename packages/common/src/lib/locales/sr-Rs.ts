@@ -709,4 +709,5 @@ export const srRs = {
   'new': 'Novi',
   'warrant': 'Poternica',
   'gang_net': 'Gang Net',
+  'archive': 'Arhiva'
 };
