@@ -45,7 +45,7 @@ export interface IWarrantCreate {
   targetCharacterId: string;
 }
 
-export enum TestType {
+export enum SobrietyTestType {
   Alcohol = 'alcohol',
   Drug = 'drug',
 }
@@ -53,7 +53,7 @@ export enum TestType {
 export interface ISobrietyTest extends Base {
   target: Ref<ICharacter>;
   testedBy: Ref<ICharacter>;
-  type: TestType;
+  type: SobrietyTestType;
   result: boolean;
   level?: number; // BAC for alcohol, or toxicity level for drugs
   substances?: string[]; // optional, useful for drugs
@@ -65,7 +65,7 @@ export interface ISobrietyTest extends Base {
 
 export interface ISobrietyTestCreate {
   targetCharacterId: string;
-  type: TestType;
+  type: SobrietyTestType;
   result: boolean;
   location: string;
 }
