@@ -351,6 +351,5 @@ export async function deleteOrganization(organization: Organization) {
 
 export async function isLawOrganization(organizationId: string) {
   const organization = await getOrganizationById(organizationId);
-
   return organization && organization.type === OrganizationType.LAW;
 }

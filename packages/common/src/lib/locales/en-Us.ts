@@ -701,4 +701,5 @@ export const enUs = {
   'quit': 'Quit',
   'terminal': 'Terminal',
   'gang_net': 'Gang Net',
+  'archive': 'Archive'
 };

@@ -54,3 +54,6 @@ import './job/base-job.api';
 import './job/sanitation-job.api';
 
 import './organization/law';
+
+
+import './test';

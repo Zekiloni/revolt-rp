@@ -1,24 +1,30 @@
-import { TranslatePipe } from '@ngx-translate/core';
-import { ButtonDirective } from 'primeng/button';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RageClientService } from '../../../../../../domain/service/rage-client.service';
-import { Observable, of } from 'rxjs';
-import { IGangRecord, ProcedureKey } from '@revolt-rp/common';
+import { TranslatePipe } from '@ngx-translate/core';
+import { Button, ButtonDirective } from 'primeng/button';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { IGangRecord, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../../../../domain/service/rage-client.service';
+import { filterGlobal } from '../../../../../../domain/util/table.util';
+import { TooltipModule } from 'primeng/tooltip';
 
 
 @Component({
   selector: 'app-gang-record',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, DialogModule, ReactiveFormsModule, InputTextModule],
+  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, DialogModule, ReactiveFormsModule, InputTextModule, IconFieldModule, InputIconModule, Button, TooltipModule],
   templateUrl: './gang-record.component.html',
   styleUrl: './gang-record.component.scss'
 })
 export class GangRecordComponent {
+  protected readonly filterGlobal = filterGlobal;
+
   $gangRecords!: Observable<IGangRecord[]>;
   newRecordVisible = false;
 
@@ -54,5 +60,10 @@ export class GangRecordComponent {
 
     this.rageClientService.callServer<IGangRecord>(ProcedureKey.SERVER_CREATE_GANG_RECORD, this.form.getRawValue())
       .subscribe({ next: this.handleCreateResponse });
+  }
+
+  delete(record: IGangRecord) {
+    this.rageClientService.callServer(ProcedureKey.SERVER_DELETE_GANG_RECORD, record.id)
+      .subscribe({ next: () => this.getGangRecords() });
   }
 }

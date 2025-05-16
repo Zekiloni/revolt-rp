@@ -70,7 +70,6 @@ export interface IGangRecord extends Base {
   officer: Ref<ICharacter>;
   createdAt: Date;
   updatedAt?: Date;
-  deletedAt?: Date;
   note?: string;
 }
 
