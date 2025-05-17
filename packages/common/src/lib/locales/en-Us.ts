@@ -706,5 +706,9 @@ export const enUs = {
   'search_citizen': 'Search Citizen',
   'search_vehicle': 'Search Vehicle',
   'search_citizen_placeholder': 'Search by name, ID or phone number',
-  'search_vehicle_placeholder': 'Search by numberplate'
+  'search_vehicle_placeholder': 'Search by numberplate',
+  'vehicle_model': 'Model',
+  'vehicle_limit': 'Limit',
+  'vehicle_bodyHealth': "Body health",
+  "vehicle_color" : "Color"
 };
