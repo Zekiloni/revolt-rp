@@ -26,12 +26,12 @@ function getCameraForwardHit(maxDistance = 100.0) {
   );
 
   mp.game.graphics.drawLine(cameraPos.x, cameraPos.y, cameraPos.z, targetPos.x, targetPos.y, targetPos.z, 255, 0, 0, 255);
-  return mp.raycasting.testPointToPoint(cameraPos, targetPos, mp.players.local, 1); // 1 = intersect everything
+  return mp.raycasting.testPointToPointAsync(cameraPos, targetPos, mp.players.local, 4); // 1 = intersect everything
 }
 
 
-export function highlightTargetPlayer() {
-  const hit = getCameraForwardHit(MAX_DISTANCE);
+async function highlightTargetPlayer() {
+  const hit = await getCameraForwardHit(MAX_DISTANCE);
 
   if (hit) {
     mp.gui.chat.push(`Hit: ${JSON.stringify(hit)}}`);
