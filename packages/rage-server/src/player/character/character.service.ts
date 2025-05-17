@@ -74,7 +74,7 @@ const loadPlayerVariables = (player: PlayerMp) => {
     [PlayerSharedDataType.TextBubble]: null,
     [PlayerSharedDataType.SelectedItemId]: null,
     [PlayerSharedDataType.Frozen]: false,
-    [PlayerSharedDataType.IsRestrained]: player.character.isRestrained,
+    [PlayerSharedDataType.IsCuffed]: player.character.isCuffed,
     [PlayerSharedDataType.Offer]: null,
     [PlayerSharedDataType.WalkingStyle]: 'normal',
     [PlayerSharedDataType.Attachments]: [],

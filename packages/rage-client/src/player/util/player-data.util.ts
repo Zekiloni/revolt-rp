@@ -22,11 +22,11 @@ export const getIsSpawned = (target?: PlayerMp) => {
 }
 
 export const getIsCuffed = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.IsRestrained);
+  return getTarget(target).getVariable(PlayerSharedDataType.IsCuffed);
 }
 
 export const getIsNotCuffed = (target?: PlayerMp) => {
-  return getTarget(target).getVariable(PlayerSharedDataType.IsRestrained) == false;
+  return getTarget(target).getVariable(PlayerSharedDataType.IsCuffed) == false;
 }
 
 export const getIsAfk = (target?: PlayerMp) => {

@@ -108,7 +108,7 @@ export class Character extends Document implements ICharacter {
   injuries: ICharacterInjury[];
 
   @prop({ default: false })
-  isRestrained: boolean;
+  isCuffed: boolean;
 
   @prop({ type: Date, default: null })
   lastSessionAt?: Date;
