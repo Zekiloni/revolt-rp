@@ -67,6 +67,10 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
     color: [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor]
   };
 
+  console.log('createVehicle', defaultVehicleInfo.color);
+  console.log('vehicleColors.primary', primaryColor, vehicleColors[primaryColor])
+  console.log('vehicleColors.secondary', secondaryColor, vehicleColors[secondaryColor])
+
   vehicle.info = new VehicleModel(defaultVehicleInfo);
   await vehicle.info.save();
 
@@ -95,11 +99,9 @@ export const loadVehicle = async (vehicle: Vehicle) => {
   });
 
   vehicle.isSpawned = true;
-  vehicleMp.info = vehicle;
-
-  await vehicleMp.info.save();
-
   vehicle.rotation = rotation;
+  vehicle.color = [vehicleMp.getColorRGB(0), vehicleMp.getColorRGB(1)];
+  vehicleMp.info = vehicle;
 
   if (vehicle.numberplate) {
     vehicleMp.numberPlate = vehicle.numberplate.content ?? '';
@@ -283,5 +285,7 @@ export const getSpawnedVehicleById = async (vehicleId: string) => {
 
 
 export const findVehicle = async (query: FilterQuery<Vehicle>) => {
-  return VehicleModel.findOne(query).exec();
+  return VehicleModel.findOne(query)
+    .populate('owner')
+    .exec();
 };

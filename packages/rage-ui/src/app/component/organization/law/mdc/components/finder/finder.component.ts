@@ -42,6 +42,10 @@ export class FinderComponent implements OnInit, OnDestroy {
     return (<IVehicle>this.response);
   }
 
+  get vehicleOwner() {
+    return (<ICharacter>this.vehicle?.owner);
+  }
+
   get placeholder() {
     return this.searchOption === 'search_citizen' ? 'search_citizen_placeholder' : 'search_vehicle_placeholder';
   }
