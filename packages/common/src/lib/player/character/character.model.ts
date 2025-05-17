@@ -58,7 +58,7 @@ export interface ICharacter extends Base {
   membership: ICharacterOrganization | null;
   isLeader: boolean;
   injuries: ICharacterInjury[];
-  isRestrained: boolean;
+  isCuffed: boolean;
   appearance: ICharacterAppearance;
   bloodType: BloodType;
   defaultSpawn: ICharacterSpawn;
