@@ -1,11 +1,18 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { GameUiKey, IPropertyCreate, IPropertyPoint, IPropertyUpdate, ProcedureKey } from '@revolt-rp/common';
 import {
-  createProperty, createPropertyPoint, deletePropertyPoint,
+  GameUiKey,
+  IPropertyCreate,
+  IPropertyPoint,
+  IPropertyUpdate,
+  IPropertyVehicle, IPropertyVehicleCreate,
+  ProcedureKey
+} from '@revolt-rp/common';
+import {
+  createProperty, createPropertyPoint, createPropertyVehicle, deletePropertyPoint, deletePropertyVehicle,
   getAllProperties, getPropertiesByOwnerId,
-  getPropertyById, getPropertyByPointId,
+  getPropertyById, getPropertyByPointId, getPropertyByVehicleId,
   initializeProperty, isPropertyOwner,
-  playerLockProperty, propertyMainInteraction, updatePropertyPoint
+  playerLockProperty, propertyMainInteraction, updatePropertyPoint, updatePropertyVehicle
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
@@ -71,6 +78,21 @@ async function updatePropertyPointHandler(pointUpdate: IPropertyPoint) {
     .then(property => updatePropertyPoint(property, pointUpdate));
 }
 
+async function createPropertyVehicleHandler(propertyVehicle: IPropertyVehicleCreate) {
+  return getPropertyById(propertyVehicle.propertyId)
+    .then(property => {
+      return createPropertyVehicle(property, propertyVehicle);
+    });
+}
+async function deletePropertyVehicleHandler(propertyVehicleId: string) {
+  return getPropertyByVehicleId(propertyVehicleId)
+    .then(property => deletePropertyVehicle(property, propertyVehicleId));
+}
+
+async function updatePropertyVehicleHandler(propertyVehicleUpdate: IPropertyVehicle) {
+  return getPropertyByPointId(propertyVehicleUpdate.model)
+    .then(property => updatePropertyVehicle(property, propertyVehicleUpdate));
+}
 
 function getPlayerPropertiesHandler(args: undefined, { player }: ProcedureListenerInfo<PlayerMp>) {
   return getPropertiesByOwnerId('Character', player.character.id);
@@ -91,5 +113,8 @@ register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
 register(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, createPropertyPointHandler);
 register(ProcedureKey.SERVER_DELETE_PROPERTY_POINT, deletePropertyPointHandler);
 register(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, updatePropertyPointHandler);
+register(ProcedureKey.SERVER_CREATE_PROPERTY_VEHICLE, createPropertyVehicleHandler);
+register(ProcedureKey.SERVER_DELETE_PROPERTY_VEHICLE, deletePropertyVehicleHandler);
+register(ProcedureKey.SERVER_UPDATE_PROPERTY_VEHICLE, updatePropertyVehicleHandler);
 register(ProcedureKey.SERVER_GET_PLAYER_PROPERTIES, getPlayerPropertiesHandler);
 register(ProcedureKey.SERVER_GET_PROPERTIES, getAllPropertiesHandler);

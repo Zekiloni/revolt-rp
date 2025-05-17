@@ -715,4 +715,8 @@ export const srRs = {
   'search_vehicle': 'Pretraga vozila',
   'search_citizen_placeholder': 'Unesite ime ili prezime',
   'search_vehicle_placeholder': 'Unesite registraciju vozila',
+  'vehicle_model': 'Model vozila',
+  'vehicle_limit': 'Limit',
+  'vehicle_bodyHealth': "Zdravlje vozila",
+  "vehicle_color" : "Boja"
 };

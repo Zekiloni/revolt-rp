@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
   CommercialType,
-  IPropertyCreate, IPropertyPoint,
+  IPropertyCreate, IPropertyPoint, IPropertyVehicle, IPropertyVehicleCreate,
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
@@ -13,7 +13,7 @@ import {
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Property, PropertyOwner, PropertyPoint } from './property.model';
+import { Property, PropertyOwner, PropertyPoint, PropertyVehicle } from './property.model';
 import { Character } from '../player/character/character.model';
 import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
@@ -285,4 +285,38 @@ export const fillPropertyStock = async (property: Property, quantity: number) =>
 
   property.markModified('catalog');
   await property.save();
+};
+
+export const createPropertyVehicle = async (property: Property, propertyVehicle: IPropertyVehicleCreate) => {
+  const vehicle: PropertyVehicle = {
+    id: new Types.ObjectId().toString(),
+    limit: propertyVehicle.limit,
+    model: propertyVehicle.model,
+    color: propertyVehicle.color,
+  };
+
+  property.vehicles.push(vehicle);
+  await property.save();
+  return vehicle;
+};
+
+export const deletePropertyVehicle = async (property: Property, propertyVehicleId: string) => {
+  property.vehicles = property.vehicles.filter((vehicle) => vehicle.id !== propertyVehicleId);
+  await property.save();
+  return true;
+};
+
+export const updatePropertyVehicle = async (property: Property, update: IPropertyVehicle) => {
+  const vehicle = property.vehicles.find((vehicle) => vehicle.id === update.id);
+
+  if (!vehicle)
+    return;
+
+  Object.assign(vehicle, update);
+  await property.save();
+  return vehicle;
+};
+
+export const getPropertyByVehicleId = async (vehicleId: string) => {
+  return PropertyModel.findOne({ 'vehicles.id': vehicleId }).exec();
 };

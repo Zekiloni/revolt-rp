@@ -133,6 +133,10 @@ export const enum ProcedureKey {
   SERVER_UPDATE_PROPERTY_POINT = 'server_updatePropertyPoint',
   SERVER_DELETE_PROPERTY_POINT = 'server_deletePropertyPoint',
 
+  SERVER_CREATE_PROPERTY_VEHICLE = 'server_createPropertyVehicle',
+  SERVER_UPDATE_PROPERTY_VEHICLE = 'server_updatePropertyVehicle',
+  SERVER_DELETE_PROPERTY_VEHICLE = 'server_deletePropertyVehicle',
+
   SERVER_GET_COMMANDS = 'server_getCommands',
 
   BROWSER_SET_CURRENT_LOCATION = 'browser_setCurrentLocation',
