@@ -241,4 +241,6 @@ export const enum ProcedureKey {
 
   SERVER_FIND_CHARACTER = 'server_findCharacter',
   SERVER_FIND_VEHICLE = 'server_findVehicle',
+
+  CLIENT_GET_HIGHLIGHT_TARGET = 'client_getHighlightTarget',
 }
