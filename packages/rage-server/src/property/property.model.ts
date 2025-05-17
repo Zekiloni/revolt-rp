@@ -40,6 +40,27 @@ export class PropertyPoint implements IPropertyPoint {
 }
 
 
+export class PropertyVehicle implements IPropertyVehicle {
+  @prop({ type: String, required: true })
+  id: string;
+
+  @prop({ type: String, required: true })
+  model: string;
+
+  @prop({ type: String, required: true })
+  limit: number;
+
+  @prop({ required: false })
+  color?: [[number, number, number], [number, number, number]];
+
+  @prop({ required: false })
+  liveryId?: number;
+
+  @prop({ required: false })
+  bodyHealth?: number;
+}
+
+
 @modelOptions({
   schemaOptions: {
     timestamps: true,
@@ -96,7 +117,7 @@ export class Property extends Document implements IProperty {
   @prop({ required: false })
   spriteType?: number;
 
-  @prop({ type: [Object], default: [] })
+  @prop({ type: [PropertyVehicle], default: [] })
   vehicles: IPropertyVehicle[];
 
   @prop({ type: [Product], default: [] })
