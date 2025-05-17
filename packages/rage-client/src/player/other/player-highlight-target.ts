@@ -1,4 +1,5 @@
-import { PlayerSharedDataType } from '@revolt-rp/common';
+import { PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { register } from '@libertymp/rage-rpc';
 
 const MAX_DISTANCE = 3;
 
@@ -26,7 +27,7 @@ function getCameraForwardHit(maxDistance = 100.0) {
   );
 
   mp.game.graphics.drawLine(cameraPos.x, cameraPos.y, cameraPos.z, targetPos.x, targetPos.y, targetPos.z, 255, 0, 0, 255);
-  return mp.raycasting.testPointToPointAsync(cameraPos, targetPos, mp.players.local, 4); // 1 = intersect everything
+  return mp.raycasting.testPointToPointAsync(cameraPos, targetPos, mp.players.local.handle, 4); // 1 = intersect everything
 }
 
 
@@ -53,3 +54,10 @@ function playerHighlightDataHandler(target: PlayerMp, value: boolean, oldValue?:
 }
 
 mp.events.addDataHandler(PlayerSharedDataType.HighlightTarget, playerHighlightDataHandler);
+
+register(ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET, async () => {
+  const target = await getCameraForwardHit(MAX_DISTANCE);
+  if (target) {
+    return target.entity;
+  }
+});
