@@ -9,6 +9,7 @@ import { Item } from '../item/item.model';
 
 @modelOptions({
   schemaOptions: {
+    timestamps: true,
     toObject: { virtuals: true },
     toJSON: { virtuals: true }
   }
