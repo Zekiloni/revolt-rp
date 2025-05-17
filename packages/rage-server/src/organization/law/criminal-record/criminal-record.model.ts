@@ -27,7 +27,7 @@ export class CriminalRecord extends Document implements ICriminalRecord {
   declare _id: Types.ObjectId;
   declare id: string;
 
-  @prop({ enum: Object.values(RecordType), required: true })
+  @prop({ enum: Object.values(RecordType), type: () => String, required: true })
   type: RecordType;
 
   @prop({ ref: () => Character })
