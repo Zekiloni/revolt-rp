@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { debounceTime, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { SelectButtonModule } from 'primeng/selectbutton';
+import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutton';
 import { InputTextModule } from 'primeng/inputtext';
 import { ICharacter, IVehicle, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 import { buildCitizenNameQuery } from './finder.util';
+import { StyleClassModule } from 'primeng/styleclass';
 
 
 type FinderOption = 'search_citizen' | 'search_vehicle';
@@ -16,7 +17,7 @@ type FinderOption = 'search_citizen' | 'search_vehicle';
 @Component({
   selector: 'app-finder',
   standalone: true,
-  imports: [CommonModule, SelectButtonModule, FormsModule, TranslatePipe, InputTextModule],
+  imports: [CommonModule, SelectButtonModule, FormsModule, TranslatePipe, InputTextModule, StyleClassModule],
   templateUrl: './finder.component.html',
   styleUrl: './finder.component.css'
 })
@@ -87,5 +88,10 @@ export class FinderComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  onSearchOptionChange() {
+    this.searchInput = null;
+    this.response = null;
   }
 }

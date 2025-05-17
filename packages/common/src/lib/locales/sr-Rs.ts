@@ -715,4 +715,5 @@ export const srRs = {
   'search_vehicle': 'Pretraga vozila',
   'search_citizen_placeholder': 'Unesite ime ili prezime',
   'search_vehicle_placeholder': 'Unesite registraciju vozila',
+  'full_name': 'Ime i prezime',
 };
