@@ -59,6 +59,7 @@
         }
         @case (isGarage) {
           <p-tabPanel [header]="'vehicles' | translate" leftIcon="pi pi-car">
+            <app-manage-property-vehicles [property]="property" />
           </p-tabPanel>
         }
       }

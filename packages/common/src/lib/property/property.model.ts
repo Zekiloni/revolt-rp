@@ -66,11 +66,20 @@ export interface IPropertyUpdate {
 
 
 export interface IPropertyVehicle {
+  id: string;
   model: string;
   limit: number;
   color?: [[number, number, number], [number, number, number]];
   liveryId?: number;
   bodyHealth?: number;
+}
+
+export interface IPropertyVehicleCreate {
+  id: string;
+  propertyId: string;
+  model: string;
+  limit: number;
+  color?: [[number, number, number], [number, number, number]];
 }
 
 export interface IProperty extends Base {
