@@ -19,18 +19,22 @@ export class CuffItem extends BaseItem {
   }
 
   async use(player: PlayerMp, item: Item) {
+    console.log('Using cuffs');
     const target = await callClient<PlayerMp | null>(player, ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET);
 
+    console.log('Target:', target);
     if (!target) {
       return;
     }
 
     const isCuffed = target.getVariable<boolean | undefined>(PlayerSharedDataType.IsCuffed);
+    console.log('isCuffed already:', isCuffed);
 
     if (isCuffed) {
       return;
     }
 
+    console.log('Setting cuffs');
     setCuffed(target, true);
 
     item.quantity -= 1;
