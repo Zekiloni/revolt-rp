@@ -4,7 +4,7 @@ import { register } from '@libertymp/rage-rpc';
 const MAX_DISTANCE = 3;
 
 
-function getLookingAtHit(distance = 100.0) {
+function getLookingAtHit(distance = 100.0, async = false) {
   const start = mp.players.local.position;
   const direction = mp.game.cam.getGameplayRot(2);
 
@@ -28,12 +28,17 @@ function getLookingAtHit(distance = 100.0) {
   );
 
   mp.game.graphics.drawLine(start.x, start.y, start.z, end.x, end.y, end.z, 255, 0, 0, 255);
-  return mp.raycasting.testPointToPoint(start, end, mp.players.local.handle, 4);
+
+  if (async) {
+    return mp.raycasting.testPointToPointAsync(start, end, mp.players.local.handle, 4);
+  } else {
+    return mp.raycasting.testPointToPoint(start, end, mp.players.local.handle, 4);
+  }
 }
 
 
 async function highlightLookingAtPlayer() {
-  const hit = getLookingAtHit(MAX_DISTANCE);
+  const hit = getLookingAtHit(MAX_DISTANCE) as RaycastResult;
 
   if (hit && typeof hit.entity === 'object') {
     const player = hit.entity as PlayerMp;
@@ -87,7 +92,7 @@ function playerHighlightDataHandler(target: PlayerMp, value: boolean, oldValue?:
 mp.events.addDataHandler(PlayerSharedDataType.HighlightTarget, playerHighlightDataHandler);
 
 register(ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET, async () => {
-  const target = getLookingAtHit(MAX_DISTANCE);
+  const target = await getLookingAtHit(MAX_DISTANCE);
   mp.gui.chat.push(`CLIENT_GET_HIGHLIGHT_TARGET: ${JSON.stringify(target)}`);
   return target ? target.entity : null;
 });
