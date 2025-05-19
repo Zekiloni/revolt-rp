@@ -25,8 +25,15 @@ export class CuffItem extends BaseItem {
       return;
     }
 
-    console.log('CuffTarget', target);
+    const isCuffed = target.getVariable<boolean | undefined>(PlayerSharedDataType.IsCuffed);
+
+    if (isCuffed) {
+      return;
+    }
+
     setCuffed(target, true);
+
+    item.quantity -= 1;
   }
 
   deselect(player: PlayerMp, item: Item) {
