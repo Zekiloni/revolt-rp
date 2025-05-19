@@ -14,6 +14,7 @@ export class CuffItem extends BaseItem {
 
   select(player: PlayerMp, item: Item) {
     playerAddAttachment(player, PlayerAttachmentTypeEnum.HoldCuffs);
+    player.setVariable(PlayerSharedDataType.ClickToUse, true);
     player.setVariable(PlayerSharedDataType.HighlightTarget, true);
   }
 
@@ -30,6 +31,7 @@ export class CuffItem extends BaseItem {
 
   deselect(player: PlayerMp, item: Item) {
     playerRemoveAttachment(player, PlayerAttachmentTypeEnum.HoldCuffs);
+    player.setVariable(PlayerSharedDataType.ClickToUse, false);
     player.setVariable(PlayerSharedDataType.HighlightTarget, false);
   }
 }
