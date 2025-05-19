@@ -1,47 +1,51 @@
-import { PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { PlayerSharedDataType, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import { register } from '@libertymp/rage-rpc';
 
 const MAX_DISTANCE = 3;
 
-function getCameraDirection() {
-  const rot = mp.game.cam.getGameplayRot(2);
-  const pitch = rot.x * Math.PI / 180.0;
-  const yaw = rot.z * Math.PI / 180.0;
 
-  const x = -Math.sin(yaw) * Math.cos(pitch);
-  const y = Math.cos(yaw) * Math.cos(pitch);
-  const z = Math.sin(pitch);
+function getLookingAtHit(distance = 100.0) {
+  const start = mp.players.local.position;
+  const direction = mp.game.cam.getGameplayRot(2);
 
-  return new mp.Vector3(x, y, z);
-}
+  function conv(v: Vector3) {
+    const z = (v.z * Math.PI) / 180.0;
+    const x = (v.x * Math.PI) / 180.0;
+    const num = Math.abs(Math.cos(x));
 
+    return {
+      x: -Math.sin(z) * num,
+      y: Math.cos(z) * num,
+      z: Math.sin(x)
+    };
+  }
 
-function getLookingAtHit(maxDistance = 100.0) {
-  const cameraPos = mp.cameras.gameplay.getCoord();
-  const direction = getCameraDirection();
-
-  const targetPos = new mp.Vector3(
-    cameraPos.x + direction.x * maxDistance,
-    cameraPos.y + direction.y * maxDistance,
-    cameraPos.z + direction.z * maxDistance
+  const dir = conv(direction);
+  const end = new mp.Vector3(
+    start.x + dir.x * distance,
+    start.y + dir.y * distance,
+    start.z + dir.z * distance
   );
 
-  mp.game.graphics.drawLine(cameraPos.x, cameraPos.y, cameraPos.z, targetPos.x, targetPos.y, targetPos.z, 255, 0, 0, 255);
-  return mp.raycasting.testPointToPointAsync(cameraPos, targetPos, mp.players.local.handle, 4);
+  mp.game.graphics.drawLine(start.x, start.y, start.z, end.x, end.y, end.z, 255, 0, 0, 255);
+  return mp.raycasting.testPointToPoint(start, end, mp.players.local.handle, 4);
 }
 
 
 async function highlightLookingAtPlayer() {
-  const hit = await getLookingAtHit(MAX_DISTANCE);
+  const hit = getLookingAtHit(MAX_DISTANCE);
 
   if (hit && typeof hit.entity === 'object') {
     const player = hit.entity as PlayerMp;
     if (player.type !== RageEnums.EntityType.PLAYER || !player?.position) return;
+
+    const [r, g, b] = rgbColors.SUN_GLOW_GECKO;
+
     mp.game.graphics.drawMarker(
       0,
       player.position.x,
       player.position.y,
-      player.position.z + 0.8,
+      player.position.z + 1.3,
       0,
       0,
       0,
@@ -51,10 +55,10 @@ async function highlightLookingAtPlayer() {
       0.3,
       0.3,
       0.3,
-      255,
-      255,
-      255,
-      255,
+      r,
+      g,
+      b,
+      225,
       false,
       false,
       2,
@@ -83,7 +87,7 @@ function playerHighlightDataHandler(target: PlayerMp, value: boolean, oldValue?:
 mp.events.addDataHandler(PlayerSharedDataType.HighlightTarget, playerHighlightDataHandler);
 
 register(ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET, async () => {
-  const target = await getLookingAtHit(MAX_DISTANCE);
+  const target = getLookingAtHit(MAX_DISTANCE);
   mp.gui.chat.push(`CLIENT_GET_HIGHLIGHT_TARGET: ${JSON.stringify(target)}`);
   return target ? target.entity : null;
 });
