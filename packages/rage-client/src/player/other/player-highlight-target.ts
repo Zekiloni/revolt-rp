@@ -84,9 +84,8 @@ mp.events.addDataHandler(PlayerSharedDataType.HighlightTarget, playerHighlightDa
 
 register(ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET, async () => {
   const target = await getLookingAtHit(MAX_DISTANCE);
-  if (target) {
-    return target.entity;
-  }
+  mp.gui.chat.push(`CLIENT_GET_HIGHLIGHT_TARGET: ${JSON.stringify(target)}`);
+  return target ? target.entity : null;
 });
 
 //

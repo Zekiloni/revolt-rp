@@ -1,5 +1,5 @@
 import { IProduct } from '@revolt-rp/common';
-import { getBaseItem, isValidItem } from '../../item/registry/util/item-registry.util';
+import { getBaseItem, isValidItem } from '../../item/registry/item-registry.util';
 import { modelOptions, prop } from '@typegoose/typegoose';
 import { Types } from 'mongoose';
 

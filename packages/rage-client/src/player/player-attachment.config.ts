@@ -5,7 +5,7 @@ const attackAction = [
   RageEnums.Controls.INPUT_ATTACK2
 ];
 
-const springAndJumpAction = [
+const sprintAndJumpAction = [
   RageEnums.Controls.INPUT_JUMP,
   RageEnums.Controls.INPUT_SPRINT
 ];
@@ -65,6 +65,22 @@ export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAtt
     position: { x: 0.4, y: 0.0, z: 0.0 },
     rotation: { x: 0.0, y: 270.0, z: 60.0 },
     fixedRot: true,
-    disableControls: [...attackAction, ...springAndJumpAction]
+    disableControls: [...attackAction, ...sprintAndJumpAction]
+  },
+  [PlayerAttachmentTypeEnum.HoldCuffs]: {
+    model: 'p_cs_cuffs_02_s',
+    boneId: RageEnums.Ped.Bones.SKEL_R_HAND,
+    position: { x: 0.0, y: 0.0, z: 0.0 },
+    rotation: { x: 0.0, y: 0.0, z: 0.0 },
+    fixedRot: true,
+    disableControls: [...attackAction]
+  },
+  [PlayerAttachmentTypeEnum.Cuffed]: {
+    model: 'p_cs_cuffs_02_s',
+    boneId: RageEnums.Ped.Bones.SKEL_R_HAND,
+    position: { x: -0.02, y: 0.06, z: 0.0 },
+    rotation: { x: 75.0, y: 0.0, z: 76.0 },
+    fixedRot: true,
+    disableControls: [...attackAction, ...sprintAndJumpAction]
   }
 };

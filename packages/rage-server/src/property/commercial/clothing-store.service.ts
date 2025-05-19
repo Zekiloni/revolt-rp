@@ -14,7 +14,7 @@ import { notifyPlayer } from '../../player/util/player-notify.util';
 import { t } from 'i18next';
 import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../economy/economy.util';
-import { getBaseItem } from '../../item/registry/util/item-registry.util';
+import { getBaseItem } from '../../item/registry/item-registry.util';
 import { playerGiveItem } from '../../player/inventory/player-inventory.service';
 
 
