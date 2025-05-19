@@ -9,7 +9,7 @@ async function isPlayerCuffedDataHandler(player: PlayerMp, value: boolean, oldVa
 
   if (value !== oldValue) {
     if (value) {
-      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.UPPER_BODY_ONLY, -1, true);
+      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.NOT_INTERRUPTABLE, -1, true);
       player.setEnableHandcuffs(true);
     } else {
       player.setEnableHandcuffs(false);
