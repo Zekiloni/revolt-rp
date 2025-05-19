@@ -1,4 +1,4 @@
-import { BaseItem, itemRegistry } from '../base-item.model';
+import { BaseItem, itemRegistry } from './base-item.model';
 import { ItemType } from '@revolt-rp/common';
 
 

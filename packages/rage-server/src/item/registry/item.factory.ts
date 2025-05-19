@@ -8,6 +8,7 @@ import { ArmourItem } from './equipment/armour-item.model';
 import { HandheldRadioItemModel } from './electronic/handheld-radio-item.model';
 import { SmartphoneItemModel } from './electronic/smartphone-item.model';
 import { LicenseItem } from './license-item.model';
+import { CuffItem } from './utility/cuff-item.model';
 
 new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -171,7 +172,6 @@ new AmmoItem('5.56x45mm NATO', 'Military-grade rifle ammunition.', CaliberType.C
 new AmmoItem('7.62x51mm NATO', 'Ammunition for battle rifles.', CaliberType.CALIBER_7_62_X51_MM_NATO, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.4);
 new AmmoItem('7.62x39mm', 'Ammunition for AK-47 rifles.', CaliberType.CALIBER_7_62_X39_MM, 'w_ar_bullpuprifle_mag1', [ItemType.AMMUNITION], 1.3);
 
-
 new BankCardItem('items.credit_card', 'items.credit_card_description', 'prop_cs_credit_card', [], 0.1);
 new LicenseItem('items.driving_license', 'items.driving_license_description', 'prop_cs_license', [ItemType.DRIVING_LICENSE], 0.1);
 
@@ -186,3 +186,6 @@ new ArmourItem('items.equipment_kevlar_heavy', 'items.equipment_kevlar_heavy_des
 
 new HandheldRadioItemModel('items.handheld_radio', 'items.handheld_radio_description', 'prop_cs_hand_radio', [], 0.25);
 new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'prop_amb_phone', [], 0.3);
+
+
+new CuffItem();

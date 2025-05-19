@@ -2,7 +2,7 @@ import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IPayment, ICartItem, ProcedureKey, IProduct, PaymentType } from '@revolt-rp/common';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../player/util/player.util';
 import { Property } from '../property.model';
-import { getBaseItem } from '../../item/registry/util/item-registry.util';
+import { getBaseItem } from '../../item/registry/item-registry.util';
 import { playerGiveItem } from '../../player/inventory/player-inventory.service';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { notifyPlayer } from '../../player/util/player-notify.util';

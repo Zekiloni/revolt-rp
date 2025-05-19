@@ -5,7 +5,7 @@ import {
   CharacterSpawnType, defaultOutfits,
   HeadOverlayComponent,
   headOverlays as headOverlayInfo,
-  ICharacterCreate,
+  ICharacterCreate, PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
@@ -21,6 +21,7 @@ import { OrganizationRank } from '../../organization/rank/organization-rank.mode
 import { FilterQuery, UpdateQuery } from 'mongoose';
 import { CharacterModel } from '../../common/entity-ref';
 import { Property } from '../../property/property.model';
+import { playerAddAttachment, playerRemoveAttachment } from '../util/player-attachment.util';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -62,6 +63,17 @@ export async function setMoney(player: PlayerMp, amount: number) {
   player.setVariable(PlayerSharedDataType.Cash, player.character.cash);
 }
 
+
+export function setCuffed(player: PlayerMp, state: boolean) {
+  player.character.isCuffed = state;
+  player.setVariable(PlayerSharedDataType.IsCuffed, state);
+
+  if (state) {
+    playerAddAttachment(player, PlayerAttachmentTypeEnum.Cuffed);
+  } else {
+    playerRemoveAttachment(player, PlayerAttachmentTypeEnum.Cuffed);
+  }
+}
 
 const loadPlayerVariables = (player: PlayerMp) => {
   player.setVariables({

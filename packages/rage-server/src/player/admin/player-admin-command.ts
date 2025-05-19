@@ -15,7 +15,7 @@ import {
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import { createTemporaryVehicle, setVehicleOwner, toggleVehicleEditMenu } from '../../vehicle/vehicle.service';
-import { getAllBaseItemModels, isValidItem } from '../../item/registry/util/item-registry.util';
+import { getAllBaseItemModels, isValidItem } from '../../item/registry/item-registry.util';
 import { findPlayer, freezePlayer, showPlayerGameInterface, teleportPlayerToPlayer } from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';

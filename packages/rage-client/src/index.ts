@@ -26,6 +26,7 @@ import './player/other/player-bubble';
 import './player/other/player-freeze';
 import './player/other/player-offer';
 import './player/other/player-highlight-target';
+import './player/other/player-cuffed';
 
 import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';

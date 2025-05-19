@@ -1,5 +1,5 @@
 import { CommercialType, IProduct, IProductAdd, ItemType, vehicleModels } from '@revolt-rp/common';
-import { filterItemsByType } from '../../item/registry/util/item-registry.util';
+import { filterItemsByType } from '../../item/registry/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
 import { Property } from '../property.model';
 import { Product } from './product.model';
