@@ -27,17 +27,13 @@ export class CuffItem extends BaseItem {
       return;
     }
 
-    const isCuffed = target.getVariable<boolean | undefined>(PlayerSharedDataType.IsCuffed);
+    const isCuffed = target.character.isCuffed || false;
     console.log('isCuffed already:', isCuffed);
 
-    if (isCuffed) {
-      return;
-    }
+    setCuffed(target, !isCuffed);
 
-    console.log('Setting cuffs');
-    setCuffed(target, true);
-
-    item.quantity -= 1;
+    if (!isCuffed)
+      item.quantity -= 1;
   }
 
   deselect(player: PlayerMp, item: Item) {
