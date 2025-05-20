@@ -1,18 +1,81 @@
-<p-table [value]="vehicles" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table
+  [value]="vehicles"
+  editMode="row"
+  dataKey="id"
+  [rowHover]="true"
+  scrollHeight="325px"
+  styleClass="p-datatable-gridlines"
+>
+  <ng-template pTemplate="caption">
+    <div class="flex align-items-center justify-content-between">
+      <span>{{ 'vehicle_list' | translate }}</span>
+      <button
+        pButton
+        type="button"
+        size="small"
+        label="{{ 'add_vehicle' | translate }}"
+        icon="pi pi-plus"
+        (click)="isCreateDialogVisible = true"
+      ></button>
+    </div>
+  </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th>{{ 'vehicle_model' | translate}}</th>
+      <th>{{ 'vehicle_model' | translate }}</th>
       <th>{{ 'vehicle_limit' | translate }}</th>
-      <th>{{ 'vehicle_bodyHealth' | translate}}</th>
-      <th>{{ 'vehicle_color' | translate}}</th>
+      <th>{{ 'vehicle_bodyHealth' | translate }}</th>
+      <th>{{ 'primary_color' | translate }}</th>
+      <th>{{ 'secondary_color' | translate }}</th>
+      <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-vehicle>
     <tr>
       <td>{{ vehicle.model }}</td>
       <td>{{ vehicle.limit }}</td>
-      <td>{{ vehicle.bodyHealth }}</td>
-      <td>Boja</td>
+      <td>{{ vehicle.bodyHealth ?? 'N/A' }}</td>
+      <td style="width: 10%" *ngIf="vehicle.color">
+        @if (vehicle.color) {
+        <div
+          class="w-1rem h-1rem border-circle"
+          [ngStyle]="{
+            'background-color': getRgbString($any(vehicle.color[0]))
+          }"
+        ></div>
+        }
+      </td>
+      <td style="width: 10%" *ngIf="vehicle.color">
+        @if (vehicle.color) {
+        <div
+          class="w-1rem h-1rem border-circle"
+          [ngStyle]="{
+            'background-color': getRgbString($any(vehicle.color[1]))
+          }"
+        ></div>
+        }
+      </td>
+      <td>
+        <button
+          pButton
+          icon="pi pi-trash"
+          [rounded]="true"
+          [text]="true"
+          severity="danger"
+          (click)="deleteVehicle($event, vehicle)"
+        ></button>
+      </td>
     </tr>
   </ng-template>
 </p-table>
+<p-dialog
+  header="{{ 'add_vehicle' | translate }}"
+  [modal]="true"
+  [(visible)]="isCreateDialogVisible"
+  appendTo="body"
+>
+  <app-add-vehicle
+    (cancelAddVehicle)="isCreateDialogVisible = false"
+    (submitAddVehicle)="addVehicle($event)"
+  ></app-add-vehicle>
+</p-dialog>
+<p-confirmPopup />

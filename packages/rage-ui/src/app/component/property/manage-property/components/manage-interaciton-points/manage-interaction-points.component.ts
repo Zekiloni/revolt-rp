@@ -9,18 +9,34 @@ import { ButtonDirective } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { ConfirmationService } from 'primeng/api';
 import { InputTextModule } from 'primeng/inputtext';
-import { deepCopy, IProperty, IPropertyPoint, ProcedureKey, PropertyPointType } from '@revolt-rp/common';
+import {
+  deepCopy,
+  IProperty,
+  IPropertyPoint,
+  ProcedureKey,
+  PropertyPointType,
+} from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-
 
 @Component({
   selector: 'app-manage-interaction-points',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, TooltipModule, ChipModule, DropdownModule, FormsModule, InputTextModule, ConfirmPopupModule],
+  imports: [
+    CommonModule,
+    TableModule,
+    TranslatePipe,
+    ButtonDirective,
+    TooltipModule,
+    ChipModule,
+    DropdownModule,
+    FormsModule,
+    InputTextModule,
+    ConfirmPopupModule,
+  ],
   providers: [ConfirmationService],
   templateUrl: './manage-interaction-points.component.html',
-  styleUrl: './manage-interaction-points.component.css'
+  styleUrl: './manage-interaction-points.component.css',
 })
 export class ManageInteractionPointsComponent {
   @Input() property!: IProperty;
@@ -32,15 +48,22 @@ export class ManageInteractionPointsComponent {
     return this.property.points;
   }
 
-  constructor(private rageClientService: RageClientService, private confirmationService: ConfirmationService, private translateService: TranslateService) {
-  }
+  constructor(
+    private rageClientService: RageClientService,
+    private confirmationService: ConfirmationService,
+    private translateService: TranslateService
+  ) {}
 
   create() {
-    this.rageClientService.callServer<IPropertyPoint>(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, this.property.id)
+    this.rageClientService
+      .callServer<IPropertyPoint>(
+        ProcedureKey.SERVER_CREATE_PROPERTY_POINT,
+        this.property.id
+      )
       .subscribe({
-        next: point => {
+        next: (point) => {
           this.points.push(point);
-        }
+        },
       });
   }
 
@@ -53,8 +76,11 @@ export class ManageInteractionPointsComponent {
       acceptLabel: this.translateService.instant('yes'),
       acceptButtonStyleClass: 'p-button-danger p-button-sm',
       accept: () => {
-        this.rageClientService.callServer<void>(ProcedureKey.SERVER_DELETE_PROPERTY_POINT, point.id);
-      }
+        this.rageClientService.callServer<void>(
+          ProcedureKey.SERVER_DELETE_PROPERTY_POINT,
+          point.id
+        );
+      },
     });
   }
 
@@ -70,7 +96,11 @@ export class ManageInteractionPointsComponent {
   editSave(point: IPropertyPoint, index: number) {
     const update = point;
     this.editCancel(point, index);
-    this.rageClientService.callServer<IPropertyPoint>(ProcedureKey.SERVER_UPDATE_PROPERTY_POINT, update)
-      .subscribe({ next: updated => this.points[index] = updated });
+    this.rageClientService
+      .callServer<IPropertyPoint>(
+        ProcedureKey.SERVER_UPDATE_PROPERTY_POINT,
+        update
+      )
+      .subscribe({ next: (updated) => (this.points[index] = updated) });
   }
 }

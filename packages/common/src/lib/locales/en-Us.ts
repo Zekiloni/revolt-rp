@@ -710,6 +710,10 @@ export const enUs = {
   'full_name': 'Full Name',
   'vehicle_model': 'Model',
   'vehicle_limit': 'Limit',
-  'vehicle_bodyHealth': "Body health",
-  "vehicle_color" : "Color"
+  'vehicle_bodyHealth': 'Body health',
+  'vehicle_color' : 'Color',
+  'vehicle_list': 'Property vehicles',
+  'add_vehicle': 'Add vehicle',
+  'primary_color': 'Primary color',
+  'secondary_color': 'Secondary color',
 };

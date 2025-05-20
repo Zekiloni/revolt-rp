@@ -719,5 +719,9 @@ export const srRs = {
   'vehicle_model': 'Model vozila',
   'vehicle_limit': 'Limit',
   'vehicle_bodyHealth': "Zdravlje vozila",
-  "vehicle_color" : "Boja"
+  "vehicle_color" : "Boja",
+  'vehicle_list': "Vozila nekretnine",
+  "add_vehicle": "Dodaj vozilo",
+  'primary_color': 'Primarna boja',
+  'secondary_color': 'Sekundarna boja',
 };
