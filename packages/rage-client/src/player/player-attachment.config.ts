@@ -2,7 +2,8 @@ import { IPlayerAttachment, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
 
 const attackAction = [
   RageEnums.Controls.INPUT_ATTACK,
-  RageEnums.Controls.INPUT_ATTACK2
+  RageEnums.Controls.INPUT_ATTACK2,
+  RageEnums.Controls.INPUT_AIM,
 ];
 
 const sprintAndJumpAction = [

@@ -1,5 +1,5 @@
 import { AnimationFlag, PlayerSharedDataType } from '@revolt-rp/common';
-import { isPlayingAnimation, playAnimation, stopAnimation } from '../util/player-animation.util';
+import { playAnimation, stopAnimation } from '../util/player-animation.util';
 
 
 async function isPlayerCuffedDataHandler(player: PlayerMp, value: boolean, oldValue: boolean | undefined) {
