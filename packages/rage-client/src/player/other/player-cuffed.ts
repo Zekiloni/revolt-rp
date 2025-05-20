@@ -9,13 +9,11 @@ async function isPlayerCuffedDataHandler(player: PlayerMp, value: boolean, oldVa
 
   if (value !== oldValue) {
     if (value) {
-      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.REPEAT | AnimationFlag.STOP_LAST_FRAME, -1, true);
+      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.UPPER_BODY_STOP_ON_LAST_FRAME_CONTROLLABLE, -1, true);
       player.setEnableHandcuffs(true);
     } else {
       player.setEnableHandcuffs(false);
-
-      if (isPlayingAnimation(player, 'mp_arresting', 'idle'))
-        stopAnimation(player, 'mp_arresting', 'idle');
+      stopAnimation(player, 'mp_arresting', 'idle');
     }
   }
 }

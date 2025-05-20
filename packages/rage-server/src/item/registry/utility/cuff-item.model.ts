@@ -27,6 +27,9 @@ export class CuffItem extends BaseItem {
       return;
     }
 
+    if (player.dist(target.position) > 1.7)
+      return;
+
     const isCuffed = target.character.isCuffed || false;
     console.log('isCuffed already:', isCuffed);
 
