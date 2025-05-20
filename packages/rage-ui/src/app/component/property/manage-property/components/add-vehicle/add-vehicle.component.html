@@ -1,0 +1,52 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="flex align-items-center gap-3 mb-3">
+    <p-autoComplete
+      class="flex-auto"
+      [suggestions]="filteredModels"
+      formControlName="model"
+      [dropdown]="true"
+      [showEmptyMessage]="false"
+      (completeMethod)="searchModels($event)"
+      [minLength]="1"
+      placeholder="{{ 'model' | translate }}"
+    >
+      <ng-template let-model pTemplate="item">
+        <span>{{ model }}</span>
+      </ng-template>
+    </p-autoComplete>
+  </div>
+  <div class="flex align-items-center gap-3 mb-3">
+    <label for="limit" class="font-semibold w-6rem">{{
+      'vehicle_limit' | translate
+    }}</label>
+    <p-inputNumber
+      formControlName="limit"
+      id="limit"
+      class="flex-auto"
+      mode="decimal"
+      [minFractionDigits]="2"
+      [maxFractionDigits]="5"
+      placeholder="5000"
+    />
+  </div>
+  <div formArrayName="color" class="flex justify-content-between w-full mb-3">
+    <div
+      *ngFor="let colorCtrl of color.controls; let i = index"
+      class="flex gap-2 align-items-center"
+    >
+      <label [for]="i" class="font-semibold">{{
+        'vehicle_color' | translate
+      }}</label>
+      <p-colorPicker appendTo="body" format="rgb" formControlName="{{ i }}">
+      </p-colorPicker>
+    </div>
+  </div>
+  <div class="flex justify-content-end gap-2">
+    <p-button
+      label="Cancel"
+      severity="secondary"
+      (onClick)="cancelAddVehicle.emit()"
+    />
+    <p-button type="submit" label="Save" [disabled]="form.invalid" />
+  </div>
+</form>
