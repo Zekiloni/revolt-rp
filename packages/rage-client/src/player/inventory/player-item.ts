@@ -1,7 +1,6 @@
 import { PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { triggerServer } from '@libertymp/rage-rpc';
 
-let leftMouseClicked = false;
 
 export const toggleClickToUseItem = (toggle: boolean) => {
   if (toggle) {
@@ -21,17 +20,8 @@ function handleMouseClick(
   worldPosition: Vector3,
   hitEntity: number
 ) {
-  if (leftOrRight === 'left') {
-    if (leftMouseClicked) {
-      return;
-    }
-
-    leftMouseClicked = true;
+  if (leftOrRight === 'left' && upOrDown === 'down') {
     triggerServer(ProcedureKey.SERVER_PLAYER_USE_ITEM);
-
-    setTimeout(() => {
-      leftMouseClicked = false;
-    }, 500);
   }
 }
 

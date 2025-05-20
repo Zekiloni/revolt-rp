@@ -31,4 +31,5 @@ export enum GameUiKey {
   JobMenu = 'jobMenu',
   GrafitiCreator = 'grafitiCreator',
   MDC = 'mdc',
+  PlateRecognition = 'plateRecognition',
 }

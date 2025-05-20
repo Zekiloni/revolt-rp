@@ -33,6 +33,8 @@ import './vehicle/vehicle.lock';
 import './vehicle/driving-test';
 import './vehicle/seatbelt';
 
+import './vehicle/organization/law/plate-recognition';
+
 import './banking/bank-menu';
 import './banking/bank-atm';
 

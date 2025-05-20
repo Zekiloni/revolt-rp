@@ -1,5 +1,5 @@
-import { PlayerSharedDataType, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import { register } from '@libertymp/rage-rpc';
+import { PlayerSharedDataType, ProcedureKey, rgbColors } from '@revolt-rp/common';
 
 const MAX_DISTANCE = 3;
 
@@ -26,13 +26,12 @@ function getLookingAtPoint(distance: number) {
     start.y + dir.y * distance,
     start.z + dir.z * distance
   );
+
   return { start, end };
 }
 
 function getLookingAtHit(distance = 100.0) {
   const { start, end } = getLookingAtPoint(distance);
-
-  mp.game.graphics.drawLine(start.x, start.y, start.z, end.x, end.y, end.z, 255, 0, 0, 255);
   return mp.raycasting.testPointToPoint(start, end, mp.players.local.handle, 4);
 }
 
@@ -98,7 +97,6 @@ mp.events.addDataHandler(PlayerSharedDataType.HighlightTarget, playerHighlightDa
 
 register(ProcedureKey.CLIENT_GET_HIGHLIGHT_TARGET, async () => {
   const target = await getLookingAtHitAsync(MAX_DISTANCE);
-  mp.gui.chat.push(`CLIENT_GET_HIGHLIGHT_TARGET: ${JSON.stringify(target)}`);
   return target ? target.entity : null;
 });
 
