@@ -42,6 +42,9 @@ function plateRecognitionHandler(): void {
 
   const vehicle = getForwardHitVehicle();
   if (!vehicle) return;
+
+  if (!mp.players.local.hasClearLosTo(vehicle.handle, 17)) return;
+
   const plateText = mp.game.vehicle.getNumberPlateText(vehicle.handle);
   const speed = vehicle.getSpeed() * KMH_FRACTION;
   const displayName = getVehicleDisplayName(vehicle.model);
