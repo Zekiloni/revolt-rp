@@ -6,7 +6,13 @@ import { TabViewModule } from 'primeng/tabview';
 import { Ripple } from 'primeng/ripple';
 import { ButtonDirective } from 'primeng/button';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { gameUiConfig, IProperty, IPropertyUpdate, ProcedureKey, PropertyType } from '@revolt-rp/common';
+import {
+  gameUiConfig,
+  IProperty,
+  IPropertyUpdate,
+  ProcedureKey,
+  PropertyType,
+} from '@revolt-rp/common';
 import { WorldMapComponent } from '../../misc/world-map/world-map.component';
 import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { PropertySettingsComponent } from './components/property-settings';
@@ -14,7 +20,6 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ManageCatalogComponent } from './components/manage-catalog';
 import { ManagePropertyVehiclesComponent } from './components/manage-property-vehicles';
-
 
 @Component({
   selector: 'app-manage-property',
