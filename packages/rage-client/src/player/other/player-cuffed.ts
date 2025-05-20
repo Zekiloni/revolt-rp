@@ -1,5 +1,5 @@
 import { AnimationFlag, PlayerSharedDataType } from '@revolt-rp/common';
-import { playAnimation, stopAnimation } from '../util/player-animation.util';
+import { isPlayingAnimation, playAnimation, stopAnimation } from '../util/player-animation.util';
 
 
 async function isPlayerCuffedDataHandler(player: PlayerMp, value: boolean, oldValue: boolean | undefined) {
@@ -9,11 +9,13 @@ async function isPlayerCuffedDataHandler(player: PlayerMp, value: boolean, oldVa
 
   if (value !== oldValue) {
     if (value) {
-      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.NOT_INTERRUPTABLE, -1, true);
+      await playAnimation(player, 'mp_arresting', 'idle', AnimationFlag.REPEAT | AnimationFlag.STOP_LAST_FRAME, -1, true);
       player.setEnableHandcuffs(true);
     } else {
       player.setEnableHandcuffs(false);
-      stopAnimation(player, 'mp_arresting', 'idle');
+
+      if (isPlayingAnimation(player, 'mp_arresting', 'idle'))
+        stopAnimation(player, 'mp_arresting', 'idle');
     }
   }
 }
