@@ -274,7 +274,6 @@ export const getVehicleById = (vehicleId: string) => {
 
 
 export const getSpawnedVehicleById = async (vehicleId: string) => {
-  console.log('getSpawnedVehicleById', vehicleId);
   const vehicle = mp.vehicles.toArray().find(v => {
     console.log('find', v.info?.id, vehicleId);
     return v.info?.id === vehicleId;

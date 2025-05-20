@@ -10,4 +10,5 @@ export const enum VehicleSharedDataType {
   Trunk = 'trunk',
   Hood = 'hood',
   DrivingTest = 'driving_test',
+  PlateRecognition = 'plate_recognition',
 }

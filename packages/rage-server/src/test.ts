@@ -1,6 +1,6 @@
+import { GameUiKey, VehicleSharedDataType } from '@revolt-rp/common';
 import { registerCommand } from './player/player-command.service';
 import { showPlayerGameInterface } from './player/util/player.util';
-import { GameUiKey, PlayerSharedDataType } from '@revolt-rp/common';
 
 registerCommand({
   name: 'mdc',
@@ -11,10 +11,12 @@ registerCommand({
 });
 
 registerCommand({
-  name: 'highlighttarget',
-  description: 'test highlighttarget command',
+  name: 'alpr',
+  description: 'test alpr cmd',
   handle(player: PlayerMp, ...args) {
-    const variable = player.getVariable<boolean | undefined>(PlayerSharedDataType.HighlightTarget) || false;
-    player.setVariable(PlayerSharedDataType.HighlightTarget, !variable);
+    const vehicle = player.vehicle;
+    if (!vehicle) return;
+    const alpr = vehicle.getVariable<boolean | undefined>(VehicleSharedDataType.PlateRecognition) || false;
+    vehicle.setVariable(VehicleSharedDataType.PlateRecognition, !alpr);
   }
 });
