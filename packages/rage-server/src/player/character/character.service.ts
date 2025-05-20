@@ -68,6 +68,7 @@ export function setCuffed(player: PlayerMp, state: boolean) {
   player.character.isCuffed = state;
   player.setVariable(PlayerSharedDataType.IsCuffed, state);
 
+  console.log('Setting cuffs: ', player.name, ' to ', state);
   if (state) {
     playerAddAttachment(player, PlayerAttachmentTypeEnum.Cuffed);
   } else {
