@@ -28,7 +28,6 @@ function getForwardHitVehicle() {
     2
   );
 
-  mp.game.graphics.drawLine(start.x, start.y, start.z, forward.x, forward.y, forward.z, 255, 0, 0, 255);
   if (raycast && typeof raycast.entity === 'object') {
     if (raycast.entity.type === RageEnums.EntityType.VEHICLE) {
       return raycast.entity as VehicleMp;
