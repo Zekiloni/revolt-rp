@@ -1,20 +1,28 @@
-<p-table [value]="property.catalog"
-         [scrollable]="true"
-         editMode="row"
-         dataKey="name"
-         [rowHover]="true"
-         scrollHeight="325px"
-         styleClass="p-datatable-gridlines">
+<p-table
+  [value]="property.catalog"
+  [scrollable]="true"
+  editMode="row"
+  dataKey="name"
+  [rowHover]="true"
+  scrollHeight="325px"
+  styleClass="p-datatable-gridlines"
+>
   <ng-template pTemplate="caption">
     <div class="flex align-items-center justify-content-between">
       <span>{{ 'catalog' | translate }}</span>
-      <button pButton type="button" size="small" label="{{ 'add_product' | translate}}" icon="pi pi-plus"
-              (click)="isCreateDialogVisible = true"></button>
+      <button
+        pButton
+        type="button"
+        size="small"
+        label="{{ 'add_product' | translate }}"
+        icon="pi pi-plus"
+        (click)="isCreateDialogVisible = true"
+      ></button>
     </div>
   </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width:5%">#</th>
+      <th style="width: 5%">#</th>
       <th>{{ 'name' | translate }}</th>
       <th>{{ 'price' | translate }}</th>
       <th>{{ 'discount' | translate }}</th>
@@ -32,14 +40,22 @@
         <span>{{ product['price'] | currency }}</span>
       </td>
       <td>
-        <span>{{ product['discount'] ? (product['discount'] * 100) : '0' }}%</span>
+        <span
+          >{{ product['discount'] ? product['discount'] * 100 : '0' }}%</span
+        >
       </td>
       <td>
         <span>{{ product['stock'] }}</span>
       </td>
       <td>
-        <button pButton type="button" icon="pi pi-trash" [rounded]="true" severity="danger"
-                (click)="deleteProduct(product)"></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-trash"
+          [rounded]="true"
+          severity="danger"
+          (click)="deleteProduct(product)"
+        ></button>
       </td>
     </tr>
   </ng-template>
@@ -50,7 +66,15 @@
   </ng-template>
 </p-table>
 
-<p-dialog header="{{ 'add_product' | translate }}" [modal]="true" [(visible)]="isCreateDialogVisible" appendTo="body">
-  <app-add-product [availableItems]="availableItems" (cancelAddProduct)="isCreateDialogVisible = false"
-                   (submitAddProduct)="addProduct($event)"></app-add-product>
+<p-dialog
+  header="{{ 'add_product' | translate }}"
+  [modal]="true"
+  [(visible)]="isCreateDialogVisible"
+  appendTo="body"
+>
+  <app-add-product
+    [availableItems]="availableItems"
+    (cancelAddProduct)="isCreateDialogVisible = false"
+    (submitAddProduct)="addProduct($event)"
+  ></app-add-product>
 </p-dialog>

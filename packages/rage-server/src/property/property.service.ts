@@ -303,7 +303,7 @@ export const createPropertyVehicle = async (property: Property, propertyVehicle:
 export const deletePropertyVehicle = async (property: Property, propertyVehicleId: string) => {
   property.vehicles = property.vehicles.filter((vehicle) => vehicle.id !== propertyVehicleId);
   await property.save();
-  return true;
+  return property.vehicles;
 };
 
 export const updatePropertyVehicle = async (property: Property, update: IPropertyVehicle) => {
