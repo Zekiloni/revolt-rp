@@ -1,7 +1,7 @@
 import { PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { triggerServer } from '@libertymp/rage-rpc';
 
-let clickCount = 0;
+let leftMouseClicked = false;
 
 export const toggleClickToUseItem = (toggle: boolean) => {
   if (toggle) {
@@ -9,7 +9,7 @@ export const toggleClickToUseItem = (toggle: boolean) => {
   } else {
     mp.events.remove('click', handleMouseClick);
   }
-}
+};
 
 function handleMouseClick(
   absoluteX: number,
@@ -22,15 +22,15 @@ function handleMouseClick(
   hitEntity: number
 ) {
   if (leftOrRight === 'left') {
-    if (clickCount > 0) {
+    if (leftMouseClicked) {
       return;
     }
 
-    clickCount++;
+    leftMouseClicked = true;
     triggerServer(ProcedureKey.SERVER_PLAYER_USE_ITEM);
 
     setTimeout(() => {
-      clickCount = 0;
+      leftMouseClicked = false;
     }, 500);
   }
 }
