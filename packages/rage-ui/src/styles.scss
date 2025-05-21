@@ -68,6 +68,13 @@ html, body {
   bottom: 0;
 }
 
+.absolute-top-center {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
 .absolute-bottom-center {
   position: absolute;
   bottom: 0;

@@ -53,6 +53,7 @@ import { VehicleDealershipComponent } from './component/property/commercial/vehi
 import { JobMenuComponent } from './component/jobs/job-menu';
 import { GrafitiCreatorComponent } from './component/grafiti-creator';
 import { MdcComponent } from './component/organization/law/mdc';
+import { PlateRecognitionComponent } from './component/organization/law/plate-recognition';
 
 
 @Component({
@@ -93,7 +94,8 @@ import { MdcComponent } from './component/organization/law/mdc';
     VehicleDealershipComponent,
     JobMenuComponent,
     GrafitiCreatorComponent,
-    MdcComponent
+    MdcComponent,
+    PlateRecognitionComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

@@ -23,4 +23,5 @@ export const enum PlayerSharedDataType {
   HoldingGarbage = 'holding_garbage',
   Job = 'job',
   Work = 'work',
+  CharacterName = 'character_name',
 }

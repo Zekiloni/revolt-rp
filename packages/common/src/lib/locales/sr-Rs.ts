@@ -724,4 +724,5 @@ export const srRs = {
   "add_vehicle": "Dodaj vozilo",
   'primary_color': 'Primarna boja',
   'secondary_color': 'Sekundarna boja',
+  'detected_speed': 'Detektovana brzina',
 };

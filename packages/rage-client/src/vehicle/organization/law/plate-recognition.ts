@@ -1,14 +1,16 @@
-import { GameUiKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { hideGameInterface, showGameInterface } from '../../../core/browser';
-import { KMH_FRACTION } from '../../vehicle-core';
+import { triggerBrowser } from '@libertymp/rage-rpc';
+import { GameUiKey, PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import { browser, hideGameInterface, showGameInterface } from '../../../core/browser';
 import { getVehicleDisplayName } from '../../vehicle.util';
+import { KMH_FRACTION } from '../../vehicle-core';
 
 
 let lastUpdateAt = 0;
+let updateDriverInterval: NodeJS.Timer | null = null;
+let driver: PlayerMp | null = null;
 
 function getForwardHitVehicle() {
   if (!mp.players.local.vehicle) return null;
-
 
   const start = mp.players.local.vehicle.getCoords(false);
   const heading = mp.players.local.vehicle.getHeading();
@@ -40,29 +42,53 @@ function getForwardHitVehicle() {
 function plateRecognitionHandler(): void {
   if (!mp.players.local.vehicle) return;
 
+  triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_ALPR_POSITION, mp.players.local.vehicle.position);
+
   const vehicle = getForwardHitVehicle();
   if (!vehicle) return;
 
   if (!mp.players.local.hasClearLosTo(vehicle.handle, 17)) return;
 
-  const plateText = mp.game.vehicle.getNumberPlateText(vehicle.handle);
+  const numberplate = mp.game.vehicle.getNumberPlateText(vehicle.handle);
   const speed = vehicle.getSpeed() * KMH_FRACTION;
   const displayName = getVehicleDisplayName(vehicle.model);
 
   if (Date.now() - lastUpdateAt > 500) {
-    // todo call browser
+    triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_ALPR_TARGET, { displayName, speed, numberplate });
+
     lastUpdateAt = Date.now();
   }
-
 }
 
 function togglePlateRecognition(toggle: boolean) {
   if (toggle) {
     showGameInterface(GameUiKey.PlateRecognition);
     mp.events.add('render', plateRecognitionHandler);
+
+    updateDriverInterval = setInterval(() => {
+      const vehicle = mp.players.local.vehicle;
+      if (!vehicle) return;
+
+      const driverHandle = vehicle.getPedInSeat(RageEnums.VehicleSeat.DRIVER);
+      if (driverHandle === 0) return;
+
+      const currentDriver = mp.players.atHandle(driverHandle);
+      if (driver && driver.handle === currentDriver.handle) return;
+
+      if (currentDriver && mp.players.exists(currentDriver)) {
+        triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_ALPR_OFFICER, currentDriver.getVariable(PlayerSharedDataType.CharacterName));
+        driver = currentDriver;
+      }
+    }, 1000);
   } else {
     hideGameInterface(GameUiKey.PlateRecognition);
     mp.events.remove('render', plateRecognitionHandler);
+    if (updateDriverInterval) {
+      clearInterval(updateDriverInterval);
+      updateDriverInterval = null;
+    }
+
+    driver = null;
   }
 }
 

@@ -1,0 +1,52 @@
+<div class="absolute-top-center mt-3 p-card p-3 border-round-xl flex flex-column gap-3 w-full"
+     style="max-width: 40%">
+  <div class="flex flex-row align-items-center justify-content-between gap-4 flex-wrap">
+    <div class="flex flex-column gap-2">
+      <small class="text-400">{{ 'numberplate' | translate }}</small>
+      <span class="text-blue-400 text-xl font-bold">{{ numberplate }}</span>
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <small class="text-400">{{ 'model' | translate }}</small>
+      <span class="font-bold">{{ displayName }}</span>
+    </div>
+
+    <!-- TODO: Maybe one day, nice to have, needs to call server and ask for numberplate validation -->
+    <!--    <div class="flex flex-column gap-2">-->
+    <!--      <small class="text-400">Status</small>-->
+    <!--      <div class="flex align-items-center gap-2 bg-green-900 p-1 px-2 border-round">-->
+    <!--        <i class="pi pi-check-circle text-green-300"></i>-->
+    <!--        <span class="text-green-300 font-semibold">VALID</span>-->
+    <!--      </div>-->
+    <!--    </div>-->
+
+    <div class="flex flex-column gap-2">
+      <small class="text-400">{{ 'detected_speed' | translate }}'</small>
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-car text-blue-400"></i>
+        <span class="text-blue-400 font-bold">{{ speed.toFixed(2) }} KMH</span>
+      </div>
+    </div>
+
+    <div class="flex flex-column gap-2">
+      <small class="text-400">{{ 'location' | translate }}</small>
+      <div class="flex align-items-center gap-2">
+        <i class="pi pi-map-marker text-blue-400"></i>
+        <span>{{ position[0].toFixed(2) }}° N, {{ position[1].toFixed(2) }}° W</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex justify-content-end gap-4 text-sm text-400 w-full">
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-user"></i>
+      <span>{{ officer }}</span>
+    </div>
+    <div class="flex align-items-center gap-2">
+      <i class="pi pi-calendar"></i>
+      <span>
+        {{ ($time | async) | date: 'dd-MM-yyyy' }} {{ ($time | async) | date: 'HH:mm:ss' }}
+      </span>
+    </div>
+  </div>
+</div>
