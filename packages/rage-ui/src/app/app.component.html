@@ -123,6 +123,10 @@
     <app-mdc @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.PlateRecognition) | async) {
+    <app-plate-recognition @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

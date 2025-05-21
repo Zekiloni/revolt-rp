@@ -243,4 +243,8 @@ export const enum ProcedureKey {
   SERVER_FIND_VEHICLE = 'server_findVehicle',
 
   CLIENT_GET_HIGHLIGHT_TARGET = 'client_getHighlightTarget',
+
+  BROWSER_UPDATE_ALPR_TARGET = 'browser_updateALPRTarget',
+  BROWSER_UPDATE_ALPR_OFFICER = 'browser_updateALPROfficer',
+  BROWSER_UPDATE_ALPR_POSITION = 'browser_updateALPRPosition',
 }

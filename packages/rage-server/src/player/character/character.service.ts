@@ -79,6 +79,7 @@ export function setCuffed(player: PlayerMp, state: boolean) {
 const loadPlayerVariables = (player: PlayerMp) => {
   player.setVariables({
     [PlayerSharedDataType.Username]: player.account.username,
+    [PlayerSharedDataType.CharacterName]: player.character.fullName,
     [PlayerSharedDataType.CharacterId]: player.character.id,
     [PlayerSharedDataType.IsSpawned]: true,
     [PlayerSharedDataType.Cash]: player.character.cash,

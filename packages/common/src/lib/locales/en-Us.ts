@@ -716,4 +716,5 @@ export const enUs = {
   'add_vehicle': 'Add vehicle',
   'primary_color': 'Primary color',
   'secondary_color': 'Secondary color',
+  'detected_speed': 'Detected speed',
 };
