@@ -90,7 +90,7 @@ async function deletePropertyVehicleHandler(propertyVehicleId: string) {
 }
 
 async function updatePropertyVehicleHandler(propertyVehicleUpdate: IPropertyVehicle) {
-  return getPropertyByPointId(propertyVehicleUpdate.model)
+  return getPropertyByVehicleId(propertyVehicleUpdate.id)
     .then(property => updatePropertyVehicle(property, propertyVehicleUpdate));
 }
 

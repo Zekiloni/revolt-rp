@@ -1,6 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <div class="flex align-items-center gap-3 mb-3">
+    <label for="model" class="font-semibold w-6rem">{{
+        'model' | translate
+      }}</label>
     <p-autoComplete
+      id="model"
       class="flex-auto"
       [suggestions]="filteredModels"
       formControlName="model"
