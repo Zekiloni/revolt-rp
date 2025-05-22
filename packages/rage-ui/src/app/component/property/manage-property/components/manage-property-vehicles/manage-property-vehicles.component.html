@@ -29,41 +29,164 @@
       <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-vehicle>
-    <tr>
-      <td>{{ vehicle.model }}</td>
-      <td>{{ vehicle.limit }}</td>
-      <td>{{ vehicle.bodyHealth ?? 'N/A' }}</td>
+  <ng-template
+    pTemplate="body"
+    let-vehicle
+    let-editing="editing"
+    let-rowIndex="rowIndex"
+  >
+    <tr [pEditableRow]="vehicle">
+      <td>
+        <p-cellEditor>
+          {{ vehicle.model }}
+          <ng-template pTemplate="input">
+            <p-autoComplete
+              class="flex-auto"
+              [suggestions]="filteredModels"
+              [dropdown]="true"
+              [(ngModel)]="vehicle['model']"
+              [showEmptyMessage]="false"
+              (completeMethod)="searchModels($event)"
+              [minLength]="1"
+              placeholder="{{ 'model' | translate }}"
+            >
+              <ng-template let-model pTemplate="item">
+                <span>{{ model }}</span>
+              </ng-template>
+            </p-autoComplete>
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ vehicle.model }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-inputNumber
+              id="limit"
+              [(ngModel)]="vehicle['limit']"
+              class="flex-auto"
+              mode="decimal"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="5"
+              placeholder="1000"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ vehicle.limit }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-inputNumber
+              id="bodyHealth"
+              [(ngModel)]="vehicle['bodyHealth']"
+              class="flex-auto"
+              mode="decimal"
+              [minFractionDigits]="2"
+              [maxFractionDigits]="5"
+              placeholder="100.0"
+              [max]="100"
+            />
+          </ng-template>
+          <ng-template pTemplate="output">
+            {{ vehicle.bodyHealth ?? 'N/A' }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
       <td style="width: 10%" *ngIf="vehicle.color">
         @if (vehicle.color) {
-        <div
-          class="w-1rem h-1rem border-circle"
-          [ngStyle]="{
-            'background-color': getRgbString($any(vehicle.color[0]))
-          }"
-        ></div>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-colorPicker
+              appendTo="body"
+              format="rgb"
+              [(ngModel)]="vehicle['color'][0]"
+            >
+            </p-colorPicker>
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div
+              class="w-1rem h-1rem border-circle"
+              [ngStyle]="{
+                'background-color': getRgbString($any(vehicle.color[0]))
+              }"
+            ></div>
+          </ng-template>
+        </p-cellEditor>
         }
       </td>
       <td style="width: 10%" *ngIf="vehicle.color">
         @if (vehicle.color) {
-        <div
-          class="w-1rem h-1rem border-circle"
-          [ngStyle]="{
-            'background-color': getRgbString($any(vehicle.color[1]))
-          }"
-        ></div>
+        <p-cellEditor>
+          <ng-template pTemplate="input">
+            <p-colorPicker
+              appendTo="body"
+              format="rgb"
+              [(ngModel)]="vehicle['color'][1]"
+            >
+            </p-colorPicker>
+          </ng-template>
+          <ng-template pTemplate="output">
+            <div
+              class="w-1rem h-1rem border-circle"
+              [ngStyle]="{
+                'background-color': getRgbString($any(vehicle.color[1]))
+              }"
+            ></div>
+          </ng-template>
+        </p-cellEditor>
         }
       </td>
       <td>
+        @if (editing) {
+        <button
+          pButton
+          type="button"
+          pSaveEditableRow
+          icon="pi pi-check"
+          (click)="editSave(vehicle, rowIndex)"
+          class="p-button-rounded p-button-text p-button-success mr-2"
+        ></button>
+        <button
+          pButton
+          type="button"
+          pCancelEditableRow
+          icon="pi pi-times"
+          (click)="editCancel(vehicle, rowIndex)"
+          class="p-button-rounded p-button-text p-button-danger"
+        ></button>
+        } @else {
         <button
           pButton
           icon="pi pi-trash"
           [rounded]="true"
           [text]="true"
           severity="danger"
+          [pTooltip]="'delete' | translate"
+          tooltipPosition="bottom"
           (click)="deleteVehicle($event, vehicle)"
         ></button>
+        <button
+          pButton
+          icon="pi pi-pencil"
+          [rounded]="true"
+          [text]="true"
+          [pTooltip]="'edit' | translate"
+          tooltipPosition="bottom"
+          (click)="editInit(vehicle)"
+          pInitEditableRow
+        ></button>
+        }
       </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6">{{ 'no_results' | translate }}</td>
     </tr>
   </ng-template>
 </p-table>
