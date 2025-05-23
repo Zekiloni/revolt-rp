@@ -84,7 +84,11 @@ export const createProperty = async (position: Vector3, dimension: number, prope
 export const createPropertyPoint = async (property: Property, position: Vector3, rotation: Vector3, dimension: number, type: PropertyPointType = PropertyPointType.MainPoint) => {
   const point: PropertyPoint = {
     id: new Types.ObjectId().toString(),
-    position, rotation, dimension, type
+    position, rotation, dimension, type,
+
+    // TODO: Add colshape and marker
+    colShape: null,
+    marker: null
   };
 
   property.points.push(point);
@@ -96,6 +100,15 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
 export const deletePropertyPoint = async (property: Property, pointId: string) => {
   property.points = property.points.filter((point) => point.id !== pointId);
   await property.save();
+
+  const { colShape, marker } = property;
+
+  if (colShape && mp.colshapes.exists(colShape))
+    colShape.destroy();
+
+  if (marker && mp.markers.exists(marker))
+    marker.destroy();
+
   return true;
 };
 
@@ -152,6 +165,18 @@ export const initializeProperty = (property: Property) => {
       dimension: property.dimension,
       visible: true
     });
+
+  property.points.forEach((point) => {
+    point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+
+    point.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
+      new mp.Vector3(point.position.x, point.position.y, point.position.z - 1),
+      propertyConfig.markerScale, {
+        color: propertyConfig.markerColor,
+        dimension: point.dimension,
+        visible: true
+      });
+  });
 };
 
 
