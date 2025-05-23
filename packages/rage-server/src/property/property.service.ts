@@ -25,6 +25,7 @@ import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
 import { PropertyModel } from '../common/entity-ref';
 import { openJobMenu } from '../job/base-job.service';
+import { toggleGarageMenu } from './garage/garage.service';
 
 
 const propertyMenuHandlers = {
@@ -38,6 +39,7 @@ const propertyMenuHandlers = {
     [CommercialType.VehicleRent]: toggleVehicleRentMenu,
     [CommercialType.VehicleDealership]: toggleVehicleDealershipMenu
   },
+  [PropertyType.Garage]: toggleGarageMenu,
   [PropertyType.Utility]: {
     [UtilityType.RecyclingCenter]: openJobMenu
   }
@@ -267,9 +269,9 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
 };
 
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
-  const menuHandler = propertyMenuHandlers[property.type]?.[property.subType];
+  const menuHandler = propertyMenuHandlers[property.type]?.[property.subType] || propertyMenuHandlers[property.type];
 
-  if (menuHandler) {
+  if (menuHandler && typeof menuHandler === 'function') {
     return menuHandler(player, property);
   }
 }
