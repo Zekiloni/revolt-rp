@@ -92,7 +92,7 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
     id: new Types.ObjectId().toString(),
     position, rotation, dimension, type,
 
-    // TODO: Add colshape and marker, check for visiblePropertyPointTypes
+    // TODO: Add colshape and marker, check for visiblePropertyPointTypes for marker
     colShape: null,
     marker: null
   };
@@ -172,11 +172,10 @@ export const initializeProperty = (property: Property) => {
       visible: true
     });
 
-  property.points
-    .filter((point => visiblePropertyPointTypes.includes(point.type)))
-    .forEach((point) => {
-      point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+  property.points.forEach((point) => {
+    point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
 
+    if (visiblePropertyPointTypes.includes(point.type)) {
       point.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
         new mp.Vector3(point.position.x, point.position.y, point.position.z - 1),
         propertyConfig.markerScale, {
@@ -184,7 +183,8 @@ export const initializeProperty = (property: Property) => {
           dimension: point.dimension,
           visible: true
         });
-    });
+    }
+  });
 };
 
 
