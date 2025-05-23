@@ -45,6 +45,12 @@ const propertyMenuHandlers = {
   }
 };
 
+const visiblePropertyPointTypes = [
+  PropertyPointType.MenuPoint,
+  PropertyPointType.DeliveryPoint,
+  PropertyPointType.EquipmentPoint
+];
+
 export const getAllProperties = () => {
   return PropertyModel.find();
 };
@@ -86,7 +92,7 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
     id: new Types.ObjectId().toString(),
     position, rotation, dimension, type,
 
-    // TODO: Add colshape and marker
+    // TODO: Add colshape and marker, check for visiblePropertyPointTypes
     colShape: null,
     marker: null
   };
@@ -166,17 +172,19 @@ export const initializeProperty = (property: Property) => {
       visible: true
     });
 
-  property.points.forEach((point) => {
-    point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+  property.points
+    .filter((point => visiblePropertyPointTypes.includes(point.type)))
+    .forEach((point) => {
+      point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
 
-    point.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
-      new mp.Vector3(point.position.x, point.position.y, point.position.z - 1),
-      propertyConfig.markerScale, {
-        color: propertyConfig.markerColor,
-        dimension: point.dimension,
-        visible: true
-      });
-  });
+      point.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
+        new mp.Vector3(point.position.x, point.position.y, point.position.z - 1),
+        propertyConfig.markerScale, {
+          color: propertyConfig.markerColor,
+          dimension: point.dimension,
+          visible: true
+        });
+    });
 };
 
 
@@ -319,7 +327,7 @@ export const createPropertyVehicle = async (property: Property, propertyVehicle:
     id: new Types.ObjectId().toString(),
     limit: propertyVehicle.limit,
     model: propertyVehicle.model,
-    color: propertyVehicle.color,
+    color: propertyVehicle.color
   };
 
   property.vehicles.push(vehicle);
