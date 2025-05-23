@@ -48,12 +48,14 @@ export enum PropertyPointType {
   MenuPoint = 'menu_point',
   SpawnPoint = 'spawn_point',
   DeliveryPoint = 'delivery_point',
+  EquipmentPoint = 'equipment_point',
   ParkingSpot = 'parking_spot',
   PreviewPoint = 'preview_point',
 }
 
 export enum PropertySharedDataType {
   PropertyId = 'property_id',
-  InteractionType = 'interaction_type'
+  InteractionType = 'interaction_type',
+  InteractionPointId = 'interaction_point_id',
 }
 

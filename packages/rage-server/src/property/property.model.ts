@@ -37,6 +37,26 @@ export class PropertyPoint implements IPropertyPoint {
 
   @prop({ required: true })
   dimension: number;
+
+  get colShape() {
+    return mp.colshapes.toArray()
+      .find(colShape => colShape.getVariable(PropertySharedDataType.InteractionPointId) === this.id);
+  }
+
+  set colShape(value: ColshapeMp) {
+    value.setVariable(PropertySharedDataType.InteractionType, this.type);
+    value.setVariable(PropertySharedDataType.InteractionPointId, this.id);
+  }
+
+  get marker() {
+    return mp.markers.toArray()
+      .find(marker => marker.getVariable(PropertySharedDataType.InteractionPointId) === this.id);
+  }
+
+  set marker(value: MarkerMp) {
+    value.setVariable(PropertySharedDataType.InteractionType, this.type);
+    value.setVariable(PropertySharedDataType.InteractionPointId, this.id);
+  }
 }
 
 
@@ -109,7 +129,7 @@ export class Property extends Document implements IProperty {
   owner: PropertyOwner;
 
   @prop({ type: [PropertyPoint], required: false, default: [] })
-  points: IPropertyPoint[];
+  points: PropertyPoint[];
 
   @prop({ required: false })
   price: number;
