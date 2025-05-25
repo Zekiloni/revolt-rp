@@ -34,6 +34,7 @@ import './vehicle/driving-test';
 import './vehicle/seatbelt';
 
 import './vehicle/organization/law/plate-recognition';
+import './vehicle/organization/law/heli-cam';
 
 import './banking/bank-menu';
 import './banking/bank-atm';
