@@ -1,4 +1,6 @@
 // Enums for better type safety
+import { HexKeyCodes } from '@revolt-rp/common';
+
 enum VisionMode {
   NORMAL = 0,
   NIGHT = 1,
@@ -21,7 +23,7 @@ const CONFIG = {
   fov: { max: 80.0, min: 5.0 },
   speed: { zoom: 3.0, horizontal: 4.0, vertical: 4.0 },
   keys: {
-    toggleCamera: 69,    // E
+    toggleCamera: HexKeyCodes.E,    // E
     toggleVision: 2,     // Right mouse
     toggleRappel: 88,    // X
     toggleSpotlight: 71, // G
@@ -236,9 +238,8 @@ function unlockTarget(): void {
 function handleCameraRotation(): void {
   if (!state.camera) return;
 
-  // Note: In a real implementation, you'd get actual mouse/controller input
-  const rightAxisX = 0; // Get from input system
-  const rightAxisY = 0; // Get from input system
+  const rightAxisX = mp.game.controls.getDisabledControlNormal(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_SCRIPT_RIGHT_AXIS_X);
+  const rightAxisY = mp.game.controls.getDisabledControlNormal(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_SCRIPT_RIGHT_AXIS_Y);
 
   if (rightAxisX === 0 && rightAxisY === 0) return;
 
@@ -256,10 +257,10 @@ function handleZoom(): void {
 
   let targetFov = state.fov;
 
-  if (mp.keys.isDown(0x26)) { // Up arrow
+  if (mp.game.controls.isDisabledControlPressed(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_WEAPON_WHEEL_NEXT)) {
     targetFov = Math.max(state.fov - CONFIG.speed.zoom, CONFIG.fov.min);
   }
-  if (mp.keys.isDown(0x28)) { // Down arrow
+  if (mp.game.controls.isDisabledControlPressed(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_WEAPON_WHEEL_PREV)) {
     targetFov = Math.min(state.fov + CONFIG.speed.zoom, CONFIG.fov.max);
   }
 
@@ -373,7 +374,7 @@ function renderVehicleInfo(vehicle: VehicleMp): void {
     ? `Speed: ${speed} ${CONFIG.speedUnit}\nModel: ${model}\nPlate: ${plate}`
     : `Model: ${model}\nPlate: ${plate}`;
 
-  mp.game.graphics.drawText(displayText,[0.45, 0.9]);
+  mp.game.graphics.drawText(displayText, [0.45, 0.9]);
 }
 
 // Main system functions
@@ -420,6 +421,7 @@ function stopHelicam(): void {
 }
 
 function toggleHelicam(): void {
+  if (mp.players.local.isTypingInTextChat) return;
   if (!isPlayerInValidHelicopter()) return;
 
   if (state.isActive) {
@@ -514,9 +516,17 @@ mp.keys.bind(CONFIG.keys.lockTarget, true, () => {
 });
 
 // Helicam-specific controls
-mp.keys.bind(CONFIG.keys.toggleVision, true, () => {
-  if (state.isActive) cycleVisionMode();
-});
+
+mp.events.add('click',
+  (absoluteX: number,
+   absoluteY: number,
+   upOrDown: 'up' | 'down',
+   leftOrRight: 'left' | 'right') => {
+    if (upOrDown === 'down' && leftOrRight === 'right') {
+      if (state.isActive)
+        cycleVisionMode();
+    }
+  });
 
 mp.keys.bind(CONFIG.keys.lightUp, true, () => adjustSpotlightBrightness(true));
 mp.keys.bind(CONFIG.keys.lightDown, true, () => adjustSpotlightBrightness(false));
