@@ -111,20 +111,43 @@ export function toggleVehicleHud(toggle: boolean, forHide = false) {
   }
 }
 
+
+export const getVehicleHudType = (vehicle: VehicleMp): 'fly' | 'ground' | 'water' => {
+  if (!vehicle) return 'ground';
+
+  const model = vehicle.model;
+
+  if (mp.game.vehicle.isThisModelAHeli(model) || mp.game.vehicle.isThisModelAPlane(model)) {
+    return 'fly';
+  }
+
+  if (mp.game.vehicle.isThisModelABoat(model) || mp.game.vehicle.isThisModelAnAmphibiousQuadbike(model) || mp.game.vehicle.isThisModelAJetski(model)) {
+    return 'water';
+  }
+
+  return 'ground';
+};
+
+
 function updateVehicleHud() {
   const vehicle = mp.players.local.vehicle;
 
   if (vehicle) {
     const { lightsOn, highbeamsOn: highBeamsOn } = vehicle.getLightsState(1, 1);
+    const type = getVehicleHudType(vehicle);
 
     const vehicleHudUpdate: IVehicleHudUpdate = {
+      type,
       speed: Math.trunc(vehicle.getSpeed() * KMH_FRACTION),
       rpm: Math.trunc(vehicle.rpm * RPM_MULTIPLIER),
       gear: vehicle.gear,
       fuel: currentFuel,
       mileage: currentMileage,
       lightsOn,
-      highBeamsOn
+      highBeamsOn,
+      height: mp.game.entity.getHeightAboveGround(vehicle.handle),
+      pitch: vehicle.getPitch(),
+      roll: vehicle.getRoll(),
     };
 
     triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, vehicleHudUpdate);
@@ -291,7 +314,6 @@ function vehicleHoodDataHandler(vehicle: VehicleMp, value: boolean, oldValue: bo
 
   toggleVehicleDoor(vehicle, RageEnums.Vehicle.DoorIndex.HOOD, value, false);
 }
-
 
 
 function toggleVehicleCompartmentHandler() {

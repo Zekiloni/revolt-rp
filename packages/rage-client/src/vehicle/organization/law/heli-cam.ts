@@ -1,5 +1,6 @@
-// Enums for better type safety
 import { HexKeyCodes } from '@revolt-rp/common';
+import { KMH_FRACTION } from '../../vehicle-core';
+import { registerKeyBind } from '../../../core/keybind-manager';
 
 enum VisionMode {
   NORMAL = 0,
@@ -7,57 +8,12 @@ enum VisionMode {
   THERMAL = 2
 }
 
-enum DisplayMode {
-  FULL = 0,
-  BASIC = 1,
-  OFF = 2
-}
-
-enum SpeedUnit {
-  KMH = 'Km/h',
-  MPH = 'MPH'
-}
-
-// Configuration
-const CONFIG = {
-  fov: { max: 80.0, min: 5.0 },
-  speed: { zoom: 3.0, horizontal: 4.0, vertical: 4.0 },
-  keys: {
-    toggleCamera: HexKeyCodes.E,    // E
-    toggleVision: 2,     // Right mouse
-    toggleRappel: 88,    // X
-    toggleSpotlight: 71, // G
-    lockTarget: 32,      // Space
-    toggleDisplay: 81,   // Q
-    lightUp: 89,         // Y
-    lightDown: 40,       // Down arrow
-    radiusUp: 20,        // Caps Lock
-    radiusDown: 16       // Left Shift
-  },
-  spotlight: {
-    maxDistance: 700,
-    brightness: { min: 1.0, max: 10.0, default: 1.0 },
-    radius: { min: 4.0, max: 10.0, default: 4.0 }
-  },
-  speedUnit: SpeedUnit.KMH,
-  validModels: ['polmav'],
-  minHeight: 1.5,
-  updateThreshold: 16, // ~60fps
-  timeCycleModifier: 'heliGunCam',
-  timeCycleStrength: 0.3
-} as const;
-
-// Conversion constants
-const KMH_FRACTION = 3.6;
-const MPH_FRACTION = 2.236936;
-
-// State management
-interface HelicamState {
+interface HeliCamState {
   isActive: boolean;
   camera: CameraMp | null;
   fov: number;
   visionMode: VisionMode;
-  displayMode: DisplayMode;
+  displayMode: CamDisplayMode;
   targetVehicle: VehicleMp | null;
   lockedVehicle: VehicleMp | null;
   spotlight: {
@@ -69,12 +25,46 @@ interface HelicamState {
   };
 }
 
-const state: HelicamState = {
+enum CamDisplayMode {
+  FULL = 0,
+  BASIC = 1,
+  OFF = 2
+}
+
+
+const CONFIG = {
+  fov: { max: 80.0, min: 5.0 },
+  speed: { zoom: 3.0, horizontal: 4.0, vertical: 4.0 },
+  keys: {
+    toggleCamera: HexKeyCodes.E,
+    toggleVision: HexKeyCodes.RightMouse,
+    toggleSpotlight: HexKeyCodes.G,
+    lockTarget: HexKeyCodes.Space,
+    toggleDisplay: HexKeyCodes.Q,
+    lightUp: HexKeyCodes.Y,
+    lightDown: HexKeyCodes.Down,
+    radiusUp: HexKeyCodes.CapsLock,
+    radiusDown: HexKeyCodes.LeftShift
+  },
+  spotlight: {
+    maxDistance: 700,
+    brightness: { min: 1.0, max: 10.0, default: 1.0 },
+    radius: { min: 4.0, max: 10.0, default: 4.0 }
+  },
+  validModels: ['polmav'],
+  minHeight: 1.5,
+  updateThreshold: 16, // ~60fps
+  timeCycleModifier: 'heliGunCam',
+  timeCycleStrength: 0.3
+} as const;
+
+
+const state: HeliCamState = {
   isActive: false,
   camera: null,
   fov: (CONFIG.fov.max + CONFIG.fov.min) * 0.5,
   visionMode: VisionMode.NORMAL,
-  displayMode: DisplayMode.FULL,
+  displayMode: CamDisplayMode.FULL,
   targetVehicle: null,
   lockedVehicle: null,
   spotlight: {
@@ -88,7 +78,6 @@ const state: HelicamState = {
 
 let lastUpdateTime = 0;
 
-// Utility functions
 function isValidHelicopter(vehicle?: VehicleMp): boolean {
   if (!vehicle) return false;
 
@@ -185,38 +174,48 @@ function cycleDisplayMode(): void {
   state.displayMode = (state.displayMode + 1) % 3;
 }
 
-// Target management
 function findVehicleInView(): VehicleMp | null {
   if (!state.camera) return null;
 
   const coords = state.camera.getCoord();
-  const vehicles = mp.vehicles.toArray();
+  const rot = state.camera.getRot(2);
 
-  let closestVehicle: VehicleMp | null = null;
-  let closestDistance = Infinity;
+  const forwardVector = rotationToVector(rot);
+  const maxDistance = 200.0;
+  const targetPoint = new mp.Vector3(
+    coords.x + forwardVector.x * maxDistance,
+    coords.y + forwardVector.y * maxDistance,
+    coords.z + forwardVector.z * maxDistance
+  );
 
-  vehicles.forEach(vehicle => {
-    const distance = getVehicleDistance({ position: coords } as VehicleMp, vehicle);
+  const result = mp.raycasting.testPointToPoint(
+    coords,
+    targetPoint,
+    mp.players.local,
+    2
+  );
 
-    if (distance < closestDistance && distance < 200) {
-      closestVehicle = vehicle;
-      closestDistance = distance;
-    }
-  });
+  mp.game.graphics.drawLine(coords.x, coords.y, coords.z, targetPoint.x, targetPoint.y, targetPoint.z, 255, 0, 0, 255);
+  if (result && result.entity && typeof result.entity === 'object') {
+    return result.entity as VehicleMp;
+  }
 
-  return closestVehicle;
+  return null;
 }
 
-function lockOntoTarget(vehicle: VehicleMp): void {
-  unlockTarget(); // Clean up previous target
+function lockOntoTarget(): void {
+  if (!isPlayerInValidHelicopter() || !state.isActive)
+    return;
 
-  state.lockedVehicle = vehicle;
-  state.targetVehicle = vehicle;
-
+  unlockTarget();
   playUISound();
 
+  const detectedVehicle = findVehicleInView();
+  if (!detectedVehicle || !mp.vehicles.exists(detectedVehicle.handle)) {
+    return;
+  }
   if (state.spotlight.tracking) {
-    mp.events.callRemote('heli:tracking.spotlight', vehicle.remoteId);
+    //mp.events.callRemote('heli:tracking.spotlight', vehicle.remoteId);
   }
 }
 
@@ -252,22 +251,31 @@ function handleCameraRotation(): void {
   state.camera.setRot(newX, 0.0, newZ, 2);
 }
 
-function handleZoom(): void {
+function handleHeliCamZoom(): void {
   if (!state.camera) return;
 
   let targetFov = state.fov;
 
-  if (mp.game.controls.isDisabledControlPressed(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_WEAPON_WHEEL_NEXT)) {
-    targetFov = Math.max(state.fov - CONFIG.speed.zoom, CONFIG.fov.min);
-  }
   if (mp.game.controls.isDisabledControlPressed(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_WEAPON_WHEEL_PREV)) {
-    targetFov = Math.min(state.fov + CONFIG.speed.zoom, CONFIG.fov.max);
+    targetFov -= CONFIG.speed.zoom * 0.175;
+
+    if (targetFov < CONFIG.fov.min) {
+      targetFov = CONFIG.fov.min;
+    }
+  }
+
+  if (mp.game.controls.isDisabledControlPressed(RageEnums.InputGroup.INPUTGROUP_MOVE, RageEnums.Controls.INPUT_WEAPON_WHEEL_NEXT)) {
+    targetFov += CONFIG.speed.zoom * 0.175;
+    if (targetFov > CONFIG.fov.max) {
+      targetFov = CONFIG.fov.max;
+    }
   }
 
   if (targetFov !== state.fov) {
     state.fov = targetFov;
-    const currentFov = state.camera.getFov();
-    state.camera.setFov(currentFov + (state.fov - currentFov) * 0.05);
+    if (mp.cameras.exists(state.camera)) {
+      state.camera.setFov(targetFov);
+    }
   }
 }
 
@@ -353,32 +361,16 @@ function hideHudElements(): void {
 }
 
 function renderVehicleInfo(vehicle: VehicleMp): void {
-  if (!mp.vehicles.exists(vehicle.handle) || state.displayMode === DisplayMode.OFF) return;
+  if (!mp.vehicles.exists(vehicle.handle) || state.displayMode === CamDisplayMode.OFF) return;
 
   const model = mp.game.vehicle.getDisplayNameFromVehicleModel(vehicle.model);
   const plate = mp.game.vehicle.getNumberPlateText(vehicle.handle);
   const speed = Math.ceil(getSpeedInConfiguredUnit(vehicle));
 
-  // Setup text rendering
-  mp.game.ui.setTextFont(0);
-  mp.game.ui.setTextProportional(true);
-  mp.game.ui.setTextScale(0.0, state.displayMode === DisplayMode.FULL ? 0.49 : 0.55);
-  mp.game.ui.setTextColour(255, 255, 255, 255);
-  mp.game.ui.setTextDropshadow(0, 0, 0, 0, 255);
-  mp.game.ui.setTextEdge(1, 0, 0, 0, 255);
-  mp.game.ui.setTextDropShadow();
-  mp.game.ui.setTextOutline();
-  mp.game.ui.setTextEntry('STRING');
-
-  const displayText = state.displayMode === DisplayMode.FULL
-    ? `Speed: ${speed} ${CONFIG.speedUnit}\nModel: ${model}\nPlate: ${plate}`
-    : `Model: ${model}\nPlate: ${plate}`;
-
-  mp.game.graphics.drawText(displayText, [0.45, 0.9]);
 }
 
 // Main system functions
-function startHelicam(): void {
+function startHeliCam(): void {
   if (state.isActive || !isPlayerInValidHelicopter()) return;
 
   // Apply visual effects
@@ -394,7 +386,7 @@ function startHelicam(): void {
   }
 }
 
-function stopHelicam(): void {
+function stopHeliCam(): void {
   if (!state.isActive) return;
 
   // Handle spotlight transition
@@ -420,33 +412,19 @@ function stopHelicam(): void {
   state.visionMode = VisionMode.NORMAL;
 }
 
-function toggleHelicam(): void {
+function toggleHeliCam(): void {
   if (mp.players.local.isTypingInTextChat) return;
   if (!isPlayerInValidHelicopter()) return;
 
   if (state.isActive) {
-    stopHelicam();
+    stopHeliCam();
   } else {
-    startHelicam();
+    startHeliCam();
   }
 }
 
-function handleRappel(): void {
-  if (!isPlayerInValidHelicopter()) return;
 
-  // TODO: check seat
-  // const seat = mp.players.local.seat;
-  // if (seat === 1 || seat === 2) {
-  //   playUISound();
-  //   mp.gui.chat.push('Rappelling from helicopter...');
-  //   // Note: Implement custom rappel logic here
-  // } else {
-  //   mp.gui.chat.push('!{red}Can\'t rappel from this seat');
-  // }
-}
-
-// Main render handler
-function helicamRenderHandler(): void {
+function heliCamRenderHandler(): void {
   const currentTime = Date.now();
   if (currentTime - lastUpdateTime < CONFIG.updateThreshold) return;
   lastUpdateTime = currentTime;
@@ -454,11 +432,11 @@ function helicamRenderHandler(): void {
   if (state.isActive) {
     const vehicle = mp.players.local.vehicle;
     if (!vehicle || !isHeightValid(vehicle)) {
-      stopHelicam();
+      stopHeliCam();
       return;
     }
 
-    handleZoom();
+    handleHeliCamZoom();
     handleCameraRotation();
     hideHudElements();
 
@@ -473,49 +451,33 @@ function helicamRenderHandler(): void {
     }
   }
 
-  // Handle target distance check for non-camera mode
   if (state.targetVehicle && !state.isActive && isPlayerInValidHelicopter()) {
     const vehicle = mp.players.local.vehicle;
     if (vehicle) {
       const distance = getVehicleDistance(vehicle, state.targetVehicle);
       if (distance > CONFIG.spotlight.maxDistance) {
         unlockTarget();
-      } else if (state.displayMode !== DisplayMode.OFF) {
+      } else if (state.displayMode !== CamDisplayMode.OFF) {
         renderVehicleInfo(state.targetVehicle);
       }
     }
   }
 }
 
-// Event handlers
-function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number): void {
-  if (!isValidHelicopter(vehicle)) return;
-
-  // Auto-start systems based on seat and vehicle configuration
-  // This could be extended with vehicle-specific data
-}
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp): void {
   if (!isValidHelicopter(vehicle)) return;
 
   if (state.isActive) {
-    stopHelicam();
+    stopHeliCam();
   }
 }
 
-// Key bindings
-mp.keys.bind(CONFIG.keys.toggleCamera, true, toggleHelicam);
-mp.keys.bind(CONFIG.keys.toggleRappel, true, handleRappel);
-mp.keys.bind(CONFIG.keys.toggleSpotlight, true, toggleSpotlight);
-mp.keys.bind(CONFIG.keys.toggleDisplay, true, cycleDisplayMode);
-mp.keys.bind(CONFIG.keys.lockTarget, true, () => {
-  // TODO: Implement target locking logic
-  // if (isPlayerInValidHelicopter() && mp.players.local.seat === 0 && state.targetVehicle) {
-  //   unlockTarget();
-  // }
-});
+registerKeyBind(CONFIG.keys.toggleCamera, true, toggleHeliCam);
+registerKeyBind(CONFIG.keys.toggleSpotlight, true, toggleSpotlight);
+registerKeyBind(CONFIG.keys.toggleDisplay, true, cycleDisplayMode);
+registerKeyBind(CONFIG.keys.lockTarget, true, lockOntoTarget);
 
-// Helicam-specific controls
 
 mp.events.add('click',
   (absoluteX: number,
@@ -560,9 +522,8 @@ mp.events.add('heli:pause.tracking.spotlight', (pause: boolean) => {
   state.spotlight.paused = pause;
 });
 
-// Initialize system
+
 mp.events.add({
-  render: helicamRenderHandler,
-  playerEnterVehicle: playerEnterVehicleHandler,
+  render: heliCamRenderHandler,
   playerLeaveVehicle: playerLeaveVehicleHandler
 });

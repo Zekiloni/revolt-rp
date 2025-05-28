@@ -16,6 +16,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VehicleHudComponent implements OnInit, OnDestroy {
+  type: 'fly' | 'ground' | 'water' = 'fly';
   maxSpeed = 250;
   speed = 0;
   fuel = 11;
@@ -23,6 +24,9 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
   mileage = 0.0;
   gear = 0;
   lights: 'off' | 'on' | 'highbeams' = 'off';
+  height = 0;
+  pitch = 0;
+  roll = 0;
   cruiseControl = false;
   indicators: boolean[] = [false, false];
 
@@ -51,6 +55,10 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
         ? 'on'
         : 'off';
 
+    this.pitch = -data.pitch;
+    this.roll = -data.roll;
+    this.height = data.height
+
     this.cdr.detectChanges()
   };
 
@@ -62,4 +70,5 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, this.updateInfo);
 
   }
+
 }

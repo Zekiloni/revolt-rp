@@ -1,11 +1,41 @@
 <div class="absolute-bottom-right mr-5 mb-5 text-shadow flex flex-column">
-  <div class="card flex flex-column align-items-center gap-3">
-    <p-knob [(ngModel)]="speed" [strokeWidth]="10" size="145" [max]="maxSpeed" valueTemplate="{value}"
-            [valueColor]="speedValueColor" [readonly]="true" styleClass="font-italic" />
-    <p class="-mt-8">km/h</p>
-  </div>
 
-  <div class="flex flex-row justify-content-between gap-2 mt-4">
+  @switch (type) {
+    @case ('fly') {
+      <div class="flex flex-row justify-content-between gap-3 mt-4">
+        <div class="flex align-items-center gap-2">
+          <span>{{ speed.toFixed(2) }}km/h</span>
+        </div>
+
+        <div class="flex align-items-center gap-2">
+          <span>{{ height.toFixed(2) }}m</span>
+          <i class="pi pi-arrows-v"></i>
+        </div>
+
+        <div class="flex align-items-center gap-2">
+          <p-knob [(ngModel)]="pitch" [min]="-90" [max]="90" [showValue]="false" size="50" [readonly]="true"
+                  valueColor="MediumTurquoise" />
+        </div>
+
+        <div class="flex align-items-center gap-2">
+          <p-knob [(ngModel)]="roll" [min]="-90" [max]="90" [showValue]="false" size="50" [readonly]="true"
+                  valueColor="Peru" />
+        </div>
+      </div>
+    }
+    @case ('water') {
+
+    }
+    @default {
+      <div class="card flex flex-column align-items-center gap-3">
+        <p-knob [(ngModel)]="speed" [strokeWidth]="10" size="145" [max]="maxSpeed" valueTemplate="{value}"
+                [valueColor]="speedValueColor" [readonly]="true" styleClass="font-italic" />
+        <p class="-mt-8">km/h</p>
+      </div>
+    }
+  }
+
+  <div class="flex flex-row justify-content-between gap-3 mt-4">
     <div class="flex align-items-center gap-2">
       <span>{{ fuel }}%</span>
       <i class="pi pi-gauge"></i>
