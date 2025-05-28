@@ -5,7 +5,7 @@ import { drivingTestCheckpoints } from './driving-test.config';
 import { browser } from '../core/browser';
 import { KMH_FRACTION } from './vehicle-core';
 import { setCheckpointDirection } from '../util/checkpoint.util';
-import { getDistance, isPositionInRange } from '../util/vector.util';
+import { isPositionInRange } from '../util/vector.util';
 
 
 const MISTAKE_CHECK_INTERVAL = 1000,

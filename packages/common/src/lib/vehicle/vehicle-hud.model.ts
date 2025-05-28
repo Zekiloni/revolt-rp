@@ -1,5 +1,6 @@
 
 export interface IVehicleHudUpdate {
+  type: 'fly' | 'ground' | 'water';
   speed: number;
   gear: number;
   rpm: number;
@@ -7,4 +8,7 @@ export interface IVehicleHudUpdate {
   mileage: number;
   lightsOn: boolean;
   highBeamsOn: boolean;
+  height: number;
+  pitch: number;
+  roll: number;
 }
