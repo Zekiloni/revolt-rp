@@ -54,6 +54,7 @@ import { JobMenuComponent } from './component/jobs/job-menu';
 import { GrafitiCreatorComponent } from './component/grafiti-creator';
 import { MdcComponent } from './component/organization/law/mdc';
 import { PlateRecognitionComponent } from './component/organization/law/plate-recognition';
+import { HeliCamComponent } from './component/organization/law/heli-cam';
 
 
 @Component({
@@ -95,7 +96,8 @@ import { PlateRecognitionComponent } from './component/organization/law/plate-re
     JobMenuComponent,
     GrafitiCreatorComponent,
     MdcComponent,
-    PlateRecognitionComponent
+    PlateRecognitionComponent,
+    HeliCamComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

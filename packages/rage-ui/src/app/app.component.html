@@ -127,6 +127,10 @@
     <app-plate-recognition @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.HeliCam) | async) {
+    <app-heli-cam @fadeInOut />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

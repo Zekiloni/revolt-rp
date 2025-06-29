@@ -1,0 +1,46 @@
+
+<div class="absolute-center">
+@if (hudState$ | async; as hudUpdate) {
+  {{ hudUpdate.pitch }}
+  {{ hudUpdate.roll }}
+  {{ hudUpdate.height }}
+  {{ hudUpdate.speed }}
+}
+  <svg viewBox="0 0 400 400" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none; z-index: 10;">
+
+    <!-- Target Lock Circle -->
+    <circle
+      cx="200" cy="200" r="50"
+      stroke="lime" stroke-width="3" fill="none" opacity="1" />
+
+    <!-- Crosshair -->
+    <line
+      x1="200" y1="150" x2="200" y2="250"
+      stroke="lime" stroke-width="2" opacity="1" />
+
+    <line
+      x1="150" y1="200" x2="250" y2="200"
+      stroke="lime" stroke-width="2" opacity="1" />
+
+    <!-- Roll Indicator (horizon line) -->
+    <g id="roll-group" transform="rotate(0, 200, 200)">
+      <line
+        x1="100" y1="200" x2="300" y2="200"
+        stroke="cyan" stroke-width="2" opacity="1" />
+    </g>
+
+    <!-- Pitch Indicator (vertical line with marks) -->
+    <g id="pitch-group" transform="translate(0, 0)">
+      <line
+        x1="350" y1="100" x2="350" y2="300"
+        stroke="orange" stroke-width="2" opacity="1" />
+
+      <rect
+        x="345" y="190" width="10" height="20"
+        fill="orange" opacity="1" />
+    </g>
+
+  </svg>
+
+
+</div>

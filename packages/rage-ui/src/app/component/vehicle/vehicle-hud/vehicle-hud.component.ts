@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KnobModule } from 'primeng/knob';
-import { FormsModule } from '@angular/forms';
-import { PrimeTemplate } from 'primeng/api';
-import { FileUploadModule } from 'primeng/fileupload';
 import { ProcedureKey, IVehicleHudUpdate } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vehicle-hud',
   standalone: true,
-  imports: [CommonModule, KnobModule, FormsModule, PrimeTemplate, FileUploadModule],
+  imports: [CommonModule, KnobModule, FormsModule],
   templateUrl: './vehicle-hud.component.html',
   styleUrl: './vehicle-hud.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -68,7 +66,6 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, this.updateInfo);
-
   }
 
 }
