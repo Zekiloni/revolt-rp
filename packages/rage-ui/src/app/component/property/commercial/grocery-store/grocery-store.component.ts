@@ -19,12 +19,14 @@ import { PaginatorModule } from 'primeng/paginator';
 import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
 import { BadgeModule } from 'primeng/badge';
 import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
+import { InputNumber } from 'primeng/inputnumber';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-grocery-store',
   standalone: true,
-  imports: [CommonModule, ProgressSpinnerModule, Ripple, Button, NgOptimizedImage, StaticAssetPipe, TranslatePipe, PaginatorModule, SelectPaymentMethodComponent, BadgeModule, ButtonDirective],
+  imports: [CommonModule, ProgressSpinnerModule, Ripple, Button, NgOptimizedImage, StaticAssetPipe, TranslatePipe, PaginatorModule, SelectPaymentMethodComponent, BadgeModule, ButtonDirective, InputNumber, FormsModule],
   templateUrl: './grocery-store.component.html',
   styleUrl: './grocery-store.component.css'
 })

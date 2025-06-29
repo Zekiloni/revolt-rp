@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -12,7 +12,7 @@ import { IPhoneContact } from '@revolt-rp/common';
 @Component({
   selector: 'app-single-contact',
   standalone: true,
-  imports: [CommonModule, ButtonDirective, InputTextModule, PaginatorModule, ReactiveFormsModule, TranslatePipe, ToggleButtonModule],
+  imports: [CommonModule, ButtonDirective, InputTextModule, PaginatorModule, ReactiveFormsModule, TranslatePipe, ToggleButtonModule, FormsModule],
   templateUrl: './single-contact.component.html',
   styleUrl: './single-contact.component.css'
 })

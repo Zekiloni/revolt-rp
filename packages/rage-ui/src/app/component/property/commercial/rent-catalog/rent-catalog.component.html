@@ -70,12 +70,14 @@
       <p-slider id="duration" [(ngModel)]="duration" styleClass="w-20rem mt-1" [step]="0.5" [max]="24" [min]="0.5" />
     </div>
 
-    <p-checkbox
-      [(ngModel)]="termsAccepted"
-      [binary]="true"
-      label="{{ 'accept_terms' | translate }}"
-      class="p-3"
-      id="accept-terms" />
+    <div class="flex items-center gap-1">
+      <p-checkbox
+        [(ngModel)]="termsAccepted"
+        [binary]="true"
+        class="p-3"
+        id="accept-terms" />
+      <label for="accept-terms" class="ml-2">{{  'accept_terms' | translate }}</label>
+    </div>
 
     <app-select-payment-method [payment]="paymentMethod" />
 

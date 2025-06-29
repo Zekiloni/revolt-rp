@@ -23,6 +23,8 @@ import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
 import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
 import { Ripple } from 'primeng/ripple';
 import { DropdownChangeEvent } from 'primeng/dropdown';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -35,7 +37,7 @@ interface IDrawableVariation {
 @Component({
   selector: 'app-clothing-store',
   standalone: true,
-  imports: [CommonModule, DialogModule, InputTextModule, Button, TranslatePipe, ButtonDirective, StaticAssetPipe, ScrollerModule, NgOptimizedImage, ImageModule, PaginatorModule, SelectPaymentMethodComponent, Ripple],
+  imports: [CommonModule, DialogModule, InputTextModule, Button, TranslatePipe, ButtonDirective, StaticAssetPipe, ScrollerModule, NgOptimizedImage, ImageModule, PaginatorModule, SelectPaymentMethodComponent, Ripple, Select, FormsModule],
   templateUrl: './clothing-store.component.html',
   styleUrl: './clothing-store.component.css'
 })
