@@ -13,7 +13,7 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-player-menu',
   standalone: true,
-  imports: [CommonModule, DialogModule, TranslatePipe, Ripple, StaticAssetPipe],
+  imports: [CommonModule, DialogModule, TranslatePipe],
   templateUrl: './player-menu.component.html',
   styleUrl: './player-menu.component.css'
 })

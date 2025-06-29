@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
-import { Message, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 import {
   enUs,
   GameUiKey,
@@ -12,7 +12,6 @@ import {
 } from '@revolt-rp/common';
 import { GameUiActions, hideGameInterface, showGameInterface } from './store/game-ui/game-ui.actions';
 import { InventoryListenerService } from './domain/service/inventory-listener.service';
-import { CharacterSelectorComponent } from './component/character-selector';
 import { CharacterCreatorComponent } from './component/character-creator';
 import { RageClientService } from './domain/service/rage-client.service';
 import { isGameInterfaceActive } from './store/game-ui/game-ui.selector';
@@ -55,6 +54,8 @@ import { GrafitiCreatorComponent } from './component/grafiti-creator';
 import { MdcComponent } from './component/organization/law/mdc';
 import { PlateRecognitionComponent } from './component/organization/law/plate-recognition';
 import { HeliCamComponent } from './component/organization/law/heli-cam';
+import { ToastMessageOptions } from 'primeng/api/toastmessage';
+import { PrimeNG } from 'primeng/config';
 
 
 @Component({
@@ -62,7 +63,6 @@ import { HeliCamComponent } from './component/organization/law/heli-cam';
   imports: [
     AsyncPipe,
     AuthorizationComponent,
-    CharacterSelectorComponent,
     CharacterCreatorComponent,
     ToastModule,
     TextChatComponent,
@@ -116,6 +116,7 @@ export class AppComponent implements OnInit {
   $isGameInterfaceActive = (name: GameUiKey) => this.store.select(isGameInterfaceActive(name));
 
   constructor(
+    private config: PrimeNG,
     private translateService: TranslateService,
     private rageClientService: RageClientService,
     @Inject(Store) private store: Store<GameInterfaceState>,
@@ -130,10 +131,13 @@ export class AppComponent implements OnInit {
     this.translateService.setTranslation('en-US', enUs);
     this.translateService.setTranslation('sr-RS', srRs);
     this.translateService.setDefaultLang(environment.DEFAULT_LANGUAGE);
+    this.translateService.get('primeng').subscribe(value => this.config.setTranslation(value));
 
     dayjs.locale(this.translateService.currentLang || this.translateService.defaultLang);
+
     this.translateService.onLangChange.subscribe(() => {
       dayjs.locale(this.translateService.currentLang);
+      this.translateService.get('primeng').subscribe(value => this.config.setTranslation(value));
     });
   }
 
@@ -155,7 +159,7 @@ export class AppComponent implements OnInit {
   }
 
   private listenToNotificationEvents() {
-    this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: Message) => {
+    this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: ToastMessageOptions) => {
       this.messageService.add({ ...message, key: 'global' });
     });
   }

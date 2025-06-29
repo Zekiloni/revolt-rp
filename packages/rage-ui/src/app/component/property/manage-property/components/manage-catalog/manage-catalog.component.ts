@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Component, Input, OnInit } from '@angular/core';
-import { Button, ButtonDirective } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { PrimeTemplate } from 'primeng/api';
 import { TableModule } from 'primeng/table';
@@ -25,7 +25,6 @@ import { AddProductComponent } from '../add-product';
     TableModule,
     TranslatePipe,
     DialogModule,
-    Button,
     AddProductComponent,
   ],
   templateUrl: './manage-catalog.component.html',

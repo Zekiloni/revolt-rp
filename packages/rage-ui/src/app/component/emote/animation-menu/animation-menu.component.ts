@@ -11,6 +11,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { TranslatePipe } from '@ngx-translate/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { RageClientService } from '../../../domain/service/rage-client.service';
+import { ButtonDirective } from 'primeng/button';
 
 
 enum AnimMenuOptionType {
@@ -22,7 +23,7 @@ enum AnimMenuOptionType {
 @Component({
   selector: 'app-animation-menu',
   standalone: true,
-  imports: [CommonModule, SpeedDialModule, TreeSelectModule, FormsModule, CardModule, RadioButtonModule, TranslatePipe, DropdownModule],
+  imports: [CommonModule, SpeedDialModule, TreeSelectModule, FormsModule, CardModule, RadioButtonModule, TranslatePipe, DropdownModule, ButtonDirective],
   templateUrl: './animation-menu.component.html',
   styleUrl: './animation-menu.component.css',
   animations: [fadeInOutTrigger]

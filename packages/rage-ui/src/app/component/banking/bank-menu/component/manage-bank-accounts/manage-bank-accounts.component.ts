@@ -71,7 +71,7 @@ export class ManageBankAccountsComponent {
       header: this.translateService.instant(actionType),
       data: actionType,
       width: '20%',
-      focusOnClose: false,
+      // focusOnClose: false, // TODO: Fix focus issue with dialog
       focusOnShow: false
     });
 
