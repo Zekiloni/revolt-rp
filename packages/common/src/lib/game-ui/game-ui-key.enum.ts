@@ -32,4 +32,5 @@ export enum GameUiKey {
   GrafitiCreator = 'grafitiCreator',
   MDC = 'mdc',
   PlateRecognition = 'plateRecognition',
+  HeliCam = 'heliCam',
 }

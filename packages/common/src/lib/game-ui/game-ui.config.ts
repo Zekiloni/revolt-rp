@@ -211,5 +211,9 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
 
   [GameUiKey.PlateRecognition]: {
     isActive: false,
+  },
+
+  [GameUiKey.HeliCam]: {
+    isActive: false
   }
 };
