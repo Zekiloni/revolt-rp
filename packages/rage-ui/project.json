@@ -8,16 +8,12 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/packages/rage-ui",
         "index": "packages/rage-ui/src/index.html",
         "browser": "packages/rage-ui/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "allowedCommonJsDependencies": [
           "leaflet",
           "dayjs",
@@ -34,9 +30,7 @@
             "output": "assets/leaflet"
           }
         ],
-        "styles": [
-          "packages/rage-ui/src/styles.scss"
-        ],
+        "styles": ["packages/rage-ui/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -86,7 +80,8 @@
           "buildTarget": "rage-ui:build:development"
         }
       },
-      "defaultConfiguration": "development"
+      "defaultConfiguration": "development",
+      "continuous": true
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",

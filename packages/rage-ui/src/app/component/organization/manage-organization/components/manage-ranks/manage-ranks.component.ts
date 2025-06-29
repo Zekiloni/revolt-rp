@@ -21,12 +21,13 @@ import { ChipModule } from 'primeng/chip';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { PaginatorModule } from 'primeng/paginator';
+import { InputNumber } from 'primeng/inputnumber';
 
 
 @Component({
   selector: 'app-manage-ranks',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, Button, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, ChipModule, DropdownModule, FormsModule, PaginatorModule],
+  imports: [CommonModule, TableModule, TranslatePipe, Button, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, ChipModule, DropdownModule, FormsModule, PaginatorModule, InputNumber],
   providers: [ConfirmationService, DialogService],
   templateUrl: './manage-ranks.component.html',
   styleUrl: './manage-ranks.component.css'

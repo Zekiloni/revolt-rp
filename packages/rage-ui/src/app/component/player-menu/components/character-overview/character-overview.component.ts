@@ -11,12 +11,13 @@ import { FormsModule } from '@angular/forms';
 import { TooltipModule } from 'primeng/tooltip';
 import { FileUploadModule } from 'primeng/fileupload';
 import { dayjs } from '../../../../domain/util/dajys.util';
+import { ProgressBar } from 'primeng/progressbar';
 
 
 @Component({
   selector: 'app-character-overview',
   standalone: true,
-  imports: [CommonModule, TranslatePipe, AvatarModule, TagModule, KnobModule, FormsModule, TooltipModule, FileUploadModule],
+  imports: [CommonModule, TranslatePipe, AvatarModule, TagModule, KnobModule, FormsModule, TooltipModule, FileUploadModule, ProgressBar],
   templateUrl: './character-overview.component.html',
   styleUrl: './character-overview.component.css'
 })
