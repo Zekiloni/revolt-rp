@@ -68,7 +68,7 @@
               <span class="line-height-3 text-700">{{ getLastMessage(conversation).content || '' }}</span>
               <span class="text-500 text-sm"> {{ fromNow(getLastMessage(conversation).createdAt) }}</span>
             </div>
-            <p-badge [value]="getUnreadMessages(conversation).length" severity="warning" />
+            <p-badge [value]="getUnreadMessages(conversation).length" severity="warn" />
           </div>
         </ng-template>
       </p-scroller>

@@ -4,16 +4,16 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ButtonDirective } from 'primeng/button';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { AutoCompleteCompleteEvent, AutoCompleteModule } from 'primeng/autocomplete';
 import { IPhoneContact, IPhoneMessageCreate, PhoneMessageType } from '@revolt-rp/common';
 import { PhoneState } from '../../../../../store/phone';
+import { Textarea } from 'primeng/textarea';
 
 
 @Component({
   selector: 'app-compose-message',
   standalone: true,
-  imports: [CommonModule, ButtonDirective, TranslatePipe, AutoCompleteModule, FormsModule, InputTextareaModule],
+  imports: [CommonModule, ButtonDirective, TranslatePipe, AutoCompleteModule, FormsModule, Textarea],
   templateUrl: './compose-message.component.html',
   styleUrl: './compose-message.component.css'
 })

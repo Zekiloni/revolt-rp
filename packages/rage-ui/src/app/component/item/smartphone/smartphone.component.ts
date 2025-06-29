@@ -7,7 +7,7 @@ import { DockModule } from 'primeng/dock';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonDirective } from 'primeng/button';
 import { MessagesModule } from 'primeng/messages';
-import { MenuItem, MenuItemCommandEvent, Message } from 'primeng/api';
+import { MenuItem, MenuItemCommandEvent, ToastMessageOptions } from 'primeng/api';
 import { gameUiConfig, GameUiKey, IPhoneCall, IPhoneMessage, PhoneCallStatus, ProcedureKey } from '@revolt-rp/common';
 import {
   fadeInOutTrigger,
@@ -59,7 +59,7 @@ export class SmartphoneComponent implements OnInit {
   @Input() isActive = gameUiConfig.smartphone.isActive;
 
   phoneItem!: IPhoneItem;
-  notifications: Message[] = [];
+  notifications: ToastMessageOptions[] = [];
 
   $time: Observable<Date> = interval(1000).pipe(
     startWith(0),
@@ -163,7 +163,7 @@ export class SmartphoneComponent implements OnInit {
     });
   }
 
-  notify(message: Message) {
+  notify(message: ToastMessageOptions) {
     if (this.notifications.length >= 2) {
       this.notifications.shift();
     }

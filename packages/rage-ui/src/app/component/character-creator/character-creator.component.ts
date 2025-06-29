@@ -20,19 +20,20 @@ import {
 } from '../../domain/model/character';
 import { CharacterDetailsComponent } from './component/character-details';
 import { RageClientService } from '../../domain/service/rage-client.service';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { HeadBlendDataComponent } from './component/head-blend-data';
 import { FaceFeatureComponent } from './component/face-feature';
 import { HairComponent } from './component/hair';
 import { BeardComponent } from './component/beard';
 import { HeadOverlayComponent } from './component/head-overlay';
 import { OutfitSelectorComponent } from './component/outfit-selector';
+import { Textarea } from 'primeng/textarea';
+import { Message } from 'primeng/message';
 
 
 @Component({
   selector: 'app-character-creator',
   standalone: true,
-  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, InputTextareaModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent, TranslatePipe, OutfitSelectorComponent],
+  imports: [CommonModule, Button, StepperModule, ChipsModule, CharacterDetailsComponent, ReactiveFormsModule, MessagesModule, TagModule, AccordionModule, HeadBlendDataComponent, FaceFeatureComponent, HairComponent, BeardComponent, PanelModule, HeadOverlayComponent, TranslatePipe, OutfitSelectorComponent, Textarea, Message],
   templateUrl: './character-creator.component.html',
   styleUrl: './character-creator.component.css'
 })

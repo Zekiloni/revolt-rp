@@ -5,16 +5,16 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { PanelModule } from 'primeng/panel';
 import { ButtonDirective } from 'primeng/button';
-import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { PhoneState, setPhone } from '../../../../../store/phone';
+import { TextareaModule } from 'primeng/textarea';
 
 
 @Component({
   selector: 'app-notes',
   standalone: true,
-  imports: [CommonModule, ButtonDirective, TranslatePipe, InputTextareaModule, FormsModule, PanelModule],
+  imports: [CommonModule, ButtonDirective, TranslatePipe, TextareaModule, FormsModule, PanelModule],
   templateUrl: './notes.component.html',
   styleUrl: './notes.component.css'
 })

@@ -4,98 +4,141 @@
       <span class="text-xl text-900 font-medium">{{ 'character_creator' | translate }}</span>
     </div>
 
-    <p-stepper orientation="vertical">
-      <p-stepperPanel [header]="'character_identity' | translate">
-        <ng-template pTemplate="content" let-nextCallback="nextCallback" let-index="index">
-          <div class="flex flex-column">
-            <app-character-details [characterCreateForm]="createCharacterForm" />
-            <p-button class="py-4" [label]="'next' | translate" (onClick)="nextCallback.emit()" />
-          </div>
-        </ng-template>
-      </p-stepperPanel>
+    <p-stepper [value]="1">
+      <!-- Step 1: Character Identity -->
+      <p-step-item [value]="1">
+        <p-step>{{ 'character_identity' | translate }}</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex flex-column">
+              <app-character-details [characterCreateForm]="createCharacterForm" />
+              <p-button class="py-4" [label]="'next' | translate" (onClick)="activateCallback(2)" />
+            </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
 
-      <p-stepperPanel [header]="'character_description' | translate">
-        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
-                     let-index="index">
-          <div class="flex flex-column">
-            <div class="formgrid grid py-4 px-4">
-              <div class="field col-12 md:col-12" [formGroup]="createCharacterForm">
-                <label for="character-description" class="font-medium text-900">{{ 'description' | translate }}</label>
-                <textarea
-                  id="character-description"
-                  rows="5"
-                  cols="30"
-                  class="block w-full"
-                  pInputTextarea
-                  formControlName="description">
+      <!-- Step 2: Character Description -->
+      <p-step-item [value]="2">
+        <p-step>{{ 'character_description' | translate }}</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex flex-column">
+              <div class="formgrid grid py-4 px-4">
+                <div class="field col-12 md:col-12" [formGroup]="createCharacterForm">
+                  <label for="character-description" class="font-medium text-900">
+                    {{ 'description' | translate }}
+                  </label>
+                  <textarea
+                    id="character-description"
+                    rows="5"
+                    cols="30"
+                    class="block w-full"
+                    pInputTextarea
+                    formControlName="description">
               </textarea>
+                </div>
+              </div>
+
+              <div class="flex py-4 gap-2">
+                <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(1)" />
+                <p-button [label]="'next' | translate" (onClick)="activateCallback(3)" />
               </div>
             </div>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
 
-            <div class="flex py-4 gap-2">
-              <p-button [label]="'back' | translate" severity="secondary" (onClick)="prevCallback.emit()" />
-              <p-button [label]="'next' | translate" (onClick)="nextCallback.emit()" />
+      <!-- Step 3: Character Appearance -->
+      <p-step-item [value]="3">
+        <p-step>{{ 'character_appearance' | translate }}</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex flex-column">
+              <p-accordion [value]="0" class="py-4 px-4">
+                <!-- Heritage -->
+                <p-accordion-panel value="0">
+                  <p-accordion-header>{{ 'heritage' | translate }}</p-accordion-header>
+                  <p-accordion-content>
+                    <app-head-blend-data [headBlendData]="headBlendData" />
+                  </p-accordion-content>
+                </p-accordion-panel>
+
+                <!-- Face Features -->
+                <p-accordion-panel value="1">
+                  <p-accordion-header>{{ 'face_features' | translate }}</p-accordion-header>
+                  <p-accordion-content>
+                    <app-face-feature [appearanceFormGroup]="appearance" />
+                  </p-accordion-content>
+                </p-accordion-panel>
+
+                <!-- Hair -->
+                <p-accordion-panel value="2">
+                  <p-accordion-header>{{ 'hair' | translate }}</p-accordion-header>
+                  <p-accordion-content>
+                    <app-hair [gender]="gender!" [appearanceFormGroup]="appearance" />
+                  </p-accordion-content>
+                </p-accordion-panel>
+
+                <!-- Beard -->
+                <p-accordion-panel value="3" [disabled]="gender === CharacterGender.FEMALE">
+                  <p-accordion-header>{{ 'beard' | translate }}</p-accordion-header>
+                  <p-accordion-content>
+                    <app-beard [appearanceFormGroup]="appearance" />
+                  </p-accordion-content>
+                </p-accordion-panel>
+
+                <!-- Other (dynamic panels) -->
+                <p-accordion-panel value="4">
+                  <p-accordion-header>{{ 'other' | translate }}</p-accordion-header>
+                  <p-accordion-content>
+                    <div class="max-h-15rem overflow-auto">
+                      @for (headOverlay of headOverlays; track headOverlay.overlayId) {
+                        <p-panel [header]="headOverlay.label" [toggleable]="true" [collapsed]="true">
+                          <app-head-overlay
+                            [headOverlayInfo]="headOverlay"
+                            [headOverlayForm]="getHeadOverlayComponentForm(headOverlay.key)" />
+                        </p-panel>
+                      }
+                    </div>
+                  </p-accordion-content>
+                </p-accordion-panel>
+              </p-accordion>
+              <div class="flex py-4 gap-2">
+                <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(2)" />
+                <p-button [label]="'next' | translate" (onClick)="activateCallback(4)" />
+              </div>
             </div>
-          </div>
-        </ng-template>
-      </p-stepperPanel>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
 
-      <p-stepperPanel header="Character Appearance">
-        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-nextCallback="nextCallback"
-                     let-index="index">
-          <div class="flex flex-column">
-            <p-accordion [activeIndex]="0" class="py-4 px-4">
-              <p-accordionTab [header]="'heritage' | translate">
-                <app-head-blend-data [headBlendData]="headBlendData" />
-              </p-accordionTab>
-              <p-accordionTab [header]="'face_features' | translate">
-                <app-face-feature [appearanceFormGroup]="appearance" />
-              </p-accordionTab>
-              <p-accordionTab [header]="'hair' | translate">
-                <app-hair [gender]="gender!" [appearanceFormGroup]="appearance" />
-              </p-accordionTab>
-              <p-accordionTab [header]="'beard' | translate" [disabled]="gender === CharacterGender.FEMALE">
-                <app-beard [appearanceFormGroup]="appearance" />
-              </p-accordionTab>
-              <p-accordionTab [header]="'other' | translate">
-                <div class="max-h-15rem overflow-auto">
-                  @for (headOverlay of headOverlays; track headOverlay.overlayId) {
-                    <p-panel [header]="headOverlay.label" [toggleable]="true" [collapsed]="true">
-                      <app-head-overlay [headOverlayInfo]="headOverlay"
-                                        [headOverlayForm]="getHeadOverlayComponentForm(headOverlay.key)" />
-                    </p-panel>
-                  }
-                </div>
-              </p-accordionTab>
-            </p-accordion>
-            <div class="flex py-4 gap-2">
-              <p-button [label]="'back' | translate" severity="secondary" (onClick)="prevCallback.emit()" />
-              <p-button [label]="'next' | translate" (onClick)="nextCallback.emit()" />
+      <!-- Step 4: Character Outfit -->
+      <p-step-item [value]="4">
+        <p-step>{{ 'character_outfit' | translate }}</p-step>
+        <p-step-panel>
+          <ng-template #content let-activateCallback="activateCallback">
+            <div class="flex flex-column">
+              <app-outfit-selector [createCharacterForm]="createCharacterForm" />
+              <div class="flex py-4 gap-2">
+                <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(3)" />
+                <p-button [label]="'submit' | translate"
+                          (onClick)="submitCreateCharacterForm()"
+                          [disabled]="createCharacterForm.invalid" />
+              </div>
             </div>
-          </div>
-        </ng-template>
-      </p-stepperPanel>
-      <p-stepperPanel header="Character Outfit">
-        <ng-template pTemplate="content" let-prevCallback="prevCallback" let-index="index">
-          <div class="flex flex-column">
-            <app-outfit-selector [createCharacterForm]="createCharacterForm" />
-          </div>
-
-          <div class="flex py-4 gap-2">
-            <p-button [label]="'back' | translate" severity="secondary" (onClick)="prevCallback.emit()" />
-            <p-button [label]="'submit' | translate" (onClick)="submitCreateCharacterForm()" [disabled]="createCharacterForm.invalid" />
-          </div>
-        </ng-template>
-      </p-stepperPanel>
+          </ng-template>
+        </p-step-panel>
+      </p-step-item>
     </p-stepper>
   </div>
 
-  <p-messages severity="info">
+  <p-message severity="info">
     <ng-template pTemplate>
       <div>{{ 'hold' | translate }} <p-tag [value]="'mouse_left' | translate" /> + <p-tag [value]="'mouse_right' | translate" /> + <p-tag [value]="'mouse_scroll' | translate" />
         {{ 'to_move_camera' | translate }}
       </div>
     </ng-template>
-  </p-messages>
+  </p-message>
 </div>
 

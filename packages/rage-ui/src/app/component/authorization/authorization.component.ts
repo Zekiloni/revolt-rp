@@ -14,6 +14,7 @@ import { CharacterSelectorComponent } from '../character-selector';
 import { TranslatePipe } from '@ngx-translate/core';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
 import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
+import { InputText } from 'primeng/inputtext';
 
 
 type AuthForm = {
@@ -35,7 +36,8 @@ type AuthForm = {
     CharacterSelectorComponent,
     FormsModule,
     TranslatePipe,
-    StaticAssetPipe
+    StaticAssetPipe,
+    InputText
   ],
   templateUrl: './authorization.component.html',
   styleUrl: './authorization.component.css',
