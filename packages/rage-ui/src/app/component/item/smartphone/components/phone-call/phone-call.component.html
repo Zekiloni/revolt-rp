@@ -1,4 +1,4 @@
-<div class="flex flex-column align-items-center h-full bg-black-alpha-70">
+<div class="flex flex-col items-center h-full bg-black/70">
   <h2>{{ isIncoming ? currentCall.caller : currentCall.receiver }}</h2>
 
   <span>
@@ -10,28 +10,28 @@
   }
 
   @if (isIncoming && isRinging) {
-    <div class="flex justify-content-center gap-3 mt-5">
+    <div class="flex justify-center gap-4 mt-8">
       <button pButton [rounded]="true" severity="success" (click)="answer()" icon="pi pi-phone"></button>
       <button pButton [rounded]="true" severity="danger" (click)="end()" icon="pi pi-phone"></button>
     </div>
   } @else {
-    <div class="grid grid-nogutter gap-3 justify-content-center mt-5">
+    <div class="grid grid-cols-12 gap-4 grid-nogutter gap-4 justify-center mt-8">
       <button pButton [rounded]="true" icon="pi pi-volume-up"
               [disabled]="!isOngoing"
-              class="col-3"></button>
-      <button pButton [rounded]="true" icon="pi pi-video" [disabled]="true" class="col-3"></button>
+              class="col-span-3"></button>
+      <button pButton [rounded]="true" icon="pi pi-video" [disabled]="true" class="col-span-3"></button>
       <button pButton [rounded]="true" icon="pi pi-microphone"
               [disabled]="!isOngoing"
-              class="col-3"></button>
+              class="col-span-3"></button>
       <button pButton [rounded]="true" icon="pi pi-user-plus"
               [disabled]="!isOngoing"
-              class="col-3"></button>
+              class="col-span-3"></button>
       <button pButton [rounded]="true" severity="danger" (click)="end()" icon="pi pi-phone"
               [disabled]="isEndedOrRejected"
-              class="rotate-180 col-3"></button>
+              class="rotate-180 col-span-3"></button>
       <button pButton [rounded]="true" icon="pi pi-table"
               [disabled]="!isOngoing"
-              class="col-3"></button>
+              class="col-span-3"></button>
     </div>
   }
 </div>

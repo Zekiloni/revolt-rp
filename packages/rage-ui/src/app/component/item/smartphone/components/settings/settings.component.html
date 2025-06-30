@@ -1,23 +1,23 @@
-<div class="grid formgrid px-3 py-2">
-  <div class="field col-12">
+<div class="grid grid-cols-12 gap-4 formgrid px-4 py-2">
+  <div class="field col-span-12">
     <label for="brightness">{{ 'phone_number' | translate }}</label>
     <input pInputText id="phone_number" [(ngModel)]="phoneItem.phoneInfo.phoneNumber" readonly />
   </div>
-  <div class="field col-12">
+  <div class="field col-span-12">
     <label for="brightness">{{ 'brightness' | translate }}</label>
     <p-slider id="brightness" [(ngModel)]="settings.opacity" (onChange)="onOpacityChange($event)" [min]="0.3"
               [max]="1.0"
-              [step]="0.1" styleClass="w-14rem" />
+              [step]="0.1" styleClass="w-56" />
   </div>
 
-  <div class="field col-12">
+  <div class="field col-span-12">
     <label for="background">{{ 'background' | translate }}</label>
-    <div class="grid grid-nogutter gap-3" id="background">
+    <div class="grid grid-cols-12 gap-4 grid-nogutter gap-4" id="background">
       @for (background of backgrounds; let idx = $index; track idx) {
         <img
           [src]="background | staticAsset"
           (click)="changePhoneBackground(background)"
-          class="w-3rem h-5rem border-round border-1 border-transparent cursor-pointer hover:border-primary"
+          class="w-12 h-20 rounded-border border border-transparent cursor-pointer hover:border-primary"
           [ngClass]="{'border-primary': settings.backgroundImage === background}"
           alt="phone-bg" />
       }

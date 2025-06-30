@@ -1,76 +1,76 @@
 @if ($character | async; as character) {
-  <div class="flex align-items-center justify-content-center flex-column">
+  <div class="flex items-center justify-center flex-col">
     <p-avatar
       [label]="getInitials(character.fullName)"
-      styleClass="mb-3 "
+      styleClass="mb-4 "
       size="xlarge"
       shape="circle" />
-    <span class="text-900 font-medium text-3xl text-center mb-3">{{ character.fullName }}</span>
-    <div class="text-center mb-3">
-      <span class="font-medium text-500">ID <span
-        class="text-700 font-normal mt-2">{{ character.id }}</span></span>
+    <span class="text-surface-900 dark:text-surface-0 font-medium text-3xl text-center mb-4">{{ character.fullName }}</span>
+    <div class="text-center mb-4">
+      <span class="font-medium text-surface-500 dark:text-surface-300">ID <span
+        class="text-surface-700 dark:text-surface-100 font-normal mt-2">{{ character.id }}</span></span>
     </div>
   </div>
   <div class="max-w-fit">
-    <div class="grid grid-nogutter border-top-1 surface-border pt-2 mt-3">
-      <div class="col-12 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'level' | translate }}</div>
+    <div class="grid grid-cols-12 gap-4 grid-nogutter border-t border-surface pt-2 mt-4">
+      <div class="col-span-12 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'level' | translate }}</div>
         <p-progressBar [value]="(character.hours / levelUpQuota) * 100"
                        [showValue]="false" />
-        <div class="flex justify-content-between align-items-center mt-1">
-          <span class="text-900">{{  character.hours }}/{{ levelUpQuota }}</span>
+        <div class="flex justify-between items-center mt-1">
+          <span class="text-surface-900 dark:text-surface-0">{{  character.hours }}/{{ levelUpQuota }}</span>
           <span class="text-primary font-medium">{{ getLevelUpLeft(character.hours, character.minutes, levelUpQuota) }}</span>
         </div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'origin' | translate }}</div>
-        <div class="text-900"><i class="pi pi-map-marker text-xs text-gray-200"></i> {{ character.origin }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'origin' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0"><i class="pi pi-map-marker text-xs text-gray-200"></i> {{ character.origin }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'birthday' | translate }}</div>
-        <div class="text-900">{{ character.birthday | date: 'dd/MM/yyyy' }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'birthday' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.birthday | date: 'dd/MM/yyyy' }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'gender' | translate }}</div>
-        <div class="text-900">{{ character.gender | translate }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'gender' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.gender | translate }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'accent' | translate }}</div>
-        <div class="text-900">{{ character.accent || '/' }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'accent' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.accent || '/' }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'blood_type' | translate }}</div>
-        <div class="text-900">{{ character.bloodType }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'blood_type' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.bloodType }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'dna_id' | translate }}</div>
-        <div class="text-900">{{ character.dnaId }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'dna_id' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.dnaId }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'cash' | translate }}</div>
-        <div class="text-900 text-green-500 font-bold">{{ character.cash | currency }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'cash' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ character.cash | currency }}</div>
       </div>
-      <div class="col-12 md:col-4 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'paycheck' | translate }}</div>
-        <div class="text-900 text-green-500 font-bold">{{ character.paycheck | currency }}</div>
+      <div class="col-span-12 md:col-span-4 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'paycheck' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ character.paycheck | currency }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'mask_id' | translate }}</div>
-        <div class="text-900">{{ character.maskId || '/' }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'mask_id' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.maskId || '/' }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'created_at' | translate }}</div>
-        <div class="text-900">{{ character.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss' }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'created_at' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss' }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'playtime' | translate }}</div>
-        <div class="text-900">{{ character.hours.toString().padStart(2, '0') }}
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'playtime' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.hours.toString().padStart(2, '0') }}
           h {{ character.minutes.toString().padStart(2, '0') }}m
         </div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'health' | translate }}</div>
-        <div class="text-900">
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'health' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">
           <p-progressBar
             [value]="character.health"
             [showValue]="true"
@@ -78,14 +78,14 @@
             styleClass="w-full" />
         </div>
       </div>
-      <div class="col-12 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'biography' | translate }}</div>
-        <div class="text-900">{{ character.description || '/' }}</div>
+      <div class="col-span-12 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'biography' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.description || '/' }}</div>
       </div>
-      <div class="col-12 p-3">
-        <div class="flex-1 gap-3 flex flex-column sm:flex-row">
+      <div class="col-span-12 p-4">
+        <div class="flex-1 gap-4 flex flex-col sm:flex-row">
           <div
-            class="flex-1 flex justify-content-center align-items-center surface-ground p-3 border-round-md">
+            class="flex-1 flex justify-center items-center bg-surface-50 dark:bg-surface-950 p-4 rounded-md">
             <div class="text-center">
               <svg class="text-4xl mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" height="2.25rem"
                    viewBox="0 0 24 24" width="2.25rem">
@@ -100,7 +100,7 @@
               <span class="font-semibold">{{ character.deaths }}</span></div>
           </div>
           <div
-            class="flex-1 flex justify-content-center align-items-center surface-ground p-3 border-round-md">
+            class="flex-1 flex justify-center items-center bg-surface-50 dark:bg-surface-950 p-4 rounded-md">
             <div class="text-center">
               <svg class="text-4xl mb-2" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                    x="0px" y="0px" width="2.25rem" height="2.25rem"
@@ -111,13 +111,13 @@
           </div>
         </div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'max_vehicles' | translate }}</div>
-        <div class="text-900">{{ character.maxVehicles }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_vehicles' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.maxVehicles }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'max_properties' | translate }}</div>
-        <div class="text-900">{{ character.maxProperties }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_properties' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ character.maxProperties }}</div>
       </div>
     </div>
   </div>

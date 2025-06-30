@@ -2,7 +2,7 @@
   <img src="http://screenshots/take_with_cef" #cameraRef alt="phone-camera"
        style="object-fit: cover; object-position: left center; transform: translateX(-40%) scaleX(-1);">
 
-  <div class="absolute-bottom-center w-full mb-3 flex align-items-center justify-content-center gap-3">
+  <div class="absolute-bottom-center w-full mb-4 flex items-center justify-center gap-4">
     @if (cameraCaptureInterval) {
       <button pButton icon="pi pi-camera" [rounded]="true" label="Space" [disabled]="isFullMemory"
               pTooltip="{{ 'phone_memory_full' | translate }}"

@@ -1,14 +1,18 @@
-<div class="absolute-center surface-card p-4 shadow-2 border-round w-full lg:w-4 md:w-5" #inventory>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+<div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border w-[600px] max-w-[90vw]"
+     #inventory>
+  <div class="flex flex-col gap-3">
     <h2 class="text-lg font-bold mb-2">{{ 'inventory' | translate }}</h2>
 
     <p-confirmDialog />
 
-    <div class="flex flex-wrap gap-4 justify-content-between">
-      @if ($inventory | async; as inventory) {
+    @if ($inventory | async; as inventory) {
+      <div class="grid grid-cols-4 sm:grid-cols-5 gap-3">
         @for (item of inventory; let idx = $index; track idx) {
-          <div class="w-5rem h-5rem surface-ground border-round w-full flex justify-content-center align-items-center"
-               appDroppable (dragDrop)="dragDropItem(idx)">
+          <div
+            class="aspect-square bg-surface-50 dark:bg-surface-950 rounded-border flex justify-center items-center"
+            appDroppable
+            (dragDrop)="dragDropItem(idx)"
+          >
             @if (item) {
               <div
                 pBadge
@@ -22,30 +26,43 @@
                 (mouseleave)="itemInfoPanel.hide()"
                 (contextmenu)="onContextMenu($event, item)"
               >
-                <img [ngSrc]="getItemIcon(item) | staticAsset" alt="item icon" width="75" height="75" style="object-fit: contain">
+                <img
+                  [ngSrc]="getItemIcon(item) | staticAsset"
+                  alt="item icon"
+                  width="75"
+                  height="75"
+                  style="object-fit: contain"
+                />
               </div>
             } @else {
-              <i class="pi pi pi-ban text-200"></i>
+              <i class="pi pi-ban text-surface-200 dark:text-surface-600 text-2xl"></i>
             }
           </div>
         }
-      }
-    </div>
+      </div>
+    }
 
     <p-overlayPanel #itemInfoPanel [style]="{ width: '350px' }">
       <ng-template pTemplate="content">
-        <div class="flex flex-column">
-          <div class="font-medium text-3xl text-900 mb-3">{{ selectedItem!.data.name | translate }}</div>
-          <ul class="list-none p-0 m-0 border-top-1 border-300">
-            <li class="flex align-items-center py-3 px-2 flex-wrap">
-              <div class="text-500 w-full font-medium">{{ 'description' | translate }}</div>
-              <div class="text-900 w-full line-height-3">{{ selectedItem!.data.description | translate }}</div>
+        <div class="flex flex-col">
+          <div
+            class="font-medium text-3xl text-surface-900 dark:text-surface-0 mb-4">{{ selectedItem!.data.name | translate }}
+          </div>
+          <ul class="list-none p-0 m-0 border-t border-surface-300 dark:border-surface-500">
+            <li class="flex items-center py-4 px-2 flex-wrap">
+              <div class="text-surface-500 dark:text-surface-300 w-full font-medium">{{ 'description' | translate }}
+              </div>
+              <div
+                class="text-surface-900 dark:text-surface-0 w-full leading-normal">{{ selectedItem!.data.description | translate }}
+              </div>
             </li>
             @for (infoKey of itemInfoKey; track infoKey) {
               @if (selectedItem![infoKey]) {
-                <li class="flex align-items-center justify-content-between py-3 px-2 flex-wrap">
-                  <div class="text-500 font-medium">{{ 'item_data.' + infoKey | translate }}</div>
-                  <div class="text-900">{{ selectedItem![infoKey] }}</div>
+                <li class="flex items-center justify-between py-4 px-2 flex-wrap">
+                  <div
+                    class="text-surface-500 dark:text-surface-300 font-medium">{{ 'item_data.' + infoKey | translate }}
+                  </div>
+                  <div class="text-surface-900 dark:text-surface-0">{{ selectedItem![infoKey] }}</div>
                 </li>
               }
             }

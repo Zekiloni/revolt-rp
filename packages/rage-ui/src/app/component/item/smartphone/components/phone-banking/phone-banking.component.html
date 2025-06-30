@@ -1,25 +1,25 @@
-<div class="h-full flex align-items-center justify-content-center surface-card">
+<div class="h-full flex items-center justify-center bg-surface-0 dark:bg-surface-900">
   @if ($bankAccount | async; as bankAccount) {
     @if (transferMoneyAction) {
-      <div class="px-3 py-2 flex-grow-1">
+      <div class="px-4 py-2 grow">
 
-        <div class="px-3 py-3 surface-section border-round-2xl mb-3">
-          <div class="flex align-items-center justify-content-between">
+        <div class="px-4 py-4 bg-surface-0 dark:bg-surface-950 rounded-2xl mb-4">
+          <div class="flex items-center justify-between">
             <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
                     (click)="transferMoneyAction = false"></button>
             <span>{{ 'transfer_transaction' | translate }}</span>
           </div>
 
-          <div class="p-fluid mt-3">
-            <div class="field mb-3">
-              <label class="text-700" for="amount">{{ 'amount' | translate }}</label>
+          <div class="p-fluid mt-4">
+            <div class="field mb-4">
+              <label class="text-surface-700 dark:text-surface-100" for="amount">{{ 'amount' | translate }}</label>
               <p-inputNumber [(ngModel)]="transferAmount" id="amount" mode="decimal" [minFractionDigits]="2"
                              [max]="bankAccount.balance"
                              [maxFractionDigits]="5" placeholder="3200" />
 
             </div>
-            <div class="field mb-3">
-              <label class="text-700" for="bank-account">{{ 'target_bank_account' | translate }}</label>
+            <div class="field mb-4">
+              <label class="text-surface-700 dark:text-surface-100" for="bank-account">{{ 'target_bank_account' | translate }}</label>
               <p-inputMask mask="9999-9999-9999-9999" [(ngModel)]="targetBankAccount" id="bank-account"
                            placeholder="1234-5678-9101-1121" />
             </div>
@@ -30,13 +30,13 @@
         </div>
       </div>
     } @else {
-      <div class="px-3 py-2 flex-grow-1">
-        <div class="px-3 py-3 surface-section border-round-2xl mb-3">
-          <div class="line-height-3 mb-2">{{ 'account_balance' | translate }}</div>
+      <div class="px-4 py-2 grow">
+        <div class="px-4 py-4 bg-surface-0 dark:bg-surface-950 rounded-2xl mb-4">
+          <div class="leading-normal mb-2">{{ 'account_balance' | translate }}</div>
           <div
-            class="text-900 font-bold text-green-500 line-height-3 text-xl">{{ bankAccount.balance | currency }}
+            class="text-surface-900 dark:text-surface-0 font-bold text-green-500 leading-normal text-xl">{{ bankAccount.balance | currency }}
           </div>
-          <div class="flex justify-content-between mt-3">
+          <div class="flex justify-between mt-4">
             <button pButton icon="pi pi-clone" [text]="true"
                     label="{{ 'bank_account_no' | translate }}"
                     [pTooltip]="bankAccount.number"
@@ -51,9 +51,9 @@
 
           </div>
         </div>
-        <div class="px-3 py-3 surface-section border-round-2xl">
-          <div class="line-height-3 mb-2">{{ 'monthly_income_outcome' | translate }}</div>
-          <div class="flex align-items-center justify-content-center">
+        <div class="px-4 py-4 bg-surface-0 dark:bg-surface-950 rounded-2xl">
+          <div class="leading-normal mb-2">{{ 'monthly_income_outcome' | translate }}</div>
+          <div class="flex items-center justify-center">
             @if (chartData) {
               <p-chart type="polarArea" [data]="chartData" [options]="chartOptions" width="110px"
                        height="110px" />
@@ -68,11 +68,11 @@
     @if (isLoading) {
       <p-progressSpinner ariaLabel="loading" />
     } @else {
-      <div class="px-3 py-5">
-        <div class="mt-6 mb-5 font-bold text-xl text-900 text-center">{{ 'unavailable' | translate }}</div>
-        <p class="text-700 text-l mt-0 mb-6 text-center">{{ 'bank_phone_not_connected' | translate }}</p>
+      <div class="px-4 py-8">
+        <div class="mt-12 mb-8 font-bold text-xl text-surface-900 dark:text-surface-0 text-center">{{ 'unavailable' | translate }}</div>
+        <p class="text-surface-700 dark:text-surface-100 text-l mt-0 mb-12 text-center">{{ 'bank_phone_not_connected' | translate }}</p>
 
-        <p class="text-center text-sm text-500">
+        <p class="text-center text-sm text-surface-500 dark:text-surface-300">
           <i class="pi pi-lightbulb mr-2 text-yellow-500 block mb-2"></i>
           <span>{{ 'connect_bank_phone_hint' | translate }}</span>
         </p>

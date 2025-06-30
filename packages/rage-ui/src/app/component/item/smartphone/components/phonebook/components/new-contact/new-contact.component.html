@@ -1,16 +1,16 @@
-<div class="py-2 px-3">
-  <form [formGroup]="form" class="grid formgrid grid-nogutter" (ngSubmit)="submit()">
-    <div class="field col-12">
-      <label for="name" class="text-500">{{ 'name' | translate }}</label>
+<div class="py-2 px-4">
+  <form [formGroup]="form" class="grid grid-cols-12 gap-4 formgrid grid-nogutter" (ngSubmit)="submit()">
+    <div class="field col-span-12">
+      <label for="name" class="text-surface-500 dark:text-surface-300">{{ 'name' | translate }}</label>
       <input pInputText id="name" formControlName="name" type="text" />
     </div>
 
-    <div class="field col-12">
-      <label for="phone-number" class="text-500">{{ 'phone_number' | translate }}</label>
+    <div class="field col-span-12">
+      <label for="phone-number" class="text-surface-500 dark:text-surface-300">{{ 'phone_number' | translate }}</label>
       <input pInputText id="phone-number" formControlName="phoneNumber" type="text" />
     </div>
 
-    <div class="field col-12 flex items-center gap-1">
+    <div class="field col-span-12 flex items-center gap-1">
       <p-checkbox
         id="favorite"
         formControlName="favorite"
@@ -20,7 +20,7 @@
 
     </div>
 
-    <Div class="col-12">
+    <Div class="col-span-12">
       <button pButton type="submit" icon="pi pi-user-plus" [label]="'create' | translate"></button>
     </Div>
   </form>

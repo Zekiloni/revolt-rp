@@ -1,9 +1,9 @@
-<div class="flex flex-column h-full">
-  <div class="flex align-items-center justify-content-between py-2 px-3">
+<div class="flex flex-col h-full">
+  <div class="flex items-center justify-between py-2 px-4">
     <span>{{ 'notes' | translate }}</span>
 
     @if (unsavedChanges) {
-      <div class="flex align-items-center gap-2">
+      <div class="flex items-center gap-2">
         <button pButton size="small" [rounded]="true" [text]="true" severity="success" icon="pi pi-check"
                 (click)="save()"></button>
         <button pButton size="small" [rounded]="true" [text]="true" severity="danger" icon="pi pi-times"
@@ -15,7 +15,7 @@
     }
   </div>
 
-  <div class="overflow-y-scroll flex-grow-1">
+  <div class="overflow-y-scroll grow">
     @for (note of notes; let i = $index; track i) {
       <p-panel [header]="getNotesTitle(note) | translate" [toggleable]="true" expandIcon="pi pi-chevron-down" [collapsed]="true"
                collapseIcon="pi pi-chevron-up">

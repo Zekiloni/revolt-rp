@@ -1,7 +1,7 @@
 <p-dialog [header]="'help' | translate" [modal]="true" [(visible)]="isActive"
           (onHide)="close()"
           [focusOnShow]="false"
-          styleClass="border-round-2xl"
+          styleClass="rounded-2xl"
           [style]="{ width: '60rem' }" [draggable]="false">
 
   <p-table
@@ -22,7 +22,7 @@
     [rowsPerPageOptions]="[5, 10, 20]"
   >
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
+      <div class="flex items-center justify-between">
         <span>{{ 'commands_table' | translate }}</span>
         <p-iconField iconPosition="left" class="ml-auto">
           <p-inputIcon>
@@ -40,7 +40,7 @@
       <tr>
         <th>{{ 'command' | translate }}</th>
         <th width="20%">
-          <div class="flex align-items-center gap-2">
+          <div class="flex items-center gap-2">
             <span>{{ 'category' | translate }}</span>
             <p-columnFilter field="category" matchMode="equals" display="menu" [showMenu]="true"
                             [showMatchModes]="false" [showAddButton]="false" [showOperator]="false"

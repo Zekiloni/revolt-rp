@@ -1,17 +1,17 @@
 <div class="absolute-bottom-right">
   @if (isActive) {
     <div
-      class="relative w-16rem h-30rem shadow-2 border-round-3xl mr-5 mb-3 overflow-hidden bg-black-alpha-90  border-2 border-black-alpha-20"
+      class="relative w-64 h-[30rem] shadow rounded-3xl mr-8 mb-4 overflow-hidden bg-black/90  border-2 border-black/20"
       @slideInOut>
-      <div class="flex flex-column h-full w-full bg-no-repeat bg-cover"
+      <div class="flex flex-col h-full w-full bg-no-repeat bg-cover"
            [style.opacity]="opacity"
            [style.background-image]="'url(' + (background | staticAsset) + ')'">
-        <div class="surface-ground py-2 px-4 flex align-items-center justify-content-between">
+        <div class="bg-surface-50 dark:bg-surface-950 py-2 px-6 flex items-center justify-between">
           <span>mts</span>
           <span class="text-sm">{{ ($time | async) | date: 'HH:mm' }}</span>
         </div>
         @if (notifications.length) {
-          <div class="absolute mt-5 py-2 px-3 w-full overflow-hidden" style="z-index:99">
+          <div class="absolute mt-8 py-2 px-4 w-full overflow-hidden" style="z-index:99">
             <p-messages [(value)]="notifications" />
           </div>
         }
@@ -21,20 +21,20 @@
           </div>
         } @else {
           @if (openedApplication) {
-            <div class="w-full h-full bg-black-alpha-80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
+            <div class="w-full h-full bg-black/80 relative overflow-x-hidden overflow-y-auto" @scaleInOut>
               <ng-container [ngComponentOutlet]="openedApplication.component"
                             [ngComponentOutletInputs]="{ phoneItem}"></ng-container>
             </div>
           } @else {
-            <div class="grid grid-nogutter mt-3 px-3">
+            <div class="grid grid-cols-12 gap-4 grid-nogutter mt-4 px-4">
               @for (app of otherApps; let index = $index; track app.key) {
-                <div (click)="openApp($event, app, index)" class="col-4 flex flex-column align-items-center mb-3">
+                <div (click)="openApp($event, app, index)" class="col-span-4 flex flex-col items-center mb-4">
                   <img [ngSrc]="app.icon | staticAsset" [alt]="app.name" width="45" height="45" />
                   <span class="text-xs text-center mt-1"> {{ app.name | translate }}</span>
                 </div>
               }
             </div>
-            <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-7">
+            <p-dock [model]="pinnedApps" position="bottom" styleClass="mb-16">
               <ng-template pTemplate="item" let-item>
                 <div pBadge value="3" [badgeDisabled]="!item.badge">
                   <img [ngSrc]="item.icon | staticAsset" [alt]="item.name" width="45" height="45" />
@@ -44,7 +44,7 @@
           }
         }
         <div
-          class="surface-ground mt-auto py-2 px-4 flex align-items-center justify-content-center border-bottom-2 border-black-alpha-20 border-left-2 border-right-2">
+          class="bg-surface-50 dark:bg-surface-950 mt-auto py-2 px-6 flex items-center justify-center border-b-2 border-black/20 border-l-2 border-r-2">
           <button pButton [rounded]="true" icon="pi pi-home" (click)="closeApp()"></button>
         </div>
       </div>

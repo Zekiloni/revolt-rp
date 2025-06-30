@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { Button, ButtonDirective } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslatePipe } from '@ngx-translate/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
 @Component({
   selector: 'app-create-organization',
   standalone: true,
-  imports: [CommonModule, DialogModule, Button, InputTextModule, TranslatePipe, ReactiveFormsModule, ColorPickerModule, DropdownModule, ButtonDirective],
+  imports: [CommonModule, DialogModule, InputTextModule, TranslatePipe, ReactiveFormsModule, ColorPickerModule, DropdownModule, ButtonDirective],
   templateUrl: './create-organization.component.html',
   styleUrl: './create-organization.component.css'
 })

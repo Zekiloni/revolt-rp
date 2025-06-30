@@ -4,7 +4,7 @@
            styleClass="p-datatable-striped" [scrollable]="true" scrollHeight="400px"
            dataKey="id" [globalFilterFields]="['name', 'username', 'id']" sortField="id" [sortOrder]="1">
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
+      <div class="flex items-center justify-between">
         {{ 'player_menu.online_players' | translate }}
         <p-iconField iconPosition="left">
           <p-inputIcon>
@@ -38,12 +38,12 @@
     <ng-template pTemplate="body" let-player>
       <tr>
         <td>{{ player['id'] }}</td>
-        <td>{{ player['name'] }} <span class="text-500" [ngClass]="getNickNameColor(player)">{{ player['username'] }}</span></td>
+        <td>{{ player['name'] }} <span class="text-surface-500 dark:text-surface-300" [ngClass]="getNickNameColor(player)">{{ player['username'] }}</span></td>
         <td>{{ player['ping'] }}</td>
       </tr>
     </ng-template>
     <ng-template pTemplate="summary">
-      <div class="flex align-items-center justify-content-between">
+      <div class="flex items-center justify-between">
         {{ 'total_players_online' | translate: { players: players.length } }}
       </div>
     </ng-template>

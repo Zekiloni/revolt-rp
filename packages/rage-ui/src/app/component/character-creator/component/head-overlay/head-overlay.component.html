@@ -1,6 +1,6 @@
-<div class="formgrid grid py-4 px-4 max-h-15rem overflow-auto" [formGroup]="headOverlayForm">
-  <div class="field mb-4 col-12 md:col-12">
-    <label class="font-medium text-900">{{ headOverlayInfo.label }}</label>
+<div class="formgrid grid grid-cols-12 gap-4 py-6 px-6 max-h-60 overflow-auto" [formGroup]="headOverlayForm">
+  <div class="field mb-6 col-span-12 md:col-span-12">
+    <label class="font-medium text-surface-900 dark:text-surface-0">{{ headOverlayInfo.label }}</label>
     <p-dropdown
       formControlName="value"
       [options]="values"
@@ -8,14 +8,14 @@
       optionLabel="label"
       appendTo="body"
       [filter]="true"
-      styleClass="w-25rem"
+      styleClass="w-[25rem]"
       [showClear]="true"
       (onClear)="onHeadOverlayClear()"
       placeholder="Select a {{ headOverlayInfo.label}}" />
   </div>
 
-  <div class="field mb-4 col-12 md:col-6">
-    <label for='opacity' class="font-medium text-900">{{ headOverlayInfo.label }} Opacity</label>
+  <div class="field mb-6 col-span-12 md:col-span-6">
+    <label for='opacity' class="font-medium text-surface-900 dark:text-surface-0">{{ headOverlayInfo.label }} Opacity</label>
     <p-slider id="opacity"
               [min]="0.0"
               [max]="1.0"

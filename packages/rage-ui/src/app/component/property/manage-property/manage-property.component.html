@@ -4,7 +4,7 @@
   [(visible)]="isActive"
   (onHide)="close()"
   [focusOnShow]="false"
-  styleClass="border-round-2xl"
+  styleClass="rounded-2xl"
   [style]="{ width: '60rem', 'max-height': '75vh' }"
   [draggable]="false"
 >
@@ -15,42 +15,42 @@
       leftIcon="pi pi-info-circle"
     >
       <ul class="list-none p-0 m-0">
-        <li class="flex align-items-center py-3 px-2 flex-wrap">
-          <div class="h-10rem w-full">
-            <app-world-map (init)="onMapInit($event)" class="border-round" />
+        <li class="flex items-center py-4 px-2 flex-wrap">
+          <div class="h-40 w-full">
+            <app-world-map (init)="onMapInit($event)" class="rounded-border" />
           </div>
         </li>
-        <li class="flex align-items-center py-3 px-2 flex-wrap">
-          <div class="text-500 w-full md:w-4 font-medium">
+        <li class="flex items-center py-4 px-2 flex-wrap">
+          <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">
             {{ 'type' | translate }}
           </div>
-          <div class="text-900 w-full md:w-8">
+          <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
             {{ property.type! | translate }}
           </div>
         </li>
         @if (property.subType) {
-        <li class="flex align-items-center py-3 px-2 flex-wrap">
-          <div class="text-500 w-full md:w-4 font-medium">
+        <li class="flex items-center py-4 px-2 flex-wrap">
+          <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">
             {{ 'subtype' | translate }}
           </div>
-          <div class="text-900 w-full md:w-8">
+          <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
             {{ property.subType! | translate }}
           </div>
         </li>
         }
-        <li class="flex align-items-center py-3 px-2 flex-wrap">
-          <div class="text-500 w-full md:w-4 font-medium">
+        <li class="flex items-center py-4 px-2 flex-wrap">
+          <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">
             {{ 'balance' | translate }}
           </div>
-          <div class="text-900 w-full md:w-8 text-green-500 font-bold">
+          <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12 text-green-500 font-bold">
             {{ property.balance || 0 | currency }}
           </div>
         </li>
-        <li class="flex align-items-center py-3 px-2 flex-wrap">
-          <div class="text-500 w-full md:w-4 font-medium">
+        <li class="flex items-center py-4 px-2 flex-wrap">
+          <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">
             {{ 'status' | translate }}
           </div>
-          <div class="text-900 w-full md:w-8">
+          <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
             <button
               pButton
               pRipple
@@ -94,9 +94,9 @@
     </p-tabPanel>
   </p-tabView>
   } @else {
-  <div class="flex justify-content-center align-items-center">
+  <div class="flex justify-center items-center">
     <p-progressSpinner
-      styleClass="w-5rem h-5rem"
+      styleClass="w-20 h-20"
       strokeWidth="8"
       animationDuration=".5s"
     />

@@ -1,27 +1,27 @@
 @if ($weather | async; as weather) {
-  <div class="py-2 px-3">
-    <div class="flex flex-column align-items-center justify-content-center text-center mt-3">
+  <div class="py-2 px-4">
+    <div class="flex flex-col items-center justify-center text-center mt-4">
       <i [class]="getWeatherIcon(weather.currentWeather)" class="text-4xl"></i>
       <span class="font-medium text-xl">{{ weather.temperature }}°C</span>
-      <span class="mb-2 mt-2 text-l text-900">{{ ('weather.' + weather.currentWeather | translate)  | titlecase }}</span>
+      <span class="mb-2 mt-2 text-l text-surface-900 dark:text-surface-0">{{ ('weather.' + weather.currentWeather | translate)  | titlecase }}</span>
 
-      <div class="w-10rem flex align-items-center justify-content-between mt-3">
-        <span class="text-700 text-sm">{{ 'min_temp' | translate }} <span
-          class="font-medium text-900 block text-l">{{ getMinTemperature(weather.forecast) }}°C</span></span>
-        <span class="text-700 text-sm">{{ 'max_temp' | translate }} <span
-          class="font-medium text-900 block text-l">{{ getMaxTemperature(weather.forecast) }}°C</span></span>
+      <div class="w-40 flex items-center justify-between mt-4">
+        <span class="text-surface-700 dark:text-surface-100 text-sm">{{ 'min_temp' | translate }} <span
+          class="font-medium text-surface-900 dark:text-surface-0 block text-l">{{ getMinTemperature(weather.forecast) }}°C</span></span>
+        <span class="text-surface-700 dark:text-surface-100 text-sm">{{ 'max_temp' | translate }} <span
+          class="font-medium text-surface-900 dark:text-surface-0 block text-l">{{ getMaxTemperature(weather.forecast) }}°C</span></span>
       </div>
     </div>
 
-    <div class="flex flex-column align-items-center justify-content-center gap-3 mt-3 w-full">
+    <div class="flex flex-col items-center justify-center gap-4 mt-4 w-full">
       @for (forecast of weather.forecast; let index = $index; track index) {
-        <div class="flex align-items-center justify-content-between w-full">
-          <span class="text-700">{{ forecast.activeAt | date: 'HH:mm' }}</span>
-          <div class="flex align-items-center">
+        <div class="flex items-center justify-between w-full">
+          <span class="text-surface-700 dark:text-surface-100">{{ forecast.activeAt | date: 'HH:mm' }}</span>
+          <div class="flex items-center">
             <i [class]="getWeatherIcon(forecast.weather)"></i>
-            <span class="ml-3">{{ ('weather.' + forecast.weather | translate) | titlecase }}</span>
+            <span class="ml-4">{{ ('weather.' + forecast.weather | translate) | titlecase }}</span>
           </div>
-          <span class="w-3 text-right font-medium">{{ forecast.temperature }}°C</span>
+          <span class="w-3/12 text-right font-medium">{{ forecast.temperature }}°C</span>
         </div>
       }
     </div>

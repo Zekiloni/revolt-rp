@@ -1,17 +1,17 @@
-<div class="mb-3">
-  <span class="px-3 py-3 text-900">{{ 'payment_method' | translate }}</span>
+<div class="mb-4">
+  <span class="px-4 py-4 text-surface-900 dark:text-surface-0">{{ 'payment_method' | translate }}</span>
   <app-select-payment-method [payment]="paymentMethod" />
 </div>
 
-<div class="p-3 mt-3 border-bottom-1 surface-border">
-  <div class="flex justify-content-between align-items-center mb-3">
-    <span class="text-900">{{ 'total' | translate }}</span>
-    <span class="text-900 text-green-500 font-bold">{{ vehicle.price | currency }}</span>
+<div class="p-4 mt-4 border-b border-surface">
+  <div class="flex justify-between items-center mb-4">
+    <span class="text-surface-900 dark:text-surface-0">{{ 'total' | translate }}</span>
+    <span class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ vehicle.price | currency }}</span>
   </div>
 </div>
 
 
-<div class="flex justify-content-end gap-2 mt-3">
+<div class="flex justify-end gap-2 mt-4">
   <p-button label="{{ 'cancel' | translate }}" severity="secondary" (onClick)="cancel()" />
   <p-button label="{{ 'submit' | translate }}" severity="success" (onClick)="submit()" />
 </div>

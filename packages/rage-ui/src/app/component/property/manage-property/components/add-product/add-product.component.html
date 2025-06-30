@@ -1,7 +1,7 @@
-<span class="p-text-secondary block mb-5">Update your information.</span>
+<span class="p-text-secondary block mb-8">Update your information.</span>
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="flex align-items-center gap-3 mb-3">
-    <label for="name" class="font-semibold w-6rem">{{
+  <div class="flex items-center gap-4 mb-4">
+    <label for="name" class="font-semibold w-24">{{
       'name' | translate
     }}</label>
     <p-autoComplete
@@ -21,8 +21,8 @@
       </ng-template>
     </p-autoComplete>
   </div>
-  <div class="flex align-items-center gap-3 mb-5">
-    <label for="price" class="font-semibold w-6rem">{{
+  <div class="flex items-center gap-4 mb-8">
+    <label for="price" class="font-semibold w-24">{{
       'price' | translate
     }}</label>
     <p-inputNumber
@@ -35,7 +35,7 @@
       placeholder="5000"
     />
   </div>
-  <div class="flex justify-content-end gap-2">
+  <div class="flex justify-end gap-2">
     <p-button
       label="Cancel"
       severity="secondary"

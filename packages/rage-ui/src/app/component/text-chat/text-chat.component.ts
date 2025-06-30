@@ -14,7 +14,6 @@ import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteModule } from 'pri
 import { ICommandBase, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
-import { TranslatePipe } from '@ngx-translate/core';
 
 
 type ChatApiFn = (...args: never[]) => void | Promise<void>;
@@ -28,7 +27,6 @@ type ChatApiFn = (...args: never[]) => void | Promise<void>;
     SafeHtmlPipe,
     FormsModule,
     AutoCompleteModule,
-    TranslatePipe
   ],
   templateUrl: './text-chat.component.html',
   styleUrl: './text-chat.component.scss',

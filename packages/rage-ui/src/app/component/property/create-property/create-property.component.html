@@ -2,13 +2,13 @@
           (onHide)="close()"
           [style]="{ width: '30rem' }" [draggable]="false">
 
-  <form class="grid formgrid p-fluid" [formGroup]="form" (ngSubmit)="submit()">
-    <div class="field mb-4 col-8">
+  <form class="grid grid-cols-12 gap-4 formgrid p-fluid" [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field mb-6 col-span-8">
       <label for="name" class="mb-2">{{ 'name' | translate }} <small>({{ 'optional' | translate }})</small></label>
       <input id="name" type="text" pInputText formControlName="name" placeholder="Inglewood 24/7 Market" />
     </div>
 
-    <div class="field mb-4 col-4">
+    <div class="field mb-6 col-span-4">
       <label for="price" class="mb-2">{{ 'price' | translate }}
         <small>({{ (isPurchasableType ? 'required' : 'optional') | translate }})</small>
       </label>
@@ -16,7 +16,7 @@
                      placeholder="5000" />
     </div>
 
-    <div class="field mb-4 col-12 md:col-6">
+    <div class="field mb-6 col-span-12 md:col-span-6">
       <label for="type" class="mb-2">{{ 'property_type' | translate }}</label>
       <p-dropdown
         [options]="propertyTypes"
@@ -38,7 +38,7 @@
     </div>
 
     @if (propertySubTypes.length) {
-      <div class="field mb-4 col-12 md:col-6">
+      <div class="field mb-6 col-span-12 md:col-span-6">
         <label for="subType" class="mb-2">{{ 'sub_type' | translate }}</label>
         <p-dropdown
           [options]="propertySubTypes"
@@ -60,7 +60,7 @@
       </div>
     }
 
-    <div class="field mb-4 col-12 md:col-6">
+    <div class="field mb-6 col-span-12 md:col-span-6">
       <label for="parent-property" class="mb-2">{{ 'parent_property' | translate }}</label>
       <p-dropdown
         [options]="properties"
@@ -77,7 +77,7 @@
       </p-dropdown>
     </div>
 
-    <div class="flex w-full justify-content-between gap-2 mt-2">
+    <div class="flex w-full justify-between gap-2 mt-2">
       <button pButton type="button" class="w-full" [label]="'cancel' | translate" severity="secondary"
               (click)="close()"></button>
       <button pButton type="submit" icon="pi pi-save" class="w-full" [label]="'submit' | translate"></button>

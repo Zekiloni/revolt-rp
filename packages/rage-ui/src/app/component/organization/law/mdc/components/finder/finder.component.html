@@ -1,4 +1,4 @@
-<div class="flex flex-column gap-3">
+<div class="flex flex-col gap-4">
   <p-selectButton
     [options]="searchOptions"
     [allowEmpty]="false"
@@ -13,51 +13,51 @@
          (ngModelChange)="onInputChange($event)" />
 </div>
 
-<div class="px-3 py-2 surface-ground justify-content-center mt-3">
+<div class="px-4 py-2 bg-surface-50 dark:bg-surface-950 justify-center mt-4">
   @if (response) {
     @if (isCitizenSearch) {
       <ul class="list-none p-0 m-0">
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'full_name' | translate }}</div>
-          <div class="text-900">{{ citizen.fullName }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'full_name' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ citizen.fullName }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'gender' | translate }}</div>
-          <div class="text-900">{{ citizen.gender | translate | titlecase }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'gender' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ citizen.gender | translate | titlecase }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'birthday' | translate }}</div>
-          <div class="text-900">{{ citizen.birthday | date: 'dd.MM.yyyy' }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'birthday' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ citizen.birthday | date: 'dd.MM.yyyy' }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'origin' | translate }}</div>
-          <div class="text-900">{{ citizen.origin }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'origin' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ citizen.origin }}</div>
         </li>
       </ul>
     } @else {
       <ul class="list-none p-0 m-0">
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'model' | translate }}</div>
-          <div class="text-900">{{ vehicle.model | titlecase }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'model' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ vehicle.model | titlecase }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'numberplate' | translate }}</div>
-          <div class="text-900">{{ vehicle.numberplate?.content ?? 'N/A' }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'numberplate' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ vehicle.numberplate?.content ?? 'N/A' }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'expiring_at' | translate }}</div>
-          <div class="text-900">{{ vehicle.numberplate?.expiringAt | date: 'dd.MM.yyyy' }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'expiring_at' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ vehicle.numberplate?.expiringAt | date: 'dd.MM.yyyy' }}</div>
         </li>
-        <li class="flex align-items-center py-3 px-2 justify-content-between">
-          <div class="text-500 font-medium">{{ 'owner' | translate }}</div>
-          <div class="text-900">{{ vehicleOwner.fullName }}</div>
+        <li class="flex items-center py-4 px-2 justify-between">
+          <div class="text-surface-500 dark:text-surface-300 font-medium">{{ 'owner' | translate }}</div>
+          <div class="text-surface-900 dark:text-surface-0">{{ vehicleOwner.fullName }}</div>
         </li>
       </ul>
     }
   } @else {
-    <div class="flex flex-column gap-3 align-items-center pt-3">
-      <i class="pi pi-ban text-200 text-2xl"></i>
-      <p class="text-600">{{ 'no_results' | translate }}</p>
+    <div class="flex flex-col gap-4 items-center pt-4">
+      <i class="pi pi-ban text-surface-200 dark:text-surface-600 text-2xl"></i>
+      <p class="text-surface-600 dark:text-surface-200">{{ 'no_results' | translate }}</p>
     </div>
   }
 </div>

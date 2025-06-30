@@ -1,12 +1,12 @@
-<div class="flex flex-column h-full">
-  <div class="flex align-items-center justify-content-between py-2 px-3">
+<div class="flex flex-col h-full">
+  <div class="flex items-center justify-between py-2 px-4">
     <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
             (click)="cancel()"></button>
     <span>{{ 'new_message' | translate }}</span>
   </div>
 
-  <div class="grid grid-nogutter p-fluid py-2 px-3">
-    <div class="col-12 mb-3">
+  <div class="grid grid-cols-12 gap-4 grid-nogutter p-fluid py-2 px-4">
+    <div class="col-span-12 mb-4">
       <p-autoComplete [suggestions]="filteredContacts" optionLabel="name" optionValue="phoneNumber" [(ngModel)]="recipient"
                       [dropdown]="true"
                       [showEmptyMessage]="false"
@@ -18,7 +18,7 @@
       </p-autoComplete>
     </div>
 
-    <div class="col-12">
+    <div class="col-span-12">
       <textarea pInputTextarea [(ngModel)]="messageContent"  [rows]="5"
                 style="resize: none"
                 [maxlength]="256"
@@ -26,7 +26,7 @@
                 placeholder="{{ 'message' | translate }}"></textarea>
     </div>
 
-    <div class="col-12 mt-3">
+    <div class="col-span-12 mt-4">
       <button pButton icon="pi pi-send" (click)="submitComposedMessage()" [disabled]="!recipient || !messageContent"
               label="{{ 'send' | translate }}"></button>
   </div>
