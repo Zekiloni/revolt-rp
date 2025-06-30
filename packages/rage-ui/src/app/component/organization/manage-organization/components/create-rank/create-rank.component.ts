@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { OrganizationPermissionType } from '@revolt-rp/common';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Button, ButtonDirective } from 'primeng/button';
+import { ButtonDirective } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -12,7 +12,7 @@ import { ChipsModule } from 'primeng/chips';
 @Component({
   selector: 'app-create-rank',
   standalone: true,
-  imports: [CommonModule, Button, DropdownModule, InputNumberModule, TranslatePipe, ReactiveFormsModule, ChipsModule, ButtonDirective],
+  imports: [CommonModule, DropdownModule, InputNumberModule, TranslatePipe, ReactiveFormsModule, ChipsModule, ButtonDirective],
   templateUrl: './create-rank.component.html',
   styleUrl: './create-rank.component.css'
 })

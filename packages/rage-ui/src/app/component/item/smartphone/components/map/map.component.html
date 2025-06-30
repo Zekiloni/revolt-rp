@@ -1,10 +1,10 @@
 <div class="h-full w-full relative" #mapAppRef>
-  <app-world-map class="h-full border-round" backgroundColor="rgb(21 62 106)" (init)="mapOnInit($event)" />
+  <app-world-map class="h-full rounded-border" backgroundColor="rgb(21 62 106)" (init)="mapOnInit($event)" />
 
-  <div class="absolute-bottom-center mb-3 flex justify-content-between justify-content-center gap-2" style="z-index:999">
+  <div class="absolute-bottom-center mb-4 flex justify-between justify-center gap-2" style="z-index:999">
     <p-iconField iconPosition="left">
       <p-inputIcon styleClass="pi pi-search" />
-      <input type="text" pInputText placeholder="{{ 'search' | translate }}" class="w-12rem" />
+      <input type="text" pInputText placeholder="{{ 'search' | translate }}" class="w-48" />
     </p-iconField>
 
     <button pButton size="small" icon="pi pi-share-alt" class="p-button-rounded p-button-plain" (click)="shareLocationIp.toggle($event)"></button>

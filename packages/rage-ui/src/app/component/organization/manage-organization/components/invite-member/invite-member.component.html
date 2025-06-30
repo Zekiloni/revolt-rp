@@ -1,5 +1,5 @@
-<form [formGroup]="inviteMemberFormGroup" class="grid formgrid p-fluid" (ngSubmit)="submitInviteMemberForm()">
-  <div class="field mb-4 col-12 md:col-12">
+<form [formGroup]="inviteMemberFormGroup" class="grid grid-cols-12 gap-4 formgrid p-fluid" (ngSubmit)="submitInviteMemberForm()">
+  <div class="field mb-6 col-span-12 md:col-span-12">
     <label for="target">{{ 'target_player' | translate }}</label>
     <p-dropdown
       [options]="players"
@@ -15,7 +15,7 @@
       [placeholder]="'select_player' | translate" />
   </div>
 
-  <div class="field mb-4 col-12 md:col-12">
+  <div class="field mb-6 col-span-12 md:col-span-12">
     <label for="rank">{{ 'rank' | translate }}</label>
     <p-dropdown
       [options]="ranks"
@@ -30,7 +30,7 @@
       [placeholder]="'select_rank' | translate" />
   </div>
 
-  <div class="col-12 md:col-12">
+  <div class="col-span-12 md:col-span-12">
     <button pButton type="submit" [label]="'invite' | translate" [disabled]="isFormInvalid"></button>
   </div>
 </form>

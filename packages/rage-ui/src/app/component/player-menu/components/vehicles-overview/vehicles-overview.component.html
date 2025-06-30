@@ -1,19 +1,19 @@
 <div class="max-w-fit">
-  <div class="grid grid-nogutter pt-2">
+  <div class="grid grid-cols-12 gap-4 grid-nogutter pt-2">
     @if ($vehicles | async; as vehicles) {
       @for (vehicle of vehicles; track vehicle.id) {
-        <div class="col-12 md:col-6 p-3">
-          <div class="surface-ground border-round-xl p-3" style="border-radius: 6px;">
-            <img [src]="getVehicleImage(vehicle.model) | staticAsset" class="mb-3 w-full" [alt]="vehicle.model">
-            <div class="flex justify-content-between align-items-start">
+        <div class="col-span-12 md:col-span-6 p-4">
+          <div class="bg-surface-50 dark:bg-surface-950 rounded-xl p-4" style="border-radius: 6px;">
+            <img [src]="getVehicleImage(vehicle.model) | staticAsset" class="mb-4 w-full" [alt]="vehicle.model">
+            <div class="flex justify-between items-start">
               <div>
-                <div class="text-xl font-medium text-900 mb-2">{{ vehicle.model | titlecase }}</div>
-                <p class="mt-0 mb-3 text-600">{{ getVehicleTypeLabel(vehicle) | translate }}</p>
+                <div class="text-xl font-medium text-surface-900 dark:text-surface-0 mb-2">{{ vehicle.model | titlecase }}</div>
+                <p class="mt-0 mb-4 text-surface-600 dark:text-surface-200">{{ getVehicleTypeLabel(vehicle) | translate }}</p>
               </div>
 
               <p-menu #vehicleOptions [model]="vehicleMenuItems" [popup]="true" appendTo="body">
                 <ng-template pTemplate="item" let-item>
-                  <div class="flex align-items-center p-menuitem-link">
+                  <div class="flex items-center p-menuitem-link">
                     <i [class]="item.icon"></i>
                     <span class="ml-2">{{ item.label | translate }}</span>
                   </div>
@@ -23,23 +23,23 @@
               <button pButton pRipple icon="pi pi-ellipsis-h" [text]="true" [rounded]="true" (click)="toggleVehicleOptions(vehicleOptions, $event, vehicle)"></button>
             </div>
             <ul class="list-none m-0 p-0">
-              <li class="px-0 py-2 flex justify-content-between align-items-center border-bottom-1 surface-border"><span
-                class="text-600 font-medium text-sm">{{ 'color' | translate }}</span>
-                <span class="text-900 font-medium text-sm flex align-items-center gap-2">
-                  <div class="w-1rem h-1rem border-circle"
+              <li class="px-0 py-2 flex justify-between items-center border-b border-surface"><span
+                class="text-surface-600 dark:text-surface-200 font-medium text-sm">{{ 'color' | translate }}</span>
+                <span class="text-surface-900 dark:text-surface-0 font-medium text-sm flex items-center gap-2">
+                  <div class="w-4 h-4 rounded-full"
                        [ngStyle]="{ 'background-color': getVehicleColorStyle(vehicle.color[0]) }"></div>
-                  <div class="w-1rem h-1rem border-circle"
+                  <div class="w-4 h-4 rounded-full"
                        [ngStyle]="{ 'background-color': getVehicleColorStyle(vehicle.color[1]) }"></div>
                 </span>
               </li>
-              <li class="px-0 py-2 flex justify-content-between align-items-center border-bottom-1 surface-border"><span
-                class="text-600 font-medium text-sm">{{ 'mileage' | translate }}</span>
-                <span class="text-900 font-medium text-sm">{{ vehicle.mileage.toFixed(2) }}km </span>
+              <li class="px-0 py-2 flex justify-between items-center border-b border-surface"><span
+                class="text-surface-600 dark:text-surface-200 font-medium text-sm">{{ 'mileage' | translate }}</span>
+                <span class="text-surface-900 dark:text-surface-0 font-medium text-sm">{{ vehicle.mileage.toFixed(2) }}km </span>
               </li>
-              <li class="px-0 py-2 flex justify-content-between align-items-center">
-                <span class="text-600 font-medium text-sm">{{ 'numberplate' | translate }}</span>
+              <li class="px-0 py-2 flex justify-between items-center">
+                <span class="text-surface-600 dark:text-surface-200 font-medium text-sm">{{ 'numberplate' | translate }}</span>
                 <span
-                  class="text-900 font-medium text-sm">{{ vehicle.numberplate ? vehicle.numberplate.content : ('not_registered' | translate) }}</span>
+                  class="text-surface-900 dark:text-surface-0 font-medium text-sm">{{ vehicle.numberplate ? vehicle.numberplate.content : ('not_registered' | translate) }}</span>
               </li>
             </ul>
           </div>

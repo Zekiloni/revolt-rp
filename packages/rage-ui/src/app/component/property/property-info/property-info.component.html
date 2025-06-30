@@ -1,26 +1,26 @@
 @if (property) {
-<div class="absolute-middle-right mr-5 surface-card border-round-2xl shadow-2 p-4 lg:w-2 overflow-hidden" @resizeTransition>
+<div class="absolute-middle-right mr-8 bg-surface-0 dark:bg-surface-900 rounded-2xl shadow p-6 lg:w-2/12 overflow-hidden" @resizeTransition>
     @if (property.name) {
-      <span class="text-xl font-medium text-900" >{{ property.name }}</span>
+      <span class="text-xl font-medium text-surface-900 dark:text-surface-0" >{{ property.name }}</span>
     }
-    <ul class="list-none p-0 m-0 mt-3">
-      <li class="flex align-items-center justify-content-between py-3 px-2 flex-wrap">
-        <span class="text-500 w-6 md:w-2 font-medium">{{ 'type' | translate }} </span>
+    <ul class="list-none p-0 m-0 mt-4">
+      <li class="flex items-center justify-between py-4 px-2 flex-wrap">
+        <span class="text-surface-500 dark:text-surface-300 w-6/12 md:w-2/12 font-medium">{{ 'type' | translate }} </span>
         <span>
           {{ property.type! |  translate }}
         </span>
       </li>
       @if (property.subType) {
-        <li class="flex align-items-center justify-content-between py-3 px-2 border-top-1 surface-border flex-wrap">
-          <span class="text-500 font-medium">{{ 'subtype' | translate }}</span>
+        <li class="flex items-center justify-between py-4 px-2 border-t border-surface flex-wrap">
+          <span class="text-surface-500 dark:text-surface-300 font-medium">{{ 'subtype' | translate }}</span>
           <span>
             {{ property.subType | translate }}
           </span>
         </li>
       }
       @if (property.price) {
-        <li class="flex align-items-center justify-content-between py-3 px-2 border-top-1 surface-border flex-wrap">
-          <span class="text-500 font-medium">{{ 'price' | translate }}</span>
+        <li class="flex items-center justify-between py-4 px-2 border-t border-surface flex-wrap">
+          <span class="text-surface-500 dark:text-surface-300 font-medium">{{ 'price' | translate }}</span>
           <span class="text-green-500 font-bold">
             {{ property.price | currency }}
           </span>
@@ -28,8 +28,8 @@
       }
 
       @if (property.owner && property.owner.entity) {
-        <li class="flex align-items-center justify-content-between py-3 px-2 border-top-1 surface-border flex-wrap">
-          <span class="text-500 font-medium">{{ 'owner' | translate }}</span>
+        <li class="flex items-center justify-between py-4 px-2 border-t border-surface flex-wrap">
+          <span class="text-surface-500 dark:text-surface-300 font-medium">{{ 'owner' | translate }}</span>
           <span class="font-bold">
             {{ getOwnerNamer(property.owner) }}
           </span>
@@ -37,8 +37,8 @@
       }
 
       @if (isForSale) {
-        <li class="py-3 px-2">
-          <span class="bg-red-500 font-bold text-sm px-2 py-1 border-round">
+        <li class="py-4 px-2">
+          <span class="bg-red-500 font-bold text-sm px-2 py-1 rounded-border">
             {{ 'for_sale' | translate }}
           </span>
         </li>

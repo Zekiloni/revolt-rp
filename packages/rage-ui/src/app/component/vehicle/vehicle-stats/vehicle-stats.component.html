@@ -1,38 +1,38 @@
 @if (vehicleStats) {
-  <div class="grid grid-nogutter border-top-1 surface-border pt-2">
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'model_name' | translate }}</div>
-      <div class="text-900">{{ vehicleStats.displayName }}</div>
+  <div class="grid grid-cols-12 gap-4 grid-nogutter border-t border-surface pt-2">
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'model_name' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">{{ vehicleStats.displayName }}</div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'vehicle_class' | translate }}</div>
-      <div class="text-900">{{ vehicleStats.className | translate }}</div>
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'vehicle_class' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">{{ vehicleStats.className | translate }}</div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'max_speed' | translate }}</div>
-      <div class="text-900">{{ vehicleStats.maxSpeed.toFixed() }}</div>
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_speed' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">{{ vehicleStats.maxSpeed.toFixed() }}</div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'max_acceleration' | translate }}</div>
-      <div class="text-900">
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_acceleration' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">
         <p-progressBar [value]="((vehicleStats.acceleration / 0.4) * 100).toFixed()" />
       </div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'max_breaking' | translate }}</div>
-      <div class="text-900">
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_breaking' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">
         <p-progressBar [value]="((vehicleStats.maxBraking / 3) * 100).toFixed()" />
       </div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'max_traction' | translate }}</div>
-      <div class="text-900">
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_traction' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0">
         <p-progressBar [value]="((vehicleStats.maxTraction / 3.3) * 100).toFixed()" />
       </div>
     </div>
-    <div class="col-12 md:col-6 p-3">
-      <div class="text-500 font-medium mb-2">{{ 'number_of_seats' | translate }}</div>
-      <div class="text-900 flex align-items-center gap-3">
+    <div class="col-span-12 md:col-span-6 p-4">
+      <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'number_of_seats' | translate }}</div>
+      <div class="text-surface-900 dark:text-surface-0 flex items-center gap-4">
         @for (seat of getSeats(vehicleStats.maxNumberOfPassengers); track seat) {
           <i class="pi pi-user text-primary"></i>
         }
@@ -40,7 +40,7 @@
     </div>
   </div>
 } @else {
-  <div class="mb-3">
+  <div class="mb-4">
     <p-progressBar mode="indeterminate" [style]="{ height: '6px' }" />
   </div>
 }

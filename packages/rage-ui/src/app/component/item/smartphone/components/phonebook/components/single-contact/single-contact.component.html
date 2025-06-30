@@ -1,6 +1,6 @@
-<div class="py-2 px-3">
-  <div class="font-medium text-2xl text-900 mb-5">{{ contact.name }}</div>
-  <div class="flex align-items-center gap-3 mb-5">
+<div class="py-2 px-4">
+  <div class="font-medium text-2xl text-surface-900 dark:text-surface-0 mb-8">{{ contact.name }}</div>
+  <div class="flex items-center gap-4 mb-8">
     <button pButton severity="success" icon="pi pi-phone" [rounded]="true" (click)="call()"></button>
     <button pButton severity="info" icon="pi pi-inbox" [rounded]="true"></button>
     <p-toggleButton
@@ -8,15 +8,15 @@
       onIcon="pi pi-star"
       offIcon="pi pi-star"
       (onChange)="editContact.emit(contactUpdate)"
-      styleClass="border-circle"
+      styleClass="rounded-full"
     />
     <button pButton severity="danger" icon="pi pi-trash" [outlined]="true" [rounded]="true" (click)="delete()"></button>
   </div>
 
   <div class="field">
-    <label for="phone-number" class="text-500">{{ 'phone_number' | translate }}</label>
-    <div class="field grid justify-content-between">
-      <input pInputText id="phone-number" [value]="contact.phoneNumber" type="text" readonly class="w-12rem" />
+    <label for="phone-number" class="text-surface-500 dark:text-surface-300">{{ 'phone_number' | translate }}</label>
+    <div class="field grid grid-cols-12 gap-4 justify-between">
+      <input pInputText id="phone-number" [value]="contact.phoneNumber" type="text" readonly class="w-48" />
       <button pButton icon="pi pi-copy" size="small" (click)="copyPhoneNumber(contact.phoneNumber)"></button>
     </div>
   </div>

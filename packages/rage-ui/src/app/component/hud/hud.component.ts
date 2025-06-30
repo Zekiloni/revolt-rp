@@ -3,7 +3,6 @@ import { BehaviorSubject, map, Observable, Subject, takeUntil, timer } from 'rxj
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { IItem, ProcedureKey } from '@revolt-rp/common';
-import { DroppableDirective } from '../../domain/drag-drop/droppable.directive';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
@@ -16,7 +15,7 @@ const SHOW_HIDE_TIMEOUT = 3000;
 @Component({
   selector: 'app-hud',
   standalone: true,
-  imports: [CommonModule, DroppableDirective, NgOptimizedImage, StaticAssetPipe],
+  imports: [CommonModule, NgOptimizedImage, StaticAssetPipe],
   templateUrl: './hud.component.html',
   styleUrl: './hud.component.css',
   animations: [fadeInOutTrigger],

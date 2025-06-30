@@ -13,7 +13,6 @@ import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
 import { AdvertisementCategory, IAdvertisement, IAdvertisementCreate, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { CreateAdvertisementComponent } from './components/create-advertisement';
-import { SafeHtmlPipe } from '../../../../../domain/util/safe-html.pipe';
 import { SingleAdvertisementComponent } from './components/single-advertisement';
 
 
@@ -26,7 +25,7 @@ type QueryAds = {
 @Component({
   selector: 'app-advertisement',
   standalone: true,
-  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, CreateAdvertisementComponent, SafeHtmlPipe, InputTextModule, FormsModule, TagModule, EditorModule, DropdownModule, ReactiveFormsModule, SingleAdvertisementComponent],
+  imports: [CommonModule, TableModule, TranslatePipe, ButtonDirective, CreateAdvertisementComponent, InputTextModule, FormsModule, TagModule, EditorModule, DropdownModule, ReactiveFormsModule, SingleAdvertisementComponent],
   templateUrl: './advertisement.component.html',
   styleUrl: './advertisement.component.css'
 })

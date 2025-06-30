@@ -1,6 +1,6 @@
-<div class="flex flex-column h-full">
+<div class="flex flex-col h-full">
   @if (addingNewContact) {
-    <div class="flex align-items-center justify-content-between py-2 px-3">
+    <div class="flex items-center justify-between py-2 px-4">
       <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
               (click)="addingNewContact = false"></button>
       <span>{{ 'new_contact' | translate }}</span>
@@ -9,7 +9,7 @@
   } @else {
     @if (phoneItem && phoneItem.phoneInfo) {
       @if (selectedContact) {
-        <div class="flex align-items-center justify-content-between py-2 px-3">
+        <div class="flex items-center justify-between py-2 px-4">
           <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
                   (click)="selectedContact = null"></button>
           <span>{{ 'contact' | translate }}</span>
@@ -28,13 +28,13 @@
           [globalFilterFields]="['name', 'phoneNumber']"
         >
           <ng-template pTemplate="caption">
-            <div class="flex align-items-center justify-content-between">
+            <div class="flex items-center justify-between">
               <p-iconField iconPosition="left">
                 <p-inputIcon styleClass="pi pi-search" />
                 <input
                   pInputText
                   type="text"
-                  class="w-10rem"
+                  class="w-40"
                   (input)="filterGlobal(contactsTable, $event.target!)"
                   [placeholder]="'search' | translate" />
               </p-iconField>

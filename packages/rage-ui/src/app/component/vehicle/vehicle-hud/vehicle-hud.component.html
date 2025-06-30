@@ -1,23 +1,23 @@
-<div class="absolute-bottom-right mr-5 mb-5 text-shadow flex flex-column">
+<div class="absolute-bottom-right mr-8 mb-8 text-shadow flex flex-col">
 
   @switch (type) {
     @case ('fly') {
-      <div class="flex flex-row justify-content-between gap-3 mt-4">
-        <div class="flex align-items-center gap-2">
+      <div class="flex flex-row justify-between gap-4 mt-6">
+        <div class="flex items-center gap-2">
           <span>{{ speed.toFixed(2) }}km/h</span>
         </div>
 
-        <div class="flex align-items-center gap-2">
+        <div class="flex items-center gap-2">
           <span>{{ height.toFixed(2) }}m</span>
           <i class="pi pi-arrows-v"></i>
         </div>
 
-        <div class="flex align-items-center gap-2">
+        <div class="flex items-center gap-2">
           <p-knob [(ngModel)]="pitch" [min]="-90" [max]="90" [showValue]="false" size="50" [readonly]="true"
                   valueColor="MediumTurquoise" />
         </div>
 
-        <div class="flex align-items-center gap-2">
+        <div class="flex items-center gap-2">
           <p-knob [(ngModel)]="roll" [min]="-90" [max]="90" [showValue]="false" size="50" [readonly]="true"
                   valueColor="Peru" />
         </div>
@@ -27,25 +27,25 @@
 
     }
     @default {
-      <div class="card flex flex-column align-items-center gap-3">
+      <div class="card flex flex-col items-center gap-4">
         <p-knob [(ngModel)]="speed" [strokeWidth]="10" size="145" [max]="maxSpeed" valueTemplate="{value}"
-                [valueColor]="speedValueColor" [readonly]="true" styleClass="font-italic" />
-        <p class="-mt-8">km/h</p>
+                [valueColor]="speedValueColor" [readonly]="true" styleClass="italic" />
+        <p class="-mt-20">km/h</p>
       </div>
     }
   }
 
-  <div class="flex flex-row justify-content-between gap-3 mt-4">
-    <div class="flex align-items-center gap-2">
+  <div class="flex flex-row justify-between gap-4 mt-6">
+    <div class="flex items-center gap-2">
       <span>{{ fuel }}%</span>
       <i class="pi pi-gauge"></i>
     </div>
-    <div class="flex align-items-center gap-2">
+    <div class="flex items-center gap-2">
       <span>{{ mileage.toFixed(2) }}km</span>
       <i class="pi pi-car"></i>
     </div>
 
-    <div class="flex align-items-center gap-2">
+    <div class="flex items-center gap-2">
       <span>{{ gear }}</span>
       <i class="pi pi-cog"></i>
       <span>{{ rpm }}</span>

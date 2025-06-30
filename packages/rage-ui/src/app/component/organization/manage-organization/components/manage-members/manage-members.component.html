@@ -12,7 +12,7 @@
   [rowsPerPageOptions]="[10, 25, 50]"
 >
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
+    <div class="flex items-center justify-between">
       <span>{{ 'members' | translate }}</span>
       <p-iconField iconPosition="left">
         <p-inputIcon>
@@ -49,7 +49,7 @@
         <i class="pi pi-circle-fill text-xs" [pTooltip]="(member['inGame'] ? 'online' : 'offline') | translate"
            [ngClass]="{'text-green-400': member['inGame'], 'text-gray-400': !member['inGame']}">
         </i>
-        <span class="ml-3">{{ member['fullName'] }} <small>({{ member['account']['username'] }})</small></span>
+        <span class="ml-4">{{ member['fullName'] }} <small>({{ member['account']['username'] }})</small></span>
       </td>
       <td>
         <p-cellEditor>

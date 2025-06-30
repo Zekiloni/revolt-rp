@@ -1,17 +1,17 @@
 @if ($options | async; as options) {
-  <div class="absolute-center surface-card p-4 shadow-2 border-round-2xl w-full lg:w-3 md:w-4">
+  <div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-2xl w-full lg:w-3/12 md:w-4/12">
     <div class="p-2">
       @for (option of options; track option) {
         <article (click)="callOption(option)"
-          class="flex w-full justify-content-between align-items-center select-none cursor-pointer surface-border hover:surface-hover border-round-lg px-2 py-1 text-800 hover:text-primary ">
-          <div class="flex align-items-center">
-            <span class="border-circle w-2rem h-2rem flex align-items-center justify-content-center surface-100">
+          class="flex w-full justify-between items-center select-none cursor-pointer border-surface hover:bg-emphasis rounded-lg px-2 py-1 text-surface-800 dark:text-surface-50 hover:text-primary ">
+          <div class="flex items-center">
+            <span class="rounded-full w-8 h-8 flex items-center justify-center bg-surface-100 dark:bg-surface-700">
              <i class="{{ option.icon }} text-lg"></i>
             </span>
             <div class="ml-2 p-2">
               <p class="font-semibold text-sm mt-0 mb-1">{{ option.label | translate }}</p>
               @if (option.description) {
-                <p class="font-normal text-xs text-600 mt-0 mb-0">{{ option.description | translate }}</p>
+                <p class="font-normal text-xs text-surface-600 dark:text-surface-200 mt-0 mb-0">{{ option.description | translate }}</p>
               }
             </div>
           </div>

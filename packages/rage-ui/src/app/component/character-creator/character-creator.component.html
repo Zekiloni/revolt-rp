@@ -1,7 +1,7 @@
-<div class="absolute-left-center ml-5 lg:w-4">
-  <div class="surface-card p-4 shadow-2 border-round">
-    <div class="flex justify-content-between align-items-center mb-5">
-      <span class="text-xl text-900 font-medium">{{ 'character_creator' | translate }}</span>
+<div class="absolute-left-center ml-8 lg:w-4/12">
+  <div class="bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border">
+    <div class="flex justify-between items-center mb-8">
+      <span class="text-xl text-surface-900 dark:text-surface-0 font-medium">{{ 'character_creator' | translate }}</span>
     </div>
 
     <p-stepper [value]="1">
@@ -10,9 +10,9 @@
         <p-step>{{ 'character_identity' | translate }}</p-step>
         <p-step-panel>
           <ng-template #content let-activateCallback="activateCallback">
-            <div class="flex flex-column">
+            <div class="flex flex-col">
               <app-character-details [characterCreateForm]="createCharacterForm" />
-              <p-button class="py-4" [label]="'next' | translate" (onClick)="activateCallback(2)" />
+              <p-button class="py-6" [label]="'next' | translate" (onClick)="activateCallback(2)" />
             </div>
           </ng-template>
         </p-step-panel>
@@ -23,10 +23,10 @@
         <p-step>{{ 'character_description' | translate }}</p-step>
         <p-step-panel>
           <ng-template #content let-activateCallback="activateCallback">
-            <div class="flex flex-column">
-              <div class="formgrid grid py-4 px-4">
-                <div class="field col-12 md:col-12" [formGroup]="createCharacterForm">
-                  <label for="character-description" class="font-medium text-900">
+            <div class="flex flex-col">
+              <div class="formgrid grid grid-cols-12 gap-4 py-6 px-6">
+                <div class="field col-span-12 md:col-span-12" [formGroup]="createCharacterForm">
+                  <label for="character-description" class="font-medium text-surface-900 dark:text-surface-0">
                     {{ 'description' | translate }}
                   </label>
                   <textarea
@@ -40,7 +40,7 @@
                 </div>
               </div>
 
-              <div class="flex py-4 gap-2">
+              <div class="flex py-6 gap-2">
                 <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(1)" />
                 <p-button [label]="'next' | translate" (onClick)="activateCallback(3)" />
               </div>
@@ -54,8 +54,8 @@
         <p-step>{{ 'character_appearance' | translate }}</p-step>
         <p-step-panel>
           <ng-template #content let-activateCallback="activateCallback">
-            <div class="flex flex-column">
-              <p-accordion [value]="0" class="py-4 px-4">
+            <div class="flex flex-col">
+              <p-accordion [value]="0" class="py-6 px-6">
                 <!-- Heritage -->
                 <p-accordion-panel value="0">
                   <p-accordion-header>{{ 'heritage' | translate }}</p-accordion-header>
@@ -92,7 +92,7 @@
                 <p-accordion-panel value="4">
                   <p-accordion-header>{{ 'other' | translate }}</p-accordion-header>
                   <p-accordion-content>
-                    <div class="max-h-15rem overflow-auto">
+                    <div class="max-h-60 overflow-auto">
                       @for (headOverlay of headOverlays; track headOverlay.overlayId) {
                         <p-panel [header]="headOverlay.label" [toggleable]="true" [collapsed]="true">
                           <app-head-overlay
@@ -104,7 +104,7 @@
                   </p-accordion-content>
                 </p-accordion-panel>
               </p-accordion>
-              <div class="flex py-4 gap-2">
+              <div class="flex py-6 gap-2">
                 <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(2)" />
                 <p-button [label]="'next' | translate" (onClick)="activateCallback(4)" />
               </div>
@@ -118,9 +118,9 @@
         <p-step>{{ 'character_outfit' | translate }}</p-step>
         <p-step-panel>
           <ng-template #content let-activateCallback="activateCallback">
-            <div class="flex flex-column">
+            <div class="flex flex-col">
               <app-outfit-selector [createCharacterForm]="createCharacterForm" />
-              <div class="flex py-4 gap-2">
+              <div class="flex py-6 gap-2">
                 <p-button [label]="'back' | translate" severity="secondary" (onClick)="activateCallback(3)" />
                 <p-button [label]="'submit' | translate"
                           (onClick)="submitCreateCharacterForm()"

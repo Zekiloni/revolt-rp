@@ -1,13 +1,13 @@
-<div class="grid grid-nogutter border-top-1 surface-border py-2 px-3">
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'category' | translate }}</div>
-    <div class="text-900">
+<div class="grid grid-cols-12 gap-4 grid-nogutter border-t border-surface py-2 px-4">
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'category' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0">
       <p-tag severity="info" value="{{ advertisement.category | translate }}" />
     </div>
   </div>
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'price' | translate }}</div>
-    <div class="text-900">
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'price' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0">
       @if (advertisement['price']) {
         <span class="text-green-500 font-bold">{{ advertisement['price'] | currency }}</span>
       } @else {
@@ -15,25 +15,25 @@
       }
     </div>
   </div>
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'content' | translate }}</div>
-    <div class="text-900 line-height-3">
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'content' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0 leading-normal">
       <p-editor [(ngModel)]="advertisement.content" [readonly]="true" [modules]="[]" />
     </div>
   </div>
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'phone_number' | translate }}</div>
-    <div class="text-900">
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'phone_number' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0">
       <button pButton type="button" [text]="true" severity="success" [label]="advertisement.phoneNumber" size="small" icon="pi pi-phone"
               (click)="call(advertisement.phoneNumber)"></button>
     </div>
   </div>
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'author' | translate }}</div>
-    <div class="text-900">{{ advertisement.public && author ? author.fullName : ('private' | translate) }}</div>
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'author' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0">{{ advertisement.public && author ? author.fullName : ('private' | translate) }}</div>
   </div>
-  <div class="col-12 p-3">
-    <div class="text-500 font-medium mb-2">{{ 'created_at' | translate }}</div>
-    <div class="text-900">{{ advertisement.createdAt | date }}</div>
+  <div class="col-span-12 p-4">
+    <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'created_at' | translate }}</div>
+    <div class="text-surface-900 dark:text-surface-0">{{ advertisement.createdAt | date }}</div>
   </div>
 </div>

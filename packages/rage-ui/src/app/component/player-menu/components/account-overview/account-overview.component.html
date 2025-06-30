@@ -1,66 +1,66 @@
 @if ($account | async; as account) {
-  <div class="flex align-items-start flex-column md:flex-row">
+  <div class="flex items-start flex-col md:flex-row">
     <p-avatar
       [label]="account.username[0].toUpperCase()"
-      styleClass="mr-5 mb-3 lg:mb-0"
+      styleClass="mr-8 mb-4 lg:mb-0"
       size="xlarge"
       shape="circle" />
     <div>
-      <span class="text-900 font-medium text-3xl">{{ account.username }}</span>
-      <p-tag [value]="getAdminLevelLabel(account.administrator) | translate" styleClass="ml-4"
+      <span class="text-surface-900 dark:text-surface-0 font-medium text-3xl">{{ account.username }}</span>
+      <p-tag [value]="getAdminLevelLabel(account.administrator) | translate" styleClass="ml-6"
              [severity]="getAdminLevelSeverity(account.administrator)" />
-      <div class="flex align-items-center flex-wrap text-sm">
-        <div class="mr-5 mt-3">
-          <span class="font-medium text-500">ID</span>
-          <div class="text-700 mt-2">{{ account.id }}</div>
+      <div class="flex items-center flex-wrap text-sm">
+        <div class="mr-8 mt-4">
+          <span class="font-medium text-surface-500 dark:text-surface-300">ID</span>
+          <div class="text-surface-700 dark:text-surface-100 mt-2">{{ account.id }}</div>
         </div>
-        <div class="mr-5 mt-3">
-          <span class="font-medium text-500">{{ 'social_club_id' | translate }}</span>
-          <div class="text-700 mt-2">{{ account.socialClubId }}</div>
+        <div class="mr-8 mt-4">
+          <span class="font-medium text-surface-500 dark:text-surface-300">{{ 'social_club_id' | translate }}</span>
+          <div class="text-surface-700 dark:text-surface-100 mt-2">{{ account.socialClubId }}</div>
         </div>
-        <div class="mr-5 mt-3">
-          <span class="font-medium text-500">{{ 'social_club_username' | translate }}</span>
-          <div class="text-700 mt-2">{{ account.socialClubUsername }}</div>
+        <div class="mr-8 mt-4">
+          <span class="font-medium text-surface-500 dark:text-surface-300">{{ 'social_club_username' | translate }}</span>
+          <div class="text-surface-700 dark:text-surface-100 mt-2">{{ account.socialClubUsername }}</div>
         </div>
       </div>
     </div>
   </div>
 
   <div class="max-w-fit">
-    <div class="grid grid-nogutter border-top-1 surface-border pt-2 mt-3">
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'email' | translate }}</div>
-        <div class="text-900">{{ account.emailAddress || '/' }}</div>
+    <div class="grid grid-cols-12 gap-4 grid-nogutter border-t border-surface pt-2 mt-4">
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'email' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ account.emailAddress || '/' }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'discord_id' | translate }}</div>
-        <div class="text-900">{{ account.discordId || '/' }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'discord_id' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ account.discordId || '/' }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'registration_date' | translate }}</div>
-        <div class="text-900">{{ (account.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss')! | translate }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'registration_date' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ (account.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss')! | translate }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'max_characters' | translate }}</div>
-        <ul class="list-none p-0 m-0 flex align-content-center mt-3 gap-3">
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'max_characters' | translate }}</div>
+        <ul class="list-none p-0 m-0 flex content-center mt-4 gap-4">
           @for (character of createArray(account.maxCharacters); track $index) {
             <li class="flex-1 bg-gray-300" style="height: 7px; border-radius: 3px;"
                 [ngClass]="{ 'bg-primary': $index < account.characters.length}"></li>
           }
         </ul>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'current_session' | translate }}</div>
-        <div class="text-900">{{ (account.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss')! | translate }} - <span
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'current_session' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ (account.createdAt | date: 'EEEE, MMMM d, y, HH:mm:ss')! | translate }} - <span
           class="text-green-300">{{ $sessionDuration(account.lastLoginAt!) | async }}</span></div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'last_ip_address' | translate }}</div>
-        <div class="text-900">{{ account.lastIpAddress }}</div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'last_ip_address' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ account.lastIpAddress }}</div>
       </div>
-      <div class="col-12 md:col-6 p-3">
-        <div class="text-500 font-medium mb-2">{{ 'premium_coins' | translate }}</div>
-        <div class="text-900">{{ account.coins }} <i class="pi pi-bitcoin text-yellow-400"></i></div>
+      <div class="col-span-12 md:col-span-6 p-4">
+        <div class="text-surface-500 dark:text-surface-300 font-medium mb-2">{{ 'premium_coins' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0">{{ account.coins }} <i class="pi pi-bitcoin text-yellow-400"></i></div>
       </div>
     </div>
   </div>

@@ -1,9 +1,16 @@
+const { createGlobPatternsForDependencies } = require('@nx/angular/tailwind');
+const { join } = require('path');
 import PrimeUI from 'tailwindcss-primeui';
 
-export default {
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
-    "./src/**/*.{html,ts}",
+    join(__dirname, 'src/**/!(*.stories|*.spec).{ts,html}'),
+    ...createGlobPatternsForDependencies(__dirname),
   ],
+  theme: {
+    extend: {},
+  },
   darkMode: ['selector', '[class~="app-dark"]'],
   plugins: [PrimeUI],
 };

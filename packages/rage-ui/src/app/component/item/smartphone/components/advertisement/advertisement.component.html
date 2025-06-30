@@ -1,6 +1,6 @@
 @if (creatingAd) {
-  <div class="flex flex-column h-full">
-    <div class="flex align-items-center justify-content-between py-2 px-3">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between py-2 px-4">
       <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
               (click)="creatingAd = false"></button>
       <span>{{ 'create_advertisement' | translate }}</span>
@@ -8,8 +8,8 @@
     <app-create-advertisement (createAdvertisement)="onAdvertisementCreate($event)" />
   </div>
 } @else if (selectedAd) {
-  <div class="flex flex-column h-full">
-    <div class="flex align-items-center justify-content-between py-2 px-3">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between py-2 px-4">
       <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
               (click)="selectedAd = null"></button>
       <span>{{ 'advertisement' | translate }}</span>
@@ -31,12 +31,12 @@
     [totalRecords]="totalRecords"
     (onLazyLoad)="lazyLoadAdvertisements($event)">
     <ng-template pTemplate="caption">
-      <div class="flex align-items-center justify-content-between">
+      <div class="flex items-center justify-between">
         <span>{{ 'advertisements' | translate }}</span>
         <button pButton type="button" size="small" label="{{ 'create' | translate}}" icon="pi pi-plus"
                 (click)="creatingAd = true"></button>
       </div>
-      <div class="p-fluid flex flex-column gap-3 mt-3">
+      <div class="p-fluid flex flex-col gap-4 mt-4">
         <input pInputText [(ngModel)]="contentSearch" (ngModelChange)="onContentSearchChange()"
                placeholder="{{ 'search' | translate}}">
         <p-dropdown
@@ -62,15 +62,15 @@
     <ng-template pTemplate="body" let-advertisement>
       <tr [pSelectableRow]="advertisement">
         <td>
-          <div class="flex align-items-center justify-content-between">
+          <div class="flex items-center justify-between">
             <p-tag severity="info" value="{{ advertisement['category'] | translate }}" />
             @if (advertisement['price']) {
               <span class="text-green-500 text-sm font-bold">{{ advertisement['price'] | currency }}</span>
             } @else {
-              <span class="text-700 text-sm">{{ 'negotiable' | translate }}</span>
+              <span class="text-surface-700 dark:text-surface-100 text-sm">{{ 'negotiable' | translate }}</span>
             }
           </div>
-          <div class="mt-3">
+          <div class="mt-4">
             <p-editor [(ngModel)]="advertisement['content']" [readonly]="true" [modules]="[]" />
           </div>
         </td>

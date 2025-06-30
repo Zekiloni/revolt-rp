@@ -1,7 +1,7 @@
-<div class="absolute-center surface-card p-4 shadow-2 border-round-2xl w-full lg:w-4 md:w-5 px-5 py-4">
+<div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-2xl w-full lg:w-4/12 md:w-5/12 px-8 py-6">
   @if (property) {
-    <div class="text-900 font-bold text-2xl">{{ property.name }}</div>
-    <div class="mt-3">
+    <div class="text-surface-900 dark:text-surface-0 font-bold text-2xl">{{ property.name }}</div>
+    <div class="mt-4">
       @if (property.catalog && property.catalog.length) {
         <p-carousel
           [value]="property.catalog"
@@ -10,13 +10,13 @@
           [circular]="false"
           [responsiveOptions]="carouselResponsiveOptions">
           <ng-template let-model pTemplate="item">
-            <div class="border-1 surface-border border-round m-2 p-3 surface-ground">
-              <div class="mb-3">
+            <div class="border border-surface rounded-border m-2 p-4 bg-surface-50 dark:bg-surface-950">
+              <div class="mb-4">
                 <div class="relative mx-auto text-center">
                   <img
                     [src]="getVehicleImage(model['name']) | staticAsset"
                     [alt]="model['name']"
-                    class="w-full mt-3 border-round max-w-20rem" />
+                    class="w-full mt-4 rounded-border max-w-80" />
                   <p-tag
                     [value]="getAvailabilityLabel(model) | translate"
                     [severity]="getAvailabilitySeverity(model)"
@@ -24,13 +24,13 @@
                     [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
                 </div>
               </div>
-              <div class="mb-3 font-medium">
+              <div class="mb-4 font-medium">
                 {{ model['name'] | titlecase }}
               </div>
-              <div class="flex justify-content-between align-items-center">
-                <div class="mt-0 font-semibold text-green-500 text-xl max-w-10rem">
+              <div class="flex justify-between items-center">
+                <div class="mt-0 font-semibold text-green-500 text-xl max-w-40">
                   <span>{{ model['price'] | currency }}</span>
-                  <span class="text-700 text-sm font-medium"> / {{ 'per_hour' | translate }}</span>
+                  <span class="text-surface-700 dark:text-surface-100 text-sm font-medium"> / {{ 'per_hour' | translate }}</span>
                 </div>
                 <span>
                   <button pButton type="button" icon="pi pi-eye" [rounded]="true"
@@ -42,17 +42,17 @@
           </ng-template>
         </p-carousel>
       } @else {
-        <span class="text-600 font-normal text-l">{{ 'catalog_is_empty' | translate }}</span>
+        <span class="text-surface-600 dark:text-surface-200 font-normal text-l">{{ 'catalog_is_empty' | translate }}</span>
       }
     </div>
   } @else {
-    <div class="flex justify-content-center align-items-center">
+    <div class="flex justify-center items-center">
       <p-progressSpinner ariaLabel="loading" />
     </div>
   }
 
   <button pButton type="button" severity="danger" label="{{ 'close' | translate }}" icon="pi pi-times"
-          class="mt-3"
+          class="mt-4"
           (click)="close()"></button>
 </div>
 
@@ -61,38 +61,38 @@
   <p-dialog header="{{ 'rent_vehicle' | translate }}" [modal]="true" [draggable]="false" [(visible)]="previewVehicle"
             [focusOnShow]="false"
             [style]="{ width: '45%' }">
-    <span class="p-text-secondary block mb-3 py-3">{{ 'vehicle_rent_confirmation' | translate }}</span>
+    <span class="p-text-secondary block mb-4 py-4">{{ 'vehicle_rent_confirmation' | translate }}</span>
 
     <app-vehicle-stats [model]="selectedVehicle.name" />
 
-    <div class="field p-3 mb-3">
-      <label for="duration" class="text-900">{{ 'duration' | translate }}</label>
-      <p-slider id="duration" [(ngModel)]="duration" styleClass="w-20rem mt-1" [step]="0.5" [max]="24" [min]="0.5" />
+    <div class="field p-4 mb-4">
+      <label for="duration" class="text-surface-900 dark:text-surface-0">{{ 'duration' | translate }}</label>
+      <p-slider id="duration" [(ngModel)]="duration" styleClass="w-80 mt-1" [step]="0.5" [max]="24" [min]="0.5" />
     </div>
 
     <div class="flex items-center gap-1">
       <p-checkbox
         [(ngModel)]="termsAccepted"
         [binary]="true"
-        class="p-3"
+        class="p-4"
         id="accept-terms" />
       <label for="accept-terms" class="ml-2">{{  'accept_terms' | translate }}</label>
     </div>
 
     <app-select-payment-method [payment]="paymentMethod" />
 
-    <div class="p-3 mt-3 border-bottom-1 surface-border">
-      <div class="flex justify-content-between align-items-center mb-3">
-        <span class="text-900">{{ 'duration' | translate }}</span>
-        <span class="text-900">{{ duration }}h</span>
+    <div class="p-4 mt-4 border-b border-surface">
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-surface-900 dark:text-surface-0">{{ 'duration' | translate }}</span>
+        <span class="text-surface-900 dark:text-surface-0">{{ duration }}h</span>
       </div>
-      <div class="flex justify-content-between align-items-center mb-3">
-        <span class="text-900">{{ 'total' | translate }}</span>
-        <span class="text-900 text-green-500 font-bold">{{ duration * selectedVehicle.price | currency }}</span>
+      <div class="flex justify-between items-center mb-4">
+        <span class="text-surface-900 dark:text-surface-0">{{ 'total' | translate }}</span>
+        <span class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ duration * selectedVehicle.price | currency }}</span>
       </div>
     </div>
 
-    <div class="flex justify-content-end gap-2 mt-3">
+    <div class="flex justify-end gap-2 mt-4">
       <p-button label="{{ 'cancel' | translate }}" severity="secondary" (click)="previewVehicle = false" />
       <p-button label="{{ 'submit' | translate }}" (click)="rentVehicle()" [disabled]="!termsAccepted" />
     </div>

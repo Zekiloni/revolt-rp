@@ -1,6 +1,6 @@
 @if (selectedConversation) {
-  <div class="flex flex-column h-full">
-    <div class="flex align-items-center justify-content-between py-2 px-3">
+  <div class="flex flex-col h-full">
+    <div class="flex items-center justify-between py-2 px-4">
       <button pButton size="small" [rounded]="true" [text]="true" icon="pi pi-arrow-left"
               (click)="selectedConversation = null"></button>
       <span>{{ getContactName(selectedConversation!) }}</span>
@@ -12,13 +12,13 @@
       scrollHeight="90%"
     >
       <ng-template pTemplate="item" let-message let-options="options">
-        <div class="message py-2 px-3 border-round-2xl mb-2 mx-2 w-13rem"
+        <div class="message py-2 px-4 rounded-2xl mb-2 mx-2 w-52"
              [ngClass]="{ 'surface-200': isMessageSent(message), 'surface-400': !isMessageSent(message) }"
              [ngStyle]="{ 'float': isMessageSent(message) ? 'right' : 'left' }">
 
           @switch (message.type) {
             @case (PhoneMessageType.Location) {
-              <div class="w-full h-7rem">
+              <div class="w-full h-28">
                 <app-world-map (init)="mapOnInit($event, message)" />
               </div>
               <button class="w-full" pButton size="small" icon="pi pi-map-marker"
@@ -31,7 +31,7 @@
         </div>
       </ng-template>
     </p-scroller>
-    <div class="w-full py-2 px-3">
+    <div class="w-full py-2 px-4">
       <p-inputGroup>
         <input pInputText [(ngModel)]="messageContent"  (keydown.enter)="sendMessage(selectedConversation!, messageContent)">
         <p-inputGroupAddon>
@@ -47,9 +47,9 @@
     <app-compose-message (cancelComposeMessage)="isComposeActive = false" [phoneItem]="phoneItem"
                          (submitComposeMessage)="newConversation($event)" />
   } @else {
-    <div class="flex flex-column h-full">
-      <div class="py-2 px-3 flex align-items-center justify-content-between">
-        <input pInputText [(ngModel)]="searchConversation" [placeholder]="'search' | translate" class="w-10rem">
+    <div class="flex flex-col h-full">
+      <div class="py-2 px-4 flex items-center justify-between">
+        <input pInputText [(ngModel)]="searchConversation" [placeholder]="'search' | translate" class="w-40">
         <button pButton size="small" icon="pi pi-send" (click)="isComposeActive = true"></button>
       </div>
       <p-scroller
@@ -58,15 +58,15 @@
         styleClass="flex-grow"
       >
         <ng-template pTemplate="item" let-conversation let-options="options">
-          <div class="flex justify-content-between align-items-center py-2 px-3 bg-black-alpha-40"
+          <div class="flex justify-between items-center py-2 px-4 bg-black/40"
                (click)="selectConversation(conversation)"
                [ngClass]="{ 'bg-black-alpha-70': options['odd'] }">
-            <div class="flex flex-column">
-              <div class="text-900 font-medium inline-block mr-3 mb-2">
+            <div class="flex flex-col">
+              <div class="text-surface-900 dark:text-surface-0 font-medium inline-block mr-4 mb-2">
                 {{ getContactName(conversation) }}
               </div>
-              <span class="line-height-3 text-700">{{ getLastMessage(conversation).content || '' }}</span>
-              <span class="text-500 text-sm"> {{ fromNow(getLastMessage(conversation).createdAt) }}</span>
+              <span class="leading-normal text-surface-700 dark:text-surface-100">{{ getLastMessage(conversation).content || '' }}</span>
+              <span class="text-surface-500 dark:text-surface-300 text-sm"> {{ fromNow(getLastMessage(conversation).createdAt) }}</span>
             </div>
             <p-badge [value]="getUnreadMessages(conversation).length" severity="warn" />
           </div>

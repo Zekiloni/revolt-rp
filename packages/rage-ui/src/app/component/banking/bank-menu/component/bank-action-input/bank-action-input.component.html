@@ -1,12 +1,12 @@
 
 <div class="p-fluid">
-  <div class="field mb-4">
+  <div class="field mb-6">
     <label class="block" for="amount">{{ 'amount' | translate }}</label>
     <p-inputNumber [(ngModel)]="amount" id="amount" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="5" placeholder="3200" />
   </div>
 
   @if (actionType === BankActionType.Transfer) {
-    <div class="field mb-4">
+    <div class="field mb-6">
       <label class="block" for="bank-account">{{ 'target_bank_account' | translate }}</label>
       <p-inputMask mask="9999-9999-9999-9999" [(ngModel)]="targetBankAccount" id="bank-account" placeholder="1234-5678-9101-1121" />
     </div>

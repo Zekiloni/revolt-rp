@@ -1,44 +1,44 @@
-<div class="px-2 py-3 ">
+<div class="px-2 py-4 ">
   @if ($organization | async; as organization) {
-    <div class="flex align-items-center justify-content-between">
-      <div class="font-medium text-2xl mb-3 text-900 pl-3" style="border-left: 8px solid;"
+    <div class="flex items-center justify-between">
+      <div class="font-medium text-2xl mb-4 text-surface-900 dark:text-surface-0 pl-4" style="border-left: 8px solid;"
            [ngStyle]="{'border-color': organization.color}">
         {{ organization.name }} <span class="font-light block text-lg">{{ organization.shortName }}</span>
       </div>
-      <p-button label="{{ 'organization_menu' | translate }}" icon="pi pi-cog" class="mr-3" [text]="true"
+      <p-button label="{{ 'organization_menu' | translate }}" icon="pi pi-cog" class="mr-4" [text]="true"
                 (click)="toggleOrganizationPanel(organization.id)" />
     </div>
 
-    <ul class="list-none p-0 m-0 border-top-1 border-300">
-      <li class="flex align-items-center py-3 px-2 flex-wrap">
-        <div class="text-500 w-full md:w-4 font-medium">{{ 'organization_type' | translate }}</div>
-        <div class="text-900 w-full md:w-8 line-height-3">
+    <ul class="list-none p-0 m-0 border-t border-surface-300 dark:border-surface-500">
+      <li class="flex items-center py-4 px-2 flex-wrap">
+        <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'organization_type' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12 leading-normal">
           {{ organization.type | translate }}
         </div>
       </li>
-      <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
-        <div class="text-500 w-full md:w-4 font-medium">{{ 'created_at' | translate }}</div>
-        <div class="text-900 w-full md:w-8 line-height-3">
+      <li class="flex items-center py-4 px-2 flex-wrap bg-surface-50 dark:bg-surface-950">
+        <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'created_at' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12 leading-normal">
           {{ organization.createdAt | date: 'dd/MM/yyyy' }}
         </div>
       </li>
-      <li class="flex align-items-center py-3 px-2 flex-wrap">
-        <div class="text-500 w-full md:w-4 font-medium">{{ 'parent_organization' | translate }}</div>
-        <div class="text-900 w-full md:w-8 line-height-3">
+      <li class="flex items-center py-4 px-2 flex-wrap">
+        <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'parent_organization' | translate }}</div>
+        <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12 leading-normal">
           {{ organization.parentOrganization ? getParentOrganization(organization).name : 'N/A' }}
         </div>
       </li>
-      <li class="flex flex-column py-3 px-2 surface-ground">
-        <span class="text-500 w-full md:w-4 font-medium">{{ 'members' | translate }}</span>
-        <div class="text-900 w-full mt-3">
+      <li class="flex flex-col py-4 px-2 bg-surface-50 dark:bg-surface-950">
+        <span class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'members' | translate }}</span>
+        <div class="text-surface-900 dark:text-surface-0 w-full mt-4">
           @if ($members) {
             @if ($members | async; as members) {
-              <div class="flex gap-3 flex-wrap">
+              <div class="flex gap-4 flex-wrap">
                 @for (member of members; track member.id) {
-                  <p-chip styleClass="py-2 px-3">
+                  <p-chip styleClass="py-2 px-4">
                     <i [ngClass]="getMemberIcon(member.inGame)" class="text-xs"></i>
                     <span class="ml-2 text-sm">
-                {{ member.fullName }} <span class="text-500">{{ getMemberUsername(member) }}</span>
+                {{ member.fullName }} <span class="text-surface-500 dark:text-surface-300">{{ getMemberUsername(member) }}</span>
             </span>
                   </p-chip>
                 }

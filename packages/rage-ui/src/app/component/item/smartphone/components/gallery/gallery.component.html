@@ -1,7 +1,7 @@
 @if (phoneItem.phoneInfo.gallery.length) {
-  <div class="flex flex-column">
+  <div class="flex flex-col">
     @for (image of images; track image.id) {
-      <div class="mb-3 border-bottom-1 surface-border">
+      <div class="mb-4 border-b border-surface">
         <p-image
           class="w-full"
           [src]="image.url"
@@ -9,8 +9,8 @@
           width="240"
           [preview]="true" />
 
-        <div class="flex justify-content-between align-items-center bg-black-alpha-30 py-2 px-3">
-          <span class="text-700">{{ fromNow(image.createdAt) }}</span>
+        <div class="flex justify-between items-center bg-black/30 py-2 px-4">
+          <span class="text-surface-700 dark:text-surface-100">{{ fromNow(image.createdAt) }}</span>
           <button pButton icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true" size="small"
                   (click)="deleteImage(image.id)"></button>
         </div>

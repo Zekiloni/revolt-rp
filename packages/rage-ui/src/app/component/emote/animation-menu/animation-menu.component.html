@@ -1,8 +1,8 @@
 @if (selectedOption) {
   @switch (selectedOption) {
     @case (AnimMenuOptionType.WalkStyle) {
-      <p-card [header]="'walking_style' | translate" class="w-20rem absolute-center">
-        <div class="flex flex-column p-fluid">
+      <p-card [header]="'walking_style' | translate" class="w-80 absolute-center">
+        <div class="flex flex-col p-fluid">
           <p-dropdown
             [options]="walkingStyles"
             [(ngModel)]="selectedWalkingStyle"
@@ -11,18 +11,18 @@
             [showClear]="true"
             [placeholder]="'normal' | translate">
             <ng-template pTemplate="selectedItem">
-              <div class="flex align-items-center gap-2" *ngIf="selectedWalkingStyle;">
+              <div class="flex items-center gap-2" *ngIf="selectedWalkingStyle;">
                 <div>{{ selectedWalkingStyle.name | translate }}</div>
               </div>
             </ng-template>
             <ng-template let-walkingStyle pTemplate="item">
-              <div class="flex align-items-center gap-2">
+              <div class="flex items-center gap-2">
                 <div>{{ walkingStyle.name | translate }}</div>
               </div>
             </ng-template>
           </p-dropdown>
         </div>
-        <div class="flex gap-3 mt-1">
+        <div class="flex gap-4 mt-1">
           <button pButton [label]="'cancel' | translate" severity="secondary" class="w-full"
                   (click)="selectedOption = null"></button>
           <button pButton [label]="'submit' | translate" class="w-full"
@@ -34,7 +34,7 @@
       <p-treeSelect
         @fadeInOut
         class=" w-full"
-        containerStyleClass="md:w-20rem absolute-center"
+        containerStyleClass="md:w-80 absolute-center"
         [(ngModel)]="selectedNode"
         [options]="nodes"
         placeholder="Select Item"

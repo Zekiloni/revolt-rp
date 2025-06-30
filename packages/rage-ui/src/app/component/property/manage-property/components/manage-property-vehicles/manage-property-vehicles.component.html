@@ -7,7 +7,7 @@
   styleClass="p-datatable-gridlines"
 >
   <ng-template pTemplate="caption">
-    <div class="flex align-items-center justify-content-between">
+    <div class="flex items-center justify-between">
       <span>{{ 'vehicle_list' | translate }}</span>
       <button
         pButton
@@ -110,7 +110,7 @@
           </ng-template>
           <ng-template pTemplate="output">
             <div
-              class="w-1rem h-1rem border-circle"
+              class="w-4 h-4 rounded-full"
               [ngStyle]="{
                 'background-color': getRgbString($any(vehicle.color[0]))
               }"
@@ -132,7 +132,7 @@
           </ng-template>
           <ng-template pTemplate="output">
             <div
-              class="w-1rem h-1rem border-circle"
+              class="w-4 h-4 rounded-full"
               [ngStyle]="{
                 'background-color': getRgbString($any(vehicle.color[1]))
               }"

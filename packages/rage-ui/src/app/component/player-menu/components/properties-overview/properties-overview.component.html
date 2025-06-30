@@ -1,17 +1,17 @@
 @if ($properties | async; as properties) {
   <div class="w-full">
-    <div class="grid grid-nogutter pt-2">
+    <div class="grid grid-cols-12 gap-4 grid-nogutter pt-2">
       @for (property of properties; track property.id) {
-        <div class="col-12 mb-2 p-3">
-          <div class="surface-ground border-round-xl p-3 w-full" style="border-radius: 6px;">
-            <div class="w-full h-7rem relative">
+        <div class="col-span-12 mb-2 p-4">
+          <div class="bg-surface-50 dark:bg-surface-950 rounded-xl p-4 w-full" style="border-radius: 6px;">
+            <div class="w-full h-28 relative">
               <app-world-map (init)="mapOnInit($event, property)" class="relative z-0" />
-              <div class="absolute top-0 left-0 w-14rem surface-ground h-full z-2">
-                <div class="py-2 px-3 flex flex-column">
-                  <span class="text-xl text-900 font-medium mb-3">{{ property.name }}</span>
-                  <span class="text-500">{{ property.type | translate }}</span>
+              <div class="absolute top-0 left-0 w-56 bg-surface-50 dark:bg-surface-950 h-full z-20">
+                <div class="py-2 px-4 flex flex-col">
+                  <span class="text-xl text-surface-900 dark:text-surface-0 font-medium mb-4">{{ property.name }}</span>
+                  <span class="text-surface-500 dark:text-surface-300">{{ property.type | translate }}</span>
                   @if (property.subType) {
-                    <span class="text-500">{{ property.subType | translate }}</span>
+                    <span class="text-surface-500 dark:text-surface-300">{{ property.subType | translate }}</span>
                   }
                 </div>
               </div>

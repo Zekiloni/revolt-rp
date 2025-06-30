@@ -1,20 +1,20 @@
-<div class="formgrid grid py-4 px-4 max-h-15rem overflow-auto" [formGroup]="appearanceFormGroup">
-  <div class="field mb-4 col-12 md:col-12">
-    <label class="font-medium text-900">Eye Color</label>
+<div class="formgrid grid grid-cols-12 gap-4 py-6 px-6 max-h-60 overflow-auto" [formGroup]="appearanceFormGroup">
+  <div class="field mb-6 col-span-12 md:col-span-12">
+    <label class="font-medium text-surface-900 dark:text-surface-0">Eye Color</label>
     <p-dropdown
       formControlName="eyeColor"
       [options]="availableEyeColors"
       optionLabel="label"
       appendTo="body"
       [filter]="true"
-      styleClass="w-25rem"
+      styleClass="w-[25rem]"
       optionValue="value"
       placeholder="Select a EyeColor" />
   </div>
 
   @for (faceFeatureName of faceFeatureNames; track faceFeatureName; let idx = $index) {
-    <div class="field mb-4 col-12 md:col-6">
-      <label class="font-medium text-900">{{ faceFeatureName }}</label>
+    <div class="field mb-6 col-span-12 md:col-span-6">
+      <label class="font-medium text-surface-900 dark:text-surface-0">{{ faceFeatureName }}</label>
       <p-slider id="shape-first-id"
                 [min]="-1.0"
                 [max]="1.0"

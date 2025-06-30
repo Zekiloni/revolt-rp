@@ -6,41 +6,41 @@
     <p-tabView>
       <p-tabPanel [header]="'basic_info' | translate" leftIcon="pi pi-info-circle">
         <ul class="list-none p-0 m-0">
-          <li class="flex align-items-center py-3 px-2 flex-wrap">
-            <div class="h-10rem w-full">
-              <app-world-map (init)="onMapInit($event)" class="border-round" />
+          <li class="flex items-center py-4 px-2 flex-wrap">
+            <div class="h-40 w-full">
+              <app-world-map (init)="onMapInit($event)" class="rounded-border" />
             </div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'name' | translate }}</div>
-            <div class="text-900 w-full md:w-8">{{ organization.name }}</div>
+          <li class="flex items-center py-4 px-2 flex-wrap bg-surface-50 dark:bg-surface-950">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'name' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">{{ organization.name }}</div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'short_name' | translate }}</div>
-            <div class="text-900 w-full md:w-8">{{ organization.shortName }}</div>
+          <li class="flex items-center py-4 px-2 flex-wrap">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'short_name' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">{{ organization.shortName }}</div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'organization_type' | translate }}</div>
-            <div class="text-900 w-full md:w-8">
+          <li class="flex items-center py-4 px-2 flex-wrap bg-surface-50 dark:bg-surface-950">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'organization_type' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
               <span> {{ organization.type | translate }} </span>
             </div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'number_of_members' | translate }}</div>
-            <div class="text-900 w-full md:w-8">
+          <li class="flex items-center py-4 px-2 flex-wrap">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'number_of_members' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
               <span> {{ onlineMembers.length }} / {{ members.length }}</span>
             </div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'color' | translate }}</div>
-            <div class="text-900 w-full md:w-8">
-              <div class="w-1rem h-1rem border-round border-2 surface-border"
+          <li class="flex items-center py-4 px-2 flex-wrap bg-surface-50 dark:bg-surface-950">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'color' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
+              <div class="w-4 h-4 rounded-border border-2 border-surface"
                    [style.background-color]="organization.color"></div>
             </div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'parent_organization' | translate }}</div>
-            <div class="text-900 w-full md:w-8">
+          <li class="flex items-center py-4 px-2 flex-wrap">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'parent_organization' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
               @if (organization.parentOrganization) {
                 <span> {{ parentOrganization.name }} </span>
               } @else {
@@ -48,9 +48,9 @@
               }
             </div>
           </li>
-          <li class="flex align-items-center py-3 px-2 flex-wrap surface-ground">
-            <div class="text-500 w-full md:w-4 font-medium">{{ 'created_at' | translate }}</div>
-            <div class="text-900 w-full md:w-8">
+          <li class="flex items-center py-4 px-2 flex-wrap bg-surface-50 dark:bg-surface-950">
+            <div class="text-surface-500 dark:text-surface-300 w-full md:w-4/12 font-medium">{{ 'created_at' | translate }}</div>
+            <div class="text-surface-900 dark:text-surface-0 w-full md:w-8/12">
               <span> {{ organization.createdAt | date }} </span>
             </div>
           </li>
