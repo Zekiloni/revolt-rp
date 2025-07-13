@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VehicleHudComponent implements OnInit, OnDestroy {
-  type: 'fly' | 'ground' | 'water' = 'fly';
+  type: 'fly' | 'ground' | 'water' = 'ground';
   maxSpeed = 250;
   speed = 0;
   fuel = 11;
