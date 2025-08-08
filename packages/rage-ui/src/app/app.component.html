@@ -131,6 +131,10 @@
     <app-heli-cam @fadeInOut />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async; as isActive) {
+    <app-garage-menu />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

@@ -56,6 +56,7 @@ import { PlateRecognitionComponent } from './component/organization/law/plate-re
 import { HeliCamComponent } from './component/organization/law/heli-cam';
 import { ToastMessageOptions } from 'primeng/api/toastmessage';
 import { PrimeNG } from 'primeng/config';
+import { GarageMenuComponent } from './component/property/garage-menu';
 
 
 @Component({
@@ -97,7 +98,8 @@ import { PrimeNG } from 'primeng/config';
     GrafitiCreatorComponent,
     MdcComponent,
     PlateRecognitionComponent,
-    HeliCamComponent
+    HeliCamComponent,
+    GarageMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

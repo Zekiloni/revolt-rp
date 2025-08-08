@@ -247,4 +247,6 @@ export const enum ProcedureKey {
   BROWSER_UPDATE_ALPR_TARGET = 'browser_updateALPRTarget',
   BROWSER_UPDATE_ALPR_OFFICER = 'browser_updateALPROfficer',
   BROWSER_UPDATE_ALPR_POSITION = 'browser_updateALPRPosition',
+
+  BROWSER_SET_GARAGE = 'browser_setGarage',
 }

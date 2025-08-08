@@ -215,5 +215,10 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
 
   [GameUiKey.HeliCam]: {
     isActive: false
+  },
+
+  [GameUiKey.GarageMenu]: {
+    isActive: false,
+    mouse: true,
   }
 };
