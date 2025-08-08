@@ -33,4 +33,5 @@ export enum GameUiKey {
   MDC = 'mdc',
   PlateRecognition = 'plateRecognition',
   HeliCam = 'heliCam',
+  GarageMenu = 'garageMenu',
 }

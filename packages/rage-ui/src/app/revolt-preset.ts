@@ -16,6 +16,7 @@ const RevoltPreset = definePreset(Aura, {
       900: '{amber.900}',
       950: '{amber.950}'
     }
-  }});
+  }
+});
 
 export default RevoltPreset;
