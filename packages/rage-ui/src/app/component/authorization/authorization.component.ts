@@ -40,7 +40,7 @@ type AuthForm = {
     InputText
   ],
   templateUrl: './authorization.component.html',
-  styleUrl: './authorization.component.css',
+  styleUrl: './authorization.component.scss',
   animations: [fadeInOutTrigger]
 })
 export class AuthorizationComponent implements OnInit, OnDestroy {

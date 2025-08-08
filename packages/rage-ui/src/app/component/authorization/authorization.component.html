@@ -1,9 +1,9 @@
 @if (!account) {
-  <div class="absolute-left-center ml-8 bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-2xl w-full lg:w-3/12 md:w-5/12" @fadeInOut>
-    <div class="text-center mb-8">
+  <div class="absolute-left-center ml-8 bg-surface-100 dark:bg-surface-900 p-6 shadow rounded-2xl w-full lg:w-3/12 md:w-5/12" @fadeInOut>
+    <div class="flex flex-col items-center text-center mb-8">
       <img [ngSrc]="'assets/images/logo-1-x.png' | staticAsset" alt="Image" class="mb-4" width="115" height="115" [priority]="true">
       <div class="text-surface-900 dark:text-surface-0 text-2xl font-medium mb-4">{{ 'welcome_to' | translate: { name: SERVER_NAME } }}</div>
-      <span class="text-surface-600 dark:text-surface-200 font-medium leading-normal">{{ 'create_account_hint' | translate }}</span>
+      <span class="text-surface-600 dark:text-surface-200 leading-normal">{{ 'create_account_hint' | translate }}</span>
     </div>
 
     <form [formGroup]="authForm" (ngSubmit)="submitAuthForm()">
@@ -27,7 +27,7 @@
 
       <div class="flex flex-col gap-4">
         <button pButton pRipple [label]="'sign_in' | translate" icon="pi pi-user" [disabled]="authLoading"></button>
-        <button pButton type="button" pRipple severity="secondary" (click)="discordAuthorize()"
+        <button pButton type="button" pRipple (click)="discordAuthorize()" class="!bg-indigo-500 !border-indigo-600"
                 [disabled]="authLoading"
                 [label]="'continue_with_discord' | translate" icon="pi pi-discord"></button>
       </div>

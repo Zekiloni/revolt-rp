@@ -9,7 +9,8 @@ import { provideTranslateService } from '@ngx-translate/core';
 
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
-import Aura from '@primeng/themes/aura';
+
+import RevoltPreset from './revolt-preset';
 
 import { phoneReducer } from './store/phone';
 import { BASE_HREf } from './domain/variables';
@@ -27,7 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: RevoltPreset,
         options: {
           ripple: true,
           darkModeSelector: '.app-dark'
