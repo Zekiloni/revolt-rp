@@ -131,6 +131,14 @@ export const setVehicleOwner = (vehicle: VehicleMp, character: Character) => {
   vehicle.info.owner = character;
 };
 
+export const deleteVehicle = async (vehicle: VehicleMp) => {
+  if (vehicle && mp.vehicles.exists(vehicle)) {
+    vehicle.destroy();
+  }
+
+  await VehicleModel.findByIdAndDelete(vehicle.info.id).exec();
+}
+
 function loadVehicleVariables(vehicle: VehicleMp, info: Vehicle) {
   vehicle.setVariables({
     [VehicleSharedDataType.Engine]: info.engine,
