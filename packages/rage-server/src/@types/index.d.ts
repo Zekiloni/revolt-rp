@@ -9,6 +9,8 @@ declare global {
   interface PlayerMp {
     account: Account;
     character: Character;
+
+    lastVehicle: VehicleMp | null;
   }
 
   interface VehicleMp {
