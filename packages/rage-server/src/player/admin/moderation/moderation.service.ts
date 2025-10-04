@@ -20,7 +20,6 @@ export const createBan = (account: Account | undefined, ipAddress: string, reaso
   return BanModel.create({
     account, reason, expiringAt, admin, ipAddress
   });
-
 };
 
 export const showPlayerBanInfo = (player: PlayerMp, ban: Ban) => {
@@ -64,6 +63,20 @@ export const banPlayer = async (player: PlayerMp, reason: string, expiringAt: Da
 
   player.alpha = 0;
   kickPlayerWithTimeout(player, ban.reason);
+};
+
+export const banIp = async (ipAddress: string, reason: string, expiringAt: Date | undefined, admin?: PlayerMp) => {
+  const target = mp.players.toArray().find(e => e.ip === ipAddress);
+  if (target && target.account) {
+    return banPlayer(target, reason, expiringAt, admin);
+  }
+
+  await createBan(undefined, ipAddress, reason, expiringAt, admin?.account);
+  sendAdminAlert(t('ip_ban_alert', {
+    ip: ipAddress,
+    admin: admin ? admin.account.username : 'System',
+    reason
+  }));
 };
 
 

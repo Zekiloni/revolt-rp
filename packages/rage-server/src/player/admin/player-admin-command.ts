@@ -4,7 +4,7 @@ import {
   AdminType,
   CommandCategory,
   GameUiKey,
-  hexColors,
+  hexColors, isIpv4,
   isNumber,
   PlayerSharedDataType,
   ProcedureKey,
@@ -40,7 +40,7 @@ import {
   makePlayerOrganizationLeader,
   unsetPlayerOrganization
 } from '../../organization/organization.service';
-import { banPlayer, kickPlayer } from './moderation/moderation.service';
+import { banIp, banPlayer, kickPlayer } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 import {
@@ -696,6 +696,31 @@ registerCommand({
   }
 });
 
+registerCommand({
+  name: 'banip',
+  params: ['ip address', 'reason', 'days || perm'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, ipAddress: string, reason: string, expire: string) {
+    if (!isIpv4(ipAddress))
+      return notifyPlayer(player, { severity: 'error', detail: t('invalid_ip_address') });
+
+    if (!isNumber(expire) && expire != 'perm')
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'expire', type: 'number' })
+      });
+
+    let expiringAt: Date | undefined = undefined;
+    if (expire != 'perm') {
+      expiringAt = dayjs().add(parseInt(expire), 'day').toDate();
+    }
+
+    await banIp(ipAddress, reason, expiringAt, player);
+    notifyPlayer(player, { severity: 'info', detail: t('ip_banned', { ip: ipAddress }) });
+  }
+})
 
 registerCommand({
   name: 'createproperty',
