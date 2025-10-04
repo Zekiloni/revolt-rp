@@ -10,6 +10,7 @@ export * from './lib/rgb-colors';
 
 export * from './lib/util/object.util';
 
+export * from './lib/game-ui/confirmation.model';
 export * from './lib/game-ui/game-ui.model';
 export * from './lib/game-ui/game-ui-key.enum';
 export * from './lib/game-ui/game-ui.config';
@@ -17,6 +18,8 @@ export * from './lib/game-ui/game-ui.config';
 export * from './lib/player/player-level.util';
 export * from './lib/player/player.model';
 export * from './lib/player/player-command.model';
+
+export * from './lib/player/death-cause';
 
 export * from './lib/player/account/account.config';
 export * from './lib/player/account/account.model';
@@ -113,7 +116,7 @@ export * from './lib/job/job.enums';
 export * from './lib/job/job.model';
 
 
-export * from './lib/organization/public-service/law.model'
-export * from './lib/organization/public-service/fire.model'
-export * from './lib/organization/public-service/medic.model'
+export * from './lib/organization/public-service/law.model';
+export * from './lib/organization/public-service/fire.model';
+export * from './lib/organization/public-service/medic.model';
 

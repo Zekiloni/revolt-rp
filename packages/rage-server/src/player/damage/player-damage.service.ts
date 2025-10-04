@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import dayjs from 'dayjs';
 import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
 import { revivePlayer, setPlayerHealth, setPlayerWounded } from '../character/character.service';
-import { CaliberType, IPlayerDamageData } from '@revolt-rp/common';
+import { CaliberType, IPlayerDamageData, WeaponCauseNames } from '@revolt-rp/common';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { characterConfig } from '../character/character.config';
 import { notifyPlayer } from '../util/player-notify.util';
@@ -70,9 +70,12 @@ export async function playerDeath(player: PlayerMp, reason: number, killer?: Pla
     setPlayerWounded(player, true);
     setPlayerHealth(player, characterConfig.woundedHealth);
 
+    const cause = WeaponCauseNames[reason] || 'unknown';
+
     await PlayerDeathModel.create({
       target: player.character,
       reason,
+      cause,
       killer: killer?.character
     });
 

@@ -24,6 +24,9 @@ export class PlayerDeath implements IPlayerDeath {
   @prop({ required: true })
   reason: number;
 
+  @prop({ required: true, default: 'unknown' })
+  cause: string;
+
   @prop({ required: true, default: false })
   giveUp: boolean;
 

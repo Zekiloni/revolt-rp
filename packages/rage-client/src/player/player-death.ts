@@ -6,11 +6,13 @@ import { getIsWounded } from './util/player-data.util';
 let isDeathScreenActive = false;
 const playerRagdollCheckInterval: Map<number, NodeJS.Timeout> = new Map();
 
-function toggleDeathScreen(toggle: boolean) {
+function toggleDeathMode(toggle: boolean) {
   isDeathScreenActive = toggle;
   if (toggle) {
+    mp.players.local.freezePosition(true);
     showGameInterface(GameUiKey.DeathScreen);
   } else {
+    mp.players.local.freezePosition(false);
     hideGameInterface(GameUiKey.DeathScreen);
   }
 }
@@ -43,10 +45,10 @@ function playerStateDataHandler(player: PlayerMp, value: boolean, oldValue?: boo
   if (player.remoteId === mp.players.local.remoteId) {
     if (value) {
       if (!isDeathScreenActive)
-        toggleDeathScreen(true);
+        toggleDeathMode(true);
     } else {
       if (isDeathScreenActive)
-        toggleDeathScreen(false);
+        toggleDeathMode(false);
 
       clearPlayerRagdollCheck(player);
     }
