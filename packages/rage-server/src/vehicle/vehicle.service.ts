@@ -152,6 +152,18 @@ function loadVehicleVariables(vehicle: VehicleMp, info: Vehicle) {
   });
 }
 
+export const teleportVehicle = (vehicle: VehicleMp, position: Vector3, dimension: number) => {
+  vehicle.dimension = dimension;
+  vehicle.position = position;
+  vehicle.info.position = position;
+  vehicle.info.dimension = dimension;
+}
+
+export const teleportPlayerToVehicle = (player: PlayerMp, vehicle: VehicleMp) => {
+  player.dimension = vehicle.dimension;
+  player.position = vehicle.position;
+}
+
 export const isTemporaryVehicle = (vehicle: VehicleMp) => {
   return vehicle.getVariable<boolean>(VehicleSharedDataType.IsTemporary);
 };
