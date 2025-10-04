@@ -98,6 +98,23 @@ registerCommand({
 });
 
 registerCommand({
+  name: 'eject',
+  description: 'todo',
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (target.vehicle) {
+      target.removeFromVehicle();
+      // todo: logging, messaging
+    }
+  }
+})
+
+registerCommand({
   name: 'gotoveh',
   description: 'todo',
   aliases: ['gv', 'gotovehicle'],
