@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { Confirmation, ConfirmationService, MessageService } from 'primeng/api';
 import {
   enUs,
   GameUiKey,
@@ -57,6 +57,7 @@ import { HeliCamComponent } from './component/organization/law/heli-cam';
 import { ToastMessageOptions } from 'primeng/api/toastmessage';
 import { PrimeNG } from 'primeng/config';
 import { GarageMenuComponent } from './component/property/garage-menu';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 
 @Component({
@@ -99,9 +100,10 @@ import { GarageMenuComponent } from './component/property/garage-menu';
     MdcComponent,
     PlateRecognitionComponent,
     HeliCamComponent,
-    GarageMenuComponent
+    GarageMenuComponent,
+    ConfirmDialog
   ],
-  providers: [InventoryListenerService],
+  providers: [InventoryListenerService, ConfirmationService],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -119,6 +121,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private config: PrimeNG,
+    private confirmationService: ConfirmationService,
     private translateService: TranslateService,
     private rageClientService: RageClientService,
     @Inject(Store) private store: Store<GameInterfaceState>,
@@ -191,9 +194,22 @@ export class AppComponent implements OnInit {
       });
   }
 
+  private createConfirmationDialog = (confirmation: Confirmation) => {
+    return new Promise((resolve) => {
+      this.confirmationService.confirm({
+        key: 'global',
+        ...confirmation,
+        accept: () => resolve(true),
+        reject: () => resolve(false)
+      });
+    });
+  };
+
   ngOnInit(): void {
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
+
+      this.rageClientService.register(ProcedureKey.BROWSER_CREATE_CONFIRMATION, this.createConfirmationDialog);
       this.listenToNotificationEvents();
       this.listenToInputs();
       this.getAllCommands();

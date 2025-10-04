@@ -1,6 +1,6 @@
-import { GameUiKey, IPlayerTextBubble, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import { GameUiKey, IConfirmation, IPlayerTextBubble, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { getForwardVector } from '../../util/vector3.util';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { callBrowsers, triggerClient } from '@libertymp/rage-rpc';
 
 
 const textBubbleTimer: Map<number, NodeJS.Timeout> = new Map();
@@ -22,6 +22,13 @@ export const hidePlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey) 
   triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, gameUiKey);
 }
 
+export const createPlayerConfirmation = (player: PlayerMp, confirm: IConfirmation, timeoutSeconds = 5) => {
+  return callBrowsers<boolean>(player, ProcedureKey.BROWSER_CREATE_CONFIRMATION, confirm, {
+    timeout: timeoutSeconds * 1000
+  })
+    .then(result => result ?? false)
+    .catch(() => false);
+};
 
 
 export const findPlayer = (nameOrId: string): PlayerMp | undefined => {
