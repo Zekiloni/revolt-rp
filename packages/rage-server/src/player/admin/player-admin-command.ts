@@ -17,7 +17,7 @@ import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character
 import {
   createTemporaryVehicle,
   deleteVehicle,
-  setVehicleOwner,
+  setVehicleOwner, teleportPlayerToVehicle,
   toggleVehicleEditMenu
 } from '../../vehicle/vehicle.service';
 import { getAllBaseItemModels, isValidItem } from '../../item/registry/item-registry.util';
@@ -93,7 +93,23 @@ registerCommand({
       }
     }
   }
-})
+});
+
+registerCommand({
+  name: 'gotoveh',
+  description: 'todo',
+  aliases: ['gv', 'gotovehicle'],
+  params: ['vehicle id'],
+  administrator: AdminType.ADMINISTRATOR,
+  handle(player: PlayerMp, vehicleId: string) {
+    const vehicle = mp.vehicles.at(parseInt(vehicleId));
+    if (vehicle) {
+      teleportPlayerToVehicle(player, vehicle);
+    } else {
+      notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('vehicle_not_found') });
+    }
+  }
+});
 
 registerCommand({
   name: 'editvehicle',
