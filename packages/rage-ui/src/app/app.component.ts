@@ -198,6 +198,9 @@ export class AppComponent implements OnInit {
     return new Promise((resolve) => {
       this.confirmationService.confirm({
         key: 'global',
+        header: this.translateService.instant('confirmation'),
+        acceptButtonStyleClass: 'p-button-success',
+        rejectButtonStyleClass: 'p-button-danger',
         ...confirmation,
         accept: () => resolve(true),
         reject: () => resolve(false)
@@ -206,6 +209,9 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.createConfirmationDialog({
+      message: 'Test message',
+    })
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
 
