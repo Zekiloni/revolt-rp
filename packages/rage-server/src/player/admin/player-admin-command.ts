@@ -16,7 +16,7 @@ import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../in
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import {
   createTemporaryVehicle,
-  deleteVehicle,
+  deleteVehicle, isTemporaryVehicle,
   setVehicleOwner, teleportPlayerToVehicle,
   toggleVehicleEditMenu
 } from '../../vehicle/vehicle.service';
@@ -84,12 +84,14 @@ registerCommand({
   administrator: AdminType.SENIOR_ADMIN,
   async handle(player: PlayerMp, ...args) {
     const vehicle = player.vehicle ?? mp.vehicles.getClosest(player.position, 1)[0];
-    if (vehicle && vehicle.info.isTemporary) {
-      await deleteVehicle(vehicle);
-    } else {
-      const confirmed = await createPlayerConfirmation(player, {});
-      if (confirmed && vehicle) {
+    if (vehicle) {
+      if (isTemporaryVehicle(vehicle)) {
         await deleteVehicle(vehicle);
+      } else {
+        const confirmed = await createPlayerConfirmation(player, {});
+        if (confirmed && vehicle) {
+          await deleteVehicle(vehicle);
+        }
       }
     }
   }
