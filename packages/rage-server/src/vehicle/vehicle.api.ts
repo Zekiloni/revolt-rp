@@ -39,6 +39,7 @@ async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, s
 }
 
 function playerExitVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: number) {
+  player.lastVehicle = vehicle;
   // TODO: do something
 }
 
