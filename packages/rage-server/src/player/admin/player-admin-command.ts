@@ -14,9 +14,20 @@ import {
 } from '@revolt-rp/common';
 import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
-import { createTemporaryVehicle, setVehicleOwner, toggleVehicleEditMenu } from '../../vehicle/vehicle.service';
+import {
+  createTemporaryVehicle,
+  deleteVehicle,
+  setVehicleOwner,
+  toggleVehicleEditMenu
+} from '../../vehicle/vehicle.service';
 import { getAllBaseItemModels, isValidItem } from '../../item/registry/item-registry.util';
-import { findPlayer, freezePlayer, showPlayerGameInterface, teleportPlayerToPlayer } from '../util/player.util';
+import {
+  createPlayerConfirmation,
+  findPlayer,
+  freezePlayer,
+  showPlayerGameInterface,
+  teleportPlayerToPlayer
+} from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
 import { setAdministrator } from '../account/account.service';
@@ -40,6 +51,7 @@ import {
 } from '../../property/property.service';
 import { savePlayerPosition } from '../../util/save-position.util';
 import { playAnimation, stopAnimation } from '../util/player-animation.util';
+import { createPlayerOffer } from '../offer/player-offer.service';
 
 
 registerCommand({
@@ -64,6 +76,24 @@ registerCommand({
     player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
   }
 });
+
+registerCommand({
+  name: 'destroyveh',
+  description: 'todo',
+  aliases: ['dv', 'deleteveh', 'deletevehicle'],
+  administrator: AdminType.SENIOR_ADMIN,
+  async handle(player: PlayerMp, ...args) {
+    const vehicle = player.vehicle ?? mp.vehicles.getClosest(player.position, 1)[0];
+    if (vehicle && vehicle.info.isTemporary) {
+      await deleteVehicle(vehicle);
+    } else {
+      const confirmed = await createPlayerConfirmation(player, {});
+      if (confirmed && vehicle) {
+        await deleteVehicle(vehicle);
+      }
+    }
+  }
+})
 
 registerCommand({
   name: 'editvehicle',
