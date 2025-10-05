@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
-import { GameUiKey, hexColors, isNumber, ProcedureKey, rgbColors } from '@revolt-rp/common';
+import { GameUiKey, hexColors, ICommandValidator, isNumber, ProcedureKey, rgbColors } from '@revolt-rp/common';
 import {
   filterPlayer,
   findPlayer,
@@ -17,9 +17,17 @@ import { giveMoney } from './character/character.service';
 import { playerBuyInteraction } from './player-interaction';
 
 
+const isNotMuted: ICommandValidator<PlayerMp> = {
+  validate: (player) => {
+    return player.account && !player.account.isMuted;
+  },
+  message: t('you_are_muted')
+}
+
 registerCommand({
   name: 'b',
   params: ['content'],
+  validators: [isNotMuted],
   description: t('local_ooc_command_description'),
   handle(player: PlayerMp, ...args) {
     const content = `(( ${player.name} [${player.id}]: ${[...args].join(' ')} ))`;
@@ -82,6 +90,7 @@ registerCommand({
   name: 'pm',
   description: 'todo',
   params: ['target', 'message'],
+  validators: [isNotMuted],
   handle(player: PlayerMp, targetQuery: string, ...content: string[]) {
     const target = findPlayer(targetQuery);
 
@@ -110,6 +119,7 @@ registerCommand({
   aliases: ['w'],
   description: 'todo',
   params: ['target', 'message'],
+  validators: [isNotMuted],
   handle(player: PlayerMp, targetQuery: string, ...content: string[]) {
     const target = findPlayer(targetQuery);
 
@@ -136,6 +146,7 @@ registerCommand({
   aliases: ['l'],
   params: ['content'],
   description: 'todo',
+  validators: [isNotMuted],
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendProximityMessage(t('says_low', {
@@ -151,6 +162,7 @@ registerCommand({
   aliases: ['s'],
   params: ['content'],
   description: 'todo',
+  validators: [isNotMuted],
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendProximityMessage(t('shouts', {
@@ -206,6 +218,7 @@ registerCommand({
   name: 'to',
   params: ['target', 'content'],
   description: 'todo',
+  validators: [isNotMuted],
   handle(player: PlayerMp, targetQuery: string, ...content: string[]) {
     const target = findPlayer(targetQuery);
 
@@ -270,6 +283,7 @@ registerCommand({
   description: 'todo',
   aliases: ['radio'],
   params: ['content'],
+  validators: [isNotMuted],
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     playerSendRadioMessage(player, content);

@@ -4,6 +4,7 @@ export const enum PlayerSharedDataType {
   TextBubble = 'text_bubble',
   IsSpawned = 'is_spawned',
   IsCuffed = 'is_cuffed',
+  MutedUntil = 'muted_until',
   Cash = 'cash',
   IsWounded = 'state',
   SelectedItemId = 'selected_item_id',

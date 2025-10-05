@@ -80,3 +80,9 @@ export const setAdministrator = async (player: PlayerMp, adminLevel: AdminType) 
   await player.account.save();
 }
 
+
+export const setMutedUntil = async (player: PlayerMp, mutedUntil: Date | null) => {
+  player.setVariable(PlayerSharedDataType.MutedUntil, mutedUntil ? mutedUntil.toISOString() : null);
+  player.account.mutedUntil = mutedUntil || undefined;
+  await player.account.save();
+}

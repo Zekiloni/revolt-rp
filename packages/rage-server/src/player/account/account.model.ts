@@ -62,6 +62,9 @@ export class Account extends Document implements IAccount {
   @prop({ default: false })
   isEmailVerified: boolean;
 
+  @prop({ required: false })
+  mutedUntil?: Date;
+
   @prop({ enum: AdminType, type: Number, default: AdminType.NONE })
   administrator: AdminType;
 
@@ -100,6 +103,11 @@ export class Account extends Document implements IAccount {
 
   get isPmEnabled() {
     return !this.preferences.includes(AccountPreferences.MUTE_PM);
+  }
+
+  get isMuted() {
+    if (!this.mutedUntil) return false;
+    return this.mutedUntil > new Date();
   }
 }
 
