@@ -1,6 +1,7 @@
 import { triggerClient } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
-import { checkPlayerBan } from './admin/moderation/moderation.service';
+import { checkPlayerBan, kickPlayer } from './admin/moderation/moderation.service';
+import { proxyCheck } from '../util/ip.util';
 
 
 function playerJoinHandler(player: PlayerMp) {
@@ -8,11 +9,20 @@ function playerJoinHandler(player: PlayerMp) {
   player.alpha = 0;
 }
 
+const togglePlayerAuthorization = (player: PlayerMp, toggle: boolean)=> {
+  triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, toggle);
+}
+
 async function playerReadyHandler(player: PlayerMp) {
+  const isProxy = proxyCheck(player.ip);
+
+  if (isProxy)
+    return kickPlayer(player, 'Proxy/VPN connections are not allowed.');
+
   const ban = await checkPlayerBan(player);
 
   if (!ban)
-    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, true);
+    togglePlayerAuthorization(player, true);
 }
 
 mp.events.add({
