@@ -8,7 +8,7 @@ import { Ban, BanModel } from './ban.model';
 import { KickModel } from './kick.model';
 
 
-const BAN_KICK_TIMEOUT_MS = 7500;
+const BAN_KICK_TIMEOUT_MS = 2500;
 
 export const createKick = (account: Account, reason: string, admin?: Account) => {
   return KickModel.create({
