@@ -12,6 +12,14 @@ export enum AdminType {
   SUPER_ADMIN = 6,
 }
 
+export enum AccountPreferences   {
+  MUTE_OOC = 'toggle_ooc',
+  MUTE_REPORTS = 'toggle_reports',
+  MUTE_ADMIN_ALERTS = 'toggle_admin_alerts',
+  MUTE_ADMIN_CHAT = 'toggle_admin_chat',
+  MUTE_PM = 'toggle_pm',
+}
+
 export interface IAccount extends Base {
   username: string;
   emailAddress?: string;
@@ -32,4 +40,5 @@ export interface IAccount extends Base {
   updatedBy?: string;
   createdAt: Date;
   characters: Ref<(ICharacter)>[];
+  preferences: AccountPreferences[];
 }

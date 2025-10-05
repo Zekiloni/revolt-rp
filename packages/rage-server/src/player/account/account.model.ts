@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { genSaltSync, hashSync } from 'bcryptjs';
 import { modelOptions, pre, prop, Ref } from '@typegoose/typegoose';
-import { accountConfig, AdminType, IAccount } from '@revolt-rp/common';
+import { accountConfig, AccountPreferences, AdminType, IAccount } from '@revolt-rp/common';
 import { Character } from '../character/character.model';
 
 @pre<Account>('save', function(next) {
@@ -75,8 +75,31 @@ export class Account extends Document implements IAccount {
 
   updatedAt?: Date;
 
+  @prop({ type: () => [String], enum: AccountPreferences, default: [] })
+  preferences: AccountPreferences[];
+
   get isAdmin() {
     return this.administrator !== AdminType.NONE;
+  }
+
+  get isAdminChatEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_ADMIN_CHAT);
+  }
+
+  get isOocEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_OOC);
+  }
+
+  get isReportsEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_REPORTS);
+  }
+
+  get isAdminAlertsEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_ADMIN_ALERTS);
+  }
+
+  get isPmEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_PM);
   }
 }
 

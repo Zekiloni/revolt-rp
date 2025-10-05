@@ -23,7 +23,8 @@ registerCommand({
   description: t('local_ooc_command_description'),
   handle(player: PlayerMp, ...args) {
     const content = `(( ${player.name} [${player.id}]: ${[...args].join(' ')} ))`;
-    sendProximityMessage(content, player.position, 10, hexColors.GREY);
+    const isOocEnabled = (target: PlayerMp) => target.account && target.account.isOocEnabled;
+    sendProximityMessage(content, player.position, 10, hexColors.GREY, [], isOocEnabled);
   }
 });
 
