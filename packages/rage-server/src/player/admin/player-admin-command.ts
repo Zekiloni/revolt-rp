@@ -709,6 +709,27 @@ registerCommand({
 });
 
 registerCommand({
+  name: 'spec',
+  aliases: ['spectate'],
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (target.id === player.id)
+      return notifyPlayer(player, { severity: 'error', detail: t('cannot_spectate_yourself') });
+
+    const spectating = player.isSpectating ?? false;
+    triggerClient(player, ProcedureKey.CLIENT_TOGGLE_SPECTATE, spectating ? null : target.id);
+    player.isSpectating = !spectating;
+  }
+});
+
+registerCommand({
   name: 'banip',
   params: ['ip address', 'reason', 'days || perm'],
   description: 'todo',

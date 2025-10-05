@@ -251,4 +251,5 @@ export const enum ProcedureKey {
   BROWSER_SET_GARAGE = 'browser_setGarage',
 
   BROWSER_CREATE_CONFIRMATION = 'browser_createConfirmation',
+  CLIENT_TOGGLE_SPECTATE = 'client_toggleSpectate',
 }

@@ -11,6 +11,7 @@ declare global {
     character: Character;
 
     lastVehicle: VehicleMp | null;
+    isSpectating: boolean | undefined;
   }
 
   interface VehicleMp {

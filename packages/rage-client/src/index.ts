@@ -42,6 +42,7 @@ import './banking/bank-atm';
 import './world/world-weather';
 
 import './player/admin/no-clip';
+import './player/admin/spectate';
 
 import './organization/organization-menu';
 
