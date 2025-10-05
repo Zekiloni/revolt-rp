@@ -80,6 +80,27 @@ export const banIp = async (ipAddress: string, reason: string, expiringAt: Date 
 };
 
 
+export const unbanIp = async (ipAddress: string, admin?: PlayerMp) => {
+  const result = await BanModel.updateMany({
+    ipAddress,
+    expiringAt: { $gt: new Date() },
+    deletedAt: { $exists: false }
+  }, {
+    deletedAt: new Date(),
+    updatedBy: admin ? admin.account.username : 'System'
+  }).exec();
+
+  if (result.modifiedCount > 0) {
+    sendAdminAlert(t('ip_unban_alert', {
+      ip: ipAddress,
+      admin: admin ? admin.account.username : 'System'
+    }));
+  }
+
+  return result;
+}
+
+
 export const kickPlayer = async (player: PlayerMp, reason: string, admin?: PlayerMp) => {
   if (player.account)
     await createKick(player.account, reason, admin?.account);

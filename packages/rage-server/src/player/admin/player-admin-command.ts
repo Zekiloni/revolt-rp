@@ -40,7 +40,7 @@ import {
   makePlayerOrganizationLeader,
   unsetPlayerOrganization
 } from '../../organization/organization.service';
-import { banIp, banPlayer, kickPlayer } from './moderation/moderation.service';
+import { banIp, banPlayer, kickPlayer, unbanIp } from './moderation/moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 import {
@@ -731,6 +731,19 @@ registerCommand({
 
     await banIp(ipAddress, reason, expiringAt, player);
     notifyPlayer(player, { severity: 'info', detail: t('ip_banned', { ip: ipAddress }) });
+  }
+});
+
+registerCommand({
+  name: 'unbanip',
+  params: ['ip address'],
+  description: 'todo',
+  administrator: AdminType.SUPER_ADMIN,
+  async handle(player: PlayerMp, ipAddress: string) {
+    if (!isIpv4(ipAddress))
+      return notifyPlayer(player, { severity: 'error', detail: t('invalid_ip_address') });
+
+    await unbanIp(ipAddress, player);
   }
 });
 
