@@ -35,6 +35,7 @@ export interface IAccount extends Base {
   discordId?: string;
   coins: number;
   socialClubId?: string;
+  mutedUntil?: Date;
   lastLoginAt?: Date;
   updatedAt?: Date;
   updatedBy?: string;

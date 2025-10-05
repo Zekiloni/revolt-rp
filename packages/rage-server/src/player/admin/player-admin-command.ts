@@ -30,7 +30,7 @@ import {
 } from '../util/player.util';
 import { destroyItem, getNearbyItem } from '../../item/item.service';
 import { setWeather, toggleSnow } from '../../world/weather.service';
-import { setAdministrator } from '../account/account.service';
+import { setAdministrator, setMutedUntil } from '../account/account.service';
 import { registerCommand } from '../player-command.service';
 import { notifyPlayer } from '../util/player-notify.util';
 import {
@@ -707,6 +707,49 @@ registerCommand({
     notifyPlayer(player, { severity: 'info', detail: t('player_banned', { player: target.name }) });
   }
 });
+
+registerCommand({
+  name: 'mute',
+  params: ['target', 'minutes'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  async handle(player: PlayerMp, targetQuery: string, minutes: string) {
+    if (!isNumber(minutes))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'minutes', type: 'number' })
+      });
+
+    const target = findPlayer(targetQuery);
+
+    if (!target)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    const mutedUntil = dayjs().add(parseInt(minutes), 'minute').toDate();
+    target.setVariable(PlayerSharedDataType.MutedUntil, mutedUntil.toISOString());
+    target.account.mutedUntil = mutedUntil;
+    await target.account.save();
+
+    notifyPlayer(player, { severity: 'info', detail: t('player_muted', { player: target.name, minutes }) });
+  }
+})
+
+registerCommand({
+  name: 'unmute',
+  params: ['target'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  async handle(player: PlayerMp, targetQuery: string) {
+    const target = findPlayer(targetQuery);
+
+    if (!target)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    await setMutedUntil(target, null);
+    notifyPlayer(player, { severity: 'info', detail: t('player_unmuted', { player: target.name }) });
+  }
+})
 
 registerCommand({
   name: 'spec',
