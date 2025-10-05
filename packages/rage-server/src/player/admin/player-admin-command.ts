@@ -51,7 +51,7 @@ import {
 } from '../../property/property.service';
 import { savePlayerPosition } from '../../util/save-position.util';
 import { playAnimation, stopAnimation } from '../util/player-animation.util';
-import { createPlayerOffer } from '../offer/player-offer.service';
+import { sendAdminChatMessage } from './player-admin.util';
 
 
 registerCommand({
@@ -112,7 +112,7 @@ registerCommand({
       // todo: logging, messaging
     }
   }
-})
+});
 
 registerCommand({
   name: 'gotoveh',
@@ -171,6 +171,18 @@ registerCommand({
     const content = [...args].join(' ');
     const adminLevel = t('admin_level', { returnObjects: true }) as string[];
     mp.players.broadcast(`!{${hexColors.ADMIN}}${adminLevel[player.account.administrator]} ${player.account.username}: ${content}`);
+  }
+});
+
+registerCommand({
+  name: 'a',
+  aliases: ['adminchat', 'ac'],
+  params: ['message'],
+  description: 'todo',
+  administrator: AdminType.MODERATOR,
+  handle(player: PlayerMp, ...args) {
+    const content = [...args].join(' ');
+    sendAdminChatMessage(player, content);
   }
 });
 
@@ -720,7 +732,7 @@ registerCommand({
     await banIp(ipAddress, reason, expiringAt, player);
     notifyPlayer(player, { severity: 'info', detail: t('ip_banned', { ip: ipAddress }) });
   }
-})
+});
 
 registerCommand({
   name: 'createproperty',

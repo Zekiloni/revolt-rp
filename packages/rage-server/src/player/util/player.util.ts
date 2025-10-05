@@ -55,13 +55,16 @@ export const filterPlayer = (query: string): PlayerMp[] => {
     .filter((player) => player.name.toLowerCase().includes(query) || player.name.toLowerCase() === query);
 };
 
-export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[], exclude?: PlayerMp[]) {
+export const sendProximityMessage = function(message: string, position: Vector3, radius: number, colors: string[], exclude?: PlayerMp[], validator?: (player: PlayerMp) => boolean) {
   const distanceGap = radius / (colors.length + 1);
 
   const distanceThresholds = colors.map((_color, index) => distanceGap * (index + 1));
 
   mp.players.forEachInRange(position, radius, (target) => {
     if (exclude && exclude.includes(target))
+      return;
+
+    if (validator && !validator(target))
       return;
 
     const distance = target.dist(position);
