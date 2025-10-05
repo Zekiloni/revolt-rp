@@ -13,8 +13,8 @@ import { isCharacterDescriptionSet } from './character/character.util';
 import { registerCommand } from './player-command.service';
 import { notifyPlayer, sendInfoMessage } from './util/player-notify.util';
 import { playerSendRadioMessage } from './inventory/player-handheld-radio.service';
-import { playerBuyInteraction } from './player-buy.service';
 import { giveMoney } from './character/character.service';
+import { playerBuyInteraction } from './player-interaction';
 
 
 registerCommand({
