@@ -97,3 +97,4 @@ export const dmvInstructorSays = (player: PlayerMp, mistake: DrivingTestMistakeT
   const content = t('says', { person: t('instructor'), text: t(mistake) });
   player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
 };
+

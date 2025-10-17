@@ -16,6 +16,7 @@ export interface IVehicleNumberplate {
   content: string;
   modelType: number;
   expiringAt: Date;
+  vehicleId: string;
 }
 
 export interface IVehicleExtra {

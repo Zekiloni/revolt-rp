@@ -67,9 +67,6 @@ export const createVehicle = async (model: string, position: Vector3, primaryCol
     color: [vehicleColors[primaryColor].rgbColor, vehicleColors[secondaryColor].rgbColor]
   };
 
-  console.log('createVehicle', defaultVehicleInfo.color);
-  console.log('vehicleColors.primary', primaryColor, vehicleColors[primaryColor])
-  console.log('vehicleColors.secondary', secondaryColor, vehicleColors[secondaryColor])
 
   vehicle.info = new VehicleModel(defaultVehicleInfo);
   await vehicle.info.save();

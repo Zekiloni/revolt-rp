@@ -209,9 +209,6 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.createConfirmationDialog({
-      message: 'Test message',
-    })
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
 
