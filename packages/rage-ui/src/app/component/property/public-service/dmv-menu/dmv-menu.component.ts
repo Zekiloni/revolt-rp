@@ -43,7 +43,7 @@ export class DmvMenuComponent implements OnInit, OnDestroy {
   registerVehicle() {
     this.dialogService.open(VehicleRegistrationComponent, {
         header: this.translateService.instant('dmv_menu.vehicle_registration'),
-        width: '30%',
+        width: '45%',
         modal: true,
         data: this.property,
         focusOnShow: true,

@@ -6,10 +6,11 @@ import { RageClientService } from '../../../../../../domain/service/rage-client.
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { Button } from 'primeng/button';
 import { TranslatePipe } from '@ngx-translate/core';
+import { StaticAssetPipe } from '../../../../../../domain/pipe/static-asset.pipe';
 
 @Component({
   selector: 'app-vehicle-registration',
-  imports: [CommonModule, ScrollPanelModule, Button, TranslatePipe],
+  imports: [CommonModule, ScrollPanelModule, Button, TranslatePipe, StaticAssetPipe],
   templateUrl: './vehicle-registration.component.html',
   styleUrl: './vehicle-registration.component.css',
 })
@@ -82,5 +83,9 @@ export class VehicleRegistrationComponent {
 
   register(vehicle: Partial<IVehicle>) {
 
+  }
+
+  getVehicleImage(model: string) {
+    return `assets/images/vehicles/${model}.png`;
   }
 }
