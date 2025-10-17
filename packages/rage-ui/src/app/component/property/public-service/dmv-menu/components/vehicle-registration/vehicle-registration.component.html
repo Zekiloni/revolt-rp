@@ -1,37 +1,102 @@
-@if ($vehicles |  async; as vehicles) {
-  <p-scrollpanel [style]="{ height: '320px' }" styleClass="pr-6">
+@if ($vehicles | async; as vehicles) {
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-2 max-h-[500px] overflow-y-auto">
     @for (vehicle of vehicles; track vehicle.id) {
       <div
-        class="flex justify-between items-center mb-3 border rounded-lg cursor-pointer border-surface hover:bg-emphasis px-6 py-3 text-surface-800 dark:text-surface-50 hover:text-primary transition"
+        class="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm overflow-hidden flex flex-col"
       >
-        <div class="flex flex-col">
-          <span class="font-semibold text-gray-800 dark:text-gray-100 capitalize">
-            {{ vehicle.model }}
-          </span>
-
-          <div class="mt-3 flex flex-col gap-1">
-            @if (vehicle.numberplate?.expiringAt) {
-              <span class="text-sm text-gray-500 dark:text-gray-400">
-              Plate: {{ vehicle.numberplate?.content }}
+        <!-- Header Image & Badge -->
+        <div class="relative">
+          <img
+            [src]="getVehicleImage(vehicle.model!) | staticAsset"
+            alt="vehicle image"
+            height="74"
+            class="w-full h-36 object-cover"
+          />
+          @if (vehicle.numberplate?.expiringAt) {
+            <span
+              class="absolute top-2 left-2 px-3 py-1 text-xs font-semibold bg-green-600 text-white rounded-full"
+            >
+              REGISTERED
             </span>
-              <span class="text-xs text-gray-400 dark:text-gray-500">
-              Exp: {{ vehicle.numberplate?.expiringAt | date: 'dd.MM.yyyy' }}
+          } @else {
+            <span
+              class="absolute top-2 left-2 px-3 py-1 text-xs font-semibold bg-red-600 text-white rounded-full"
+            >
+              EXPIRED
             </span>
-            } @else {
-              <span class="text-xs text-red-600 dark:text-red-400 font-medium">
-              Not registered
-            </span>
-            }
-          </div>
+          }
         </div>
 
-        @if (vehicle.numberplate?.expiringAt) {
-          <p-button severity="info" (onClick)="renew(vehicle)" [label]="'renew_vehicle' | translate" size="small" />
-        } @else {
-          <p-button severity="success" (onClick)="register(vehicle)" [label]="'register_vehicle' | translate"
-                    size="small" />
-        }
+        <!-- Vehicle Info -->
+        <div class="p-4 flex flex-col justify-between flex-1">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <h2 class="font-bold text-lg text-gray-900 dark:text-gray-100 capitalize">
+                {{ vehicle.model }}
+              </h2>
+            </div>
+
+            <div class="space-y-1 text-sm">
+              <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                <span>Plate Number</span>
+                <span class="font-semibold">{{ vehicle.numberplate?.content ?? 'N/A' }}</span>
+              </div>
+
+              @if (vehicle.numberplate?.expiringAt) {
+                <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                  <span>Registration</span>
+                  <span class="text-green-500 font-medium">Valid</span>
+                </div>
+                <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                  <span>Expires</span>
+                  <span class="font-medium">
+                    {{ vehicle.numberplate?.expiringAt | date: 'MMM d, y' }}
+                  </span>
+                </div>
+              } @else {
+                <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                  <span>Registration</span>
+                  <span class="text-red-500 font-medium">Expired</span>
+                </div>
+                <div class="flex justify-between text-gray-600 dark:text-gray-400">
+                  <span>Fine</span>
+                  <span class="text-red-500 font-semibold">$1,250</span>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="mt-4 flex justify-between items-center">
+            @if (vehicle.numberplate?.expiringAt) {
+              <button
+                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm transition"
+                (click)="renew(vehicle)"
+              >
+                Renew Registration
+              </button>
+            } @else {
+              <button
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm transition"
+                (click)="register(vehicle)"
+              >
+                Pay Fine & Renew
+              </button>
+            }
+
+            <button
+              class="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition"
+              title="More Info"
+            >
+              <i class="pi pi-info-circle text-gray-700 dark:text-gray-300 text-lg"></i>
+            </button>
+          </div>
+        </div>
       </div>
     }
-  </p-scrollpanel>
+  </div>
+} @else {
+  <div class="text-center text-gray-400 dark:text-gray-500 py-6">
+    No vehicles found.
+  </div>
 }
