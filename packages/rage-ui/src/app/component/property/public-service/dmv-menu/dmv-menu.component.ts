@@ -5,6 +5,7 @@ import { DialogService } from 'primeng/dynamicdialog';
 import { GameUiKey, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { DrivingQuizComponent } from './components/driving-quiz';
+import { VehicleRegistrationComponent } from './components/vehicle-registration';
 
 
 @Component({
@@ -34,8 +35,22 @@ export class DmvMenuComponent implements OnInit, OnDestroy {
       header: this.translateService.instant('dmv_menu.driving_quiz'),
       width: '40%',
       data: this.property,
-      focusOnShow: false
+      focusOnShow: false,
+      modal: true
     });
+  }
+
+  registerVehicle() {
+    this.dialogService.open(VehicleRegistrationComponent, {
+        header: this.translateService.instant('dmv_menu.vehicle_registration'),
+        width: '30%',
+        modal: true,
+        data: this.property,
+        focusOnShow: true,
+        closable: true,
+        dismissableMask: true
+      }
+    );
   }
 
   close() {

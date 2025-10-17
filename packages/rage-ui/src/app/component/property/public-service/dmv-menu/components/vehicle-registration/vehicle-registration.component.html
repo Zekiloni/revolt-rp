@@ -1,0 +1,37 @@
+@if ($vehicles |  async; as vehicles) {
+  <p-scrollpanel [style]="{ height: '320px' }" styleClass="pr-6">
+    @for (vehicle of vehicles; track vehicle.id) {
+      <div
+        class="flex justify-between items-center mb-3 border rounded-lg cursor-pointer border-surface hover:bg-emphasis px-6 py-3 text-surface-800 dark:text-surface-50 hover:text-primary transition"
+      >
+        <div class="flex flex-col">
+          <span class="font-semibold text-gray-800 dark:text-gray-100 capitalize">
+            {{ vehicle.model }}
+          </span>
+
+          <div class="mt-3 flex flex-col gap-1">
+            @if (vehicle.numberplate?.expiringAt) {
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+              Plate: {{ vehicle.numberplate?.content }}
+            </span>
+              <span class="text-xs text-gray-400 dark:text-gray-500">
+              Exp: {{ vehicle.numberplate?.expiringAt | date: 'dd.MM.yyyy' }}
+            </span>
+            } @else {
+              <span class="text-xs text-red-600 dark:text-red-400 font-medium">
+              Not registered
+            </span>
+            }
+          </div>
+        </div>
+
+        @if (vehicle.numberplate?.expiringAt) {
+          <p-button severity="info" (onClick)="renew(vehicle)" [label]="'renew_vehicle' | translate" size="small" />
+        } @else {
+          <p-button severity="success" (onClick)="register(vehicle)" [label]="'register_vehicle' | translate"
+                    size="small" />
+        }
+      </div>
+    }
+  </p-scrollpanel>
+}
