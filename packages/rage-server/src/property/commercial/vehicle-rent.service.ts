@@ -119,14 +119,17 @@ export const rentVehicle = async (player: PlayerMp, property: Property, model: s
   const { x, y, z } = parkingSpot.position;
   const { x: rotX, y: rotY, z: rotZ } = parkingSpot.rotation;
 
+  const numberplate = `RV${generateNumberPlate(4)}`;
+
   await createVehicle(model, new mp.Vector3(x, y, z), color, color, {
     expiringAt, rented: true,
     owner: player.character._id,
     rotation: new mp.Vector3(rotX, rotY, rotZ),
     numberplate: {
-      content: `RV${generateNumberPlate(4)}`,
+      content: numberplate,
       expiringAt,
-      modelType: vehicleConfig.defaultNumberPlateType
+      modelType: vehicleConfig.defaultNumberPlateType,
+      vehicleId: numberplate
     },
     rentAgencyId: property.id
   });
