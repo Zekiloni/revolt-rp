@@ -38,6 +38,10 @@ export class PropertyPoint implements IPropertyPoint {
   @prop({ required: true })
   dimension: number;
 
+  constructor(init: IPropertyPoint) {
+    Object.assign(this, init);
+  }
+
   get colShape() {
     return mp.colshapes.toArray()
       .find(colShape => colShape.getVariable(PropertySharedDataType.InteractionPointId) === this.id);

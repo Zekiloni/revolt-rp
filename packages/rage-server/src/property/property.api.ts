@@ -61,10 +61,14 @@ function propertyMainInteractionHandler(propertyId: string, { player }: Procedur
 
 async function createPropertyPointHandler(propertyId: string, { player }: ProcedureListenerInfo<PlayerMp>) {
   return getPropertyById(propertyId)
-    .then(property => {
+    .then((property) => {
       const position = player.vehicle ? player.vehicle.position : player.position;
       const rotation = player.vehicle ? player.vehicle.rotation : new mp.Vector3(0, 0, player.heading);
-      return createPropertyPoint(property, position, rotation, player.dimension);
+      try {
+        return createPropertyPoint(property, position, rotation, player.dimension);
+      } catch (e) {
+        console.log(e)
+      }
     });
 }
 
@@ -84,6 +88,7 @@ async function createPropertyVehicleHandler(propertyVehicle: IPropertyVehicleCre
       return createPropertyVehicle(property, propertyVehicle);
     });
 }
+
 async function deletePropertyVehicleHandler(propertyVehicleId: string) {
   return getPropertyByVehicleId(propertyVehicleId)
     .then(property => deletePropertyVehicle(property, propertyVehicleId));

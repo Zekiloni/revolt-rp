@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { RageClientService } from '../../../domain/service/rage-client.service';
-import { ProcedureKey } from '@revolt-rp/common';
+import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CreateSavingAccountComponent } from './component/create-saving-account';
 import { ManageBankAccountsComponent } from './component/manage-bank-accounts';
@@ -21,7 +21,7 @@ export class BankMenuComponent {
   }
 
   closeMenu() {
-    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_TOGGLE_BANK_MENU, false);
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.BankMenu);
   }
 
   manageBankAccounts() {

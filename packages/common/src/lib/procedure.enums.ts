@@ -77,7 +77,6 @@ export const enum ProcedureKey {
 
   BROWSER_INIT_OFFER = 'browser_initOffer',
   SERVER_PLAYER_OFFER_RESPONSE = 'server_playerOfferResponse',
-  CLIENT_PLAYER_TOGGLE_BANK_MENU = 'client_playerToggleBankMenu',
 
   SERVER_PLAYER_CREATE_SAVING_ACCOUNT = 'server_playerCreateSavingAccount',
   CLIENT_PLAYER_USE_BANK_CARD = 'client_playerUseBankCard',
