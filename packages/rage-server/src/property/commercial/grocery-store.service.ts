@@ -11,9 +11,9 @@ import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../economy/economy.util';
 
 
-export const toggleGroceryStoreMenu = (player: PlayerMp, property: Property) => {
+export function toggleGroceryStoreMenu (player: PlayerMp, property: Property) {
   showPlayerGameInterface(player, GameUiKey.GroceryStore, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_PROPERTY, property));
-};
+}
 
 
 const calculateTotalCartPrice = (cartItems: ICartItem<string>[], catalog: IProduct[]) => {

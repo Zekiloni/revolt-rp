@@ -3,13 +3,17 @@ import { Types } from 'mongoose';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
   CommercialType,
-  IPropertyCreate, IPropertyPoint, IPropertyVehicle, IPropertyVehicleCreate,
+  IPropertyCreate,
+  IPropertyPoint,
+  IPropertyVehicle,
+  IPropertyVehicleCreate,
   ProcedureKey,
   PropertyPointType,
   PropertySharedDataType,
   PropertyType,
   PublicServiceType,
-  purchasablePropertyTypes, UtilityType
+  purchasablePropertyTypes,
+  UtilityType
 } from '@revolt-rp/common';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
@@ -88,17 +92,20 @@ export const createProperty = async (position: Vector3, dimension: number, prope
 
 
 export const createPropertyPoint = async (property: Property, position: Vector3, rotation: Vector3, dimension: number, type: PropertyPointType = PropertyPointType.MainPoint) => {
-  const point: PropertyPoint = {
+  const point = new PropertyPoint({
     id: new Types.ObjectId().toString(),
     position, rotation, dimension, type,
+  });
 
-    // TODO: Add colshape and marker, check for visiblePropertyPointTypes for marker
-    colShape: mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension),
-    marker: visiblePropertyPointTypes.includes(type) ? createPropertyMarker(property) : null
-  };
+  point.colShape = mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension);
+
+  if (visiblePropertyPointTypes.includes(type)) {
+    point.marker = createPropertyMarker(property);
+  }
 
   property.points.push(point);
   await property.save();
+
   return point;
 };
 
@@ -299,6 +306,8 @@ export async function playerLockProperty(player: PlayerMp, property: Property) {
 
 
 export const propertyMainInteraction = (player: PlayerMp, property: Property) => {
+  console.log('propertyMainInteraction', property.type, property.subType);
+  console.log('interiorPosition', property.interiorPosition);
   if (!property.interiorPosition)
     return propertyMenuInteraction(player, property);
 
@@ -308,7 +317,15 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
   const menuHandler = propertyMenuHandlers[property.type]?.[property.subType] || propertyMenuHandlers[property.type];
 
+  console.log('DEBUG',
+    'property.type:', property.type,
+    'property.subType:', property.subType,
+    'handler for type:', propertyMenuHandlers[property.type],
+    'keys:', Object.keys(propertyMenuHandlers[property.type] || {})
+  );
+
   if (menuHandler && typeof menuHandler === 'function') {
+    console.log('opening menu handler', property.type, property.subType);
     return menuHandler(player, property);
   }
 }
