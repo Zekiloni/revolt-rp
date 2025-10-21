@@ -9,17 +9,17 @@ Here you can meet the people who develop, manage and protect the world of RRP.
 
 <div class="staff-grid">
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Hudson" class="staff-avatar">
+    <img src="./hudson.png" alt="Hudson" class="staff-avatar">
     <h3>Hudson</h3>
     <p><strong>Founder</strong></p>
     <p>Visionary behind RRP. Oversees direction, community growth and server decisions.</p>
   </div>
 
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Zekiloni" class="staff-avatar">
+    <img src="./zekiloni.png" alt="Zekiloni" class="staff-avatar">
     <h3>Zekiloni</h3>
     <p><strong>Founder & Developer</strong></p>
-    <p>Lead developer. Builds systems, maintains server stability and introduces new features.</p>
+    <p>Visionary behind RRP. Lead developer. Builds systems, maintains server stability and introduces new features.</p>
   </div>
 </div>
 
@@ -29,17 +29,10 @@ Here you can meet the people who develop, manage and protect the world of RRP.
 
 <div class="staff-grid">
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Staff Manager</strong></p>
-    <p>Coordinates staff team and handles staff applications.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Community Manager</strong></p>
-    <p>Ensures a positive and welcoming environment for all players.</p>
+    <img src="./vacant.jpg" alt="Name" class="staff-avatar">
+    <h3>Vacant</h3>
+    <p><strong>Management</strong></p>
+    <p>Position vacant.</p>
   </div>
 </div>
 
@@ -49,54 +42,11 @@ Here you can meet the people who develop, manage and protect the world of RRP.
 
 <div class="staff-grid">
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Senior Admin</strong></p>
-    <p>Handles reports, bans and high-level moderation situations.</p>
+    <img src="./marshall.png" alt="Name" class="staff-avatar">
+    <h3>Marshall</h3>
+    <p><strong>Lead Admin</strong></p>
+    <p>Oversees and leads RRP administration. Responsible for all changes and admins.</p>
   </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Admin</strong></p>
-    <p>Monitors in-game activity and supports players during issues.</p>
-  </div>
-
 </div>
 
 ---
@@ -105,53 +55,12 @@ Here you can meet the people who develop, manage and protect the world of RRP.
 
 <div class="staff-grid">
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
+    <img src="./vacant.jpg" alt="Name" class="staff-avatar">
+    <h3>Vacant</h3>
+    <p><strong>Tester</strong></p>
+    <p>Position vacant.</p>
   </div>
 
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
-
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Head Tester</strong></p>
-    <p>Finds bugs and ensures updates are stable before release.</p>
-  </div>
 </div>
 
 ---
@@ -160,18 +69,13 @@ Here you can meet the people who develop, manage and protect the world of RRP.
 
 <div class="staff-grid">
   <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
+    <img src="./vacant.jpg" alt="Name" class="staff-avatar">
+    <h3>Vacant</h3>
     <p><strong>Discord Moderator</strong></p>
-    <p>Moderates Discord channels and assists community members.</p>
+    <p>Position vacant.</p>
   </div>
 
-  <div class="staff-card">
-    <img src="./hudson.jpg" alt="Name" class="staff-avatar">
-    <h3>ExampleName</h3>
-    <p><strong>Graphic Designer</strong></p>
-    <p>Creates server artwork, banners, and visual branding.</p>
-  </div>
+
 </div>
 
 ---

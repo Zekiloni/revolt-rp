@@ -41,21 +41,37 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: "Basic",
+        text: "RAGE:MP Community",
+        collapsed: true,
         items: [
-          { text: "RRP Structure", link: "/getting-started/structure" },
+          { text: "Information", link: "/server/info" },
+          { text: "Structure", link: "/getting-started/structure" },
           { text: "Meet the Staff", link: "/getting-started/staff-team" }
+          
         ]
       },
       {
-        text: "Server",
+        text: "RAGE:MP Server Features",
+        collapsed: true,
         items: [
-          { text: "Server Info", link: "/server/info" },
-          { text: "Commands", link: "/server/commands" }
+          { text: "Account & Character", link: "/features/account-character" },
+          { text: "Inventory", link: "/features/inventory" },
+          { text: "Keybinds & Controls", link: "/features/keybinds-controls" },
+          { text: "Banking", link: "/features/banking" },
+          { text: "Phone", link: "/features/phone" },
+          { text: "Department of Motor Vehicles", link: "/features/dmv" },
+          { text: "Vehicle Rental", link: "/features/vehicle-rental" },
+          { text: "Weapons & Ammo", link: "/features/weapons-ammo" },
+          { text: "Jobs", link: "/features/jobs" },
+          { text: "Vehicles", link: "/features/vehicle" },
+          { text: "Organizations", link: "/features/organizations" },
+          { text: "Property", link: "/features/properties" },
+          { text: "Commands", link: "/features/commands" }
         ]
       },
       {
-        text: "General Rules (IG)",
+        text: "RAGE:MP General (IG) Rules",
+        collapsed: true,
         items: [
           { text: "Introduction", link: "/rules/introduction" },
           { text: "Core Principles & RP", link: "/rules/core-principles-and-rp" },
