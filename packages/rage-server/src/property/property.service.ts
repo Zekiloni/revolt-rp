@@ -306,8 +306,6 @@ export async function playerLockProperty(player: PlayerMp, property: Property) {
 
 
 export const propertyMainInteraction = (player: PlayerMp, property: Property) => {
-  console.log('propertyMainInteraction', property.type, property.subType);
-  console.log('interiorPosition', property.interiorPosition);
   if (!property.interiorPosition)
     return propertyMenuInteraction(player, property);
 
