@@ -58,6 +58,7 @@ export function startDrivingTest(player: PlayerMp, property: Property) {
 
   vehicle.numberPlate = dmvConfig.drivingTest.vehicleNumberplate + generateNumberPlate(4);
   setVehicleOwner(vehicle, player.character);
+  player.putIntoVehicle(vehicle, RageEnums.VehicleSeat.DRIVER);
 
   vehicle.setVariable(VehicleSharedDataType.DrivingTest, true);
   triggerClient(player, ProcedureKey.CLIENT_START_DRIVING_TEST, vehicle);

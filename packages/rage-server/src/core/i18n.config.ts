@@ -3,7 +3,7 @@ import { enUs, srRs } from '@revolt-rp/common';
 import { logger } from './logger.config';
 
 export const translationConfig = {
-  lng: 'sr-RS',
+  lng: 'en-US',
   resources: {
     'en-US': {
       translation: enUs

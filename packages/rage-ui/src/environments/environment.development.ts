@@ -5,7 +5,7 @@ export const environment = {
   SERVER_NAME: 'Revolt Roleplay',
   WEBSITE_URL: 'www.revolt-rp.com',
   API_BASE_HREF,
-  DEFAULT_LANGUAGE: 'sr-RS',
+  DEFAULT_LANGUAGE: 'en-US',
   IMGUR: {
     API_URL: 'https://api.imgur.com/3',
     CLIENT_ID: 'f005794de392ad0',
