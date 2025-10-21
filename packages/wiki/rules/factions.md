@@ -1,145 +1,86 @@
-# Pravila frakcija (fakcija)
+# 5 Factions & Government Roleplay
 
-Frakcije su organizacije koje imaju posebne odgovornosti, moći i RP ulogu u zajednici. Bilo da se radi o legalnim (policija, bolnica) ili ilegalnim (bande, mafije) frakcijama, svi članovi moraju poštovati posebna RP pravila kako bi se održao balans i kvalitet igre.
+Official factions are essential to the structure of Revolt Roleplay. This includes law enforcement, emergency services, government, media and approved criminal organizations.
 
----
-
-## 1. **Zloupotreba frakcije**
-
-**Značenje:** Korišćenje moći frakcije za ličnu korist ili van konteksta RP-a.
-
-**Primer:** Policajac koristi svoje ovlašćenje da upadne u kuću nekome bez naloga, samo da bi video šta ima.
-
-:::danger
-**Kazna:** Upozorenje, frakcijski kick, frakcijski ban, jail.
-:::
+All faction members must follow server rules + their internal faction rules. Abuse of faction powers is punishable IC and OOC.
 
 ---
 
-## 2. **Neigranje uloge**
+## 5.1 Law Enforcement — Bone County Sheriff’s Office (BCSO)
 
-**Značenje:** Ignorisanje IC dužnosti frakcije.
+The **Bone County Sheriff's Office (BCSO)** is the main law enforcement agency in Blaine County.
 
-**Primer:** Doktor ignoriše povređene jer mu se ne da, ili policajac patrolira bez ikakve RP akcije.
+### Expectations:
+- Members must follow **realistic police protocols and ethics**.
+- Corruption is allowed **only if approved by faction command** and is monitored by admins.
+- Use of force must follow **escalation of force**.
+- **No random tasing, baton abuse, or excessive violence.**
+- **No metagaming / using admin tools, logs or OOC knowledge to investigate.**
+- IC evidence only: CCTV, fingerprints, eyewitnesses, dashcam (if roleplayed),blood samples, casings etc.
 
-:::warning
-**Kazna:** Upozorenje, frakcijski kick, zabrana povratka u frakciju na određeno vreme.
-:::
+### Use of Force Examples
+| Situation | Allowed Reaction |
+|-----------|------------------|
+| Unarmed suspect running | Foot pursuit, taser if needed |
+| Suspect aims gun at officer | Lethal force permitted |
+| Suspect driving away slowly | Tire shots only if danger to public |
+| Surrendering suspect | Must be arrested, not shot |
 
----
-
-## 3. **OOC komandovanje**
-
-**Značenje:** Korišćenje OOC sredstava da se nameće autoritet ili naređenja unutar frakcije.
-
-**Primer:** Lider na Discordu kaže “Aj svi večeras patrola, bez izgovora” – bez IC organizacije.
-
-**Ispravno:** Komunikacija i organizacija frakcije treba da se vodi IC (npr. radio, sastanci).
-
-:::danger
-**Kazna:** Upozorenje, frakcijski kick, jail u težim slučajevima.
-:::
-
----
-
-## 4. **Napad bez RP povoda (ILEGALNE frakcije)**
-
-**Značenje:** Organizovani napad bez RP osnova ili prethodne interakcije.
-
-**Primer:** Banda napada rivale nasumično bez prethodnog sukoba, RP razloga ili upozorenja.
-
-:::danger
-**Kazna:** Jail 60-120 minuta, CK lidera, raspad frakcije u težim slučajevima.
-:::
+### Arrest & Jail RP
+- Must be roleplayed professionally.
+- Paperwork, charges and Miranda rights should be roleplayed properly.
+- Prison transport must be realistic (no teleport to jail).
+- Abuse of /cuff, /frisk without RP = powergaming.
 
 ---
 
-## 5. **Nelegalne aktivnosti u legalnim frakcijama**
+## 5.2 Blaine County Fire & Rescue (BCFR)
 
-**Značenje:** Korisnici legalnih frakcija (npr. policije) učestvuju u kriminalnim radnjama bez prikrivenog IC razloga.
+The **Blaine County Fire & Rescue** department provides:
+- Firefighting
+- Medical emergency response
+- Extrication and rescue services
 
-**Primer:** Policajac prodaje oružje, a da IC niko nema pojma.
-
-**Ispravno:** Ovako nešto mora biti deo dubljeg undercover RP-a, uz prethodno obaveštavanje admina.
-
-:::warning
-**Kazna:** Frakcijski CK, frakcijski ban, jail.
-:::
-
----
-
-## 6. **Neprikladna uniforma / vozilo / ponašanje**
-
-**Značenje:** Korišćenje uniformi ili vozila frakcije van službe, ili neprimereno ponašanje.
-
-**Primer:** Policajac u uniformi vozi sportski auto i ide u klub IC, ili baca gluposti u IC chatu.
-
-**Ispravno:** Poštuj dužnost – uniforme i vozila se koriste samo kada su IC potrebna.
-
-:::warning
-**Kazna:** Upozorenje, frakcijski kick.
-:::
+### Rules:
+- Members must provide **serious, realistic medical RP** (no meme treatments).
+- They should roleplay **injuries, burnout, trauma realistically**.
+- Cannot revive dead players unless medically logical.
+- No healing in 5 seconds — medical treatment should have RP detail.
+- They **cannot carry or use firearms** unless approved by lore/event.
 
 ---
 
-## 7. **Neautorizovani regrut / otkaz**
+## 5.3 Government & Mayor’s Office
 
-**Značenje:** Primanje ili izbacivanje članova iz frakcije bez IC procedura ili liderovog znanja.
+The Government faction includes:
+- **Mayor of Blaine County / Sandy Shores**
+- **City Administration (permits, business licenses, taxes)**
+- **Courts & Legal Affairs** (if implemented)
 
-**Primer:** Neko iz srednjeg ranga dovodi prijatelja i odmah ga promoviše bez ikakvog RP-a.
-
-**Ispravno:** Svaki regrut mora imati IC intervju, test, proceduru. Isto važi i za otkaze.
-
-:::danger
-**Kazna:** Upozorenje, frakcijski kick, jail, zabrana povratka u frakciju.
-:::
-
----
-
-## 8. **Uniformna likvidacija (legalne frakcije)**
-
-**Značenje:** Neprimerena upotreba sile kao pripadnik legalne frakcije.
-
-**Primer:** SWAT upada i puca bez upozorenja, bez /do scena, bez pregovora.
-
-**Ispravno:** Poštuj zakon i pravila proporcionalne sile. RP procedura mora postojati.
-
-:::danger
-**Kazna:** Jail 90-150 minuta, frakcijski CK.
-:::
+### Government Roleplay:
+- Creates local laws and regulations.
+- Can organize elections, public speeches, budgets.
+- **Corruption is allowed only if approved by admins + creates RP.**
+- No random banning of businesses or players IC (there should be a vaild reason + FM approval)
 
 ---
 
-## 9. **Drive-by bez RP osnova (ilegalne frakcije)**
+## 5.4 Media, Business & Civilian Factions
 
-**Značenje:** Pucanje iz vozila na drugu frakciju ili civile bez RP-a.
+These include:
+- **Weazel News / Local Press**
+- **Public Works**
+- **Legal Firms / Law Offices**
+- **Medical Clinic or Private Doctors**
+- **Other**
 
-**Primer:** Voziš motor i pucaš iz uzlaza, a da pre toga nije bilo ni reči ni sukoba.
-
-**Ispravno:** Drive-by mora imati IC pripremu i razlog (rat, osveta, zastrašivanje).
-
-:::danger
-**Kazna:** Jail, CK članova, mogući disband.
-:::
-
----
-
-## 10. **CK frakcije**
-
-**Značenje:** Permanentno ukidanje frakcije kroz IC događaje ili kao posledica kršenja pravila.
-
-**Primer:** Frakcija konstantno pravi DM, PG, i mimoilazi RP – admin tim odlučuje o CK-u.
-
-**Napomena:** CK frakcije se koristi u krajnjoj meri i ima trajne posledice za sve članove.
-
-:::danger
-**Kazna:** CK cele frakcije, zabrana ponovnog formiranja, ban lidera u težim slučajevima.
-:::
+### Examples and guidelines
+- Must provide **service-based RP**, not just script use.
+- Journalists cannot powergame information (no “anonymous source told me everything”).
 
 ---
 
-## Zaključak
 
-Frakcije su stub organizacije i dinamike servera. Svako pravilo postoji da bi se održao kvalitet igre, balans i zabava. Kršenje pravila vodi u frakcijske kazne, IC posledice i OOC sankcije.
+---
 
-U slučaju nedoumica, obavezno kontaktiraj lidera frakcije ili admina.
+

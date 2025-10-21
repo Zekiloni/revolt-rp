@@ -2,123 +2,77 @@ import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'Revolt Roleplay',
-  description: 'Oficijalna Vikipedija',
+  title: "RRP Wiki",
+  description: "Revolt Roleplay rules, guides, and information.",
+
+  appearance: true,
+
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
+
   themeConfig: {
-    logo: '/logo-1-x.png',
-    // https://vitepress.dev/reference/default-theme-config
+    logo: '/logo.png',
     nav: [
-      { text: 'Početna', link: '/' },
-      { text: 'Wiki', link: '/docs/main-page' },
-      { text: 'UCP', link: 'https://lscrp.net' },
-      { text: 'Forum', link: 'https://forum.lscrp.net' }
+      { text: "Home", link: "/" }
     ],
 
     search: {
       provider: 'local',
       options: {
-        locales: {
-          root: {
-            translations: {
-              button: {
-                buttonText: 'Pretraga',
-                buttonAriaLabel: 'Pretraga'
-              },
-              modal: {
-                displayDetails: 'Prikaži detaljnu listu',
-                resetButtonTitle: 'Resetuj pretragu',
-                backButtonTitle: 'Zatvori pretragu',
-                noResultsText: 'Nema rezultata',
-                footer: {
-                  selectText: 'Izaberi',
-                  selectKeyAriaLabel: 'Enter',
-                  navigateText: 'Navigacija',
-                  navigateUpKeyAriaLabel: 'Strelica gore',
-                  navigateDownKeyAriaLabel: 'Strelica dole',
-                  closeText: 'Zatvori',
-                  closeKeyAriaLabel: 'Esc'
-                }
-              }
+        translations: {
+          button: {
+            buttonText: 'Search',
+            buttonAriaLabel: 'Search'
+          },
+          modal: {
+            noResultsText: 'No results',
+            resetButtonTitle: 'Reset',
+            backButtonTitle: 'Close',
+            footer: {
+              selectText: 'Select',
+              navigateText: 'Navigate',
+              closeText: 'Close'
             }
           }
         }
       }
     },
 
-
     sidebar: [
       {
-        text: 'Početna',
+        text: "Basic",
         items: [
-          { text: 'Glavna strana', link: '/index' } // maps to wiki/index.md
+          { text: "RRP Structure", link: "/getting-started/structure" },
+          { text: "Meet the Staff", link: "/getting-started/staff-team" }
         ]
       },
       {
-        text: 'Pravila',
+        text: "Server",
         items: [
-          { text: 'Opšta pravila', link: '/rules/general' },
-          { text: 'Pravila fakcija', link: '/rules/factions' },
-          { text: 'Pravila ekonomije', link: '/rules/economy' },
-          { text: 'Kriminalna pravila', link: '/rules/crime' },
-          { text: 'Roleplay pravila', link: '/rules/roleplay' }
+          { text: "Server Info", link: "/server/info" },
+          { text: "Commands", link: "/server/commands" }
         ]
       },
       {
-        text: 'Vodiči',
-        collapsed: true,
+        text: "General Rules (IG)",
         items: [
-          { text: 'Kako početi', link: '/guides/getting-started' },
-          { text: 'Poslovi', link: '/guides/jobs' }
-        ]
-      },
-      {
-        text: 'Sistemi',
-        collapsed: true,
-        items: [
-          { text: 'Character Sistem', link: '/features/character-system' }
-        ]
-      },
-      {
-        text: 'Uslovi i pravila',
-        items: [
-          { text: 'Politika privatnosti', link: '/privacy-policy' },
-          { text: 'Uslovi korišćenja', link: '/terms-of-service' }
+          { text: "Introduction", link: "/rules/introduction" },
+          { text: "Core Principles & RP", link: "/rules/core-principles-and-rp" },
+          { text: "Roleplay Standard", link: "/rules/rp-standard" },
+          { text: "Crime & Violence", link: "/rules/crime-and-violence" },
+          { text: "Legal Factions", link: "/rules/factions" },
+          { text: "Driving Expectations", link: "/rules/driving-standards" },
+          { text: "Illegal Factions", link: "/rules/illegal-factions" },
+          { text: "Illegal Roleplay", link: "/rules/illegal-activities" },
+          { text: "Rules of Engagement", link: "/rules/roe" },
+          { text: "Sexual & Disgusting RP", link: "/rules/disgusting-erp-rules" },
+          { text: "Lore & Continuity", link: "/rules/lore" },
+          { text: "Technical Rules", link: "/rules/technical-rules" },
+          { text: "Final Provisions", link: "/rules/final-provisions" }
         ]
       }
-    ],
-
-    socialLinks: [
-      { icon: 'discord', link: 'https://discord.gg/lscrpnet' }
-    ],
-
-    notFound: {
-      title: 'Stranica nije pronadjena',
-      quote: 'Ali ako ne promenite pravac i ako nastavite da tražite, možda ćete završiti tamo gde ste krenuli.',
-      linkText: 'Vodi me kući'
-    },
-
-    docFooter: {
-      prev: 'Prethodna stranica',
-      next: 'Sledeća stranica'
-    },
-    outlineTitle: 'Na ovoj stranici',
-    lastUpdatedText: 'Zadnja izmena',
-    returnToTopLabel: 'Nazad na vrh',
-    darkModeSwitchTitle: 'Tamni režim',
-    lightModeSwitchTitle: 'Svetli režim'
-  },
-
-  markdown: {
-    container: {
-      tipLabel: 'Savet',
-      warningLabel: 'Napomena',
-      dangerLabel: 'Upozorenje',
-      infoLabel: 'Informacije',
-      detailsLabel: 'Detalji',
-    }
+    ]
   },
 
   lastUpdated: true
