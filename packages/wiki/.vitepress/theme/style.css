@@ -1,159 +1,277 @@
-/**
- * Customize default theme styling by overriding CSS variables:
- * https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css
- */
+/* =========================
+   Revolt RP — GLOBAL BRAND COLORS
+   ========================= */
 
-/**
- * Colors
- *
- * Each colors have exact same color scale system with 3 levels of solid
- * colors with different brightness, and 1 soft color.
- * 
- * - `XXX-1`: The most solid color used mainly for colored text. It must
- *   satisfy the contrast ratio against when used on top of `XXX-soft`.
- *
- * - `XXX-2`: The color used mainly for hover state of the button.
- *
- * - `XXX-3`: The color for solid background, such as bg color of the button.
- *   It must satisfy the contrast ratio with pure white (#ffffff) text on
- *   top of it.
- *
- * - `XXX-soft`: The color used for subtle background such as custom container
- *   or badges. It must satisfy the contrast ratio when putting `XXX-1` colors
- *   on top of it.
- *
- *   The soft color must be semi transparent alpha channel. This is crucial
- *   because it allows adding multiple "soft" colors on top of each other
- *   to create a accent, such as when having inline code block inside
- *   custom containers.
- *
- * - `default`: The color used purely for subtle indication without any
- *   special meanings attched to it such as bg color for menu hover state.
- *
- * - `brand`: Used for primary brand colors, such as link text, button with
- *   brand theme, etc.
- *
- * - `tip`: Used to indicate useful information. The default theme uses the
- *   brand color for this by default.
- *
- * - `warning`: Used to indicate warning to the users. Used in custom
- *   container, badges, etc.
- *
- * - `danger`: Used to show error, or dangerous message to the users. Used
- *   in custom container, badges, etc.
- * -------------------------------------------------------------------------- */
-
+/* Light mode base */
 :root {
-    --vp-c-default-1: var(--vp-c-gray-1);
-    --vp-c-default-2: var(--vp-c-gray-2);
-    --vp-c-default-3: var(--vp-c-gray-3);
-    --vp-c-default-soft: var(--vp-c-gray-soft);
+  --vp-c-brand: #f6c241; /* logo yellow (primary) */
+  --vp-c-brand-light: #ffd46a;
+  --vp-c-brand-dark: #d7a630;
 
-    --vp-c-brand-1: #ffe082;
-    --vp-c-brand-2: var(--vp-c-indigo-2);
-    --vp-c-brand-3: var(--vp-c-indigo-3);
-    --vp-c-brand-soft: var(--vp-c-indigo-soft);
+  --vp-c-brand-1: #f6c241;
+  --vp-c-brand-2: #e7b231;
+  --vp-c-brand-3: #ffe08a;
 
-    --vp-c-tip-1: var(--vp-c-brand-1);
-    --vp-c-tip-2: var(--vp-c-brand-2);
-    --vp-c-tip-3: var(--vp-c-brand-3);
-    --vp-c-tip-soft: var(--vp-c-brand-soft);
+  /* Light backgrounds */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f7fb;
+  --vp-c-bg-soft: #f0f2f7;
 
-    --vp-c-warning-1: var(--vp-c-yellow-1);
-    --vp-c-warning-2: var(--vp-c-yellow-2);
-    --vp-c-warning-3: var(--vp-c-yellow-3);
-    --vp-c-warning-soft: var(--vp-c-yellow-soft);
+  /* Light text */
+  --vp-c-text-1: #0f1222;
+  --vp-c-text-2: #32384a;
+  --vp-c-text-3: #646b80;
 
-    --vp-c-danger-1: var(--vp-c-red-1);
-    --vp-c-danger-2: var(--vp-c-red-2);
-    --vp-c-danger-3: var(--vp-c-red-3);
-    --vp-c-danger-soft: var(--vp-c-red-soft);
+  /* Buttons */
+  --vp-button-brand-bg: var(--vp-c-brand-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+  --vp-button-brand-active-bg: #cc9c29;
+  --vp-button-brand-text: #0b0b0b;
 }
 
-/**
- * Component: Button
- * -------------------------------------------------------------------------- */
-
-:root {
-    --vp-button-brand-border: transparent;
-    --vp-button-brand-text: var(--vp-c-white);
-    --vp-button-brand-bg: var(--vp-c-brand-3);
-    --vp-button-brand-hover-border: transparent;
-    --vp-button-brand-hover-text: var(--vp-c-white);
-    --vp-button-brand-hover-bg: var(--vp-c-brand-2);
-    --vp-button-brand-active-border: transparent;
-    --vp-button-brand-active-text: var(--vp-c-white);
-    --vp-button-brand-active-bg: var(--vp-c-brand-1);
+/* Dark mode */
+:root.dark {
+  --vp-c-bg: #0e0f13;        /* solid dark bg */
+  --vp-c-bg-alt: #141721;    /* cards / navbar */
+  --vp-c-bg-soft: #1b1f2b;   /* section bg */
+  --vp-c-text-1: #ffffff;
+  --vp-c-text-2: #b5c0d1;
+  --vp-c-divider: rgba(255,255,255,0.08);
 }
 
-/**
- * Component: Home
- * -------------------------------------------------------------------------- */
+/* =========================
+   CONTENT + READABILITY
+   ========================= */
 
-.dark:root {
-    --vp-c-bg: #121212;
-    --vp-sidebar-bg-color: #1e1e1e;
-    --vp-c-border: #383838;
+.VPDoc .container .content { max-width: 860px; }
 
-    --vp-c-bg-alt: #1e1e1e;
-    --vp-c-bg-elv: #202127;
-    --vp-c-bg-soft: #1e1e1e;
+.VPDoc p, .VPDoc li {
+  font-size: 1.02rem;
+  line-height: 1.72;
 }
 
+/* Sticky sidebar */
 @media (min-width: 960px) {
-    .tagline[data-v-89d2fc22] {
-        line-height: 30px;
-        font-size: 18px;
-        font-weight: 300;
-    }
-}
-.image-bg {
-    background-image: none !important;
-}
-:root {
-    --vp-home-hero-name-color: transparent;
-    --vp-home-hero-name-background: -webkit-linear-gradient(
-            120deg,
-            #ffd54f 30%,
-            #ffd65c
-    );
-
-    --vp-home-hero-image-background-image: linear-gradient(
-            -45deg,
-            #ffd54f 50%,
-            #ffd65c 50%
-    );
-    --vp-home-hero-image-filter: blur(44px);
+  .VPSidebar {
+    position: sticky;
+    top: 0;
+    max-height: 100vh;
+    overflow-y: auto;
+  }
 }
 
-@media (min-width: 640px) {
-    :root {
-        --vp-home-hero-image-filter: blur(56px);
-    }
+/* =========================
+   HOME PAGE — HERO
+   ========================= */
+
+.VPHome .VPHero {
+  position: relative;
+  overflow: hidden;
+  padding-top: 72px;
+}
+.VPHome .VPHero::before {
+  content: "";
+  position: absolute;
+  inset: -40% -10% auto -10%;
+  height: 75%;
+  background: radial-gradient(
+    1200px 600px at 20% 20%,
+    rgba(246, 194, 65, 0.18),
+    rgba(246, 194, 65, 0.06) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  filter: blur(2px);
 }
 
-@media (min-width: 960px) {
-    :root {
-        --vp-home-hero-image-filter: blur(68px);
-    }
+/* Hero title gradient */
+.VPHome .VPHero .name {
+  background: linear-gradient(180deg, #ffe08a 0%, #f6c241 50%, #e7b231 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.2px;
+}
+.VPHome .VPHero .text {
+  color: var(--vp-c-text-2);
+  max-width: 56ch;
 }
 
-/**
- * Component: Custom Block
- * -------------------------------------------------------------------------- */
-
-:root {
-    --vp-custom-block-tip-border: transparent;
-    --vp-custom-block-tip-text: var(--vp-c-text-1);
-    --vp-custom-block-tip-bg: var(--vp-c-brand-soft);
-    --vp-custom-block-tip-code-bg: var(--vp-c-brand-soft);
+/* Hero buttons */
+.VPHome .VPHero .actions .VPButton.brand {
+  box-shadow: 0 6px 18px rgba(246, 194, 65, 0.20);
+  border: 1px solid rgba(246, 194, 65, 0.30);
+}
+.VPHome .VPHero .actions .VPButton.brand:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(246, 194, 65, 0.26);
 }
 
-/**
- * Component: Algolia
- * -------------------------------------------------------------------------- */
+/* =========================
+   HOME PAGE — FEATURES (cards)
+   ========================= */
 
-.DocSearch {
-    --docsearch-primary-color: var(--vp-c-brand-1) !important;
+/* VitePress na homeu renderuje:
+   <a class="VPLink no-icon VPFeature"><div class="box">…</div></a>
+   — Očistimo wrapper, stilizujemo samo .box.
+*/
+
+/* Wrapper (anchor) — potpuno čist, bez background/border/senke */
+.VPLink.VPFeature,
+.VPFeature.VPLink {
+  display: block !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
+
+/* Za svaki slučaj ugasi i pseudo-elemente na wrapperu */
+.VPLink.VPFeature::before,
+.VPLink.VPFeature::after,
+.VPFeature.VPLink::before,
+.VPFeature.VPLink::after {
+  content: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Prava kartica je .box — single border + suptilna senka */
+.VPLink.VPFeature .box {
+  background: rgba(20, 23, 33, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+  border-radius: 14px !important;
+  padding: 20px 22px !important;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.02) inset,
+    0 10px 24px rgba(0, 0, 0, 0.30) !important;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+
+/* Hover / focus state ide preko wrappera, ali utiče na .box */
+.VPLink.VPFeature:hover .box,
+.VPLink.VPFeature:focus-visible .box {
+  transform: translateY(-2px);
+  border-color: rgba(246, 194, 65, 0.28) !important;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35) !important;
+}
+
+/* Tipografija unutar kartice */
+.VPLink.VPFeature .box .title { color: var(--vp-c-text-1) !important; font-weight: 600; }
+.VPLink.VPFeature .box .details,
+.VPLink.VPFeature .box p { color: var(--vp-c-text-2) !important; }
+
+/* =========================
+   NAVIGATION + LINKS
+   ========================= */
+.VPNavBar .title { display: flex; align-items: center; gap: 8px; }
+
+.DocSearch-Button {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: var(--vp-c-text-2) !important;
+}
+:root:not(.dark) .DocSearch-Button {
+  background: #f6f7fb !important;
+  border-color: #e6e8ef !important;
+}
+
+/* Link underline effect */
+.VPDoc a:not(.header-anchor):not(.VPButton) {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(246, 194, 65, 0.35);
+}
+.VPDoc a:hover { border-bottom-color: rgba(246, 194, 65, 0.7); }
+
+/* =========================
+   STAFF TEAM PAGE
+   ========================= */
+
+.staff-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.staff-card {
+  background: var(--vp-c-bg-alt);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  padding: 12px;
+  width: 170px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.staff-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 8px auto;
+  border: 2px solid var(--vp-c-brand);
+}
+
+.staff-card h3 { margin: 5px 0 2px 0; font-size: 0.95rem; }
+.staff-card p  { margin: 2px 0; font-size: 0.8rem; color: var(--vp-c-text-2); }
+
+/* Global links, but NOT in TOC or nav buttons */
+.VPDoc a:not(.header-anchor):not(.VPButton):not(.outline-link) {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(246, 194, 65, 0.35);
+}
+
+.VPDoc a:not(.header-anchor):not(.VPButton):not(.outline-link):hover {
+  border-bottom-color: rgba(246, 194, 65, 0.7);
+}
+
+/* Remove underline and ugly lines in TOC (On this page) */
+.VPDocAside .outline-link {
+  border: none !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  color: var(--vp-c-text-2);
+}
+
+.VPDocAside .outline-link:hover {
+  color: var(--vp-c-brand);
+  border: none !important;
+}
+
+.VPDocAside .outline-link.active {
+  color: var(--vp-c-brand);
+  font-weight: 600;
+}
+
+/* === FIX: Feature cards in LIGHT theme === */
+:root:not(.dark) .VPLink.VPFeature .box,
+:root:not(.dark) .VPFeature .box {
+  background: var(--vp-c-bg-alt) !important;           /* svetla pozadina */
+  border: 1px solid rgba(15, 18, 34, 0.08) !important; /* suptilan border */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important; /* laka senka */
+}
+
+/* Hover u light modu */
+:root:not(.dark) .VPLink.VPFeature:hover .box,
+:root:not(.dark) .VPFeature .box:hover {
+  border-color: rgba(246, 194, 65, 0.35) !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Tipografija u kartici (light) */
+:root:not(.dark) .VPLink.VPFeature .box .title,
+:root:not(.dark) .VPFeature .box .title { color: var(--vp-c-text-1) !important; }
+
+:root:not(.dark) .VPLink.VPFeature .box .details,
+:root:not(.dark) .VPFeature .box .details,
+:root:not(.dark) .VPLink.VPFeature .box p,
+:root:not(.dark) .VPFeature .box p { color: var(--vp-c-text-2) !important; }
+
+
 
