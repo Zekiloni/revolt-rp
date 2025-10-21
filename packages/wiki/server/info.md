@@ -10,14 +10,12 @@ This page contains all important details about how to connect, server IP, requir
 
 | Setting          | Information (Example)           |
 |------------------|----------------------------------|
-| **Server Name**   | Revolt RP                   |
 | **Platform**      | RAGE Multiplayer (RAGE:MP)     |
 | **IP Address**    | 127.0.0.1:22005                |
 | **Discord**       | https://discord.gg/tobeadded   |
 | **Forum**         | soon.soon.com                  |
-| **Language**      | English (with optional local)  |
-| **Gamemode**      | Roleplay (Heavy RP)            |
-| **Whitelist**     | User Control Panel             |
+| **UCP**           | soon.soon.com       |
+| **Website**           | soon.soon.com       |
 | **Type**          | Text-based                     |
 
 
