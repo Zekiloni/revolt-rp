@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { enUs, srRs } from '@revolt-rp/common';
 
 export const translationConfig = {
-  lng: 'sr-RS',
+  lng: 'en-US',
   resources: {
     'en-US': {
       translation: enUs

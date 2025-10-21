@@ -47,6 +47,20 @@ const RevoltPreset = definePreset(Aura, {
           800: '{slate.800}',
           900: '{slate.900}',
           950: '{slate.950}'
+        },
+        ground: {
+          0: '{slate.0}',
+          50: '{slate.50}',
+          100: '{slate.100}',
+          200: '{slate.200}',
+          300: '{slate.300}',
+          400: '{slate.400}',
+          500: '{slate.500}',
+          600: '#0e0f13',
+          700: '#0d0e11',
+          800: '#0b0c0f',
+          900: '#0a0b0d',
+          950: '#08090b'
         }
       }
     }
