@@ -30,7 +30,7 @@ export type ICharacterWithActivity = ICharacter & { averageActivity: number };
   selector: 'app-manage-members',
   standalone: true,
   imports: [CommonModule, Button, ButtonDirective, PrimeTemplate, TableModule, TranslatePipe, TooltipModule, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, DropdownModule, FormsModule, ChipModule],
-  providers: [ConfirmationService, DialogService],
+  providers: [DialogService],
   templateUrl: './manage-members.component.html',
   styleUrl: './manage-members.component.css'
 })

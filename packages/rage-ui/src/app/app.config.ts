@@ -8,7 +8,7 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideTranslateService } from '@ngx-translate/core';
 
 import { providePrimeNG } from 'primeng/config';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 import RevoltPreset from './revolt-preset';
 
@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
         preset: RevoltPreset,
         options: {
           ripple: true,
-          darkModeSelector: '.app-dark'
+          darkModeSelector: '.app-dark',
         }
       }
     }),
@@ -39,6 +39,7 @@ export const appConfig: ApplicationConfig = {
       defaultLanguage: environment.DEFAULT_LANGUAGE
     }),
     MessageService,
+    ConfirmationService,
     RageClientService,
     provideStore({
       gameInterface: gameInterfaceReducer,

@@ -1,15 +1,13 @@
-<div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border w-[600px] max-w-[90vw]"
+<div class="absolute-center bg-surface-700/75 bg-opacity-45 p-6 shadow rounded-border w-[600px] max-w-[90vw]"
      #inventory>
   <div class="flex flex-col gap-3">
-    <h2 class="text-lg font-bold mb-2">{{ 'inventory' | translate }}</h2>
-
     <p-confirmDialog />
 
     @if ($inventory | async; as inventory) {
       <div class="grid grid-cols-4 sm:grid-cols-5 gap-3">
         @for (item of inventory; let idx = $index; track idx) {
           <div
-            class="aspect-square bg-surface-50 dark:bg-surface-950 rounded-border flex justify-center items-center"
+            class="aspect-square bg-surface-50 dark:bg-surface-900/75 rounded-border flex justify-center items-center"
             appDroppable
             (dragDrop)="dragDropItem(idx)"
           >

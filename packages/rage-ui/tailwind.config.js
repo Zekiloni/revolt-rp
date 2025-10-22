@@ -12,19 +12,19 @@ module.exports = {
     extend: {
       colors: {
         surface: {
-          0: 'var(--p-surface-0)',
-          50: 'var(--p-surface-50)',
-          100: 'var(--p-surface-100)',
-          200: 'var(--p-surface-200)',
-          300: 'var(--p-surface-300)',
-          400: 'var(--p-surface-400)',
-          500: 'var(--p-surface-500)',
-          600: 'var(--p-surface-600)',
-          700: 'var(--p-surface-700)',
-          800: 'var(--p-surface-800)',
-          900: 'var(--p-surface-900)',
-          950: 'var(--p-surface-950)',
-        }
+          0: 'rgb(from var(--p-surface-0) r g b / <alpha-value>)',
+          50: 'rgb(from var(--p-surface-50) r g b / <alpha-value>)',
+          100: 'rgb(from var(--p-surface-100) r g b / <alpha-value>)',
+          200: 'rgb(from var(--p-surface-200) r g b / <alpha-value>)',
+          300: 'rgb(from var(--p-surface-300) r g b / <alpha-value>)',
+          400: 'rgb(from var(--p-surface-400) r g b / <alpha-value>)',
+          500: 'rgb(from var(--p-surface-500) r g b / <alpha-value>)',
+          600: 'rgb(from var(--p-surface-600) r g b / <alpha-value>)',
+          700: 'rgb(from var(--p-surface-700) r g b / <alpha-value>)',
+          800: 'rgb(from var(--p-surface-800) r g b / <alpha-value>)',
+          900: 'rgb(from var(--p-surface-900) r g b / <alpha-value>)',
+          950: 'rgb(from var(--p-surface-950) r g b / <alpha-value>)',
+        },
       }
     }
   },
