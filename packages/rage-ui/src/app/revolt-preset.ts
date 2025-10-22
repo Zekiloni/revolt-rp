@@ -36,31 +36,31 @@ const RevoltPreset = definePreset(Aura, {
       dark: {
         surface: {
           0: '#ffffff',
-          50: '{slate.50}',
-          100: '{slate.100}',
-          200: '{slate.200}',
-          300: '{slate.300}',
-          400: '{slate.400}',
-          500: '{slate.500}',
-          600: '{slate.600}',
-          700: '{slate.700}',
-          800: '{slate.800}',
-          900: '{slate.900}',
-          950: '{slate.950}'
+          50: '#f3f4f6',
+          100: '#e5e7eb',
+          200: '#d1d5db',
+          300: '#9ca3af',
+          400: '#6b7280',
+          500: '#4b5161',
+          600: '#333849',
+          700: '#252937',
+          800: '#1b1f2b',
+          900: '#121620',
+          950: '#0b0d13'
         },
         ground: {
-          0: '{slate.0}',
-          50: '{slate.50}',
-          100: '{slate.100}',
-          200: '{slate.200}',
-          300: '{slate.300}',
-          400: '{slate.400}',
-          500: '{slate.500}',
-          600: '#0e0f13',
-          700: '#0d0e11',
-          800: '#0b0c0f',
-          900: '#0a0b0d',
-          950: '#08090b'
+          0: '#f4f5f7',      // very light background (like slate.50)
+          50: '#e7e9ee',     // light neutral tone
+          100: '#cfd4dc',    // subtle gray
+          200: '#a8b0be',    // cool slate-gray
+          300: '#7a8497',    // mid slate tone
+          400: '#555d6f',    // balanced mid-dark
+          500: '#383e50',    // dark neutral gray
+          600: '#0e0f13',    // your chosen dark base
+          700: '#0d0e11',    // slightly deeper
+          800: '#0b0c0f',    // near-black
+          900: '#0a0b0d',    // ultra-dark
+          950: '#08090b'     // almost true black
         }
       }
     }

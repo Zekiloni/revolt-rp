@@ -24,7 +24,7 @@ import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
   selector: 'app-inventory',
   standalone: true,
   imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe, ConfirmDialogModule, StaticAssetPipe],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
 })

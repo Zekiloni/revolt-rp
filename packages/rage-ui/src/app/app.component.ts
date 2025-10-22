@@ -103,7 +103,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     GarageMenuComponent,
     ConfirmDialog
   ],
-  providers: [InventoryListenerService, ConfirmationService],
+  providers: [InventoryListenerService],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

@@ -28,7 +28,7 @@ import { InputNumber } from 'primeng/inputnumber';
   selector: 'app-manage-ranks',
   standalone: true,
   imports: [CommonModule, TableModule, TranslatePipe, Button, ButtonDirective, IconFieldModule, InputIconModule, InputTextModule, ConfirmPopupModule, ChipModule, DropdownModule, FormsModule, PaginatorModule, InputNumber],
-  providers: [ConfirmationService, DialogService],
+  providers: [DialogService],
   templateUrl: './manage-ranks.component.html',
   styleUrl: './manage-ranks.component.css'
 })
