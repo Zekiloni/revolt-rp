@@ -32,6 +32,10 @@ export const appConfig: ApplicationConfig = {
         options: {
           ripple: true,
           darkModeSelector: '.app-dark',
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base, primeng, tailwind-utilities'
+          }
         }
       }
     }),

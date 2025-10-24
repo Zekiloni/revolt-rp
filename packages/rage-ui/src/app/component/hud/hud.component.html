@@ -13,8 +13,21 @@
   </div>
 }
 
-<div class="absolute-top-right flex flex-col text-shadow">
-  <h2 class="text-green-500 mr-8">{{ cash | currency }}</h2>
+<div class="absolute-top-right flex flex-col items-end text-shadow">
+  <div class="flex items-center mr-4 mt-4 gap-3">
+    <div class="flex gap-3 items-center py-1 px-3 bg-surface-500/75 rounded-lg">
+      <p class="text-surface-100">ID {{ remoteId }}</p>
+      <i class="pi pi-user"></i>
+    </div>
+    <div class="flex gap-3 items-center py-1 px-3 bg-surface-500/75 rounded-lg">
+      <p class="text-surface-100">{{ remoteId }}</p>
+      <i class="pi pi-users"></i>
+    </div>
+  </div>
+  <div class="flex gap-3 items-center mr-4 mt-4 py-1 px-3 bg-surface-500/75 rounded-lg">
+    <p class="text-surface-100">{{ cash | currency }}</p>
+    <i class="pi pi-wallet"></i>
+  </div>
 </div>
 
 @if ($quickSlots | async; as quickSlots) {
