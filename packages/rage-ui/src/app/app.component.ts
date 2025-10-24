@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Renderer2, RendererFactory2 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ToastModule } from 'primeng/toast';
 import { Confirmation, ConfirmationService, MessageService } from 'primeng/api';
@@ -58,6 +58,7 @@ import { ToastMessageOptions } from 'primeng/api/toastmessage';
 import { PrimeNG } from 'primeng/config';
 import { GarageMenuComponent } from './component/property/garage-menu';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ColorConverterService } from './domain/service/color-converter.service';
 
 
 @Component({
@@ -111,7 +112,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     fadeInOutTrigger
   ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   protected readonly GameUiKey = GameUiKey;
   private renderer?: Renderer2;
 
@@ -127,7 +128,8 @@ export class AppComponent implements OnInit {
     @Inject(Store) private store: Store<GameInterfaceState>,
     private inventoryListenerService: InventoryListenerService,
     private rendererFactory: RendererFactory2,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private colorConverter: ColorConverterService
   ) {
     this.initializeLanguages();
   }
@@ -165,7 +167,7 @@ export class AppComponent implements OnInit {
 
   private listenToNotificationEvents() {
     this.rageClientService.on(ProcedureKey.BROWSER_NOTIFICATION, (message: ToastMessageOptions) => {
-      this.messageService.add({ ...message, key: 'global' });
+      this.messageService.add({ ...message, key: 'global', styleClass: 'bg-surface-900 bg-opacity-75 rounded-lg border-0', closable: false });
     });
   }
 
@@ -209,6 +211,8 @@ export class AppComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.colorConverter.initialize();
+
     if ('mp' in window && !window['mp'].fake) {
       this.listenToToggleGameInterfaceEvents();
 
@@ -220,5 +224,9 @@ export class AppComponent implements OnInit {
     } else {
       console.warn('Unable to initialize RAGE-MP events as \'mp\' is not available in the window.');
     }
+  }
+
+  ngOnDestroy() {
+    this.colorConverter.destroy();
   }
 }

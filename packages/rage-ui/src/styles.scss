@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer tailwind-base, primeng, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
+
 @import 'primeicons/primeicons.css';
 
 @import 'quill/dist/quill.core.css';
