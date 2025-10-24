@@ -251,4 +251,5 @@ export const enum ProcedureKey {
 
   BROWSER_CREATE_CONFIRMATION = 'browser_createConfirmation',
   CLIENT_TOGGLE_SPECTATE = 'client_toggleSpectate',
+  BROWSER_UPDATE_PLAYERS = 'browser_updatePlayers',
 }
