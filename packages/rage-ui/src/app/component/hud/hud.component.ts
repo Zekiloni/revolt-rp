@@ -24,6 +24,7 @@ const SHOW_HIDE_TIMEOUT = 3000;
 export class HudComponent implements OnInit, OnDestroy {
   protected readonly getItemIcon = getItemIcon;
 
+  players = 0;
   remoteId = 1;
   cash = 666.99;
   streetName = 'Street Name';
@@ -51,7 +52,7 @@ export class HudComponent implements OnInit, OnDestroy {
 
   private triggerQuickSlotsVisibility() {
     if (this.showQuickSlotsSubject.value)
-      return
+      return;
 
     this.showQuickSlotsSubject.next(true);
 
@@ -82,6 +83,11 @@ export class HudComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   };
 
+  private setPlayers = (players: number) => {
+    this.players = players;
+    this.changeDetectorRef.detectChanges();
+  };
+
   private handleSetPlayerRemoteId = (value: number) => {
     this.remoteId = value;
     this.changeDetectorRef.detectChanges();
@@ -105,6 +111,7 @@ export class HudComponent implements OnInit, OnDestroy {
     this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_LOCATION, this.handleUpdateLocation);
     this.rageClientService.on(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, this.handleSetPlayerRemoteId);
     this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, this.handleSelectedItemUpdate);
+    this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_PLAYERS, this.setPlayers);
 
     this.$quickSlots
       .pipe(takeUntil(this.$destroy))
@@ -119,6 +126,7 @@ export class HudComponent implements OnInit, OnDestroy {
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_LOCATION, this.handleUpdateLocation);
     this.rageClientService.off(ProcedureKey.BROWSER_SET_PLAYER_REMOTE_ID, this.handleSetPlayerRemoteId);
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_SELECTED_ITEM_ID, this.handleSelectedItemUpdate);
+    this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_PLAYERS, this.setPlayers);
 
     this.$destroy.next();
     this.$destroy.complete();

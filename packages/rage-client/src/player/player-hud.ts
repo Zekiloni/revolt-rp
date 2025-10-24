@@ -1,4 +1,4 @@
-import { register, triggerBrowser } from '@libertymp/rage-rpc';
+import { triggerBrowser } from '@libertymp/rage-rpc';
 import { gameUiConfig, GameUiKey, HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { defaultHiddenHudComponents } from './player-hud.config';
@@ -6,7 +6,6 @@ import { getHeadingTo } from '../util/vector.util';
 import { getCash } from './util/player-data.util';
 import { registerKeyBind } from '../core/keybind-manager';
 import { toggleVehicleHud } from '../vehicle/vehicle-core';
-
 
 
 const enum HudActivityState {
@@ -19,6 +18,7 @@ export let isHudActive = gameUiConfig.hud.isActive;
 let hudUpdateInterval: NodeJS.Timer | null = null;
 let updateInitially = false;
 let hudActivityState = HudActivityState.Default;
+let lastUpdatedAt = 0;
 
 const hiddenHudComponents: Set<RageEnums.HudComponent> = new Set<RageEnums.HudComponent>(
   [
@@ -56,6 +56,12 @@ function updateHudHandler() {
   const headingTo = getHeadingTo(playerHeading);
 
   triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_LOCATION, [headingTo, zone, street]);
+
+  const now = Date.now();
+  if (now - lastUpdatedAt >= 750) {
+    lastUpdatedAt = now;
+    triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_PLAYERS, mp.players.length);
+  }
 
   if (!updateInitially) {
     triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_CASH, getCash());
