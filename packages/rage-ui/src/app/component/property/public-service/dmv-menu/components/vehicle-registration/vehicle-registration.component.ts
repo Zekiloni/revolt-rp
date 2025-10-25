@@ -8,7 +8,7 @@ import { IPayment, IProperty, IRegisterVehicle, IVehicle, PaymentType, Procedure
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 import { StaticAssetPipe } from '../../../../../../domain/pipe/static-asset.pipe';
 import { SelectPaymentMethodComponent } from '../../../../../misc/select-payment-method';
-import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-vehicle-registration',
@@ -18,16 +18,17 @@ import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 })
 export class VehicleRegistrationComponent {
   $vehicles: Observable<IVehicle[]>;
-  selectedVehicle: IVehicle| null = null;
+  selectedVehicle: IVehicle | null = null;
   selectedTab: IRegisterVehicle['type'] = 'register';
 
+  loading = false;
   renewalDays = 30;
   paymentType: IPayment = {
     type: PaymentType.Cash,
     bankAccountNo: undefined
   };
 
-  constructor(private dialogConfig: DynamicDialogConfig<IProperty>, private rageClientService: RageClientService) {
+  constructor(private dialogConfig: DynamicDialogConfig<IProperty>, private dialogRef: DynamicDialogRef, private rageClientService: RageClientService) {
     this.$vehicles = this.rageClientService.callServer<IVehicle[]>(ProcedureKey.SERVER_GET_PLAYER_VEHICLES)
       .pipe(map((vehicles) => vehicles.filter(vehicle => !vehicle.rented || !vehicle.isTemporary)));
   }
@@ -55,6 +56,8 @@ export class VehicleRegistrationComponent {
       return;
     }
 
+    this.loading = true;
+
     const data: IRegisterVehicle = {
       vehicleId: this.selectedVehicle.id,
       type: this.selectedTab,
@@ -62,7 +65,7 @@ export class VehicleRegistrationComponent {
       propertyId: this.property.id
     };
 
-    this.rageClientService.callServer(ProcedureKey.SERVER_REGISTER_VEHICLE, data);
+    this.rageClientService.callServer(ProcedureKey.SERVER_REGISTER_VEHICLE, data)
+      .subscribe({ next: () => this.dialogRef.close(), complete: () => this.loading = false });
   }
-
 }
