@@ -252,4 +252,8 @@ export const enum ProcedureKey {
   BROWSER_CREATE_CONFIRMATION = 'browser_createConfirmation',
   CLIENT_TOGGLE_SPECTATE = 'client_toggleSpectate',
   BROWSER_UPDATE_PLAYERS = 'browser_updatePlayers',
+
+  SERVER_REGISTER_VEHICLE = 'server_registerVehicle',
+
+  BROWSER_DMV_SET = 'browser_dmvSet',
 }

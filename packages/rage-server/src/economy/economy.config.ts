@@ -19,5 +19,8 @@ export const economyConfig = {
       baseSalary: 100,
       trashWeightCashOut: 0.75,
     }
-  }
+  },
+
+  vehicleRegistrationFee: 250,
+  vehicleRenewalFee: 100,
 }

@@ -46,7 +46,7 @@ export class DmvMenuComponent implements OnInit, OnDestroy {
         width: '45%',
         modal: true,
         data: this.property,
-        focusOnShow: true,
+        focusOnShow: false,
         closable: true,
         dismissableMask: true
       }

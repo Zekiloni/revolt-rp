@@ -1,6 +1,12 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { DrivingTestMistakeType, ProcedureKey } from '@revolt-rp/common';
-import { completeDrivingTest, dmvInstructorSays, getDrivingQuiz, startDrivingTest } from './dmv.service';
+import { DrivingTestMistakeType, IRegisterVehicle, ProcedureKey } from '@revolt-rp/common';
+import {
+  completeDrivingTest,
+  dmvInstructorSays,
+  getDrivingQuiz,
+  registerVehicle,
+  startDrivingTest
+} from './dmv.service';
 import { getPropertyById } from '../property.service';
 
 
@@ -21,7 +27,12 @@ function addDrivingTestMistakeHandler(mistake: DrivingTestMistakeType, { player 
   dmvInstructorSays(player, mistake);
 }
 
+function registerVehicleHandler(data: IRegisterVehicle, { player }: ProcedureListenerInfo<PlayerMp>) {
+  return registerVehicle(player, data);
+}
+
 on(ProcedureKey.SERVER_START_DRIVING_TEST, startDrivingTestHandler);
 on(ProcedureKey.SERVER_FINISH_DRIVING_TEST, finishDrivingTestHandler);
 on(ProcedureKey.SERVER_ADD_DRIVING_TEST_MISTAKE, addDrivingTestMistakeHandler);
+register(ProcedureKey.SERVER_REGISTER_VEHICLE, registerVehicleHandler)
 register(ProcedureKey.SERVER_GET_DRIVING_QUIZ, getDrivingQuizHandler);
