@@ -3,18 +3,29 @@ import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   DrivingLicenseCategory,
   DrivingTestMistakeType,
-  GameUiKey, hexColors,
+  GameUiKey,
+  hexColors,
   IDrivingQuiz,
+  IRegisterVehicle,
+  IVehicleNumberplate,
+  PaymentType,
   ProcedureKey,
   VehicleSharedDataType
 } from '@revolt-rp/common';
 import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
-import { getPropertyAvailableParkingSpot } from '../property.service';
+import { getPropertyAvailableParkingSpot, getPropertyById } from '../property.service';
 import { showPlayerGameInterface } from '../../player/util/player.util';
-import { createTemporaryVehicle, setVehicleOwner } from '../../vehicle/vehicle.service';
+import { createTemporaryVehicle, getVehicleById, setVehicleOwner } from '../../vehicle/vehicle.service';
 import { playerCreateDrivingLicense } from '../../player/inventory/player-document.service';
 import { generateNumberPlate } from '../../vehicle/vehicle.util';
+import { makeOnlinePayment } from '../../banking/banking.service';
+import { notifyPlayer } from '../../player/util/player-notify.util';
+import { giveMoney } from '../../player/character/character.service';
+import { calculateTaxRate } from '../../economy/economy.util';
+import { economyConfig } from '../../economy/economy.config';
+import dayjs from 'dayjs';
+import { vehicleConfig } from '../../vehicle/vehicle.config';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
@@ -99,3 +110,45 @@ export const dmvInstructorSays = (player: PlayerMp, mistake: DrivingTestMistakeT
   player.outputChatBox(`!{${hexColors.WHITE_PALETTE[0]}}${content}`);
 };
 
+
+export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) => {
+  const { payment, vehicleId, propertyId, type: optionType } = data;
+
+  const total = optionType === 'register' ? economyConfig.vehicleRegistrationFee : economyConfig.vehicleRenewalFee;
+
+  const property = await getPropertyById(propertyId);
+  const vehicle = await getVehicleById(vehicleId);
+
+  if (!vehicle) {
+    return notifyPlayer(player, { severity: 'error', detail: t('vehicle_not_found') });
+  }
+
+  if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
+    try {
+      await makeOnlinePayment(player, payment.bankAccountNo, property, total);
+      notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
+    } catch (error) {
+      return notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
+    }
+  } else {
+    if (player.character.cash < total) {
+      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+    }
+
+    await giveMoney(player, -total);
+    property.balance = (property.balance + (total - calculateTaxRate(property)));
+  }
+
+  await property.save();
+
+  vehicle.numberplate = {
+    content: optionType === 'register' ? generateNumberPlate(8) : vehicle.numberplate.content,
+    expiringAt: dayjs().add(vehicleConfig.numberplateExpireDays).toDate(),
+    modelType: vehicleConfig.defaultNumberPlateType,
+    vehicleId: vehicle.id
+  };
+
+  await vehicle.save();
+
+  return true;
+};

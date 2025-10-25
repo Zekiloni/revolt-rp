@@ -717,4 +717,6 @@ export const enUs = {
   'primary_color': 'Primary color',
   'secondary_color': 'Secondary color',
   'detected_speed': 'Detected speed',
+  'renew_numberplate_hint': 'Renew your registration to extend validity for another {{days}} days',
+  'register_vehicle_hint': 'Register your vehicle to receive a new number plate and legal status.',
 };
