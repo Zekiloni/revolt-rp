@@ -59,7 +59,7 @@
         </div>
 
         <div class="flex items-center justify-center mt-5">
-          <button pButton size="small" type="button" severity="success"
+          <button pButton size="small" type="button" severity="success" [loading]="loading"
                   (click)="confirmOption()" [label]="'confirm_registration' | translate"></button>
         </div>
       </div>

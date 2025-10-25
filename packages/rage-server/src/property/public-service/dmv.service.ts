@@ -120,7 +120,8 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
   const vehicle = await getVehicleById(vehicleId);
 
   if (!vehicle) {
-    return notifyPlayer(player, { severity: 'error', detail: t('vehicle_not_found') });
+    notifyPlayer(player, { severity: 'error', detail: t('vehicle_not_found') });
+    return false;
   }
 
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
@@ -128,11 +129,13 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
       await makeOnlinePayment(player, payment.bankAccountNo, property, total);
       notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
     } catch (error) {
-      return notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
+      notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
+      return false;
     }
   } else {
     if (player.character.cash < total) {
-      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+      notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+      return false;
     }
 
     await giveMoney(player, -total);
