@@ -26,6 +26,7 @@ import { calculateTaxRate } from '../../economy/economy.util';
 import { economyConfig } from '../../economy/economy.config';
 import dayjs from 'dayjs';
 import { vehicleConfig } from '../../vehicle/vehicle.config';
+import { Vehicle } from '../../vehicle/vehicle.model';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
@@ -117,7 +118,13 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
   const total = optionType === 'register' ? economyConfig.vehicleRegistrationFee : economyConfig.vehicleRenewalFee;
 
   const property = await getPropertyById(propertyId);
-  const vehicle = await getVehicleById(vehicleId);
+
+  let vehicle: VehicleMp | Vehicle | null = null;
+  vehicle = mp.vehicles.toArray().find(v => v.getVariable(VehicleSharedDataType.VehicleId) === vehicleId) || null;
+
+  if (!vehicle) {
+    vehicle = await getVehicleById(vehicleId);
+  }
 
   if (!vehicle) {
     notifyPlayer(player, { severity: 'error', detail: t('vehicle_not_found') });
@@ -144,14 +151,26 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
 
   await property.save();
 
-  vehicle.numberplate = {
-    content: optionType === 'register' ? generateNumberPlate(8) : vehicle.numberplate.content,
+  const newNumberPlate = {
+    content: optionType === 'register'
+      ? generateNumberPlate(8)
+      : (vehicle instanceof VehicleMp ? vehicle.info.numberplate.content : vehicle.numberplate.content),
     expiringAt: dayjs().add(vehicleConfig.numberplateExpireDays).toDate(),
     modelType: vehicleConfig.defaultNumberPlateType,
-    vehicleId: vehicle.id
+    vehicleId: vehicle instanceof VehicleMp ? vehicle.info.id : vehicle.id
   };
 
-  await vehicle.save();
+  if (vehicle instanceof VehicleMp) {
+    vehicle.info.numberplate = newNumberPlate;
+    await vehicle.info.save();
+
+    vehicle.numberPlate = newNumberPlate.content;
+    vehicle.numberPlateType = newNumberPlate.modelType;
+
+  } else if (vehicle instanceof Vehicle) {
+    vehicle.numberplate = newNumberPlate;
+    await vehicle.save();
+  }
 
   return true;
 };

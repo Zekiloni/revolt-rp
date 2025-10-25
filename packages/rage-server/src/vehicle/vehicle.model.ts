@@ -1,6 +1,13 @@
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, Ref } from '@typegoose/typegoose';
-import { IVehicle, IVehicleExtra, IVehicleMod, IVehicleNumberplate, JobKey } from '@revolt-rp/common';
+import {
+  IVehicle,
+  IVehicleExtra,
+  IVehicleMod,
+  IVehicleNumberplate,
+  JobKey,
+  VehicleSharedDataType
+} from '@revolt-rp/common';
 import { Organization } from '../organization/organization.model';
 import { Character } from '../player/character/character.model';
 import { vehicleConfig } from './vehicle.config';
