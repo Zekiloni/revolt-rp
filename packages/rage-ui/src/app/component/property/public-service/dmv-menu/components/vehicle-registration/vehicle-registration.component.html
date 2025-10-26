@@ -55,7 +55,7 @@
           <h4 class="text-sm font-semibold text-white mb-1">
             {{ 'payment_method' | translate }}
           </h4>
-          <app-select-payment-method></app-select-payment-method>
+          <app-select-payment-method (paymentChange)="paymentMethod = $event" />
         </div>
 
         <div class="flex items-center justify-center mt-5">

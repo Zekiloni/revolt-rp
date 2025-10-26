@@ -1,12 +1,12 @@
 <div class="mb-4">
   <span class="px-4 py-4 text-surface-900 dark:text-surface-0">{{ 'payment_method' | translate }}</span>
-  <app-select-payment-method [payment]="paymentMethod" />
+  <app-select-payment-method (paymentChange)="paymentMethod = $event" />
 </div>
 
 <div class="p-4 mt-4 border-b border-surface">
   <div class="flex justify-between items-center mb-4">
     <span class="text-surface-900 dark:text-surface-0">{{ 'total' | translate }}</span>
-    <span class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ vehicle.price | currency }}</span>
+    <span class="dark:text-surface-0 text-green-500 font-bold">{{ vehicle.price | currency }}</span>
   </div>
 </div>
 

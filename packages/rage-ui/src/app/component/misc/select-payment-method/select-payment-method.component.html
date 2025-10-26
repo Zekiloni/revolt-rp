@@ -8,8 +8,9 @@
       <p-radioButton
         name="cash"
         [value]="paymentTypeCash"
+        (ngModelChange)="onSelectPayment($event)"
         [(ngModel)]="payment"
-        inputId="ingredient2" />
+      />
     </div>
   </div>
 
@@ -25,8 +26,8 @@
             name="bank-card"
             [value]="getBankCardPayment(bankCard)"
             [(ngModel)]="payment"
-            [disabled]="!isCardActive(bankCard)"
-            inputId="ingredient2" />
+            (ngModelChange)="onSelectPayment($event)"
+            [disabled]="!isCardActive(bankCard)" />
         </div>
       </div>
     }

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { t } from 'i18next';
 import { FilterQuery } from 'mongoose';
 import { customAlphabet } from 'nanoid';
-import { BankAccountType, GameUiKey, IBankCardInfo, TransactionStatus, TransactionType } from '@revolt-rp/common';
+import { BankAccountType, GameUiKey, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { Character } from '../player/character/character.model';
 import { BankAccount, BankAccountModel } from './bank-account.model';
@@ -53,18 +53,14 @@ export const createBankAccount = (character: Character, type: BankAccountType, b
 
 
 export const createBankCardItem = async (player: PlayerMp, bankAccount: BankAccount) => {
-  const bankCardInfo: IBankCardInfo = {
-    bankAccountNo: bankAccount.number,
-    active: true,
-    pinCode: generatePinCode()
-  };
-
-  const item = await playerGiveItem(player, 'items.credit_card', 1);
-  item.bankCardInfo = bankCardInfo;
-  item.expiringAt = dayjs().add(bankingConfig.DEFAULT_CREDIT_CARD_DAYS, 'days').toDate();
-
-  await item.save();
-  return item;
+  return playerGiveItem(player, 'items.credit_card', 1, {
+    bankCardInfo: {
+      bankAccountNo: bankAccount.number,
+      active: true,
+      pinCode: generatePinCode()
+    },
+    expiringAt: dayjs().add(bankingConfig.DEFAULT_CREDIT_CARD_DAYS, 'days').toDate()
+  });
 };
 
 export const getBankAccountTransactions = async (bankAccountId: string, filter: FilterQuery<Transaction> = {}) => {
@@ -99,9 +95,9 @@ export const setBankCardActive = async (item: Item, active: boolean) => {
   return item;
 };
 
-export const createBankTransaction = (bankAccountId: string, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
+export const createBankTransaction = (bankAccount: BankAccount, type: TransactionType, amount: number, description: string, targetBankAccountId?: string) => {
   return TransactionModel.create({
-    bankAccount: bankAccountId,
+    bankAccount,
     type,
     amount,
     status: TransactionStatus.Failed,
@@ -121,7 +117,7 @@ export const playerWithdrawMoney = async (player: PlayerMp, type: 'bank' | 'atm'
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Withdraw, amount, t('withdraw_transaction'));
+  const transaction = await createBankTransaction(bankAccount, TransactionType.Withdraw, amount, t('withdraw_transaction'));
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));
@@ -155,7 +151,7 @@ export const playerDepositMoney = async (player: PlayerMp, type: 'bank' | 'atm' 
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Deposit, amount, t('deposit_transaction'));
+  const transaction = await createBankTransaction(bankAccount, TransactionType.Deposit, amount, t('deposit_transaction'));
 
   if (player.character.cash < amount) {
     throw new Error(t('not_enough_money'));
@@ -198,7 +194,7 @@ export const playerTransferMoney = async (player: PlayerMp, bankAccountId: strin
     throw new Error(t('cant_transfer_to_same_account'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Transfer, amount, t('transfer_transaction'), targetBankAccount.id);
+  const transaction = await createBankTransaction(bankAccount, TransactionType.Transfer, amount, t('transfer_transaction'), targetBankAccount.id);
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));
@@ -294,14 +290,14 @@ export const bankAccountPhoneLink = async (player: PlayerMp, bankAccountId: stri
 };
 
 
-export const makeOnlinePayment = async (player: PlayerMp, bankAccountId: string, property: Property, amount: number) => {
-  const bankAccount = await getBankAccountById(bankAccountId);
+export const makeOnlinePayment = async (player: PlayerMp, bankAccountNo: string, property: Property, amount: number) => {
+  const bankAccount = await getBankAccountByNumber(bankAccountNo);
 
   if (!bankAccount) {
     throw new Error(t('bank_account_doesnt_exist'));
   }
 
-  const transaction = await createBankTransaction(bankAccountId, TransactionType.Payment, amount, t('online_commerce_payment', { property: property.name }));
+  const transaction = await createBankTransaction(bankAccount, TransactionType.Payment, amount, t('online_commerce_payment', { property: property.name }));
 
   if (bankAccount.balance < amount) {
     throw new Error(t('insufficient_funds'));

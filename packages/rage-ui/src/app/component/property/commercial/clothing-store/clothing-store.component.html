@@ -56,7 +56,7 @@
           </div>
         </div>
       }
-      <app-select-payment-method [payment]="paymentMethod" />
+      <app-select-payment-method (paymentChange)="paymentMethod = $event" />
       <button pButton
               label="{{ 'checkout' | translate }}"
               icon="pi pi-check"
