@@ -556,6 +556,7 @@ export const enUs = {
   'parking_spot': 'Parking Spot',
   'preview_point': 'Preview Point',
   'delete_property_point': 'Are you sure you want to delete property point?',
+  'delete_product': 'Are you sure you want to delete product {{name}}?',
   'instructor': 'Instructor',
   'dmv_hint_head_to_vehicle': 'Head to the vehicle and get in.',
   'dmv_speeding': 'Please slow down.',
