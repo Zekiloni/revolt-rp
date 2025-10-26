@@ -254,6 +254,4 @@ export const enum ProcedureKey {
   BROWSER_UPDATE_PLAYERS = 'browser_updatePlayers',
 
   SERVER_REGISTER_VEHICLE = 'server_registerVehicle',
-
-  BROWSER_DMV_SET = 'browser_dmvSet',
 }

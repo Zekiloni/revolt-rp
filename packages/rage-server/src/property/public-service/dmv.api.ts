@@ -34,5 +34,5 @@ function registerVehicleHandler(data: IRegisterVehicle, { player }: ProcedureLis
 on(ProcedureKey.SERVER_START_DRIVING_TEST, startDrivingTestHandler);
 on(ProcedureKey.SERVER_FINISH_DRIVING_TEST, finishDrivingTestHandler);
 on(ProcedureKey.SERVER_ADD_DRIVING_TEST_MISTAKE, addDrivingTestMistakeHandler);
-register(ProcedureKey.SERVER_REGISTER_VEHICLE, registerVehicleHandler)
+register(ProcedureKey.SERVER_REGISTER_VEHICLE, registerVehicleHandler);
 register(ProcedureKey.SERVER_GET_DRIVING_QUIZ, getDrivingQuizHandler);

@@ -1,53 +1,77 @@
 #!/bin/bash
 
-# Define variables
+# -------------------------
+# Variables
+# -------------------------
 DEV_SERVER="dev-server"
-EXE_URL="https://cdn.rage.mp/updater/prerelease_server/server-files/ragemp-server.exe"
-BUGTRAP_URL="https://cdn.rage.mp/updater/prerelease_server/server-files/BugTrap-x64.dll"
+BASE_URL="https://cdn.rage.mp/updater/prerelease_server/server-files"
+
 EXE_FILE="$DEV_SERVER/ragemp-server.exe"
 BUGTRAP_FILE="$DEV_SERVER/BugTrap-x64.dll"
+BIN_FILES=("bt.dat" "enc.dat" "loader.mjs")
+BIN_DIR="$DEV_SERVER/bin"
 
 MONGO_URI="mongodb://127.0.0.1:27017/revolt_rp"
 
-# Ensure dev-server directory exists
-if [ ! -d "$DEV_SERVER" ]; then
-    echo "📁 Creating $DEV_SERVER directory..."
-    mkdir -p "$DEV_SERVER"
-fi
-
-# Download ragemp-server.exe if not exists
-if [ ! -f "$EXE_FILE" ]; then
-    echo "📥 Downloading ragemp-server.exe..."
-    curl -o "$EXE_FILE" -L "$EXE_URL"
-else
-    echo "✅ $EXE_FILE already exists. Skipping download."
-fi
-
-# Download BugTrap-x64.dll if not exists
-if [ ! -f "$BUGTRAP_FILE" ]; then
-    echo "📥 Downloading BugTrap-x64.dll..."
-    curl -o "$BUGTRAP_FILE" -L "$BUGTRAP_URL"
-else
-    echo "✅ $BUGTRAP_FILE already exists. Skipping download."
-fi
-
-# Ensure the /ragemp-srv directory exists
+# -------------------------
+# Create necessary directories
+# -------------------------
+echo "📁 Ensuring $DEV_SERVER directories exist..."
+mkdir -p "$DEV_SERVER"
 mkdir -p "$DEV_SERVER/client_packages/game_resources"
 mkdir -p "$DEV_SERVER/packages/core"
 mkdir -p "$DEV_SERVER/client_packages"
+mkdir -p "$BIN_DIR"
 
-# Copy files from ./dist (root)
-echo "📂 Copying files from ./dist to $DEV_SERVER..."
+# -------------------------
+# Download function
+# -------------------------
+download() {
+    local url="$1"
+    local output="$2"
+
+    if [ ! -f "$output" ]; then
+        echo "📥 Downloading $(basename "$output")..."
+        curl -L "$url" -o "$output"
+        if [ $? -ne 0 ]; then
+            echo "❌ Failed to download $(basename "$output")"
+            exit 1
+        fi
+    else
+        echo "✅ $(basename "$output") already exists. Skipping download."
+    fi
+}
+
+# -------------------------
+# Download server files
+# -------------------------
+download "$BASE_URL/ragemp-server.exe" "$EXE_FILE"
+download "$BASE_URL/BugTrap-x64.dll" "$BUGTRAP_FILE"
+
+# Download bin files
+for file in "${BIN_FILES[@]}"; do
+    download "$BASE_URL/bin/$file" "$BIN_DIR/$file"
+done
+
+# -------------------------
+# Copy project files
+# -------------------------
+echo "📂 Copying local files to $DEV_SERVER..."
+
 cp -r "./game_resources" "$DEV_SERVER/client_packages"
 cp "./server-config.json" "$DEV_SERVER/conf.json"
 cp "./dist/packages/rage-server/package.json" "$DEV_SERVER/package.json"
 cp "./dist/packages/rage-server/main.js" "$DEV_SERVER/packages/core/index.js"
 cp "./dist/packages/rage-client/main.js" "$DEV_SERVER/client_packages/index.js"
 
-echo "✅ Setup complete!"
-
+# -------------------------
+# Set environment variable
+# -------------------------
 export DATABASE_URL="$MONGO_URI"
 
+# -------------------------
+# Start server
+# -------------------------
 echo "🚀 Starting RAGEMP server..."
 cd "$DEV_SERVER"
 ./ragemp-server.exe

@@ -7,7 +7,6 @@ import {
   hexColors,
   IDrivingQuiz,
   IRegisterVehicle,
-  IVehicleNumberplate,
   PaymentType,
   ProcedureKey,
   VehicleSharedDataType
@@ -114,13 +113,11 @@ export const dmvInstructorSays = (player: PlayerMp, mistake: DrivingTestMistakeT
 
 export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) => {
   const { payment, vehicleId, propertyId, type: optionType } = data;
-
   const total = optionType === 'register' ? economyConfig.vehicleRegistrationFee : economyConfig.vehicleRenewalFee;
-
   const property = await getPropertyById(propertyId);
 
-  let vehicle: VehicleMp | Vehicle | null = null;
-  vehicle = mp.vehicles.toArray().find(v => v.getVariable(VehicleSharedDataType.VehicleId) === vehicleId) || null;
+  let vehicle: VehicleMp | Vehicle | null;
+  vehicle = mp.vehicles.toArray().find(v => v.info.id === vehicleId) || null;
 
   if (!vehicle) {
     vehicle = await getVehicleById(vehicleId);
@@ -134,7 +131,6 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
     try {
       await makeOnlinePayment(player, payment.bankAccountNo, property, total);
-      notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
     } catch (error) {
       notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
       return false;
@@ -147,20 +143,22 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
 
     await giveMoney(player, -total);
     property.balance = (property.balance + (total - calculateTaxRate(property)));
+    await property.save();
   }
 
-  await property.save();
+
+  const content = optionType === 'register'
+    ? generateNumberPlate(8)
+    : (vehicle instanceof mp.Vehicle ? vehicle.info.numberplate.content : vehicle.numberplate.content);
 
   const newNumberPlate = {
-    content: optionType === 'register'
-      ? generateNumberPlate(8)
-      : (vehicle instanceof VehicleMp ? vehicle.info.numberplate.content : vehicle.numberplate.content),
+    content,
     expiringAt: dayjs().add(vehicleConfig.numberplateExpireDays).toDate(),
     modelType: vehicleConfig.defaultNumberPlateType,
-    vehicleId: vehicle instanceof VehicleMp ? vehicle.info.id : vehicle.id
+    vehicleId: vehicle instanceof mp.Vehicle ? vehicle.info.id : vehicle.id
   };
 
-  if (vehicle instanceof VehicleMp) {
+  if (vehicle instanceof mp.Vehicle) {
     vehicle.info.numberplate = newNumberPlate;
     await vehicle.info.save();
 

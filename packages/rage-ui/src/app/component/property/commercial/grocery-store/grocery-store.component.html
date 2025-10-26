@@ -34,7 +34,7 @@
           </div>
         }
 
-        <app-select-payment-method [payment]="paymentMethod" />
+        <app-select-payment-method (paymentChange)="paymentMethod = $event" />
         <h2> {{ getTotalPrice() | currency }}</h2>
 
         <button pButton label="{{ 'checkout' | translate }}" icon="pi pi-shopping-cart" class="w-full mt-4"

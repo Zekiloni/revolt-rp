@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import { RageClientService } from '../../../domain/service/rage-client.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { FormsModule } from '@angular/forms';
-import { IItem, IPayment, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import { Observable } from 'rxjs';
 import { TranslatePipe } from '@ngx-translate/core';
+import { IItem, IPayment, PaymentType, ProcedureKey } from '@revolt-rp/common';
+import { RageClientService } from '../../../domain/service/rage-client.service';
 import { dayjs } from '../../../domain/util/dajys.util';
 
 @Component({
@@ -16,7 +16,8 @@ import { dayjs } from '../../../domain/util/dajys.util';
   styleUrl: './select-payment-method.component.css'
 })
 export class SelectPaymentMethodComponent implements OnInit {
-  @Input() payment!: IPayment;
+  @Output() paymentChange = new EventEmitter<IPayment>();
+  payment: IPayment;
 
   $bankCards!: Observable<IItem[]>;
 
@@ -25,6 +26,12 @@ export class SelectPaymentMethodComponent implements OnInit {
   };
 
   constructor(private rageClientService: RageClientService) {
+    this.payment = this.paymentTypeCash;
+  }
+
+  onSelectPayment(payment: IPayment) {
+    this.payment = payment;
+    this.paymentChange.emit(payment);
   }
 
   isCardActive(item: IItem) {
@@ -34,7 +41,7 @@ export class SelectPaymentMethodComponent implements OnInit {
   getBankCardPayment(item: IItem) {
     return {
       type: PaymentType.BankCard,
-      bankAccountNo: item.id
+      bankAccountNo: item.bankCardInfo?.bankAccountNo
     };
   }
 
