@@ -18,6 +18,7 @@ export interface IProduct {
   name: string;
   stock: number;
   price: number;
+  ordered: number;
   data: IBaseItem | null;
   discount?: number;
 }
@@ -29,6 +30,11 @@ export interface IProductAdd {
 }
 
 export interface IProductRemove {
+  propertyId: string;
+  product: IProduct;
+}
+
+export interface IProductUpdate {
   propertyId: string;
   product: IProduct;
 }

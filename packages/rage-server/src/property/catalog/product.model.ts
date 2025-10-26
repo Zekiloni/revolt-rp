@@ -1,7 +1,7 @@
+import { Types } from 'mongoose';
+import { modelOptions, prop } from '@typegoose/typegoose';
 import { IProduct } from '@revolt-rp/common';
 import { getBaseItem, isValidItem } from '../../item/registry/item-registry.util';
-import { modelOptions, prop } from '@typegoose/typegoose';
-import { Types } from 'mongoose';
 
 
 @modelOptions({
@@ -22,6 +22,9 @@ export class Product implements IProduct {
 
   @prop({ required: false })
   discount?: number;
+
+  @prop({ required: false, default: 0 })
+  ordered: number;
 
   get data() {
     return isValidItem(this.name) ? getBaseItem(this.name) : null;
