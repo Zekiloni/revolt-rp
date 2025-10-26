@@ -151,6 +151,7 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
     ? generateNumberPlate(8)
     : (vehicle instanceof mp.Vehicle ? vehicle.info.numberplate.content : vehicle.numberplate.content);
 
+  // TODO: Recalculate expiration based on current expiration date if renewing
   const newNumberPlate = {
     content,
     expiringAt: dayjs().add(vehicleConfig.numberplateExpireDays).toDate(),
