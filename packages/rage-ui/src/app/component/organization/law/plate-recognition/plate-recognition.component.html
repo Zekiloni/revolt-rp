@@ -1,13 +1,13 @@
-<div class="absolute-top-center mt-4 p-card p-4 rounded-xl flex flex-col gap-4 w-full"
+<div class="absolute-top-center mt-4 bg-surface-900/75 p-4 rounded-xl flex flex-col gap-4 w-full"
      style="max-width: 40%">
   <div class="flex flex-row items-center justify-between gap-6 flex-wrap">
     <div class="flex flex-col gap-2">
-      <small class="text-surface-400 dark:text-surface-400">{{ 'numberplate' | translate }}</small>
+      <small class="text-surface-400 dark:text-surface-200">{{ 'numberplate' | translate }}</small>
       <span class="text-blue-400 text-xl font-bold">{{ numberplate }}</span>
     </div>
 
     <div class="flex flex-col gap-2">
-      <small class="text-surface-400 dark:text-surface-400">{{ 'model' | translate }}</small>
+      <small class="text-surface-400 dark:text-surface-200">{{ 'model' | translate }}</small>
       <span class="font-bold">{{ displayName }}</span>
     </div>
 
@@ -21,7 +21,7 @@
     <!--    </div>-->
 
     <div class="flex flex-col gap-2">
-      <small class="text-surface-400 dark:text-surface-400">{{ 'detected_speed' | translate }}</small>
+      <small class="text-surface-400 dark:text-surface-200">{{ 'detected_speed' | translate }}</small>
       <div class="flex items-center gap-2">
         <i class="pi pi-car text-blue-400"></i>
         <span class="text-blue-400 font-bold">{{ speed.toFixed(2) }} KMH</span>
@@ -29,7 +29,7 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <small class="text-surface-400 dark:text-surface-400">{{ 'location' | translate }}</small>
+      <small class="text-surface-400 dark:text-surface-200">{{ 'location' | translate }}</small>
       <div class="flex items-center gap-2">
         <i class="pi pi-map-marker text-blue-400"></i>
         <span>{{ position[0].toFixed(2) }}° N, {{ position[1].toFixed(2) }}° W</span>
@@ -37,7 +37,7 @@
     </div>
   </div>
 
-  <div class="flex justify-end gap-6 text-sm text-surface-400 dark:text-surface-400 w-full">
+  <div class="flex justify-end gap-6 text-sm text-surface-400 dark:text-surface-200 w-full">
     <div class="flex items-center gap-2">
       <i class="pi pi-user"></i>
       <span>{{ officer }}</span>
