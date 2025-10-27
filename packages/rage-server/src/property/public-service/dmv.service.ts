@@ -11,7 +11,6 @@ import {
   ProcedureKey,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
 import { getPropertyAvailableParkingSpot, getPropertyById } from '../property.service';
 import { showPlayerGameInterface } from '../../player/util/player.util';
@@ -21,11 +20,9 @@ import { generateNumberPlate } from '../../vehicle/vehicle.util';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { notifyPlayer } from '../../player/util/player-notify.util';
 import { giveMoney } from '../../player/character/character.service';
-import { calculateTaxRate } from '../../economy/economy.util';
-import { economyConfig } from '../../economy/economy.config';
+import { calculateTaxRate } from '../../banking/tax.util';
 import dayjs from 'dayjs';
-import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { Vehicle } from '../../vehicle/vehicle.model';
+import { economyConfig, Property, Vehicle, vehicleConfig } from '@revolt-rp/core';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {

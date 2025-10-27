@@ -1,6 +1,6 @@
 import { triggerClient } from '@libertymp/rage-rpc';
 import { ProcedureKey } from '@revolt-rp/common';
-import { checkPlayerBan, kickPlayer } from './admin/moderation/moderation.service';
+import { checkPlayerBan, kickPlayer } from './admin/moderation.service';
 import { proxyCheck } from '../util/ip.util';
 
 

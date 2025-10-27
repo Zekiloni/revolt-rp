@@ -1,8 +1,6 @@
-import { FilterQuery, QueryOptions } from 'mongoose';
+import { FilterQuery } from 'mongoose';
 import { IAdvertisementCreate } from '@revolt-rp/common';
-import { Advertisement, AdvertisementModel } from './advertisement.model';
-import { Character } from '../../player/character/character.model';
-import { Item } from '../../item/item.model';
+import { Advertisement, AdvertisementModel, Character } from '@revolt-rp/core';
 
 
 export const getAdvertisementById = async (id: string) => {

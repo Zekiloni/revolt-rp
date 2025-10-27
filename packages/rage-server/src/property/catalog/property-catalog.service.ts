@@ -1,9 +1,11 @@
 import { CommercialType, IProduct, IProductAdd, ItemType, vehicleModels } from '@revolt-rp/common';
-import { filterItemsByType } from '../../item/registry/item-registry.util';
+import { filterItemsByType, getBaseItem, isValidItem } from '../../item/registry/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
-import { Property } from '../property.model';
-import { Product } from './product.model';
+import { Product, ProductModel, Property } from '@revolt-rp/core';
 
+ProductModel.schema.virtual('data').get(function() {
+  return isValidItem(this.name) ? getBaseItem(this.name) : null;
+});
 
 const catalogItems = {
   [CommercialType.GroceryStore]: filterItemsByType(ItemType.PRODUCT_GROCERY)
@@ -18,7 +20,6 @@ const catalogItems = {
   [CommercialType.VehicleRent]: vehicleRentConfig.availableVehicles,
   [CommercialType.VehicleDealership]: vehicleModels
 };
-
 
 export const getAvailableCatalogItems = (property: Property) => {
   return catalogItems[property.subType] || [];

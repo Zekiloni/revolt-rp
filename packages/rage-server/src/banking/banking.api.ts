@@ -12,7 +12,7 @@ import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util
 import { giveMoney } from '../player/character/character.service';
 import { bankingConfig } from './banking.config';
 import { FilterQuery } from 'mongoose';
-import { Transaction } from './transaction.model';
+import { Transaction } from '@revolt-rp/core';
 
 
 async function playerCreateSavingAccountHandler(balance: number, { player }: ProcedureListenerInfo<PlayerMp>) {

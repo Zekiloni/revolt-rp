@@ -2,10 +2,17 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { createItem, destroyItem, destroyItemById, getItemById, isWeaponItem } from '../../item/item.service';
+import { Item } from '@revolt-rp/core';
+import {
+  createItem,
+  destroyItem,
+  destroyItemById,
+  getItemById,
+  getItemObject,
+  isWeaponItem, setItemObject
+} from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
-import { Item } from '../../item/item.model';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
 import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
 
@@ -177,9 +184,12 @@ export const syncDropItem = async (player: PlayerMp, itemId: string, position: V
   item.position = position;
   item.rotation = rotation;
 
-  item.object = mp.objects.new(mp.joaat(item.data.model), position, {
+
+  const object = mp.objects.new(mp.joaat(item.data.model), position, {
     rotation, dimension: item.dimension, alpha: 255
   });
+
+  setItemObject(item, object);
 
   await item.save();
 };
@@ -204,7 +214,7 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
   item.dimension = null;
   item.localSlot = availableItemSlot;
 
-  const object = item.object;
+  const object = getItemObject(item);
 
   if (object && mp.objects.exists(object.id)) {
     object.destroy();

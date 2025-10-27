@@ -10,9 +10,9 @@ import {
 } from '@revolt-rp/common';
 import { playerAddAttachment, playerRemoveAttachment } from '../player/util/player-attachment.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { getPropertyById } from '../property/property.service';
+import { getPropertyById, getPropertyJob } from '../property/property.service';
 import { playAnimation } from '../player/util/player-animation.util';
-import { economyConfig } from '../economy/economy.config';
+import { economyConfig } from '@revolt-rp/core';
 
 
 const COLLECTED_TRASH: Map<number, Date> = new Map();
@@ -105,5 +105,6 @@ export const deliverGarbage = async (player: PlayerMp, vehicle: VehicleMp) => {
     detail: t('trash_delivered', { weight, salary: formatCurrency(salary) })
   });
 
-  property.job.stopJob(player, true);
+
+  getPropertyJob(property).stopJob(player, true);
 };

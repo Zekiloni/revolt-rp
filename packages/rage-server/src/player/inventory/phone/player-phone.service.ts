@@ -13,9 +13,7 @@ import {
 } from '@revolt-rp/common';
 import { SmartphoneItemModel } from '../../../item/registry/electronic/smartphone-item.model';
 import { notifyPlayer } from '../../util/player-notify.util';
-import { Item, ItemModel } from '../../../item/item.model';
-import { PhoneMessageModel } from './phone-message.model';
-import { PhoneCall, PhoneCallModel } from './phone-call.model';
+import { Item, ItemModel, PhoneCall, PhoneCallModel, PhoneMessageModel } from '@revolt-rp/core';
 
 
 const DEFAULT_PHONE_INFO: IPhoneInfo = {

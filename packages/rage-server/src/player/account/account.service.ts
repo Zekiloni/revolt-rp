@@ -2,9 +2,8 @@ import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
 import { AccountCreate, AdminType, PlayerSharedDataType } from '@revolt-rp/common';
-import { Account } from './account.model';
 import { FilterQuery } from 'mongoose';
-import { AccountModel } from '../../common/entity-ref';
+import { Account, AccountModel } from '@revolt-rp/core';
 
 
 export const getAccountByUsername = async (username: string) => {

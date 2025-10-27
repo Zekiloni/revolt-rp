@@ -1,5 +1,5 @@
 import { appendFile } from 'fs';
-import { logger } from '../core/logger.config';
+import { logger } from '@revolt-rp/core';
 
 const saveFile = 'saved_positions.json';
 

@@ -9,19 +9,15 @@ import {
   PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
-import { characterConfig } from './character.config';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
 import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 import { clearPlayerDamages } from '../damage/player-damage.service';
-import { Organization } from '../../organization/organization.model';
-import { Character } from './character.model';
-import { OrganizationRank } from '../../organization/rank/organization-rank.model';
 import { FilterQuery, UpdateQuery } from 'mongoose';
-import { CharacterModel } from '../../common/entity-ref';
-import { Property } from '../../property/property.model';
 import { playerAddAttachment, playerRemoveAttachment } from '../util/player-attachment.util';
+import { Character, characterConfig, CharacterModel, Organization, OrganizationRank, Property } from '@revolt-rp/core';
+import { getPropertyJob } from '../../property/property.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -176,7 +172,8 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
   if (initialSpawn) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
 
-    player.character.position = characterConfig.defaultPosition;
+    const { x, y, z } = characterConfig.defaultPosition;
+    player.character.position = new mp.Vector3(x, y, z);
     player.character.dimension = characterConfig.defaultDimension;
 
     const bankAccount = await createBankAccount(player.character, BankAccountType.Main, characterConfig.defaultBankBalance);
@@ -190,7 +187,8 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
     if (!player.character.isWounded) {
       switch (player.character.defaultSpawn.type) {
         case CharacterSpawnType.INITIAL_SPAWN: {
-          player.character.position = characterConfig.defaultPosition;
+          const { x, y, z } = characterConfig.defaultPosition;
+          player.character.position = new mp.Vector3(x, y, z);
           player.character.dimension = characterConfig.defaultDimension;
           break;
         }
@@ -280,7 +278,7 @@ export const getPlayerOrganizationId = (player: PlayerMp) => {
 
 export const setPlayerJob = async (player: PlayerMp, property: Property | null) => {
   if (property) {
-    const job = property.job;
+    const job = getPropertyJob(property);
     if (job) {
       player.character.job = {
         jobKey: job.key,

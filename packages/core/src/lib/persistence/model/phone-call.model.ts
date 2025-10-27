@@ -1,0 +1,33 @@
+import { Document, Types } from 'mongoose';
+import { modelOptions, prop } from '@typegoose/typegoose';
+import { IPhoneCall, PhoneCallStatus } from '@revolt-rp/common';
+
+
+@modelOptions({
+  options: {
+    customName: 'phone_calls'
+  },
+  schemaOptions: {
+    timestamps: {
+      createdAt: true
+    },
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true },
+  }
+})
+export class PhoneCall extends Document implements IPhoneCall {
+  declare _id: Types.ObjectId;
+  declare id: string;
+
+  @prop({ type: String, required: true })
+  caller: string;
+
+  @prop({ type: String, required: true })
+  receiver: string;
+
+  @prop({ enum: Object.values(PhoneCallStatus), type: String, default: PhoneCallStatus.Dialing })
+  status: PhoneCallStatus;
+
+  createdAt: Date;
+}
+

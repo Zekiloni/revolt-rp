@@ -3,7 +3,7 @@ import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
 import { ProcedureKey } from '../procedure.enums';
-import { Vector3 } from '../core.interface';
+import { IVector3 } from '../core.interface';
 import { IItem } from '../item/item.model';
 import { JobKey } from '../job/job.enums';
 
@@ -50,8 +50,8 @@ export interface IVehicle extends Base {
   windowTint: number;
   wheelType: number;
   wheelColor: number;
-  position: Vector3;
-  rotation: Vector3;
+  position: IVector3;
+  rotation: IVector3;
   neonColor: number;
   dimension: number;
   engine: boolean;

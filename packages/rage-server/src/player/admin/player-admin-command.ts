@@ -40,7 +40,7 @@ import {
   makePlayerOrganizationLeader,
   unsetPlayerOrganization
 } from '../../organization/organization.service';
-import { banIp, banPlayer, kickPlayer, unbanIp } from './moderation/moderation.service';
+import { banIp, banPlayer, kickPlayer, unbanIp } from './moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 import {

@@ -1,6 +1,6 @@
 import { WearableItem } from '../clothing/wearable-item.model';
 import { ItemType } from '@revolt-rp/common';
-import { Item } from '../../item.model';
+import { Item } from '../../../../../core/src/lib/persistence/model/item.model';
 
 export class ArmourItem extends WearableItem {
   armourAmount: number;

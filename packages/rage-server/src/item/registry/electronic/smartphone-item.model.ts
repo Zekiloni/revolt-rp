@@ -5,7 +5,7 @@ import {
   PlayerPhoneState,
   PlayerSharedDataType
 } from '@revolt-rp/common';
-import { Item } from '../../item.model';
+import { Item } from '../../../../../core/src/lib/persistence/model/item.model';
 import { BaseItem } from '../base-item.model';
 import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';

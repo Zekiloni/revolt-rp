@@ -1,8 +1,8 @@
 import { IWorkOptions, IWorkStartOptions, JobKey, PlayerSharedDataType } from '@revolt-rp/common';
 import { BaseJob } from './base-job.model';
-import { Property } from '../property/property.model';
 import { getPropertyAvailableParkingSpot } from '../property/property.service';
 import { createTemporaryVehicle } from '../vehicle/vehicle.service';
+import { Property } from '@revolt-rp/core';
 
 
 export class SanitationJob extends BaseJob {

@@ -1,5 +1,4 @@
 import { PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { Item } from '../item/item.model';
 import {
   playerGetAvailableItemSlot,
   playerRemoveItemFromInventory
@@ -7,6 +6,7 @@ import {
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { WearableItem } from '../item/registry/clothing/wearable-item.model';
 import { destroyItem } from '../item/item.service';
+import { Item } from '@revolt-rp/core';
 
 
 export const removeAllTrunkItems = async (vehicle: VehicleMp) => {

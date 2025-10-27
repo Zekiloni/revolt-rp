@@ -8,7 +8,7 @@ import {
   PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
-import { Item } from '../item.model';
+import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 import {
   playerAddAttachment,
   playerRemoveAttachment

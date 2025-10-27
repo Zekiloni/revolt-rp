@@ -1,8 +1,6 @@
-import './node';
-import { Account } from '../player/account/account.model';
-import { Character } from '../player/character/character.model';
-import { Vehicle } from '../vehicle/vehicle.model';
 import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
+import './node';
+import { Account, Character, Vehicle } from '@revolt-rp/core';
 
 declare global {
 
@@ -103,6 +101,6 @@ declare global {
   declare type ServerProcedureListenerInfo = ProcedureListenerInfo<PlayerMp>;
 }
 
-declare module "@ragempcommunity/types-server" {
+declare module '@ragempcommunity/types-server' {
 
 }

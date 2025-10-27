@@ -6,8 +6,8 @@ import {
   OrganizationPermissionType, OrganizationType,
   PlayerSharedDataType
 } from '@revolt-rp/common';
+import { CharacterModel, Organization, OrganizationModel, OrganizationRank } from '@revolt-rp/core';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
-import { Organization, OrganizationModel } from './organization.model';
 import { notifyPlayer, sendOrganizationMessage } from '../player/util/player-notify.util';
 import {
   getCharacterById,
@@ -19,10 +19,8 @@ import {
   createOrganizationRank,
   deleteOrganizationRankById,
   getOrganizationRankById
-} from './rank/organization-rank.service';
+} from './organization-rank.service';
 import { findPlayerByCharacterId } from '../player/util/player.util';
-import { OrganizationRank } from './rank/organization-rank.model';
-import { CharacterModel } from '../common/entity-ref';
 
 
 const permissionHierarchy = [

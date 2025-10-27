@@ -29,7 +29,7 @@ import { hidePlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { t } from 'i18next';
 import { FilterQuery } from 'mongoose';
-import { Vehicle } from './vehicle.model';
+import { Vehicle } from '../../../core/src/lib/persistence/model/vehicle.model';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {

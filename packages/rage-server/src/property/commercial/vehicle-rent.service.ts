@@ -12,12 +12,10 @@ import { notifyPlayer, sendInfoMessage } from '../../player/util/player-notify.u
 import { giveMoney } from '../../player/character/character.service';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { generateNumberPlate } from '../../vehicle/vehicle.util';
-import { calculateTaxRate } from '../../economy/economy.util';
+import { calculateTaxRate } from '../../banking/tax.util';
 import { createVehicle } from '../../vehicle/vehicle.service';
-import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { Property } from '../property.model';
 import { vehicleRentConfig } from './vehicle-rent.config';
-import { VehicleModel } from '../../common/entity-ref';
+import { Property, vehicleConfig, VehicleModel } from '@revolt-rp/core';
 
 
 export function toggleVehicleRentMenu(player: PlayerMp, property: Property) {
