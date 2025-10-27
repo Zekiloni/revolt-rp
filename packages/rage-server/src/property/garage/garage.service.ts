@@ -1,7 +1,7 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
+import { Property } from '@revolt-rp/core';
 import { showPlayerGameInterface } from '../../player/util/player.util';
-import { Property } from '../property.model';
 
 
 export const isOrganizationGarage = (property: Property) => {

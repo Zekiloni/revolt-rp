@@ -1,7 +1,7 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IHandheldRadioConfig, ItemType, ProcedureKey } from '@revolt-rp/common';
 import { BaseItem } from '../base-item.model';
-import { Item } from '../../item.model';
+import { Item } from '../../../../../core/src/lib/persistence/model/item.model';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';
 
 

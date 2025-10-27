@@ -1,10 +1,10 @@
-import { Vector3 } from '../../core.interface';
+import { IVector3 } from '../../core.interface';
 
 export interface IPlayerAttachment {
   model: string;
   boneId: number;
-  position: Vector3
-  rotation: Vector3
+  position: IVector3
+  rotation: IVector3
   fixedRot: boolean;
   disableControls: number[];
 }

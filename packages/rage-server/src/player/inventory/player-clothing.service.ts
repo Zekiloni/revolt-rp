@@ -1,6 +1,6 @@
-import { Item } from '../../item/item.model';
 import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
 import { getRemoveClothing, setPlayerBestTorso } from '../../item/registry/clothing/clothing.util';
+import { Item } from '@revolt-rp/core';
 
 
 const CLOTHES = [

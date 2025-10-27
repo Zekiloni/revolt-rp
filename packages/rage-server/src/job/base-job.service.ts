@@ -1,11 +1,12 @@
 import { t } from 'i18next';
+import { Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IJobOption, JobKey, ProcedureKey } from '@revolt-rp/common';
+import { Property } from '@revolt-rp/core';
 import { showPlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { Property } from '../property/property.model';
 import { BaseJob } from './base-job.model';
-import { Types } from 'mongoose';
+import { getPropertyJob } from '../property/property.service';
 
 
 type JobMenuActionItem = {
@@ -78,20 +79,18 @@ export const getAllJobs = (): BaseJob[] => {
 
 
 export const playerTakeJob = async (player: PlayerMp, property: Property) => {
-  console.log('playerTakeJob', property);
-  const job = property.job;
+  const job = getPropertyJob(property);
 
   if (!job) {
     return;
   }
 
-  console.log('playerTakeJob', job);
   await job.takeJob(player, property);
   notifyPlayer(player, { severity: 'info', summary: t('you_took_job', { job: t(job.name) }) });
 };
 
 export const playerQuitJob = async (player: PlayerMp, property: Property) => {
-  const job = property.job;
+  const job = getPropertyJob(property)
 
   if (!job) {
     return;
@@ -104,7 +103,7 @@ export const playerQuitJob = async (player: PlayerMp, property: Property) => {
 };
 
 export const playerStartJob = async (player: PlayerMp, property: Property) => {
-  const job = property.job;
+  const job = getPropertyJob(property);
 
   if (!job) {
     return;
@@ -114,7 +113,7 @@ export const playerStartJob = async (player: PlayerMp, property: Property) => {
 };
 
 export const playerStopJob = async (player: PlayerMp, property: Property) => {
-  const job = property.job;
+  const job = getPropertyJob(property);
 
   if (!job) {
     return;
@@ -125,7 +124,7 @@ export const playerStopJob = async (player: PlayerMp, property: Property) => {
 };
 
 export const openJobMenu = (player: PlayerMp, property: Property) => {
-  const job = property.job;
+  const job = getPropertyJob(property);
 
   if (!job) {
     return;

@@ -1,5 +1,5 @@
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
-import { Ref } from '@typegoose/typegoose';
+import type { Ref } from '@typegoose/typegoose';
 import { ICharacter } from '../../player/character/character.model';
 
 export enum RecordType {

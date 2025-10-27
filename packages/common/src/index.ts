@@ -1,6 +1,8 @@
 export * from './lib/procedure.enums';
 export * from './lib/storage-data-key';
 
+export * from './lib/core.interface';
+
 export * from './lib/locales/en-Us';
 export * from './lib/locales/sr-Rs';
 

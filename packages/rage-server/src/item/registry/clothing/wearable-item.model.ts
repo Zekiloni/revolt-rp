@@ -1,7 +1,7 @@
 import { ItemType } from '@revolt-rp/common';
 import { BaseItem } from '../base-item.model';
-import { Item } from '../../item.model';
 import { getRemoveClothing, setPlayerBestTorso } from './clothing.util';
+import { Item } from '@revolt-rp/core';
 
 export class WearableItem extends BaseItem {
   componentId: RageEnums.ClothesComponent;

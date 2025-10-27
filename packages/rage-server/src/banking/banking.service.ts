@@ -4,18 +4,23 @@ import { FilterQuery } from 'mongoose';
 import { customAlphabet } from 'nanoid';
 import { BankAccountType, GameUiKey, TransactionStatus, TransactionType } from '@revolt-rp/common';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { Character } from '../player/character/character.model';
-import { BankAccount, BankAccountModel } from './bank-account.model';
-import { Transaction, TransactionModel } from './transaction.model';
 import { giveMoney } from '../player/character/character.service';
 import { getPlayerByItemId, getPlayerItemById, playerGiveItem } from '../player/inventory/player-inventory.service';
 import { bankingConfig } from './banking.config';
-import { Item, ItemModel } from '../item/item.model';
 import { getItemById } from '../item/item.service';
 import { getPhoneByPhoneNumber } from '../player/inventory/phone/player-phone.service';
-import { Property } from '../property/property.model';
-import { calculateTaxRate } from '../economy/economy.util';
+import { calculateTaxRate } from './tax.util';
 import { showPlayerGameInterface } from '../player/util/player.util';
+import {
+  BankAccount,
+  BankAccountModel,
+  Character,
+  Item,
+  ItemModel,
+  Property,
+  Transaction,
+  TransactionModel
+} from '@revolt-rp/core';
 
 
 export const generateBankAccountNumber = () => {

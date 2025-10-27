@@ -1,8 +1,7 @@
 import { Types } from 'mongoose';
 import { IWarrantCreate } from '@revolt-rp/common';
-import { WarrantModel } from './warrant.model';
 import { isLawOrganization } from '../../organization.service';
-import { Character } from '../../../player/character/character.model';
+import { Character, WarrantModel } from '@revolt-rp/core';
 
 export const createWarrant = async (
   warrant: IWarrantCreate,

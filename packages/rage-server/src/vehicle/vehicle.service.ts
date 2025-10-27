@@ -8,16 +8,13 @@ import {
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { Vehicle } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
-import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
-import { vehicleConfig } from './vehicle.config';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { t } from 'i18next';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { VehicleModel } from '../common/entity-ref';
 import { giveMoney } from '../player/character/character.service';
+import { Character, Vehicle, vehicleConfig, VehicleModel } from '@revolt-rp/core';
 
 
 export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {

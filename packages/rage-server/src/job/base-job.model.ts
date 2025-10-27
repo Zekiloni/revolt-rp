@@ -4,11 +4,10 @@ import {
   IWorkStartOptions,
   JobKey
 } from '@revolt-rp/common';
-import { Property } from '../property/property.model';
-import { economyConfig } from '../economy/economy.config';
 import { setPlayerJob } from '../player/character/character.service';
 import { setPlayerBestTorso } from '../item/registry/clothing/clothing.util';
 import { loadPlayerClothing } from '../player/inventory/player-clothing.service';
+import { economyConfig, Property } from '@revolt-rp/core';
 
 export abstract class BaseJob implements IBaseJob {
   key: JobKey;
@@ -33,7 +32,7 @@ export abstract class BaseJob implements IBaseJob {
 
   async takeJob(player: PlayerMp, property: Property) {
     await setPlayerJob(player, property);
-  };
+  }
 
   async quitJob(player: PlayerMp) {
     await setPlayerJob(player, null);

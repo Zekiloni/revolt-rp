@@ -1,6 +1,6 @@
 import { BaseItem } from './base-item.model';
 import { ItemType } from '@revolt-rp/common';
-import { Item } from '../item.model';
+import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 
 export class LicenseItem extends BaseItem {
 

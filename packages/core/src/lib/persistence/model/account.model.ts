@@ -1,0 +1,114 @@
+import { Document, Types } from 'mongoose';
+import { genSaltSync, hashSync } from 'bcryptjs';
+import { modelOptions, pre, prop, type Ref, DocumentType } from '@typegoose/typegoose';
+import { accountConfig, AccountPreferences, AdminType, IAccount } from '@revolt-rp/common';
+import { Character } from './character.model';
+
+@pre<Account>('save', function (this: DocumentType<Account>, next) {
+  if (this.isModified('password') || this.isNew) {
+    if (this.password) {
+      this.password = hashSync(this.password, genSaltSync(12));
+    }
+  }
+  next();
+})
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+    toObject: { virtuals: true },
+    toJSON: { virtuals: true }
+  }
+})
+export class Account extends Document implements IAccount {
+  declare _id: Types.ObjectId;
+  declare id: string;
+
+  @prop({ required: true })
+  username: string;
+
+  @prop({ default: 0 })
+  coins: number;
+
+  @prop({ required: false })
+  lastLoginAt?: Date;
+
+  @prop({ required: false })
+  referer?: string;
+
+  referralCode: string;
+
+  serial: string;
+
+  updatedBy: string;
+
+  @prop({ required: false })
+  emailAddress?: string;
+
+  @prop({ required: true })
+  socialClubUsername: string;
+
+  @prop({ required: true })
+  socialClubId: string;
+
+  @prop({ required: false, default: null })
+  password: string;
+
+  @prop({ required: false })
+  lastIpAddress?: string;
+
+  @prop({ required: false })
+  discordId?: string;
+
+  @prop({ default: false })
+  isEmailVerified: boolean;
+
+  @prop({ required: false })
+  mutedUntil?: Date;
+
+  @prop({ enum: AdminType, type: Number, default: AdminType.NONE })
+  administrator: AdminType;
+
+  @prop({ default: accountConfig.DEFAULT_MAX_CHARACTERS })
+  maxCharacters: number;
+
+  @prop({ ref: () => Character, default: [] })
+  characters: Ref<Character>[];
+
+  createdAt!: Date;
+
+  updatedAt?: Date;
+
+  @prop({ type: () => [String], enum: AccountPreferences, default: [] })
+  preferences: AccountPreferences[];
+
+  get isAdmin() {
+    return this.administrator !== AdminType.NONE;
+  }
+
+  get isAdminChatEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_ADMIN_CHAT);
+  }
+
+  get isOocEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_OOC);
+  }
+
+  get isReportsEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_REPORTS);
+  }
+
+  get isAdminAlertsEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_ADMIN_ALERTS);
+  }
+
+  get isPmEnabled() {
+    return !this.preferences.includes(AccountPreferences.MUTE_PM);
+  }
+
+  get isMuted() {
+    if (!this.mutedUntil) return false;
+    return this.mutedUntil > new Date();
+  }
+}
+
+

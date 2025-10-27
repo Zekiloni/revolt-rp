@@ -9,13 +9,12 @@ import {
   PropertyPointType
 } from '@revolt-rp/common';
 import { notifyPlayer } from '../../player/util/player-notify.util';
-import { Property } from '../property.model';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { giveMoney } from '../../player/character/character.service';
-import { calculateTaxRate } from '../../economy/economy.util';
-import { Product } from '../catalog/product.model';
+import { calculateTaxRate } from '../../banking/tax.util';
 import { getPropertyAvailableParkingSpot } from '../property.service';
 import { createVehicle } from '../../vehicle/vehicle.service';
+import { Product, Property } from '@revolt-rp/core';
 
 const getVehiclePreviewPoint = (property: Property) => {
   return property.points.find((point) => point.type === PropertyPointType.PreviewPoint);

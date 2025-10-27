@@ -1,8 +1,7 @@
 import { Types } from 'mongoose';
 import { IGangRecord, IGangRecordCreate } from '@revolt-rp/common';
-import { Character } from '../../../player/character/character.model';
 import { isLawOrganization } from '../../organization.service';
-import { GangRecordModel } from './gang-record.model';
+import { Character, GangRecordModel } from '@revolt-rp/core';
 
 
 export const createGangRecord = async (

@@ -1,9 +1,9 @@
 import { hexColors, IHandheldRadioConfig, ItemType } from '@revolt-rp/common';
 import { getPlayerItemByType } from './player-inventory.service';
-import { Item } from '../../item/item.model';
 import { notifyPlayer } from '../util/player-notify.util';
 import { t } from 'i18next';
 import { sendProximityMessage } from '../util/player.util';
+import { Item } from '@revolt-rp/core';
 
 
 export const radioPrefix = (frequency: string, simplex: number) =>

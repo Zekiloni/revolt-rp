@@ -1,8 +1,7 @@
 import { ISobrietyTestCreate } from '@revolt-rp/common';
-import { Character } from '../../../player/character/character.model';
 import { isLawOrganization } from '../../organization.service';
 import { Types } from 'mongoose';
-import { SobrietyTestModel } from './sobriety-test.model';
+import { Character, SobrietyTestModel } from '@revolt-rp/core';
 
 export const createSobrietyTest = async (
   sobrietyTest: ISobrietyTestCreate,

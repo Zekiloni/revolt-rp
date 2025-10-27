@@ -1,6 +1,7 @@
-import './core/mongo-db';
-import './core/i18n.config';
-import './core/server-shutdown';
+import { connect } from '@revolt-rp/core';
+
+import './main/i18n.config';
+import './main/server-shutdown';
 
 import './util/colshape.api';
 
@@ -57,3 +58,7 @@ import './organization/law';
 
 
 import './test';
+
+(() => {
+  connect();
+})();

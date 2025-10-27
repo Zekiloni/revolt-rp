@@ -1,6 +1,6 @@
 import { Ref } from '@typegoose/typegoose';
 import { BloodType, CharacterGender, CharacterSpawnType } from './character.enums';
-import { Vector3 } from '../../core.interface';
+import { IVector3 } from '../../core.interface';
 import { IOrganization, IOrganizationRank } from '../../organization/organization.model';
 import { ICharacterAppearance } from './char-appeaarance.model';
 import { IAccount } from '../account/account.model';
@@ -65,7 +65,7 @@ export interface ICharacter extends Base {
   inventory: Ref<IItem>[];
   maskId: string;
   dnaId: string;
-  position: Vector3;
+  position: IVector3;
   heading: number;
   dimension: number;
   level: number;

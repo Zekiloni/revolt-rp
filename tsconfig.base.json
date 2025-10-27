@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@revolt-rp/common": ["packages/common/src/index.ts"]
+      "@revolt-rp/common": ["packages/common/src/index.ts"],
+      "@revolt-rp/core": ["packages/core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

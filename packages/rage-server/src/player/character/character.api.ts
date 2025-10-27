@@ -1,8 +1,8 @@
+import { FilterQuery } from 'mongoose';
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import { ICharacterCreate, ProcedureKey } from '@revolt-rp/common';
+import { Character } from '@revolt-rp/core';
 import { createCharacter, findCharacter, selectCharacter, spawnPlayerCharacter } from './character.service';
-import { FilterQuery } from 'mongoose';
-import { Character } from './character.model';
 
 
 const playerCreateCharacterHandler = (characterCreate: ICharacterCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {

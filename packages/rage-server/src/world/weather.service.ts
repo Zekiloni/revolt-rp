@@ -1,6 +1,6 @@
 import { IForecast, IWeatherInfo, WorldSharedDateType } from '@revolt-rp/common';
+import { logger } from '@revolt-rp/core';
 import { weatherConfig } from './weather.config';
-import { logger } from '../core/logger.config';
 import { setWorldVariable } from './world.service';
 
 const worldLogger = logger('world');

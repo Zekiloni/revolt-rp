@@ -1,8 +1,8 @@
 import { CaliberType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { Item } from '../../item/item.model';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { playerRemoveItemFromInventory } from './player-inventory.service';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { Item } from '@revolt-rp/core';
 
 
 export const getPlayerAmmoItemByCaliber = (player: PlayerMp, caliber: CaliberType) => {
