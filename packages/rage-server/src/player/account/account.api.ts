@@ -1,16 +1,16 @@
 import { ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
-import { AccountAuthorize, AccountCreate, ProcedureKey, catchError } from '@revolt-rp/common';
+import { IAccountAuthorize, IAccountCreate, ProcedureKey, catchError } from '@revolt-rp/common';
 import { authorizeAccount, createAccount } from './account.service';
 import { discordOAuth2 } from './oauth2.service';
 
 
-async function playerCreateAccountHandler(accountCreate: AccountCreate, info: ProcedureListenerInfo) {
+async function playerCreateAccountHandler(accountCreate: IAccountCreate, info: ProcedureListenerInfo) {
   return createAccount(accountCreate, info)
     .then(account => account)
     .catch(catchError);
 }
 
-async function playerAuthorizeAccountHandler(authorize: AccountAuthorize, { player }: ProcedureListenerInfo<PlayerMp>) {
+async function playerAuthorizeAccountHandler(authorize: IAccountAuthorize, { player }: ProcedureListenerInfo<PlayerMp>) {
   return authorizeAccount(player, authorize.username, authorize.password)
     .then(result => result)
     .catch(catchError);

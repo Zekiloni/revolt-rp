@@ -50,7 +50,6 @@ export const appConfig: ApplicationConfig = {
       inventory: inventoryReducer,
       phone: phoneReducer
     }),
-    provideEffects(),
     {
       provide: BASE_HREf,
       useValue: environment.API_BASE_HREF
