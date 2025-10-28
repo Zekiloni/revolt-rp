@@ -1,42 +1,7 @@
-import axios from 'axios';
-import { DiscordOAuth2TokenResponse, DiscordProfile } from '@revolt-rp/common';
+import { DiscordProfile } from '@revolt-rp/common';
 import { getAccountByDiscordId, setAuthorized } from './account.service';
-import { AccountModel, oauth2Config } from '@revolt-rp/core';
+import { AccountModel, getDiscordAccessToken, getDiscordUserProfile } from '@revolt-rp/core';
 
-async function getDiscordAccessToken(authorizationCode: string): Promise<string> {
-  return axios.post<DiscordOAuth2TokenResponse>(
-    oauth2Config.DISCORD.TOKEN_ENDPOINT,
-    new URLSearchParams({
-      client_id: oauth2Config.DISCORD.CLIENT_ID,
-      client_secret: oauth2Config.DISCORD.CLIENT_SECRET,
-      grant_type: oauth2Config.DISCORD.GRANT_TYPE,
-      code: authorizationCode,
-      redirect_uri: oauth2Config.DISCORD.REDIRECT_URI
-    }).toString(),
-    {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      }
-    }
-  )
-    .then((response) => response.data.access_token)
-    .catch((error) => {
-      console.error('Error fetching access token:', error.response?.data || error.message);
-      throw new Error('Failed to fetch access token');
-    });
-}
-
-async function getDiscordUserProfile(accessToken: string) {
-  return axios.get<DiscordProfile>(oauth2Config.DISCORD.USER_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`
-    }
-  }).then((response) => response.data)
-    .catch((error) => {
-      console.error('Error fetching user profile:', error.response?.data || error.message);
-      throw new Error('Failed to fetch user profile');
-    });
-}
 
 async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: PlayerMp) {
   const account = await getAccountByDiscordId(profile.id);

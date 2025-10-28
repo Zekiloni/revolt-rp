@@ -1,7 +1,7 @@
 import { ProcedureListenerInfo } from '@libertymp/rage-rpc';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { t } from 'i18next';
-import { AccountCreate, AdminType, PlayerSharedDataType } from '@revolt-rp/common';
+import { IAccountCreate, AdminType, PlayerSharedDataType } from '@revolt-rp/common';
 import { FilterQuery } from 'mongoose';
 import { Account, AccountModel } from '@revolt-rp/core';
 
@@ -33,7 +33,7 @@ export const getAccountByUsernameOrEmail = async (username: string, email: strin
   }).exec();
 };
 
-export const createAccount = async (accountCreate: AccountCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
+export const createAccount = async (accountCreate: IAccountCreate, { player }: ProcedureListenerInfo<PlayerMp>) => {
   const alreadyExist = await getAccountByUsernameOrEmail(accountCreate.username, accountCreate.emailAddress);
 
   if (alreadyExist) {

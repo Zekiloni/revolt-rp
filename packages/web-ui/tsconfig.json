@@ -8,7 +8,6 @@
     "noFallthroughCasesInSwitch": true,
     "target": "es2022",
     "moduleResolution": "bundler",
-    "isolatedModules": true,
     "module": "es2022",
     "esModuleInterop": true
   },

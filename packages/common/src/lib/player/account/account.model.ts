@@ -20,6 +20,19 @@ export enum AccountPreferences   {
   MUTE_PM = 'toggle_pm',
 }
 
+
+export interface IAccountAuthorize {
+  username: string;
+  password: string;
+}
+
+
+export interface IAccountCreate {
+  username: string;
+  password: string;
+  emailAddress: string;
+}
+
 export interface IAccount extends Base {
   username: string;
   emailAddress?: string;

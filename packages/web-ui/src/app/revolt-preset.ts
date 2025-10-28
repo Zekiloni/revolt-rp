@@ -5,6 +5,10 @@ const RevoltPreset = definePreset(Aura, {
   semantic: {
     primary: palette('#F6C241'),
     colorScheme: {
+      light: {
+        surface: palette('#1b1f2b'),
+        ground: palette('#0e0f13')
+      },
       dark: {
         surface: palette('#1b1f2b'),
         ground: palette('#0e0f13')

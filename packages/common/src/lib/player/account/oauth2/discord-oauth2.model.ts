@@ -26,4 +26,6 @@ export interface DiscordProfile {
   mfa_enabled: boolean;
   locale: string;
   premium_type: number;
+  email?: string;
+  verified?: boolean;
 }

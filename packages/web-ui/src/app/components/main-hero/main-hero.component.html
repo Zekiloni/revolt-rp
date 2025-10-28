@@ -2,6 +2,7 @@
   <!-- Pozadina -->
   <div
     class="absolute inset-0 bg-surface-60"
+    style="background-size: cover; background: url('/images/hero-bg.png') center;"
     aria-hidden="true"
   ></div>
 
@@ -12,7 +13,7 @@
       <!-- LEFT SIDE -->
       <div class="max-w-2xl">
         <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
-          <span class="text-yellow-400">Revolt</span> Roleplay
+          <span class="text-primary">Revolt</span> Roleplay
         </h1>
 
         <p class="mt-4 text-lg text-gray-300 leading-relaxed">
@@ -23,7 +24,7 @@
         <div class="mt-8 flex flex-wrap gap-3">
           <a
             href="#start"
-            class="px-7 py-3 rounded-xl bg-yellow-500 text-black font-semibold hover:bg-yellow-400 transition-colors"
+            class="px-7 py-3 rounded-xl bg-primary-400 text-black font-semibold hover:bg-primary-600 transition-colors"
           >Start Playing</a
           >
           <a
@@ -67,7 +68,7 @@
               <div
                 class="relative"
                 [ngStyle]="{
-                  width: ['27%', '28%', '27%', '19%'][idx],
+                  width: ['27%', '27%', '27%', '19%'][idx],
                   height: heights[idx],
                   transform: 'rotate(' + rotates[idx] + ')',
                   transformOrigin: 'center bottom',

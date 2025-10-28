@@ -8,12 +8,16 @@
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/web-ui",
         "index": "packages/web-ui/src/index.html",
         "browser": "packages/web-ui/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "packages/web-ui/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
@@ -22,7 +26,9 @@
             "input": "packages/web-ui/public"
           }
         ],
-        "styles": ["packages/web-ui/src/styles.scss"],
+        "styles": [
+          "packages/web-ui/src/styles.scss"
+        ],
         "server": "packages/web-ui/src/main.server.ts",
         "ssr": {
           "entry": "packages/web-ui/src/server.ts"
@@ -48,7 +54,13 @@
         "development": {
           "optimization": false,
           "extractLicenses": false,
-          "sourceMap": true
+          "sourceMap": true,
+          "fileReplacements": [
+            {
+              "replace": "packages/web-ui/src/environments/environment.ts",
+              "with": "packages/web-ui/src/environments/environment.development.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
