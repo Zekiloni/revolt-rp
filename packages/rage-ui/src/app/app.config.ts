@@ -13,7 +13,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import RevoltPreset from './revolt-preset';
 
 import { phoneReducer } from './store/phone';
-import { BASE_HREf } from './domain/variables';
+import { API_BASE_HREF } from './domain/variables';
 import { environment } from '../environments/environment';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
@@ -51,7 +51,7 @@ export const appConfig: ApplicationConfig = {
       phone: phoneReducer
     }),
     {
-      provide: BASE_HREf,
+      provide: API_BASE_HREF,
       useValue: environment.API_BASE_HREF
     }
   ]

@@ -20,7 +20,7 @@ export async function getDiscordAccessToken(authorizationCode: string): Promise<
   )
     .then((response) => response.data.access_token)
     .catch((error) => {
-      console.error('Error fetching access token:', error.response?.data || error.message);
+      console.error(error.response?.data || error.message);
       throw new Error('Failed to fetch access token');
     });
 }
@@ -44,7 +44,7 @@ export async function getDiscordUserProfile(accessToken: string) {
     }
   }).then((response) => response.data)
     .catch((error) => {
-      console.error('Error fetching user profile:', error.response?.data || error.message);
+      console.error(error.response?.data || error.message);
       throw new Error('Failed to fetch user profile');
     });
 }

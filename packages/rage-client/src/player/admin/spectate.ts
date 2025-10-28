@@ -58,7 +58,7 @@ function startSpectating(target: PlayerMp) {
 
     isSpectating = true;
   } catch (err) {
-    console.error('Error starting spectate:', err);
+    console.error(err);
     stopSpectating();
   }
 }
@@ -98,7 +98,7 @@ function stopSpectating() {
     spectateTarget = null;
     isSpectating = false;
   } catch (err) {
-    console.error('Error stopping spectate:', err);
+    console.error(err);
   }
 }
 

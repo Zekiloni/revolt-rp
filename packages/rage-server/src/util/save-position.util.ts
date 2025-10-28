@@ -21,7 +21,7 @@ export function savePlayerPosition(player: PlayerMp, name = 'Unknown'): void {
 
   appendFile(saveFile, content, (err) => {
     if (err) {
-      savePosLogger.error(`Error saving position: ${err.message}`);
+      savePosLogger.error();
     } else {
       savePosLogger.info(`Position saved: ${content}`);
     }

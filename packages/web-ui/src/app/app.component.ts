@@ -3,20 +3,26 @@ import { RouterModule } from '@angular/router';
 import { HeaderComponent } from './components/header';
 import { FooterComponent } from './components/footer';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './core/service/auth.service';
 
 @Component({
   imports: [RouterModule, HeaderComponent, FooterComponent],
   selector: 'app-root',
+  providers: [AuthService],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrl: './app.component.scss'
 })
-export class AppComponent  implements OnInit{
+export class AppComponent implements OnInit {
   title = 'web-ui';
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: object,
+    private authService: AuthService) {
   }
 
   ngOnInit() {
+    this.authService.initialize();
+
     if (isPlatformBrowser(this.platformId)) {
       const element = document.querySelector('html');
 

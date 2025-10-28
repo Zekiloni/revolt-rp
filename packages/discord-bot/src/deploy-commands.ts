@@ -24,6 +24,6 @@ export async function deployCommands({guildId}: DeployCommandsProps) {
 
       logger.info('Successfully reloaded application (/) commands.');
    } catch (error) {
-      logger.error(error);
+      logger.error();
    }
 }

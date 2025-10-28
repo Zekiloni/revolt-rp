@@ -18,12 +18,22 @@
 
     <!-- CTA (desktop) -->
     <div class="hidden md:flex items-center gap-3">
-      <p-button
-        label="Sign In"
-        styleClass="btn btn-outline"
-        [text]="true"
-        (onClick)="openAuth()"
-      ></p-button>
+      @if ($account | async; as account) {
+        <a
+          class="btn btn-primary"
+          [routerLink]="['/dashboard']"
+        >
+          {{ account.username }}
+        </a>
+
+      } @else {
+        <p-button
+          label="Sign In"
+          styleClass="btn btn-outline"
+          [text]="true"
+          (onClick)="openAuth()"
+        ></p-button>
+      }
     </div>
 
     <!-- Mobile toggle -->

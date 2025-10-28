@@ -107,14 +107,14 @@ export class RageClientService {
         .then((result: T) => {
           this.ngZone.run(() => {
             if ((result as ApiError).error) {
-              observer.error(result);
+              observer.error();
               return;
             }
             observer.next(result);
             observer.complete();
           });
         })
-        .catch((err) => observer.error(err));
+        .catch((err) => observer.error());
     });
   }
 
@@ -123,13 +123,13 @@ export class RageClientService {
       rpcCallClient(name, args)
         .then((result: T) => {
           if ((result as ApiError).error) {
-            observer.error(result);
+            observer.error();
             return;
           }
           observer.next(result);
           observer.complete();
         })
-        .catch((err) => observer.error(err));
+        .catch((err) => observer.error());
     });
   }
 
@@ -141,7 +141,7 @@ export class RageClientService {
           observer.complete();
         })
         .catch((error: unknown) => {
-          observer.error(error);
+          observer.error();
         });
     });
   }
