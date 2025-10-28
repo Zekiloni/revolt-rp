@@ -89,7 +89,7 @@ export class ImgurClientService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
 
-    console.error(JSON.stringify(error));
+    console.error();
     return throwError(() => new Error(errorMessage));
   }
 }

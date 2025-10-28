@@ -51,7 +51,7 @@ export class SettingsComponent implements OnInit {
       })
     ).subscribe({
       next: this.handlePhoneSettingsUpdate,
-      error: (err) => console.error('Error updating phone settings', err)
+      error: (err) => console.error(err)
     });
   }
 

@@ -48,7 +48,7 @@ export async function getIpInfo(ip: string): Promise<IpApiResponse | null> {
 
     return data;
   } catch (err) {
-    logger.error(`lookupIpWithIpApi error for IP ${ip}:`, err);
+    logger.error(err);
     return null;
   }
 }
@@ -72,7 +72,7 @@ export async function proxyCheck(ip: string): Promise<boolean> {
     const text = res.data.toString().trim().toUpperCase();
     return text.includes('Y');
   } catch (err) {
-    logger.error(`proxyCheck error for IP ${ip}:`, err);
+    logger.error(err);
     return false;
   }
 }

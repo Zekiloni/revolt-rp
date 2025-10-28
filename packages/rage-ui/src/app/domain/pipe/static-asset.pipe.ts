@@ -1,5 +1,5 @@
 import { Inject, Pipe, PipeTransform } from '@angular/core';
-import { BASE_HREf } from '../variables';
+import { API_BASE_HREF } from '../variables';
 
 @Pipe({
   name: 'staticAsset',
@@ -7,7 +7,7 @@ import { BASE_HREf } from '../variables';
 })
 export class StaticAssetPipe implements PipeTransform {
 
-  constructor(@Inject(BASE_HREf) private baseHref: string) {
+  constructor(@Inject(API_BASE_HREF) private baseHref: string) {
   }
 
   transform(value: string): string {

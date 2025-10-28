@@ -157,7 +157,7 @@ export class MessengerComponent implements OnInit {
       this.rageClientService.callServer<IPhoneMessage[]>(ProcedureKey.SERVER_UPDATE_PHONE_MESSAGES, updateSeenMessages)
         .subscribe({
           next: (messages) => this.store.dispatch(updateManyPhoneMessages({ messages })),
-          error: (error) => console.error(JSON.stringify(error))
+          error: (error) => console.error()
         });
     }
   }

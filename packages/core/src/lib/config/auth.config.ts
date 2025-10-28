@@ -1,6 +1,7 @@
 
 export const authConfig = {
-  JWT_SECRET: process.env.JWT_SECRET || 'your_jwt_secret',
+  APP_URL: process.env.APP_URL || 'http://localhost:4200',
+  JWT_SECRET: process.env.JWT_SECRET || '011950d9c67a20f6aa4570f91f2c46a8',
   JWT_EXPIRES_IN: '1h',
   DISCORD: {
     CLIENT_ID: '1328754122987405363',

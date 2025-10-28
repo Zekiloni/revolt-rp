@@ -42,7 +42,7 @@ export class AuthComponent {
   }
 
   onDiscordAuth() {
-    this.authService.discordAuth();
+    this.authService.discordOauth2();
   }
 
   onSubmit() {

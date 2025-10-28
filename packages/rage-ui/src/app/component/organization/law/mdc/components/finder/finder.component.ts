@@ -75,7 +75,7 @@ export class FinderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (response) => this.response = response,
         error: (error) => {
-          console.error('Error fetching data:', JSON.stringify(error));
+          console.error(JSON.stringify(error));
           this.response = null;
         }
       });

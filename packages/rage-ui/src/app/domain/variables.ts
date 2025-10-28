@@ -1,3 +1,3 @@
 import { InjectionToken } from '@angular/core';
 
-export const BASE_HREf = new InjectionToken('BASE_HREF');
+export const API_BASE_HREF = new InjectionToken('API_BASE_HREF');

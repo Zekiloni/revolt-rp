@@ -2,10 +2,11 @@ import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angul
 import { provideRouter } from '@angular/router';
 import {
   provideClientHydration,
-  withEventReplay,
+  withEventReplay
 } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideStoreDevtools } from '@ngrx/store-devtools'
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { providePrimeNG } from 'primeng/config';
 import { provideStore } from '@ngrx/store';
@@ -14,17 +15,19 @@ import RevoltPreset from './revolt-preset';
 import { authReducer } from './core/store/auth/auth.reducer';
 import { API_BASE_HREF } from './core/config/variables';
 import { environment } from '../environments/environment';
+import { authInterceptor } from './core/util/auth.interceptor';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideClientHydration(withEventReplay()),
+    provideHttpClient(withInterceptors([authInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideAnimations(),
     provideStore({
-      auth: authReducer,
+      auth: authReducer
     }),
     provideEffects(),
     providePrimeNG({
@@ -44,5 +47,5 @@ export const appConfig: ApplicationConfig = {
       provide: API_BASE_HREF,
       useValue: environment.apiUrl
     }
-  ],
+  ]
 };
