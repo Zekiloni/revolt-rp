@@ -1,8 +1,28 @@
 import { Router } from 'express';
-import { getAccountById, getKickLogs, getBanLogs } from '../service/account.service';
+import { getAccountById, getKickLogs, getBanLogs, updatePassword } from '../service/account.service';
 import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
+
+router.patch('/', authenticate, async (req, res) => {
+  const accountId = req['user'].accountId;
+  const password = req.body.password as string;
+
+  if (!password || password.length < 6) {
+    return res.status(400).json({ error: 'invalid_password' });
+  }
+
+  try {
+    const updateResult = await updatePassword(accountId, password);
+    if (updateResult.modifiedCount === 0) {
+      return res.status(404).json({ error: 'account_not_found' });
+    }
+
+    return res.status(200).json({ message: 'password_updated' });
+  } catch (error) {
+    return res.status(500).json({ error: 'server_error' });
+  }
+});
 
 router.get('/:id', authenticate, async (req, res) => {
   const accountId = req.params.id;
