@@ -11,6 +11,18 @@ export const appRoutes: Route[] = [
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./views/ucp/dashboard-page').then(m => m.DashboardPageComponent)
+      import('./views/ucp/dashboard-page').then(m => m.DashboardPageComponent),
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./components/ucp/account-overview').then(m => m.AccountOverviewComponent)
+      },
+      {
+        path: 'character/:characterId',
+        loadComponent: () =>
+          import('./components/ucp/character-overview').then(m => m.CharacterOverviewComponent)
+      }
+    ]
   }
 ];

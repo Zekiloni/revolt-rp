@@ -1,5 +1,6 @@
-import { AccountModel, getDiscordAccessToken, getDiscordUserProfile } from '@revolt-rp/core';
+import { AccountModel, BanModel, getDiscordAccessToken, getDiscordUserProfile, KickModel } from '@revolt-rp/core';
 import { compareSync } from 'bcryptjs';
+import { mapKickToModerationLog } from './account.util';
 
 
 export const login = async (username: string, password: string) => {
@@ -15,13 +16,13 @@ export const login = async (username: string, password: string) => {
   }
 
   return account;
-}
+};
 
 export const getOrCreateByDiscord = async (authorizationCode: string, ipAddress: string) => {
   const token = await getDiscordAccessToken(authorizationCode);
   const discordUser = await getDiscordUserProfile(token);
 
-  const exist = await AccountModel.findOne({ discordId: discordUser.id })
+  const exist = await AccountModel.findOne({ discordId: discordUser.id });
 
   if (exist) {
     return exist;
@@ -31,6 +32,7 @@ export const getOrCreateByDiscord = async (authorizationCode: string, ipAddress:
     discordId: discordUser.id,
     username: discordUser.username,
     emailAddress: discordUser.email,
+    discordUsername: discordUser.username,
     isEmailVerified: discordUser.verified,
     lastIpAddress: ipAddress
   });
@@ -38,8 +40,39 @@ export const getOrCreateByDiscord = async (authorizationCode: string, ipAddress:
 
 
 export const getAccountById = async (accountId: string) => {
-  return AccountModel.findById(accountId).populate({
-    path: 'characters',
-    select: '-account'
-  }).exec();
-}
+  return AccountModel.findById(accountId)
+    .select('-password')
+    .populate('whitelist')
+    .populate({
+      path: 'characters',
+      select: '-account'
+    })
+    .exec();
+};
+
+
+export const getKickLogs = async (accountId: string, limit = 50, offset = 0) => {
+  return Promise.all([
+    KickModel.find({ account: accountId })
+      .populate('admin', 'username')
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(limit)
+      .lean()
+      .exec(),
+    KickModel.countDocuments({ account: accountId }).exec()
+  ]);
+};
+
+export const getBanLogs = async (accountId: string, limit = 50, offset = 0) => {
+  return Promise.all([
+    BanModel.find({ account: accountId })
+      .populate('admin', 'username')
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(limit)
+      .lean()
+      .exec(),
+    BanModel.countDocuments({ account: accountId }).exec()
+  ]);
+};

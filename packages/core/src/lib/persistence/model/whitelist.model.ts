@@ -13,9 +13,6 @@ export class Whitelist extends Document implements IWhitelist {
   declare _id: Types.ObjectId;
   declare id: string;
 
-  @prop({ ref: () => Account, required: true })
-  account: Ref<IAccount>;
-
   @prop({ type: [Object], required: true, default: [] })
   answers: IWhitelistAnswer[];
 

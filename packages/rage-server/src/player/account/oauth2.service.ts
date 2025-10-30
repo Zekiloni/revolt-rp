@@ -12,6 +12,7 @@ async function getOrCreateAccountByDiscordAuth(profile: DiscordProfile, player: 
       username: profile.username,
       lastIpAddress: player.ip,
       socialClubId: player.rgscId,
+      discordUsername: profile.username,
       socialClubUsername: player.socialClub
     });
   }

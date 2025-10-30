@@ -2,7 +2,6 @@ import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { Ref } from '@typegoose/typegoose';
 import { IAccount } from './account.model';
 
-
 export interface IBan extends Base {
   account?: Ref<IAccount>;
   reason: string;
@@ -12,4 +11,11 @@ export interface IBan extends Base {
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+}
+
+export interface IKick extends Base {
+  account: Ref<IAccount>;
+  reason: string;
+  admin?: Ref<IAccount>;
+  createdAt: Date;
 }

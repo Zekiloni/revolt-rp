@@ -3,6 +3,7 @@ import { genSaltSync, hashSync } from 'bcryptjs';
 import { modelOptions, pre, prop, type Ref, DocumentType } from '@typegoose/typegoose';
 import { accountConfig, AccountPreferences, AdminType, IAccount } from '@revolt-rp/common';
 import { Character } from './character.model';
+import { Whitelist } from './whitelist.model';
 
 @pre<Account>('save', function (this: DocumentType<Account>, next) {
   if (this.isModified('password') || this.isNew) {
@@ -59,6 +60,9 @@ export class Account extends Document implements IAccount {
   @prop({ required: false })
   discordId?: string;
 
+  @prop({ required: false })
+  discordUsername?: string;
+
   @prop({ default: false })
   isEmailVerified: boolean;
 
@@ -73,6 +77,9 @@ export class Account extends Document implements IAccount {
 
   @prop({ ref: () => Character, default: [] })
   characters: Ref<Character>[];
+
+  @prop({ ref: () => Whitelist, default: [] })
+  whitelist: Ref<Whitelist>[];
 
   createdAt!: Date;
 

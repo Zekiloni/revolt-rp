@@ -1,12 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { API_BASE_HREF } from '../config/variables';
-import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { IAuthorizationState } from '../store/auth/auth.state';
 import { HttpClient } from '@angular/common/http';
 import { IAccount } from '@revolt-rp/common';
 import { setAccount, unsetAccount } from '../store/auth/auth.actions';
-
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -14,7 +12,6 @@ export class AuthService {
   constructor(
     @Inject(API_BASE_HREF) private apiBaseHref: string,
     private httpClient: HttpClient,
-    private route: ActivatedRoute,
     @Inject(Store) private store: Store<IAuthorizationState>) {
   }
 
@@ -22,21 +19,36 @@ export class AuthService {
     return `${this.apiBaseHref}/auth`;
   }
 
-  initialize() {
-    this.route.queryParams.subscribe((params) => {
-      if (params['token']) {
-        console.log('AuthService detected token in query params:', params['token']);
-        localStorage.setItem('auth_token', params['token']);
+  initializeAsync(): Promise<void> {
+    if (typeof window === 'undefined') return Promise.resolve();
 
-        this.getUserInfo().subscribe({
-          next: (account) => {
-            window.history.replaceState({}, document.title, window.location.pathname);
-            this.store.dispatch(setAccount({ account }));
-          },
-          error: () =>
-            this.logout()
-        });
+    return new Promise((resolve) => {
+      const queryParams = new URLSearchParams(window.location.search);
+      const queryToken = queryParams.get('token');
+      const storedToken = localStorage.getItem('auth_token');
+      const token = queryToken || storedToken;
+
+      if (!token) {
+        return resolve();
       }
+
+      localStorage.setItem('auth_token', token);
+      if (queryToken) {
+        // Remove token from URL
+        const cleanUrl = window.location.pathname + window.location.hash;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+
+      this.getUserInfo().subscribe({
+        next: (account) => {
+          this.store.dispatch(setAccount({ account }));
+          resolve();
+        },
+        error: () => {
+          this.logout();
+          resolve();
+        }
+      });
     });
   }
 
