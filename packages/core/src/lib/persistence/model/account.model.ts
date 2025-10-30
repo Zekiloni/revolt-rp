@@ -13,6 +13,13 @@ import { Whitelist } from './whitelist.model';
   }
   next();
 })
+@pre<Account>('updateOne', function (next) {
+  const update = this.getUpdate() as IAccount;
+  if (update.password) {
+    update.password = hashSync(update.password, genSaltSync(12));
+  }
+  next();
+})
 @modelOptions({
   schemaOptions: {
     timestamps: true,

@@ -75,3 +75,8 @@ export const getBanLogs = async (accountId: string, limit = 50, offset = 0) => {
     BanModel.countDocuments({ account: accountId }).exec()
   ]);
 };
+
+
+export const updatePassword = async (accountId: string, newPassword: string) => {
+  return AccountModel.updateOne({ _id: accountId }, { password: newPassword }).exec();
+}
