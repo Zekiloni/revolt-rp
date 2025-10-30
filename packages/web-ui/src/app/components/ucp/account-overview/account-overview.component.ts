@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import { IAuthorizationState } from '../../../core/store/auth/auth.state';
 import { Router } from '@angular/router';
 import { ButtonDirective } from 'primeng/button';
+import { ModerationLogComponent } from '../moderation-log';
 
 @Component({
   selector: 'app-account-overview',
@@ -17,7 +18,8 @@ import { ButtonDirective } from 'primeng/button';
     NgClass,
     CurrencyPipe,
     ButtonDirective,
-    DatePipe
+    DatePipe,
+    ModerationLogComponent
   ],
   providers: [AccountService],
   templateUrl: './account-overview.component.html',

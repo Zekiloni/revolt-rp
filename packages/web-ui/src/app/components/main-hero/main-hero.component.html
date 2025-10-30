@@ -62,15 +62,14 @@
 
           <!-- Panels -->
           <div
-            class="absolute inset-0 flex items-center justify-center gap-1 z-10"
+            class="absolute inset-0 flex items-center justify-center gap-2 z-10"
           >
             <ng-container *ngFor="let i of [].constructor(4); let idx = index">
               <div
                 class="relative"
                 [ngStyle]="{
-                  width: ['27%', '27%', '27%', '19%'][idx],
+                  width: widths[idx],
                   height: heights[idx],
-                  transform: 'rotate(' + rotates[idx] + ')',
                   transformOrigin: 'center bottom',
                   opacity: 1,
                   animation: 'splashIn 480ms ease-out forwards',
@@ -89,10 +88,9 @@
                     will-change-transform
                   "
                   [ngStyle]="{
-                    clipPath: shapes[idx],
-                    WebkitClipPath: shapes[idx],
                     backgroundImage: 'linear-gradient(to bottom, rgba(0,0,0,0.12), rgba(0,0,0,0) 45%, rgba(0,0,0,0.22) 100%), url(images/hero.jpg)',
                     backgroundRepeat: 'no-repeat, no-repeat',
+                    borderRadius: '12px',
                     backgroundSize: '100% 100%, ' + (count * 100) + '% 100%',
                     backgroundPosition: 'center, ' + (idx / (count - 1)) * 100 + '% 50%'
                   }"
