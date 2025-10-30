@@ -16,7 +16,6 @@ import { AuthService } from '../../core/service/auth.service';
     ButtonDirective,
     StyleClass
   ],
-  providers: [AuthService],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
 })

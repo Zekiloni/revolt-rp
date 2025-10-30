@@ -27,8 +27,7 @@ export * from './lib/player/account/account.config';
 export * from './lib/player/account/account.model';
 export * from './lib/player/account/whitelist.model';
 export * from './lib/player/account/oauth2/discord-oauth2.model';
-export * from './lib/player/account/ban.model';
-export * from './lib/player/account/kick.model';
+export * from './lib/player/account/moderation.model';
 
 export * from './lib/player/character/character.config';
 export * from './lib/player/character/char-appeaarance.model';

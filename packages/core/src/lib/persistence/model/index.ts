@@ -19,8 +19,10 @@ import { SobrietyTest } from './sobriety-test.model';
 import { Transaction } from './transaction.model';
 import { Vehicle } from './vehicle.model';
 import { Warrant } from './warrant.model';
+import { Whitelist } from './whitelist.model';
 
 export const AccountModel = getModelForClass(Account);
+export const WhiteListModel = getModelForClass(Whitelist);
 export const AdvertisementModel = getModelForClass(Advertisement);
 export const BanModel = getModelForClass(Ban);
 export const BankAccountModel = getModelForClass(BankAccount);
@@ -53,6 +55,7 @@ export {
   Kick,
   Organization,
   OrganizationRank,
+  Whitelist,
   PhoneCall,
   PhoneMessage,
   PlayerDeath,

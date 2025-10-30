@@ -8,21 +8,16 @@ import { AuthService } from './core/service/auth.service';
 @Component({
   imports: [RouterModule, HeaderComponent, FooterComponent],
   selector: 'app-root',
-  providers: [AuthService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
   title = 'web-ui';
 
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: object,
-    private authService: AuthService) {
+  constructor(@Inject(PLATFORM_ID) private platformId: object) {
   }
 
   ngOnInit() {
-    this.authService.initialize();
-
     if (isPlatformBrowser(this.platformId)) {
       const element = document.querySelector('html');
 

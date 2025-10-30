@@ -34,5 +34,3 @@ export class Ban extends Document implements IBan {
   createdAt: Date;
   updatedAt?: Date;
 }
-
-export const BanModel = getModelForClass(Ban);

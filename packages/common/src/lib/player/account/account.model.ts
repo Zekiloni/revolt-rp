@@ -1,6 +1,7 @@
 import { Ref } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { ICharacter } from '../character/character.model';
+import { IWhitelist } from './whitelist.model';
 
 export enum AdminType {
   NONE = 0,
@@ -33,7 +34,7 @@ export interface IAccountCreate {
   emailAddress: string;
 }
 
-export interface IAccount extends Base {
+export interface IAccount<T = Ref<ICharacter>, E = Ref<IWhitelist>> extends Base {
   username: string;
   emailAddress?: string;
   password: string;
@@ -46,6 +47,7 @@ export interface IAccount extends Base {
   serial: string;
   socialClubUsername: string;
   discordId?: string;
+  discordUsername?: string;
   coins: number;
   socialClubId?: string;
   mutedUntil?: Date;
@@ -53,6 +55,7 @@ export interface IAccount extends Base {
   updatedAt?: Date;
   updatedBy?: string;
   createdAt: Date;
-  characters: Ref<(ICharacter)>[];
+  characters: T[];
+  whitelist: E[];
   preferences: AccountPreferences[];
 }

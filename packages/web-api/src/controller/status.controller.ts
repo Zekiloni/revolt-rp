@@ -4,7 +4,7 @@ import { Router } from 'express';
 const router = Router();
 
 router.get('/', (req, res) => {
-  res.send({ status: 'ok' });
+  res.send({ status: 'ok', text:'dda' });
 });
 
 export default router;
