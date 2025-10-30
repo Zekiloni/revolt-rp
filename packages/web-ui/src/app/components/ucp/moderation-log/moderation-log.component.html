@@ -1,1 +1,72 @@
-<p>moderation-log works!</p>
+<div class="bg-surface-800 p-5 rounded-2xl">
+
+  <p-selectButton [options]="options" [(ngModel)]="selectedTab" aria-labelledby="basic" (ngModelChange)="onTabChange()" />
+
+  <p-table
+    #moderationTable
+    [value]="elements"
+    [totalRecords]="totalElements"
+    [paginator]="true"
+    [rows]="limit"
+    [lazy]="true"
+    (onLazyLoad)="loadElements($event)"
+    [responsiveLayout]="'scroll'"
+    [showGridlines]="true"
+    styleClass="mt-3 rounded-lg overflow-hidden"
+    [showCurrentPageReport]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    class="w-full">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>#</th>
+        <th>Administrator</th>
+        <th>Reason</th>
+        <th>Created At</th>
+
+        @if (selectedTab === 'bans') {
+          <th>Expiring At</th>
+          <th>Unbanned At</th>
+          <th>Updated By</th>
+        }
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-log let-rowIndex="rowIndex">
+      <tr>
+        <td>{{ rowIndex + 1 }}</td>
+        <td>{{ log.admin?.username ?? 'system' }}</td>
+        <td>{{ log.reason }}</td>
+        <td>{{ log.createdAt | date:'medium' }}</td>
+        @if (selectedTab === 'bans') {
+          <td>
+            @if (log.expiringAt) {
+              {{ log.expiringAt | date:'medium' }}
+            } @else {
+              Permanent
+            }
+          </td>
+          <td>
+            @if (log.unbannedAt) {
+              {{ log.unbannedAt | date:'medium' }}
+            } @else {
+              -
+            }
+          </td>
+          <td>
+            @if (log.updatedBy) {
+              {{ log.updatedBy }}
+            } @else {
+              -
+            }
+          </td>
+        }
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td [attr.colspan]="selectedTab === 'bans' ? 7 : 4" class="text-center p-4">No records found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</div>

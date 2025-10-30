@@ -1,6 +1,5 @@
 import { AccountModel, BanModel, getDiscordAccessToken, getDiscordUserProfile, KickModel } from '@revolt-rp/core';
 import { compareSync } from 'bcryptjs';
-import { mapKickToModerationLog } from './account.util';
 
 
 export const login = async (username: string, password: string) => {
