@@ -56,9 +56,14 @@ export class AuthService {
     window.location.href = `${this.apiBasePath}/oauth2/discord`;
   }
 
+  basicAuth(username: string, password: string) {
+    return this.httpClient.post(`${this.apiBasePath}/basic`, { username, password }, { observe: 'response', responseType: 'text'});
+  }
+
   getUserInfo() {
     return this.httpClient.get<IAccount>(`${this.apiBasePath}/userinfo`);
   }
+
 
   logout() {
     localStorage.removeItem('auth_token');

@@ -27,4 +27,8 @@ export class AccountService extends BaseApiService {
       }
     });
   }
+
+  changePassword(password: string) {
+    return this.httpClient.patch<void>(`${this.getApiPath('account')}/password`, { password });
+  }
 }

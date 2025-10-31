@@ -8,6 +8,7 @@ import {
   getAllWhitelists
 } from '../service/whitelist.service';
 import { isAdministrator } from '../middleware/admin.middleware';
+import { WhitelistStatus } from '@revolt-rp/common';
 
 
 const router = Router();
@@ -24,7 +25,7 @@ router.get('/:accountId', authenticate, async (req, res) => {
 });
 
 router.post('', authenticate, async (req, res) => {
-  const accountId = req['user']['id'];
+  const accountId = req['user']['accountId'];
   const { answers, grade } = req.body;
   try {
     const whitelist = await createWhitelist(accountId, { answers, grade });
@@ -36,7 +37,7 @@ router.post('', authenticate, async (req, res) => {
 
 router.patch('/:whitelistId/approve', authenticate, isAdministrator, async (req, res) => {
   const { whitelistId } = req.params;
-  const adminId = req['user']['id'];
+  const adminId = req['user']['accountId'];
 
   try {
     const whitelist = await approveWhitelist(whitelistId, adminId);
@@ -48,7 +49,7 @@ router.patch('/:whitelistId/approve', authenticate, isAdministrator, async (req,
 
 router.patch('/:whitelistId/reject', authenticate, isAdministrator, async (req, res) => {
   const { whitelistId } = req.params;
-  const adminId = req['user']['id'];
+  const adminId = req['user']['accountId'];
 
   const { note } = req.body;
   try {
@@ -61,8 +62,13 @@ router.patch('/:whitelistId/reject', authenticate, isAdministrator, async (req, 
 
 
 router.get('', authenticate, isAdministrator, async (req, res) => {
-  const { status, skip = 0, limit = 20 } = req.query;
-  const [whitelists, total] = await getAllWhitelists(status as string, Number(skip), Number(limit));
+  const { status, offset = 0, limit = 50 } = req.query as { status: WhitelistStatus, offset?: string, limit?: string };
+
+  if (!status || !Object.values(WhitelistStatus).includes(status)) {
+    return res.status(400).json({ message: 'invalid_whitelist_status' });
+  }
+
+  const [whitelists, total] = await getAllWhitelists(status, Number(limit), Number(offset));
   return res.status(200).json({ whitelists, total });
 })
 

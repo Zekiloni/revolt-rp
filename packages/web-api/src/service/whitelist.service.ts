@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { IWhiteListCreate, WhitelistStatus } from '@revolt-rp/common';
 import { WhiteListModel } from '@revolt-rp/core';
 
@@ -57,11 +58,11 @@ export const rejectWhitelist = async (whitelistId: string, adminId: string, note
   }, { new: true }).exec();
 };
 
-export const getAllWhitelists = async (status: WhitelistStatus, skip: number, limit: number) => {
+export const getAllWhitelists = async (status: WhitelistStatus, limit = 50, offset = 0) => {
   return Promise.all([
-    WhiteListModel.find({ account: accountId })
+    WhiteListModel.find({ status })
       .sort({ createdAt: -1 })
-      .skip(skip)
+      .skip(offset)
       .limit(limit)
       .populate('account', 'username')
       .populate('reviewedBy', 'username')

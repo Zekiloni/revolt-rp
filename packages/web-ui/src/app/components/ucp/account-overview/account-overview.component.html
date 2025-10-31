@@ -107,12 +107,9 @@
       <!-- Quick Actions -->
       <div
         class="rounded-2xl border bg-white/85 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur p-5">
-        <h3 class="text-base font-semibold mb-3">Quick actions</h3>
+        <h3 class="text-base font-semibold mb-3">Settings</h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <!--          <app-quick-tile icon="fa-user" label="Account" href="#"></app-quick-tile>-->
-          <!--          <app-quick-tile icon="fa-solid fa-chart-simple" label="Statistics" href="#"></app-quick-tile>-->
-          <!--          <app-quick-tile icon="fa-solid fa-map" label="Interactive map" href="#"></app-quick-tile>-->
-          <!--          <app-quick-tile icon="fa-solid fa-question" label="Wiki" href="#"></app-quick-tile>-->
+          <button pButton label="Change Password" icon="pi pi-lock" (click)="changePassword()" size="small" severity="contrast"></button>
         </div>
       </div>
 

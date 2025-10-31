@@ -15,7 +15,7 @@ import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, Dialog, Button, Sidebar, AuthComponent, PrimeTemplate, RouterLink],
+  imports: [CommonModule, Dialog, Button, Sidebar, AuthComponent, RouterLink],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'

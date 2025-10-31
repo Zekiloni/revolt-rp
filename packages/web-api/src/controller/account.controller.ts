@@ -4,7 +4,7 @@ import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.patch('/', authenticate, async (req, res) => {
+router.patch('/password', authenticate, async (req, res) => {
   const accountId = req['user'].accountId;
   const password = req.body.password as string;
 
