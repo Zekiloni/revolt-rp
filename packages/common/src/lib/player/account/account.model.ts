@@ -5,7 +5,7 @@ import { IWhitelist } from './whitelist.model';
 
 export enum AdminType {
   NONE = 0,
-  MODERATOR = 1,
+  TESTER = 1,
   JUNIOR_ADMIN = 2,
   ADMINISTRATOR = 3,
   SENIOR_ADMIN = 4,

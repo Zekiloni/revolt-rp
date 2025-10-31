@@ -57,7 +57,7 @@ import { sendAdminChatMessage } from './player-admin.util';
 registerCommand({
   name: 'aduty',
   description: 'aduty',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(player: PlayerMp) {
     player.setVariable(PlayerSharedDataType.AdminDuty, !player.getVariable<boolean>(PlayerSharedDataType.AdminDuty));
   }
@@ -179,7 +179,7 @@ registerCommand({
   aliases: ['adminchat', 'ac'],
   params: ['message'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendAdminChatMessage(player, content);
@@ -668,7 +668,7 @@ registerCommand({
   name: 'kick',
   params: ['target', 'reason'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, reason: string) {
     const target = findPlayer(targetQuery);
 
@@ -684,7 +684,7 @@ registerCommand({
   name: 'ban',
   params: ['target', 'reason', 'days || perm'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, reason: string, expire: string) {
     if (!isNumber(expire) && expire != 'perm')
       return notifyPlayer(player, {
@@ -712,7 +712,7 @@ registerCommand({
   name: 'mute',
   params: ['target', 'minutes'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, minutes: string) {
     if (!isNumber(minutes))
       return notifyPlayer(player, {
@@ -739,7 +739,7 @@ registerCommand({
   name: 'unmute',
   params: ['target'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string) {
     const target = findPlayer(targetQuery);
 
@@ -756,7 +756,7 @@ registerCommand({
   aliases: ['spectate'],
   params: ['target'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string) {
     const target = findPlayer(targetQuery);
 
@@ -885,7 +885,7 @@ registerCommand({
   name: 'clearchat',
   aliases: ['cc'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(_player: PlayerMp) {
     mp.players.forEach(target => {
       triggerBrowsers(target, ProcedureKey.BROWSER_CLEAR_CHAT);

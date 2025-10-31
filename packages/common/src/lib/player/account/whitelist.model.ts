@@ -14,6 +14,7 @@ export interface IWhitelistAnswer {
 }
 
 export interface IWhitelist extends Base {
+  account: Ref<IAccount>;
   status: WhitelistStatus;
   grade: number;
   answers: IWhitelistAnswer[];
@@ -21,4 +22,9 @@ export interface IWhitelist extends Base {
   reviewedBy?: Ref<IAccount>;
   createdAt: Date;
   updatedAt?: Date;
+}
+
+export interface IWhiteListCreate {
+  answers: IWhitelistAnswer[];
+  grade: number;
 }
