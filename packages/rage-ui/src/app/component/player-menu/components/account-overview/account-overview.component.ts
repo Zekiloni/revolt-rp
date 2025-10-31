@@ -53,9 +53,9 @@ export class AccountOverviewComponent {
   }
 
   getAdminLevelSeverity(administrator: AdminType) {
-    if (administrator === AdminType.MODERATOR) {
+    if (administrator === AdminType.TESTER) {
       return 'success';
-    } else if (administrator > AdminType.MODERATOR) {
+    } else if (administrator > AdminType.TESTER) {
       return 'danger';
     }
     return 'info';
