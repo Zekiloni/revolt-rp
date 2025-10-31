@@ -2,8 +2,6 @@ import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { InputText } from 'primeng/inputtext';
 import { Divider } from 'primeng/divider';
-import { ButtonDirective } from 'primeng/button';
-import { StyleClass } from 'primeng/styleclass';
 import { AuthService } from '../../core/service/auth.service';
 
 @Component({
@@ -12,9 +10,7 @@ import { AuthService } from '../../core/service/auth.service';
   imports: [
     ReactiveFormsModule,
     InputText,
-    Divider,
-    ButtonDirective,
-    StyleClass
+    Divider
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css'
@@ -47,8 +43,8 @@ export class AuthComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       const formData = this.loginForm.value;
-      console.log('Form Data:', formData);
-      // Handle authentication logic here
+      this.authService.basicAuth(formData.username, formData.password)
+        .subscribe({ next: (response) => window.location.href = response.url! });
     }
   }
 }

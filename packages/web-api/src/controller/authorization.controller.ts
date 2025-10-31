@@ -8,7 +8,7 @@ import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
 
-router.post('/login', async (req, res) => {
+router.post('/basic', async (req, res) => {
   const body = req.body as IAccountAuthorize;
 
   if (!body.username || !body.password) {
