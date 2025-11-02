@@ -46,15 +46,16 @@ export class CharacterOverviewComponent implements OnInit{
     }
   ];
 
-  constructor(private route: ActivatedRoute,private characterService: CharacterService) {
-  }
-
   storeItems = [
     { name: 'Name Change', price: '$9.99', icon: 'pi-id-card' },
     { name: 'Vehicle Plate Change', price: '$6.99', icon: 'pi-car' },
     { name: 'Character Slot', price: '$12.99', icon: 'pi-user-plus' },
     { name: 'Phone Number Change', price: '$4.99', icon: 'pi-mobile' }
   ];
+
+  constructor(private route: ActivatedRoute,private characterService: CharacterService) {
+  }
+
 
   getOrganization(character: ICharacter) {
     return character.membership?.organization as IOrganization;
