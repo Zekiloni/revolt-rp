@@ -18,13 +18,15 @@ import { API_BASE_HREF } from './core/config/variables';
 import { environment } from '../environments/environment';
 import { authInterceptor } from './core/util/auth.interceptor';
 import { AuthService } from './core/service/auth.service';
+import { apiErrorInterceptor } from './core/util/api-error.interceptor';
+import { MessageService } from 'primeng/api';
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideClientHydration(withEventReplay()),
-    provideHttpClient(withFetch(),withInterceptors([authInterceptor])),
+    provideHttpClient(withFetch(),withInterceptors([authInterceptor, apiErrorInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideAnimations(),
@@ -40,6 +42,7 @@ export const appConfig: ApplicationConfig = {
       provide: AuthService,
       useClass: AuthService
     },
+    MessageService,
     provideAppInitializer(() => {
       const authService = inject(AuthService);
       return authService.initializeAsync();

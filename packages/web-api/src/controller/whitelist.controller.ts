@@ -5,7 +5,7 @@ import {
   createWhitelist,
   approveWhitelist,
   rejectWhitelist,
-  getAllWhitelists
+  getAllWhitelists, generateWhitelistTest
 } from '../service/whitelist.service';
 import { isAdministrator } from '../middleware/admin.middleware';
 import { WhitelistStatus } from '@revolt-rp/common';
@@ -26,14 +26,21 @@ router.get('/:accountId', authenticate, async (req, res) => {
 
 router.post('', authenticate, async (req, res) => {
   const accountId = req['user']['accountId'];
-  const { answers, grade } = req.body;
+  const { answers, essayAnswers } = req.body;
+  console.log('answers', answers);
+  console.log('essayAnswers', essayAnswers);
   try {
-    const whitelist = await createWhitelist(accountId, { answers, grade });
+    const whitelist = await createWhitelist(accountId, { answers, essayAnswers });
     return res.status(201).json(whitelist);
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
 });
+
+router.get('', authenticate, async (req, res) => {
+  const whitelistTest = generateWhitelistTest();
+  return res.status(200).json(whitelistTest);
+})
 
 router.patch('/:whitelistId/approve', authenticate, isAdministrator, async (req, res) => {
   const { whitelistId } = req.params;

@@ -4,9 +4,10 @@ import { HeaderComponent } from './components/header';
 import { FooterComponent } from './components/footer';
 import { isPlatformBrowser } from '@angular/common';
 import { AuthService } from './core/service/auth.service';
+import { Toast } from 'primeng/toast';
 
 @Component({
-  imports: [RouterModule, HeaderComponent, FooterComponent],
+  imports: [RouterModule, HeaderComponent, FooterComponent, Toast],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
