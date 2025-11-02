@@ -83,7 +83,7 @@ export class SidebarComponent implements OnInit {
                     { label: 'Manage vehicles', icon: 'pi pi-car', routerLink: ['/admin/vehicles'] }
                   ]
                 },
-                { label: 'Whitelist Applications', icon: 'pi pi-file', routerLink: ['/admin/applications'] }
+                { label: 'Whitelist Applications', icon: 'pi pi-file', routerLink: ['admin/whitelist'] }
               ]
             }
           ]

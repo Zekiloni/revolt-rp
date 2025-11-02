@@ -6,7 +6,12 @@ import { AccountModel, whitelistConfig, WhiteListModel } from '@revolt-rp/core';
 export const getWhitelistByAccountId = async (accountId: string) => {
   return WhiteListModel.find({ account: accountId })
     .sort({ createdAt: -1 })
-    .populate('reviewedBy', 'username')
+    .populate([
+      {
+        path: 'reviewedBy',
+        select: '-password'
+      }
+    ])
     .exec();
 };
 
@@ -86,14 +91,21 @@ export const rejectWhitelist = async (whitelistId: string, adminId: string, note
   }, { new: true }).exec();
 };
 
-export const getAllWhitelists = async (status: WhitelistStatus, limit = 50, offset = 0) => {
+export const getAllWhitelists = async (status: WhitelistStatus | undefined, limit = 50, offset = 0) => {
   return Promise.all([
-    WhiteListModel.find({ status })
+    WhiteListModel.find({ ...(status ? { status } : {}) })
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(limit)
-      .populate('account', 'username')
-      .populate('reviewedBy', 'username')
+      .populate([{
+          path: 'account',
+          select: '-password'
+        },
+        {
+          path: 'reviewedBy',
+          select: '-password'
+        }
+      ])
       .exec(),
     WhiteListModel.countDocuments({ status }).exec()
   ]);

@@ -25,12 +25,12 @@ export class WhitelistService extends BaseApiService {
     return this.httpClient.patch<IWhitelist>(`${this.getApiPath('whitelist')}/${whitelistId}/reject`, { note });
   }
 
-  getAllWhitelists(status: WhitelistStatus, limit = 50, offset = 0) {
-    return this.httpClient.get<{ total: number, whitelists: IWhitelist[]}>(this.getApiPath('whitelist'), {
+  getAllWhitelists(status: WhitelistStatus | undefined, limit = 50, offset = 0) {
+    return this.httpClient.get<{ total: number, whitelists: IWhitelist[]}>(`${this.getApiPath('whitelist')}/manage`, {
       params: {
-        status,
         limit: limit.toString(),
-        offset: offset.toString()
+        offset: offset.toString(),
+        ...(status ? { status } : {})
       }
     });
   }

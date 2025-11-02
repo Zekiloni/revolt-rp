@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { WhitelistStatus } from '@revolt-rp/common';
 import { authenticate } from '../middleware/auth.middleware';
 import {
   getWhitelistByAccountId,
@@ -8,10 +9,21 @@ import {
   getAllWhitelists, generateWhitelistTest
 } from '../service/whitelist.service';
 import { isAdministrator } from '../middleware/admin.middleware';
-import { WhitelistStatus } from '@revolt-rp/common';
 
 
 const router = Router();
+
+router.get('/manage', authenticate, isAdministrator, async (req, res) => {
+  const { status, offset = 0, limit = 50 } = req.query as { status: WhitelistStatus, offset?: string, limit?: string };
+
+  console.log('req.query', req.query);
+  if (status && !Object.values(WhitelistStatus).includes(status)) {
+    return res.status(400).json({ message: 'invalid_whitelist_status' });
+  }
+
+  const [whitelists, total] = await getAllWhitelists(status, Number(limit), Number(offset));
+  return res.status(200).json({ whitelists, total });
+})
 
 router.get('/:accountId', authenticate, async (req, res) => {
   const { accountId } = req.params;
@@ -27,8 +39,6 @@ router.get('/:accountId', authenticate, async (req, res) => {
 router.post('', authenticate, async (req, res) => {
   const accountId = req['user']['accountId'];
   const { answers, essayAnswers } = req.body;
-  console.log('answers', answers);
-  console.log('essayAnswers', essayAnswers);
   try {
     const whitelist = await createWhitelist(accountId, { answers, essayAnswers });
     return res.status(201).json(whitelist);
@@ -67,16 +77,5 @@ router.patch('/:whitelistId/reject', authenticate, isAdministrator, async (req, 
   }
 });
 
-
-router.get('', authenticate, isAdministrator, async (req, res) => {
-  const { status, offset = 0, limit = 50 } = req.query as { status: WhitelistStatus, offset?: string, limit?: string };
-
-  if (!status || !Object.values(WhitelistStatus).includes(status)) {
-    return res.status(400).json({ message: 'invalid_whitelist_status' });
-  }
-
-  const [whitelists, total] = await getAllWhitelists(status, Number(limit), Number(offset));
-  return res.status(200).json({ whitelists, total });
-})
 
 export default router;
