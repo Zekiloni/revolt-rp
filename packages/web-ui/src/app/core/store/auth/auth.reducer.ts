@@ -1,6 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { initialAuthState } from './auth.state';
-import { setAccount, unsetAccount } from './auth.actions';
+import { setAccount, unsetAccount, updateAccount } from './auth.actions';
+import { IAccount } from '@revolt-rp/common';
 
 export const authReducer = createReducer(
   initialAuthState,
@@ -12,6 +13,11 @@ export const authReducer = createReducer(
     loading: false,
   })),
 
+
+  on(updateAccount, (state, { account }) => ({
+    ...state,
+    account: { ...state.account, ...account } as IAccount
+  })),
 
   on(unsetAccount, _state => ({
     isAuthenticated: false,

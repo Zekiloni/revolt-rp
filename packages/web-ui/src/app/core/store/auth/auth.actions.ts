@@ -7,5 +7,10 @@ export const setAccount = createAction(
   props<{ account: IAccount }>()
 );
 
+export const updateAccount = createAction(
+  '[Auth] Update Account',
+  props<{ account: Partial<IAccount> }>()
+);
+
 export const unsetAccount = createAction('[Auth] Logout User');
 
