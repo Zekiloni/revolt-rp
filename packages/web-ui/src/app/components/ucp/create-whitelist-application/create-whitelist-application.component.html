@@ -5,11 +5,11 @@
         @for (qGroup of questionsArray.controls; track qGroup; let qi = $index) {
           <div [formGroupName]="qi" class="mb-6">
             <p class="font-medium mb-2">
-              {{ whitelistTest.questions[qi]?.question }}
+              {{ whitelistTest.questions[qi]!.question }}
             </p>
 
             <p-listbox
-              [options]="whitelistTest.questions[qi]?.answers!"
+              [options]="whitelistTest.questions[qi]!.answers!"
               formControlName="answer"
               optionLabel="content"
               optionValue="content"

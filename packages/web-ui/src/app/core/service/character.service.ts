@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseApiService } from './base-api.service';
-import { IAccount, ICharacter } from '@revolt-rp/common';
+import { ICharacter } from '@revolt-rp/common';
 
 
 @Injectable({ providedIn: 'root' })
