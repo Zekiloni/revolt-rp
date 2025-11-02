@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { IWhiteListCreate, IWhitelistTest, WhitelistStatus } from '@revolt-rp/common';
-import { whitelistConfig, WhiteListModel } from '@revolt-rp/core';
+import { AccountModel, whitelistConfig, WhiteListModel } from '@revolt-rp/core';
 
 
 export const getWhitelistByAccountId = async (accountId: string) => {
@@ -30,7 +30,7 @@ const calculateGrade = (whitelistCreate: IWhiteListCreate) => {
   });
 
   return (correctAnswers / whitelistConfig.maxQuestions) * 100;
-}
+};
 
 export const createWhitelist = async (accountId: string, create: IWhiteListCreate) => {
   const isAlreadyExists = await WhiteListModel.exists({ account: accountId, status: WhitelistStatus.PENDING });
@@ -57,12 +57,18 @@ export const createWhitelist = async (accountId: string, create: IWhiteListCreat
     throw new Error('whitelist_rejected_recently');
   }
 
-  return WhiteListModel.create({
+  const whitelist = await WhiteListModel.create({
     account: accountId,
     answers: create.answers,
     essayAnswers: create.essayAnswers,
     grade: calculateGrade(create)
   });
+
+  await AccountModel.findByIdAndUpdate(accountId, {
+    $push: { whitelist: whitelist.id }
+  });
+
+  return whitelist;
 };
 
 export const approveWhitelist = async (whitelistId: string, adminId: string) => {
@@ -110,7 +116,7 @@ export const generateWhitelistTest = () => {
     maxEssayQuestions: whitelistConfig.maxEssayQuestions,
     questions,
     essayQuestions: getRandomQuestions(whitelistConfig.essayQuestions, whitelistConfig.maxEssayQuestions)
-  }
+  };
 
   return whitelistTest;
-}
+};
