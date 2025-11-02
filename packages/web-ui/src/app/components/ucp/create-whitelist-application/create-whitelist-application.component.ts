@@ -1,23 +1,22 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { WhitelistService } from '../../../core/service/whitelist.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IWhiteListCreate, IWhitelistTest } from '@revolt-rp/common';
 import { DynamicDialogRef } from 'primeng/dynamicdialog';
-import { Button, ButtonDirective } from 'primeng/button';
+import { Button } from 'primeng/button';
 import { Textarea } from 'primeng/textarea';
-import { RadioButton } from 'primeng/radiobutton';
 import { Listbox } from 'primeng/listbox';
 import { DisableCopyDirective } from '../../../core/util/disable-copy.directive';
+import { Store } from '@ngrx/store';
+import { IAuthorizationState } from '../../../core/store/auth/auth.state';
 
 @Component({
   selector: 'app-create-whitelist-application',
   standalone: true,
   imports: [
     Button,
-    ButtonDirective,
     ReactiveFormsModule,
     Textarea,
-    RadioButton,
     Listbox,
     DisableCopyDirective
   ],
@@ -30,6 +29,7 @@ export class CreateWhitelistApplicationComponent {
   whitelistTest: IWhitelistTest | null = null;
 
   constructor(
+    @Inject(Store) private store: Store<IAuthorizationState>,
     private formBuilder: FormBuilder,
     private dialogRef: DynamicDialogRef,
     private whitelistService: WhitelistService
@@ -52,13 +52,6 @@ export class CreateWhitelistApplicationComponent {
     });
   }
 
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    console.log('Key down event:', event);
-    if ((event.ctrlKey || event.metaKey) && ['c','v','x','a'].includes(event.key.toLowerCase())) {
-      event.preventDefault();
-    }
-  }
 
   loadWhitelistTest() {
     this.form = this.formBuilder.group({
@@ -89,7 +82,6 @@ export class CreateWhitelistApplicationComponent {
 
   submit() {
     const rawValue = this.form.getRawValue() as IWhiteListCreate;
-    console.log('Submitting whitelist application:', rawValue);
     this.whitelistService.createWhitelist(rawValue)
       .subscribe({ next: () => this.dialogRef.close(true) });
   }
