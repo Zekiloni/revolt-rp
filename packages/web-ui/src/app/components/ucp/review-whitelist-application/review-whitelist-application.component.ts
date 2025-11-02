@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, TitleCasePipe } from '@angular/common';
 import { Button } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IAccount, IWhitelist, WhitelistStatus } from '@revolt-rp/common';
@@ -22,7 +22,8 @@ import { InputText } from 'primeng/inputtext';
     ConfirmPopup,
     FormsModule,
     AccordionModule,
-    InputText
+    InputText,
+    TitleCasePipe
   ],
   providers: [ConfirmationService, WhitelistService],
   templateUrl: './review-whitelist-application.component.html',
@@ -48,6 +49,14 @@ export class ReviewWhitelistApplicationComponent {
 
   get account() {
     return this.application.account as IAccount;
+  }
+
+  get isRejected() {
+    return this.application.status === WhitelistStatus.REJECTED;
+  }
+
+  get reviewedBy() {
+    return this.application.reviewedBy as IAccount;
   }
 
   get isPending() {

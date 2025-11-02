@@ -25,7 +25,7 @@
       <td>{{ application.grade ?? '0' }}%</td>
       <td>{{ application.reviewedBy?.username || '-' }}</td>
       <td>
-        <span [pTooltip]="application.note" tooltipPosition="bottom">
+        <span [pTooltip]="application.note" tooltipPosition="bottom" tooltipStyleClass="min-w-2xl">
           {{ application.note ? (application.note.length > 25 ? (application.note | slice:0:25) + '...' : application.note) : '/' }}
         </span>
       </td>

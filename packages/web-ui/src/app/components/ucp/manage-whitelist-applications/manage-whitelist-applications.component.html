@@ -4,14 +4,10 @@
   [loading]="loading"
   [paginator]="true"
   [rows]="limit"
-  selectionMode="single"
-  [(selection)]="selectedApplication"
   [lazy]="true"
   dataKey="id"
-  (onRowSelect)="onApplicationSelect($event)"
   (onLazyLoad)="getWhitelistApplications($event)"
   [responsiveLayout]="'scroll'"
-  (onRowUnselect)="onApplicationUnselect()"
   [showGridlines]="true"
   styleClass="mt-3 rounded-lg overflow-hidden"
   [showCurrentPageReport]="true"
@@ -35,12 +31,12 @@
       @if (!isPendingFilter) {
         <th>Reviewed By</th>
         <th>Reviewed At</th>
-        <th>Note</th>
       }
+      <th>Actions</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-application>
-    <tr [pSelectableRow]="application">
+    <tr>
       <td>{{ application.account.username }}</td>
       <td>
         <p-tag [severity]="getWhitelistStatusSeverity(application.status)"
@@ -50,8 +46,11 @@
       @if (!isPendingFilter) {
         <td>{{ application.reviewedBy ? application.reviewedBy.username : '/' }}</td>
         <td>{{ application.updatedAt | date:'medium' }}</td>
-        <th>{{ application.note}}</th>
       }
+      <td>
+        <p-button label="Review" icon="pi pi-check-circle" size="small" severity="primary"
+                  (onClick)="onApplicationSelect(application)" />
+      </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">
