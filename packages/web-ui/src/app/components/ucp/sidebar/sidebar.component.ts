@@ -114,7 +114,7 @@ export class SidebarComponent implements OnInit {
 
   toggleTheme() {
     this.isDarkMode = !this.isDarkMode;
-    document.documentElement.classList.toggle('app-dark', this.isDarkMode);
+    document.documentElement.classList.toggle('dark', this.isDarkMode);
   }
 
   getAccount() {

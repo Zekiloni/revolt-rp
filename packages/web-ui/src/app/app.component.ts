@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
       const element = document.querySelector('html');
 
       if (element) {
-        element.classList.toggle('app-dark');
+        element.classList.toggle('dark');
       }
     }
   }
