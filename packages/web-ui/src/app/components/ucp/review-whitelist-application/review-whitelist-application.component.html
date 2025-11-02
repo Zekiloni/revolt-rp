@@ -1,5 +1,17 @@
 <div class="w-full">
 
+  <div class="mb-6">
+    <p-tag
+      [value]="getWhitelistStatusLabel(application.status) | titlecase"
+      [severity]="getWhitelistStatusSeverity(application.status)"
+      class="mt-2"
+    />
+    @if (isRejected) {
+      <span class="ml-4 text-surface-400 italic">Rejected by {{ reviewedBy.username }} on {{ application.updatedAt | date:'medium' }}</span>
+      <p class="mt-3 text-surface-300">{{  application.note }}</p>
+    }
+  </div>
+
   <p-accordion value="0">
     @for (ans of application.answers; let i = $index; track i) {
       <p-accordion-panel [value]="i">
@@ -52,7 +64,10 @@
       class="p-button-secondary"
       (onClick)="cancel()"
     />
-    <input pInputText type="text" [(ngModel)]="note" placeholder="Add note / rejection reason" [readOnly]="!isPending" />
+
+    @if (isPending) {
+      <input pInputText type="text" [(ngModel)]="note" placeholder="Add note / rejection reason" [readOnly]="!isPending" />
+    }
     <p-button
       label="Reject"
       severity="danger"

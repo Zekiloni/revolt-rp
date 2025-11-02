@@ -1,15 +1,15 @@
 import { Component, ViewChild } from '@angular/core';
 import { WhitelistService } from '../../../core/service/whitelist.service';
 import { IAccount, IWhitelist, WhitelistStatus } from '@revolt-rp/common';
-import { Table, TableLazyLoadEvent, TableModule, TableRowSelectEvent } from 'primeng/table';
-import { DatePipe, SlicePipe } from '@angular/common';
+import { Table, TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { DatePipe } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule } from '@angular/forms';
 import { DialogService } from 'primeng/dynamicdialog';
 import { ReviewWhitelistApplicationComponent } from '../review-whitelist-application';
 import { Tag } from 'primeng/tag';
 import { getWhitelistStatusLabel, getWhitelistStatusSeverity } from '../../../core/util/whitelist.util';
-import { Tooltip } from 'primeng/tooltip';
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-manage-whitelist-applications',
@@ -19,8 +19,7 @@ import { Tooltip } from 'primeng/tooltip';
     DropdownModule,
     FormsModule,
     Tag,
-    SlicePipe,
-    Tooltip
+    Button
   ],
   providers: [DialogService, WhitelistService],
   templateUrl: './manage-whitelist-applications.component.html',
@@ -40,8 +39,6 @@ export class ManageWhitelistApplicationsComponent {
   total = 0;
   applications: IWhitelist[] = [];
   loading = true;
-
-  selectedApplication!: IWhitelist;
 
   constructor(
     private dialogService: DialogService,
@@ -82,29 +79,20 @@ export class ManageWhitelistApplicationsComponent {
     });
   }
 
-  onApplicationSelect(event: TableRowSelectEvent<IWhitelist>) {
-    const app = event.data as IWhitelist;
+  onApplicationSelect(whitelist: IWhitelist) {
     this.dialogService.open(ReviewWhitelistApplicationComponent, {
-      header: `Whitelist Application - ${(<IAccount>app.account).username}`,
+      header: `Whitelist Application - ${(<IAccount>whitelist.account).username}`,
       width: '50%',
       modal: true,
       closable: true,
       maximizable: true,
       closeOnEscape: true,
       dismissableMask: true,
-      data: app
+      data: whitelist
     }).onClose.subscribe((approved: boolean) => {
       if (approved) {
         this.getWhitelistApplications(this.applicationsTable.createLazyLoadMetadata());
       }
     });
-
-    this.onApplicationUnselect();
-  }
-
-  onApplicationUnselect() {
-    if (this.applicationsTable) {
-      this.applicationsTable.selection = null;
-    }
   }
 }
