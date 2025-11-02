@@ -5,11 +5,14 @@ import { Subject, takeUntil } from 'rxjs';
 import { IWhitelist, WhitelistStatus } from '@revolt-rp/common';
 import { selectAccount } from '../../../../../core/store/auth/auth.selector';
 import { WhitelistService } from '../../../../../core/service/whitelist.service';
-import { AsyncPipe, DatePipe, NgClass, TitleCasePipe } from '@angular/common';
+import { DatePipe, SlicePipe } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { Button } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { CreateWhitelistApplicationComponent } from '../../../../../components/ucp/create-whitelist-application';
+import { Tag } from 'primeng/tag';
+import { getWhitelistStatusLabel, getWhitelistStatusSeverity } from '../../../../../core/util/whitelist.util';
+import { Tooltip } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-whitelist',
@@ -17,9 +20,10 @@ import { CreateWhitelistApplicationComponent } from '../../../../../components/u
   imports: [
     TableModule,
     DatePipe,
-    TitleCasePipe,
-    NgClass,
-    Button
+    Button,
+    Tag,
+    SlicePipe,
+    Tooltip
   ],
   providers: [DialogService, WhitelistService],
   templateUrl: './whitelist.component.html',
@@ -74,4 +78,7 @@ export class WhitelistComponent implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
+
+  protected readonly getWhitelistStatusSeverity = getWhitelistStatusSeverity;
+  protected readonly getWhitelistStatusLabel = getWhitelistStatusLabel;
 }
