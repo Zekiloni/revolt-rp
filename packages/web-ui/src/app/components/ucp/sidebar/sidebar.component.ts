@@ -51,6 +51,12 @@ export class SidebarComponent implements OnInit {
             routerLink: ['/dashboard']
           },
           {
+            label: 'Whitelist Application',
+            icon: 'pi pi-fw pi-file',
+            badge: account.whitelist.length.toString(),
+            routerLink: ['/dashboard', 'whitelist']
+          },
+          {
             label: 'Characters',
             icon: 'pi pi-fw pi-users',
             items: [...account.characters.map((character) => ({

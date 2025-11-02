@@ -1,9 +1,38 @@
 import dayjs from 'dayjs';
-import { IWhiteListCreate, WhitelistStatus } from '@revolt-rp/common';
-import { WhiteListModel } from '@revolt-rp/core';
+import { IWhiteListCreate, IWhitelistTest, WhitelistStatus } from '@revolt-rp/common';
+import { whitelistConfig, WhiteListModel } from '@revolt-rp/core';
 
 
 export const getWhitelistByAccountId = async (accountId: string) => {
+  return WhiteListModel.find({ account: accountId })
+    .sort({ createdAt: -1 })
+    .populate('reviewedBy', 'username')
+    .exec();
+};
+
+
+const calculateGrade = (whitelistCreate: IWhiteListCreate) => {
+  let correctAnswers = 0;
+
+  const questionMap = new Map<string, string>();
+  whitelistConfig.questions.forEach(q => {
+    const correctAnswer = q.answers.find(a => a.isCorrect);
+    if (correctAnswer) {
+      questionMap.set(q.question, correctAnswer.content);
+    }
+  });
+
+  whitelistCreate.answers.forEach(answer => {
+    const correctAnswer = questionMap.get(answer.question);
+    if (correctAnswer && correctAnswer === answer.answer) {
+      correctAnswers += 1;
+    }
+  });
+
+  return (correctAnswers / whitelistConfig.maxQuestions) * 100;
+}
+
+export const createWhitelist = async (accountId: string, create: IWhiteListCreate) => {
   const isAlreadyExists = await WhiteListModel.exists({ account: accountId, status: WhitelistStatus.PENDING });
 
   if (isAlreadyExists) {
@@ -28,18 +57,11 @@ export const getWhitelistByAccountId = async (accountId: string) => {
     throw new Error('whitelist_rejected_recently');
   }
 
-  return WhiteListModel.find({ account: accountId })
-    .sort({ createdAt: -1 })
-    .populate('reviewedBy', 'username')
-    .exec();
-};
-
-
-export const createWhitelist = async (accountId: string, create: IWhiteListCreate) => {
   return WhiteListModel.create({
     account: accountId,
     answers: create.answers,
-    grade: create.grade
+    essayAnswers: create.essayAnswers,
+    grade: calculateGrade(create)
   });
 };
 
@@ -70,3 +92,25 @@ export const getAllWhitelists = async (status: WhitelistStatus, limit = 50, offs
     WhiteListModel.countDocuments({ status }).exec()
   ]);
 };
+
+
+function getRandomQuestions<T>(arr: T[], count: number): T[] {
+  return [...arr].sort(() => Math.random() - 0.5).slice(0, count);
+}
+
+export const generateWhitelistTest = () => {
+  const questions = getRandomQuestions(whitelistConfig.questions, whitelistConfig.maxQuestions)
+    .map(q => ({
+      question: q.question,
+      answers: q.answers.map(a => ({ content: a.content }))
+    }));
+
+  const whitelistTest: IWhitelistTest = {
+    maxQuestions: whitelistConfig.maxQuestions,
+    maxEssayQuestions: whitelistConfig.maxEssayQuestions,
+    questions,
+    essayQuestions: getRandomQuestions(whitelistConfig.essayQuestions, whitelistConfig.maxEssayQuestions)
+  }
+
+  return whitelistTest;
+}
