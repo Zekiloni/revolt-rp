@@ -62,7 +62,7 @@ export class CharacterOverviewComponent implements OnInit{
   }
 
   getRank(character: ICharacter) {
-    return character.membership?.rank as IOrganizationRank;
+    return (<IOrganizationRank>character.membership?.rank) || { name: 'Unranked' };
   }
 
   ngOnInit() {
