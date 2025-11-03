@@ -25,14 +25,14 @@ export class CharacterOverviewComponent implements OnInit{
 
   items: MenuItem[] = [
     {
-      label: 'Overview',
-      icon: 'pi pi-fw pi-info-circle',
+      label: 'Vehicles',
+      icon: 'pi pi-fw pi-car',
       routerLink: ['/dashboard/character/overview']
     },
     {
-      label: 'Inventory',
-      icon: 'pi pi-fw pi-box',
-      routerLink: ['/dashboard/character/inventory']
+      label: 'Properties',
+      icon: 'pi pi-fw pi-building',
+      routerLink: ['/dashboard/character/settings']
     },
     {
       label: 'Skills',
