@@ -68,6 +68,7 @@ export class SidebarComponent implements OnInit {
             items: [...account.characters.map((character) => ({
               label: character.fullName,
               icon: 'pi pi-fw pi-user',
+              routerLinkActiveOptions: { exact: false },
               routerLink: ['/dashboard', 'character', character.id]
             }))]
           }
