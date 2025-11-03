@@ -11,7 +11,6 @@ import { AsyncPipe, CurrencyPipe, NgClass } from '@angular/common';
   selector: 'app-character-overview',
   standalone: true,
   imports: [
-    Menubar,
     AsyncPipe,
     CurrencyPipe,
     NgClass
@@ -20,31 +19,8 @@ import { AsyncPipe, CurrencyPipe, NgClass } from '@angular/common';
   templateUrl: './character-overview.component.html',
   styleUrl: './character-overview.component.css'
 })
-export class CharacterOverviewComponent implements OnInit{
+export class CharacterOverviewComponent implements OnInit {
   $character!: Observable<ICharacter>;
-
-  items: MenuItem[] = [
-    {
-      label: 'Vehicles',
-      icon: 'pi pi-fw pi-car',
-      routerLink: ['/dashboard/character/overview']
-    },
-    {
-      label: 'Properties',
-      icon: 'pi pi-fw pi-building',
-      routerLink: ['/dashboard/character/settings']
-    },
-    {
-      label: 'Skills',
-      icon: 'pi pi-fw pi-star',
-      routerLink: ['/dashboard/character/skills']
-    },
-    {
-      label: 'Settings',
-      icon: 'pi pi-fw pi-cog',
-      routerLink: ['/dashboard/character/settings']
-    }
-  ];
 
   storeItems = [
     { name: 'Name Change', price: '$9.99', icon: 'pi-id-card' },
@@ -53,7 +29,7 @@ export class CharacterOverviewComponent implements OnInit{
     { name: 'Phone Number Change', price: '$4.99', icon: 'pi-mobile' }
   ];
 
-  constructor(private route: ActivatedRoute,private characterService: CharacterService) {
+  constructor(private route: ActivatedRoute, private characterService: CharacterService) {
   }
 
 
@@ -69,7 +45,6 @@ export class CharacterOverviewComponent implements OnInit{
     this.route.params.subscribe((params) => {
       const characterId = params['characterId'];
       this.$character = this.characterService.getCharacter(characterId);
-    })
-
+    });
   }
 }
