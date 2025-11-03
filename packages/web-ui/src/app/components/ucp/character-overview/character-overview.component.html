@@ -1,199 +1,202 @@
 @if ($character | async; as character) {
-  <div
-    class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
-    <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-5 items-center">
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <div class="h-16 w-16 rounded-xl bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
-            <i class="fa-solid fa-user text-2xl text-gray-500 dark:text-gray-400"></i>
-          </div>
-          <span
-            class="absolute -right-1 -bottom-1 w-4 h-4 rounded-full bg-green-500 ring-2 ring-white dark:ring-[#0f1117]"></span>
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h3 class="text-lg font-semibold">{{ character.fullName }}</h3>
+  <div class="space-y-6 pt-6">
+    <div
+      class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+      <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-5 items-center">
+        <div class="flex items-center gap-4">
+          <div class="relative">
+            <div class="h-16 w-16 rounded-xl bg-gray-300 dark:bg-gray-700 flex items-center justify-center">
+              <i class="fa-solid fa-user text-2xl text-gray-500 dark:text-gray-400"></i>
+            </div>
             <span
-              class="text-[11px] px-2 py-0.5 rounded-full bg-black/5 border border-gray-200 dark:bg-white/10 dark:border-white/10">
+              class="absolute -right-1 -bottom-1 w-4 h-4 rounded-full bg-green-500 ring-2 ring-white dark:ring-[#0f1117]"></span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-lg font-semibold">{{ character.fullName }}</h3>
+              <span
+                class="text-[11px] px-2 py-0.5 rounded-full bg-black/5 border border-gray-200 dark:bg-white/10 dark:border-white/10">
                         Level {{ character.level }}
                       </span>
-          </div>
-          <div class="text-sm text-gray-600 dark:text-gray-400">
-            <span class="text-gray-400 dark:text-gray-500">#{{ character.id }}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 gap-4 text-sm">
-        <div>
-          <div class="text-gray-600 dark:text-gray-400">Date of Birth</div>
-          <div class="font-medium text-gray-900 dark:text-gray-200">{{ character.birthday }}</div>
-        </div>
-        <div>
-          <div class="text-gray-600 dark:text-gray-400">Nationality</div>
-          <div class="font-medium text-gray-900 dark:text-gray-200">{{ character.origin }}</div>
-        </div>
-      </div>
-
-      <div class="justify-self-end">
-        <button class="h-10 px-4 rounded-lg bg-primary-500 text-black font-semibold hover:bg-primary-400 transition">
-          Manage
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Stats: left stack & right bank info -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-    <!-- Cash -->
-    <div
-      class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div
-            class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-            <i class="pi pi-fw pi-dollar text-primary-500 dark:text-primary-400"></i>
-          </div>
-          <div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">Cash</div>
-            <div class="text-xl font-semibold text-gray-900 dark:text-gray-200">{{ character.cash | currency }}</div>
-          </div>
-        </div>
-        <span
-          class="text-xs px-2 py-1 rounded-md bg-black/5 text-gray-700 border border-gray-200 dark:bg-white/5 dark:text-gray-300 dark:border-white/10">
-        On hand
-      </span>
-      </div>
-    </div>
-
-    <!-- Hours Played -->
-    <div
-      class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div
-            class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-            <i class="pi pi-fw pi-clock text-primary-500 dark:text-primary-400"></i>
-          </div>
-          <div>
-            <div class="text-sm text-gray-600 dark:text-gray-400">Hours Played</div>
-            <div class="text-xl font-semibold text-gray-900 dark:text-gray-200">{{ character.hours }}
-              h {{ character.minutes }}min
+            </div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">
+              <span class="text-gray-400 dark:text-gray-500">#{{ character.id }}</span>
             </div>
           </div>
         </div>
-        <span
-          class="text-xs px-2 py-1 rounded-md bg-black/5 text-gray-700 border border-gray-200 dark:bg-white/5 dark:text-gray-300 dark:border-white/10">
+
+        <div class="grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <div class="text-gray-600 dark:text-gray-400">Date of Birth</div>
+            <div class="font-medium text-gray-900 dark:text-gray-200">{{ character.birthday }}</div>
+          </div>
+          <div>
+            <div class="text-gray-600 dark:text-gray-400">Nationality</div>
+            <div class="font-medium text-gray-900 dark:text-gray-200">{{ character.origin }}</div>
+          </div>
+        </div>
+
+        <div class="justify-self-end">
+          <button class="h-10 px-4 rounded-lg bg-primary-500 text-black font-semibold hover:bg-primary-400 transition">
+            Manage
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats: left stack & right bank info -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <!-- Cash -->
+      <div
+        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+              <i class="pi pi-fw pi-dollar text-primary-500 dark:text-primary-400"></i>
+            </div>
+            <div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Cash</div>
+              <div class="text-xl font-semibold text-gray-900 dark:text-gray-200">{{ character.cash | currency }}</div>
+            </div>
+          </div>
+          <span
+            class="text-xs px-2 py-1 rounded-md bg-black/5 text-gray-700 border border-gray-200 dark:bg-white/5 dark:text-gray-300 dark:border-white/10">
+        On hand
+      </span>
+        </div>
+      </div>
+
+      <!-- Hours Played -->
+      <div
+        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+              <i class="pi pi-fw pi-clock text-primary-500 dark:text-primary-400"></i>
+            </div>
+            <div>
+              <div class="text-sm text-gray-600 dark:text-gray-400">Hours Played</div>
+              <div class="text-xl font-semibold text-gray-900 dark:text-gray-200">{{ character.hours }}
+                h {{ character.minutes }}min
+              </div>
+            </div>
+          </div>
+          <span
+            class="text-xs px-2 py-1 rounded-md bg-black/5 text-gray-700 border border-gray-200 dark:bg-white/5 dark:text-gray-300 dark:border-white/10">
         Lifetime
       </span>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-    @if (character.job) {
-      <div
-        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
-        <div class="flex items-center gap-3 mb-4">
-          <div
-            class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-            <i class="pi pi-fw pi-briefcase text-primary-500 dark:text-primary-400"></i>
-          </div>
-          <h3 class="text-lg font-semibold">Current Job</h3>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-          <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
-            <span class="text-gray-600 dark:text-gray-400">Position</span>
-            <span class="text-gray-900 dark:text-gray-200">{{ character.job.jobKey }}</span>
-          </div>
-          <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
-            <span class="text-gray-600 dark:text-gray-400">Salary</span>
-            <span class="text-green-600 dark:text-green-400">{{ character.job.salary | currency }} / week</span>
-          </div>
-        </div>
-      </div>
-    }
-
-    <!-- Organization -->
-    @if (character.membership) {
-      <div
-        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
-        <div class="flex items-center gap-3 mb-4">
-          <div
-            class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-            <i class="pi pi-fw pi-users text-primary-500 dark:text-primary-400"></i>
-          </div>
-          <h3 class="text-lg font-semibold">Organization</h3>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-          <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
-            <span class="text-gray-600 dark:text-gray-400">Faction</span>
-            <span class="text-gray-900 dark:text-gray-200">{{ getOrganization(character).name }}</span>
-          </div>
-          <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
-            <span class="text-gray-600 dark:text-gray-400">Rank</span>
-            <span class="text-gray-900 dark:text-gray-200">{{ getRank(character).name }}</span>
-          </div>
-        </div>
-      </div>
-    }
-  </div>
-
-  <!-- Donate / Store -->
-  <div
-    class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
-    <div class="flex items-center gap-3 mb-4">
-      <div
-        class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-        <i class="pi pi-fw pi-gift text-primary-500 dark:text-primary-400"></i>
-      </div>
-      <h3 class="text-lg font-semibold">Donate / Store</h3>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      @for (item of storeItems; track item.name) {
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      @if (character.job) {
         <div
-          class="group w-full text-left rounded-xl border p-4 border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition relative overflow-hidden hover:shadow-[0_14px_50px_rgba(234,179,8,0.25)] hover:border-primary-500/40">
+          class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+              <i class="pi pi-fw pi-briefcase text-primary-500 dark:text-primary-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold">Current Job</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
+              <span class="text-gray-600 dark:text-gray-400">Position</span>
+              <span class="text-gray-900 dark:text-gray-200">{{ character.job.jobKey }}</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
+              <span class="text-gray-600 dark:text-gray-400">Salary</span>
+              <span class="text-green-600 dark:text-green-400">{{ character.job.salary | currency }} / week</span>
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- Organization -->
+      @if (character.membership) {
+        <div
+          class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+              <i class="pi pi-fw pi-users text-primary-500 dark:text-primary-400"></i>
+            </div>
+            <h3 class="text-lg font-semibold">Organization</h3>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
+              <span class="text-gray-600 dark:text-gray-400">Faction</span>
+              <span class="text-gray-900 dark:text-gray-200">{{ getOrganization(character).name }}</span>
+            </div>
+            <div class="flex items-center justify-between border-b border-gray-200 dark:border-white/10 py-2">
+              <span class="text-gray-600 dark:text-gray-400">Rank</span>
+              <span class="text-gray-900 dark:text-gray-200">{{ getRank(character).name }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Donate / Store -->
+    <div
+      class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+      <div class="flex items-center gap-3 mb-4">
+        <div
+          class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+          <i class="pi pi-fw pi-gift text-primary-500 dark:text-primary-400"></i>
+        </div>
+        <h3 class="text-lg font-semibold">Donate / Store</h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        @for (item of storeItems; track item.name) {
+          <div
+            class="group w-full text-left rounded-xl border p-4 border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition relative overflow-hidden hover:shadow-[0_14px_50px_rgba(234,179,8,0.25)] hover:border-primary-500/40">
                     <span
                       class="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span class="absolute -inset-x-16 -top-12 h-20 bg-primary-500/10 blur-3xl"></span>
                     </span>
 
-          <div class="flex items-center justify-between gap-3 relative">
-            <div class="flex items-center gap-3">
-              <div
-                class="h-10 w-10 shrink-0 rounded-lg bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
-                <i class="pi pi-fw text-primary-500 dark:text-primary-400" [ngClass]="item.icon"></i>
+            <div class="flex items-center justify-between gap-3 relative">
+              <div class="flex items-center gap-3">
+                <div
+                  class="h-10 w-10 shrink-0 rounded-lg bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+                  <i class="pi pi-fw text-primary-500 dark:text-primary-400" [ngClass]="item.icon"></i>
+                </div>
+                <div class="font-medium">{{ item.name }}</div>
               </div>
-              <div class="font-medium">{{ item.name }}</div>
+              <div class="font-semibold tabular-nums">{{ item.price }}</div>
             </div>
-            <div class="font-semibold tabular-nums">{{ item.price }}</div>
           </div>
-        </div>
-      }
+        }
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div
+      class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+      <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button
+          class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-cyan-600 dark:text-cyan-400"></i>
+          <span class="font-medium">Edit Profile</span>
+        </button>
+        <button
+          class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-arrow-right-arrow-left text-green-600 dark:text-green-400"></i>
+          <span class="font-medium">Online Banking</span>
+        </button>
+        <button
+          class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-trash-can text-red-600 dark:text-red-400"></i>
+          <span class="font-medium">Delete Character</span>
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Quick Actions -->
-  <div
-    class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
-    <h3 class="text-lg font-semibold mb-4">Quick Actions</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-      <button
-        class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-pen-to-square text-cyan-600 dark:text-cyan-400"></i>
-        <span class="font-medium">Edit Profile</span>
-      </button>
-      <button
-        class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-arrow-right-arrow-left text-green-600 dark:text-green-400"></i>
-        <span class="font-medium">Online Banking</span>
-      </button>
-      <button
-        class="h-12 rounded-xl border border-gray-200 bg-black/[.03] hover:bg-black/[.06] dark:border-white/10 dark:bg-white/[.03] dark:hover:bg-white/[.06] transition flex items-center justify-center gap-2">
-        <i class="fa-solid fa-trash-can text-red-600 dark:text-red-400"></i>
-        <span class="font-medium">Delete Character</span>
-      </button>
-    </div>
-  </div>
 }
