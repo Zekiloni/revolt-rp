@@ -16,7 +16,6 @@
       <a class="nav-link text-gray-400" [href]="wikiUrl" target="_blank">Wiki</a>
     </nav>
 
-    <!-- CTA (desktop) -->
     <div class="hidden md:flex items-center gap-3">
       @if ($account | async; as account) {
         <a
@@ -25,7 +24,8 @@
         >
           {{ account.username }}
         </a>
-
+        <p-menu #accountMenu [model]="accountMenuItems" [popup]="true" />
+        <p-button (click)="accountMenu.toggle($event)" icon="pi pi-ellipsis-v" size="small" [text]="true"/>
       } @else {
         <p-button
           label="Sign In"

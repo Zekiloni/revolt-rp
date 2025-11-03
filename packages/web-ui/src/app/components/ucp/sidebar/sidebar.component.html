@@ -1,19 +1,17 @@
-@if ($account | async; as account) {
+@if ($account | async) {
   <aside
     class="w-full h-fit rounded-2xl backdrop-blur shadow-lg
            border bg-surface-50 dark:bg-surface-800  text-surface-0 border-white/10
            p-4 lg:p-5"
   >
-    <!-- HEADER -->
     <div class="flex items-center gap-3 px-2 pb-4 border-b border-white/10">
-      <img src="/images/logo-1.png" alt="Revolt RP" class="h-8 w-8 rounded" />
+      <img ngSrc="/images/logo-1.png" alt="Revolt RP" class="h-8 w-8 rounded" height="441" width="368" />
       <div class="leading-tight">
         <div class="text-xs uppercase tracking-widest text-gray-400">Revolt Roleplay</div>
         <div class="font-semibold">User Control Panel</div>
       </div>
     </div>
 
-    <!-- MENU -->
     <ul class="layout-menu mt-4 space-y-1">
       @for (item of sideMenuItems; let index = $index; track item.label) {
         @if (item.separator){
@@ -23,21 +21,5 @@
         }
       }
     </ul>
-
-
-    <div class="pt-4 border-t border-white/10 mt-4">
-      <p-menu #accountMenu [model]="accountMenuItems" [popup]="true" appendTo="body" />
-
-      <button
-        pRipple
-        class="w-full border-0 bg-transparent flex items-center p-2 pl-4 hover:bg-white/5 rounded-none cursor-pointer transition"
-        (click)="accountMenu.toggle($event)"
-      >
-        <p-avatar [label]="account.username[0].toUpperCase()" class="mr-2" shape="circle"></p-avatar>
-        <span class="inline-flex flex-col">
-          <span class="font-bold">{{ account.username }}</span>
-        </span>
-      </button>
-    </div>
   </aside>
 }
