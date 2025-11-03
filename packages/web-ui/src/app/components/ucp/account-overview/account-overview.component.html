@@ -68,7 +68,7 @@
                   <div>
                     <div class="font-medium">{{ character.fullName }}</div>
                     <div class="text-xs text-gray-500 dark:text-gray-400">
-                      Level {{ character.level }} • Cash ${{ character.cash | currency }}
+                      Level {{ character.level }} • Cash {{ character.cash | currency }}
                     </div>
                   </div>
                   <button pButton type="button" label="Select" size="small"
