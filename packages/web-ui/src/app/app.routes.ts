@@ -26,7 +26,19 @@ export const appRoutes: Route[] = [
       {
         path: 'character/:characterId',
         loadComponent: () =>
-          import('./components/ucp/character-overview').then(m => m.CharacterOverviewComponent)
+          import('./views/ucp/dashboard-page/components/character-view').then(m => m.CharacterViewComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./components/ucp/character-overview').then(m => m.CharacterOverviewComponent)
+          },
+          {
+            path: 'vehicles',
+            loadComponent: () =>
+              import('./components/ucp/character-vehicles').then(m => m.CharacterVehiclesComponent)
+          }
+        ]
       },
       {
         path: 'admin/whitelist',

@@ -6,8 +6,10 @@ import { AccountService } from '../../../core/service/account.service';
 import { AsyncPipe } from '@angular/common';
 import { Avatar } from 'primeng/avatar';
 import { Ripple } from 'primeng/ripple';
-import { Button } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { SideMenuItemComponent } from './components/side-menu-item';
+import { Menu } from 'primeng/menu';
+import { AuthService } from '../../../core/service/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -17,7 +19,9 @@ import { SideMenuItemComponent } from './components/side-menu-item';
     Avatar,
     Ripple,
     Button,
-    SideMenuItemComponent
+    SideMenuItemComponent,
+    Menu,
+    ButtonDirective
   ],
   providers: [AccountService],
   templateUrl: './sidebar.component.html',
@@ -30,7 +34,9 @@ export class SidebarComponent implements OnInit {
   sideMenuItems: MenuItem[] = [];
   isDarkMode = false;
 
-  constructor(private accountService: AccountService) {
+  constructor(
+    private authService: AuthService,
+    private accountService: AccountService) {
   }
 
   ngOnInit() {
@@ -107,6 +113,20 @@ export class SidebarComponent implements OnInit {
       }
     ];
   };
+
+  accountMenuItems: MenuItem[] | undefined = [
+    {
+      label: 'Toggle Dark Mode',
+      icon: 'pi pi-moon',
+      command: () => this.toggleTheme()
+    },
+    {
+      label: 'Logout',
+      icon: 'pi pi-sign-out',
+      iconStyle: { 'color': 'red' },
+      command: () => this.authService.logout()
+    }
+  ];
 
   private hasAdminAccess(account: IAccount): boolean {
     return account.administrator > 0;

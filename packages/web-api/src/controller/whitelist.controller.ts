@@ -16,7 +16,6 @@ const router = Router();
 router.get('/manage', authenticate, isAdministrator, async (req, res) => {
   const { status, offset = 0, limit = 50 } = req.query as { status: WhitelistStatus, offset?: string, limit?: string };
 
-  console.log('req.query', req.query);
   if (status && !Object.values(WhitelistStatus).includes(status)) {
     return res.status(400).json({ message: 'invalid_whitelist_status' });
   }
