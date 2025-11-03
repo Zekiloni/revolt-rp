@@ -29,7 +29,7 @@ module.exports = {
       }
     }
   },
-  darkMode: ['selector', '[class~="app-dark"]'],
+  darkMode: ['selector', '[class~="dark"]'],
   plugins: [
     PrimeUI
   ]

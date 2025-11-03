@@ -74,8 +74,6 @@ jobs:
             key: ${{ secrets.SERVER_KEY }}
             debug: true
             timeout: 60s
-            known_hosts: |
-              ${{ secrets.KNOWN_HOSTS }}
             script: |
               echo "Running commands on VPS"
               echo "${{ secrets.GHCR_ACCESS_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin

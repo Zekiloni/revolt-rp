@@ -31,7 +31,7 @@ export const appConfig: ApplicationConfig = {
         preset: RevoltPreset,
         options: {
           ripple: true,
-          darkModeSelector: '.app-dark',
+          darkModeSelector: '.dark',
           cssLayer: {
             name: 'primeng',
             order: 'tailwind-base, primeng, tailwind-utilities'
