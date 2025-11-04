@@ -23,13 +23,13 @@ export class CharacterViewComponent {
     {
       label: 'Vehicles',
       icon: 'pi pi-fw pi-car',
-      routerLink: ['vehicles']
+      routerLink: ['garage']
     },
-    // {
-    //   label: 'Properties',
-    //   icon: 'pi pi-fw pi-building',
-    //   routerLink: ['/dashboard/character/settings']
-    // },
+    {
+      label: 'Properties',
+      icon: 'pi pi-fw pi-building',
+      routerLink: ['property']
+    },
     // {
     //   label: 'Skills',
     //   icon: 'pi pi-fw pi-star',
