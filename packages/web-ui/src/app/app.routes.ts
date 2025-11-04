@@ -34,9 +34,14 @@ export const appRoutes: Route[] = [
               import('./components/ucp/character-overview').then(m => m.CharacterOverviewComponent)
           },
           {
-            path: 'vehicles',
+            path: 'garage',
             loadComponent: () =>
               import('./components/ucp/character-vehicles').then(m => m.CharacterVehiclesComponent)
+          },
+          {
+            path: 'property',
+            loadComponent: () =>
+              import('./components/ucp/character-property').then(m => m.CharacterPropertyComponent)
           }
         ]
       },

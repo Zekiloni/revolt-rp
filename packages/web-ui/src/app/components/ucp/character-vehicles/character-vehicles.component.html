@@ -9,7 +9,7 @@
         >
           <div class="relative h-40 w-full">
             <img
-              [ngSrc]="getVehicleImage(v.model) | staticAsset"
+              [src]="getVehicleImage(v.model!) | staticAsset"
               [alt]="v.model"
               class="absolute inset-0 w-full h-full object-cover"
             />
