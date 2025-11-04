@@ -9,8 +9,8 @@ import { ButtonDirective } from 'primeng/button';
 import { DialogService } from 'primeng/dynamicdialog';
 import { IVehicle, IVehicleSellOffer, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { VehicleSellOfferComponent } from '../../../vehicle/vehicle-sell-offer';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 declare type VehicleOwnershipType = 'vehicle_type_rented' | 'vehicle_type_owned' | 'vehicle_type_organization';

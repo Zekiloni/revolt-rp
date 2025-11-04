@@ -11,6 +11,6 @@ export class StaticAssetPipe implements PipeTransform {
   }
 
   transform(value: string): string {
-    return `${this.baseHref}/${value}`;
+    return `${this.baseHref.replace('api', '')}/${value}`;
   }
 }

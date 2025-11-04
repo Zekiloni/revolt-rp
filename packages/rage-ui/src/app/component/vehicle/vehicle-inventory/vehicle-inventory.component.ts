@@ -17,7 +17,7 @@ import { InventoryState } from '../../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../../store/inventory/inventory.selectors';
 import { fadeInOutTrigger } from '../../../domain/util/animation.util';
 import { getItemIcon } from '../../../domain/util/item.util';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({

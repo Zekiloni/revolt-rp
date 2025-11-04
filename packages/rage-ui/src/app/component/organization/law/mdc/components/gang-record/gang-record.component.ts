@@ -12,7 +12,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { deepCopy, IGangRecord, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
 import { filterGlobal } from '../../../../../../domain/util/table.util';
-import { TruncatePipe } from '../../../../../../domain/pipe/truncate.pipe';
+import { TruncatePipe } from '../../../../../../../../../common-ui/src/lib/pipe/truncate.pipe';
 
 
 @Component({

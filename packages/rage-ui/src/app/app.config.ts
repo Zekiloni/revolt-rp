@@ -13,11 +13,11 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import RevoltPreset from './revolt-preset';
 
 import { phoneReducer } from './store/phone';
-import { API_BASE_HREF } from './domain/variables';
 import { environment } from '../environments/environment';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
+import { API_BASE_HREF } from '@revolt-rp/common-ui';
 
 export const appConfig: ApplicationConfig = {
   providers: [

@@ -19,8 +19,7 @@ import {
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
 import { ICharacterWithActivity, ManageMembersComponent } from './components/manage-members';
 import { RageClientService } from '../../../domain/service/rage-client.service';
-import { WorldMapComponent } from '../../misc/world-map/world-map.component';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
+import { StaticAssetPipe, WorldMapComponent } from '@revolt-rp/common-ui';
 
 
 @Component({

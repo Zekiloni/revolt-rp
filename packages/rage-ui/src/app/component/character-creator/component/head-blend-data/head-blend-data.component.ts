@@ -7,7 +7,7 @@ import { SliderModule } from 'primeng/slider';
 import { Ripple } from 'primeng/ripple';
 import { maxParentId, parentNames } from '@revolt-rp/common';
 import { HeadBlendDataForm } from '../../../../domain/model/character';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-head-blend-data',

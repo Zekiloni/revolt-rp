@@ -14,8 +14,6 @@ import { Scroller, ScrollerModule } from 'primeng/scroller';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { IPhoneMessage, IPhoneMessageCreate, PhoneMessageType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
-import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
 import { getConversations } from '../../../../../domain/util/phone.util';
 import {
   PhoneState,
@@ -23,6 +21,7 @@ import {
 } from '../../../../../store/phone';
 import { dayjs } from '../../../../../domain/util/dajys.util';
 import { ComposeMessageComponent } from '../compose-message';
+import { StaticAssetPipe, WorldMapComponent } from '@revolt-rp/common-ui';
 
 
 @Component({

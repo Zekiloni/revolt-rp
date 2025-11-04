@@ -5,9 +5,7 @@ import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { IProperty, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { WorldMapComponent } from '../../../misc/world-map/world-map.component';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
-
+import { StaticAssetPipe, WorldMapComponent } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-properties-overview',

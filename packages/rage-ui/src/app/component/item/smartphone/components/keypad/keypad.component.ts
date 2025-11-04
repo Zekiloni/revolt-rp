@@ -3,8 +3,8 @@ import { ButtonDirective } from 'primeng/button';
 import { Component, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
 import { playAudio } from '../../../../../domain/util/audio.util';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({

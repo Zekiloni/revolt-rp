@@ -18,7 +18,7 @@ import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { GiveItemComponent, GiveItemDialogOutput } from './component/give-item';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-inventory',

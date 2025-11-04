@@ -7,8 +7,8 @@ import { ButtonDirective } from 'primeng/button';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IPayment, IProperty, IRegisterVehicle, IVehicle, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../../../../domain/pipe/static-asset.pipe';
 import { SelectPaymentMethodComponent } from '../../../../../misc/select-payment-method';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-vehicle-registration',

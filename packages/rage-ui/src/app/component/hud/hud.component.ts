@@ -7,8 +7,8 @@ import { RageClientService } from '../../domain/service/rage-client.service';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { getItemIcon } from '../../domain/util/item.util';
-import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 const SHOW_HIDE_TIMEOUT = 3000;
 

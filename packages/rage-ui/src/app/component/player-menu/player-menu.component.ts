@@ -5,8 +5,6 @@ import { DialogModule } from 'primeng/dialog';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { ProcedureKey } from '@revolt-rp/common';
 import { MenuItem } from 'primeng/api';
-import { Ripple } from 'primeng/ripple';
-import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 import { playerMenuItems } from './player-menu.config';
 import { environment } from '../../../environments/environment';
 
