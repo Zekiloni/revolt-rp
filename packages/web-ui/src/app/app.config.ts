@@ -14,12 +14,12 @@ import { provideStore } from '@ngrx/store';
 import { appRoutes } from './app.routes';
 import RevoltPreset from './revolt-preset';
 import { authReducer } from './core/store/auth/auth.reducer';
-import { API_BASE_HREF } from './core/config/variables';
 import { environment } from '../environments/environment';
 import { authInterceptor } from './core/util/auth.interceptor';
 import { AuthService } from './core/service/auth.service';
 import { apiErrorInterceptor } from './core/util/api-error.interceptor';
 import { MessageService } from 'primeng/api';
+import { API_BASE_HREF } from '@revolt-rp/common-ui';
 
 
 export const appConfig: ApplicationConfig = {

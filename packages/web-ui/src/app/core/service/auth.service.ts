@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
-import { API_BASE_HREF } from '../config/variables';
 import { Store } from '@ngrx/store';
 import { IAuthorizationState } from '../store/auth/auth.state';
 import { HttpClient } from '@angular/common/http';
 import { IAccount } from '@revolt-rp/common';
 import { setAccount, unsetAccount } from '../store/auth/auth.actions';
+import { API_BASE_HREF } from '@revolt-rp/common-ui';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {

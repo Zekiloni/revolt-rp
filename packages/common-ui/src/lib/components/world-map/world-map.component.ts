@@ -1,10 +1,9 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import * as L from 'leaflet';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { StaticAssetPipe } from '../../pipe/static-asset.pipe';
 
 @Component({
-  selector: 'app-world-map',
+  selector: 'lib-world-map',
   standalone: true,
   imports: [CommonModule],
   providers: [StaticAssetPipe],
@@ -17,7 +16,8 @@ export class WorldMapComponent implements OnInit {
   @Input() layerStyle: 'SATELLITE' | 'ATLAS' | 'GRID' = 'SATELLITE';
   @Output() init = new EventEmitter<L.Map>();
 
-  private map: L.Map | null = null;
+  private L: typeof import('leaflet') | null = null;
+  private map: import('leaflet').Map | null = null;
 
   private readonly MapConfig = {
     center_x: 117.3,
@@ -28,16 +28,23 @@ export class WorldMapComponent implements OnInit {
 
   private mapLayers!: Record<string, L.TileLayer>;
 
-  constructor(private staticAssetPipe: StaticAssetPipe) {
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private staticAssetPipe: StaticAssetPipe) {
     this.initializeLayers();
   }
 
-  private initializeLayers() {
+  private async initializeLayers() {
+    this.L = await import('leaflet');
+
+    if (!isPlatformBrowser(this.platformId))
+      return;
+
+    const L = this.L;
+
     this.mapLayers = {
       'SATELLITE': L.tileLayer(this.staticAssetPipe.transform('assets/images/map_tiles/satellite/{z}/{x}/{y}.jpg'), {
         minZoom: 0,
         maxZoom: 8,
-        noWrap: true,
+        noWrap: true
       }),
       'ATLAS': L.tileLayer(this.staticAssetPipe.transform('assets/images/map_tiles/atlas/{z}/{x}/{y}.jpg'), {
         minZoom: 0,
@@ -52,7 +59,12 @@ export class WorldMapComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const L = this.L;
+
+    if (!L)
+      return;
+
     this.map = new L.Map(this.mapContainer.nativeElement, {
       crs: L.extend({}, L.CRS.Simple, {
         projection: L.Projection.LonLat,
@@ -76,7 +88,7 @@ export class WorldMapComponent implements OnInit {
       preferCanvas: true,
       layers: [this.mapLayers[this.layerStyle]],
       center: [0, 0],
-      zoom: 3,
+      zoom: 3
     });
 
     this.init.emit(this.map);

@@ -34,6 +34,15 @@ export interface IAccountCreate {
   emailAddress: string;
 }
 
+
+export interface IMailVerification {
+  account: Ref<IAccount>;
+  verificationCode: string;
+  createdAt: Date;
+  expiringAt: Date;
+  verifiedAt?: Date;
+}
+
 export interface IAccount<T = Ref<ICharacter>, E = Ref<IWhitelist>> extends Base {
   username: string;
   emailAddress?: string;

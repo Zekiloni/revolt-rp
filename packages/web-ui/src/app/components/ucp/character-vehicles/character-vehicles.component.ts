@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, DatePipe, NgClass, NgStyle } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import {  IVehicle } from '@revolt-rp/common';
 import { VehicleService } from '../../../core/service/vehicle.service';
 import { environment } from '../../../../environments/environment';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({
@@ -13,7 +14,9 @@ import { environment } from '../../../../environments/environment';
     AsyncPipe,
     DatePipe,
     NgClass,
-    NgStyle
+    NgStyle,
+    StaticAssetPipe,
+    NgOptimizedImage
   ],
   providers: [VehicleService],
   templateUrl: './character-vehicles.component.html',
@@ -34,7 +37,7 @@ export class CharacterVehiclesComponent implements OnInit {
   }
 
   getVehicleImage(model: string) {
-    return environment.apiUrl.replace('api', '') + `assets/images/vehicles/${model}.png`;
+    return `assets/images/vehicles/${model}.png`;
   }
 
   getVehicleColorRGB(color: [number, number, number]) {

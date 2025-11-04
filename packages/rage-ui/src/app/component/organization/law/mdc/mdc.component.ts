@@ -11,11 +11,11 @@ import { TreeModule } from 'primeng/tree';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Ripple } from 'primeng/ripple';
 import { GangRecordComponent } from './components/gang-record';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { dockMenuItems, MdcApplicationKey, menubarItems, responsiveOptions } from './mdc.component.config';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
 import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
 import { FinderComponent } from './components/finder';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({

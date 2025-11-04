@@ -13,7 +13,6 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { getItemIcon } from '../../../../domain/util/item.util';
 import { PaginatorModule } from 'primeng/paginator';
 import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
@@ -21,6 +20,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ShoppingCartBase } from '../shopping-cart/shopping-cart.base';
 import { InputNumber } from 'primeng/inputnumber';
 import { FormsModule } from '@angular/forms';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({

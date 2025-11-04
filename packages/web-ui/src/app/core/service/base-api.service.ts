@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { API_BASE_HREF } from '../config/variables';
+import { API_BASE_HREF } from '@revolt-rp/common-ui';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root'})

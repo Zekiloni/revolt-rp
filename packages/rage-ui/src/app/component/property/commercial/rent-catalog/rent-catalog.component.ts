@@ -8,13 +8,13 @@ import { Button, ButtonDirective } from 'primeng/button';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { GameUiKey, IPayment, IProduct, IProperty, IVehicleRent, PaymentType, ProcedureKey } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
 import { VehicleStatsComponent } from '../../../vehicle/vehicle-stats';
 import { responsiveCarouselOptions } from './catalog-carousel.config';
 import { SelectPaymentMethodComponent } from '../../../misc/select-payment-method';
 import { CheckboxModule } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({
