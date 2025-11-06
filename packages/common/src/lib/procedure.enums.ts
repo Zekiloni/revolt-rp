@@ -255,4 +255,5 @@ export const enum ProcedureKey {
   BROWSER_UPDATE_PLAYERS = 'browser_updatePlayers',
 
   SERVER_REGISTER_VEHICLE = 'server_registerVehicle',
+  CLIENT_GET_STREET_NAME_AT_COORD = 'client_getStreetNameAtCoord',
 }

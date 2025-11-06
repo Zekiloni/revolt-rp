@@ -112,6 +112,7 @@ export class ManagePropertyComponent implements OnInit, OnDestroy {
       map.dragging.disable();
       map.touchZoom.disable();
       map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable()
       map.setView([this.property.position.y, this.property.position.x], 5);
     }
   }

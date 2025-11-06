@@ -71,6 +71,9 @@ export class Character extends Document implements ICharacter {
   @prop({ type: Date, required: true })
   birthday: Date;
 
+  @prop({ required: false, default: null })
+  mugshotUrl?: string;
+
   @prop({
     type: Object,
     default: characterConfig.defaultSpawn

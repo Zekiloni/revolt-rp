@@ -140,6 +140,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
       map.dragging.disable();
       map.touchZoom.disable();
       map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable()
       map.setView([this.organization.position.y, this.organization.position.x], 5);
     }
   }

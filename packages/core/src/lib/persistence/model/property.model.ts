@@ -117,6 +117,9 @@ export class Property extends Document implements IProperty {
   doors: Ref<Door>[];
   entrances: IEntrance[];
 
+  @prop({ required: false })
+  address?: string;
+
   @prop({ default: false })
   forSale: true;
 

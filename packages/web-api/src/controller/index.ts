@@ -5,6 +5,7 @@ import accountController from './account.controller';
 import characterController from './character.controller';
 import whitelistController from './whitelist.controller';
 import vehicleController from './vehicle.controller'
+import propertyController from './property.controller'
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use('/account', accountController);
 router.use('/whitelist', whitelistController);
 router.use('/character', characterController);
 router.use('/vehicle', vehicleController);
+router.use('/property', propertyController)
 
 export default router;

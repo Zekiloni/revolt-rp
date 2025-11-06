@@ -29,7 +29,6 @@ export class WorldMapComponent implements OnInit {
   private mapLayers!: Record<string, L.TileLayer>;
 
   constructor(@Inject(PLATFORM_ID) private platformId: object, private staticAssetPipe: StaticAssetPipe) {
-    this.initializeLayers();
   }
 
   private async initializeLayers() {
@@ -37,6 +36,8 @@ export class WorldMapComponent implements OnInit {
 
     if (!isPlatformBrowser(this.platformId))
       return;
+
+    console.log('Leaflet loaded', this.L);
 
     const L = this.L;
 
@@ -60,10 +61,13 @@ export class WorldMapComponent implements OnInit {
   }
 
   async ngOnInit() {
+    await this.initializeLayers();
     const L = this.L;
 
     if (!L)
       return;
+
+    console.log('Initializing map', L);
 
     this.map = new L.Map(this.mapContainer.nativeElement, {
       crs: L.extend({}, L.CRS.Simple, {

@@ -60,6 +60,7 @@ export interface IPropertyCreate {
   type: PropertyType;
   subType?: CommercialType;
   parentProperty?: Ref<IProperty>;
+  address?: string;
   price?: number;
   spriteType?: number;
 }
@@ -98,6 +99,7 @@ export interface IProperty extends Base {
   spriteType?: number;
   forSale?: true;
   position: IVector3;
+  address?: string;
   interiorPosition: IVector3;
   balance: number;
   entrances?: IEntrance[];

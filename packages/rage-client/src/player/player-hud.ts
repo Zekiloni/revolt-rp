@@ -1,4 +1,4 @@
-import { triggerBrowser } from '@libertymp/rage-rpc';
+import { register, triggerBrowser } from '@libertymp/rage-rpc';
 import { gameUiConfig, GameUiKey, HexKeyCodes, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { defaultHiddenHudComponents } from './player-hud.config';
@@ -139,6 +139,14 @@ function switchHudState() {
   }
 }
 
+function getStreetName() {
+  const { x, y, z } = mp.players.local.position;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  const path = mp.game.pathfind.getStreetNameAtCoord(x, y, z, 0, 0);
+  return mp.game.ui.getStreetNameFromHashKey(path.streetName);
+}
+
 mp.events.addDataHandler(PlayerSharedDataType.Cash, cashChangeHandler);
 mp.events.addDataHandler(PlayerSharedDataType.SelectedItemId, selectedItemChangeHandler);
 mp.events.add({
@@ -146,3 +154,4 @@ mp.events.add({
 });
 
 registerKeyBind(HexKeyCodes.F7, true, switchHudState);
+register(ProcedureKey.CLIENT_GET_STREET_NAME_AT_COORD, getStreetName);
