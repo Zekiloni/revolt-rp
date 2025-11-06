@@ -8,12 +8,12 @@ import {
   PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
-import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 import {
   playerAddAttachment,
   playerRemoveAttachment
 } from '../../player/util/player-attachment.util';
 import { playAnimation, stopAnimation } from '../../player/util/player-animation.util';
+import { Item } from '@revolt-rp/core';
 
 
 export class DrinkItemModel extends BaseItem {

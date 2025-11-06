@@ -1,9 +1,9 @@
 import { ItemType, PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
 import { BaseItem } from '../base-item.model';
-import { Item } from '../../../../../core/src/lib/persistence/model/item.model';
 import { callClient } from '@libertymp/rage-rpc';
 import { setCuffed } from '../../../player/character/character.service';
+import { Item } from '@revolt-rp/core';
 
 
 export class CuffItem extends BaseItem {

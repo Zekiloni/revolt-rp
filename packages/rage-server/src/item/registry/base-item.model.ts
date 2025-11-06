@@ -1,5 +1,5 @@
 import { IBaseItem, ItemType } from '@revolt-rp/common';
-import { Item } from '../../../../core/src/lib/persistence/model/item.model';
+import { Item } from '@revolt-rp/core';
 
 export const NOT_STACKABLE_ITEM_TYPES = [
   ItemType.WEAPON,
