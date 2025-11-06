@@ -1,6 +1,6 @@
+import { Item } from '@revolt-rp/core';
 import { BaseItem } from './base-item.model';
 import { ItemType, CaliberType } from '@revolt-rp/common';
-import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 
 
 export class WeaponItem extends BaseItem {

@@ -1,7 +1,7 @@
 import { CaliberType, ItemType, PlayerSharedDataType } from '@revolt-rp/common';
 import { BaseItem } from './base-item.model';
-import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 import { WeaponItem } from './weapon-item.model';
+import { Item } from '@revolt-rp/core';
 
 export class AmmoItem extends BaseItem {
   caliberType: CaliberType;

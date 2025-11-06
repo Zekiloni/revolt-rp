@@ -256,4 +256,5 @@ export const enum ProcedureKey {
 
   SERVER_REGISTER_VEHICLE = 'server_registerVehicle',
   CLIENT_GET_STREET_NAME_AT_COORD = 'client_getStreetNameAtCoord',
+  BROWSER_FISHING_MINIGAME_START = 'browser_fishingMinigameStart',
 }

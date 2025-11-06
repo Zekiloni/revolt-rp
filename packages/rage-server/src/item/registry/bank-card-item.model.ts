@@ -1,9 +1,9 @@
 import { ItemType, PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { BaseItem } from './base-item.model';
-import { Item } from '../../../../core/src/lib/persistence/model/item.model';
 import { triggerClient } from '@libertymp/rage-rpc';
 import { playerAddAttachment, playerRemoveAttachment } from '../../player/util/player-attachment.util';
 import dayjs from 'dayjs';
+import { Item } from '@revolt-rp/core';
 
 
 export class BankCardItem extends BaseItem {

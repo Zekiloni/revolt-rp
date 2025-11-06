@@ -1,4 +1,4 @@
-import { on, triggerBrowser } from '@libertymp/rage-rpc';
+import { on, triggerBrowser, callBrowser as rpcCallBrowser, CallOptions } from '@libertymp/rage-rpc';
 import { gameUiConfig, GameUiKey, HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
 import { environment } from '../environment/environment';
 import { registerKeyBind } from './keybind-manager';
@@ -70,6 +70,10 @@ function handleForceToggleCursor() {
   toggleCursor(frozenControls, isCursorActive);
 }
 
+
+export const callBrowser = <T> (procedureKey: ProcedureKey, args?: any, options?: CallOptions) => {
+  return rpcCallBrowser<T>(browser, procedureKey, args, options);
+}
 
 registerKeyBind(HexKeyCodes.F3, true, handleForceToggleCursor);
 on(ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, showGameInterface);
