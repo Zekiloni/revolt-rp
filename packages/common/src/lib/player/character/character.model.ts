@@ -55,6 +55,7 @@ export interface ICharacter extends Base {
   health: number;
   accent?: string;
   isWounded: boolean;
+  mugshotUrl? : string;
   membership: ICharacterOrganization | null;
   isLeader: boolean;
   injuries: ICharacterInjury[];

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncPipe, DatePipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
+import { AsyncPipe, DatePipe, NgClass, NgStyle } from '@angular/common';
 import { map, Observable } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import {  IVehicle } from '@revolt-rp/common';
 import { VehicleService } from '../../../core/service/vehicle.service';
-import { environment } from '../../../../environments/environment';
 import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
@@ -15,8 +14,7 @@ import { StaticAssetPipe } from '@revolt-rp/common-ui';
     DatePipe,
     NgClass,
     NgStyle,
-    StaticAssetPipe,
-    NgOptimizedImage
+    StaticAssetPipe
   ],
   providers: [VehicleService],
   templateUrl: './character-vehicles.component.html',
@@ -29,7 +27,7 @@ export class CharacterVehiclesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params) => {
+    this.route.parent?.params.subscribe((params) => {
       const characterId = params['characterId'];
       this.$vehicles = this.vehicleService.getAllVehicles({ owner: characterId })
         .pipe(map((res => res.vehicles)));
