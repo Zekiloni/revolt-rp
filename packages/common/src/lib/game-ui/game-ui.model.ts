@@ -3,4 +3,5 @@ export interface GameInterface {
   mouse?: true;
   disableChat?: true;
   freezeControls?: true;
+  closeOnEscape?: true;
 }

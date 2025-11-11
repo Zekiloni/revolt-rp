@@ -39,14 +39,16 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     freezeControls: true,
     mouse: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.Inventory]: {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.BankMenu]: {
@@ -150,7 +152,8 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.RentCatalog]: {
@@ -222,7 +225,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.FishingMinigame]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
     freezeControls: true,
     disableChat: true

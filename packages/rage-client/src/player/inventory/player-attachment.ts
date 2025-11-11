@@ -5,6 +5,24 @@ import { disablePlayerControl, enablePlayerControl } from '../util/player-contro
 
 const attachedObjects: ObjectMp[] = [];
 
+export const getPlayerAttachments = (player: PlayerMp): PlayerAttachmentTypeEnum[] => {
+  const playerAttachments = player.getVariable<PlayerAttachmentTypeEnum[] | undefined>(PlayerSharedDataType.Attachments);
+  if (!playerAttachments || !Array.isArray(playerAttachments)) {
+    return [];
+  }
+
+  return playerAttachments;
+}
+
+export const getPlayerAttachmentObjects = (player: PlayerMp, attachmentType: PlayerAttachmentTypeEnum): ObjectMp[] => {
+  const attachmentConfig = playerAttachmentConfig[attachmentType];
+  if (!attachmentConfig) return [];
+
+  return attachedObjects.filter(
+    _object => _object.model === mp.game.joaat(attachmentConfig.model) && _object.isAttachedTo(player.handle)
+  );
+}
+
 export const hasPlayerAttachment = (player: PlayerMp, attachmentType: PlayerAttachmentTypeEnum) => {
   const attachmentConfig = playerAttachmentConfig[attachmentType];
   if (!attachmentConfig) return false;
