@@ -6,7 +6,7 @@ import {
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { WearableItem } from '../item/registry/clothing/wearable-item.model';
 import { destroyItem } from '../item/item.service';
-import { Item } from '@revolt-rp/core';
+import { isSelectableItem, Item } from '@revolt-rp/core';
 
 
 export const removeAllTrunkItems = async (vehicle: VehicleMp) => {
@@ -70,7 +70,7 @@ export const playerPutTrunkItem = async (player: PlayerMp, vehicle: VehicleMp, i
   const itemHandler = item.data;
 
   if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
-    if (itemHandler && itemHandler.deselect) {
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
       itemHandler.deselect(player, item);
     }
   }

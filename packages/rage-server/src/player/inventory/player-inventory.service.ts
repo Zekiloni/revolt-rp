@@ -2,7 +2,7 @@ import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { Item } from '@revolt-rp/core';
+import { isSelectableItem, isUsableItem, Item } from '@revolt-rp/core';
 import {
   createItem,
   destroyItem,
@@ -107,7 +107,7 @@ export const removePlayerWeapons = async (player: PlayerMp) => {
   if (playerWeaponItems.includes(playerSelectedItemId)) {
     const selectedItem = player.character.inventory.find(item => item.id === playerSelectedItemId) as Item | undefined;
 
-    if (selectedItem && selectedItem.data && selectedItem.data.deselect) {
+    if (selectedItem && selectedItem.data && isSelectableItem<PlayerMp, Item>(selectedItem.data) && selectedItem.data.deselect) {
       selectedItem.data.deselect(player, selectedItem);
     }
 
@@ -143,7 +143,7 @@ export const playerDropItem = async (player: PlayerMp, itemId: string) => {
 
   if (item.id === selectedItemId) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (itemHandler && itemHandler.deselect) {
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
       itemHandler.deselect(player, item);
     }
   }
@@ -248,7 +248,7 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
   if (getPlayerSelectedItem(player)?.id === item.id) {
     if (item.localSlot > 5) {
       const itemHandler = item.data;
-      if (itemHandler && itemHandler.deselect) {
+      if (itemHandler &&  isSelectableItem<PlayerMp, Item>(itemHandler)) {
         itemHandler.deselect(player, item);
       }
     }
@@ -264,7 +264,7 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
 
   if (alreadySelectedItem) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
+    if (alreadySelectedItem.data && isSelectableItem<PlayerMp, Item>(alreadySelectedItem.data) && alreadySelectedItem.data.deselect) {
       alreadySelectedItem.data.deselect(player, alreadySelectedItem);
       await alreadySelectedItem.save();
     }
@@ -274,12 +274,14 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
     }
   }
 
+  console.log('Selecting item in slot:', slot, 'Item:', item ? item.name : 'None');
   if (!item)
     return;
 
   const itemHandler = item.data;
 
-  if (itemHandler && itemHandler.select) {
+  console.log('Item handler:', itemHandler ? itemHandler.name : 'None');
+  if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
     itemHandler.select(player, item);
   }
@@ -352,7 +354,7 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
     await playerRemoveItemFromInventory(player, item.id);
 
     if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
-      if (itemHandler && itemHandler.deselect) {
+      if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
         itemHandler.deselect(player, item);
       }
     }
@@ -393,7 +395,7 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
     const selectedItem = getPlayerSelectedItem(player);
 
     if (selectedItem && item.id === selectedItem.id) {
-      if (item.data.deselect) {
+      if (item.data && isSelectableItem<PlayerMp, Item>(item.data) && item.data.deselect) {
         item.data.deselect(player, item);
       }
     }
@@ -407,7 +409,7 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
 export const playerUseItem = async (player: PlayerMp, item: Item) => {
   const itemHandler = item.data;
 
-  if (itemHandler && itemHandler.use) {
+  if (itemHandler && isUsableItem<PlayerMp, Item>(itemHandler)) {
     itemHandler.use(player, item);
     triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
   }

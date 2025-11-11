@@ -20,7 +20,6 @@ import {
   setVehicleOwner, teleportPlayerToVehicle,
   toggleVehicleEditMenu
 } from '../../vehicle/vehicle.service';
-import { getAllBaseItemModels, isValidItem } from '../../item/registry/item-registry.util';
 import {
   createPlayerConfirmation,
   findPlayer,
@@ -52,6 +51,7 @@ import {
 import { savePlayerPosition } from '../../util/save-position.util';
 import { playAnimation, stopAnimation } from '../util/player-animation.util';
 import { sendAdminChatMessage } from './player-admin.util';
+import { getAllBaseItemModels, isValidItem } from '@revolt-rp/core';
 
 
 registerCommand({

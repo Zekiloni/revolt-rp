@@ -135,6 +135,10 @@
     <app-garage-menu />
   }
 
+  @if ($isGameInterfaceActive(GameUiKey.FishingMinigame) | async) {
+    <app-fishing />
+  }
+
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
 
   <app-text-chat [commands]="commands" />

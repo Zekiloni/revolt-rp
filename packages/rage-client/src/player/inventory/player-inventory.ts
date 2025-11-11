@@ -94,10 +94,12 @@ function pickupItem() {
 function selectItem(slot: number) {
   const now = Date.now();
 
+  mp.gui.chat.push(`Selecting item in slot ${slot + 1}`);
   if (lastSelectTimestamp && now - lastSelectTimestamp < ITEM_SELECT_COOLDOWN_MS) {
     return;
   }
 
+  mp.gui.chat.push('Triggering server to select item');
   triggerServer(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, slot);
   lastSelectTimestamp = now;
 }

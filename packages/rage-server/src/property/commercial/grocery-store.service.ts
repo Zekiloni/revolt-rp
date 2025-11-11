@@ -1,14 +1,13 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { GameUiKey, IPayment, ICartItem, ProcedureKey, IProduct, PaymentType } from '@revolt-rp/common';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../player/util/player.util';
-import { getBaseItem } from '../../item/registry/item-registry.util';
 import { playerGiveItem } from '../../player/inventory/player-inventory.service';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { notifyPlayer } from '../../player/util/player-notify.util';
 import { t } from 'i18next';
 import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../banking/tax.util';
-import { Property } from '@revolt-rp/core';
+import { getBaseItem, Property } from '@revolt-rp/core';
 
 
 export function toggleGroceryStoreMenu (player: PlayerMp, property: Property) {

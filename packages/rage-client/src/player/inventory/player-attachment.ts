@@ -5,6 +5,18 @@ import { disablePlayerControl, enablePlayerControl } from '../util/player-contro
 
 const attachedObjects: ObjectMp[] = [];
 
+export const hasPlayerAttachment = (player: PlayerMp, attachmentType: PlayerAttachmentTypeEnum) => {
+  const attachmentConfig = playerAttachmentConfig[attachmentType];
+  if (!attachmentConfig) return false;
+
+  const playerAttachments = player.getVariable<PlayerAttachmentTypeEnum[] | undefined>(PlayerSharedDataType.Attachments);
+  if (!playerAttachments || !Array.isArray(playerAttachments)) {
+    return false;
+  }
+
+  return playerAttachments.includes(attachmentType);
+}
+
 async function handlePlayerAttachment(player: PlayerMp, attachmentType: PlayerAttachmentTypeEnum, isAdding: boolean) {
   if (!playerAttachmentConfig[attachmentType]) return;
 

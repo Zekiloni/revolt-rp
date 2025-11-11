@@ -219,5 +219,12 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.GarageMenu]: {
     isActive: false,
     mouse: true,
+  },
+
+  [GameUiKey.FishingMinigame]: {
+    isActive: true,
+    mouse: true,
+    freezeControls: true,
+    disableChat: true
   }
 };

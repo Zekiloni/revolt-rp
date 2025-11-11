@@ -10,13 +10,13 @@ import {
   IVector3,
   IWearableInfo
 } from '@revolt-rp/common';
-
+import { getBaseItem, isValidItem } from '@revolt-rp/core';
 
 @modelOptions({
   schemaOptions: {
     timestamps: true,
-    toObject: { virtuals: true },
-    toJSON: { virtuals: true }
+    toObject: { virtuals: true, getters: true },
+    toJSON: { virtuals: true, getters: true }
   }
 })
 export class Item extends Document implements IItem {
@@ -86,6 +86,7 @@ export class Item extends Document implements IItem {
   createdAt!: Date;
   updatedAt?: Date;
 
-  data?: IBaseItem;
+  get data() {
+    return isValidItem(this.name) ? getBaseItem(this.name) : null;
+  }
 }
-

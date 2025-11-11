@@ -23,12 +23,18 @@ async function serverExistHandler(type?: 'mp') {
   serverExitLogger.log('info', 'Server is shutting down');
 }
 
+function globalExceptionHandler(reason: any, promise?: Promise<any>) {
+  serverExitLogger.log('error', 'Unhandled Rejection at:', promise, 'reason:', reason);
+}
 
 mp.events.add('serverShutdown', () => serverExistHandler('mp'));
+
+process.on('unhandledRejection', globalExceptionHandler)
 process.on('SIGINT', serverExistHandler);
 process.on('SIGQUIT', serverExistHandler);
 process.on('SIGTERM', serverExistHandler);
 process.on('SIGHUP', serverExistHandler);
+
 if (process.platform === 'win32') {
   process.on('SIGKILL', serverExistHandler);
 }

@@ -1,7 +1,6 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { BaseItem } from './base-item.model';
 import {
-  AnimationFlag,
+  AnimationFlag, ISelectableUsableItem,
   ItemFlag,
   ItemType,
   PlayerAttachmentTypeEnum,
@@ -13,10 +12,10 @@ import {
   playerRemoveAttachment
 } from '../../player/util/player-attachment.util';
 import { playAnimation, stopAnimation } from '../../player/util/player-animation.util';
-import { Item } from '@revolt-rp/core';
+import { BaseItem, Item } from '@revolt-rp/core';
 
 
-export class DrinkItemModel extends BaseItem {
+export class DrinkItemModel extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
   volume = 3;
   alcohol?: number;
   holdType: PlayerAttachmentTypeEnum;

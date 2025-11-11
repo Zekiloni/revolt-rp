@@ -31,5 +31,5 @@ export interface IItem extends Base {
   phoneInfo?: IPhoneInfo;
   createdAt: Date;
   updatedAt?: Date;
-  data?: IBaseItem;
+  readonly data?: IBaseItem;
 }
