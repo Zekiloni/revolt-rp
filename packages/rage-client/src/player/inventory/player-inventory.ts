@@ -2,7 +2,13 @@ import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind } from '../../core/keybind-manager';
 import { getObjectGroundPosition } from '../../util/object.util';
-import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../../core/browser';
+import {
+  browser,
+  hideGameInterface,
+  isMouseActive,
+  isGameInterfaceActive,
+  showGameInterface
+} from '../../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../util/player-data.util';
 import { isNearAnyOpenedTrunk } from '../../vehicle/vehicle-core';
 
@@ -106,7 +112,9 @@ function selectItem(slot: number) {
 
 
 SELECT_ITEM_KEYBINDINGS.forEach((hexKeyCode, index) =>
-  registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, INVENTORY_VALIDATORS));
+  registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, [
+    ...INVENTORY_VALIDATORS, () => isMouseActive() === false
+  ]));
 
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);

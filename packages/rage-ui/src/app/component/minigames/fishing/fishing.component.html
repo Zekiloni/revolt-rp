@@ -1,0 +1,71 @@
+<section
+  class="fixed right-6 top-1/2 -translate-y-1/2 w-[440px] text-[color:var(--text)] select-none"
+>
+  <div
+    class="rounded-[18px] shadow-elev-card p-[18px] px-5 bg-surface-900/80"
+  >
+    <!-- HEADER -->
+    <div class="flex items-center gap-[14px] mb-[14px]">
+      <div
+        class="w-[52px] h-[52px] rounded-[14px] grid place-items-center shadow-md"
+        style="background:
+          radial-gradient(120% 120% at 30% 30%, rgba(246,194,65,.25) 0, rgba(246,194,65,0) 60%),
+          linear-gradient(180deg, #2a3141, #1c212e);
+          box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);"
+      >
+        <i class="fa-solid fa-fish-fins text-[22px] text-primary"
+           style=" filter: drop-shadow(0 0 2px rgba(246,194,65,.35));"></i>
+      </div>
+
+      <div class="leading-tight">
+        <h1 class="m-0 text-primary text-[22px] tracking-[.08em] font-extrabold">FISHING</h1>
+        <small class="text-[color:var(--muted)]">Cast, keep tension, and reel in</small>
+      </div>
+    </div>
+
+    <!-- LINE TENSION -->
+    <div class="mt-5">
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="text-sm text-[color:var(--muted)]">Line Tension</span>
+        <span class="font-bold text-primary">62%</span>
+      </div>
+      <p-progressBar value="70" />
+    </div>
+
+    <!-- REEL WINDOW -->
+    <div class="mt-5">
+      <div class="flex items-center justify-between mb-1.5">
+        <span class="text-sm text-[color:var(--muted)]">Reel Window</span>
+      </div>
+      <p-slider [(ngModel)]="reelWindow" [range]="true" class="w-56" />
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="flex flex-wrap gap-[10px] my-[14px] mb-[6px] mt-6">
+      <app-keybind key="LMB" label="Pull"></app-keybind>
+      <app-keybind key="RMB" label="Counter"></app-keybind>
+      <app-keybind key="W/S" label="Tighten / Loosen"></app-keybind>
+    </div>
+
+    <!-- FOOTER META -->
+    <div class="flex items-center gap-[18px] mt-[10px] text-[#d0d4db] text-[13px]">
+      <span class="w-2 h-2 rounded-full bg-primary"></span>
+      <span>Depth: {{ depth.toFixed(2) }} m</span>
+      <span>|</span>
+      <span>Distance: {{ distance.toFixed(2) }} m</span>
+      <span>|</span>
+      <span>Timer: {{ timerDisplay }}</span>
+    </div>
+  </div>
+
+  <!-- SUBCARD: FLOAT SIGNAL -->
+  <div
+    class="mt-[14px] rounded-[16px] p-[14px] px-4 bg-surface-900/70"
+  >
+    <div class="flex items-center justify-between mb-1.5">
+      <span class="text-sm text-[color:var(--muted)]">Float (signal)</span>
+      <span class="font-bold text-primary">Active</span>
+    </div>
+    <p-progressBar [value]="floatSignal" [showValue]="false" />
+  </div>
+</section>
