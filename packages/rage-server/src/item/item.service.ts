@@ -1,6 +1,7 @@
 import { Item, ItemModel } from '@revolt-rp/core';
 import { ItemSharedDataType } from '@revolt-rp/common';
 
+
 export const getItemObject = (item: Item) => {
   return mp.objects.toArray()
     .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);

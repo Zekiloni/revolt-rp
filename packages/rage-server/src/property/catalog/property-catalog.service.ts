@@ -1,11 +1,7 @@
 import { CommercialType, IProduct, IProductAdd, ItemType, vehicleModels } from '@revolt-rp/common';
-import { filterItemsByType, getBaseItem, isValidItem } from '../../item/registry/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
-import { Product, ProductModel, Property } from '@revolt-rp/core';
+import { filterItemsByType, Product, Property } from '@revolt-rp/core';
 
-ProductModel.schema.virtual('data').get(function() {
-  return isValidItem(this.name) ? getBaseItem(this.name) : null;
-});
 
 const catalogItems = {
   [CommercialType.GroceryStore]: filterItemsByType(ItemType.PRODUCT_GROCERY)

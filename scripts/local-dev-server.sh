@@ -75,3 +75,6 @@ export DATABASE_URL="$MONGO_URI"
 echo "🚀 Starting RAGEMP server..."
 cd "$DEV_SERVER"
 ./ragemp-server.exe
+#
+#cd "$DEV_SERVER/bin"
+#node --trace-warnings --unhandled-rejections=strict loader.mjs

@@ -1,8 +1,7 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { GameUiKey, IHandheldRadioConfig, ItemType, ProcedureKey } from '@revolt-rp/common';
-import { BaseItem } from '../base-item.model';
+import { GameUiKey, IHandheldRadioConfig, ISelectableUsableItem, ItemType, ProcedureKey } from '@revolt-rp/common';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';
-import { Item } from '@revolt-rp/core';
+import { BaseItem, Item } from '@revolt-rp/core';
 
 
 const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
@@ -13,7 +12,7 @@ const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
 };
 
 
-export class HandheldRadioItemModel extends BaseItem {
+export class HandheldRadioItemModel extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.DEVICE_HANDHELD_RADIO, ...type], weight);

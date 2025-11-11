@@ -15,5 +15,22 @@ export interface IBaseItem {
   isBankCard: boolean;
   isAmmo: boolean;
 
-  [method: string]: ((...args: any[]) => any) | any;
 }
+
+export interface IUsableItem<TPlayer, TItem> extends IBaseItem {
+  use(player: TPlayer, item: TItem): Promise<void> | void;
+  stopUse?(player: TPlayer, item: TItem): void;
+}
+
+export interface ISelectableItem<TPlayer, TItem> extends IBaseItem {
+  select(player: TPlayer, item: TItem): void;
+  deselect?(player: TPlayer, item: TItem): void;
+}
+
+export interface IEquipableItem<TPlayer, TItem> extends IBaseItem {
+  equip(player: TPlayer, item: TItem): void;
+  unequip?(player: TPlayer, item: TItem): void;
+}
+
+export interface ISelectableUsableItem<TPlayer, TItem>
+  extends ISelectableItem<TPlayer, TItem>, IUsableItem<TPlayer, TItem> {}

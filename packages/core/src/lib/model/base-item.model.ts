@@ -1,5 +1,4 @@
 import { IBaseItem, ItemType } from '@revolt-rp/common';
-import { Item } from '@revolt-rp/core';
 
 export const NOT_STACKABLE_ITEM_TYPES = [
   ItemType.WEAPON,
@@ -21,16 +20,10 @@ export abstract class BaseItem implements IBaseItem {
   type: ItemType[];
   weight: number;
 
-  abstract select(player: PlayerMp, item: Item): void;
+  protected constructor(
+    name: string, description: string,
+    model: string, type: ItemType[], weight: number) {
 
-  deselect?(player: PlayerMp, item: Item): void;
-
-  abstract use(player: PlayerMp, item: Item): void;
-
-  stopUse?(player: PlayerMp, item: Item): void;
-
-  protected constructor(name: string, description: string,
-                        model: string, type: ItemType[], weight: number) {
     this.name = name;
     this.description = description;
     this.model = model;

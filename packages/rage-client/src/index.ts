@@ -50,6 +50,7 @@ import './property/clothing-store';
 import './property/vehicle-dealership';
 
 import './job/garbage-collecting';
+import './job/fishing';
 
 import './screenshoter';
 

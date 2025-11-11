@@ -1,10 +1,10 @@
 import { IVector3 } from '../../core.interface';
 
-export interface IPlayerAttachment {
+export interface IPlayerAttachment<T = IVector3> {
   model: string;
   boneId: number;
-  position: IVector3
-  rotation: IVector3
+  position: T
+  rotation: T
   fixedRot: boolean;
   disableControls: number[];
 }

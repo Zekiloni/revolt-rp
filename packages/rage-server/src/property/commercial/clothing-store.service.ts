@@ -14,8 +14,7 @@ import { t } from 'i18next';
 import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../banking/tax.util';
 import { playerGiveItem } from '../../player/inventory/player-inventory.service';
-import { Property } from '@revolt-rp/core';
-import { getBaseItem } from '../../item/registry/item-registry.util';
+import { getBaseItem, Property } from '@revolt-rp/core';
 
 
 export const toggleClothingStoreMenu = async (player: PlayerMp, property: Property | null) => {

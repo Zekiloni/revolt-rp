@@ -59,6 +59,7 @@ import { PrimeNG } from 'primeng/config';
 import { GarageMenuComponent } from './component/property/garage-menu';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ColorConverterService } from './domain/service/color-converter.service';
+import { FishingComponent } from './component/minigames';
 
 
 @Component({
@@ -102,7 +103,8 @@ import { ColorConverterService } from './domain/service/color-converter.service'
     PlateRecognitionComponent,
     HeliCamComponent,
     GarageMenuComponent,
-    ConfirmDialog
+    ConfirmDialog,
+    FishingComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',

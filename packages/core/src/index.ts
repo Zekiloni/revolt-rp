@@ -7,6 +7,9 @@ export * from './lib/config/property.config';
 export * from './lib/config/vehicle.config';
 export * from './lib/config/economy.config';
 
+export * from './lib/model/base-item.model';
+export * from './lib/service/item-registry.service';
+
 export * from './lib/persistence/mongo-db';
 export * from './lib/persistence/model';
 
