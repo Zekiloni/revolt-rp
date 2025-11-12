@@ -27,9 +27,9 @@
     <div class="mt-5">
       <div class="flex items-center justify-between mb-1.5">
         <span class="text-sm text-[color:var(--muted)]">Line Tension</span>
-        <span class="font-bold text-primary">62%</span>
+        <span class="font-bold text-primary">{{ tensionSignal.toFixed() }}%</span>
       </div>
-      <p-progressBar value="70" />
+      <p-progressBar [value]="tensionSignal" />
     </div>
 
     <!-- REEL WINDOW -->
@@ -68,4 +68,6 @@
     </div>
     <p-progressBar [value]="floatSignal" [showValue]="false" />
   </div>
+
+  <p-button label="Cancel Fishing" class="w-full mt-4" (onClick)="cancelFishing()"></p-button>
 </section>
