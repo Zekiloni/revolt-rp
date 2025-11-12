@@ -42,6 +42,7 @@ export class TextChatComponent implements OnInit {
   @ViewChild('chatInput') chatInput!: AutoComplete;
 
   isActive = false;
+  isShowing = false;
   isTyping = false;
 
   _commandSuggestions: string[] = [];
@@ -119,7 +120,7 @@ export class TextChatComponent implements OnInit {
   };
 
   showChat = async (toggle: boolean) => {
-    this.isActive = toggle;
+    this.isShowing = toggle;
     this.changeDetectorRef.detectChanges();
     await this.scrollToBottom();
   };

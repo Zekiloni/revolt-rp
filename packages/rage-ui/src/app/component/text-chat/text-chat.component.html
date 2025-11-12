@@ -1,5 +1,5 @@
 <div class="text-chat absolute-top-left mt-4 ml-4 lg:w-4/12 flex flex-col">
-  @if (isActive) {
+  @if (isShowing) {
     <ul #messagesList class="list-none messages h-64 overflow-y-auto overflow-x-hidden p-0 hidden-scroll"
         tabindex="-1"
         (keydown.space)="$event.preventDefault()"
