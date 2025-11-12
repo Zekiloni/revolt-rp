@@ -19,7 +19,7 @@
 
       <div class="leading-tight">
         <h1 class="m-0 text-primary text-[22px] tracking-[.08em] font-extrabold">FISHING</h1>
-        <small class="text-[color:var(--muted)]">Cast, keep tension, and reel in</small>
+        <small class="text-[color:var(--muted)]">Keep tension low by reeling</small>
       </div>
     </div>
 
@@ -27,32 +27,48 @@
     <div class="mt-5">
       <div class="flex items-center justify-between mb-1.5">
         <span class="text-sm text-[color:var(--muted)]">Line Tension</span>
-        <span class="font-bold text-primary">{{ tensionSignal.toFixed() }}%</span>
+        <span class="font-bold"
+              [class.text-red-400]="tensionSignal > 70"
+              [class.text-yellow-400]="tensionSignal > 40 && tensionSignal <= 70"
+              [class.text-green-400]="tensionSignal <= 40">
+          {{ tensionSignal.toFixed(1) }}%
+        </span>
       </div>
-      <p-progressBar [value]="tensionSignal" />
+      <p-progressBar
+        [value]="tensionSignal"
+        [showValue]="false"
+        [style]="{'height': '12px'}"
+        [styleClass]="tensionSignal > 70 ? 'p-progressbar-danger' : tensionSignal > 40 ? 'p-progressbar-warning' : ''"
+      />
     </div>
 
     <!-- REEL WINDOW -->
     <div class="mt-5">
       <div class="flex items-center justify-between mb-1.5">
         <span class="text-sm text-[color:var(--muted)]">Reel Window</span>
+        <span class="font-bold text-primary">{{ reelWindow.toFixed(1) }}%</span>
       </div>
-      <div class="mt-2 w-full h-5 bg-surface-500 rounded-lg relative overflow-hidden">
-        <!-- Green catch zone -->
+      <div class="mt-2 w-full h-6 bg-surface-500 rounded-lg relative overflow-hidden">
+        <!-- Progress bar for reel window -->
         <div
-          class="absolute h-full bg-green-300/70"
-          [style.left.%]="catchZonePosition"
-          [style.width.%]="catchZoneSize"
+          class="absolute h-full transition-all duration-100"
+          [class.bg-green-400]="reelWindow >= 100"
+          [class.bg-yellow-400]="reelWindow >= 50 && reelWindow < 100"
+          [class.bg-red-400]="reelWindow < 50"
+          [style.width.%]="reelWindow"
         ></div>
 
+        <!-- 100% target line -->
+        <div class="absolute right-0 top-0 h-full w-0.5 bg-white/50"></div>
+      </div>
+      <div class="text-xs text-muted-color-emphasis mt-2 text-center">
+        reach 100% to reduce tension
       </div>
     </div>
 
     <!-- CONTROLS -->
     <div class="flex flex-wrap gap-[10px] my-[14px] mb-[6px] mt-6">
-      <app-keybind key="LMB" label="Pull"></app-keybind>
-      <app-keybind key="RMB" label="Counter"></app-keybind>
-      <app-keybind key="W/S" label="Tighten / Loosen"></app-keybind>
+      <app-keybind key="SPACE" label="Reel In"></app-keybind>
     </div>
 
     <!-- FOOTER META -->
@@ -71,11 +87,11 @@
     class="mt-[14px] rounded-[16px] p-[14px] px-4 bg-surface-900/70"
   >
     <div class="flex items-center justify-between mb-1.5">
-      <span class="text-sm text-[color:var(--muted)]">Float (signal)</span>
+      <span class="text-sm text-[color:var(--muted)]">Float Signal</span>
       <span class="font-bold text-primary">Active</span>
     </div>
     <p-progressBar [value]="floatSignal" [showValue]="false" />
   </div>
 
-  <p-button label="Cancel Fishing" class="w-full mt-4" (onClick)="stopFishing()"></p-button>
+  <p-button label="Cancel Fishing" severity="danger" class="w-full mt-4" (onClick)="stopFishing()"></p-button>
 </section>

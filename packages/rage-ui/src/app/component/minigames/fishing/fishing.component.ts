@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ProgressBar } from 'primeng/progressbar';
 import { KeybindComponent } from '../../misc/keybind';
 import { FormsModule } from '@angular/forms';
@@ -18,13 +18,7 @@ import { AsyncPipe } from '@angular/common';
 export class FishingComponent implements OnInit, OnDestroy {
   tensionSignal = 0;
   floatSignal = 0;
-
-  // Player indicator is no longer moving, green zone is fixed
-  catchZonePosition = 40; // center position left %
-  catchZoneSize = 20; // width of green zone
-  private minZoneSize = 5;
-  private maxZoneSize = 100;
-
+  reelWindow = 0;
   depth = 3.2;
   distance = 12.4;
 
@@ -32,25 +26,25 @@ export class FishingComponent implements OnInit, OnDestroy {
   private timerSub?: Subscription;
   private startTime = Date.now();
 
-  private moveInterval?: any;
-  private hasTension = false;
-
-  private shrinkRate = 0.2; // % per tick
-  private growRate = 2; // % per space key press
-  private tickInterval = 50;
-
   constructor(private rageClientService: RageClientService) {}
 
-
-  updateGame = (data: { floatSignal: number; depth: number; distance: number; tensionSignal: number }) => {
+  updateGame = (data: {
+    floatSignal: number;
+    depth: number;
+    distance: number;
+    tensionSignal: number;
+    reelWindow: number;
+  }) => {
     this.tensionSignal = data.tensionSignal;
     this.depth = data.depth;
     this.distance = data.distance;
     this.floatSignal = data.floatSignal;
-
-    if (data.tensionSignal > 0 && !this.hasTension) this.startTension();
-    else if (data.tensionSignal === 0 && this.hasTension) this.stopTension();
+    this.reelWindow = data.reelWindow;
   };
+
+  stopFishing() {
+    this.rageClientService.triggerClient(ProcedureKey.CLIENT_STOP_FISHING);
+  }
 
   ngOnInit() {
     this.rageClientService.on(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, this.updateGame);
@@ -67,10 +61,8 @@ export class FishingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
     if (this.timerSub)
       this.timerSub.unsubscribe();
-
     this.rageClientService.off(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, this.updateGame);
   }
 }
