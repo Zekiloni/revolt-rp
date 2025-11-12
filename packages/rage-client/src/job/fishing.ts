@@ -187,16 +187,20 @@ async function startFishing() {
 
   mp.events.add('render', fishingHandler);
 
-  const delay = Math.random() * (MAX_TIME_SCHEDULE - MIN_TIME_SCHEDULE) + MIN_TIME_SCHEDULE;
-  fishCatchTimeout = setTimeout(() => {
-    if (!simulateTension) {
-      const chance = Math.random();
-      if (chance < 0.5) {
-        simulateTension = true;
-        fishCatchTimeout = null;
+  function scheduleFishing() {
+    const delay = Math.random() * (MAX_TIME_SCHEDULE - MIN_TIME_SCHEDULE) + MIN_TIME_SCHEDULE;
+    fishCatchTimeout = setTimeout(() => {
+      if (!simulateTension) {
+        const chance = Math.random();
+        if (chance < 0.5) {
+          simulateTension = true;
+        }
       }
-    }
-  }, delay);
+      scheduleFishing();
+    }, delay);
+  }
+
+  scheduleFishing();
 }
 
 function stopFishing() {
