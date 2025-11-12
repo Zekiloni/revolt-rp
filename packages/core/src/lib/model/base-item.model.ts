@@ -53,4 +53,8 @@ export abstract class BaseItem implements IBaseItem {
   get isEquipable() {
     return this.type.includes(ItemType.EQUIPABLE);
   }
+
+  get isFishingBait() {
+    return this.type.includes(ItemType.FISHING_BAIT);
+  }
 }

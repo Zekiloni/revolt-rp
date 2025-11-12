@@ -8,6 +8,9 @@ import {
 } from '@revolt-rp/common';
 import { BaseItem, Item } from '@revolt-rp/core';
 import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
+import { playerRemoveItemFromInventory } from '../../../player/inventory/player-inventory.service';
+import { notifyPlayer } from '../../../player/util/player-notify.util';
+import { t } from 'i18next';
 
 export class FishingRodItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
 
@@ -25,7 +28,29 @@ export class FishingRodItem extends BaseItem implements ISelectableUsableItem<Pl
     player.setVariable(PlayerSharedDataType.ClickToUse, false);
   }
 
-  use(player: PlayerMp, item: Item): void {
+  async use(player: PlayerMp, item: Item) {
+    const baitItem = player.character.inventory.find((invItem: Item) => invItem.data.isFishingBait) as Item | undefined;
+
+    if (!baitItem)
+      return notifyPlayer(player, { severity: 'error', detail: t('you_dont_have_item', { item: t('items.fishing_bait') }) });
+
+    baitItem.usage = (baitItem.usage ?? 100) - 10;
+
+    if (baitItem.usage <= 0) {
+      await playerRemoveItemFromInventory(player, baitItem.id);
+    } else {
+      await baitItem.save();
+    }
+
+    item.usage = (item.usage ?? 100) - 1;
+
+    if (item.usage <= 0) {
+      await playerRemoveItemFromInventory(player, item.id);
+      return;
+    } else {
+      await item.save();
+    }
+
     triggerClient(player, ProcedureKey.CLIENT_USE_FISHING_ROD);
   }
 }
