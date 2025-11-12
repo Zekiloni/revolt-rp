@@ -225,7 +225,7 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   },
 
   [GameUiKey.FishingMinigame]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
     freezeControls: true,
     disableChat: true

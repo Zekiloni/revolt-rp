@@ -55,9 +55,10 @@ let simulateTension = false;
 let lastUpdateAt = 0;
 let depth = 0;
 let distance = 0;
+let tension = 0;
 const MIN_TIME_SCHEDULE = 40 * 1000;
 const MAX_TIME_SCHEDULE = 80 * 1000;
-
+const fishes: PedMp[] = [];
 let fishingRope: number | null = null;
 let fishingFloat: ObjectMp | null = null;
 
@@ -72,6 +73,27 @@ const getPlayerFishingRodAttachment = (player: PlayerMp) => {
 
   return getPlayerAttachmentObjects(player, PlayerAttachmentTypeEnum.HoldFishingRod01)[0];
 };
+
+function spawnFishInArea(center: Vector3, radius: number, count: number) {
+  for (let i = 0; i < count; i++) {
+    const offsetX = (Math.random() - 0.5) * radius;
+    const offsetY = (Math.random() - 0.5) * radius;
+    const waterZ = mp.game.water.getWaterHeight(center.x + offsetX, center.y + offsetY, center.z);
+
+    if (!waterZ) continue;
+
+    const fishPed = mp.peds.new(
+      mp.game.joaat('a_c_fish'),
+      new mp.Vector3(center.x + offsetX, center.y + offsetY, waterZ),
+      0,
+      mp.players.local.dimension
+    );
+
+    fishPed.freezePosition(false);
+    fishPed.taskWanderInArea(center.x, center.y, waterZ, radius, 10.0, 1.0);
+    fishes.push(fishPed);
+  }
+}
 
 function fishingHandler() {
   if (!fishingFloat) return;
@@ -93,10 +115,10 @@ function fishingHandler() {
   lastUpdateAt = Date.now();
 
   let floatSignal = mp.game.water.getWaterHeight(x, y, z);
-  let tensionSignal = 0;
+  let tensionSignal = tension;
 
   if (simulateTension) {
-    tensionSignal = Math.floor(Math.random() * 76);
+    tensionSignal = Math.floor(Math.random() * 5);
     floatSignal += tensionSignal - Math.floor(Math.random() * 50);
   }
 
@@ -115,10 +137,10 @@ async function startFishing() {
 
   const waterPos = findWaterInFrontOfPlayer(5.0, -25.0);
   if (!waterPos) {
-    mp.gui.chat.push('No water found!');
     return;
   }
 
+  spawnFishInArea(waterPos, 10.0, 5);
   isFishing = true;
   mp.players.local.freezePosition(true);
 
@@ -194,6 +216,7 @@ async function startFishing() {
         const chance = Math.random();
         if (chance < 0.5) {
           simulateTension = true;
+          tension = Math.floor(Math.random() * 30);
         }
       }
       scheduleFishing();
@@ -203,7 +226,7 @@ async function startFishing() {
   scheduleFishing();
 }
 
-function stopFishing() {
+function stopFishing(isCatch?: true) {
   if (fishCatchTimeout) {
     clearTimeout(fishCatchTimeout);
     fishCatchTimeout = null;
@@ -217,16 +240,30 @@ function stopFishing() {
   mp.players.local.freezePosition(false);
   mp.events.remove('render', fishingHandler);
 
+  if (isCatch) {
+    mp.gui.chat.push('call server, fish caught');
+  }
+
+  fishes.forEach(fish => {
+    if (mp.peds.exists(fish)) {
+      if (mp.peds.exists(fish)) {
+        fish.destroy();
+      }
+    }
+  });
+
   if (fishingRope) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
 
-    if (fishingFloat && mp.objects.exists(fishingFloat))
-      fishingFloat.destroy();
-
     if (fishingRope) {
+      mp.gui.chat.push('Deleting rope ' + fishingRope);
       mp.game.rope.detachRopeFromEntity(fishingRope, fishingFloat.handle);
       mp.game.rope.deleteRope(fishingRope);
+    }
+
+    if (fishingFloat && mp.objects.exists(fishingFloat)) {
+      fishingFloat.destroy();
     }
 
     fishingRope = null;

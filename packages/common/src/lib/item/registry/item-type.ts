@@ -36,7 +36,9 @@ export enum ItemType {
   ARMOUR,
 
   JERRY_CAN,
+
   FISHING_ROD,
+  FISHING_BAIT,
 
   UTILITY,
   TOOL,

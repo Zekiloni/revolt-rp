@@ -10,6 +10,7 @@ import { SmartphoneItemModel } from './electronic/smartphone-item.model';
 import { LicenseItem } from './license-item.model';
 import { CuffItem } from './utility/cuff-item.model';
 import { FishingRodItem } from './utility/fishing-rod-item.model';
+import { MiscellaneousItem } from './miscellaneous-item.model';
 
 new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -191,5 +192,6 @@ new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'pro
 
 new FishingRodItem('items.fishing_rod', 'items.fishing_rod_description', 'prop_fishing_rod_01', 1.5);
 new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'prop_fishing_rod_02', 1.5);
+new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
 
 new CuffItem();
