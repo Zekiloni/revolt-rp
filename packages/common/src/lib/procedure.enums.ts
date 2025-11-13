@@ -3,6 +3,7 @@ export const enum ProcedureKey {
   BROWSER_HIDE_GAME_INTERFACE = 'browser_hideGameInterface',
   CLIENT_PLAYER_SHOW_INTERFACE = 'client_playerShowInterface',
   CLIENT_PLAYER_HIDE_INTERFACE = 'client_playerHideInterface',
+  CLIENT_PLAYER_INTERFACE_CLOSED = 'client_playerInterfaceClosed',
   BROWSER_NOTIFICATION = 'browser_notification',
 
   BROWSER_AUTHORIZATION_REMEMBER = 'browser_authSuggestion',
@@ -258,5 +259,4 @@ export const enum ProcedureKey {
   CLIENT_GET_STREET_NAME_AT_COORD = 'client_getStreetNameAtCoord',
   CLIENT_USE_FISHING_ROD = 'client_useFishingRod',
   BROWSER_FISHING_MINIGAME_UPDATE = 'browser_fishingMinigameUpdate',
-  CLIENT_STOP_FISHING = 'client_stopFishing',
 }

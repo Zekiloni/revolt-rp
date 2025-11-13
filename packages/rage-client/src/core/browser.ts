@@ -2,17 +2,18 @@ import {
   on,
   triggerBrowser as rpcTriggerBrowser,
   callBrowser as rpcCallBrowser,
-  CallOptions
+  CallOptions, triggerClient
 } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, HexKeyCodes, ProcedureKey } from '@revolt-rp/common';
+import { gameUiConfig, GameUiKey, HexKeyCodes, IGameInterface, ProcedureKey } from '@revolt-rp/common';
 import { environment } from '../environment/environment';
 import { registerKeyBind } from './keybind-manager';
 import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 
 
+type ActiveGameInterface = IGameInterface & { key: GameUiKey };
+
 const CURSOR_TIMEOUT_MS = 100;
-const activeGameInterfaces: Set<GameUiKey> = new Set();
-const escapeCloseInterfaces: Set<GameUiKey> = new Set();
+const activeGameInterfaces: Set<GameUiKey> = new Set<GameUiKey>();
 
 let isCursorActive = false;
 let frozenControls = false;
@@ -31,12 +32,12 @@ function toggleCursor(freezeControls: boolean, mouse: boolean) {
   setTimeout(() => mp.gui.cursor.show(freezeControls, mouse), CURSOR_TIMEOUT_MS);
 }
 
-function getRemainingInterfaces() {
+function getActiveInterfaces(): ActiveGameInterface[] {
   const keys: GameUiKey[] = [];
   activeGameInterfaces.forEach((key) => {
     keys.push(key);
   });
-  return keys.map(k => gameUiConfig[k]);
+  return keys.map(k => ({ key: k, ...gameUiConfig[k] }));
 }
 
 export const triggerBrowser = (procedureKey: ProcedureKey, args?: any) => {
@@ -67,11 +68,11 @@ export function showGameInterface(interfaceKey: GameUiKey) {
     mp.gui.chat.activate(false);
   }
 
-  if (gameUiConfigElement.closeOnEscape) {
-    escapeCloseInterfaces.add(interfaceKey);
+  if (gameUiConfigElement.hideChat) {
+    mp.gui.chat.show(false);
   }
 
-  if (activeGameInterfaces.size > 0) {
+  if (gameUiConfigElement.closeOnEscape) {
     disablePlayerControl([RageEnums.Controls.INPUT_FRONTEND_PAUSE_ALTERNATE]);
   }
 
@@ -88,7 +89,7 @@ export function hideGameInterface(interfaceKey: GameUiKey) {
 
   activeGameInterfaces.delete(interfaceKey);
 
-  const remainingInterfaces = getRemainingInterfaces();
+  const remainingInterfaces = getActiveInterfaces();
   const anyMouse = remainingInterfaces.some(cfg => cfg.mouse);
   const anyFreeze = remainingInterfaces.some(cfg => cfg.freezeControls);
 
@@ -102,29 +103,24 @@ export function hideGameInterface(interfaceKey: GameUiKey) {
     mp.gui.chat.activate(true);
   }
 
-  if (gameUiConfigElement.closeOnEscape) {
-    mp.gui.chat.push(`Closed ${interfaceKey}, closeOnEscape deleted`);
-    escapeCloseInterfaces.delete(interfaceKey);
+  if (gameUiConfigElement.hideChat && !remainingInterfaces.some(cfg => cfg.hideChat)) {
+    mp.gui.chat.show(true);
   }
 
-  if (activeGameInterfaces.size == 0) {
-    mp.gui.chat.push(`Enabling player controls after closing ${interfaceKey}`);
+  if (gameUiConfigElement.closeOnEscape && !remainingInterfaces.some(cfg => cfg.closeOnEscape)) {
     enablePlayerControl([RageEnums.Controls.INPUT_FRONTEND_PAUSE_ALTERNATE]);
   }
 
-  // TODO: Announce interface closed event
-
+  triggerClient(ProcedureKey.CLIENT_PLAYER_INTERFACE_CLOSED, interfaceKey);
 }
 
-function handleGameInterfaceRender() {
-  if (escapeCloseInterfaces.size) {
-    if (mp.game.controls.isControlJustPressed(RageEnums.InputGroup.MAX_INPUTGROUPS, RageEnums.Controls.INPUT_FRONTEND_PAUSE_ALTERNATE)) {
-      mp.gui.chat.push('ESC pressed, closing last escapeCloseInterface');
-      const lastInterfaceKey = Array.from(escapeCloseInterfaces).pop();
-      mp.gui.chat.push(`Last interface key: ${lastInterfaceKey}`);
-      if (lastInterfaceKey) {
-        hideGameInterface(lastInterfaceKey);
-      }
+
+function toggleGameInterfaceEscape() {
+  const escapeCloseInterfaces = getActiveInterfaces().filter(cfg => cfg.closeOnEscape);
+  if (escapeCloseInterfaces.length) {
+    const lastOpenedInterface = escapeCloseInterfaces.pop();
+    if (lastOpenedInterface) {
+      hideGameInterface(lastOpenedInterface.key);
     }
   }
 }
@@ -135,7 +131,7 @@ function handleForceToggleCursor() {
 }
 
 registerKeyBind(HexKeyCodes.F3, true, handleForceToggleCursor);
+registerKeyBind(HexKeyCodes.Escape, true, toggleGameInterfaceEscape);
 
 on(ProcedureKey.CLIENT_PLAYER_SHOW_INTERFACE, showGameInterface);
 on(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, hideGameInterface);
-mp.events.add('render', handleGameInterfaceRender);

@@ -4,15 +4,48 @@
 import { hideGameInterface, showGameInterface, triggerBrowser } from '../core/browser';
 import {
   AnimationFlag,
-  GameUiKey,
-  HexKeyCodes,
-  PlayerAttachmentTypeEnum,
+  GameUiKey, HexKeyCodes,
+  PlayerAttachmentTypeEnum, PlayerSharedDataType,
   ProcedureKey,
   rgbColors
 } from '@revolt-rp/common';
 import { getPlayerAttachmentObjects, hasPlayerAttachment } from '../player/inventory/player-attachment';
-import { on } from '@libertymp/rage-rpc';
+import { on, register, triggerServer } from '@libertymp/rage-rpc';
 import { isPlayingAnimation, playAnimation } from '../player/util/player-animation.util';
+import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
+import { movementAction } from '../core/disabled-control';
+
+enum FishingState {
+  Idle,
+  ClosingIn,
+  ReelingIn,
+}
+
+let fishCatchTimeout = null;
+let lastUpdateAt = 0;
+let lastGameTick = 0;
+let depth = 0;
+let distance = 0;
+let lineTension = 0;
+let reelWindow = 0;
+let fishingStat: FishingState | null = null;
+
+const fishes: PedMp[] = [];
+let fishingRope: number | null = null;
+let fishingFloat: ObjectMp | null = null;
+let lastMouseClick = 0;
+
+const MAX_TIME_SCHEDULE = 10_000;
+const MIN_TIME_SCHEDULE = 5_000;
+
+// Game constants
+const TENSION_RISE_RATE = 0.3; // % per tick when fish is fighting
+const TENSION_FALL_RATE = 1.5; // % per tick when at 100% reel
+const REEL_DECAY_RATE = 2.0; // % per tick
+const REEL_MOUSE_BOOST = 4.0; // % per LMB click
+const FLOAT_PULL_SPEED = 0.6; // Velocity multiplier when pulling
+const TICK_INTERVAL = 50; // ms between ticks
+const MOUSE_CLICK_COOLDOWN = 150; // ms between clicks
 
 const bannedMaterials = [
   1187676648,
@@ -55,33 +88,6 @@ function findWaterInFrontOfPlayer(inFront = 5.0, range = -25.0): Vector3 | null 
   return new mp.Vector3(target.position.x, target.position.y, waterZ);
 }
 
-
-let isFishing = false;
-let hasFishBitten = false;
-let fishCatchTimeout = null;
-let lastUpdateAt = 0;
-let depth = 0;
-let distance = 0;
-let lineTension = 0;
-let reelWindow = 0;
-
-// Game constants
-const TENSION_RISE_RATE = 0.2; // % per tick when not at 100% reel
-const TENSION_FALL_RATE = 1.2; // % per tick when at 100% reel
-const REEL_DECAY_RATE = 1.5; // % per tick
-const REEL_SPACE_BOOST = 3.5; // % per space press
-const REEL_SPACE_PENALTY = 1.0; // Extra decay if spamming over 100%
-const FLOAT_PULL_SPEED = 0.8; // Velocity multiplier when pulling
-const TICK_INTERVAL = 50; // ms between ticks
-const MIN_TIME_SCHEDULE = 40 * 1000;
-const MAX_TIME_SCHEDULE = 80 * 1000;
-
-const fishes: PedMp[] = [];
-let fishingRope: number | null = null;
-let fishingFloat: ObjectMp | null = null;
-let gameLoopInterval: NodeJS.Timer | null = null;
-let initialDistance = 0;
-
 const isHoldingFishingRod = (player: PlayerMp) => {
   return hasPlayerAttachment(player, PlayerAttachmentTypeEnum.HoldFishingRod01);
 };
@@ -100,7 +106,9 @@ async function spawnFishInArea(center: Vector3, radius: number, count: number) {
     const offsetY = (Math.random() - 0.5) * radius;
     const waterZ = mp.game.water.getWaterHeight(center.x + offsetX, center.y + offsetY, center.z);
 
-    if (!waterZ) continue;
+    if (!waterZ) {
+      continue;
+    }
 
     const fishPed = mp.peds.new(
       mp.game.joaat('a_c_fish'),
@@ -116,86 +124,127 @@ async function spawnFishInArea(center: Vector3, radius: number, count: number) {
     fishPed.freezePosition(false);
 
     if (fishPed.isSwimmingUnderWater()) {
-      fishPed.taskWanderInArea(center.x, center.y, waterZ, radius, 10.0, 1.0);
+      mp.gui.chat.push('Fish is swimming underwater' + i);
+      fishPed.taskWanderInArea(center.x, center.y, waterZ, radius, 0, 0);
     }
 
     fishes.push(fishPed);
   }
 }
 
-function gameLoop() {
-  if (!isFishing || !fishingFloat) return;
-
-  if (!hasFishBitten)
-    return;
-
-  // Calculate current distance from float to player
-  const fishingRodObject = getPlayerFishingRodAttachment(mp.players.local);
-  if (fishingRodObject) {
-    const rodTip = fishingRodObject.getOffsetFromInWorldCoords(0, 0, 2.4);
-    const floatPos = fishingFloat.position;
-    distance = Math.sqrt(
-      Math.pow(rodTip.x - floatPos.x, 2) +
-      Math.pow(rodTip.y - floatPos.y, 2) +
-      Math.pow(rodTip.z - floatPos.z, 2)
-    );
-  }
-
-  // Reel Window decays constantly
-  reelWindow -= REEL_DECAY_RATE;
-  if (reelWindow < 0) reelWindow = 0;
-
-  // If Reel Window is at 100%, reduce tension and pull float
-  if (reelWindow >= 100) {
-    lineTension -= TENSION_FALL_RATE;
-    if (lineTension < 0) lineTension = 0;
-
-    // Pull float towards player
-    if (fishingRodObject && fishingFloat) {
-      const rodTip = fishingRodObject.getOffsetFromInWorldCoords(0, 0, 2.4);
-      const floatPos = fishingFloat.position;
-
-      // Calculate direction vector
-      const dx = rodTip.x - floatPos.x;
-      const dy = rodTip.y - floatPos.y;
-      const dz = rodTip.z - floatPos.z;
-
-      // Normalize and apply velocity
-      const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-      if (dist > 0.5) {
-        const normalizedX = (dx / dist) * FLOAT_PULL_SPEED;
-        const normalizedY = (dy / dist) * FLOAT_PULL_SPEED;
-        const normalizedZ = (dz / dist) * FLOAT_PULL_SPEED;
-
-        fishingFloat.setVelocity(normalizedX, normalizedY, normalizedZ);
-      }
-    }
-  } else {
-    // If not at 100%, tension rises
-    lineTension += TENSION_RISE_RATE;
-    if (lineTension > 100) lineTension = 100;
-  }
-
-  // Check win condition: tension reached 0
-  if (lineTension <= 0) {
-    stopFishing(true);
-    return;
-  }
-
-  // Check lose condition: tension maxed out
-  if (lineTension >= 100) {
-    stopFishing();
-    return;
-  }
-}
-
-let lastSpacePress = 0;
-const SPACE_PRESS_COOLDOWN = 100; // ms between space presses
 
 function fishingHandler() {
   if (!fishingFloat) return;
 
+  let markerColor = rgbColors.SUN_GLOW_GECKO;
   const { x, y, z } = fishingFloat.position;
+  const now = Date.now();
+
+  // Check if fish reached the bait (ClosingIn -> ReelingIn)
+  // crash notice: not here
+  if (fishingStat === FishingState.ClosingIn) {
+    markerColor = rgbColors.LIME_GREEN;
+    const [closestFish] = mp.peds.getClosest(fishingFloat.position, 1);
+
+    if (closestFish) {
+      const fishPos = closestFish.position;
+      const distToFloat = mp.game.system.vdist(fishPos.x, fishPos.y, fishPos.z, x, y, z);
+      if (distToFloat < 1.5) {
+        fishingStat = FishingState.ReelingIn;
+        lineTension = Math.random() * (30 - 15) + 15; // Start with 15-30% tension
+        mp.gui.chat.push('🎣 Fish took the bait! Click LMB to reel!');
+      }
+    }
+  }
+
+  // Game loop logic (only during ReelingIn phase)
+  if (fishingStat === FishingState.ReelingIn && now - lastGameTick >= TICK_INTERVAL) {
+    lastGameTick = now;
+
+    // Calculate current distance from float to player
+    const fishingRodObject = getPlayerFishingRodAttachment(mp.players.local);
+    if (fishingRodObject) {
+      const rodTip = fishingRodObject.getOffsetFromInWorldCoords(0, 0, 2.4);
+      const floatPos = fishingFloat.position;
+      distance = Math.sqrt(
+        Math.pow(rodTip.x - floatPos.x, 2) +
+        Math.pow(rodTip.y - floatPos.y, 2) +
+        Math.pow(rodTip.z - floatPos.z, 2)
+      );
+    }
+
+    // Reel Window decays constantly
+    reelWindow -= REEL_DECAY_RATE;
+    if (reelWindow < 0) reelWindow = 0;
+
+    // If Reel Window is at 100%, reduce tension and pull float
+    if (reelWindow >= 100) {
+      lineTension -= TENSION_FALL_RATE;
+      if (lineTension < 0) lineTension = 0;
+
+      // Pull float towards player
+      if (fishingRodObject && fishingFloat) {
+        const rodTip = fishingRodObject.getOffsetFromInWorldCoords(0, 0, 2.4);
+        const floatPos = fishingFloat.position;
+
+        // Calculate direction vector
+        const dx = rodTip.x - floatPos.x;
+        const dy = rodTip.y - floatPos.y;
+        const dz = rodTip.z - floatPos.z;
+
+        // Normalize and apply velocity
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        if (dist > 0.5) {
+          const normalizedX = (dx / dist) * FLOAT_PULL_SPEED;
+          const normalizedY = (dy / dist) * FLOAT_PULL_SPEED;
+          const normalizedZ = (dz / dist) * FLOAT_PULL_SPEED;
+
+          fishingFloat.setVelocity(normalizedX, normalizedY, normalizedZ);
+        }
+      }
+    } else {
+      // If not at 100%, tension rises (fish is fighting)
+      lineTension += TENSION_RISE_RATE;
+      if (lineTension > 100) lineTension = 100;
+    }
+
+    // Check win condition: tension reached 0
+    if (lineTension <= 0) {
+      mp.gui.chat.push('🎣 Fish caught successfully!');
+      stopFishing(GameUiKey.FishingMinigame);
+      // TODO: Call server to give reward
+      return;
+    }
+
+    // Check lose condition: tension maxed out
+    if (lineTension >= 100) {
+      mp.gui.chat.push('❌ The fish got away... Line broke!');
+      stopFishing(GameUiKey.FishingMinigame);
+      return;
+    }
+
+    // Check if fish is close enough (distance < 2m = caught)
+    if (distance < 2.0) {
+      mp.gui.chat.push('🎣 Fish reeled in successfully!');
+      stopFishing(GameUiKey.FishingMinigame);
+      // TODO: Call server to give reward
+      return;
+    }
+  }
+
+  // Check for LMB clicks during ReelingIn phase (every frame for responsiveness)
+  if (fishingStat === FishingState.ReelingIn && mp.keys.isDown(HexKeyCodes.LeftMouse)) {
+    if (now - lastMouseClick >= MOUSE_CLICK_COOLDOWN) {
+      lastMouseClick = now;
+
+      // Increase reel window
+      reelWindow += REEL_MOUSE_BOOST;
+      if (reelWindow > 100) {
+        reelWindow = 100;
+      }
+    }
+  }
+
   // Debug marker
   mp.game.graphics.drawMarker(
     0,
@@ -203,85 +252,58 @@ function fishingHandler() {
     0, 0, 0,
     0, 0, 0,
     0.75, 0.75, 0.75,
-    rgbColors.SUN_GLOW_GECKO[0], rgbColors.SUN_GLOW_GECKO[1], rgbColors.SUN_GLOW_GECKO[2], 200,
+    markerColor[0], markerColor[1], markerColor[2], 200,
     true, false, 2,
     false, null, null, false
   );
 
-  // Check for space press every frame
-  if (mp.keys.isDown(HexKeyCodes.Space)) {
-    const now = Date.now();
-    if (now - lastSpacePress >= SPACE_PRESS_COOLDOWN) {
-      lastSpacePress = now;
+  // Send UI updates
+  if (now - lastUpdateAt >= 200) {
+    lastUpdateAt = now;
 
-      // Increase reel window
-      reelWindow += REEL_SPACE_BOOST;
-
-      // Penalty if over 100% (spamming too fast)
-      if (reelWindow > 100) {
-        reelWindow = 100 + REEL_SPACE_PENALTY;
-      }
-    }
-  }
-
-  if (Date.now() - lastUpdateAt < 200) return;
-  lastUpdateAt = Date.now();
-
-  const floatSignal = mp.game.water.getWaterHeight(x, y, z);
-
-  triggerBrowser(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, {
-    floatSignal,
-    tensionSignal: lineTension,
-    reelWindow,
-    distance,
-    depth
-  });
-}
-
-// Handle space bar press
-function handleSpacePress(key: number) {
-  if (key !== 32) return; // 32 = Space key code
-  if (!isFishing) return;
-
-  // Increase reel window
-  reelWindow += REEL_SPACE_BOOST;
-
-  // Penalty if over 100% (spamming too fast)
-  if (reelWindow > 100) {
-    reelWindow = 100 + REEL_SPACE_PENALTY;
+    triggerBrowser(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, {
+      lineTension,
+      reelWindow,
+      distance,
+      depth
+    });
   }
 }
 
-mp.keys.bind(32, true, handleSpacePress);
 
 async function startFishing() {
-  if (isFishing) {
-    return;
-  }
+  mp.gui.chat.push('[DEBUG] Starting fishing');
+
+  if (!mp.players.local.isStill())
+    return false;
 
   const waterPos = findWaterInFrontOfPlayer(5.0, -25.0);
   if (!waterPos) {
-    return;
+    return false;
   }
 
-  await spawnFishInArea(waterPos, 10.0, 5);
+  mp.gui.chat.push('[DEBUG] Water found at ' + JSON.stringify(waterPos));
 
+  mp.players.local.freezePosition(true);
+  disablePlayerControl(movementAction);
+
+  mp.gui.chat.push('[DEBUG] Playing casting animation');
   await playAnimation(mp.players.local, 'mini@tennis', 'forehand_ts_md_far', AnimationFlag.UPPER_BODY_ONLY_CONTROLLABLE, 1000);
 
   while (isPlayingAnimation(mp.players.local, 'mini@tennis', 'forehand_ts_md_far')) {
-    await mp.game.waitAsync(0);
+    mp.gui.chat.push('[DEBUG] Waiting for casting animation to finish');
+    await mp.game.waitAsync(50);
   }
 
   // Play idle fishing animation
   await playAnimation(mp.players.local, 'amb@world_human_stand_fishing@idle_a', 'idle_c', AnimationFlag.STOP_LAST_FRAME | AnimationFlag.NOT_INTERRUPTABLE);
 
-  mp.players.local.freezePosition(true);
-  isFishing = true;
+  mp.gui.chat.push('[DEBUG] Spawning fish in area');
 
-  initialDistance = Math.random() * (21.5 - 13) + 13;
-  distance = initialDistance;
+  distance = Math.random() * (21.5 - 13) + 13;
   depth = Math.random() * (5 - 1) + 1;
 
+  mp.gui.chat.push('[DEBUG] Creating fishing float object');
   const floatPosition = mp.players.local.getOffsetFromInWorldCoords(0, distance, -(depth / 5));
 
   fishingFloat = mp.objects.new(
@@ -294,11 +316,16 @@ async function startFishing() {
     }
   );
 
+  await spawnFishInArea(floatPosition, 10.0, 5);
+
+  mp.gui.chat.push('[DEBUG] Waiting for fishing rod attachment');
   const fishingRodObject = getPlayerFishingRodAttachment(mp.players.local);
 
   while (fishingFloat.handle === 0) {
-    await mp.game.waitAsync(100);
+    await mp.game.waitAsync(50);
   }
+
+  mp.gui.chat.push('[DEBUG] Setting up fishing rope');
 
   setTimeout(() => {
     if (!fishingFloat || !fishingRodObject) return;
@@ -326,58 +353,56 @@ async function startFishing() {
     mp.game.rope.attachEntitiesToRope(fishingRope, fishingRodObject.handle, fishingFloat.handle, fishingRodTip.x, fishingRodTip.y, fishingRodTip.z, fishingFloat.position.x, fishingFloat.position.y, fishingFloat.position.z, dist, false, false, 0, 0);
   }, 500);
 
-  showGameInterface(GameUiKey.FishingMinigame);
+  fishingStat = FishingState.Idle;
 
+  showGameInterface(GameUiKey.FishingMinigame);
   mp.events.add('render', fishingHandler);
 
-  // Initialize game state
-  lineTension = 0;
-  reelWindow = 0;
-
-  // Start game loop
-  gameLoopInterval = setInterval(gameLoop, TICK_INTERVAL);
 
   function scheduleFishing() {
     const delay = Math.random() * (MAX_TIME_SCHEDULE - MIN_TIME_SCHEDULE) + MIN_TIME_SCHEDULE;
     fishCatchTimeout = setTimeout(() => {
       const chance = Math.random();
-      if (chance < 0.7) {
-        hasFishBitten = true;
-        lineTension = 20; // Start with some initial tension
+      mp.gui.chat.push('[DEBUG] Fish bite chance: ' + chance.toFixed(2));
+      if (chance < 0.5) {
+        mp.gui.chat.push('[DEBUG] A fish has bitten the bait!');
+        fishingStat = FishingState.ClosingIn;
+        // const [fishClosest] = mp.peds.getClosest(fishingFloat.position, 10.0);
+        // if (fishClosest) {
+        //   fishClosest.taskGoStraightToCoord(floatPosition.x, floatPosition.y, floatPosition.z, 1.0, -1, 0.0, 0.0);
+        //   mp.gui.chat.push('[DEBUG] Fish ' + fishClosest.handle + ' is approaching the bait');
+        // }
+        lineTension += Math.random() * (30 - 10) + 10;
       }
-
       scheduleFishing();
     }, delay);
   }
 
   scheduleFishing();
+
+  mp.gui.chat.push('[DEBUG] Starting fishing game loop');
+  return true;
 }
 
-function stopFishing(isCatch = false) {
+function stopFishing(interfaceKey: GameUiKey) {
+  if (interfaceKey !== GameUiKey.FishingMinigame) {
+    return;
+  }
+
+  mp.gui.chat.push('[DEBUG] Stopping fishing');
+
   if (fishCatchTimeout) {
     clearTimeout(fishCatchTimeout);
     fishCatchTimeout = null;
   }
 
-  if (gameLoopInterval) {
-    clearInterval(gameLoopInterval);
-    gameLoopInterval = null;
-  }
-
   hideGameInterface(GameUiKey.FishingMinigame);
-  isFishing = false;
-  hasFishBitten = false;
 
   mp.players.local.clearTasks();
   mp.players.local.freezePosition(false);
   mp.events.remove('render', fishingHandler);
 
-  if (isCatch) {
-    mp.gui.chat.push('🎣 Fish caught successfully!');
-    // Call server to give reward
-  } else {
-    mp.gui.chat.push('❌ The fish got away...');
-  }
+  enablePlayerControl(movementAction);
 
   fishes.forEach(fish => {
     if (mp.peds.exists(fish)) {
@@ -402,8 +427,12 @@ function stopFishing(isCatch = false) {
   lineTension = 0;
   reelWindow = 0;
   distance = 0;
-  lastSpacePress = 0;
+  fishingStat = null;
+
+  triggerServer(ProcedureKey.SERVER_PLAYER_SET_VARIABLE, [PlayerSharedDataType.IsFishing, false]);
+
+  mp.gui.chat.push('[DEBUG] Fishing stopped');
 }
 
-on(ProcedureKey.CLIENT_USE_FISHING_ROD, startFishing);
-on(ProcedureKey.CLIENT_STOP_FISHING, stopFishing);
+register(ProcedureKey.CLIENT_USE_FISHING_ROD, startFishing);
+on(ProcedureKey.CLIENT_PLAYER_INTERFACE_CLOSED, stopFishing);

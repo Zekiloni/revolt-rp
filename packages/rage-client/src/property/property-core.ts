@@ -2,10 +2,12 @@ import { callServer, on, triggerBrowser, triggerServer } from '@libertymp/rage-r
 import { GameUiKey, HexKeyCodes, IProperty, ProcedureKey } from '@revolt-rp/common';
 import { browser, hideGameInterface, showGameInterface } from '../core/browser';
 import { registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
+import { getDistance } from '../util/vector.util';
 
 
 let propertyInfo: IProperty | null = null;
-
+let checkCheckpointInterval: NodeJS.Timer | null = null;
+const MAX_DISTANCE = 5;
 
 function propertyMainInteraction() {
   if (propertyInfo) {
@@ -13,18 +15,35 @@ function propertyMainInteraction() {
   }
 }
 
+
 function togglePropertyInfo(property: IProperty | null) {
   propertyInfo = property;
 
+  const initialPosition = mp.players.local.position;
   if (propertyInfo) {
     showGameInterface(GameUiKey.PropertyInfo);
     setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_PROPERTY_INFO, propertyInfo), 250);
     registerKeyBind(HexKeyCodes.L, false, lockProperty, 0);
     registerKeyBind(HexKeyCodes.Y, false, propertyMainInteraction, 0);
+
+    checkCheckpointInterval = setInterval(() => {
+
+      const currentPosition = mp.players.local.position;
+      const distance = getDistance(initialPosition, currentPosition);
+
+      if (distance > MAX_DISTANCE) {
+        mp.gui.chat.push('~r~You have moved too far from the property. Closing property info.' + distance);
+        togglePropertyInfo(null);
+      }
+    }, 1000);
   } else {
     hideGameInterface(GameUiKey.PropertyInfo);
     unregisterKeyBind(HexKeyCodes.L, lockProperty);
     unregisterKeyBind(HexKeyCodes.Y, propertyMainInteraction);
+    if (checkCheckpointInterval) {
+      clearInterval(checkCheckpointInterval);
+      checkCheckpointInterval = null;
+    }
   }
 }
 

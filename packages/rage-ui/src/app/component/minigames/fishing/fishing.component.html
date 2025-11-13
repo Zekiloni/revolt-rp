@@ -1,97 +1,77 @@
 <section
-  class="fixed right-6 top-1/2 -translate-y-1/2 w-[440px] text-[color:var(--text)] select-none"
+  class="fixed right-6 top-1/2 -translate-y-1/2 select-none"
 >
   <div
     class="rounded-[18px] shadow-elev-card p-[18px] px-5 bg-surface-900/80"
   >
-    <!-- HEADER -->
-    <div class="flex items-center gap-[14px] mb-[14px]">
-      <div
-        class="w-[52px] h-[52px] rounded-[14px] grid place-items-center shadow-md"
-        style="background:
-          radial-gradient(120% 120% at 30% 30%, rgba(246,194,65,.25) 0, rgba(246,194,65,0) 60%),
-          linear-gradient(180deg, #2a3141, #1c212e);
-          box-shadow: 0 6px 18px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);"
-      >
-        <i class="fa-solid fa-fish-fins text-[22px] text-primary"
-           style=" filter: drop-shadow(0 0 2px rgba(246,194,65,.35));"></i>
+    <!-- Two vertical progress bars with labels -->
+    <div class="flex items-start gap-8 justify-center mb-4">
+
+      <!-- LEFT BAR - Line Tension -->
+      <div class="flex items-center gap-3">
+        <!-- Left side labels -->
+        <div class="flex flex-col justify-between h-[300px] text-right text-xs pr-2">
+          <span class="text-red-400 font-semibold">High Tension</span>
+          <span class="text-yellow-400 font-semibold">Optimal Tension</span>
+          <span class="text-green-400 font-semibold">Low Tension</span>
+        </div>
+
+        <!-- Vertical slider -->
+        <div class="relative">
+          <p-slider
+            [ngModel]="lineTension"
+            orientation="vertical"
+            [style]="{'height': '300px', 'rotate': '180deg'}"
+            [disabled]="true"
+            [styleClass]="lineTension > 70 ? 'tension-high' : lineTension > 40 ? 'tension-medium' : 'tension-low'"
+          />
+          <!-- Label below -->
+          <div class="text-center mt-2 text-xs text-[color:var(--muted)]">
+            Line Tension
+          </div>
+        </div>
       </div>
 
-      <div class="leading-tight">
-        <h1 class="m-0 text-primary text-[22px] tracking-[.08em] font-extrabold">FISHING</h1>
-        <small class="text-[color:var(--muted)]">Keep tension low by reeling</small>
+      <!-- RIGHT BAR - Reel Progress -->
+      <div class="flex items-center gap-3">
+        <!-- Vertical slider -->
+        <div class="relative">
+          <p-slider
+            [ngModel]="reelWindow"
+            orientation="vertical"
+            [style]="{'height': '300px', 'rotate': '180deg'}"
+            [disabled]="true"
+            [styleClass]="reelWindow >= 100 ? 'reel-complete' : reelWindow >= 50 ? 'reel-progress' : 'reel-start'"
+          />
+          <!-- Label below -->
+          <div class="text-center mt-2 text-xs text-[color:var(--muted)]">
+            Reel Progress
+          </div>
+        </div>
+
+        <!-- Right side labels -->
+        <div class="flex flex-col justify-between h-[300px] text-left text-xs pl-2">
+          <span class="text-green-400 font-semibold">Complete</span>
+          <span class="text-yellow-400 font-semibold">Making Progress</span>
+          <span class="text-red-400 font-semibold">Just Started</span>
+        </div>
       </div>
     </div>
 
-    <!-- LINE TENSION -->
-    <div class="mt-5">
-      <div class="flex items-center justify-between mb-1.5">
-        <span class="text-sm text-[color:var(--muted)]">Line Tension</span>
-        <span class="font-bold"
-              [class.text-red-400]="tensionSignal > 70"
-              [class.text-yellow-400]="tensionSignal > 40 && tensionSignal <= 70"
-              [class.text-green-400]="tensionSignal <= 40">
-          {{ tensionSignal.toFixed(1) }}%
-        </span>
+    <!-- Stats info -->
+    <div class="flex items-center justify-between text-xs text-[color:var(--muted)] mb-3 px-2">
+      <div>
+        <span class="text-primary font-bold">{{ lineTension.toFixed(0) }}%</span>
       </div>
-      <p-progressBar
-        [value]="tensionSignal"
-        [showValue]="false"
-        [style]="{'height': '12px'}"
-        [styleClass]="tensionSignal > 70 ? 'p-progressbar-danger' : tensionSignal > 40 ? 'p-progressbar-warning' : ''"
-      />
-    </div>
-
-    <!-- REEL WINDOW -->
-    <div class="mt-5">
-      <div class="flex items-center justify-between mb-1.5">
-        <span class="text-sm text-[color:var(--muted)]">Reel Window</span>
-        <span class="font-bold text-primary">{{ reelWindow.toFixed(1) }}%</span>
-      </div>
-      <div class="mt-2 w-full h-6 bg-surface-500 rounded-lg relative overflow-hidden">
-        <!-- Progress bar for reel window -->
-        <div
-          class="absolute h-full transition-all duration-100"
-          [class.bg-green-400]="reelWindow >= 100"
-          [class.bg-yellow-400]="reelWindow >= 50 && reelWindow < 100"
-          [class.bg-red-400]="reelWindow < 50"
-          [style.width.%]="reelWindow"
-        ></div>
-
-        <!-- 100% target line -->
-        <div class="absolute right-0 top-0 h-full w-0.5 bg-white/50"></div>
-      </div>
-      <div class="text-xs text-muted-color-emphasis mt-2 text-center">
-        reach 100% to reduce tension
+      <div>
+        <span class="text-primary font-bold">{{ reelWindow.toFixed(0) }}%</span>
       </div>
     </div>
 
-    <!-- CONTROLS -->
-    <div class="flex flex-wrap gap-[10px] my-[14px] mb-[6px] mt-6">
+    <!-- Keybind -->
+    <div class="flex flex-wrap gap-[10px] my-[14px] mb-[6px] mt-6 justify-center">
       <app-keybind key="SPACE" label="Reel In"></app-keybind>
     </div>
 
-    <!-- FOOTER META -->
-    <div class="flex items-center gap-[18px] mt-[10px] text-[#d0d4db] text-[13px]">
-      <span class="w-2 h-2 rounded-full bg-primary"></span>
-      <span>Depth: {{ depth.toFixed(2) }} m</span>
-      <span>|</span>
-      <span>Distance: {{ distance.toFixed(2) }} m</span>
-      <span>|</span>
-      <span>Timer: {{ timer$ | async }}</span>
-    </div>
   </div>
-
-  <!-- SUBCARD: FLOAT SIGNAL -->
-  <div
-    class="mt-[14px] rounded-[16px] p-[14px] px-4 bg-surface-900/70"
-  >
-    <div class="flex items-center justify-between mb-1.5">
-      <span class="text-sm text-[color:var(--muted)]">Float Signal</span>
-      <span class="font-bold text-primary">Active</span>
-    </div>
-    <p-progressBar [value]="floatSignal" [showValue]="false" />
-  </div>
-
-  <p-button label="Cancel Fishing" severity="danger" class="w-full mt-4" (onClick)="stopFishing()"></p-button>
 </section>
