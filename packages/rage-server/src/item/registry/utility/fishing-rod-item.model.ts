@@ -1,4 +1,4 @@
-import { triggerClient } from '@libertymp/rage-rpc';
+import { callClient } from '@libertymp/rage-rpc';
 import {
   ISelectableUsableItem,
   ItemType,
@@ -29,11 +29,29 @@ export class FishingRodItem extends BaseItem implements ISelectableUsableItem<Pl
   }
 
   async use(player: PlayerMp, item: Item) {
+    const isFishingActive = player.getVariable<boolean>(PlayerSharedDataType.IsFishing) ?? false;
+
+    console.log('FishingRodItem use called, isFishingActive:', isFishingActive);
+    if (isFishingActive) {
+      return;
+    }
+
+
     const baitItem = player.character.inventory.find((invItem: Item) => invItem.data.isFishingBait) as Item | undefined;
 
     if (!baitItem)
       return notifyPlayer(player, { severity: 'error', detail: t('you_dont_have_item', { item: t('items.fishing_bait') }) });
 
+    console.log('Bait item found:', baitItem);
+    const fishingStarted = await callClient<boolean>(player, ProcedureKey.CLIENT_USE_FISHING_ROD);
+
+    console.log('Fishing started:', fishingStarted);
+    if (!fishingStarted)
+      return;
+
+
+    console.log('Setting IsFishing to true');
+    player.setVariable(PlayerSharedDataType.IsFishing, true);
     baitItem.usage = (baitItem.usage ?? 100) - 10;
 
     if (baitItem.usage <= 0) {
@@ -51,6 +69,6 @@ export class FishingRodItem extends BaseItem implements ISelectableUsableItem<Pl
       await item.save();
     }
 
-    triggerClient(player, ProcedureKey.CLIENT_USE_FISHING_ROD);
+    console.log('FishingRodItem use completed');
   }
 }

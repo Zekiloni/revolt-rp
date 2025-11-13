@@ -1,4 +1,5 @@
 export enum HexKeyCodes {
+  LeftMouse = 0x01,
   RightMouse = 0x02,
   Backspace = 0x08,
   Tab = 0x09,

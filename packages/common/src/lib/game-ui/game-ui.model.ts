@@ -1,4 +1,4 @@
-export interface GameInterface {
+export interface IGameInterface {
   isActive: boolean;
   mouse?: true;
   disableChat?: true;

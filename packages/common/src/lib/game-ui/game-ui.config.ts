@@ -1,7 +1,7 @@
-import { GameInterface } from './game-ui.model';
+import { IGameInterface } from './game-ui.model';
 import { GameUiKey } from './game-ui-key.enum';
 
-export const gameUiConfig: Record<GameUiKey, GameInterface> = {
+export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   [GameUiKey.Authorization]: {
     isActive: false,
     freezeControls: true,
@@ -208,7 +208,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
   },
 
   [GameUiKey.PlateRecognition]: {
@@ -226,8 +225,6 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
 
   [GameUiKey.FishingMinigame]: {
     isActive: false,
-    mouse: true,
-    freezeControls: true,
-    disableChat: true
+    closeOnEscape: true,
   }
 };

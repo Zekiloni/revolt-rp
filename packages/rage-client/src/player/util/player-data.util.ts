@@ -25,6 +25,10 @@ export const getIsCuffed = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.IsCuffed);
 }
 
+export const getIsFishing = (target?: PlayerMp) => {
+  return getTarget(target).getVariable(PlayerSharedDataType.IsFishing);
+}
+
 export const getIsNotCuffed = (target?: PlayerMp) => {
   return getTarget(target).getVariable(PlayerSharedDataType.IsCuffed) == false;
 }

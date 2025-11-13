@@ -1,15 +1,6 @@
 import { IPlayerAttachment, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
+import { attackAction, sprintAndJumpAction } from '../core/disabled-control';
 
-const attackAction = [
-  RageEnums.Controls.INPUT_ATTACK,
-  RageEnums.Controls.INPUT_ATTACK2,
-  RageEnums.Controls.INPUT_AIM,
-];
-
-const sprintAndJumpAction = [
-  RageEnums.Controls.INPUT_JUMP,
-  RageEnums.Controls.INPUT_SPRINT
-];
 
 export const playerAttachmentConfig: Record<PlayerAttachmentTypeEnum, IPlayerAttachment<Vector3>> = {
   [PlayerAttachmentTypeEnum.HoldToolPickaxe]: {

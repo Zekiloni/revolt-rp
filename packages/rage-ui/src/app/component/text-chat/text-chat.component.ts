@@ -74,6 +74,11 @@ export class TextChatComponent implements OnInit {
       await this.enableInput(true);
       event.preventDefault();
     }
+
+    if (event.key === 'Escape' && this.isTyping) {
+      await this.enableInput(false);
+      event.preventDefault();
+    }
   }
 
   ngOnInit(): void {

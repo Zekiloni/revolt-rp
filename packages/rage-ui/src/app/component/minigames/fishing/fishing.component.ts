@@ -1,23 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ProgressBar } from 'primeng/progressbar';
 import { KeybindComponent } from '../../misc/keybind';
 import { FormsModule } from '@angular/forms';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { ProcedureKey } from '@revolt-rp/common';
-import { Button } from 'primeng/button';
 import { BehaviorSubject, interval, map, startWith, Subscription } from 'rxjs';
-import { AsyncPipe } from '@angular/common';
+import { Slider } from 'primeng/slider';
 
 @Component({
   selector: 'app-fishing',
   standalone: true,
   templateUrl: './fishing.component.html',
   styleUrls: ['./fishing.component.css'],
-  imports: [ProgressBar, KeybindComponent, FormsModule, Button, AsyncPipe]
+  imports: [ KeybindComponent, FormsModule, Slider]
 })
 export class FishingComponent implements OnInit, OnDestroy {
-  tensionSignal = 0;
-  floatSignal = 0;
+  lineTension = 0;
   reelWindow = 0;
   depth = 3.2;
   distance = 12.4;
@@ -29,22 +26,16 @@ export class FishingComponent implements OnInit, OnDestroy {
   constructor(private rageClientService: RageClientService) {}
 
   updateGame = (data: {
-    floatSignal: number;
     depth: number;
     distance: number;
-    tensionSignal: number;
+    lineTension: number;
     reelWindow: number;
   }) => {
-    this.tensionSignal = data.tensionSignal;
+    this.lineTension = data.lineTension;
     this.depth = data.depth;
     this.distance = data.distance;
-    this.floatSignal = data.floatSignal;
     this.reelWindow = data.reelWindow;
   };
-
-  stopFishing() {
-    this.rageClientService.triggerClient(ProcedureKey.CLIENT_STOP_FISHING);
-  }
 
   ngOnInit() {
     this.rageClientService.on(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, this.updateGame);
