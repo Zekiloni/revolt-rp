@@ -42,9 +42,9 @@ const MIN_TIME_SCHEDULE = 5_000;
 
 // Game constants
 const TENSION_RISE_RATE = 0.3; // % per tick when fish is fighting
-const TENSION_FALL_RATE = 10.5; // % per tick when at 100% reel
-const REEL_DECAY_RATE = 4.0; // % per tick
-const REEL_MOUSE_BOOST = 8.5; // % per LMB click
+const TENSION_FALL_RATE = 7.5; // % per tick when at 100% reel
+const REEL_DECAY_RATE = 10.0; // % per tick
+const REEL_MOUSE_BOOST = 13.5; // % per Space click
 const FLOAT_PULL_SPEED = 0.6; // Velocity multiplier when pulling
 const TICK_INTERVAL = 50; // ms between ticks
 const MOUSE_CLICK_COOLDOWN = 75; // ms between clicks
@@ -382,6 +382,26 @@ function stopReelingFishing() {
     reelWindow = 0;
     distance = 0;
     depth = 0;
+
+    if (fishCatchTimeout) {
+      clearTimeout(fishCatchTimeout);
+      fishCatchTimeout = null;
+    }
+
+    if (fishingRope) {
+      if (fishingFloat && mp.objects.exists(fishingFloat)) {
+        mp.game.rope.detachRopeFromEntity(fishingRope, fishingFloat.handle);
+        mp.gui.chat.push('[DEBUG] Detached rope from float');
+      }
+      mp.game.rope.deleteRope(fishingRope);
+      mp.gui.chat.push('[DEBUG] Deleted fishing rope');
+      fishingRope = null;
+    }
+
+    if (fishingFloat && mp.objects.exists(fishingFloat)) {
+      fishingFloat.destroy();
+    }
+
     mp.gui.chat.push('[DEBUG] Fish has stopped reeling in, back to idle');
   }
 }

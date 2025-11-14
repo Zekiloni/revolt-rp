@@ -37,7 +37,7 @@ export const enUs = {
   'no_characters': 'No characters found.',
   'create_character': 'Create Character',
   'select': 'Select',
-  'last_seen_at:': 'Last seen at',
+  'last_seen_at': 'Last seen at',
   'characters': 'Characters',
   'next': 'Next',
   'back': 'Back',
