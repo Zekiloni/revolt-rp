@@ -23,7 +23,7 @@ export class Warrant extends Document implements IWarrant {
   @prop({ required: true })
   reason: string;
 
-  @prop({ required: false })
+  @prop({ type: [String],required: false })
   charges: string[];
 
   @prop({ required: false })

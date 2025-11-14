@@ -23,6 +23,7 @@ import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../banking/tax.util';
 import dayjs from 'dayjs';
 import { economyConfig, Property, Vehicle, vehicleConfig } from '@revolt-rp/core';
+import { VehicleNumberplate } from '../../../../core/src/lib/persistence/model/vehicle.model';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
@@ -157,14 +158,14 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
   };
 
   if (vehicle instanceof mp.Vehicle) {
-    vehicle.info.numberplate = newNumberPlate;
+    vehicle.info.numberplate = new VehicleNumberplate(newNumberPlate);
     await vehicle.info.save();
 
     vehicle.numberPlate = newNumberPlate.content;
     vehicle.numberPlateType = newNumberPlate.modelType;
 
   } else if (vehicle instanceof Vehicle) {
-    vehicle.numberplate = newNumberPlate;
+    vehicle.numberplate = new VehicleNumberplate(newNumberPlate);
     await vehicle.save();
   }
 

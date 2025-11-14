@@ -7,6 +7,38 @@ import { Item } from './item.model';
 import { vehicleConfig } from '../../config/vehicle.config';
 
 
+export class VehicleNumberplate implements IVehicleNumberplate {
+  @prop({ type: String, required: true })
+  text: string;
+
+  @prop({ type: String, required: true })
+  style: string;
+
+  @prop({ type: String, required: true })
+  content: string;
+
+  @prop({ type: Date, required: true })
+  expiringAt: Date;
+
+  @prop({ type: Number, required: true })
+  modelType: number;
+
+  @prop({ type: String, required: true })
+  vehicleId: string;
+
+  constructor(numberplate: IVehicleNumberplate) {
+    Object.assign(this, numberplate);
+  }
+}
+
+export class VehicleExtra implements IVehicleExtra {
+  @prop({ type: Number, required: true })
+  extraId: number;
+
+  @prop({ type: Boolean, required: true })
+  enabled: boolean;
+}
+
 @modelOptions({
   schemaOptions: {
     timestamps: true,
@@ -57,8 +89,8 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ ref: () => Item, default: [] })
   trunk: Ref<Item>[];
 
-  @prop({ type: [Object], default: [] })
-  extras: IVehicleExtra[];
+  @prop({ type: [VehicleExtra], default: [] })
+  extras: VehicleExtra[];
 
   paint: number;
   wheelType: number;
@@ -84,8 +116,8 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: Date, required: false })
   expiringAt?: Date;
 
-  @prop({ type: Object, required: false })
-  numberplate?: IVehicleNumberplate;
+  @prop({ type: VehicleNumberplate, required: false })
+  numberplate?: VehicleNumberplate;
 
   @prop({ ref: () => Character, required: false })
   owner?: Ref<Character>;
