@@ -189,6 +189,9 @@ export class Character extends Document implements ICharacter {
   thirst: number;
 
   @prop({ type: Number, default: 0 })
+  hunger: number;
+
+  @prop({ type: Number, default: 0 })
   deaths: number;
 
   @prop({ type: Number, default: 0 })

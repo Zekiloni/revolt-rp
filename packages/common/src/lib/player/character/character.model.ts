@@ -80,6 +80,7 @@ export interface ICharacter extends Base {
   adminJailTime?: number;
   prisonTime?: number;
   drunk: number;
+  hunger: number
   thirst: number;
   deaths: number;
   kills: number;

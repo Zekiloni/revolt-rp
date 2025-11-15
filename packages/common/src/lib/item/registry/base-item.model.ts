@@ -20,6 +20,7 @@ export interface IBaseItem {
 export interface IUsableItem<TPlayer, TItem> extends IBaseItem {
   use(player: TPlayer, item: TItem): Promise<void> | void;
   stopUse?(player: TPlayer, item: TItem): void;
+  canUse?(player: TPlayer, item: TItem): boolean;
 }
 
 export interface ISelectableItem<TPlayer, TItem> extends IBaseItem {

@@ -203,6 +203,7 @@ function fishingHandler() {
     if (lineTension <= 0) {
       mp.gui.chat.push('🎣 Fish caught successfully!');
       stopReelingFishing();
+
       // TODO: Call server to give reward
       return;
     }

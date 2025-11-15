@@ -11,6 +11,8 @@ export enum ItemType {
   CLOTHING,
   PROP,
 
+  FISH,
+
   /* Document types */
   IDENTITY_DOCUMENT,
   BADGE,
