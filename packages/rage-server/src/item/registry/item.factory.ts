@@ -11,6 +11,7 @@ import { LicenseItem } from './license-item.model';
 import { CuffItem } from './utility/cuff-item.model';
 import { FishingRodItem } from './utility/fishing-rod-item.model';
 import { MiscellaneousItem } from './miscellaneous-item.model';
+import { FoodItem } from './food.item.model';
 
 new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -195,3 +196,251 @@ new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'pro
 new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
 
 new CuffItem();
+
+export const bass = new FoodItem(
+  'items.fish_bass',
+  'items.fish_bass_description',
+  [ItemType.FISH],
+  'prop_fish_bass',
+  0.5,
+  {
+    calories: 40, // Raw values (will be better when cooked)
+    hydration: 5,
+    requiresCooking: false, // Can be eaten raw but better cooked
+    cookingTime: 90000 // 1.5 minutes
+  }
+);
+
+export const perch = new FoodItem(
+  'items.fish_perch',
+  'items.fish_perch_description',
+  [ItemType.FISH],
+  'prop_fish_perch',
+  0.4,
+  {
+    calories: 35,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 80000
+  }
+);
+
+export const pike = new FoodItem(
+  'items.fish_pike',
+  'items.fish_pike_description',
+  [ItemType.FISH],
+  'prop_fish_pike',
+  0.7,
+  {
+    calories: 50,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 120000 // 2 minutes
+  }
+);
+
+// === PREMIUM FISH (Better nutrition) ===
+
+export const salmon = new FoodItem(
+  'items.fish_salmon',
+  'items.fish_salmon_description',
+  [ItemType.FISH],
+  'prop_fish_salmon',
+  0.8,
+  {
+    calories: 60, // High quality fish
+    hydration: 8,
+    requiresCooking: false, // Perfect for sushi
+    cookingTime: 100000
+  }
+);
+
+export const trout = new FoodItem(
+  'items.fish_trout',
+  'items.fish_trout_description',
+  [ItemType.FISH],
+  'prop_fish_trout',
+  0.6,
+  {
+    calories: 45,
+    hydration: 6,
+    requiresCooking: false,
+    cookingTime: 90000
+  }
+);
+
+export const tuna = new FoodItem(
+  'items.fish_tuna',
+  'items.fish_tuna_description',
+  [ItemType.FISH],
+  'prop_fish_tuna',
+  1.2,
+  {
+    calories: 70, // Large, nutritious fish
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 150000 // 2.5 minutes
+  }
+);
+
+// === RARE/EXOTIC FISH ===
+
+export const swordfish = new FoodItem(
+  'items.fish_swordfish',
+  'items.fish_swordfish_description',
+  [ItemType.FISH],
+  'prop_fish_swordfish',
+  2.0,
+  {
+    calories: 80,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 180000 // 3 minutes
+  }
+);
+
+export const marlin = new FoodItem(
+  'items.fish_marlin',
+  'items.fish_marlin_description',
+  [ItemType.FISH],
+  'prop_fish_marlin',
+  2.5,
+  {
+    calories: 85,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 200000
+  }
+);
+
+// === SMALL/BAIT FISH ===
+
+export const sardine = new FoodItem(
+  'items.fish_sardine',
+  'items.fish_sardine_description',
+  [ItemType.FISH, ItemType.FISHING_BAIT],
+  'prop_fish_sardine',
+  0.1,
+  {
+    calories: 15,
+    hydration: 3,
+    requiresCooking: false,
+    cookingTime: 40000
+  }
+);
+
+export const anchovy = new FoodItem(
+  'items.fish_anchovy',
+  'items.fish_anchovy_description',
+  [ItemType.FISH, ItemType.FISHING_BAIT],
+  'prop_fish_anchovy',
+  0.08,
+  {
+    calories: 12,
+    hydration: 3,
+    requiresCooking: false,
+    cookingTime: 30000
+  }
+);
+
+export const mackerel = new FoodItem(
+  'items.fish_mackerel',
+  'items.fish_mackerel_description',
+  [ItemType.FISH],
+  'prop_fish_mackerel',
+  0.5,
+  {
+    calories: 40,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 85000
+  }
+);
+
+// === SHELLFISH/SEAFOOD ===
+
+export const crab = new FoodItem(
+  'items.seafood_crab',
+  'items.seafood_crab_description',
+  [ItemType.FISH],
+  'prop_crab',
+  0.4,
+  {
+    calories: 35,
+    hydration: 8,
+    requiresCooking: true, // Shellfish should be cooked
+    cookingTime: 120000
+  }
+);
+
+export const lobster = new FoodItem(
+  'items.seafood_lobster',
+  'items.seafood_lobster_description',
+  [ItemType.FISH],
+  'prop_lobster',
+  0.8,
+  {
+    calories: 50,
+    hydration: 10,
+    requiresCooking: true,
+    cookingTime: 180000
+  }
+);
+
+export const shrimp = new FoodItem(
+  'items.seafood_shrimp',
+  'items.seafood_shrimp_description',
+  [ItemType.FISH],
+  'prop_shrimp',
+  0.2,
+  {
+    calories: 25,
+    hydration: 6,
+    requiresCooking: true,
+    cookingTime: 60000 // 1 minute
+  }
+);
+
+// === FRESHWATER VARIETIES ===
+
+export const catfish = new FoodItem(
+  'items.fish_catfish',
+  'items.fish_catfish_description',
+  [ItemType.FISH],
+  'prop_fish_catfish',
+  0.9,
+  {
+    calories: 55,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 110000
+  }
+);
+
+export const carp = new FoodItem(
+  'items.fish_carp',
+  'items.fish_carp_description',
+  [ItemType.FISH],
+  'prop_fish_carp',
+  1.0,
+  {
+    calories: 48,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 120000
+  }
+);
+
+export const eel = new FoodItem(
+  'items.fish_eel',
+  'items.fish_eel_description',
+  [ItemType.FISH],
+  'prop_fish_eel',
+  0.6,
+  {
+    calories: 42,
+    hydration: 6,
+    requiresCooking: false,
+    cookingTime: 100000
+  }
+);
