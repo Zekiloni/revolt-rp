@@ -1,19 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { KeybindComponent } from '../../misc/keybind';
 import { FormsModule } from '@angular/forms';
-import { RageClientService } from '../../../domain/service/rage-client.service';
-import { ProcedureKey } from '@revolt-rp/common';
+import { IFishReward, ProcedureKey } from '@revolt-rp/common';
 import { BehaviorSubject, interval, map, startWith, Subscription } from 'rxjs';
 import { Slider } from 'primeng/slider';
+import { Dialog } from 'primeng/dialog';
+import { Button } from 'primeng/button';
+import { TranslatePipe } from '@ngx-translate/core';
+import { RageClientService } from '../../../domain/service/rage-client.service';
+import { KeybindComponent } from '../../misc/keybind';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-fishing',
   standalone: true,
   templateUrl: './fishing.component.html',
   styleUrls: ['./fishing.component.css'],
-  imports: [ KeybindComponent, FormsModule, Slider]
+  imports: [KeybindComponent, FormsModule, Slider, Dialog, Button, TranslatePipe, JsonPipe]
 })
 export class FishingComponent implements OnInit, OnDestroy {
+  fishCaught: IFishReward | null = null;
+
   lineTension = 0;
   reelWindow = 0;
   depth = 3.2;
@@ -25,20 +31,44 @@ export class FishingComponent implements OnInit, OnDestroy {
 
   constructor(private rageClientService: RageClientService) {}
 
+  get isVisible() {
+    return this.fishCaught != null;
+  }
+
   updateGame = (data: {
     depth: number;
     distance: number;
     lineTension: number;
     reelWindow: number;
   }) => {
+    for (const key in data) {
+      if (data[key as keyof typeof data] == null)
+        return;
+    }
     this.lineTension = data.lineTension;
     this.depth = data.depth;
     this.distance = data.distance;
     this.reelWindow = data.reelWindow;
   };
 
+  setReward = (reward: IFishReward | null) => {
+    this.fishCaught = reward;
+    this.rageClientService.invoke('focus', !!reward);
+  }
+
+  release() {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_FISH_RESPONSE, false);
+    this.setReward(null)
+  }
+
+  take() {
+    this.rageClientService.triggerServer(ProcedureKey.SERVER_PLAYER_FISH_RESPONSE, true);
+    this.setReward(null)
+  }
+
   ngOnInit() {
     this.rageClientService.on(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, this.updateGame);
+    this.rageClientService.on(ProcedureKey.BROWSER_FISHING_SET_REWARD, this.setReward);
 
     this.timerSub = interval(1000).pipe(
       startWith(0),
@@ -54,6 +84,8 @@ export class FishingComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.timerSub)
       this.timerSub.unsubscribe();
+
+    this.rageClientService.off(ProcedureKey.BROWSER_FISHING_SET_REWARD, this.setReward);
     this.rageClientService.off(ProcedureKey.BROWSER_FISHING_MINIGAME_UPDATE, this.updateGame);
   }
 }

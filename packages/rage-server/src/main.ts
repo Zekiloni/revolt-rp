@@ -26,6 +26,8 @@ import './player/offer/player-offer.api';
 import './player/payday/player-payday.api';
 import './player/damage/player-damage.api';
 
+import './player/hobby/player-fishing.api';
+
 import './banking/banking.api';
 
 import './vehicle/vehicle.api';

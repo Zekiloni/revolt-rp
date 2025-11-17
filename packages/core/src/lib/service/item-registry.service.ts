@@ -1,5 +1,5 @@
 import { IBaseItem, IEquipableItem, ISelectableItem, ItemType, IUsableItem } from '@revolt-rp/common';
-import { itemRegistry } from '../model/base-item.model';
+import { BaseItem, itemRegistry } from '../model/base-item.model';
 
 
 export const isValidItem = (itemName: string) => itemRegistry.get(itemName) != undefined;
@@ -8,11 +8,11 @@ export const getAllBaseItems = () => [...itemRegistry.values()];
 
 export const getAllBaseItemModels = () => getAllBaseItems().map(item => item.model);
 
-export const getBaseItem = (itemName: string) => itemRegistry.get(itemName);
+export const getBaseItem = <T = BaseItem>(itemName: string) => itemRegistry.get(itemName) as T;
 
 export const filterItemsByType = (type: ItemType): IBaseItem[] => {
   return [...itemRegistry.values()].filter(item => item.type.includes(type));
-}
+};
 
 
 export function isUsableItem<

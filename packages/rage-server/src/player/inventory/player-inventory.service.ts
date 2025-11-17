@@ -143,7 +143,7 @@ export const playerDropItem = async (player: PlayerMp, itemId: string) => {
 
   if (item.id === selectedItemId) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler) && itemHandler.deselect) {
       itemHandler.deselect(player, item);
     }
   }

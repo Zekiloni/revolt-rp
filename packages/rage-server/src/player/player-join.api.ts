@@ -16,7 +16,7 @@ const togglePlayerAuthorization = (player: PlayerMp, toggle: boolean)=> {
 async function playerReadyHandler(player: PlayerMp) {
   const isProxy = proxyCheck(player.ip);
 
-  console.log('Player IP:', player.ip, 'Proxy/VPN detected:', isProxy);
+  // TODO: fix localhost proxy detection
   // if (isProxy)
   //   return kickPlayer(player, 'Proxy/VPN connections are not allowed.');
 

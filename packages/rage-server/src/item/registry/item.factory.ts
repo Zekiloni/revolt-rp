@@ -193,6 +193,7 @@ new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'pro
 
 new FishingRodItem('items.fishing_rod', 'items.fishing_rod_description', 'prop_fishing_rod_01', 1.5);
 new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'prop_fishing_rod_02', 1.5);
+
 new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
 
 new CuffItem();
@@ -201,7 +202,7 @@ export const bass = new FoodItem(
   'items.fish_bass',
   'items.fish_bass_description',
   [ItemType.FISH],
-  'prop_fish_bass',
+  'bzzz_animal_fish002',
   0.5,
   {
     calories: 40, // Raw values (will be better when cooked)
@@ -215,7 +216,7 @@ export const perch = new FoodItem(
   'items.fish_perch',
   'items.fish_perch_description',
   [ItemType.FISH],
-  'prop_fish_perch',
+  'bzzz_animal_fish002',
   0.4,
   {
     calories: 35,
@@ -229,7 +230,7 @@ export const pike = new FoodItem(
   'items.fish_pike',
   'items.fish_pike_description',
   [ItemType.FISH],
-  'prop_fish_pike',
+  'bzzz_animal_fish002',
   0.7,
   {
     calories: 50,
@@ -245,7 +246,7 @@ export const salmon = new FoodItem(
   'items.fish_salmon',
   'items.fish_salmon_description',
   [ItemType.FISH],
-  'prop_fish_salmon',
+  'bzzz_animal_fish002',
   0.8,
   {
     calories: 60, // High quality fish
@@ -259,7 +260,7 @@ export const trout = new FoodItem(
   'items.fish_trout',
   'items.fish_trout_description',
   [ItemType.FISH],
-  'prop_fish_trout',
+  'bzzz_animal_fish002',
   0.6,
   {
     calories: 45,
@@ -273,7 +274,7 @@ export const tuna = new FoodItem(
   'items.fish_tuna',
   'items.fish_tuna_description',
   [ItemType.FISH],
-  'prop_fish_tuna',
+  'bzzz_animal_fish002',
   1.2,
   {
     calories: 70, // Large, nutritious fish
@@ -289,7 +290,7 @@ export const swordfish = new FoodItem(
   'items.fish_swordfish',
   'items.fish_swordfish_description',
   [ItemType.FISH],
-  'prop_fish_swordfish',
+  'bzzz_animal_fish002',
   2.0,
   {
     calories: 80,
@@ -303,7 +304,7 @@ export const marlin = new FoodItem(
   'items.fish_marlin',
   'items.fish_marlin_description',
   [ItemType.FISH],
-  'prop_fish_marlin',
+  'bzzz_animal_fish002',
   2.5,
   {
     calories: 85,
@@ -319,7 +320,7 @@ export const sardine = new FoodItem(
   'items.fish_sardine',
   'items.fish_sardine_description',
   [ItemType.FISH, ItemType.FISHING_BAIT],
-  'prop_fish_sardine',
+  'bzzz_animal_fish002',
   0.1,
   {
     calories: 15,
@@ -333,7 +334,7 @@ export const anchovy = new FoodItem(
   'items.fish_anchovy',
   'items.fish_anchovy_description',
   [ItemType.FISH, ItemType.FISHING_BAIT],
-  'prop_fish_anchovy',
+  'bzzz_animal_fish002',
   0.08,
   {
     calories: 12,
@@ -347,7 +348,7 @@ export const mackerel = new FoodItem(
   'items.fish_mackerel',
   'items.fish_mackerel_description',
   [ItemType.FISH],
-  'prop_fish_mackerel',
+  'bzzz_animal_fish002',
   0.5,
   {
     calories: 40,
@@ -363,7 +364,7 @@ export const crab = new FoodItem(
   'items.seafood_crab',
   'items.seafood_crab_description',
   [ItemType.FISH],
-  'prop_crab',
+  'bzzz_animal_fish002',
   0.4,
   {
     calories: 35,
@@ -377,7 +378,7 @@ export const lobster = new FoodItem(
   'items.seafood_lobster',
   'items.seafood_lobster_description',
   [ItemType.FISH],
-  'prop_lobster',
+  'bzzz_animal_fish002',
   0.8,
   {
     calories: 50,
@@ -391,7 +392,7 @@ export const shrimp = new FoodItem(
   'items.seafood_shrimp',
   'items.seafood_shrimp_description',
   [ItemType.FISH],
-  'prop_shrimp',
+  'bzzz_animal_fish002',
   0.2,
   {
     calories: 25,
@@ -407,7 +408,7 @@ export const catfish = new FoodItem(
   'items.fish_catfish',
   'items.fish_catfish_description',
   [ItemType.FISH],
-  'prop_fish_catfish',
+  'bzzz_animal_fish002',
   0.9,
   {
     calories: 55,
@@ -421,7 +422,7 @@ export const carp = new FoodItem(
   'items.fish_carp',
   'items.fish_carp_description',
   [ItemType.FISH],
-  'prop_fish_carp',
+  'bzzz_animal_fish002',
   1.0,
   {
     calories: 48,
@@ -435,7 +436,7 @@ export const eel = new FoodItem(
   'items.fish_eel',
   'items.fish_eel_description',
   [ItemType.FISH],
-  'prop_fish_eel',
+  'bzzz_animal_fish002',
   0.6,
   {
     calories: 42,
