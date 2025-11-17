@@ -16,6 +16,7 @@ import { callServer, on, register, triggerServer } from '@libertymp/rage-rpc';
 import { isPlayingAnimation, playAnimation } from '../player/util/player-animation.util';
 import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 import { movementAction } from '../core/disabled-control';
+import { waitForObjectToLoad } from '../util/object.util';
 
 enum FishingState {
   Idle,
@@ -32,7 +33,8 @@ let lineTension = 0;
 let reelWindow = 0;
 let fishingStat: FishingState | null = null;
 
-const fishes: PedMp[] = [];0
+const fishes: PedMp[] = [];
+0;
 let fishingRope: number | null = null;
 let fishingFloat: ObjectMp | null = null;
 let lastMouseClick = 0;
@@ -309,9 +311,7 @@ async function startFishing() {
   mp.gui.chat.push('[DEBUG] Waiting for fishing rod attachment');
   const fishingRodObject = getPlayerFishingRodAttachment(mp.players.local);
 
-  while (fishingFloat.handle === 0) {
-    await mp.game.waitAsync(50);
-  }
+  await waitForObjectToLoad(fishingFloat);
 
   mp.gui.chat.push('[DEBUG] Setting up fishing rope');
 
@@ -411,6 +411,7 @@ async function stopReelingFishing(caught = false) {
     mp.gui.chat.push('[DEBUG] Fish has stopped reeling in, back to idle');
   }
 }
+
 function stopFishing(interfaceKey: GameUiKey) {
   if (interfaceKey !== GameUiKey.FishingMinigame) {
     return;
