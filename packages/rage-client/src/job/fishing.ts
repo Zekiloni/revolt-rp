@@ -5,14 +5,14 @@ import { hideGameInterface, isGameInterfaceActive, showGameInterface, triggerBro
 import {
   AnimationFlag,
   GameUiKey,
-  HexKeyCodes,
+  HexKeyCodes, IFishReward,
   PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
   ProcedureKey,
   rgbColors
 } from '@revolt-rp/common';
 import { getPlayerAttachmentObjects, hasPlayerAttachment } from '../player/inventory/player-attachment';
-import { on, register, triggerServer } from '@libertymp/rage-rpc';
+import { callServer, on, register, triggerServer } from '@libertymp/rage-rpc';
 import { isPlayingAnimation, playAnimation } from '../player/util/player-animation.util';
 import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 import { movementAction } from '../core/disabled-control';
@@ -32,7 +32,7 @@ let lineTension = 0;
 let reelWindow = 0;
 let fishingStat: FishingState | null = null;
 
-const fishes: PedMp[] = [];
+const fishes: PedMp[] = [];0
 let fishingRope: number | null = null;
 let fishingFloat: ObjectMp | null = null;
 let lastMouseClick = 0;
@@ -202,16 +202,14 @@ function fishingHandler() {
     // Check win condition: tension reached 0
     if (lineTension <= 0) {
       mp.gui.chat.push('🎣 Fish caught successfully!');
-      stopReelingFishing();
-
-      // TODO: Call server to give reward
+      stopReelingFishing(true);
       return;
     }
 
     // Check lose condition: tension maxed out
     if (lineTension >= 100) {
       mp.gui.chat.push('❌ The fish got away... Line broke!');
-      stopReelingFishing();
+      stopReelingFishing(false);
       return;
     }
 
@@ -376,7 +374,7 @@ async function startFishing() {
   return true;
 }
 
-function stopReelingFishing() {
+async function stopReelingFishing(caught = false) {
   if (fishingStat === FishingState.ReelingIn) {
     fishingStat = FishingState.Idle;
     lineTension = 0;
@@ -401,6 +399,13 @@ function stopReelingFishing() {
 
     if (fishingFloat && mp.objects.exists(fishingFloat)) {
       fishingFloat.destroy();
+    }
+
+    if (caught) {
+      const fishReward = await callServer<IFishReward>(ProcedureKey.SERVER_PLAYER_CATCH_FISH);
+      if (fishReward) {
+        triggerBrowser(ProcedureKey.BROWSER_FISHING_SET_REWARD, fishReward);
+      }
     }
 
     mp.gui.chat.push('[DEBUG] Fish has stopped reeling in, back to idle');

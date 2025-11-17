@@ -74,4 +74,14 @@
     </div>
 
   </div>
+
+  <p-dialog [modal]="true" [visible]="isVisible" [style]="{ width: '25rem' }" [closable]="false" [closeOnEscape]="false" [dismissableMask]="false" appendTo="body" [focusOnShow]="false">
+    <div class="flex items-center gap-4 mb-4">
+      {{ fishCaught | json }}
+    </div>
+    <div class="flex justify-center gap-3">
+      <p-button [label]="'release' | translate" severity="secondary" (onClick)="release()"/>
+      <p-button [label]="'take' | translate"  severity="success" (onClick)="take()" />
+    </div>
+  </p-dialog>
 </section>

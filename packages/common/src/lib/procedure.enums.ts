@@ -259,4 +259,7 @@ export const enum ProcedureKey {
   CLIENT_GET_STREET_NAME_AT_COORD = 'client_getStreetNameAtCoord',
   CLIENT_USE_FISHING_ROD = 'client_useFishingRod',
   BROWSER_FISHING_MINIGAME_UPDATE = 'browser_fishingMinigameUpdate',
+  SERVER_PLAYER_CATCH_FISH = 'server_playerCatchFish',
+  BROWSER_FISHING_SET_REWARD = 'browser_fishingSetReward',
+  SERVER_PLAYER_FISH_RESPONSE = 'server_playerFishResponse',
 }

@@ -1,5 +1,8 @@
 export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number, freeFall = false) => {
-  if (!mp.game.streaming.isModelValid(mp.game.joaat(model)))
+  const hash = mp.game.joaat(model);
+  const isModelValid = mp.game.streaming.isModelValid(hash);
+
+  if (!isModelValid)
     return;
 
   const newPos = new mp.Vector3(
@@ -8,7 +11,7 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     position.z
   );
 
-  const object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(newPos.x, newPos.y, newPos.z),
+  const object = mp.objects.new(hash, new mp.Vector3(newPos.x, newPos.y, newPos.z),
     { alpha: 255, rotation: rotation, dimension }
   );
 
