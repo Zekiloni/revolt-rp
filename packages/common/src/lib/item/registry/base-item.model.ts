@@ -5,11 +5,10 @@ export interface IBaseItem {
   description: string;
   type: ItemType[];
   weight: number;
+  unitOfMeasure?: 'piece' | 'kg' | 'g' | 'lb' | 'oz' | 'liter' | 'ml' | 'count';
   icon?: string;
   model: string;
-
   isStackable: boolean;
-
   isWeapon: boolean;
   isEquipable: boolean;
   isBankCard: boolean;

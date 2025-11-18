@@ -1,4 +1,4 @@
-import { Ref } from '@typegoose/typegoose';
+import { prop, Ref } from '@typegoose/typegoose';
 import { AddictionType, BloodType, CharacterGender, CharacterSpawnType, SkillType } from './character.enums';
 import { IVector3 } from '../../core.interface';
 import { IOrganization, IOrganizationRank } from '../../organization/organization.model';
@@ -39,6 +39,15 @@ export interface ICharacterJob {
   createdAt: Date;
 }
 
+export interface ICharacterAddiction {
+  type: AddictionType;
+  level: number;
+}
+
+export interface ICharacterSkill {
+  type: SkillType;
+  level: number;
+}
 
 export interface ICharacter extends Base {
   firstName: string;
@@ -85,8 +94,8 @@ export interface ICharacter extends Base {
   deaths: number;
   kills: number;
   lastSessionAt?: Date;
-  skills: Record<SkillType, number>;
-  addictions: Record<AddictionType, number>;
+  addictions: ICharacterAddiction[];
+  skills: ICharacterSkill[];
   updatedAt?: Date;
   createdAt: Date;
   status?: ICharacterStatus;

@@ -6,10 +6,10 @@ import {
   BloodType,
   CharacterGender,
   CharacterSpawnType,
-  ICharacter,
+  ICharacter, ICharacterAddiction,
   ICharacterAppearance,
   ICharacterInjury,
-  ICharacterJob,
+  ICharacterJob, ICharacterSkill,
   ICharacterSpawn,
   ICharacterStatus,
   IVector3,
@@ -198,11 +198,11 @@ export class Character extends Document implements ICharacter {
   @prop({ type: Number, default: 0 })
   kills: number;
 
-  @prop({ type: Object, default: {} })
-  addictions: Record<AddictionType, number>;
+  @prop({ type: [Object], default: [] })
+  addictions: ICharacterAddiction[];
 
-  @prop({ type: Object, default: {} })
-  skills: Record<SkillType, number>;
+  @prop({ type: [Object], default: [] })
+  skills: ICharacterSkill[];
 
   @prop({ ref: () => Account })
   account: Ref<Account>;
