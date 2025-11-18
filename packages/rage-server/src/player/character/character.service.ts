@@ -1,5 +1,6 @@
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
+  AddictionType,
   BankAccountType,
   CharacterGender,
   CharacterSpawnType, defaultOutfits,
@@ -7,7 +8,7 @@ import {
   headOverlays as headOverlayInfo,
   ICharacterCreate, PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
-  ProcedureKey
+  ProcedureKey, SkillType
 } from '@revolt-rp/common';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
@@ -301,4 +302,38 @@ export const setPlayerJob = async (player: PlayerMp, property: Property | null) 
 
 export const findCharacter = async (query: FilterQuery<Character>) => {
   return CharacterModel.findOne(query).exec();
+};
+
+export const updateSkill = (character: Character, skillKey: SkillType, amount: number) => {
+  if (!character.skills) {
+    character.skills = {} as Record<SkillType, number>;
+  }
+
+  const currentSkillLevel = character.skills[skillKey] || 0;
+  character.skills[skillKey] = Math.min(100, currentSkillLevel + amount);
+};
+
+export const setSkill = (character: Character, skillKey: SkillType, level: number) => {
+  if (!character.skills) {
+    character.skills = {} as Record<SkillType, number>;
+  }
+
+  character.skills[skillKey] = Math.min(100, level);
+};
+
+export const updateAddition = (character: Character, additionKey: AddictionType, amount: number) => {
+  if (!character.addictions) {
+    character.addictions = {} as Record<AddictionType, number>;
+  }
+
+  const currentAdditionLevel = character.addictions[additionKey] || 0;
+  character.addictions[additionKey] = Math.max(0, Math.min(100, currentAdditionLevel + amount));
+};
+
+export const setAddition = (character: Character, additionKey: AddictionType, level: number) => {
+  if (!character.addictions) {
+    character.addictions = {} as Record<AddictionType, number>;
+  }
+
+  character.addictions[additionKey] = Math.max(0, Math.min(100, level));
 };

@@ -21,3 +21,22 @@ export enum BloodType {
   O_POSITIVE = "O+",
   O_NEGATIVE = "O-"
 }
+
+export enum SkillType {
+  Driving = 'driving',
+  Fishing = 'fishing',
+  Hunting = 'hunting',
+  Crafting = 'crafting',
+  Cooking = 'cooking',
+  Shooting = 'shooting',
+  // Add more as needed
+}
+
+export enum AddictionType {
+  Alcohol = 'alcohol',
+  Cannabis = 'cannabis',
+  Cocaine = 'cocaine',
+  Ecstasy = 'ecstasy',
+  Heroin = 'heroin',
+  Nicotine = 'nicotine',
+}

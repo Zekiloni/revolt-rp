@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, type Ref } from '@typegoose/typegoose';
 import {
+  AddictionType,
   BloodType,
   CharacterGender,
   CharacterSpawnType,
@@ -12,7 +13,7 @@ import {
   ICharacterSpawn,
   ICharacterStatus,
   IVector3,
-  JobKey
+  JobKey, SkillType
 } from '@revolt-rp/common';
 import { characterConfig } from '../../config/character.config';
 import { Account } from './account.model';
@@ -196,6 +197,12 @@ export class Character extends Document implements ICharacter {
 
   @prop({ type: Number, default: 0 })
   kills: number;
+
+  @prop({ type: Object, default: {} })
+  addictions: Record<AddictionType, number>;
+
+  @prop({ type: Object, default: {} })
+  skills: Record<SkillType, number>;
 
   @prop({ ref: () => Account })
   account: Ref<Account>;

@@ -1,5 +1,5 @@
 import { Ref } from '@typegoose/typegoose';
-import { BloodType, CharacterGender, CharacterSpawnType } from './character.enums';
+import { AddictionType, BloodType, CharacterGender, CharacterSpawnType, SkillType } from './character.enums';
 import { IVector3 } from '../../core.interface';
 import { IOrganization, IOrganizationRank } from '../../organization/organization.model';
 import { ICharacterAppearance } from './char-appeaarance.model';
@@ -85,6 +85,8 @@ export interface ICharacter extends Base {
   deaths: number;
   kills: number;
   lastSessionAt?: Date;
+  skills: Record<SkillType, number>;
+  addictions: Record<AddictionType, number>;
   updatedAt?: Date;
   createdAt: Date;
   status?: ICharacterStatus;

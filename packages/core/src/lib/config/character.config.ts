@@ -12,5 +12,8 @@ export const characterConfig = {
   defaultHealth: 100,
   defaultBankBalance: 17500,
   woundedHealth: 45,
-  giveUpTime: 30
+  giveUpTime: 30,
+  skillMultiplier: {
+    fishing: 0.75,
+  }
 }

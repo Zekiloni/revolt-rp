@@ -1,7 +1,8 @@
-import { IFishReward, IFishType, ItemFlag, ItemRarity, ItemType } from '@revolt-rp/common';
-import { filterItemsByType, getBaseItem } from '@revolt-rp/core';
+import { IFishReward, IFishType, ItemFlag, ItemRarity, ItemType, SkillType } from '@revolt-rp/common';
+import { characterConfig, filterItemsByType, getBaseItem } from '@revolt-rp/core';
 import { FoodItem } from '../../item/registry/food.item.model';
 import { playerGiveItem } from '../inventory/player-inventory.service';
+import { updateSkill } from '../character/character.service';
 
 
 const playerFishReward: Map<number, IFishReward> = new Map();
@@ -64,14 +65,23 @@ const playerTakeFish = async (player: PlayerMp) => {
     return;
   }
 
+  updateSkill(player.character, SkillType.Fishing, fishReward.weight * characterConfig.skillMultiplier.fishing);
+
   playerFishReward.delete(player.id);
   const flag = fishBaseItem.rarity == 'COMMON' ? undefined : fishBaseItem.rarity;
   await playerGiveItem(player, fishReward.type.name, 1, { flag });
 };
 
 const playerReleaseFish = (player: PlayerMp) => {
+  if (!playerFishReward.has(player.id)) {
+    return;
+  }
+
+  const RELEASE_PENALTY_FACTOR = 0.4;
+
+  updateSkill(player.character, SkillType.Fishing, (playerFishReward.get(player.id)?.weight * RELEASE_PENALTY_FACTOR) * characterConfig.skillMultiplier.fishing);
   playerFishReward.delete(player.id);
-}
+};
 
 
 export const playerFishResponse = async (player: PlayerMp, take: boolean) => {
@@ -80,5 +90,5 @@ export const playerFishResponse = async (player: PlayerMp, take: boolean) => {
   } else {
     playerReleaseFish(player);
   }
-}
+};
 
