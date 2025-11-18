@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop } from '@typegoose/typegoose';
 import {
-  IBankCardInfo, IBaseItem,
+  IBankCardInfo,
   IDocumentInfo,
   IHandheldRadioConfig,
   IItem,
@@ -10,7 +10,7 @@ import {
   IVector3,
   IWearableInfo
 } from '@revolt-rp/common';
-import { getBaseItem, isValidItem } from '@revolt-rp/core';
+import { getBaseItem, isValidItem } from '../../service/item-registry.service';
 
 @modelOptions({
   schemaOptions: {
