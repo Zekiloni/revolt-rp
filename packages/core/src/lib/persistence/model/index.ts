@@ -17,7 +17,7 @@ import { Product } from './product.model';
 import { Property, PropertyOwner, PropertyPoint, PropertyVehicle } from './property.model';
 import { SobrietyTest } from './sobriety-test.model';
 import { Transaction } from './transaction.model';
-import { Vehicle } from './vehicle.model';
+import { Vehicle, VehicleNumberplate } from './vehicle.model';
 import { Warrant } from './warrant.model';
 import { Whitelist } from './whitelist.model';
 
@@ -60,6 +60,7 @@ export {
   PhoneMessage,
   PlayerDeath,
   Product,
+  VehicleNumberplate,
   Property,
   PropertyOwner,
   PropertyPoint,

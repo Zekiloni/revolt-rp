@@ -22,8 +22,7 @@ import { notifyPlayer } from '../../player/util/player-notify.util';
 import { giveMoney } from '../../player/character/character.service';
 import { calculateTaxRate } from '../../banking/tax.util';
 import dayjs from 'dayjs';
-import { economyConfig, Property, Vehicle, vehicleConfig } from '@revolt-rp/core';
-import { VehicleNumberplate } from '../../../../core/src/lib/persistence/model/vehicle.model';
+import { economyConfig, Property, Vehicle, vehicleConfig, VehicleNumberplate } from '@revolt-rp/core';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
