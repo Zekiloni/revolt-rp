@@ -1,5 +1,5 @@
 import { WeaponItem } from './weapon-item.model';
-import { CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
+import { AddictionType, CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
 import { DrinkItemModel } from './drink-item.model';
 import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
@@ -12,6 +12,7 @@ import { CuffItem } from './utility/cuff-item.model';
 import { FishingRodItem } from './utility/fishing-rod-item.model';
 import { MiscellaneousItem } from './miscellaneous-item.model';
 import { FoodItem } from './food.item.model';
+import { DrugItem } from './drug-item.model';
 
 new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -198,7 +199,19 @@ new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'p
 
 new CuffItem();
 
-export const bass = new FoodItem(
+new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'prop_marijuana', 0.001);
+new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'prop_cocaine', 0.001);
+new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'prop_crack', 0.001);
+new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'prop_ecstasy', 0.0002);
+new DrugItem('Heroin', 'Heroin powder', AddictionType.Heroin, 'prop_heroin', 0.001);
+new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth', 0.001);
+new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_morphine', 0.0003);
+new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'prop_steroids', 0.00001);
+new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'prop_lsd', 0.000001);
+new DrugItem('Shrooms', 'Magic mushrooms', AddictionType.Shrooms, 'prop_shrooms', 0.001);
+new DrugItem('PCP', 'PCP powder', AddictionType.PCP, 'prop_pcp', 0.001);
+
+new FoodItem(
   'items.fish_bass',
   'items.fish_bass_description',
   [ItemType.FISH],
@@ -212,7 +225,7 @@ export const bass = new FoodItem(
   }
 );
 
-export const perch = new FoodItem(
+new FoodItem(
   'items.fish_perch',
   'items.fish_perch_description',
   [ItemType.FISH],
@@ -226,7 +239,7 @@ export const perch = new FoodItem(
   }
 );
 
-export const pike = new FoodItem(
+new FoodItem(
   'items.fish_pike',
   'items.fish_pike_description',
   [ItemType.FISH],
@@ -242,7 +255,7 @@ export const pike = new FoodItem(
 
 // === PREMIUM FISH (Better nutrition) ===
 
-export const salmon = new FoodItem(
+new FoodItem(
   'items.fish_salmon',
   'items.fish_salmon_description',
   [ItemType.FISH],
@@ -256,7 +269,7 @@ export const salmon = new FoodItem(
   }
 );
 
-export const trout = new FoodItem(
+new FoodItem(
   'items.fish_trout',
   'items.fish_trout_description',
   [ItemType.FISH],
@@ -270,7 +283,7 @@ export const trout = new FoodItem(
   }
 );
 
-export const tuna = new FoodItem(
+new FoodItem(
   'items.fish_tuna',
   'items.fish_tuna_description',
   [ItemType.FISH],
@@ -286,7 +299,7 @@ export const tuna = new FoodItem(
 
 // === RARE/EXOTIC FISH ===
 
-export const swordfish = new FoodItem(
+new FoodItem(
   'items.fish_swordfish',
   'items.fish_swordfish_description',
   [ItemType.FISH],
@@ -300,7 +313,7 @@ export const swordfish = new FoodItem(
   }
 );
 
-export const marlin = new FoodItem(
+new FoodItem(
   'items.fish_marlin',
   'items.fish_marlin_description',
   [ItemType.FISH],
@@ -316,7 +329,7 @@ export const marlin = new FoodItem(
 
 // === SMALL/BAIT FISH ===
 
-export const sardine = new FoodItem(
+new FoodItem(
   'items.fish_sardine',
   'items.fish_sardine_description',
   [ItemType.FISH, ItemType.FISHING_BAIT],
@@ -330,7 +343,7 @@ export const sardine = new FoodItem(
   }
 );
 
-export const anchovy = new FoodItem(
+new FoodItem(
   'items.fish_anchovy',
   'items.fish_anchovy_description',
   [ItemType.FISH, ItemType.FISHING_BAIT],
@@ -344,7 +357,7 @@ export const anchovy = new FoodItem(
   }
 );
 
-export const mackerel = new FoodItem(
+new FoodItem(
   'items.fish_mackerel',
   'items.fish_mackerel_description',
   [ItemType.FISH],
@@ -360,7 +373,7 @@ export const mackerel = new FoodItem(
 
 // === SHELLFISH/SEAFOOD ===
 
-export const crab = new FoodItem(
+new FoodItem(
   'items.seafood_crab',
   'items.seafood_crab_description',
   [ItemType.FISH],
@@ -374,7 +387,7 @@ export const crab = new FoodItem(
   }
 );
 
-export const lobster = new FoodItem(
+new FoodItem(
   'items.seafood_lobster',
   'items.seafood_lobster_description',
   [ItemType.FISH],
@@ -388,7 +401,7 @@ export const lobster = new FoodItem(
   }
 );
 
-export const shrimp = new FoodItem(
+new FoodItem(
   'items.seafood_shrimp',
   'items.seafood_shrimp_description',
   [ItemType.FISH],
@@ -404,7 +417,7 @@ export const shrimp = new FoodItem(
 
 // === FRESHWATER VARIETIES ===
 
-export const catfish = new FoodItem(
+new FoodItem(
   'items.fish_catfish',
   'items.fish_catfish_description',
   [ItemType.FISH],
@@ -418,7 +431,7 @@ export const catfish = new FoodItem(
   }
 );
 
-export const carp = new FoodItem(
+new FoodItem(
   'items.fish_carp',
   'items.fish_carp_description',
   [ItemType.FISH],
@@ -431,8 +444,7 @@ export const carp = new FoodItem(
     cookingTime: 120000
   }
 );
-
-export const eel = new FoodItem(
+new FoodItem(
   'items.fish_eel',
   'items.fish_eel_description',
   [ItemType.FISH],
@@ -445,3 +457,5 @@ export const eel = new FoodItem(
     cookingTime: 100000
   }
 );
+
+

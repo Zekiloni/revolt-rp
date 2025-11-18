@@ -32,6 +32,6 @@ export class HandheldRadioItemModel extends BaseItem implements ISelectableUsabl
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   use(_player: PlayerMp, _item: Item) {
-    throw new Error('Method not implemented.');
+    throw new Error('HandheldRadioItemModel.use not implemented.');
   }
 }
