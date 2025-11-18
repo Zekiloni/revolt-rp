@@ -13,6 +13,8 @@ export enum ItemType {
 
   FISH,
 
+  DRUG,
+
   /* Document types */
   IDENTITY_DOCUMENT,
   BADGE,

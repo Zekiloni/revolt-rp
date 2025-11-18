@@ -37,6 +37,13 @@ export enum AddictionType {
   Cannabis = 'cannabis',
   Cocaine = 'cocaine',
   Ecstasy = 'ecstasy',
+  Crack = 'crack',
+  Meth = 'meth',
+  Morphine = 'morphine',
+  Acid = 'acid',
+  Dianabol = 'dianabol',
+  PCP = 'pcp',
   Heroin = 'heroin',
+  Shrooms = 'shrooms',
   Nicotine = 'nicotine',
 }
