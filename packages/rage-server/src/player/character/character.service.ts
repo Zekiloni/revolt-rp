@@ -304,36 +304,38 @@ export const findCharacter = async (query: FilterQuery<Character>) => {
   return CharacterModel.findOne(query).exec();
 };
 
+export const getSkill = (character: Character, skillKey: SkillType): number => {
+  if (!character.skills) return 0;
+
+  const skill = character.skills.find(s => s.type === skillKey);
+  return skill ? skill.level : 0;
+};
+
 export const updateSkill = (character: Character, skillKey: SkillType, amount: number) => {
-  if (!character.skills) {
-    character.skills = {} as Record<SkillType, number>;
-  }
+  if (!character.skills) character.skills = [];
 
-  const currentSkillLevel = character.skills[skillKey] || 0;
-  character.skills[skillKey] = Math.min(100, currentSkillLevel + amount);
+  const skill = character.skills.find(s => s.type === skillKey);
+  if (skill) {
+    skill.level = Math.min(100, skill.level + amount);
+  } else {
+    character.skills.push({ type: skillKey, level: Math.min(100, amount) });
+  }
 };
 
-export const setSkill = (character: Character, skillKey: SkillType, level: number) => {
-  if (!character.skills) {
-    character.skills = {} as Record<SkillType, number>;
-  }
+export const getAddiction = (character: Character, addictionKey: AddictionType): number => {
+  if (!character.addictions) return 0;
 
-  character.skills[skillKey] = Math.min(100, level);
+  const addiction = character.addictions.find(a => a.type === addictionKey);
+  return addiction ? addiction.level : 0;
 };
 
-export const updateAddition = (character: Character, additionKey: AddictionType, amount: number) => {
-  if (!character.addictions) {
-    character.addictions = {} as Record<AddictionType, number>;
+export const updateAddiction = (character: Character, addictionKey: AddictionType, amount: number) => {
+  if (!character.addictions) character.addictions = [];
+
+  const addiction = character.addictions.find(a => a.type === addictionKey);
+  if (addiction) {
+    addiction.level = Math.max(0, Math.min(100, addiction.level + amount));
+  } else {
+    character.addictions.push({ type: addictionKey, level: Math.max(0, Math.min(100, amount)) });
   }
-
-  const currentAdditionLevel = character.addictions[additionKey] || 0;
-  character.addictions[additionKey] = Math.max(0, Math.min(100, currentAdditionLevel + amount));
-};
-
-export const setAddition = (character: Character, additionKey: AddictionType, level: number) => {
-  if (!character.addictions) {
-    character.addictions = {} as Record<AddictionType, number>;
-  }
-
-  character.addictions[additionKey] = Math.max(0, Math.min(100, level));
 };
