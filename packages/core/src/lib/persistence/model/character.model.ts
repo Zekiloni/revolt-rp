@@ -5,7 +5,7 @@ import {
   AddictionType,
   BloodType,
   CharacterGender,
-  CharacterSpawnType,
+  CharacterSpawnType, IDrugEffect,
   ICharacter, ICharacterAddiction,
   ICharacterAppearance,
   ICharacterInjury,
@@ -185,6 +185,9 @@ export class Character extends Document implements ICharacter {
 
   @prop({ type: Number, default: 0 })
   drunk: number;
+
+  @prop({ type: [Object], default: [] })
+  drugs: IDrugEffect[];
 
   @prop({ type: Number, default: 0 })
   thirst: number;

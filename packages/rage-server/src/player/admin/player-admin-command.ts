@@ -82,7 +82,7 @@ registerCommand({
   description: 'todo',
   aliases: ['dv', 'deleteveh', 'deletevehicle'],
   administrator: AdminType.SENIOR_ADMIN,
-  async handle(player: PlayerMp, ...args) {
+  async handle(player: PlayerMp) {
     const vehicle = player.vehicle ?? mp.vehicles.getClosest(player.position, 1)[0];
     if (vehicle) {
       if (isTemporaryVehicle(vehicle)) {
