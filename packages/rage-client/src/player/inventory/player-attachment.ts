@@ -47,7 +47,7 @@ async function handlePlayerAttachment(player: PlayerMp, attachmentType: PlayerAt
 
     const object = mp.objects.new(mp.game.joaat(attachmentConfig.model), player.position);
 
-    await waitForObjectToLoad(object.handle);
+    await waitForObjectToLoad(object);
 
     object.attachTo(
       player.handle,

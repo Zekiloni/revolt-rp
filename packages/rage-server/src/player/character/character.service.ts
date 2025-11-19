@@ -336,6 +336,17 @@ export const updateAddiction = (character: Character, addictionKey: AddictionTyp
   if (addiction) {
     addiction.level = Math.max(0, Math.min(100, addiction.level + amount));
   } else {
-    character.addictions.push({ type: addictionKey, level: Math.max(0, Math.min(100, amount)) });
+    character.addictions.push({ type: addictionKey, level: Math.max(0, Math.min(100, amount)), lastUsedAt: new Date() });
   }
 };
+
+export const getAddictionTolerance = (character: Character, addictionKey: AddictionType): number => {
+  if (!character.addictions) return 0;
+
+  const addiction = character.addictions?.find(a => a.type === addictionKey);
+  if (!addiction) return 0;
+
+  const tolerance = addiction.level * 0.6;
+
+  return Math.min(60, Math.max(0, tolerance));
+}

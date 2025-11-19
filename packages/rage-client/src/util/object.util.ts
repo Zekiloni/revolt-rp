@@ -1,7 +1,11 @@
 export const waitForObjectToLoad = async (object: ObjectMp | PedMp) => {
   /// mp.game.entity.isAnEntity(object.handle)
-  for (let i = 0; object && object.handle === 0 && i < 15; i++) {
-    await mp.game.waitAsync(100);
+  // for (let i = 0; object.handle === 0 && i < 25; i++) {
+  //   await mp.game.waitAsync(50);
+  // }
+
+  while (object.handle === 0) {
+    await mp.game.waitAsync(0);
   }
 };
 

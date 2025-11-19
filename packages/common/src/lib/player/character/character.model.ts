@@ -42,11 +42,20 @@ export interface ICharacterJob {
 export interface ICharacterAddiction {
   type: AddictionType;
   level: number;
+  lastUsedAt: Date;
 }
 
 export interface ICharacterSkill {
   type: SkillType;
   level: number;
+}
+
+
+export interface IDrugEffect {
+  addictionType: AddictionType;
+  effectLevel: number;
+  duration: number;
+  startedAt: Date;
 }
 
 export interface ICharacter extends Base {
@@ -71,6 +80,7 @@ export interface ICharacter extends Base {
   isCuffed: boolean;
   appearance: ICharacterAppearance;
   bloodType: BloodType;
+  drugs: IDrugEffect[];
   defaultSpawn: ICharacterSpawn;
   inventory: Ref<IItem>[];
   maskId: string;
