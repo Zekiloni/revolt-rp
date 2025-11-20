@@ -26,4 +26,6 @@ export const enum PlayerSharedDataType {
   Work = 'work',
   CharacterName = 'character_name',
   IsFishing = 'is_fishing',
+  Stamina = 'stamina',
+  Strength = 'strength',
 }

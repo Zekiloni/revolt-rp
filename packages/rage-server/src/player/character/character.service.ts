@@ -350,3 +350,13 @@ export const getAddictionTolerance = (character: Character, addictionKey: Addict
 
   return Math.min(60, Math.max(0, tolerance));
 }
+
+export const setPlayerStamina = (player: PlayerMp, stamina: number) => {
+  player.character.stamina = Math.max(0, Math.min(100, stamina));
+  player.setVariable(PlayerSharedDataType.Stamina, player.character.stamina);
+}
+
+export const setPlayerStrength = (player: PlayerMp, strength: number) => {
+  player.character.strength = Math.max(0, Math.min(100, strength));
+  player.setVariable(PlayerSharedDataType.Strength, player.character.strength);
+}

@@ -43,6 +43,10 @@ export interface ICharacterAddiction {
   type: AddictionType;
   level: number;
   lastUsedAt: Date;
+  withdrawal?: {
+    lastHpDrainAt: Date;        // last HP loss tick
+    recoveryCheckAt: Date;      // last random decay (recovery) check
+  };
 }
 
 export interface ICharacterSkill {
@@ -73,7 +77,7 @@ export interface ICharacter extends Base {
   health: number;
   accent?: string;
   isWounded: boolean;
-  mugshotUrl? : string;
+  mugshotUrl?: string;
   membership: ICharacterOrganization | null;
   isLeader: boolean;
   injuries: ICharacterInjury[];
@@ -99,7 +103,9 @@ export interface ICharacter extends Base {
   adminJailTime?: number;
   prisonTime?: number;
   drunk: number;
-  hunger: number
+  hunger: number;
+  stamina: number;
+  strength: number;
   thirst: number;
   deaths: number;
   kills: number;
@@ -110,5 +116,5 @@ export interface ICharacter extends Base {
   createdAt: Date;
   status?: ICharacterStatus;
   deletedAt?: Date;
-  lastExitType?: 'disconnect'| 'timeout' | 'kicked';
+  lastExitType?: 'disconnect' | 'timeout' | 'kicked';
 }

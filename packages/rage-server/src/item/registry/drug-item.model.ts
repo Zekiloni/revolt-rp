@@ -1,7 +1,7 @@
 import { triggerClient } from '@libertymp/rage-rpc';
 import { BaseItem, Item } from '@revolt-rp/core';
 import {
-  AddictionType,
+  AddictionType, IDrugConfig,
   IDrugEffect,
   ItemType,
   IUsableItem,
@@ -15,8 +15,7 @@ export class DrugItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   addiction: AddictionType;
   intensity: number;
   duration: number;
-  addictionIncrease = 7;
-  hpLoss = 0;
+  drugConfig: IDrugConfig;
 
   constructor(name: string, description: string, addiction: AddictionType, model: string, weight: number) {
     super(name, description, model, [ItemType.CONSUMABLE, ItemType.DRUG], weight);
@@ -55,18 +54,15 @@ export class DrugItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
       await item.save();
     }
 
-    if (this.hpLoss > 0) {
-      character.health = Math.max(0, character.health - this.hpLoss);
-    }
-
+    const addictionIncrease = this.drugConfig.effects.find(effect => effect.type === 'addiction' && effect.amount > 0).amount || 0;
     const addiction = character.addictions.find(a => a.type === this.addiction);
     if (addiction) {
-      addiction.level = Math.min(100, addiction.level + this.addictionIncrease * this.weight);
+      addiction.level = Math.min(100, addiction.level + addictionIncrease * this.weight);
       addiction.lastUsedAt = new Date();
     } else {
       character.addictions.push({
         type: this.addiction,
-        level: this.addictionIncrease * (item.quantity || 1),
+        level: addictionIncrease * (item.quantity || 1),
         lastUsedAt: new Date()
       });
     }

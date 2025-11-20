@@ -2,7 +2,6 @@ import { nanoid } from 'nanoid';
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, type Ref } from '@typegoose/typegoose';
 import {
-  AddictionType,
   BloodType,
   CharacterGender,
   CharacterSpawnType, IDrugEffect,
@@ -13,7 +12,7 @@ import {
   ICharacterSpawn,
   ICharacterStatus,
   IVector3,
-  JobKey, SkillType
+  JobKey
 } from '@revolt-rp/common';
 import { characterConfig } from '../../config/character.config';
 import { Account } from './account.model';
@@ -194,6 +193,12 @@ export class Character extends Document implements ICharacter {
 
   @prop({ type: Number, default: 0 })
   hunger: number;
+
+  @prop({ type: Number, default: 0 })
+  stamina: number;
+
+  @prop({ type: Number, default: 0 })
+  strength: number;
 
   @prop({ type: Number, default: 0 })
   deaths: number;
