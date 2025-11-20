@@ -25,6 +25,7 @@ import './player/inventory/phone/player-phone.command';
 import './player/offer/player-offer.api';
 import './player/payday/player-payday.api';
 import './player/damage/player-damage.api';
+import './player/player-drug.api';
 
 import './player/hobby/player-fishing.api';
 

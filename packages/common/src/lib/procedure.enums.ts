@@ -263,4 +263,5 @@ export const enum ProcedureKey {
   BROWSER_FISHING_SET_REWARD = 'browser_fishingSetReward',
   SERVER_PLAYER_FISH_RESPONSE = 'server_playerFishResponse',
   CLIENT_DRUG_USE_EFFECT = 'client_drugUseEffect',
+  CLIENT_WITHDRAWAL_SCREEN_EFFECT = 'client_withdrawalScreenEffect',
 }
