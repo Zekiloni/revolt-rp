@@ -2,20 +2,10 @@ import { on } from '@libertymp/rage-rpc';
 import { AddictionType, ProcedureKey } from '@revolt-rp/common';
 
 
-/**
- * "HAND_SHAKE"
- * "SMALL_EXPLOSION_SHAKE"
- * "MEDIUM_EXPLOSION_SHAKE"
- * "LARGE_EXPLOSION_SHAKE"
- * "JOLT_SHAKE"
- * "ROAD_VIBRATION_SHAKE"
- * "DRUNK_SHAKE"
- * "VIBRATE_SHAKE"
- */
 interface IDrugVisualEffect {
   screenEffect?: string;
   shake?: {
-    type: string;
+    type: RageEnums.GamePlayCam.Shake;
     intensity?: number;
   };
   motionBlur?: {
@@ -27,36 +17,40 @@ interface IDrugVisualEffect {
 const mainCamera = mp.cameras.new('gameplay');
 let effectClearTimeout: NodeJS.Timeout | null = null;
 
-const AddictionEffects: Partial<Record<AddictionType, IDrugVisualEffect>> = {
+export const AddictionEffects: Partial<Record<AddictionType, IDrugVisualEffect>> = {
   [AddictionType.Cannabis]: {
-    screenEffect: 'DrugsTrevorClownsFight',
-    shake: { type: 'DRUNK_SHAKE', intensity: 0.3 },
+    screenEffect: "DrugsTrevorClownsFight",
+    shake: { type: RageEnums.GamePlayCam.Shake.DRUNK_SHAKE, intensity: 0.3 },
     motionBlur: { enabled: true, strength: 0.25 }
   },
+
   [AddictionType.Heroin]: {
-    screenEffect: 'DrugsDrivingIn',
-    shake: { type: 'DRUNK_SHAKE', intensity: 0.4 }
+    screenEffect: "DrugsDrivingIn",
+    shake: { type: RageEnums.GamePlayCam.Shake.DRUNK_SHAKE, intensity: 0.4 }
   },
+
   [AddictionType.Acid]: {
-    screenEffect: 'DMT_flight',
-    shake: { type: 'DRUNK_SHAKE', intensity: 0.6 },
+    screenEffect: "DMT_flight",
+    shake: { type: RageEnums.GamePlayCam.Shake.DRUNK_SHAKE, intensity: 0.6 },
     motionBlur: { enabled: true, strength: 0.5 }
   },
+
   [AddictionType.Ecstasy]: {
-    screenEffect: 'BikerFilter',
-    shake: { type: 'DRUNK_SHAKE', intensity: 0.5 },
+    screenEffect: "BikerFilter",
+    shake: { type: RageEnums.GamePlayCam.Shake.DRUNK_SHAKE, intensity: 0.5 },
     motionBlur: { enabled: true, strength: 0.35 }
   },
+
   [AddictionType.PCP]: {
-    screenEffect: 'DeathFailMPIn',
-    shake: { type: 'VIBRATE_SHAKE', intensity: 0.6 }
+    screenEffect: "DeathFailMPIn",
+    shake: { type: RageEnums.GamePlayCam.Shake.VIBRATE_SHAKE, intensity: 0.6 }
   },
+
   [AddictionType.Shrooms]: {
-    screenEffect: 'DMT_flight',
-    shake: { type: 'DRUNK_SHAKE', intensity: 0.5 },
+    screenEffect: "DMT_flight",
+    shake: { type: RageEnums.GamePlayCam.Shake.DRUNK_SHAKE, intensity: 0.5 },
     motionBlur: { enabled: true, strength: 0.5 }
   }
-  // Add other drugs as needed
 };
 
 
@@ -90,6 +84,7 @@ function playerDrugUseHandler(data: [AddictionType, number, number]) {
     effectClearTimeout = null;
   }
 
+  mp.gui.chat.push('~p~[Drug Effect] ~w~You feel the effects of ' + addictionType + ' (Level ' + effectLevel + ') for ' + duration + ' seconds.');
   // Stop after duration
   setTimeout(() => {
     if (effect.screenEffect) mp.game.graphics.stopScreenEffect(effect.screenEffect);

@@ -33,10 +33,23 @@ declare global {
   }
 
   declare namespace RageEnums {
-
     namespace Hud {
       const enum Component {
         HUD_RETICLE = 14
+      }
+    }
+
+    namespace GamePlayCam {
+      const enum Shake {
+        HAND_SHAKE = 'HAND_SHAKE',
+        SMALL_EXPLOSION_SHAKE = 'SMALL_EXPLOSION_SHAKE',
+        MEDIUM_EXPLOSION_SHAKE = 'MEDIUM_EXPLOSION_SHAKE',
+        LARGE_EXPLOSION_SHAKE = 'LARGE_EXPLOSION_SHAKE',
+        JOLT_SHAKE = 'JOLT_SHAKE',
+        ROAD_VIBRATION_SHAKE = 'ROAD_VIBRATION_SHAKE',
+        DRUNK_SHAKE = 'DRUNK_SHAKE',
+        VIBRATE_SHAKE = 'VIBRATE_SHAKE'
+
       }
     }
 
