@@ -199,17 +199,112 @@ new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'p
 
 new CuffItem();
 
-new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'prop_marijuana', 0.001);
-new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'prop_cocaine', 0.001);
-new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'prop_crack', 0.001);
-new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'prop_ecstasy', 0.0002);
-new DrugItem('Heroin', 'Heroin powder', AddictionType.Heroin, 'prop_heroin', 0.001);
-new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth', 0.001);
-new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_morphine', 0.0003);
-new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'prop_steroids', 0.00001);
-new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'prop_lsd', 0.000001);
-new DrugItem('Shrooms', 'Magic mushrooms', AddictionType.Shrooms, 'prop_shrooms', 0.001);
-new DrugItem('PCP', 'PCP powder', AddictionType.PCP, 'prop_pcp', 0.001);
+new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'prop_marijuana', 0.001, {
+  intensity: 0.5,
+  duration: 30,
+  effects: [
+    { type: 'health_regen', amount: 10, interval: 60, duration: 300 },
+    { type: 'addiction', amount: 0.2 }
+  ]
+});
+
+new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'prop_cocaine', 0.001, {
+  intensity: 1.0,
+  duration: 18,
+  effects: [
+    { type: 'strength', amount: 10 },
+    { type: 'health_regen', amount: 15, interval: 30, duration: 180 },
+    { type: 'addiction', amount: 1.2 }
+  ]
+});
+
+new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'prop_crack', 0.001, {
+  intensity: 1.2,
+  duration: 12,
+  effects: [
+    { type: 'strength', amount: 12 },
+    { type: 'health', amount: 10 },
+    { type: 'addiction', amount: 1.6 }
+  ]
+});
+
+new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'prop_ecstasy', 0.0002, {
+  intensity: 0.9,
+  duration: 60,
+  effects: [
+    { type: 'stamina', amount: 20 },
+    { type: 'health_regen', amount: 20, interval: 60, duration: 600 },
+    { type: 'addiction', amount: 0.8 }
+  ]
+});
+
+new DrugItem('Heroin', 'Heroin powder', AddictionType.Heroin, 'prop_heroin', 0.001, {
+  intensity: 1.3,
+  duration: 60,
+  effects: [
+    { type: 'health', amount: 25 },
+    { type: 'health_regen', amount: 25, interval: 120, duration: 600 },
+    { type: 'addiction', amount: 1.8 }
+  ]
+});
+
+new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth', 0.001, {
+  intensity: 1.4,
+  duration: 48,
+  effects: [
+    { type: 'strength', amount: 15 },
+    { type: 'stamina', amount: 40 },
+    { type: 'addiction', amount: 2.1 }
+  ]
+});
+
+new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_morphine', 0.0003, {
+  intensity: 0.8,
+  duration: 30,
+  effects: [
+    { type: 'health', amount: 20 },
+    { type: 'health_regen', amount: 10, interval: 45, duration: 300 },
+    { type: 'addiction', amount: 1.0 }
+  ]
+});
+
+new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'prop_steroids', 0.00001, {
+  intensity: 0.4,
+  duration: 72,
+  effects: [
+    { type: 'strength', amount: 8 },
+    { type: 'stamina', amount: 25 },
+    { type: 'addiction', amount: 0.6 }
+  ]
+});
+
+new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'prop_lsd', 0.000001, {
+  intensity: 0.3,
+  duration: 90,
+  effects: [
+    { type: 'health', amount: 5 },
+    { type: 'addiction', amount: 0.2 }
+  ]
+});
+
+new DrugItem('Shrooms', 'Magic mushrooms', AddictionType.Shrooms, 'prop_shrooms', 0.001, {
+  intensity: 0.4,
+  duration: 90,
+  effects: [
+    { type: 'health_regen', amount: 5, interval: 60, duration: 900 },
+    { type: 'addiction', amount: 0.3 }
+  ]
+});
+
+new DrugItem('PCP', 'PCP powder', AddictionType.PCP, 'prop_pcp', 0.001, {
+  intensity: 1.5,
+  duration: 30,
+  effects: [
+    { type: 'strength', amount: 18 },
+    { type: 'health', amount: 15 },
+    { type: 'addiction', amount: 1.7 }
+  ]
+});
 
 new FoodItem(
   'items.fish_bass',

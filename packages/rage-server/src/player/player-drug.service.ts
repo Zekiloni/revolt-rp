@@ -29,7 +29,7 @@ export function playerDrugHandler(player: PlayerMp) {
       const drugItem = getDrugItem(effect.addictionType);
 
       if (drugItem) {
-        drugItem.drugConfig.effects.forEach(cfg => {
+        drugItem.config.effects.forEach(cfg => {
           switch (cfg.type) {
             case 'stamina':
               setPlayerStamina(player, player.character.stamina + cfg.amount * effect.effectLevel);

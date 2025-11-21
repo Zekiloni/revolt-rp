@@ -16,7 +16,7 @@
                 pBadge
                 class="p-overlay-badge"
                 severity="info"
-                [value]="item.quantity"
+                [value]="item.quantity.toFixed(2)"
                 appDraggable
                 (dragStart)="dragItemStart(item)"
                 (dragEnd)="dragItemEnd($event)"
