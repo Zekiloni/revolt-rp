@@ -197,9 +197,18 @@ new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'pro
 
 new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
 
+new MiscellaneousItem('items.lighter', 'items.lighter_description', 'p_cs_lighter_01', [ItemType.LIGHTER], 0.045);
+new MiscellaneousItem('items.lighter_2', 'items.lighter_description', 'ex_prop_exec_lighter_01', [ItemType.LIGHTER], 0.045);
+new MiscellaneousItem('items.lighter_3', 'items.lighter_description', 'lux_prop_lighter_luxe', [ItemType.LIGHTER], 0.1);
+new MiscellaneousItem('items.lighter_4', 'items.lighter_description', 'v_res_tt_lighter', [ItemType.LIGHTER], 0.1);
+
+new MiscellaneousItem('items.bong', 'items.bong', 'prop_sh_bong_01', [ItemType.BONG], 0.2);
+new MiscellaneousItem('items.bong_2', 'items.bong', 'xm3_prop_xm3_bong_01a', [ItemType.BONG], 0.225);
+new MiscellaneousItem('items.bong_3', 'items.bong', 'sf_prop_sf_bong_01a', [ItemType.BONG], 0.22);
+
 new CuffItem();
 
-new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'prop_marijuana', 0.001, {
+new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'bkr_prop_weed_smallbag_01a', 0.001, {
   intensity: 0.5,
   duration: 30,
   effects: [
@@ -208,7 +217,7 @@ new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'prop_marij
   ]
 });
 
-new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'prop_cocaine', 0.001, {
+new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'xm3_prop_xm3_bag_coke_01a', 0.001, {
   intensity: 1.0,
   duration: 18,
   effects: [
@@ -218,7 +227,7 @@ new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'prop_cocaine',
   ]
 });
 
-new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'prop_crack', 0.001, {
+new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'h4_prop_h4_coke_powderbottle_01', 0.001, {
   intensity: 1.2,
   duration: 12,
   effects: [
@@ -228,7 +237,7 @@ new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'prop_crack', 
   ]
 });
 
-new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'prop_ecstasy', 0.0002, {
+new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'v_club_vu_pills', 0.0002, {
   intensity: 0.9,
   duration: 60,
   effects: [
@@ -248,7 +257,7 @@ new DrugItem('Heroin', 'Heroin powder', AddictionType.Heroin, 'prop_heroin', 0.0
   ]
 });
 
-new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth', 0.001, {
+new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth_bag_01', 0.001, {
   intensity: 1.4,
   duration: 48,
   effects: [
@@ -258,7 +267,7 @@ new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth'
   ]
 });
 
-new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_morphine', 0.0003, {
+new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_cs_pills', 0.0003, {
   intensity: 0.8,
   duration: 30,
   effects: [
@@ -268,7 +277,7 @@ new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_morphine
   ]
 });
 
-new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'prop_steroids', 0.00001, {
+new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'ng_proc_drug01a002', 0.00001, {
   intensity: 0.4,
   duration: 72,
   effects: [
@@ -278,7 +287,7 @@ new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'prop_steroids
   ]
 });
 
-new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'prop_lsd', 0.000001, {
+new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'xm3_prop_xm3_lsd_bottle_03a', 0.000001, {
   intensity: 0.3,
   duration: 90,
   effects: [
