@@ -1,5 +1,5 @@
 import { BaseItem, Item } from '@revolt-rp/core';
-import { ISelectableUsableItem, ItemFlag, ItemRarity, ItemType } from '@revolt-rp/common';
+import { IUsableItem, ItemFlag, ItemRarity, ItemType } from '@revolt-rp/common';
 
 interface FoodItemConfig {
   requiresCooking?: boolean;
@@ -10,7 +10,7 @@ interface FoodItemConfig {
   rarity?: ItemRarity;
 }
 
-export class FoodItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class FoodItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   calories?: number;
   hydration?: number;
   requiresCooking?: boolean;

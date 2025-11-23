@@ -1,7 +1,7 @@
 import { callClient } from '@libertymp/rage-rpc';
 import { BaseItem, Item } from '@revolt-rp/core';
 import {
-  ISelectableUsableItem,
+  IUsableItem,
   ItemType,
   PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
@@ -11,7 +11,7 @@ import { playerAddAttachment, playerRemoveAttachment } from '../../../player/uti
 import { setCuffed } from '../../../player/character/character.service';
 
 
-export class CuffItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class CuffItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor() {
     super('items.cuffs', 'items.cuffs_description', 'p_cs_cuffs_02_s', [ItemType.UTILITY, ItemType.MISCELLANEOUS], 0.2);

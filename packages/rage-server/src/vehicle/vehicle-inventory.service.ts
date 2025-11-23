@@ -1,4 +1,4 @@
-import { PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
+import { ISelectableItem, PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
 import {
   playerGetAvailableItemSlot,
   playerRemoveItemFromInventory
@@ -71,7 +71,7 @@ export const playerPutTrunkItem = async (player: PlayerMp, vehicle: VehicleMp, i
 
   if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
     if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
-      itemHandler.deselect(player, item);
+      (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
     }
   }
 

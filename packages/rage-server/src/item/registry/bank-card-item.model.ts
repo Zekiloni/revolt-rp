@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  ISelectableUsableItem,
+  IUsableItem,
   ItemType,
   PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
@@ -11,7 +11,7 @@ import { BaseItem, Item } from '@revolt-rp/core';
 import { playerAddAttachment, playerRemoveAttachment } from '../../player/util/player-attachment.util';
 
 
-export class BankCardItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class BankCardItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   holType = PlayerAttachmentTypeEnum.HoldBankCard;
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {

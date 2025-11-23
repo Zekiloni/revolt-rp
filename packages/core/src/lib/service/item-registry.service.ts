@@ -39,7 +39,7 @@ export function isSelectableItem<
     typeof item === 'object' &&
     item !== null &&
     'select' in item &&
-    typeof (item as Record<string, unknown>).select === 'function'
+    typeof (item as Record<string, unknown>).use === 'function'
   );
 }
 
