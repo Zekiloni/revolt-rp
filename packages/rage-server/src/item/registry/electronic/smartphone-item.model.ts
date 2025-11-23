@@ -1,5 +1,5 @@
 import {
-  GameUiKey, ISelectableUsableItem,
+  GameUiKey, IUsableItem,
   ItemType,
   PlayerAttachmentTypeEnum,
   PlayerPhoneState,
@@ -10,7 +10,7 @@ import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../playe
 import { BaseItem, Item } from '@revolt-rp/core';
 
 
-export class SmartphoneItemModel extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class SmartphoneItemModel extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.DEVICE_SMARTPHONE, ...type], weight);

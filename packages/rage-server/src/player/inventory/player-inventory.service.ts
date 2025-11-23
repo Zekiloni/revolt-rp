@@ -1,7 +1,14 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
-import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
+import {
+  AnimationFlag,
+  characterConfig,
+  ISelectableItem,
+  ItemType,
+  PlayerSharedDataType,
+  ProcedureKey
+} from '@revolt-rp/common';
 import { isSelectableItem, isUsableItem, Item } from '@revolt-rp/core';
 import {
   createItem,
@@ -107,8 +114,8 @@ export const removePlayerWeapons = async (player: PlayerMp) => {
   if (playerWeaponItems.includes(playerSelectedItemId)) {
     const selectedItem = player.character.inventory.find(item => item.id === playerSelectedItemId) as Item | undefined;
 
-    if (selectedItem && selectedItem.data && isSelectableItem<PlayerMp, Item>(selectedItem.data) && selectedItem.data.deselect) {
-      selectedItem.data.deselect(player, selectedItem);
+    if (selectedItem && selectedItem.data && isSelectableItem<PlayerMp, Item>(selectedItem.data) && (<ISelectableItem<PlayerMp, Item>>selectedItem.data).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>selectedItem.data).deselect(player, selectedItem);
     }
 
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
@@ -143,8 +150,8 @@ export const playerDropItem = async (player: PlayerMp, itemId: string) => {
 
   if (item.id === selectedItemId) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler) && itemHandler.deselect) {
-      itemHandler.deselect(player, item);
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler) && (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
     }
   }
 
@@ -249,7 +256,7 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
     if (item.localSlot > 5) {
       const itemHandler = item.data;
       if (itemHandler &&  isSelectableItem<PlayerMp, Item>(itemHandler)) {
-        itemHandler.deselect(player, item);
+        (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
   }
@@ -264,8 +271,8 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
 
   if (alreadySelectedItem) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (alreadySelectedItem.data && isSelectableItem<PlayerMp, Item>(alreadySelectedItem.data) && alreadySelectedItem.data.deselect) {
-      alreadySelectedItem.data.deselect(player, alreadySelectedItem);
+    if (alreadySelectedItem.data && isSelectableItem<PlayerMp, Item>(alreadySelectedItem.data) && (<ISelectableItem<PlayerMp, Item>>alreadySelectedItem.data).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>alreadySelectedItem.data).deselect(player, alreadySelectedItem);
       await alreadySelectedItem.save();
     }
 
@@ -283,7 +290,7 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
   console.log('Item handler:', itemHandler ? itemHandler.name : 'None');
   if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
-    itemHandler.select(player, item);
+    (<ISelectableItem<PlayerMp, Item>>itemHandler).select(player, item);
   }
 
   await item.save();
@@ -354,8 +361,8 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
     await playerRemoveItemFromInventory(player, item.id);
 
     if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
-      if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
-        itemHandler.deselect(player, item);
+      if (itemHandler && isSelectableItem(itemHandler)) {
+        (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
 
@@ -395,8 +402,8 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
     const selectedItem = getPlayerSelectedItem(player);
 
     if (selectedItem && item.id === selectedItem.id) {
-      if (item.data && isSelectableItem<PlayerMp, Item>(item.data) && item.data.deselect) {
-        item.data.deselect(player, item);
+      if (item.data && isSelectableItem<PlayerMp, Item>(item.data) && (<ISelectableItem<PlayerMp, Item>>item.data).deselect) {
+        (<ISelectableItem<PlayerMp, Item>>item.data).deselect(player, item);
       }
     }
 

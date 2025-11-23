@@ -1,6 +1,6 @@
 import { callClient } from '@libertymp/rage-rpc';
 import {
-  ISelectableUsableItem,
+  IUsableItem,
   ItemType,
   PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
@@ -12,7 +12,7 @@ import { playerRemoveItemFromInventory } from '../../../player/inventory/player-
 import { notifyPlayer } from '../../../player/util/player-notify.util';
 import { t } from 'i18next';
 
-export class FishingRodItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class FishingRodItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, weight: number) {
     super(name, description, model, [ItemType.UTILITY, ItemType.MISCELLANEOUS, ItemType.FISHING_ROD], weight);

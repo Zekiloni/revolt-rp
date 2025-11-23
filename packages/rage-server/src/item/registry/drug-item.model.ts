@@ -2,7 +2,7 @@ import { triggerClient } from '@libertymp/rage-rpc';
 import { BaseItem, Item } from '@revolt-rp/core';
 import {
   AddictionType, IDrugConfig,
-  IDrugEffect, ISelectableUsableItem,
+  IDrugEffect, IUsableItem,
   ItemType, PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
@@ -10,7 +10,7 @@ import { getAddictionTolerance } from '../../player/character/character.service'
 import { playerRemoveItemFromInventory } from '../../player/inventory/player-inventory.service';
 
 
-export class DrugItem extends BaseItem implements ISelectableUsableItem<PlayerMp, Item> {
+export class DrugItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   addiction: AddictionType;
   config: IDrugConfig;
 

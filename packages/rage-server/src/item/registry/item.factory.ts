@@ -197,8 +197,8 @@ new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'pro
 
 new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
 
-new MiscellaneousItem('items.lighter', 'items.lighter_description', 'p_cs_lighter_01', [ItemType.LIGHTER], 0.045);
-new MiscellaneousItem('items.lighter_2', 'items.lighter_description', 'ex_prop_exec_lighter_01', [ItemType.LIGHTER], 0.045);
+new MiscellaneousItem('items.lighter', 'items.lighter_description', 'p_cs_lighter_01', [ItemType.LIGHTER, ItemType.PRODUCT_GROCERY], 0.045);
+new MiscellaneousItem('items.lighter_2', 'items.lighter_description', 'ex_prop_exec_lighter_01', [ItemType.LIGHTER, ItemType.PRODUCT_GROCERY], 0.045);
 new MiscellaneousItem('items.lighter_3', 'items.lighter_description', 'lux_prop_lighter_luxe', [ItemType.LIGHTER], 0.1);
 new MiscellaneousItem('items.lighter_4', 'items.lighter_description', 'v_res_tt_lighter', [ItemType.LIGHTER], 0.1);
 
