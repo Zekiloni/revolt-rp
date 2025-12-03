@@ -9,6 +9,18 @@ export enum OrganizationPermissionType {
   MANAGE_ORGANIZATION = 'manage_organization',
 }
 
+export interface IEquipment {
+  name: string;
+  price?: number;
+  limit: number;
+}
+
+export interface ILocker {
+  name: string;
+  position: IVector3;
+  dimension: number;
+  equipments: IEquipment[];
+}
 
 export interface IOrganizationMemberInvite {
   playerId: number;
@@ -44,6 +56,8 @@ export interface IOrganization extends Base {
   ranks: Ref<IOrganizationRank>[];
   heading: number;
   dimension: number;
+  lockers: ILocker[];
+  balance: number;
   color?: string;
   importLimit?: number;
   createdAt: Date;
