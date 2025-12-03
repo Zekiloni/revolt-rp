@@ -86,6 +86,10 @@ async function screenShotObjectsHandler(models: string[]) {
   mp.players.local.setCoords(greenScreenConfig.greenScreenHiddenSpot.x, greenScreenConfig.greenScreenHiddenSpot.y, greenScreenConfig.greenScreenHiddenSpot.z, false, false, false, false);
   mp.players.local.freezePosition(true);
 
+  mp.game.time.setTime(18, 0, 0);
+  mp.game.graphics.setTimecycleModifier('cinema');
+  mp.game.graphics.setTimecycleModifierStrength(1.0);
+
   await mp.game.waitAsync(100);
 
   for (const model of models) {
@@ -117,6 +121,12 @@ async function screenShotObjectsHandler(models: string[]) {
   }
 
   mp.players.local.freezePosition(false);
+  mp.game.graphics.clearTimecycleModifier();
+
+  if (object && mp.objects.exists(object)) {
+    object.destroy();
+  }
+
 
 }
 

@@ -12,7 +12,12 @@ import {
   WeatherType,
   WeatherTypes
 } from '@revolt-rp/common';
-import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
+import {
+  clearPlayerInventory,
+  playerGiveGun,
+  playerGiveItem,
+  removePlayerWeapons
+} from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import {
   createTemporaryVehicle,
@@ -316,6 +321,27 @@ registerCommand({
     await playerGiveItem(target, itemName, parseInt(quantity));
 
     // todo: logging, message
+  }
+});
+
+registerCommand({
+  name: 'givegun',
+  params: ['target', 'weapon', 'ammo'],
+  description: 'todo',
+  async handle(player: PlayerMp, targetQuery: string, weaponModel: string, ammo: string) {
+    const target = findPlayer(targetQuery);
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(ammo))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'quantity', type: 'number' })
+      });
+
+    await playerGiveGun(target, weaponModel, parseInt(ammo));
+    // TODO: logging, message
   }
 });
 

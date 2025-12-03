@@ -15,7 +15,7 @@ import { playAnimation, stopAnimation } from '../../player/util/player-animation
 import { BaseItem, Item } from '@revolt-rp/core';
 
 
-export class DrinkItemModel extends BaseItem implements IUsableItem<PlayerMp, Item> {
+export class DrinkItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   volume = 3;
   alcohol?: number;
   holdType: PlayerAttachmentTypeEnum;
