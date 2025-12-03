@@ -29,24 +29,28 @@ function playerReloadWeaponHandler() {
 }
 
 function playerRecoilHandler() {
-  if (
-    mp.players.local.isShooting() &&
-    !mp.players.local.isDoingDriveby()
-  ) {
+  if (mp.players.local.isShooting()) {
 
     const weapon = mp.players.local.weapon;
     const data = weaponRecoilConfig[weapon];
     if (!data) return;
 
-    let tv = 0;
-    while (tv < data.recoil) {
-      const pitch = mp.game.cam.getGameplayRelativePitch();
+    mp.game.cam.shakeGameplayCam(
+      RageEnums.GamePlayCam.Shake.SMALL_EXPLOSION_SHAKE,
+      data.shake
+    );
 
-      if (mp.game.cam.getFollowPedViewMode() !== 4) {
-        mp.game.cam.setGameplayCamRelativePitch(pitch + 0.1, 0.2);
+    if (!mp.players.local.isDoingDriveby()) {
+      let tv = 0;
+      while (tv < data.recoil) {
+        const pitch = mp.game.cam.getGameplayRelativePitch();
+
+        if (mp.game.cam.getFollowPedViewMode() !== 4) {
+          mp.game.cam.setGameplayCamRelativePitch(pitch + 0.1, 0.2);
+        }
+
+        tv += 0.1;
       }
-
-      tv += 0.1;
     }
   }
 }

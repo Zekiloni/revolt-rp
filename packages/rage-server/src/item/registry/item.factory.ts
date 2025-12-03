@@ -1,6 +1,6 @@
 import { WeaponItem } from './weapon-item.model';
 import { AddictionType, CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
-import { DrinkItemModel } from './drink-item.model';
+import { DrinkItem } from './drink.item.model';
 import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
 import { WearableItem } from './clothing/wearable-item.model';
@@ -14,8 +14,8 @@ import { MiscellaneousItem } from './miscellaneous-item.model';
 import { FoodItem } from './food.item.model';
 import { DrugItem } from './drug-item.model';
 
-new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
-new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
+new DrinkItem('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
+new DrinkItem('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
 
 
 new WeaponItem('Ruger Mark IV', 'items.ruger_mark_description.', RageEnums.Hashes.Weapon.PISTOL, CaliberType.CALIBER_22_LR, 'w_pi_pistol', [ItemType.WEAPON_PISTOL], 0.5);

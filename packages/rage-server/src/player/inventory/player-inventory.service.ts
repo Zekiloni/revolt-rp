@@ -9,19 +9,22 @@ import {
   PlayerSharedDataType,
   ProcedureKey
 } from '@revolt-rp/common';
-import { isSelectableItem, isUsableItem, Item } from '@revolt-rp/core';
+import { filterItemsByType, isSelectableItem, isUsableItem, Item } from '@revolt-rp/core';
 import {
   createItem,
   destroyItem,
   destroyItemById,
   getItemById,
   getItemObject,
-  isWeaponItem, setItemObject
+  isWeaponItem,
+  setItemObject
 } from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
 import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
+import { WeaponItem } from '../../item/registry/weapon-item.model';
+import { AmmoItem } from '../../item/registry/ammo-item.model';
 
 
 export const getPlayerSelectedItem = (player: PlayerMp) => {
@@ -85,6 +88,29 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
 
   return item;
 };
+
+export const playerGiveGun = async (player: PlayerMp, weapon: string, ammoCount: number, options: Partial<Item> = {}) => {
+  const availableItemSlot = playerGetAvailableItemSlot(player);
+
+  if (availableItemSlot == -1)
+    return;
+
+  const weaponItem = filterItemsByType(ItemType.WEAPON)
+    .find((item: WeaponItem) => item.weaponHash === mp.joaat(weapon)) as WeaponItem;
+
+  if (!weaponItem)
+    return;
+
+  await playerGiveItem(player, weaponItem.name, 1, { ...options, localSlot: availableItemSlot });
+
+  const ammoItem = filterItemsByType(ItemType.AMMUNITION)
+    .find((item: AmmoItem) => item.caliberType === weaponItem.caliberType);
+
+  if (!ammoItem)
+    return;
+
+  await playerGiveItem(player, ammoItem.name, ammoCount);
+}
 
 export const clearPlayerInventory = async (player: PlayerMp) => {
   player.character.inventory.forEach((item: Item) => {
