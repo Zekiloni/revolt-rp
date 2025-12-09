@@ -4,6 +4,7 @@ type OrganizationEquipmentConfig = {
   [name in OrganizationType]: {
     item: string;
     quantity?: number;
+    cooldown?: number;
     limit: number;
     price?: number;
   }[];
@@ -11,7 +12,7 @@ type OrganizationEquipmentConfig = {
 
 export const ORGANIZATION_CONFIG: { equipment: Partial<OrganizationEquipmentConfig> } = {
   equipment: {
-    [OrganizationType.LAW]: [{ item: '', limit: 20 }],
+    [OrganizationType.LAW]: [{ item: 'items.cuffs', limit: 5 }],
     [OrganizationType.EMS]: [{ item: '', limit: 20 }]
   }
 };
