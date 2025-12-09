@@ -54,6 +54,12 @@ const propertyMenuHandlers = {
   }
 };
 
+const propertyPointHandlers = {
+  [PropertyPointType.EquipmentPoint]: (player: PlayerMp, property: Property) => {
+    return equipmentPointInteraction(player, property);
+  }
+};
+
 const visiblePropertyPointTypes = [
   PropertyPointType.MenuPoint,
   PropertyPointType.DeliveryPoint,
@@ -140,7 +146,15 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
     position, rotation, dimension, type
   });
 
-  setPropertyPointColShape(point, mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension));
+  const colShape = mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension);
+  setPropertyPointColShape(point, colShape);
+
+  colShape.onPlayerEnter = (player) => {
+    const handler = propertyPointHandlers[point.type];
+    if (handler && typeof handler === 'function') {
+      handler(player, property);
+    }
+  }
 
   if (visiblePropertyPointTypes.includes(type)) {
     setPropertyPointMarker(point, createPropertyMarker(property));
@@ -239,7 +253,15 @@ export const initializeProperty = (property: Property) => {
   setPropertyMarker(property, createPropertyMarker(property));
 
   property.points.forEach((point) => {
-    setPropertyPointColShape(point, mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension));
+    const propertyPointColshape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+    setPropertyPointColShape(point, propertyPointColshape);
+
+    propertyPointColshape.onPlayerEnter = (player) => {
+      const handler = propertyPointHandlers[point.type];
+      if (handler && typeof handler === 'function') {
+        handler(player, property);
+      }
+    }
 
     if (visiblePropertyPointTypes.includes(point.type)) {
       const markerMp = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
@@ -372,15 +394,7 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
   const menuHandler = propertyMenuHandlers[property.type]?.[property.subType] || propertyMenuHandlers[property.type];
 
-  console.log('DEBUG',
-    'property.type:', property.type,
-    'property.subType:', property.subType,
-    'handler for type:', propertyMenuHandlers[property.type],
-    'keys:', Object.keys(propertyMenuHandlers[property.type] || {})
-  );
-
   if (menuHandler && typeof menuHandler === 'function') {
-    console.log('opening menu handler', property.type, property.subType);
     return menuHandler(player, property);
   }
 }
@@ -431,3 +445,8 @@ export const updatePropertyVehicle = async (property: Property, update: IPropert
 export const getPropertyByVehicleId = async (vehicleId: string) => {
   return PropertyModel.findOne({ 'vehicles.id': vehicleId }).exec();
 };
+
+function equipmentPointInteraction(player: PlayerMp, property: Property) {
+  // TODO: open equipment menu
+
+}
