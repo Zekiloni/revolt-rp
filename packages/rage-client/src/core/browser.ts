@@ -125,7 +125,7 @@ export function hideGameInterface(interfaceKey: GameUiKey) {
 
   if (gameUiConfigElement.headless) {
     const headlessBrowser = headlessBrowsers.get(interfaceKey);
-    if (headlessBrowser) {
+    if (headlessBrowser && mp.browsers.exists(headlessBrowser)) {
       headlessBrowser.destroy();
       headlessBrowsers.delete(interfaceKey);
     }
