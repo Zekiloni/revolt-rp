@@ -12,17 +12,20 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import RevoltPreset from './revolt-preset';
 
+import { routes } from './app.routes';
 import { phoneReducer } from './store/phone';
 import { environment } from '../environments/environment';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
 import { API_BASE_HREF } from '@revolt-rp/common-ui';
+import { provideRouter, withHashLocation } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideEffects(),
+    provideRouter(routes, withHashLocation()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimationsAsync(),

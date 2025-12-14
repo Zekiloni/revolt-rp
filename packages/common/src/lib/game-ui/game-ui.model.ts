@@ -5,4 +5,5 @@ export interface IGameInterface {
   hideChat?: true;
   freezeControls?: true;
   closeOnEscape?: true;
+  headless?: true;
 }

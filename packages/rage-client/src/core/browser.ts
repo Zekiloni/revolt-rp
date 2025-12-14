@@ -18,6 +18,7 @@ const activeGameInterfaces: Set<GameUiKey> = new Set<GameUiKey>();
 let isCursorActive = false;
 let frozenControls = false;
 
+const headlessBrowsers = new Map<GameUiKey, BrowserMp>();
 export const browser = mp.browsers.new(environment.BROWSER_URL);
 
 
@@ -53,12 +54,22 @@ export const isMouseActive = () => isCursorActive;
 export const isGameInterfaceActive = (interfaceKey: GameUiKey) => activeGameInterfaces.has(interfaceKey);
 
 export function showGameInterface(interfaceKey: GameUiKey) {
+  let newBrowser: BrowserMp | null = null;
+
   if (activeGameInterfaces.has(interfaceKey))
+    return;
+
+  const gameUiConfigElement = gameUiConfig[interfaceKey];
+
+  if (!gameUiConfigElement)
     return;
 
   triggerBrowser(ProcedureKey.BROWSER_SHOW_GAME_INTERFACE, interfaceKey);
 
-  const gameUiConfigElement = gameUiConfig[interfaceKey];
+  if (gameUiConfigElement.headless) {
+    newBrowser = mp.browsers.newHeadless(`${environment.BROWSER_URL}/headless/${interfaceKey}`, 1920, 1080, false);
+    headlessBrowsers.set(interfaceKey, newBrowser);
+  }
 
   if (gameUiConfigElement.mouse) {
     toggleCursor(gameUiConfigElement.freezeControls ?? false, gameUiConfigElement.mouse);
@@ -77,6 +88,7 @@ export function showGameInterface(interfaceKey: GameUiKey) {
   }
 
   activeGameInterfaces.add(interfaceKey);
+  return newBrowser;
 }
 
 export function hideGameInterface(interfaceKey: GameUiKey) {
@@ -109,6 +121,14 @@ export function hideGameInterface(interfaceKey: GameUiKey) {
 
   if (gameUiConfigElement.closeOnEscape && !remainingInterfaces.some(cfg => cfg.closeOnEscape)) {
     enablePlayerControl([RageEnums.Controls.INPUT_FRONTEND_PAUSE_ALTERNATE]);
+  }
+
+  if (gameUiConfigElement.headless) {
+    const headlessBrowser = headlessBrowsers.get(interfaceKey);
+    if (headlessBrowser) {
+      headlessBrowser.destroy();
+      headlessBrowsers.delete(interfaceKey);
+    }
   }
 
   triggerClient(ProcedureKey.CLIENT_PLAYER_INTERFACE_CLOSED, interfaceKey);
