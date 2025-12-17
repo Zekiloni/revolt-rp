@@ -4,13 +4,18 @@ import {
   callBrowser as rpcCallBrowser,
   CallOptions, triggerClient
 } from '@libertymp/rage-rpc';
-import { gameUiConfig, GameUiKey, HexKeyCodes, IGameInterface, ProcedureKey } from '@revolt-rp/common';
+import {
+  ActiveGameInterface,
+  gameUiConfig,
+  GameUiKey,
+  HexKeyCodes,
+  ProcedureKey
+} from '@revolt-rp/common';
 import { environment } from '../environment/environment';
 import { registerKeyBind } from './keybind-manager';
 import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 
 
-type ActiveGameInterface = IGameInterface & { key: GameUiKey };
 
 const CURSOR_TIMEOUT_MS = 100;
 const activeGameInterfaces: Set<GameUiKey> = new Set<GameUiKey>();

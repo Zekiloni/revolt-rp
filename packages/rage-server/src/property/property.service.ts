@@ -1,13 +1,15 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   CommercialType,
+  GameUiKey,
   IPropertyCreate,
   IPropertyPoint,
   IPropertyVehicle,
   IPropertyVehicleCreate,
-  ProcedureKey, propertyJobMap,
+  ProcedureKey,
+  propertyJobMap,
   PropertyPointType,
   PropertySharedDataType,
   PropertyType,
@@ -17,6 +19,8 @@ import {
 } from '@revolt-rp/common';
 import {
   Character,
+  equipmentConfig,
+  Organization,
   Property,
   propertyConfig,
   PropertyModel,
@@ -35,9 +39,10 @@ import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
 import { getJob, openJobMenu } from '../job/base-job.service';
 import { toggleGarageMenu } from './garage/garage.service';
+import { showPlayerGameInterface } from '../player/util/player.util';
 
 
-const propertyMenuHandlers = {
+const propertyMainMenuHandlers = {
   [PropertyType.PublicService]: {
     [PublicServiceType.DMV]: openDmvMenu,
     [PublicServiceType.Bank]: openBankMenu
@@ -82,7 +87,7 @@ export const getPropertiesByOwnerId = async (type: 'Character' | 'Organization',
 };
 
 export const getPropertyByPointId = async (pointId: string) => {
-  return PropertyModel.findOne({ 'points.id': pointId }).exec();
+  return PropertyModel.findOne({ 'points.id': pointId }).populate(['points', 'owner.entity']).exec();
 };
 
 export const getPropertyMarker = (property: Property) => {
@@ -103,15 +108,15 @@ export const setPropertyPointMarker = (propertyPoint: PropertyPoint, marker: Mar
   marker.setVariable(PropertySharedDataType.InteractionType, propertyPoint.type);
 };
 
-
 export const getPropertyPointMarker = (propertyPoint: PropertyPoint) => {
   return mp.markers.toArray().find(marker =>
     marker.getVariable(PropertySharedDataType.InteractionPointId) === propertyPoint.id);
 };
 
-export const setPropertyPointColShape = (propertyPoint: PropertyPoint, colShape: ColshapeMp) => {
+export const setPropertyPointColShape = (property: Property, propertyPoint: PropertyPoint, colShape: ColshapeMp) => {
   colShape.setVariable(PropertySharedDataType.InteractionPointId, propertyPoint.id);
   colShape.setVariable(PropertySharedDataType.InteractionType, propertyPoint.type);
+  colShape.setVariable(PropertySharedDataType.PropertyId, property.id);
 };
 
 export const getPropertyPointColShape = (propertyPoint: PropertyPoint) => {
@@ -133,7 +138,6 @@ export const createProperty = async (position: Vector3, dimension: number, prope
     ...propertyCreate
   });
 
-
   initializeProperty(property);
 
   return property;
@@ -147,14 +151,7 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
   });
 
   const colShape = mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension);
-  setPropertyPointColShape(point, colShape);
-
-  colShape.onPlayerEnter = (player) => {
-    const handler = propertyPointHandlers[point.type];
-    if (handler && typeof handler === 'function') {
-      handler(player, property);
-    }
-  }
+  setPropertyPointColShape(property, point, colShape);
 
   if (visiblePropertyPointTypes.includes(type)) {
     setPropertyPointMarker(point, createPropertyMarker(property));
@@ -254,14 +251,7 @@ export const initializeProperty = (property: Property) => {
 
   property.points.forEach((point) => {
     const propertyPointColshape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
-    setPropertyPointColShape(point, propertyPointColshape);
-
-    propertyPointColshape.onPlayerEnter = (player) => {
-      const handler = propertyPointHandlers[point.type];
-      if (handler && typeof handler === 'function') {
-        handler(player, property);
-      }
-    }
+    setPropertyPointColShape(property, point, propertyPointColshape);
 
     if (visiblePropertyPointTypes.includes(point.type)) {
       const markerMp = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
@@ -391,8 +381,19 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
   // TODO: enter interior
 };
 
+export const propertyPointInteraction = (player: PlayerMp, property: Property, propertyPointId: string) => {
+  const point = property.points.find(point => point.id === propertyPointId);
+  if (!point)
+    return;
+
+  const pointHandler = propertyPointHandlers[point.type];
+  if (pointHandler && typeof pointHandler === 'function') {
+    return pointHandler(player, property);
+  }
+};
+
 function propertyMenuInteraction(player: PlayerMp, property: Property) {
-  const menuHandler = propertyMenuHandlers[property.type]?.[property.subType] || propertyMenuHandlers[property.type];
+  const menuHandler = propertyMainMenuHandlers[property.type]?.[property.subType] || propertyMainMenuHandlers[property.type];
 
   if (menuHandler && typeof menuHandler === 'function') {
     return menuHandler(player, property);
@@ -447,6 +448,13 @@ export const getPropertyByVehicleId = async (vehicleId: string) => {
 };
 
 function equipmentPointInteraction(player: PlayerMp, property: Property) {
-  // TODO: open equipment menu
+  const propertyJob = getPropertyJob(property);
 
+  const key = propertyJob.key || (<Organization>property.owner.entity).type;
+
+  if (!equipmentConfig[key])
+    return;
+
+  const equipment = equipmentConfig[key];
+  showPlayerGameInterface(player, GameUiKey.EquipmentMenu, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_EQUIPMENT_MENU, { property, equipment }));
 }

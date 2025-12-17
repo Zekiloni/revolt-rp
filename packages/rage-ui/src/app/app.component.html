@@ -131,8 +131,12 @@
     <app-heli-cam @fadeInOut />
   }
 
-  @if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async; as isActive) {
+  @if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async) {
     <app-garage-menu />
+  }
+
+  @if ($isGameInterfaceActive(GameUiKey.EquipmentMenu) | async) {
+    <app-equipment-menu @fadeInOut />
   }
 
   @if ($isGameInterfaceActive(GameUiKey.FishingMinigame) | async) {

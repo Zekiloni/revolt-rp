@@ -1,0 +1,79 @@
+<div class="card absolute-center">
+  <div class="fixed inset-0 flex items-center justify-center bg-black/50">
+    <div
+      class="w-[420px] rounded-xl bg-surface-900 text-surface-0 shadow-2xl border border-surface-700"
+    >
+      <!-- Header -->
+      <div class="px-5 py-4 border-b border-surface-700">
+        <h2 class="text-lg font-semibold tracking-wide">
+          {{ property?.name || 'Equipment' }}
+        </h2>
+        <p class="text-xs text-surface-400">
+          Available items
+        </p>
+      </div>
+
+      <!-- Equipment list -->
+      <div class="max-h-[360px] overflow-y-auto divide-y divide-surface-800">
+        <ng-container *ngIf="equipment?.length; else empty">
+          <div
+            *ngFor="let eq of equipment"
+            class="flex items-center justify-between px-5 py-3 hover:bg-surface-800 transition"
+          >
+            <!-- Left -->
+            <div class="flex flex-col gap-0.5">
+            <span class="font-medium">
+              {{ eq.item }}
+            </span>
+
+              <div class="flex gap-3 text-xs text-surface-400">
+              <span *ngIf="eq.quantity !== undefined">
+                Qty: {{ eq.quantity }}
+              </span>
+
+                <span *ngIf="eq.price !== undefined">
+                ${{ eq.price }}
+              </span>
+
+                <span *ngIf="eq.cooldown">
+                CD: {{ eq.cooldown }}s
+              </span>
+              </div>
+            </div>
+
+            <!-- Right -->
+            <button
+              pButton
+              type="button"
+              label="Take"
+              size="small"
+              class="p-button-sm"
+              [disabled]="eq.quantity === 0"
+              (click)="take(eq)"
+            ></button>
+          </div>
+        </ng-container>
+
+        <!-- Empty state -->
+        <ng-template #empty>
+          <div class="px-5 py-10 text-center text-surface-400 text-sm">
+            No equipment available
+          </div>
+        </ng-template>
+      </div>
+
+      <!-- Footer -->
+      <div class="px-5 py-3 border-t border-surface-700 text-right">
+        <button
+          pButton
+          type="button"
+          label="Close"
+          severity="secondary"
+          class="p-button-text"
+          (click)="property = null"
+        ></button>
+      </div>
+    </div>
+  </div>
+
+</div>

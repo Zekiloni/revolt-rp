@@ -205,7 +205,7 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   },
 
   [GameUiKey.MDC]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
     freezeControls: true,
   },
@@ -226,5 +226,12 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   [GameUiKey.FishingMinigame]: {
     isActive: false,
     closeOnEscape: true,
+  },
+
+  [GameUiKey.EquipmentMenu]: {
+    isActive: false,
+    mouse: true,
+    closeOnEscape: true,
+    freezeControls: true
   }
 };
