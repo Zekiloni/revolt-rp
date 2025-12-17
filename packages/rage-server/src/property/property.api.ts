@@ -12,7 +12,7 @@ import {
   getAllProperties, getPropertiesByOwnerId,
   getPropertyById, getPropertyByPointId, getPropertyByVehicleId,
   initializeProperty, isPropertyOwner,
-  playerLockProperty, propertyMainInteraction, updatePropertyPoint, updatePropertyVehicle
+  playerLockProperty, propertyMainInteraction, propertyPointInteraction, updatePropertyPoint, updatePropertyVehicle
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
@@ -107,12 +107,18 @@ function getAllPropertiesHandler() {
   return getAllProperties();
 }
 
+const propertyPointInteractionHandler = (propertyPointId: string, { player }: ProcedureListenerInfo<PlayerMp>) => {
+  getPropertyByPointId(propertyPointId)
+    .then(property => propertyPointInteraction(player, property, propertyPointId));
+}
+
 mp.events.add({
   packagesLoaded: loadAllPropertiesHandler
 });
 
 on(ProcedureKey.SERVER_PROPERTY_CREATE, createPropertyHandler);
 on(ProcedureKey.SERVER_PROPERTY_MAIN_INTERACTION, propertyMainInteractionHandler);
+on(ProcedureKey.SERVER_PROPERTY_POINT_INTERACTION, propertyPointInteractionHandler);
 register(ProcedureKey.SERVER_PROPERTY_LOCK, lockPropertyHandler);
 register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
 register(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, createPropertyPointHandler);

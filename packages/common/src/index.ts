@@ -75,10 +75,10 @@ export * from './lib/item/handheld-radio.model';
 export * from './lib/item/phone.model';
 export * from './lib/item/document.model';
 export * from './lib/item/fish.model';
-
 export * from './lib/item/item-flag';
 export * from './lib/item/registry/caliber-type';
 export * from './lib/item/registry/drug-item.model';
+export * from './lib/item/equipment.model';
 
 export * from './lib/vehicle/vehicle-models.data';
 export * from './lib/vehicle/vehicle-colors.data';

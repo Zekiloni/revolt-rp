@@ -8,12 +8,12 @@ import { MenuItem, MessageService } from 'primeng/api';
 import { TerminalModule, TerminalService } from 'primeng/terminal';
 import { Subscription } from 'rxjs';
 import { TreeModule } from 'primeng/tree';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Ripple } from 'primeng/ripple';
 import { GangRecordComponent } from './components/gang-record';
 import { dockMenuItems, MdcApplicationKey, menubarItems, responsiveOptions } from './mdc.component.config';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { GameUiKey, ProcedureKey } from '@revolt-rp/common';
+import { GameUiKey, IVector3, ProcedureKey } from '@revolt-rp/common';
 import { FinderComponent } from './components/finder';
 import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
@@ -43,7 +43,11 @@ export class MdcComponent implements OnInit, OnDestroy {
 
   subscription: Subscription | undefined;
 
-  constructor(private rageClientService: RageClientService, private messageService: MessageService, private terminalService: TerminalService) {
+  constructor(
+    private rageClientService: RageClientService,
+    private messageService: MessageService,
+    private translateService: TranslateService,
+    private terminalService: TerminalService) {
     this.menubarItems = [
       ...menubarItems(this.openApplication.bind(this)),
       {
@@ -54,22 +58,25 @@ export class MdcComponent implements OnInit, OnDestroy {
     ];
   }
 
-  commandHandler(text: any) {
+  commandHandler(text: string) {
     let response;
-    const argsIndex = text.indexOf(' ');
-    const command = argsIndex !== -1 ? text.substring(0, argsIndex) : text;
+    const input = text.trim(); // npr "track 064123456"
+    const parts = input.split(' ');
+
+    const command = parts[0];
+    const args = parts.slice(1);
 
     switch (command) {
       case 'date':
         response = 'Today is ' + new Date().toDateString();
         break;
 
-      case 'greet':
-        response = 'Hola ' + text.substring(argsIndex + 1) + '!';
+      case 'help':
+        response = 'Available commands: date, help, track'
         break;
 
-      case 'random':
-        response = Math.floor(Math.random() * 100);
+      case 'track':
+        this.trackPhoneNumber(args[0]);
         break;
 
       default:
@@ -91,7 +98,6 @@ export class MdcComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.subscription = this.terminalService.commandHandler.subscribe((command) => this.commandHandler(command));
 
     this.nodes = [
@@ -171,6 +177,25 @@ export class MdcComponent implements OnInit, OnDestroy {
         ]
       }
     ];
+  }
+
+  private trackPhoneNumber(phoneNumber: string) {
+    if (!phoneNumber || phoneNumber.trim().length === 0) {
+      this.terminalService.sendResponse('cmd: track <phoneNumber>');
+      return;
+    }
+
+    if (!/^\d{10}$/.test(phoneNumber)) {
+      this.terminalService.sendResponse(this.translateService.instant('invalid_phone_number'));
+    }
+
+    this.rageClientService.callServer<IVector3 |null>(ProcedureKey.SERVER_TRACK_PHONE_NUMBER, phoneNumber)
+      .subscribe({ next: (position) => {
+          // TODO: Open map with position
+          if (position) {
+            this.terminalService.sendResponse(`Phone number ${phoneNumber} located at X: ${position.x}, Y: ${position.y}, Z: ${position.z}`);
+          }
+        }})
   }
 
   ngOnDestroy() {

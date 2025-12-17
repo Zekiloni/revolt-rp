@@ -47,6 +47,7 @@ import './player/admin/spectate';
 import './organization/organization-menu';
 
 import './property/property-core';
+import './property/property-point';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 

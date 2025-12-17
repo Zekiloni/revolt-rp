@@ -60,6 +60,7 @@ import { GarageMenuComponent } from './component/property/garage-menu';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ColorConverterService } from './domain/service/color-converter.service';
 import { FishingComponent } from './component/minigames';
+import { EquipmentMenuComponent } from './component/property/equipment-menu';
 
 
 @Component({
@@ -104,7 +105,8 @@ import { FishingComponent } from './component/minigames';
     HeliCamComponent,
     GarageMenuComponent,
     ConfirmDialog,
-    FishingComponent
+    FishingComponent,
+    EquipmentMenuComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
