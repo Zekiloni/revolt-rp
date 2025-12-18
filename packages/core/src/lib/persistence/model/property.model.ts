@@ -43,6 +43,9 @@ export class PropertyPoint implements IPropertyPoint {
   @prop({ type: Object, required: true })
   position: IVector3;
 
+  @prop({ type: String, required: false })
+  description?: string;
+
   @prop({ type: Object, required: true })
   rotation: IVector3;
 

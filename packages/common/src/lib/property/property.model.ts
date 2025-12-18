@@ -48,6 +48,7 @@ export interface IEntrance {
 export interface IPropertyPoint {
   id: string;
   type: PropertyPointType;
+  description?: string;
   position: IVector3;
   rotation: IVector3;
   dimension: number;
