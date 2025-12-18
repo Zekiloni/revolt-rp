@@ -59,8 +59,10 @@
       [draggable]="false"
       [resizable]="false">
       <p-terminal
+        #terminal
+        [ngClass]="{ 'terminal-disabled': terminalDisabled }"
         welcomeMessage="Welcome to MDC (use cmd help to get started)"
-        prompt="mdc $" />
+        prompt="mdt $" />
     </p-dialog>
 
   </div>

@@ -720,4 +720,5 @@ export const enUs = {
   'detected_speed': 'Detected speed',
   'renew_numberplate_hint': 'Renew your registration to extend validity for another {{days}} days',
   'register_vehicle_hint': 'Register your vehicle to receive a new number plate and legal status.',
+  'mdc_tracking_phone_number': 'Tracking Phone Number {{phoneNumber}}...',
 };

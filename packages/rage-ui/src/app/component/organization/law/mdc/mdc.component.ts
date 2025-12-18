@@ -1,33 +1,36 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MenubarModule } from 'primeng/menubar';
 import { DockModule } from 'primeng/dock';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { MenuItem, MessageService } from 'primeng/api';
-import { TerminalModule, TerminalService } from 'primeng/terminal';
-import { Subscription } from 'rxjs';
+import { Terminal, TerminalModule, TerminalService } from 'primeng/terminal';
+import { delay, of, Subscription, switchMap } from 'rxjs';
 import { TreeModule } from 'primeng/tree';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { Ripple } from 'primeng/ripple';
 import { GangRecordComponent } from './components/gang-record';
 import { dockMenuItems, MdcApplicationKey, menubarItems, responsiveOptions } from './mdc.component.config';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { GameUiKey, IVector3, ProcedureKey } from '@revolt-rp/common';
+import { ApiError, GameUiKey, IVector3, ProcedureKey } from '@revolt-rp/common';
 import { FinderComponent } from './components/finder';
 import { StaticAssetPipe } from '@revolt-rp/common-ui';
+import { DialogService } from 'primeng/dynamicdialog';
+import { TrackPhoneNumberComponent, TrackPhoneNumberData } from './components/track-phone-number';
 
 
 @Component({
   selector: 'app-mdc',
   standalone: true,
   imports: [CommonModule, MenubarModule, DockModule, DialogModule, ToastModule, TerminalModule, TreeModule, TranslatePipe, Ripple, GangRecordComponent, StaticAssetPipe, FinderComponent],
-  providers: [MessageService, TerminalService],
+  providers: [MessageService, TerminalService, DialogService],
   templateUrl: './mdc.component.html',
   styleUrl: './mdc.component.scss'
 })
 export class MdcComponent implements OnInit, OnDestroy {
   @Input() isActive!: boolean;
+  @ViewChild('terminal') terminal!: Terminal;
 
   openedApplications: Set<MdcApplicationKey> = new Set<MdcApplicationKey>();
 
@@ -43,10 +46,13 @@ export class MdcComponent implements OnInit, OnDestroy {
 
   subscription: Subscription | undefined;
 
+  terminalDisabled = false;
+
   constructor(
     private rageClientService: RageClientService,
     private messageService: MessageService,
     private translateService: TranslateService,
+    private dialogService: DialogService,
     private terminalService: TerminalService) {
     this.menubarItems = [
       ...menubarItems(this.openApplication.bind(this)),
@@ -72,7 +78,7 @@ export class MdcComponent implements OnInit, OnDestroy {
         break;
 
       case 'help':
-        response = 'Available commands: date, help, track'
+        response = 'Available commands: date, help, track';
         break;
 
       case 'track':
@@ -95,6 +101,10 @@ export class MdcComponent implements OnInit, OnDestroy {
 
   closeApplication(key: MdcApplicationKey) {
     this.openedApplications.delete(key);
+
+    if (key === 'terminal') {
+      this.terminalDisabled = false;
+    }
   }
 
   ngOnInit() {
@@ -181,21 +191,42 @@ export class MdcComponent implements OnInit, OnDestroy {
 
   private trackPhoneNumber(phoneNumber: string) {
     if (!phoneNumber || phoneNumber.trim().length === 0) {
-      this.terminalService.sendResponse('cmd: track <phoneNumber>');
+      this.terminalService.sendResponse('mdc[cmd]: track <phoneNumber>');
       return;
     }
 
     if (!/^\d{10}$/.test(phoneNumber)) {
       this.terminalService.sendResponse(this.translateService.instant('invalid_phone_number'));
     }
+    const loadingTime = Math.floor(Math.random() * (7000 - 5000 + 1)) + 5000;
 
-    this.rageClientService.callServer<IVector3 |null>(ProcedureKey.SERVER_TRACK_PHONE_NUMBER, phoneNumber)
-      .subscribe({ next: (position) => {
-          // TODO: Open map with position
-          if (position) {
-            this.terminalService.sendResponse(`Phone number ${phoneNumber} located at X: ${position.x}, Y: ${position.y}, Z: ${position.z}`);
+    this.terminalService.sendResponse(this.translateService.instant('mdc_tracking_phone_number', { phoneNumber }));
+
+    this.terminalDisabled = true;
+    of(phoneNumber).pipe(
+      delay(loadingTime),
+      switchMap(phone =>
+        this.rageClientService.callServer<IVector3>(ProcedureKey.SERVER_TRACK_PHONE_NUMBER, phone)
+      )
+    ).subscribe({
+      next: (position) => {
+        this.terminalDisabled = false;
+        console.log('Tracked position:', JSON.stringify(position));
+        this.dialogService.open<TrackPhoneNumberComponent, TrackPhoneNumberData>(TrackPhoneNumberComponent, {
+          header: this.translateService.instant('mdc_phone_number_tracking_result'),
+          width: '35%',
+          data: {
+            phoneNumber,
+            position
           }
-        }})
+        })
+        this.terminalService.sendResponse(`Phone number ${phoneNumber} located at X: ${position.x}, Y: ${position.y}, Z: ${position.z}`);
+      },
+      error: (err: ApiError) => {
+        this.terminalDisabled = false;
+        this.terminalService.sendResponse(err.message);
+      }
+    });
   }
 
   ngOnDestroy() {

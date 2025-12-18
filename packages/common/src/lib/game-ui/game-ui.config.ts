@@ -205,8 +205,9 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   },
 
   [GameUiKey.MDC]: {
-    isActive: true,
+    isActive: false,
     mouse: true,
+    disableChat: true,
     freezeControls: true,
   },
 
