@@ -36,6 +36,13 @@
         margin-top: 0;
       }
 
+
+      .terminal-disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
       .p-terminal {
         background-color: #212121;
         color: #ffffff;
