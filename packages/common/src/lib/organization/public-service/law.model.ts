@@ -1,6 +1,7 @@
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import type { Ref } from '@typegoose/typegoose';
 import { ICharacter } from '../../player/character/character.model';
+import { IProperty } from '../../property/property.model';
 
 export enum RecordType {
   Arrest = 'arrest',
@@ -24,7 +25,9 @@ export interface ICriminalRecord extends Base {
   charges: ICharge[];
   note?: string;
   evidences?: string[];
+  prisonProperty?: Ref<IProperty>
   createdAt: Date;
+  expiringAt?: Date;
   updatedAt?: Date;
 }
 

@@ -35,6 +35,7 @@ export enum PublicServiceType {
   Hospital = 'hospital',
   PoliceStation = 'police_station',
   FireStation = 'fire_station',
+  Prison = 'prison',
   Bank = 'bank',
   PostOffice = 'post_office',
 }
