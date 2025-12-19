@@ -18,7 +18,7 @@ export const arrestPlayer = async (player: PlayerMp, target: PlayerMp, record: I
 
   putInPrison(player, /* prison property based on record */ null, true);
 
-  // Logic to arrest the player and create a criminal record
+  // TODO: notify target player of arrest
 };
 
 export const putInPrison = (player: PlayerMp, prison: Property, teleport = false) => {
