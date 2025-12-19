@@ -19,6 +19,8 @@ import { FilterQuery, UpdateQuery } from 'mongoose';
 import { playerAddAttachment, playerRemoveAttachment } from '../util/player-attachment.util';
 import { Character, characterConfig, CharacterModel, Organization, OrganizationRank, Property } from '@revolt-rp/core';
 import { getPropertyJob } from '../../property/property.service';
+import { getActiveArrestByCharacterId } from '../../organization/law/criminal-record/criminal-record.service';
+import { putInPrison } from '../../organization/law/prison.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -185,16 +187,26 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
   } else {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
-    if (!player.character.isWounded) {
-      switch (player.character.defaultSpawn.type) {
-        case CharacterSpawnType.INITIAL_SPAWN: {
-          const { x, y, z } = characterConfig.defaultPosition;
-          player.character.position = new mp.Vector3(x, y, z);
-          player.character.dimension = characterConfig.defaultDimension;
-          break;
-        }
+   const arrested =  await getActiveArrestByCharacterId(player.character.id)
+    if (arrested) {
+      const prison = (<Property>arrested.prisonProperty)
+      putInPrison(player, prison);
+    } else {
+      if (!player.character.isWounded) {
+        // TODO: Toggle spawn selection screen if multiple spawn types are available
+        switch (player.character.defaultSpawn.type) {
+          case CharacterSpawnType.INITIAL_SPAWN: {
+            const { x, y, z } = characterConfig.defaultPosition;
+            player.character.position = new mp.Vector3(x, y, z);
+            player.character.dimension = characterConfig.defaultDimension;
+            break;
+          }
 
-        default:
+          case CharacterSpawnType.LAST_POSITION: {
+            // Position is already set to last position
+            break;
+          }
+        }
       }
     }
   }
@@ -336,7 +348,11 @@ export const updateAddiction = (character: Character, addictionKey: AddictionTyp
   if (addiction) {
     addiction.level = Math.max(0, Math.min(100, addiction.level + amount));
   } else {
-    character.addictions.push({ type: addictionKey, level: Math.max(0, Math.min(100, amount)), lastUsedAt: new Date() });
+    character.addictions.push({
+      type: addictionKey,
+      level: Math.max(0, Math.min(100, amount)),
+      lastUsedAt: new Date()
+    });
   }
 };
 
@@ -349,14 +365,14 @@ export const getAddictionTolerance = (character: Character, addictionKey: Addict
   const tolerance = addiction.level * 0.6;
 
   return Math.min(60, Math.max(0, tolerance));
-}
+};
 
 export const setPlayerStamina = (player: PlayerMp, stamina: number) => {
   player.character.stamina = Math.max(0, Math.min(100, stamina));
   player.setVariable(PlayerSharedDataType.Stamina, player.character.stamina);
-}
+};
 
 export const setPlayerStrength = (player: PlayerMp, strength: number) => {
   player.character.strength = Math.max(0, Math.min(100, strength));
   player.setVariable(PlayerSharedDataType.Strength, player.character.strength);
-}
+};

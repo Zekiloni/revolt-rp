@@ -1,5 +1,5 @@
-import { getPhoneByPhoneNumber, getPlayerByPhoneNumber } from '../../player/inventory/phone/player-phone.service';
 import { t } from 'i18next';
+import { getPhoneByPhoneNumber, getPlayerByPhoneNumber } from '../../player/inventory/phone/player-phone.service';
 
 export const trackPhoneNumber = async (phoneNumb: string) => {
   const [target, phone] = await Promise.all([
@@ -15,9 +15,6 @@ export const trackPhoneNumber = async (phoneNumb: string) => {
     throw new Error(t('phone_powered_off'));
   }
 
-  const position = target?.position ?? phone?.position;
-
-  console.log('Tracking phone number:', phoneNumb, 'Position:', position);
-
-  return position;
+  return target?.position ?? phone?.position;
 };
+

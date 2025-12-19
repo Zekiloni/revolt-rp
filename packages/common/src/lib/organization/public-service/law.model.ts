@@ -27,6 +27,7 @@ export interface ICriminalRecord extends Base {
   evidences?: string[];
   prisonProperty?: Ref<IProperty>
   createdAt: Date;
+  released?: boolean;
   expiringAt?: Date;
   updatedAt?: Date;
 }
@@ -36,6 +37,7 @@ export interface ICriminalRecordCreate {
   targetCharacterId: string;
   location: string;
   charges: ICharge[];
+  note?: string;
 }
 
 export interface IWarrant extends Base {
