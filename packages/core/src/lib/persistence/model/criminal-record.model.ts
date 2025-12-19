@@ -2,6 +2,7 @@ import { Document, Types } from 'mongoose';
 import { modelOptions, prop, type  Ref } from '@typegoose/typegoose';
 import { ICharge, ICriminalRecord, RecordType } from '@revolt-rp/common';
 import { Character } from './character.model';
+import { Property } from './property.model';
 
 
 export class Charge implements ICharge {
@@ -20,7 +21,7 @@ export class Charge implements ICharge {
 
 @modelOptions({
   schemaOptions: {
-    timestamps: true
+    timestamps: true,
   }
 })
 export class CriminalRecord extends Document implements ICriminalRecord {
@@ -48,11 +49,20 @@ export class CriminalRecord extends Document implements ICriminalRecord {
   @prop()
   numberplate?: string;
 
+  @prop({ type: Boolean, default: false })
+  released?: boolean;
+
   @prop({ type: () => [String], default: [] })
   evidences?: string[];
 
+  @prop({ ref: () => Property, default: null })
+  prisonProperty: Ref<Property>
+
   @prop()
   createdAt: Date;
+
+  @prop({ type: Date, default: null })
+  expiringAt?: Date;
 
   @prop()
   updatedAt?: Date;

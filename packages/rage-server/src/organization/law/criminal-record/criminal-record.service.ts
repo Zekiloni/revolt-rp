@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { ICriminalRecordCreate } from '@revolt-rp/common';
+import { ICriminalRecordCreate, RecordType } from '@revolt-rp/common';
 import { isLawOrganization } from '../../organization.service';
 import { Character, CriminalRecordModel } from '@revolt-rp/core';
 
@@ -14,10 +14,18 @@ export const createCriminalRecord = async (
   return CriminalRecordModel.create({
     ...criminalRecord,
     target: criminalRecord.targetCharacterId,
-    officer,
+    officer
   });
 };
 
 export async function getAllCriminalRecords() {
   return CriminalRecordModel.find().populate(['target', 'officer']);
 }
+
+export const getActiveArrestByCharacterId = async (characterId: string) =>
+  CriminalRecordModel.findOne({
+    target: characterId,
+    type: RecordType.Arrest,
+    released: false,
+    expiringAt: { $gt: new Date() }
+  }).populate(['target', 'officer', 'prisonProperty']).exec();
