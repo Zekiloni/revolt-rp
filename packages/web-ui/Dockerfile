@@ -4,11 +4,10 @@ FROM node:lts-alpine
 WORKDIR /app
 
 # Copy built server and browser bundles from Nx dist folder
-COPY ./dist/packages/web-ui/server  .
-COPY ./dist/packages/web-ui/browser ./browser
+COPY dist/packages/web-ui ./
 
 # Expose your app’s port
 EXPOSE 4000
 
 # Start the Node.js server
-CMD ["node", "server.js"]
+CMD ["node", "server/server.mjs"]

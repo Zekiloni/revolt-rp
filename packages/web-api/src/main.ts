@@ -22,12 +22,12 @@ app.use(express.json());
 app.use(cors());
 app.use(compression());
 
-const assetsPath = path.join(__dirname, 'assets');
-app.use('/assets', express.static(assetsPath, {
+app.use('/assets', express.static(path.join(__dirname, 'assets'), {
   maxAge: '15d',
   etag: false
 }));
 
+app.use('/uploads', express.static(path.resolve(path.join(__dirname, 'uploads'))));
 
 app.use('/api', controller);
 

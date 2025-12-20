@@ -1,3 +1,10 @@
+import dotenv from 'dotenv';
+import { resolve } from 'path';
+
+dotenv.config({
+  path: resolve(`.env.${process.env['NODE_ENV'] || 'development'}`)
+});
+
 import { connect } from '@revolt-rp/core';
 
 import './main/i18n.config';
@@ -58,7 +65,6 @@ import './job/base-job.api';
 import './job/sanitation-job.api';
 
 import './organization/law';
-
 
 import './test';
 
