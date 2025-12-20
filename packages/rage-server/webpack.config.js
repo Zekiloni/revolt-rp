@@ -34,6 +34,6 @@ module.exports = {
       outputHashing: 'none',
       // optimization: process.env['NODE_ENV'] === 'production',
       // outputHashing: process.env['NODE_ENV'] === 'production' ? 'all' : 'none'
-    })
-  ]
+    }),
+  ],
 };

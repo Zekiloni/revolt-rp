@@ -6,6 +6,7 @@ import characterController from './character.controller';
 import whitelistController from './whitelist.controller';
 import vehicleController from './vehicle.controller'
 import propertyController from './property.controller'
+import imageController from './image.controller';
 
 const router = Router();
 
@@ -16,5 +17,6 @@ router.use('/whitelist', whitelistController);
 router.use('/character', characterController);
 router.use('/vehicle', vehicleController);
 router.use('/property', propertyController)
+router.use('/image', imageController);
 
 export default router;
