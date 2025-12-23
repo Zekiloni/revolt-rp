@@ -79,6 +79,7 @@ export interface IPropertyVehicle {
   color?: [[number, number, number], [number, number, number]];
   liveryId?: number;
   bodyHealth?: number;
+  equipment?: string[];
 }
 
 export interface IPropertyVehicleCreate {

@@ -3,7 +3,7 @@ import { Types } from 'mongoose';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   CommercialType,
-  GameUiKey,
+  GameUiKey, IEquipment,
   IPropertyCreate,
   IPropertyPoint,
   IPropertyVehicle,
@@ -40,6 +40,8 @@ import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.ser
 import { getJob, openJobMenu } from '../job/base-job.service';
 import { toggleGarageMenu } from './garage/garage.service';
 import { showPlayerGameInterface } from '../player/util/player.util';
+import { hasPlayerItem, playerGiveItem } from '../player/inventory/player-inventory.service';
+import { calculateTaxRate } from '../banking/tax.util';
 
 
 const propertyMainMenuHandlers = {
@@ -167,7 +169,7 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
 export const getPropertyJob = (property: Property) => {
   const jobKey = propertyJobMap[property.subType];
   return jobKey ? getJob(jobKey) : undefined;
-}
+};
 
 export const deletePropertyPoint = async (property: Property, pointId: string) => {
   const point = property.points.find((point) => point.id === pointId);
@@ -456,5 +458,28 @@ function equipmentPointInteraction(player: PlayerMp, property: Property) {
     return;
 
   const equipment = equipmentConfig[key];
-  showPlayerGameInterface(player, GameUiKey.EquipmentMenu, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_EQUIPMENT_MENU, { property, equipment }));
+  showPlayerGameInterface(player, GameUiKey.EquipmentMenu, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_EQUIPMENT_MENU, {
+    property,
+    equipment
+  }));
+}
+
+
+export async function playerTakeEquipment(player: PlayerMp, property: Property, equipment: IEquipment) {
+  if (equipment.limit && hasPlayerItem(player, equipment.item, equipment.limit)) {
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('equipment_limit_reached', { item: equipment.item }) });
+  }
+
+  if (equipment.price && equipment.price > 0) {
+    if (player.character.cash < equipment.price) {
+      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+    }
+
+    await giveMoney(player, -equipment.price);
+    property.balance = (property.balance + (equipment.price - calculateTaxRate(property)));
+    await property.save();
+  }
+
+  const item = await playerGiveItem(player, equipment.item, equipment.quantity || 1, equipment.options);
+  notifyPlayer(player, { severity: 'success', summary: t('success'), detail: t('equipment_received', { item: item.name }) });
 }
