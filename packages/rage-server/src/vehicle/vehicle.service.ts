@@ -1,4 +1,4 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
   formatCurrency,
@@ -15,6 +15,7 @@ import { t } from 'i18next';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { giveMoney } from '../player/character/character.service';
 import { Character, Vehicle, vehicleConfig, VehicleModel } from '@revolt-rp/core';
+import { destroyItemById } from '../item/item.service';
 
 
 export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
@@ -129,6 +130,8 @@ export const deleteVehicle = async (vehicle: VehicleMp) => {
   if (vehicle && mp.vehicles.exists(vehicle)) {
     vehicle.destroy();
   }
+
+  vehicle.info.trunk.forEach((item) => destroyItemById((<Types.ObjectId>item).toString()))
 
   await VehicleModel.findByIdAndDelete(vehicle.info.id).exec();
 }

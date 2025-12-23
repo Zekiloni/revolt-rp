@@ -1,6 +1,6 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
-  GameUiKey,
+  GameUiKey, IEquipment,
   IPropertyCreate,
   IPropertyPoint,
   IPropertyUpdate,
@@ -8,11 +8,24 @@ import {
   ProcedureKey
 } from '@revolt-rp/common';
 import {
-  createProperty, createPropertyPoint, createPropertyVehicle, deletePropertyPoint, deletePropertyVehicle,
-  getAllProperties, getPropertiesByOwnerId,
-  getPropertyById, getPropertyByPointId, getPropertyByVehicleId,
-  initializeProperty, isPropertyOwner,
-  playerLockProperty, propertyMainInteraction, propertyPointInteraction, updatePropertyPoint, updatePropertyVehicle
+  createProperty,
+  createPropertyPoint,
+  createPropertyVehicle,
+  deletePropertyPoint,
+  deletePropertyVehicle,
+  getAllProperties,
+  getPropertiesByOwnerId,
+  getPropertyById,
+  getPropertyByPointId,
+  getPropertyByVehicleId,
+  initializeProperty,
+  isPropertyOwner,
+  playerLockProperty,
+  playerTakeEquipment,
+  propertyMainInteraction,
+  propertyPointInteraction,
+  updatePropertyPoint,
+  updatePropertyVehicle
 } from './property.service';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
@@ -67,7 +80,7 @@ async function createPropertyPointHandler(propertyId: string, { player }: Proced
       try {
         return createPropertyPoint(property, position, rotation, player.dimension);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     });
 }
@@ -110,6 +123,13 @@ function getAllPropertiesHandler() {
 const propertyPointInteractionHandler = (propertyPointId: string, { player }: ProcedureListenerInfo<PlayerMp>) => {
   getPropertyByPointId(propertyPointId)
     .then(property => propertyPointInteraction(player, property, propertyPointId));
+};
+
+async function takePropertyEquipmentHandler(data: [string, IEquipment], { player }: ProcedureListenerInfo<PlayerMp>) {
+  const [propertyId, equipment] = data;
+
+  getPropertyById(propertyId)
+    .then(property => playerTakeEquipment(player, property, equipment));
 }
 
 mp.events.add({
@@ -119,6 +139,7 @@ mp.events.add({
 on(ProcedureKey.SERVER_PROPERTY_CREATE, createPropertyHandler);
 on(ProcedureKey.SERVER_PROPERTY_MAIN_INTERACTION, propertyMainInteractionHandler);
 on(ProcedureKey.SERVER_PROPERTY_POINT_INTERACTION, propertyPointInteractionHandler);
+on(ProcedureKey.SERVER_PROPERTY_TAKE_EQUIPMENT, takePropertyEquipmentHandler);
 register(ProcedureKey.SERVER_PROPERTY_LOCK, lockPropertyHandler);
 register(ProcedureKey.SERVER_PROPERTY_UPDATE, updatePropertyHandler);
 register(ProcedureKey.SERVER_CREATE_PROPERTY_POINT, createPropertyPointHandler);

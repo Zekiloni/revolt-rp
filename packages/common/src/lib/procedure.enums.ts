@@ -267,6 +267,5 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_POINT_INTERACTION = 'server_propertyPointInteraction',
   BROWSER_SET_EQUIPMENT_MENU = 'browser_setEquipmentMenu',
   SERVER_PROPERTY_TAKE_EQUIPMENT = 'server_propertyTakeEquipment',
-
   SERVER_TRACK_PHONE_NUMBER = 'server_trackPhoneNumber',
 }

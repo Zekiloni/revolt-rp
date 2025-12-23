@@ -12,6 +12,7 @@ export interface IBaseItem {
   isWeapon: boolean;
   isEquipable: boolean;
   isBankCard: boolean;
+  isFishingBait: boolean;
   isAmmo: boolean;
 
 }

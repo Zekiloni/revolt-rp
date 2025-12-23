@@ -456,3 +456,16 @@ export const getPlayerByItemId = async (itemId: string) => {
 export const getPlayerInventoryBankCards = (player: PlayerMp) => {
   return player.character.inventory.filter((item: Item) => item.data && item.data.isBankCard);
 };
+
+export const hasPlayerItem = (
+  player: PlayerMp,
+  itemName: string,
+  limit = 1
+): boolean => {
+  const count = player.character.inventory.filter(
+    (item: Item) => item?.data?.name === itemName
+  ).length;
+
+  return count >= limit;
+};
+

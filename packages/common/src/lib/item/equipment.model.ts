@@ -1,8 +1,9 @@
+import { IItem } from './item.model';
 
 export interface IEquipment {
   item: string;
   quantity?: number;
-  cooldown?: number;
   limit: number;
   price?: number;
+  options?: Partial<IItem>;
 }
