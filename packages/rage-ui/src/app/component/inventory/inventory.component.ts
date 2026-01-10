@@ -18,12 +18,12 @@ import { InventoryState } from '../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../store/inventory/inventory.selectors';
 import { GiveItemComponent, GiveItemDialogOutput } from './component/give-item';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { StaticAssetPipe } from '@revolt-rp/common-ui';
+import { ImgFallbackDirective, StaticAssetPipe } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, DroppableDirective, NgOptimizedImage, TranslatePipe, ConfirmDialogModule, StaticAssetPipe],
+  imports: [CommonModule, OverlayPanelModule, ContextMenuModule, BadgeModule, DraggableDirective, ImgFallbackDirective, DroppableDirective, NgOptimizedImage, TranslatePipe, ConfirmDialogModule, StaticAssetPipe],
   providers: [DialogService],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.css'
