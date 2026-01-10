@@ -1,79 +1,20 @@
-<div class="card absolute-center">
-  <div class="fixed inset-0 flex items-center justify-center bg-black/50">
-    <div
-      class="w-[420px] rounded-xl bg-surface-900 text-surface-0 shadow-2xl border border-surface-700"
-    >
-      <!-- Header -->
-      <div class="px-5 py-4 border-b border-surface-700">
-        <h2 class="text-lg font-semibold tracking-wide">
-          {{ property?.name || 'Equipment' }}
-        </h2>
-        <p class="text-xs text-surface-400">
-          Available items
-        </p>
+<div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border">
+
+  @for (item of equipment; track item.item) {
+    <div class="flex items-center justify-between mb-4 last:mb-0">
+      <div class="flex items-center">
+        <img [ngSrc]="getItemIcon(item.data)" imgFallback alt="{{ item.item }}"     width="75"
+             height="75"
+             class="w-32 h-32 shrink-0 mb-4" style="object-fit: cover" />
+        <span class="text-base font-medium">{{ item.item }}</span>
       </div>
-
-<!--      &lt;!&ndash; Equipment list &ndash;&gt;-->
-<!--      <div class="max-h-[360px] overflow-y-auto divide-y divide-surface-800">-->
-<!--        <ng-container *ngIf="equipment?.length; else empty">-->
-<!--          <div-->
-<!--            *ngFor="let eq of equipment"-->
-<!--            class="flex items-center justify-between px-5 py-3 hover:bg-surface-800 transition"-->
-<!--          >-->
-<!--            &lt;!&ndash; Left &ndash;&gt;-->
-<!--            <div class="flex flex-col gap-0.5">-->
-<!--            <span class="font-medium">-->
-<!--              {{ eq.item }}-->
-<!--            </span>-->
-
-<!--              <div class="flex gap-3 text-xs text-surface-400">-->
-<!--              <span *ngIf="eq.quantity !== undefined">-->
-<!--                Qty: {{ eq.quantity }}-->
-<!--              </span>-->
-
-<!--                <span *ngIf="eq.price !== undefined">-->
-<!--                ${{ eq.price }}-->
-<!--              </span>-->
-
-<!--                <span *ngIf="eq.cooldown">-->
-<!--                CD: {{ eq.cooldown }}s-->
-<!--              </span>-->
-<!--              </div>-->
-<!--            </div>-->
-
-<!--            &lt;!&ndash; Right &ndash;&gt;-->
-<!--            <button-->
-<!--              pButton-->
-<!--              type="button"-->
-<!--              label="Take"-->
-<!--              size="small"-->
-<!--              class="p-button-sm"-->
-<!--              [disabled]="eq.quantity === 0"-->
-<!--              (click)="take(eq)"-->
-<!--            ></button>-->
-<!--          </div>-->
-<!--        </ng-container>-->
-
-<!--        &lt;!&ndash; Empty state &ndash;&gt;-->
-<!--        <ng-template #empty>-->
-<!--          <div class="px-5 py-10 text-center text-surface-400 text-sm">-->
-<!--            No equipment available-->
-<!--          </div>-->
-<!--        </ng-template>-->
-<!--      </div>-->
-
-<!--      &lt;!&ndash; Footer &ndash;&gt;-->
-<!--      <div class="px-5 py-3 border-t border-surface-700 text-right">-->
-<!--        <button-->
-<!--          pButton-->
-<!--          type="button"-->
-<!--          label="Close"-->
-<!--          severity="secondary"-->
-<!--          class="p-button-text"-->
-<!--          (click)="property = null"-->
-<!--        ></button>-->
-<!--      </div>-->
+      <button
+        class="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700"
+        (click)="take(item)"
+      >
+        take
+      </button>
     </div>
-  </div>
 
+  }
 </div>

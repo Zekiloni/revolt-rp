@@ -12,12 +12,12 @@ import {
 } from 'primeng/picklist';
 import { DragDropModule } from 'primeng/dragdrop';
 import { IItem, ProcedureKey } from '@revolt-rp/common';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { InventoryState } from '../../../store/inventory/inventory.reducer';
 import { selectInventory } from '../../../store/inventory/inventory.selectors';
 import { fadeInOutTrigger } from '../../../domain/util/animation.util';
 import { getItemIcon } from '../../../domain/util/item.util';
-import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({

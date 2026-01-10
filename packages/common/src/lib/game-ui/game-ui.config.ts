@@ -230,7 +230,7 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   },
 
   [GameUiKey.EquipmentMenu]: {
-    isActive: false,
+    isActive: true,
     mouse: true,
     closeOnEscape: true,
     freezeControls: true
