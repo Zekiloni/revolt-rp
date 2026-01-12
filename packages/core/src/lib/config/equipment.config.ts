@@ -7,5 +7,5 @@ export type OrganizationEquipmentConfig = {
 
 export const equipmentConfig: Partial<OrganizationEquipmentConfig> = {
   [OrganizationType.LAW]: [{ item: 'items.cuffs', data: getBaseItem('items.cuffs'), limit: 5 }],
-  [OrganizationType.EMS]: [{ item: '', limit: 20 }]
+  [OrganizationType.EMS]: [{ item: '', data: getBaseItem(''), limit: 20 }]
 };

@@ -54,6 +54,8 @@ import './property/vehicle-dealership';
 import './job/garbage-collecting';
 import './job/fishing';
 
+import './audio/audio-sync';
+
 import './screenshoter';
 
 // Object.defineProperty(mp.nesto, 'enableSnow', {

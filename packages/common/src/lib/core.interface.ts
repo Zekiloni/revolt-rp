@@ -24,3 +24,17 @@ export interface IVector3 {
   toArray(): Array3d;
   unit(): IVector3;
 }
+
+
+export const enum EntitySharedDataType {
+  SOUND = 'sound',
+}
+
+export interface ISound3D {
+  id: string;
+  url: string;
+  volume: number;
+  range: number;
+  paused: boolean;
+  inVehicle?: boolean;
+}

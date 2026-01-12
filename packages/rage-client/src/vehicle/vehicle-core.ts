@@ -238,6 +238,13 @@ function toggleVehicleDoor(vehicle: VehicleMp, index: RageEnums.Vehicle.DoorInde
   }
 }
 
+export const isVehicleDoorOpen = (vehicle: VehicleMp, index: RageEnums.Vehicle.DoorIndex): boolean => {
+  if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, index))
+    return false;
+
+  return vehicle.getDoorAngleRatio(index) > 0.1;
+}
+
 function vehicleStreamInHandler(entity: VehicleMp) {
   if (entity.type != RageEnums.EntityType.VEHICLE)
     return;
@@ -272,6 +279,15 @@ function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
       }
     }
   });
+}
+
+export const isVehicleWindowOpen = (vehicle: VehicleMp, index: number): boolean => {
+  if (!isValidVehicleWindow(vehicle, index))
+    return false;
+
+  const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
+  const windowState = windows[index];
+  return windowState && vehicle.isWindowIntact(index);
 }
 
 function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], _oldValue?: boolean[]) {
