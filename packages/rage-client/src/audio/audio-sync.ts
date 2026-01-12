@@ -2,6 +2,15 @@ import { destroySound, getSoundId, isPlayingSound, playSound3D, setSoundPan, set
 import { EntitySharedDataType, ISound3D } from '@revolt-rp/common';
 import { isVehicleDoorOpen, isVehicleWindowOpen } from '../vehicle/vehicle-core';
 
+// 3D Sound API with Howler.js,
+//   Play sounds at a position or on an entity,
+//   If entity move the sound can move with it (example radio for vehicles),
+// If entity is a vehicle sound decrease/increase when doors closed/opened,
+//   Pause, resume and set volume,
+//   Synchronized thanks to Entity Sync with seek resume when in range.
+//   Virtual Seek : When the sound streamed out play it virtually server side and resume it when streamed in.
+
+
 const entities = [RageEnums.EntityType.VEHICLE, RageEnums.EntityType.OBJECT, RageEnums.EntityType.DUMMY];
 
 let lastCheckAt = Date.now();
@@ -116,7 +125,7 @@ mp.events.add('render', () => {
     if (entity.type === RageEnums.EntityType.VEHICLE) {
       const veh = entity as VehicleMp;
 
-      const listenerInVehicle = vehicle.handle === veh.handle;
+      const listenerInVehicle = vehicle && vehicle.handle === veh.handle;
       const soundInVehicle = sound.inVehicle;
 
       if (listenerInVehicle && soundInVehicle) {
@@ -147,7 +156,6 @@ function handleEntitySoundData(entity: EntityMp, oldValue: ISound3D | undefined,
 
   if (newValue) {
     if (isPlayingSound(soundId)) {
-      // Update existing sound
       const sound = sounds.get(soundId)!;
       sound.url = newValue.url;
       sound.volume = newValue.volume;

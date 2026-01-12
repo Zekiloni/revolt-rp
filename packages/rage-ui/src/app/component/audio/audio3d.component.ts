@@ -7,7 +7,7 @@ import { ProcedureKey } from '@revolt-rp/common';
 
 @Component({
   standalone: true,
-  selector: 'app-audio',
+  selector: 'app-audio-3d',
   imports: [CommonModule],
   templateUrl: './audio3d.component.html'
 })

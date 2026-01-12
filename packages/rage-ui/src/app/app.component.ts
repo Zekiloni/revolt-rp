@@ -61,6 +61,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ColorConverterService } from './domain/service/color-converter.service';
 import { FishingComponent } from './component/minigames';
 import { EquipmentMenuComponent } from './component/property/equipment-menu';
+import { Audio3dComponent } from './component/audio';
 
 
 @Component({
@@ -106,7 +107,8 @@ import { EquipmentMenuComponent } from './component/property/equipment-menu';
     GarageMenuComponent,
     ConfirmDialog,
     FishingComponent,
-    EquipmentMenuComponent
+    EquipmentMenuComponent,
+    Audio3dComponent
   ],
   providers: [InventoryListenerService],
   selector: 'app-root',
