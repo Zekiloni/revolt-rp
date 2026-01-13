@@ -37,7 +37,7 @@ registerCommand({
         id: `vehicle_${player.vehicle.id}`,
         url,
         volume: 1,
-        range: 60,
+        range: 10,
         paused: false
       };
       player.vehicle.setVariable(EntitySharedDataType.SOUND, sound);

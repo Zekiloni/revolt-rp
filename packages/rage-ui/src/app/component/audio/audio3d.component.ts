@@ -3,44 +3,51 @@ import { CommonModule } from '@angular/common';
 import { Audio3dService } from './audio3d.service';
 import { RageClientService } from '../../domain/service/rage-client.service';
 import { ProcedureKey } from '@revolt-rp/common';
+import { Slider } from 'primeng/slider';
+import { FormsModule } from '@angular/forms';
+import { Button } from 'primeng/button';
 
 
 @Component({
   standalone: true,
   selector: 'app-audio-3d',
-  imports: [CommonModule],
+  imports: [CommonModule, Slider, FormsModule, Button],
   templateUrl: './audio3d.component.html'
 })
 export class Audio3dComponent implements OnInit, OnDestroy {
   constructor(private rageClientService: RageClientService, private audio: Audio3dService) {
   }
 
-  createSound = (data: [number, string, number]) => {
+  get sounds() {
+    return this.audio.getSounds();
+  }
+
+  createSound = (data: [string, string, number]) => {
     const [id, url, volume] = data;
     this.audio.createSound(id, url, volume);
   };
 
-  setVolume = (data: [number, number]) => {
+  setVolume = (data: [string, number]) => {
     const [id, volume] = data;
     this.audio.setVolume(id, volume);
   };
 
-  pause = (id: number) => {
+  pause = (id: string) => {
     this.audio.pause(id);
   };
 
-  resume = (id: number) => {
+  resume = (id: string) => {
     this.audio.resume(id);
   };
 
-  destroy = (id: number) => {
+  destroy = (id: string) => {
     this.audio.destroy(id);
   };
 
-  setPan = (data: [number, number]) => {
+  setPan = (data: [string, number]) => {
     const [id, pan] = data;
     this.audio.setPan(id, pan);
-  }
+  };
 
   ngOnInit() {
     this.rageClientService.on(ProcedureKey.BROWSER_PLAY_SOUND, this.createSound);

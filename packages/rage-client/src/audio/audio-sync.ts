@@ -11,9 +11,9 @@ import { isVehicleDoorOpen, isVehicleWindowOpen } from '../vehicle/vehicle-core'
 //   Virtual Seek : When the sound streamed out play it virtually server side and resume it when streamed in.
 
 
-const entities = [RageEnums.EntityType.VEHICLE, RageEnums.EntityType.OBJECT, RageEnums.EntityType.DUMMY];
+const AUDIO_DEBUG = true;
 
-let lastCheckAt = Date.now();
+const entities = [RageEnums.EntityType.VEHICLE, RageEnums.EntityType.OBJECT, RageEnums.EntityType.DUMMY];
 
 const isSuitableEntity = (entity: EntityMp) => {
   return entities.includes(entity.type);
@@ -31,23 +31,81 @@ function getDistance(a: Vector3, b: Vector3) {
   return mp.game.system.vdist(a.x, a.y, a.z, b.x, b.y, b.z);
 }
 
-function getVehicleMuffleFactor(vehicle: VehicleMp, listenerInVehicle: boolean) {
-  let factor = listenerInVehicle ? 1.1 : 0.55;
+function drawLine(from: Vector3, to: Vector3, r: number, g: number, b: number) {
+  mp.game.graphics.drawLine(
+    from.x, from.y, from.z,
+    to.x, to.y, to.z,
+    r, g, b, 255
+  );
+}
 
+function drawRangeSphere(pos: Vector3, range: number) {
+  mp.game.graphics.drawMarker(
+    28, // sphere
+    pos.x, pos.y, pos.z,
+    0, 0, 0,
+    0, 0, 0,
+    range * 2, range * 2, range * 2,
+    0, 150, 255, 40,
+    false, false, 2, false, null, null, false
+  );
+}
+
+function drawSoundSource(pos: Vector3) {
+  mp.game.graphics.drawMarker(
+    1,
+    pos.x, pos.y, pos.z + 0.5,
+    0, 0, 0,
+    0, 0, 0,
+    0.3, 0.3, 0.3,
+    255, 0, 0, 200,
+    false, false, 2, false, null, null, false
+  );
+}
+
+function drawPanVector(listenerPos: Vector3, pan: number) {
+  const camRight = getCameraRightVector();
+
+  const panVec = new mp.Vector3(
+    camRight.x * pan * 2,
+    camRight.y * pan * 2,
+    0
+  );
+
+  drawLine(
+    listenerPos,
+    new mp.Vector3(
+      listenerPos.x + panVec.x,
+      listenerPos.y + panVec.y,
+      listenerPos.z
+    ),
+    pan > 0 ? 0 : 255,
+    255,
+    pan > 0 ? 255 : 0
+  );
+}
+function smooth(current: number, target: number, speed = 0.1) {
+  return current + (target - current) * speed;
+}
+function getVehicleMuffleFactor(vehicle: VehicleMp, listenerInVehicle: boolean) {
   let windowsOpen = 0;
+  let doorsOpen = 0;
+
   for (let i = 0; i < 4; i++) {
     if (isVehicleWindowOpen(vehicle, i)) windowsOpen++;
-  }
-
-  let doorsOpen = 0;
-  for (let i = 0; i < 4; i++) {
     if (isVehicleDoorOpen(vehicle, i)) doorsOpen++;
   }
 
-  factor += windowsOpen * 0.1;
-  factor += doorsOpen * 0.15;
+  const openness = clamp(windowsOpen * 0.15 + doorsOpen * 0.25, 0, 1);
 
-  return clamp(factor, 0, 1.4);
+  // 🔑 Base factor reduced for both inside/outside
+  // Now max volume inside vehicle won't reach 1.0, more realistic
+  const baseFactor = listenerInVehicle ? 0.7 : 0.5;
+
+  // 🔊 Open doors/windows reduce muffling slightly
+  const factor = baseFactor + openness * 0.25;
+
+  return clamp(factor, 0.2, 1); // minimum 0.2, maximum 1
 }
 
 function normalize(v: Vector3) {
@@ -80,26 +138,54 @@ function calculateStereoPan(listenerPos: Vector3, soundPos: Vector3): number {
 
   normalize(dir);
 
-  const right = getCameraRightVector();
+  const camRight = getCameraRightVector();
+  normalize(camRight);
 
-  // Dot product → left/right
-  const pan = dir.x * right.x + dir.y * right.y;
+  // Dot product gives pan directly
+  return clamp(
+    dir.x * camRight.x + dir.y * camRight.y,
+    -1,
+    1
+  );
+}
 
-  return clamp(pan, -1, 1);
+function drawText(text: string, x: number, y: number, scale = 0.35) {
+  mp.game.graphics.drawText(text, [x, y], {
+    font: 0,
+    color: [255, 255, 255, 200],
+    scale: [scale, scale],
+    outline: true
+  });
+}
+
+function drawSoundDebug(pos: Vector3, range: number, volume: number) {
+  mp.game.graphics.drawMarker(
+    1,
+    pos.x, pos.y, pos.z - 1,
+    0, 0, 0,
+    0, 0, 0,
+    range * 2, range * 2, 1,
+    255,
+    Math.floor(255 * volume),
+    0,
+    80,
+    false,
+    false,
+    2,
+    false,
+    null,
+    null,
+    false
+  );
 }
 
 mp.events.add('render', () => {
   const { position, dimension, vehicle } = mp.players.local;
 
   sounds.forEach(sound => {
-    if (lastCheckAt + 250 > Date.now())
-      return;
-
-    if (sound.paused)
-      return;
+    if (sound.paused) return;
 
     const entity = sound.entity;
-
     if (!entity || !entity.handle) {
       destroySound(sound.id);
       return;
@@ -118,44 +204,61 @@ mp.events.add('render', () => {
       return;
     }
 
-    // 🔊 Base distance attenuation
-    let volume = sound.volume * (1 - dist / sound.range);
+    // 🔊 Calculate a temporary volume variable only
+    let calculatedVolume = sound.volume * (1 - dist / sound.range);
 
-    // 🚗 Vehicle-specific logic
     if (entity.type === RageEnums.EntityType.VEHICLE) {
       const veh = entity as VehicleMp;
-
       const listenerInVehicle = vehicle && vehicle.handle === veh.handle;
       const soundInVehicle = sound.inVehicle;
 
       if (listenerInVehicle && soundInVehicle) {
-        volume *= 1.3;
+        calculatedVolume = sound.volume;
       } else {
-        volume *= getVehicleMuffleFactor(veh, listenerInVehicle);
+        calculatedVolume *= getVehicleMuffleFactor(veh, listenerInVehicle);
       }
     }
 
-    setSoundVolume(sound.id, clamp(volume));
+    calculatedVolume = clamp(calculatedVolume);
 
+    // 🔄 Smooth the actual audio without touching sound.volume
+    setSoundVolume(sound.id, calculatedVolume);
+
+    // Pan
     const pan = calculateStereoPan(position, soundPos);
     setSoundPan(sound.id, pan);
 
-    lastCheckAt = Date.now();
+    if (AUDIO_DEBUG) {
+      drawSoundDebug(soundPos, sound.range, calculatedVolume);
+      drawSoundSource(soundPos);
+      drawRangeSphere(soundPos, sound.range);
+      drawLine(position, soundPos, 255, 255, 0);
+      drawPanVector(position, pan);
+      drawText(
+        `Sound: ${sound.id}\nDist: ${dist.toFixed(2)}\nVol: ${calculatedVolume.toFixed(2)}\nPan: ${pan.toFixed(2)}\nVeh: ${entity.type === RageEnums.EntityType.VEHICLE}`,
+        0.21, 0.35
+      );
+    }
   });
 });
+
 
 function handleEntitySoundData(entity: EntityMp, oldValue: ISound3D | undefined, newValue: ISound3D | undefined) {
   const soundId = getSoundId(entity);
 
+  mp.gui.chat.push('Handling sound data for entity ' + entity.type + ' ' + entity.id);
   if (oldValue && !newValue) {
     if (isPlayingSound(soundId) === false) return;
 
+    mp.gui.chat.push('Destroying sound for entity ' + entity.type + ' ' + entity.id);
     destroySound(soundId);
     return;
   }
 
   if (newValue) {
+    mp.gui.chat.push('Updating/Creating sound for entity ' + entity.type + ' ' + entity.id);
     if (isPlayingSound(soundId)) {
+      mp.gui.chat.push('Updating sound for entity ' + entity.type + ' ' + entity.id);
       const sound = sounds.get(soundId)!;
       sound.url = newValue.url;
       sound.volume = newValue.volume;
@@ -164,6 +267,7 @@ function handleEntitySoundData(entity: EntityMp, oldValue: ISound3D | undefined,
 
       setSoundVolume(soundId, newValue.volume);
     } else {
+      mp.gui.chat.push('Creating sound for entity ' + entity.type + ' ' + entity.id);
       playSound3D(entity, newValue.url, newValue.volume, newValue.range);
     }
   }

@@ -8,43 +8,60 @@ interface CefSound {
 
 @Injectable({ providedIn: 'root' })
 export class Audio3dService {
-  private sounds = new Map<number, CefSound>();
+  private sounds = new Map<string, CefSound>();
 
-  createSound(id: number, url: string, volume: number) {
+  getSounds() {
+    return this.sounds;
+  }
+
+  createSound(id: string, url: string, volume: number) {
     if (this.sounds.has(id)) return;
 
     const howl = new Howl({
       src: [url],
-      html5: true,
-      loop: true,
-      volume
+      html5: false,
+      loop: false,
+      volume,
     });
 
+    howl.stereo(0)
+    howl.pos(0, 0, 0)
     this.sounds.set(id, { howl, volume });
     howl.play();
+    console.log('Creating sound', id, url, volume);
   }
 
-  setVolume(id: number, volume: number) {
+  setVolume(id: string, volume: number) {
+    console.log('Setting volume for', id, volume);
     const sound = this.sounds.get(id);
     if (!sound) return;
 
     sound.howl.volume(volume);
     sound.volume = volume;
+    console.log('Volume set for', id, volume);
   }
 
-  pause(id: number) {
+  pause(id: string) {
     this.sounds.get(id)?.howl.pause();
   }
 
-  resume(id: number) {
+  isPaused(id: string): boolean {
+    const sound = this.sounds.get(id);
+    if (!sound) return true;
+
+    return !sound.howl.playing();
+  }
+
+  resume(id: string) {
     this.sounds.get(id)?.howl.play();
   }
 
-  setPan(id: number, pan: number) {
+  setPan(id: string, pan: number) {
+    console.log('Setting pan for', id, pan);
     this.sounds.get(id)?.howl.stereo(pan);
   }
 
-  destroy(id: number) {
+  destroy(id: string) {
     const sound = this.sounds.get(id);
     if (!sound) return;
 

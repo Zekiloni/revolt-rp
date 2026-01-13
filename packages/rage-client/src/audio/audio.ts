@@ -11,7 +11,7 @@ export function playSound3D(
   entity: EntityMp,
   url: string,
   volume = 1,
-  range = 60,
+  range = 10,
 ): ISound3D {
   const id = getSoundId(entity);
 
@@ -32,7 +32,6 @@ export function playSound3D(
 
 export function setSoundVolume(id: string, volume: number) {
   triggerBrowser(ProcedureKey.BROWSER_SET_SOUND_VOLUME, [id, volume]);
-  sounds.get(id)!.volume = volume;
 }
 
 export function setSoundRange(id: string, range: number) {
