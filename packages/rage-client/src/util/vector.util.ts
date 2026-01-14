@@ -9,6 +9,12 @@ export const getDistance = (vector1: Vector3, vector2: Vector3): number => {
   return mp.game.system.vdist(vector1.x, vector1.y, vector1.z, vector2.x, vector2.y, vector2.z);
 };
 
+export function distanceTo(from: Vector3, to: Vector3) {
+  const difference = new mp.Vector3(from.x - to.x, from.y - to.y, from.z - to.z);
+  const distance = Math.sqrt(Math.pow(difference.x, 2) + Math.pow(difference.y, 2) + Math.pow(difference.z, 2));
+  return Math.abs(distance);
+}
+
 export const getForwardVector = (rotation: Vector3) => {
   const z = -rotation.z;
   const x = rotation.x;
@@ -19,6 +25,26 @@ export const getForwardVector = (rotation: Vector3) => {
     z: Math.sin(x)
   };
 };
+
+export const getForwardVector3D = (rotation: Vector3) => {
+  const roll = rotation.x * (Math.PI / 180.0);
+  const pitch = rotation.y * (Math.PI / 180.0);
+  const yaw = rotation.z * (Math.PI / 180.0);
+  // build quaternion
+  const qx = Math.sin(roll / 2) * Math.cos(pitch / 2) * Math.cos(yaw / 2) -
+    Math.cos(roll / 2) * Math.sin(pitch / 2) * Math.sin(yaw / 2);
+  const qy = Math.cos(roll / 2) * Math.sin(pitch / 2) * Math.cos(yaw / 2) +
+    Math.sin(roll / 2) * Math.cos(pitch / 2) * Math.sin(yaw / 2);
+  const qz = Math.cos(roll / 2) * Math.cos(pitch / 2) * Math.sin(yaw / 2) -
+    Math.sin(roll / 2) * Math.sin(pitch / 2) * Math.cos(yaw / 2);
+  const qw = Math.cos(roll / 2) * Math.cos(pitch / 2) * Math.cos(yaw / 2) +
+    Math.sin(roll / 2) * Math.sin(pitch / 2) * Math.sin(yaw / 2);
+  const quatRot = { x: qx, y: qy, z: qz, w: qw };
+  const fVectorX = 2 * (quatRot.x * quatRot.y - quatRot.w * quatRot.z);
+  const fVectorY = 1 - 2 * (quatRot.x * quatRot.x + quatRot.z * quatRot.z);
+  const fVectorZ = 2 * (quatRot.y * quatRot.z + quatRot.w * quatRot.x);
+  return new mp.Vector3(fVectorX, fVectorY, fVectorZ);
+}
 
 export const compareVectors = (i: Vector3, x: Vector3): boolean => {
   return i.x == x.x && i.y == x.y && i.z == x.z;

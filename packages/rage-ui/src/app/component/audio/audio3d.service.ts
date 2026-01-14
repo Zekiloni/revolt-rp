@@ -1,72 +1,123 @@
 import { Injectable } from '@angular/core';
-import { Howl } from 'howler';
+import { IAudio3D } from '@revolt-rp/common';
 
-interface CefSound {
-  howl: Howl;
-  volume: number;
+type  AudioSpot = IAudio3D & {
+  audio: HTMLAudioElement;
+  panner: PannerNode;
+  biquadFilter: BiquadFilterNode;
 }
 
 @Injectable({ providedIn: 'root' })
 export class Audio3dService {
-  private sounds = new Map<string, CefSound>();
+  private audioContext: AudioContext | null = null;
+  private audioSpots = new Map<string, AudioSpot>();
 
-  getSounds() {
-    return this.sounds;
+  private createAudioContext() {
+    if (!this.audioContext) this.audioContext = new AudioContext();
   }
 
-  createSound(id: string, url: string, volume: number) {
-    if (this.sounds.has(id)) return;
+  addAudio(audioCreate: IAudio3D) {
+    this.createAudioContext();
 
-    const howl = new Howl({
-      src: [url],
-      html5: false,
-      loop: false,
-      volume,
+    const { id, url, volume, range, loop, position: { x, y, z } } = audioCreate;
+    if (this.audioSpots.has(id)) {
+      const spot = this.audioSpots.get(id)!;
+      spot.audio.volume = volume;
+      return;
+    }
+
+    const audio = new Audio();
+    audio.src = url;
+    audio.crossOrigin = 'anonymous';
+    audio.loop = loop;
+    audio.volume = volume;
+    audio.load();
+
+    if (!this.audioContext) return;
+
+    const panner = new PannerNode(this.audioContext, {
+      panningModel: 'HRTF',
+      distanceModel: 'exponential',
+      refDistance: 1,
+      maxDistance: range,
+      rolloffFactor: 1,
+      coneInnerAngle: 360,
+      coneOuterAngle: 0,
+      coneOuterGain: 0,
+      positionX: x,
+      positionY: y,
+      positionZ: z
     });
 
-    howl.stereo(0)
-    howl.pos(0, 0, 0)
-    this.sounds.set(id, { howl, volume });
-    howl.play();
-    console.log('Creating sound', id, url, volume);
+    const biquadFilter = new BiquadFilterNode(this.audioContext, { type: 'allpass' });
+
+    const track = this.audioContext.createMediaElementSource(audio);
+    track.connect(panner).connect(biquadFilter).connect(this.audioContext.destination);
+
+    audio.onloadeddata = () => audio.play().catch(() => console.log('Audio failed to play', id));
+
+    this.audioSpots.set(id, { ...audioCreate, id, audio, panner, biquadFilter, range });
   }
 
-  setVolume(id: string, volume: number) {
-    console.log('Setting volume for', id, volume);
-    const sound = this.sounds.get(id);
-    if (!sound) return;
-
-    sound.howl.volume(volume);
-    sound.volume = volume;
-    console.log('Volume set for', id, volume);
+  removeAudio(id: string) {
+    const spot = this.audioSpots.get(id);
+    if (!spot) return;
+    spot.audio.pause();
+    spot.audio.src = '';
+    spot.panner.disconnect();
+    spot.biquadFilter.disconnect();
+    this.audioSpots.delete(id);
   }
 
-  pause(id: string) {
-    this.sounds.get(id)?.howl.pause();
+  setListenerPosition(x: number, y: number, z: number) {
+    this.createAudioContext();
+    if (!this.audioContext) return;
+
+    this.audioContext.listener.positionX.value = x;
+    this.audioContext.listener.positionY.value = y;
+    this.audioContext.listener.positionZ.value = z;
   }
 
-  isPaused(id: string): boolean {
-    const sound = this.sounds.get(id);
-    if (!sound) return true;
+  setListenerOrientation(forwardX: number, forwardY: number, forwardZ: number) {
+    this.createAudioContext();
 
-    return !sound.howl.playing();
+    if (!this.audioContext) return;
+
+    this.audioContext.listener.forwardX.value = forwardX;
+    this.audioContext.listener.forwardY.value = forwardY;
+    this.audioContext.listener.forwardZ.value = forwardZ;
+    this.audioContext.listener.upX.value = 0;
+    this.audioContext.listener.upY.value = 0;
+    this.audioContext.listener.upZ.value = 1;
   }
 
-  resume(id: string) {
-    this.sounds.get(id)?.howl.play();
+  setAudioPosition(id: string, x: number, y: number, z: number) {
+    const spot = this.audioSpots.get(id);
+    if (!spot) return;
+    spot.panner.positionX.value = x;
+    spot.panner.positionY.value = y;
+    spot.panner.positionZ.value = z;
   }
 
-  setPan(id: string, pan: number) {
-    console.log('Setting pan for', id, pan);
-    this.sounds.get(id)?.howl.stereo(pan);
+  setAudioMuffled(id: string, muffled: boolean) {
+    const spot = this.audioSpots.get(id);
+    if (!spot) return;
+    spot.biquadFilter.type = muffled ? 'lowpass' : 'allpass';
   }
 
-  destroy(id: string) {
-    const sound = this.sounds.get(id);
-    if (!sound) return;
+  setAudioVolume(id: string, volume: number) {
+    const spot = this.audioSpots.get(id);
+    if (!spot) return;
+    spot.audio.volume = volume;
+  }
 
-    sound.howl.stop();
-    sound.howl.unload();
-    this.sounds.delete(id);
+  pauseAudio(id: string) {
+    this.audioSpots.get(id)?.audio.pause();
+  }
+
+  resumeAudio(id: string) {
+    this.audioSpots.get(id)?.audio.play().catch(() => {
+      console.log('Audio failed to play', id);
+    });
   }
 }

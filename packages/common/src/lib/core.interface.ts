@@ -30,11 +30,16 @@ export const enum EntitySharedDataType {
   SOUND = 'sound',
 }
 
-export interface ISound3D {
+export interface IAudio3D {
   id: string;
   url: string;
+  source: {
+    type: 'vehicle' | 'object';
+    id: number;
+  }
+  position: IVector3;
+  loop: boolean;
   volume: number;
   range: number;
   paused: boolean;
-  inVehicle?: boolean;
 }

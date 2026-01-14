@@ -89,7 +89,6 @@
     "dayjs": "^1.11.13",
     "discord.js": "^14.17.3",
     "express": "4.21.2",
-    "howler": "^2.2.4",
     "html2canvas": "^1.4.1",
     "i18next": "^23.16.0",
     "image-js": "^0.36.0",

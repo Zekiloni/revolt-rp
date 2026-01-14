@@ -269,10 +269,14 @@ export const enum ProcedureKey {
   SERVER_PROPERTY_TAKE_EQUIPMENT = 'server_propertyTakeEquipment',
   SERVER_TRACK_PHONE_NUMBER = 'server_trackPhoneNumber',
 
-  BROWSER_PLAY_SOUND = 'browser_playSound',
-  BROWSER_SET_SOUND_VOLUME = 'browser_setSoundVolume',
-  BROWSER_PAUSE_SOUND = 'browser_pauseSound',
-  BROWSER_RESUME_SOUND = 'browser_resumeSound',
-  BROWSER_DESTROY_SOUND = 'browser_destroySound',
-  BROWSER_SET_SOUND_PAN = 'browser_setSoundPan',
+  BROWSER_ADD_AUDIO = 'browser_addAudio',
+  BROWSER_SET_AUDIO_VOLUME = 'browser_setVolume',
+  BROWSER_PAUSE_AUDIO = 'browser_pauseAudio',
+  BROWSER_RESUME_AUDIO = 'browser_resumeAudio',
+  BROWSER_DESTROY_AUDIO = 'browser_destroyAudio',
+  BROWSER_SET_MUFFLED = 'browser_setMuffled',
+  BROWSER_SET_AUDIO_POSITION = 'browser_setAudioPosition',
+  BROWSER_SET_LISTENER_POSITION = 'browser_setListenerPosition',
+  BROWSER_SET_LISTENER_ORIENTATION = 'browser_setListenerOrientation',
+
 }

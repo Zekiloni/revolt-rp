@@ -242,7 +242,7 @@ export const isVehicleDoorOpen = (vehicle: VehicleMp, index: RageEnums.Vehicle.D
   if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, index))
     return false;
 
-  return vehicle.getDoorAngleRatio(index) > 0.1;
+  return vehicle.getDoorAngleRatio(index) != 0;
 }
 
 function vehicleStreamInHandler(entity: VehicleMp) {
@@ -287,7 +287,7 @@ export const isVehicleWindowOpen = (vehicle: VehicleMp, index: number): boolean 
 
   const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
   const windowState = windows[index];
-  return windowState && vehicle.isWindowIntact(index);
+  return windowState || vehicle.isWindowIntact(index);
 }
 
 function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], _oldValue?: boolean[]) {
