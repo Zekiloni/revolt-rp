@@ -1,4 +1,4 @@
-import { destroySound, getSoundId, isPlayingSound, playSound3D, sounds } from './audio';
+import { destroySound, getSoundId, isPlayingSound, playAudio3D, sounds } from './audio';
 import { EntitySharedDataType, IAudio3D, ProcedureKey } from '@revolt-rp/common';
 import { isVehicleDoorOpen, isVehicleWindowOpen } from '../vehicle/vehicle-core';
 import { triggerBrowser } from '../core/browser';
@@ -6,7 +6,6 @@ import { distanceTo, getForwardVector3D } from '../util/vector.util';
 
 
 const DOORS_WINDOWS_ARRAY = [...Array(7).keys()];
-let lastCheckAt = Date.now();
 
 const isSuitableEntity = (entity: EntityMp) => {
   return [RageEnums.EntityType.VEHICLE, RageEnums.EntityType.OBJECT].includes(entity.type);
@@ -21,11 +20,9 @@ const isVehicleSoundMuffled = (vehicle: VehicleMp) =>
   DOORS_WINDOWS_ARRAY.every(i => !isVehicleWindowOpen(vehicle, i) && !isVehicleDoorOpen(vehicle, i));
 
 
-mp.events.add('render', () => {
+function handleSounds(): void {
   sounds.forEach(sound => {
     if (sound.paused) return;
-
-    if (Date.now() - lastCheckAt < 250) return;
 
     const entity = sound.entity;
     if (!entity || !entity.handle) {
@@ -66,13 +63,11 @@ mp.events.add('render', () => {
 
     const volume = (sound.range - distance) / sound.range * sound.volume;
     triggerBrowser(ProcedureKey.BROWSER_ADD_AUDIO, { ...sound, volume });
-
-    lastCheckAt = Date.now();
   });
-});
+}
 
 
-function handleEntitySoundData(entity: EntityMp, oldValue: IAudio3D | undefined, newValue: IAudio3D | undefined) {
+function handleEntitySoundData(entity: EntityMp, newValue: IAudio3D | undefined, oldValue: IAudio3D | undefined) {
   const soundId = getSoundId(entity);
 
   mp.gui.chat.push('Handling sound data for entity ' + entity.type + ' ' + entity.id);
@@ -93,23 +88,24 @@ function handleEntitySoundData(entity: EntityMp, oldValue: IAudio3D | undefined,
       sound.range = newValue.range;
     } else {
       mp.gui.chat.push('Creating sound for entity ' + entity.type + ' ' + entity.id);
-      playSound3D(entity, newValue.url, newValue.volume, newValue.range);
+      playAudio3D(entity, newValue);
     }
   }
 }
 
+setInterval(handleSounds, 250);
 mp.events.addDataHandler(EntitySharedDataType.SOUND, handleEntitySoundData);
-
 mp.events.add({
   entityStreamIn: (entity: EntityMp) => {
     if (!isSuitableEntity(entity) === false) return;
     const sound = getEntitySound(entity);
     if (!getEntitySound(entity)) return;
 
-    playSound3D(entity, sound.url, sound.volume, sound.range);
+    playAudio3D(entity, sound);
   },
   entityStreamOut: (entity: EntityMp) => {
     const soundId = getSoundId(entity);
     if (isPlayingSound(soundId) === false) return;
   }
 });
+

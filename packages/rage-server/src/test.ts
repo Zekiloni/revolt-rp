@@ -44,7 +44,8 @@ registerCommand({
         },
         loop: false,
         position: player.vehicle.position,
-        paused: false
+        paused: false,
+        startedAt: Date.now()
       };
       player.vehicle.setVariable(EntitySharedDataType.SOUND, sound);
     }

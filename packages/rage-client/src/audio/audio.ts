@@ -7,33 +7,12 @@ export const getSoundId = (entity: EntityMp) => {
   return `${entity.type}_${entity.remoteId}`;
 };
 
-export function playSound3D(
+export function playAudio3D(
   entity: EntityMp,
-  url: string,
-  volume = 1,
-  range = 10,
-  loop = false
-): IAudio3D {
-  const id = getSoundId(entity);
-
-  const audio: IAudio3D = {
-    id,
-    url,
-    volume,
-    source: {
-      type: entity.type === RageEnums.EntityType.VEHICLE ? 'vehicle' : 'object',
-      id: entity.remoteId
-    },
-    range,
-    loop,
-    position: entity.getCoords(false),
-    paused: false
-  };
-
-  sounds.set(id, { ...audio, entity });
-  triggerBrowser(ProcedureKey.BROWSER_ADD_AUDIO, [id, url, volume]);
-
-  return audio;
+  audio: IAudio3D
+) {
+  sounds.set(audio.id, { ...audio, entity });
+  triggerBrowser(ProcedureKey.BROWSER_ADD_AUDIO, audio);
 }
 
 export function setSoundVolume(id: string, volume: number) {
@@ -51,4 +30,12 @@ export function destroySound(id: string) {
     sounds.delete(id);
     triggerBrowser(ProcedureKey.BROWSER_DESTROY_AUDIO, id);
   }
+}
+
+function getVirtualSeek(sound: IAudio3D): number {
+  if (sound.paused && sound.pausedAt != null) {
+    return sound.pausedAt;
+  }
+
+  return (Date.now() - sound.startedAt) / 1000;
 }

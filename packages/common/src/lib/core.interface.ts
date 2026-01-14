@@ -29,17 +29,3 @@ export interface IVector3 {
 export const enum EntitySharedDataType {
   SOUND = 'sound',
 }
-
-export interface IAudio3D {
-  id: string;
-  url: string;
-  source: {
-    type: 'vehicle' | 'object';
-    id: number;
-  }
-  position: IVector3;
-  loop: boolean;
-  volume: number;
-  range: number;
-  paused: boolean;
-}
