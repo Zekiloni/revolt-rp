@@ -278,5 +278,7 @@ export const enum ProcedureKey {
   BROWSER_SET_AUDIO_POSITION = 'browser_setAudioPosition',
   BROWSER_SET_LISTENER_POSITION = 'browser_setListenerPosition',
   BROWSER_SET_LISTENER_ORIENTATION = 'browser_setListenerOrientation',
+  SERVER_VEHICLE_XMR_SET = 'server_vehicleXmrSet',
+  SERVER_VEHICLE_XMR_VOLUME = 'server_vehicleXmrVolume',
 
 }

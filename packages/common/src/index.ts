@@ -123,3 +123,4 @@ export * from './lib/organization/public-service/fire.model';
 export * from './lib/organization/public-service/medic.model';
 
 export * from './lib/audio.model';
+export * from './lib/radio-stations.config';

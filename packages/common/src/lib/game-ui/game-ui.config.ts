@@ -32,7 +32,7 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   },
 
   [GameUiKey.VehicleHud]: {
-    isActive: false
+    isActive: true
   },
 
   [GameUiKey.PlayerMenu]: {

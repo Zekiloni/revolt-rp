@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KnobModule } from 'primeng/knob';
-import { ProcedureKey, IVehicleHudUpdate } from '@revolt-rp/common';
-import { RageClientService } from '../../../domain/service/rage-client.service';
 import { FormsModule } from '@angular/forms';
+import { ProcedureKey, IVehicleHudUpdate, radioStationsConfig, IRadioStation } from '@revolt-rp/common';
+import { RageClientService } from '../../../domain/service/rage-client.service';
+import { VehicleXmrComponent } from '../vehicle-xmr';
 
 @Component({
   selector: 'app-vehicle-hud',
   standalone: true,
-  imports: [CommonModule, KnobModule, FormsModule],
+  imports: [CommonModule, KnobModule, FormsModule, VehicleXmrComponent],
   templateUrl: './vehicle-hud.component.html',
   styleUrl: './vehicle-hud.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,6 +28,7 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
   roll = 0;
   cruiseControl = false;
   indicators: boolean[] = [false, false];
+
 
   constructor(private rageClientService: RageClientService, private cdr: ChangeDetectorRef) {
   }
