@@ -8,17 +8,17 @@
   <!-- HEADER -->
   <div class="text-center">
     <p class="text-xs tracking-widest uppercase"
-       [ngClass]="radioOn ? 'text-blue-400' : 'text-slate-500'">
+       [ngClass]="radioOn() ? 'text-blue-400' : 'text-slate-500'">
 
-      {{ radioOn ? 'now_playing' : 'xmr_off' }}
+      {{ radioOn() ? 'now_playing' : 'xmr_off' }}
     </p>
 
     <p class="text-lg font-semibold">
-      {{ radioOn ? radioStationName : '—' }}
+      {{ radioOn() ? radioStationName : '—' }}
     </p>
 
     <p class="text-sm text-slate-400 italic">
-      {{ radioOn ? radioStationGenre : '' }}
+      {{ radioOn() ? radioStationGenre : '' }}
     </p>
   </div>
 
@@ -65,7 +65,7 @@
       (ngModelChange)="onVolumeChange($event)"
       class="flex-1 accent-blue-500" />
     <span class="text-sm text-slate-400">
-      {{ radioVolume }}%
+      {{ radioVolume() }}%
     </span>
   </div>
 </div>
