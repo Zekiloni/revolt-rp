@@ -25,6 +25,7 @@ import {
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
 import { getDistance } from '../util/vector.util';
 import { isVehicleTrunkOpened } from './vehicle-data';
+import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 
 
 mp.game.vehicle.defaultEngineBehaviour = false;
@@ -147,7 +148,7 @@ function updateVehicleHud() {
       highBeamsOn,
       height: mp.game.entity.getHeightAboveGround(vehicle.handle),
       pitch: vehicle.getPitch(),
-      roll: vehicle.getRoll(),
+      roll: vehicle.getRoll()
     };
 
     triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, vehicleHudUpdate);
@@ -156,6 +157,13 @@ function updateVehicleHud() {
   }
 }
 
+
+const VEHICLE_RADIO_CONTROLS = [
+  RageEnums.Controls.INPUT_VEH_RADIO_WHEEL, RageEnums.Controls.INPUT_RADIO_WHEEL_UD,
+  RageEnums.Controls.INPUT_RADIO_WHEEL_LR, RageEnums.Controls.INPUT_VEH_NEXT_RADIO,
+  RageEnums.Controls.INPUT_VEH_PREV_RADIO, RageEnums.Controls.INPUT_VEH_NEXT_RADIO_TRACK,
+  RageEnums.Controls.INPUT_VEH_PREV_RADIO_TRACK
+];
 
 function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle) {
@@ -186,6 +194,8 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
       registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
       registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
+
+      disablePlayerControl(VEHICLE_RADIO_CONTROLS);
 
       toggleVehicleHud(true);
     }
@@ -223,6 +233,7 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       currentMileage = 0.0;
       currentFuel = 0;
       lastVehiclePosition = null;
+      enablePlayerControl(VEHICLE_RADIO_CONTROLS);
     }
   }
 }
@@ -243,7 +254,7 @@ export const isVehicleDoorOpen = (vehicle: VehicleMp, index: RageEnums.Vehicle.D
     return false;
 
   return vehicle.getDoorAngleRatio(index) != 0;
-}
+};
 
 function vehicleStreamInHandler(entity: VehicleMp) {
   if (entity.type != RageEnums.EntityType.VEHICLE)
@@ -288,7 +299,7 @@ export const isVehicleWindowOpen = (vehicle: VehicleMp, index: number): boolean 
   const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
   const windowState = windows[index];
   return windowState || vehicle.isWindowIntact(index);
-}
+};
 
 function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], _oldValue?: boolean[]) {
   if (vehicle.type != RageEnums.EntityType.VEHICLE)
