@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { KnobModule } from 'primeng/knob';
 import { FormsModule } from '@angular/forms';
-import { ProcedureKey, IVehicleHudUpdate, radioStationsConfig, IRadioStation } from '@revolt-rp/common';
+import { ProcedureKey, IVehicleHudUpdate } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { VehicleXmrComponent } from '../vehicle-xmr';
 
@@ -15,6 +15,11 @@ import { VehicleXmrComponent } from '../vehicle-xmr';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VehicleHudComponent implements OnInit, OnDestroy {
+  protected readonly Math = Math;
+
+  private rageClientService = inject(RageClientService);
+  private cdr = inject(ChangeDetectorRef);
+
   type: 'fly' | 'ground' | 'water' = 'ground';
   maxSpeed = 250;
   speed = 0;
@@ -28,20 +33,6 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
   roll = 0;
   cruiseControl = false;
   indicators: boolean[] = [false, false];
-
-
-  constructor(private rageClientService: RageClientService, private cdr: ChangeDetectorRef) {
-  }
-
-  get speedValueColor() {
-    if (this.speed <= 70) {
-      return 'White';
-    } else if (this.speed > 70 && this.speed <= 150) {
-      return 'Khaki';
-    } else {
-      return 'Crimson';
-    }
-  }
 
   updateInfo = (data: IVehicleHudUpdate) => {
     this.speed = data.speed;
@@ -69,5 +60,4 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.rageClientService.off(ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, this.updateInfo);
   }
-
 }
