@@ -202,6 +202,12 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
   }
 }
 
+function resetVehicleVariables() {
+  currentMileage = 0.0;
+  currentFuel = 0;
+  lastVehiclePosition = null;
+}
+
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle) {
     if (isKeyBindRegistered(HexKeyCodes.B, toggleSeatbelt)) {
@@ -229,10 +235,7 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       };
 
       triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
-
-      currentMileage = 0.0;
-      currentFuel = 0;
-      lastVehiclePosition = null;
+      resetVehicleVariables();
       enablePlayerControl(VEHICLE_RADIO_CONTROLS);
     }
   }
