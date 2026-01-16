@@ -14,11 +14,11 @@
     </p>
 
     <p class="text-lg font-semibold">
-      {{ radioOn() ? radioStationName : '—' }}
+      {{ radioOn() ? radioStationName() : '—' }}
     </p>
 
     <p class="text-sm text-slate-400 italic">
-      {{ radioOn() ? radioStationGenre : '' }}
+      {{ radioOn() ? radioStationGenre() : '' }}
     </p>
   </div>
 

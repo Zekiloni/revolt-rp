@@ -2,7 +2,7 @@ import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 import { Component, OnDestroy, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IRadioStation, ProcedureKey, radioStationsConfig } from '@revolt-rp/common';
+import { IRadioStation, IVehicleXmrState, ProcedureKey, radioStationsConfig } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 
 @Component({
@@ -24,11 +24,9 @@ export class VehicleXmrComponent implements OnDestroy {
   private readonly volume$ = new Subject<number>();
   private readonly destroy$ = new Subject<void>();
 
-  // Cached regex patterns
   private readonly genreRegex = /^\s*\[(.+?)\]/;
   private readonly nameCleanRegex = /^\s*\[.+?\]\s*/;
 
-  // Computed values - only recalculated when dependencies change
   readonly radioStation = computed(() =>
     this.radioStations[this.radioStationIndex()] || null
   );
@@ -57,10 +55,7 @@ export class VehicleXmrComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(volume => {
-        this.rageClientService.triggerServer(
-          ProcedureKey.SERVER_VEHICLE_XMR_VOLUME,
-          volume
-        );
+        this.updateXmrState({ volume });
       });
   }
 
@@ -69,12 +64,16 @@ export class VehicleXmrComponent implements OnDestroy {
     this.volume$.next(volume);
   }
 
-  private changeRadioStation(radioStation: IRadioStation | null): void {
+  private changeRadioStation(radioStation: IRadioStation): void {
     if (!this.radioOn()) return;
 
+    this.updateXmrState({ radioStationUrl: radioStation?.url });
+  }
+
+  updateXmrState(xmrState: IVehicleXmrState) {
     this.rageClientService.triggerServer(
       ProcedureKey.SERVER_VEHICLE_XMR_SET,
-      radioStation?.url
+      xmrState
     );
   }
 
@@ -99,14 +98,10 @@ export class VehicleXmrComponent implements OnDestroy {
     const newState = !this.radioOn();
     this.radioOn.set(newState);
 
-    if (newState) {
-      this.changeRadioStation(this.radioStation());
-    } else {
-      this.rageClientService.triggerServer(
-        ProcedureKey.SERVER_VEHICLE_XMR_SET,
-        null
-      );
-    }
+    this.updateXmrState({
+      toggle: newState,
+      ...(newState && { station: this.radioStation() })
+    });
   }
 
   ngOnDestroy(): void {

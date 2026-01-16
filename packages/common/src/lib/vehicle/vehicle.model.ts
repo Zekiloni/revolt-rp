@@ -66,7 +66,7 @@ export interface IVehicle extends Base {
   numberplate?: IVehicleNumberplate;
   rented?: true;
   rentAgencyId?: string;
-  jobKey?: JobKey
+  jobKey?: JobKey;
   expiringAt?: Date;
   isSpawned: boolean;
   createdAt: Date;
@@ -94,4 +94,10 @@ export interface IVehicleSellOffer {
   vehicleId: string;
   targetId: number;
   price: number;
+}
+
+export interface IVehicleXmrState {
+  toggle?: boolean;
+  radioStationUrl?: string;
+  volume?: number;
 }

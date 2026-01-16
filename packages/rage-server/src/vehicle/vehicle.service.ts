@@ -1,9 +1,10 @@
 import { FilterQuery, Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
+  EntitySharedDataType,
   formatCurrency,
-  GameUiKey,
-  IVehicle,
+  GameUiKey, IAudio3D,
+  IVehicle, IVehicleXmrState,
   ProcedureKey, vehicleColors,
   VehicleIndicator,
   VehicleSharedDataType
@@ -305,3 +306,37 @@ export const findVehicle = async (query: FilterQuery<Vehicle>) => {
     .populate('owner')
     .exec();
 };
+
+
+export const updateVehicleXmr = (vehicle: VehicleMp, xmrState: IVehicleXmrState) => {
+  let sound : IAudio3D | null = vehicle.getVariable<IAudio3D>(EntitySharedDataType.SOUND) ?? null;
+  if (xmrState.toggle) {
+    sound  = {
+      id: `vehicle_${vehicle.id}`,
+      url: xmrState.radioStationUrl || '',
+      volume: 1,
+      range: 10,
+      source: {
+        type: 'vehicle',
+        id: vehicle.id
+      },
+      loop: false,
+      position: vehicle.position,
+      paused: false,
+      startedAt: Date.now()
+    };
+  } else {
+    sound = null;
+  }
+
+  if (sound && xmrState.volume !== undefined) {
+    sound.volume = xmrState.volume;
+  }
+
+  if (sound && xmrState.radioStationUrl !== undefined) {
+    sound.url = xmrState.radioStationUrl;
+    sound.startedAt = Date.now();
+  }
+
+  vehicle.setVariable(EntitySharedDataType.SOUND, null);
+}
