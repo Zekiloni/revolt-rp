@@ -2,7 +2,13 @@ import { on, triggerBrowser, triggerServer } from '@libertymp/rage-rpc';
 import { GameUiKey, HexKeyCodes, IItem, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { registerKeyBind } from '../../core/keybind-manager';
 import { getObjectGroundPosition } from '../../util/object.util';
-import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../../core/browser';
+import {
+  browser,
+  hideGameInterface,
+  isMouseActive,
+  isGameInterfaceActive,
+  showGameInterface
+} from '../../core/browser';
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../util/player-data.util';
 import { isNearAnyOpenedTrunk } from '../../vehicle/vehicle-core';
 
@@ -94,17 +100,21 @@ function pickupItem() {
 function selectItem(slot: number) {
   const now = Date.now();
 
+  mp.gui.chat.push(`Selecting item in slot ${slot + 1}`);
   if (lastSelectTimestamp && now - lastSelectTimestamp < ITEM_SELECT_COOLDOWN_MS) {
     return;
   }
 
+  mp.gui.chat.push('Triggering server to select item');
   triggerServer(ProcedureKey.SERVER_PLAYER_SELECT_ITEM, slot);
   lastSelectTimestamp = now;
 }
 
 
 SELECT_ITEM_KEYBINDINGS.forEach((hexKeyCode, index) =>
-  registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, INVENTORY_VALIDATORS));
+  registerKeyBind(hexKeyCode, true, () => selectItem(index), 0, [
+    ...INVENTORY_VALIDATORS, () => isMouseActive() === false
+  ]));
 
 registerKeyBind(HexKeyCodes.I, true, toggleInventory, 0, INVENTORY_VALIDATORS);
 registerKeyBind(HexKeyCodes.Y, true, pickupItem, 0, INVENTORY_VALIDATORS);

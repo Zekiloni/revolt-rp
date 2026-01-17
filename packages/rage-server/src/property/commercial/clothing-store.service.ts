@@ -1,21 +1,15 @@
 import { triggerClient } from '@libertymp/rage-rpc';
 import {
-  IClothingCartItem,
   ICartItem,
+  IClothingCartItem,
+  IClothingProduct,
   IPayment,
-  ProcedureKey,
-  PaymentType,
   IProduct,
-  IClothingProduct
+  PaymentType,
+  ProcedureKey
 } from '@revolt-rp/common';
-import { Property } from '../property.model';
-import { makeOnlinePayment } from '../../banking/banking.service';
-import { notifyPlayer } from '../../player/util/player-notify.util';
-import { t } from 'i18next';
-import { giveMoney } from '../../player/character/character.service';
-import { calculateTaxRate } from '../../economy/economy.util';
-import { getBaseItem } from '../../item/registry/item-registry.util';
-import { playerGiveItem } from '../../player/inventory/player-inventory.service';
+import { Property } from '@revolt-rp/core';
+import { processCartItem, processPayment } from './purchase.handler';
 
 
 export const toggleClothingStoreMenu = async (player: PlayerMp, property: Property | null) => {
@@ -32,68 +26,33 @@ const calculateTotalCartPrice = (cartItems: ICartItem<IClothingProduct>[], catal
     }, 0);
 };
 
-export const buyClothes = async (player: PlayerMp, property: Property, cartItems: IClothingCartItem[], payment: IPayment) => {
-  const total = calculateTotalCartPrice(cartItems, property.catalog);
+export const buyClothes = async (
+  player: PlayerMp,
+  property: Property,
+  cartItems: IClothingCartItem[],
+  payment: IPayment
+) => {
+  const totalAmount = calculateTotalCartPrice(cartItems, property.catalog);
+  const isBankCardPayment = payment.type === PaymentType.BankCard && !!payment.bankAccountNo;
 
-  if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
-    try {
-      await makeOnlinePayment(player, payment.bankAccountNo, property, total);
-      notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
-    } catch (error) {
-      return notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
-    }
-  } else {
-    if (player.character.cash < total) {
-      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
-    }
-
-    await giveMoney(player, -total);
-    property.balance = (property.balance + (total - calculateTaxRate(property)));
+  const paymentSucceeded = await processPayment(player, property, totalAmount, payment, isBankCardPayment);
+  if (!paymentSucceeded) {
+    return;
   }
 
+  // Process each cart item - clothing stores use 'id' identifier and have wearableInfo
   for (const item of cartItems) {
-    const product = property.catalog.find(product => product.id === item.product.id);
+    const wearableInfo = {
+      model: player.model === RageEnums.Hashes.Ped.MP_M_FREEMODE_01 ? 'mp_m_freemode_01' as const : 'mp_f_freemode_01' as const,
+      drawable: item.drawable,
+      texture: item.texture,
+      palette: 0
+    };
 
-    if (!product) {
-      notifyPlayer(player, { severity: 'error', detail: t('product_not_found', { product: t(product.name) }) });
-      continue;
-    }
-
-    const baseItem = getBaseItem(product.name);
-
-    if (!baseItem) {
-      continue;
-    }
-
-    if (baseItem.isStackable) {
-      await playerGiveItem(player, baseItem.name, item.quantity, {
-        wearableInfo: {
-          model: player.model === RageEnums.Hashes.Ped.MP_M_FREEMODE_01 ? 'mp_m_freemode_01' : 'mp_f_freemode_01',
-          drawable: item.drawable,
-          texture: item.texture,
-          palette: 0
-        }
-      });
-    } else {
-      for (let i = 0; i < item.quantity; i++) {
-        await playerGiveItem(player, baseItem.name, 1);
-      }
-    }
-
-    if (product.stock < item.quantity) {
-      notifyPlayer(player, { severity: 'error', detail: t('product_out_of_stock', { product: t(product.name) }) });
-      continue;
-    }
-
-    product.stock = product.stock - item.quantity;
-    notifyPlayer(player, {
-      severity: 'info',
-      detail: t('product_bought', { quantity: item.quantity, product: t(product.name) })
-    });
+    await processCartItem(player, property, item.product.name, item.quantity, { wearableInfo });
   }
 
   property.markModified('catalog');
   await property.save();
-
   await toggleClothingStoreMenu(player, null);
 };

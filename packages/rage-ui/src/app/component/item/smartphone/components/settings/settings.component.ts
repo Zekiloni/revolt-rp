@@ -8,8 +8,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SliderChangeEvent, SliderModule } from 'primeng/slider';
 import { IPhoneSettingsUpdate, ProcedureKey } from '@revolt-rp/common';
 import { PhoneState, setPhoneBackground, setPhoneOpacity } from '../../../../../store/phone';
-import { StaticAssetPipe } from '../../../../../domain/pipe/static-asset.pipe';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 @Component({
@@ -51,7 +51,7 @@ export class SettingsComponent implements OnInit {
       })
     ).subscribe({
       next: this.handlePhoneSettingsUpdate,
-      error: (err) => console.error('Error updating phone settings', err)
+      error: (err) => console.error(err)
     });
   }
 

@@ -1,9 +1,8 @@
-import { BaseItem } from './base-item.model';
-import { ItemType, CaliberType } from '@revolt-rp/common';
-import { Item } from '../item.model';
+import { BaseItem, Item } from '@revolt-rp/core';
+import { ItemType, CaliberType, IUsableItem } from '@revolt-rp/common';
 
 
-export class WeaponItem extends BaseItem {
+export class WeaponItem extends BaseItem implements IUsableItem<PlayerMp, Item>{
   weaponHash: RageEnums.Hashes.Weapon;
   caliberType: CaliberType;
 

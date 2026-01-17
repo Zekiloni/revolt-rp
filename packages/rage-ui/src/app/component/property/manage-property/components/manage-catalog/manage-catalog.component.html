@@ -27,35 +27,104 @@
       <th>{{ 'price' | translate }}</th>
       <th>{{ 'discount' | translate }}</th>
       <th>{{ 'stock' | translate }}</th>
+      <th>{{ 'order_amount' | translate }}</th>
       <th>{{ 'options' | translate }}</th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-product let-rowIndex="rowIndex">
-    <tr>
+  <ng-template pTemplate="body" let-editing="editing" let-product let-rowIndex="rowIndex">
+    <tr [pEditableRow]="product">
       <td>{{ rowIndex + 1 }}</td>
       <td>
         <span>{{ product['name'] | translate | titlecase }}</span>
       </td>
       <td>
-        <span>{{ product['price'] | currency }}</span>
+        <p-cellEditor>
+          <ng-template #input>
+            <p-inputNumber
+              mode="currency"
+              currency="USD"
+              [min]="0"
+              [(ngModel)]="product.price" />
+          </ng-template>
+          <ng-template #output>
+            {{ product.price | currency }}
+          </ng-template>
+        </p-cellEditor>
       </td>
       <td>
-        <span
-          >{{ product['discount'] ? product['discount'] * 100 : '0' }}%</span
-        >
+        <p-cellEditor>
+          <ng-template #input>
+            <p-inputNumber
+              suffix="%"
+              [min]="0"
+              [max]="100"
+              inputStyleClass="w-20"
+              [showClear]="true"
+              [(ngModel)]="product.discount" />
+          </ng-template>
+          <ng-template #output>
+            {{ product['discount'] ?? '0' }}%
+          </ng-template>
+        </p-cellEditor>
       </td>
       <td>
         <span>{{ product['stock'] }}</span>
       </td>
       <td>
-        <button
-          pButton
-          type="button"
-          icon="pi pi-trash"
-          [rounded]="true"
-          severity="danger"
-          (click)="deleteProduct(product)"
-        ></button>
+        <p-cellEditor>
+          <ng-template #input>
+            <p-inputNumber
+              [min]="0"
+              [showClear]="true"
+              inputStyleClass="w-20"
+              [(ngModel)]="product.ordered" />
+          </ng-template>
+          <ng-template #output>
+            {{ product.ordered ?? '/' }}
+          </ng-template>
+        </p-cellEditor>
+      </td>
+      <td>
+        @if (editing) {
+          <button
+            pButton
+            type="button"
+            pSaveEditableRow
+            icon="pi pi-check"
+            (click)="editSave(product, rowIndex)"
+            class="p-button-rounded p-button-text p-button-success mr-2"
+          ></button>
+          <button
+            pButton
+            type="button"
+            pCancelEditableRow
+            icon="pi pi-times"
+            (click)="editCancel(product, rowIndex)"
+            class="p-button-rounded p-button-text p-button-danger"
+          ></button>
+        } @else {
+          <button
+            pButton
+            icon="pi pi-trash"
+            [rounded]="true"
+            [text]="true"
+            severity="danger"
+            [pTooltip]="'delete' | translate"
+            tooltipPosition="bottom"
+            (click)="deleteProduct($event, product)"
+          ></button>
+
+          <button
+            pButton
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            [pTooltip]="'edit' | translate"
+            tooltipPosition="bottom"
+            (click)="editInit(product)"
+            pInitEditableRow
+          ></button>
+        }
       </td>
     </tr>
   </ng-template>
@@ -78,3 +147,5 @@
     (submitAddProduct)="addProduct($event)"
   ></app-add-product>
 </p-dialog>
+
+<p-confirmPopup />

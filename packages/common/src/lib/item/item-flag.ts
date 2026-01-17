@@ -1,4 +1,6 @@
 
+export type ItemRarity = ItemFlag.UNCOMMON | ItemFlag.RARE | ItemFlag.EPIC | 'COMMON';
+
 export enum ItemFlag {
   IMPORTANT= 'important',
 

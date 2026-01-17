@@ -1,13 +1,30 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
-import { AnimationFlag, characterConfig, ItemType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { createItem, destroyItem, destroyItemById, getItemById, isWeaponItem } from '../../item/item.service';
+import {
+  AnimationFlag,
+  characterConfig,
+  ISelectableItem,
+  ItemType,
+  PlayerSharedDataType,
+  ProcedureKey
+} from '@revolt-rp/common';
+import { filterItemsByType, isSelectableItem, isUsableItem, Item } from '@revolt-rp/core';
+import {
+  createItem,
+  destroyItem,
+  destroyItemById,
+  getItemById,
+  getItemObject,
+  isWeaponItem,
+  setItemObject
+} from '../../item/item.service';
 import { playAnimation } from '../util/player-animation.util';
 import { notifyPlayer } from '../util/player-notify.util';
-import { Item } from '../../item/item.model';
 import { P2P_MAX_DISTANCE } from '../player-interaction';
 import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
+import { WeaponItem } from '../../item/registry/weapon-item.model';
+import { AmmoItem } from '../../item/registry/ammo-item.model';
 
 
 export const getPlayerSelectedItem = (player: PlayerMp) => {
@@ -72,6 +89,29 @@ export const playerGiveItem = async (player: PlayerMp, itemName: string, quantit
   return item;
 };
 
+export const playerGiveGun = async (player: PlayerMp, weapon: string, ammoCount: number, options: Partial<Item> = {}) => {
+  const availableItemSlot = playerGetAvailableItemSlot(player);
+
+  if (availableItemSlot == -1)
+    return;
+
+  const weaponItem = filterItemsByType(ItemType.WEAPON)
+    .find((item: WeaponItem) => item.weaponHash === mp.joaat(weapon)) as WeaponItem;
+
+  if (!weaponItem)
+    return;
+
+  await playerGiveItem(player, weaponItem.name, 1, { ...options, localSlot: availableItemSlot });
+
+  const ammoItem = filterItemsByType(ItemType.AMMUNITION)
+    .find((item: AmmoItem) => item.caliberType === weaponItem.caliberType);
+
+  if (!ammoItem)
+    return;
+
+  await playerGiveItem(player, ammoItem.name, ammoCount);
+}
+
 export const clearPlayerInventory = async (player: PlayerMp) => {
   player.character.inventory.forEach((item: Item) => {
     const itemHandler = item.data;
@@ -100,8 +140,8 @@ export const removePlayerWeapons = async (player: PlayerMp) => {
   if (playerWeaponItems.includes(playerSelectedItemId)) {
     const selectedItem = player.character.inventory.find(item => item.id === playerSelectedItemId) as Item | undefined;
 
-    if (selectedItem && selectedItem.data && selectedItem.data.deselect) {
-      selectedItem.data.deselect(player, selectedItem);
+    if (selectedItem && selectedItem.data && isSelectableItem<PlayerMp, Item>(selectedItem.data) && (<ISelectableItem<PlayerMp, Item>>selectedItem.data).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>selectedItem.data).deselect(player, selectedItem);
     }
 
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
@@ -136,8 +176,8 @@ export const playerDropItem = async (player: PlayerMp, itemId: string) => {
 
   if (item.id === selectedItemId) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (itemHandler && itemHandler.deselect) {
-      itemHandler.deselect(player, item);
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler) && (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
     }
   }
 
@@ -177,9 +217,12 @@ export const syncDropItem = async (player: PlayerMp, itemId: string, position: V
   item.position = position;
   item.rotation = rotation;
 
-  item.object = mp.objects.new(mp.joaat(item.data.model), position, {
+
+  const object = mp.objects.new(mp.joaat(item.data.model), position, {
     rotation, dimension: item.dimension, alpha: 255
   });
+
+  setItemObject(item, object);
 
   await item.save();
 };
@@ -204,7 +247,7 @@ export const playerPickupItem = async (player: PlayerMp, itemId: string) => {
   item.dimension = null;
   item.localSlot = availableItemSlot;
 
-  const object = item.object;
+  const object = getItemObject(item);
 
   if (object && mp.objects.exists(object.id)) {
     object.destroy();
@@ -238,8 +281,8 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
   if (getPlayerSelectedItem(player)?.id === item.id) {
     if (item.localSlot > 5) {
       const itemHandler = item.data;
-      if (itemHandler && itemHandler.deselect) {
-        itemHandler.deselect(player, item);
+      if (itemHandler &&  isSelectableItem<PlayerMp, Item>(itemHandler)) {
+        (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
   }
@@ -254,8 +297,8 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
 
   if (alreadySelectedItem) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, null);
-    if (alreadySelectedItem.data && alreadySelectedItem.data.deselect) {
-      alreadySelectedItem.data.deselect(player, alreadySelectedItem);
+    if (alreadySelectedItem.data && isSelectableItem<PlayerMp, Item>(alreadySelectedItem.data) && (<ISelectableItem<PlayerMp, Item>>alreadySelectedItem.data).deselect) {
+      (<ISelectableItem<PlayerMp, Item>>alreadySelectedItem.data).deselect(player, alreadySelectedItem);
       await alreadySelectedItem.save();
     }
 
@@ -264,14 +307,16 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
     }
   }
 
+  console.log('Selecting item in slot:', slot, 'Item:', item ? item.name : 'None');
   if (!item)
     return;
 
   const itemHandler = item.data;
 
-  if (itemHandler && itemHandler.select) {
+  console.log('Item handler:', itemHandler ? itemHandler.name : 'None');
+  if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
-    itemHandler.select(player, item);
+    (<ISelectableItem<PlayerMp, Item>>itemHandler).select(player, item);
   }
 
   await item.save();
@@ -342,8 +387,8 @@ export const playerGiveItemToPlayer = async (player: PlayerMp, targetId: number,
     await playerRemoveItemFromInventory(player, item.id);
 
     if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
-      if (itemHandler && itemHandler.deselect) {
-        itemHandler.deselect(player, item);
+      if (itemHandler && isSelectableItem(itemHandler)) {
+        (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
 
@@ -383,8 +428,8 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
     const selectedItem = getPlayerSelectedItem(player);
 
     if (selectedItem && item.id === selectedItem.id) {
-      if (item.data.deselect) {
-        item.data.deselect(player, item);
+      if (item.data && isSelectableItem<PlayerMp, Item>(item.data) && (<ISelectableItem<PlayerMp, Item>>item.data).deselect) {
+        (<ISelectableItem<PlayerMp, Item>>item.data).deselect(player, item);
       }
     }
 
@@ -397,7 +442,7 @@ export const playerDestroyItem = async (player: PlayerMp, itemId: string) => {
 export const playerUseItem = async (player: PlayerMp, item: Item) => {
   const itemHandler = item.data;
 
-  if (itemHandler && itemHandler.use) {
+  if (itemHandler && isUsableItem<PlayerMp, Item>(itemHandler)) {
     itemHandler.use(player, item);
     triggerBrowsers(player, ProcedureKey.BROWSER_INVENTORY_UPDATE_ITEM, item);
   }
@@ -411,3 +456,16 @@ export const getPlayerByItemId = async (itemId: string) => {
 export const getPlayerInventoryBankCards = (player: PlayerMp) => {
   return player.character.inventory.filter((item: Item) => item.data && item.data.isBankCard);
 };
+
+export const hasPlayerItem = (
+  player: PlayerMp,
+  itemName: string,
+  limit = 1
+): boolean => {
+  const count = player.character.inventory.filter(
+    (item: Item) => item?.data?.name === itemName
+  ).length;
+
+  return count >= limit;
+};
+

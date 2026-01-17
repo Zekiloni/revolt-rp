@@ -1,7 +1,7 @@
 import { Ref } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { OrganizationType } from './oranization.enum';
-import { Vector3 } from '../core.interface';
+import { IVector3 } from '../core.interface';
 
 export enum OrganizationPermissionType {
   NORMAL = 'normal_member',
@@ -40,10 +40,11 @@ export interface IOrganization extends Base {
   shortName: string;
   type: OrganizationType;
   parentOrganization?: Ref<IOrganization>;
-  position: Vector3;
+  position: IVector3;
   ranks: Ref<IOrganizationRank>[];
   heading: number;
   dimension: number;
+  balance: number;
   color?: string;
   importLimit?: number;
   createdAt: Date;

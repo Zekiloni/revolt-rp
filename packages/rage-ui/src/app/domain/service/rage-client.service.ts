@@ -145,4 +145,18 @@ export class RageClientService {
         });
     });
   }
+
+  listen<T = unknown>(name: string): Observable<T> {
+    return new Observable<T>((observer) => {
+      const handler: ProcedureListener = (...args) => {
+        this.ngZone.run(() => observer.next(args[0] as T));
+      };
+
+      rpcOn(name, handler);
+
+      return () => {
+        rpcOff(name, handler);
+      };
+    });
+  }
 }

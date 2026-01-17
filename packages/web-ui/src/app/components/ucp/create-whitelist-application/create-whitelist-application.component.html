@@ -1,0 +1,59 @@
+<div class="p-4 space-y-6">
+  @if (whitelistTest) {
+    <form [formGroup]="form" (ngSubmit)="submit()" appDisableCopy>
+      <div formArrayName="answers">
+        @for (qGroup of questionsArray.controls; track qGroup; let qi = $index) {
+          <div [formGroupName]="qi" class="mb-6">
+            <p class="font-medium mb-2">
+              {{ whitelistTest.questions[qi]!.question }}
+            </p>
+
+            <p-listbox
+              [options]="whitelistTest.questions[qi]!.answers!"
+              formControlName="answer"
+              optionLabel="content"
+              optionValue="content"
+              [checkbox]="true"
+              [style]="{ width: '100%' }"
+            ></p-listbox>
+
+
+            @if (qGroup.get('answer')?.invalid && qGroup.get('answer')?.touched) {
+              <small class="text-red-500">Please select an answer.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div formArrayName="essayAnswers" class="mt-8">
+        @for (eGroup of essaysArray.controls; track eGroup; let ei = $index) {
+          <div [formGroupName]="ei" class="mb-6">
+            <p class="font-medium mb-2">{{ whitelistTest.essayQuestions[ei] }}</p>
+
+            <textarea
+              pInputTextarea
+              formControlName="answer"
+              rows="5"
+              class="w-full p-2 border rounded-md"
+              appDisableCopy
+              placeholder="Write your answer here..."
+            ></textarea>
+
+            @if (eGroup.get('answer')?.invalid && eGroup.get('answer')?.touched) {
+              <small class="text-red-500">Essay answer is required.</small>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="flex items-center justify-center gap-3">
+        <p-button type="button" label="Cancel" severity="secondary" (click)="cancel()"></p-button>
+        <p-button
+          type="submit"
+          label="Submit"
+          [disabled]="form.invalid"
+        ></p-button>
+      </div>
+    </form>
+  }
+</div>

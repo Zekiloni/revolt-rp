@@ -6,6 +6,7 @@ export interface IPlayer {
   id: number;
 }
 
+
 export interface IOnlinePlayer {
   id: number;
   name: string;

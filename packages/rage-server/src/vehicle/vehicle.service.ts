@@ -1,23 +1,22 @@
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, Types } from 'mongoose';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import {
+  EntitySharedDataType,
   formatCurrency,
-  GameUiKey,
-  IVehicle,
+  GameUiKey, IAudio3D,
+  IVehicle, IVehicleXmrState,
   ProcedureKey, vehicleColors,
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { Vehicle } from './vehicle.model';
 import { createDefaultVehicleInfo } from './vehicle.util';
-import { Character } from '../player/character/character.model';
 import { showPlayerGameInterface } from '../player/util/player.util';
-import { vehicleConfig } from './vehicle.config';
 import { createPlayerOffer } from '../player/offer/player-offer.service';
 import { t } from 'i18next';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { VehicleModel } from '../common/entity-ref';
 import { giveMoney } from '../player/character/character.service';
+import { Character, Vehicle, vehicleConfig, VehicleModel } from '@revolt-rp/core';
+import { destroyItemById } from '../item/item.service';
 
 
 export const getAllVehicles = async (filterQuery?: FilterQuery<Vehicle>) => {
@@ -132,6 +131,8 @@ export const deleteVehicle = async (vehicle: VehicleMp) => {
   if (vehicle && mp.vehicles.exists(vehicle)) {
     vehicle.destroy();
   }
+
+  vehicle.info.trunk.forEach((item) => destroyItemById((<Types.ObjectId>item).toString()))
 
   await VehicleModel.findByIdAndDelete(vehicle.info.id).exec();
 }
@@ -305,3 +306,39 @@ export const findVehicle = async (query: FilterQuery<Vehicle>) => {
     .populate('owner')
     .exec();
 };
+
+
+export const updateVehicleXmr = (vehicle: VehicleMp, xmrState: IVehicleXmrState) => {
+  let sound : IAudio3D | null
+  if (xmrState.toggle) {
+    sound  = {
+      id: `vehicle_${vehicle.id}`,
+      url: xmrState.radioStationUrl || '',
+      volume: 1,
+      range: 10,
+      source: {
+        type: 'vehicle',
+        id: vehicle.id
+      },
+      loop: false,
+      position: vehicle.position,
+      paused: false,
+      startedAt: Date.now()
+    };
+  } else if (xmrState.toggle === false) {
+    sound = null;
+  } else {
+    sound = vehicle.getVariable<IAudio3D>(EntitySharedDataType.SOUND);
+    if (sound && xmrState.volume !== undefined) {
+      sound.volume = xmrState.volume;
+    }
+
+    if (sound && xmrState.radioStationUrl !== undefined) {
+      sound.url = xmrState.radioStationUrl;
+      sound.startedAt = Date.now();
+    }
+  }
+
+  console.log('updateVehicleXmr', sound);
+  vehicle.setVariable(EntitySharedDataType.SOUND, sound);
+}

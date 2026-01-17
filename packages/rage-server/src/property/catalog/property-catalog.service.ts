@@ -1,12 +1,13 @@
 import { CommercialType, IProduct, IProductAdd, ItemType, vehicleModels } from '@revolt-rp/common';
-import { filterItemsByType } from '../../item/registry/item-registry.util';
 import { vehicleRentConfig } from '../commercial/vehicle-rent.config';
-import { Property } from '../property.model';
-import { Product } from './product.model';
+import { filterItemsByType, Product, Property } from '@revolt-rp/core';
 
 
 const catalogItems = {
   [CommercialType.GroceryStore]: filterItemsByType(ItemType.PRODUCT_GROCERY)
+    .map(item => item.name),
+
+  [CommercialType.GasStation]: [...filterItemsByType(ItemType.PRODUCT_GAS_STATION), ...filterItemsByType(ItemType.PRODUCT_GROCERY)]
     .map(item => item.name),
 
   [CommercialType.ClothingStore]: filterItemsByType(ItemType.PRODUCT_CLOTHING_STORE)
@@ -15,7 +16,6 @@ const catalogItems = {
   [CommercialType.VehicleRent]: vehicleRentConfig.availableVehicles,
   [CommercialType.VehicleDealership]: vehicleModels
 };
-
 
 export const getAvailableCatalogItems = (property: Property) => {
   return catalogItems[property.subType] || [];
@@ -39,8 +39,18 @@ export const removeProductFromCatalog = async (property: Property, product: IPro
 };
 
 
-// export const updateCatalogProduct = async (property: Property, product: IProduct) => {
-//   property.catalog = property.catalog.map(p => p.name === product.name ? product : p);
-//   property.markModified('catalog');
-//   await property.save();
-// };
+export const updateCatalogProduct = async (property: Property, product: IProduct) => {
+  const index = property.catalog.findIndex((p) => p.id === product.id);
+
+  if (index !== -1) {
+    property.catalog[index]['stock'] = product.stock;
+    property.catalog[index]['price'] = product.price;
+    property.catalog[index]['discount'] = product.discount;
+    property.catalog[index]['ordered'] = product.ordered;
+  }
+
+  property.markModified('catalog');
+  await property.save();
+
+  return property.catalog[index];
+};

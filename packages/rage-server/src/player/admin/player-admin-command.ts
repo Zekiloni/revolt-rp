@@ -12,7 +12,12 @@ import {
   WeatherType,
   WeatherTypes
 } from '@revolt-rp/common';
-import { clearPlayerInventory, playerGiveItem, removePlayerWeapons } from '../inventory/player-inventory.service';
+import {
+  clearPlayerInventory,
+  playerGiveGun,
+  playerGiveItem,
+  removePlayerWeapons
+} from '../inventory/player-inventory.service';
 import { giveMoney, revivePlayer, setMoney, setPlayerHealth } from '../character/character.service';
 import {
   createTemporaryVehicle,
@@ -20,7 +25,6 @@ import {
   setVehicleOwner, teleportPlayerToVehicle,
   toggleVehicleEditMenu
 } from '../../vehicle/vehicle.service';
-import { getAllBaseItemModels, isValidItem } from '../../item/registry/item-registry.util';
 import {
   createPlayerConfirmation,
   findPlayer,
@@ -40,7 +44,7 @@ import {
   makePlayerOrganizationLeader,
   unsetPlayerOrganization
 } from '../../organization/organization.service';
-import { banIp, banPlayer, kickPlayer, unbanIp } from './moderation/moderation.service';
+import { banIp, banPlayer, kickPlayer, unbanIp } from './moderation.service';
 import dayjs from 'dayjs';
 import { isPlayerInVehicleCommandValidator } from '../../vehicle/vehicle.util';
 import {
@@ -52,12 +56,13 @@ import {
 import { savePlayerPosition } from '../../util/save-position.util';
 import { playAnimation, stopAnimation } from '../util/player-animation.util';
 import { sendAdminChatMessage } from './player-admin.util';
+import { getAllBaseItemModels, isValidItem } from '@revolt-rp/core';
 
 
 registerCommand({
   name: 'aduty',
   description: 'aduty',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(player: PlayerMp) {
     player.setVariable(PlayerSharedDataType.AdminDuty, !player.getVariable<boolean>(PlayerSharedDataType.AdminDuty));
   }
@@ -82,7 +87,7 @@ registerCommand({
   description: 'todo',
   aliases: ['dv', 'deleteveh', 'deletevehicle'],
   administrator: AdminType.SENIOR_ADMIN,
-  async handle(player: PlayerMp, ...args) {
+  async handle(player: PlayerMp) {
     const vehicle = player.vehicle ?? mp.vehicles.getClosest(player.position, 1)[0];
     if (vehicle) {
       if (isTemporaryVehicle(vehicle)) {
@@ -179,7 +184,7 @@ registerCommand({
   aliases: ['adminchat', 'ac'],
   params: ['message'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(player: PlayerMp, ...args) {
     const content = [...args].join(' ');
     sendAdminChatMessage(player, content);
@@ -316,6 +321,27 @@ registerCommand({
     await playerGiveItem(target, itemName, parseInt(quantity));
 
     // todo: logging, message
+  }
+});
+
+registerCommand({
+  name: 'givegun',
+  params: ['target', 'weapon', 'ammo'],
+  description: 'todo',
+  async handle(player: PlayerMp, targetQuery: string, weaponModel: string, ammo: string) {
+    const target = findPlayer(targetQuery);
+    if (!target || !target.account)
+      return notifyPlayer(player, { severity: 'error', summary: t('not_found'), detail: t('player_target_not_found') });
+
+    if (!isNumber(ammo))
+      return notifyPlayer(player, {
+        severity: 'error',
+        summary: t('bad_request'),
+        detail: t('invalid_param_type', { param: 'quantity', type: 'number' })
+      });
+
+    await playerGiveGun(target, weaponModel, parseInt(ammo));
+    // TODO: logging, message
   }
 });
 
@@ -668,7 +694,7 @@ registerCommand({
   name: 'kick',
   params: ['target', 'reason'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, reason: string) {
     const target = findPlayer(targetQuery);
 
@@ -684,7 +710,7 @@ registerCommand({
   name: 'ban',
   params: ['target', 'reason', 'days || perm'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, reason: string, expire: string) {
     if (!isNumber(expire) && expire != 'perm')
       return notifyPlayer(player, {
@@ -712,7 +738,7 @@ registerCommand({
   name: 'mute',
   params: ['target', 'minutes'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string, minutes: string) {
     if (!isNumber(minutes))
       return notifyPlayer(player, {
@@ -739,7 +765,7 @@ registerCommand({
   name: 'unmute',
   params: ['target'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string) {
     const target = findPlayer(targetQuery);
 
@@ -756,7 +782,7 @@ registerCommand({
   aliases: ['spectate'],
   params: ['target'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   async handle(player: PlayerMp, targetQuery: string) {
     const target = findPlayer(targetQuery);
 
@@ -885,7 +911,7 @@ registerCommand({
   name: 'clearchat',
   aliases: ['cc'],
   description: 'todo',
-  administrator: AdminType.MODERATOR,
+  administrator: AdminType.TESTER,
   handle(_player: PlayerMp) {
     mp.players.forEach(target => {
       triggerBrowsers(target, ProcedureKey.BROWSER_CLEAR_CHAT);

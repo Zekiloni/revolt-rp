@@ -105,7 +105,7 @@ export class CameraComponent implements OnInit, OnDestroy {
     this.imgurClientService.uploadImage(this.image)
       .subscribe({
         next: (response) => this.handlePhotoUploaded(response),
-        error: (error) => console.error(JSON.stringify(error))
+        error: (error) => console.error()
       });
   }
 

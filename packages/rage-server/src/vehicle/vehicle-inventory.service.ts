@@ -1,5 +1,4 @@
-import { PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
-import { Item } from '../item/item.model';
+import { ISelectableItem, PlayerSharedDataType, ProcedureKey, VehicleSharedDataType } from '@revolt-rp/common';
 import {
   playerGetAvailableItemSlot,
   playerRemoveItemFromInventory
@@ -7,6 +6,7 @@ import {
 import { triggerBrowsers } from '@libertymp/rage-rpc';
 import { WearableItem } from '../item/registry/clothing/wearable-item.model';
 import { destroyItem } from '../item/item.service';
+import { isSelectableItem, Item } from '@revolt-rp/core';
 
 
 export const removeAllTrunkItems = async (vehicle: VehicleMp) => {
@@ -70,8 +70,8 @@ export const playerPutTrunkItem = async (player: PlayerMp, vehicle: VehicleMp, i
   const itemHandler = item.data;
 
   if (player.getVariable(PlayerSharedDataType.SelectedItemId) === item.id) {
-    if (itemHandler && itemHandler.deselect) {
-      itemHandler.deselect(player, item);
+    if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
+      (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
     }
   }
 

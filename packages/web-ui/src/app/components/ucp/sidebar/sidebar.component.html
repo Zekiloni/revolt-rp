@@ -1,0 +1,25 @@
+@if ($account | async) {
+  <aside
+    class="w-full h-fit rounded-2xl backdrop-blur shadow-lg
+           border bg-surface-50 dark:bg-surface-800  text-surface-0 border-white/10
+           p-4 lg:p-5"
+  >
+    <div class="flex items-center gap-3 px-2 pb-4 border-b border-white/10">
+      <img ngSrc="/images/logo-1.png" alt="Revolt RP" class="h-8 w-8 rounded" height="441" width="368" />
+      <div class="leading-tight">
+        <div class="text-xs uppercase tracking-widest text-gray-400">Revolt Roleplay</div>
+        <div class="font-semibold">User Control Panel</div>
+      </div>
+    </div>
+
+    <ul class="layout-menu mt-4 space-y-1">
+      @for (item of sideMenuItems; let index = $index; track item.label) {
+        @if (item.separator){
+          <li class="my-2 border-t border-white/10"></li>
+        } @else {
+          <li app-menuitem [item]="item" [index]="index" [root]="true"></li>
+        }
+      }
+    </ul>
+  </aside>
+}

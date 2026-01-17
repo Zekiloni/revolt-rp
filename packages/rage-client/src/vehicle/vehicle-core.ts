@@ -9,8 +9,13 @@ import {
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
-import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../core/browser';
+import {
+  isKeyBindRegistered,
+  registerKeyBind,
+  registerKeyBindWithRelease,
+  unregisterKeyBind, unregisterKeyBindWithRelease
+} from '../core/keybind-manager';
+import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface, toggleCursor } from '../core/browser';
 import {
   getVehicleAcceleration,
   getVehicleClassName,
@@ -25,6 +30,7 @@ import {
 import { getIsAlive, getIsNotCuffed, getIsSpawned } from '../player/util/player-data.util';
 import { getDistance } from '../util/vector.util';
 import { isVehicleTrunkOpened } from './vehicle-data';
+import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 
 
 mp.game.vehicle.defaultEngineBehaviour = false;
@@ -64,6 +70,11 @@ function toggleVehicleMenu() {
 
 function toggleSeatbelt() {
   triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_SEATBELT);
+}
+
+function toggleXmrControl(toggle: boolean) {
+  triggerBrowser(browser, ProcedureKey.BROWSER_TOGGLE_XMR_CONTROL, toggle);
+  toggleCursor(false, toggle);
 }
 
 function toggleVehicleLeftIndicator() {
@@ -147,7 +158,7 @@ function updateVehicleHud() {
       highBeamsOn,
       height: mp.game.entity.getHeightAboveGround(vehicle.handle),
       pitch: vehicle.getPitch(),
-      roll: vehicle.getRoll(),
+      roll: vehicle.getRoll()
     };
 
     triggerBrowser(browser, ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, vehicleHudUpdate);
@@ -156,6 +167,13 @@ function updateVehicleHud() {
   }
 }
 
+
+const VEHICLE_RADIO_CONTROLS = [
+  RageEnums.Controls.INPUT_VEH_RADIO_WHEEL, RageEnums.Controls.INPUT_RADIO_WHEEL_UD,
+  RageEnums.Controls.INPUT_RADIO_WHEEL_LR, RageEnums.Controls.INPUT_VEH_NEXT_RADIO,
+  RageEnums.Controls.INPUT_VEH_PREV_RADIO, RageEnums.Controls.INPUT_VEH_NEXT_RADIO_TRACK,
+  RageEnums.Controls.INPUT_VEH_PREV_RADIO_TRACK
+];
 
 function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
   if (vehicle) {
@@ -167,18 +185,19 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.B, true, toggleSeatbelt);
     }
 
+    mp.game.audio.setRadioToStationName("OFF");
+    mp.game.audio.setUserRadioControlEnabled(false);
+
     if (seat == RageEnums.VehicleSeat.DRIVER) {
       mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
       mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-      registerKeyBind(HexKeyCodes.Y, true, toggleVehicleMenu, 0);
-
       if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
         if (!vehicle.getIsEngineRunning())
           toggleVehicleEngine();
-
         return;
       }
+
 
       currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
       currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
@@ -187,9 +206,24 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
       registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
 
+      registerKeyBind(HexKeyCodes.Y, true, toggleVehicleMenu, 0);
+      registerKeyBindWithRelease(
+        HexKeyCodes.Q,
+        () => toggleXmrControl(true),
+        () => toggleXmrControl(false),
+      );
+
+      disablePlayerControl(VEHICLE_RADIO_CONTROLS);
+
       toggleVehicleHud(true);
     }
   }
+}
+
+function resetVehicleVariables() {
+  currentMileage = 0.0;
+  currentFuel = 0;
+  lastVehiclePosition = null;
 }
 
 function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
@@ -211,6 +245,10 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
 
       unregisterKeyBind(HexKeyCodes.Y, toggleVehicleMenu);
       toggleVehicleHud(false);
+      unregisterKeyBindWithRelease(
+        HexKeyCodes.Q,
+        () => toggleXmrControl(true)
+      );
 
       const vehicleUpdate: IVehicleUpdateData = {
         vehicleId: vehicle.remoteId,
@@ -219,10 +257,8 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
       };
 
       triggerServer(ProcedureKey.SERVER_PLAYER_UPDATE_VEHICLE_DATA, vehicleUpdate);
-
-      currentMileage = 0.0;
-      currentFuel = 0;
-      lastVehiclePosition = null;
+      resetVehicleVariables();
+      enablePlayerControl(VEHICLE_RADIO_CONTROLS);
     }
   }
 }
@@ -237,6 +273,13 @@ function toggleVehicleDoor(vehicle: VehicleMp, index: RageEnums.Vehicle.DoorInde
     vehicle.setDoorShut(index, immediate);
   }
 }
+
+export const isVehicleDoorOpen = (vehicle: VehicleMp, index: RageEnums.Vehicle.DoorIndex): boolean => {
+  if (!mp.game.vehicle.getIsDoorValid(vehicle.handle, index))
+    return false;
+
+  return vehicle.getDoorAngleRatio(index) != 0;
+};
 
 function vehicleStreamInHandler(entity: VehicleMp) {
   if (entity.type != RageEnums.EntityType.VEHICLE)
@@ -273,6 +316,15 @@ function handleVehicleWindows(vehicle: VehicleMp, value: boolean[]) {
     }
   });
 }
+
+export const isVehicleWindowOpen = (vehicle: VehicleMp, index: number): boolean => {
+  if (!isValidVehicleWindow(vehicle, index))
+    return false;
+
+  const windows = vehicle.getVariable(VehicleSharedDataType.Windows);
+  const windowState = windows[index];
+  return windowState || vehicle.isWindowIntact(index);
+};
 
 function vehicleWindowDataHandler(vehicle: VehicleMp, value: boolean[], _oldValue?: boolean[]) {
   if (vehicle.type != RageEnums.EntityType.VEHICLE)

@@ -7,12 +7,10 @@ import {
   hexColors,
   IDrivingQuiz,
   IRegisterVehicle,
-  IVehicleNumberplate,
   PaymentType,
   ProcedureKey,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { Property } from '../property.model';
 import { dmvConfig } from './dmv.config';
 import { getPropertyAvailableParkingSpot, getPropertyById } from '../property.service';
 import { showPlayerGameInterface } from '../../player/util/player.util';
@@ -22,11 +20,9 @@ import { generateNumberPlate } from '../../vehicle/vehicle.util';
 import { makeOnlinePayment } from '../../banking/banking.service';
 import { notifyPlayer } from '../../player/util/player-notify.util';
 import { giveMoney } from '../../player/character/character.service';
-import { calculateTaxRate } from '../../economy/economy.util';
-import { economyConfig } from '../../economy/economy.config';
+import { calculateTaxRate } from '../../banking/tax.util';
 import dayjs from 'dayjs';
-import { vehicleConfig } from '../../vehicle/vehicle.config';
-import { Vehicle } from '../../vehicle/vehicle.model';
+import { economyConfig, Property, Vehicle, vehicleConfig, VehicleNumberplate } from '@revolt-rp/core';
 
 
 export const isDrivingTestVehicle = (vehicle: VehicleMp) => {
@@ -114,13 +110,11 @@ export const dmvInstructorSays = (player: PlayerMp, mistake: DrivingTestMistakeT
 
 export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) => {
   const { payment, vehicleId, propertyId, type: optionType } = data;
-
   const total = optionType === 'register' ? economyConfig.vehicleRegistrationFee : economyConfig.vehicleRenewalFee;
-
   const property = await getPropertyById(propertyId);
 
-  let vehicle: VehicleMp | Vehicle | null = null;
-  vehicle = mp.vehicles.toArray().find(v => v.getVariable(VehicleSharedDataType.VehicleId) === vehicleId) || null;
+  let vehicle: VehicleMp | Vehicle | null;
+  vehicle = mp.vehicles.toArray().find(v => v.info.id === vehicleId) || null;
 
   if (!vehicle) {
     vehicle = await getVehicleById(vehicleId);
@@ -134,7 +128,6 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
   if (payment.type === PaymentType.BankCard && payment.bankAccountNo) {
     try {
       await makeOnlinePayment(player, payment.bankAccountNo, property, total);
-      notifyPlayer(player, { severity: 'success', detail: t('online_payment_success') });
     } catch (error) {
       notifyPlayer(player, { severity: 'error', detail: error.message || t('online_payment_failed') });
       return false;
@@ -147,28 +140,31 @@ export const registerVehicle = async (player: PlayerMp, data: IRegisterVehicle) 
 
     await giveMoney(player, -total);
     property.balance = (property.balance + (total - calculateTaxRate(property)));
+    await property.save();
   }
 
-  await property.save();
 
+  const content = optionType === 'register'
+    ? generateNumberPlate(8)
+    : (vehicle instanceof mp.Vehicle ? vehicle.info.numberplate.content : vehicle.numberplate.content);
+
+  // TODO: Recalculate expiration based on current expiration date if renewing
   const newNumberPlate = {
-    content: optionType === 'register'
-      ? generateNumberPlate(8)
-      : (vehicle instanceof VehicleMp ? vehicle.info.numberplate.content : vehicle.numberplate.content),
+    content,
     expiringAt: dayjs().add(vehicleConfig.numberplateExpireDays).toDate(),
     modelType: vehicleConfig.defaultNumberPlateType,
-    vehicleId: vehicle instanceof VehicleMp ? vehicle.info.id : vehicle.id
+    vehicleId: vehicle instanceof mp.Vehicle ? vehicle.info.id : vehicle.id
   };
 
-  if (vehicle instanceof VehicleMp) {
-    vehicle.info.numberplate = newNumberPlate;
+  if (vehicle instanceof mp.Vehicle) {
+    vehicle.info.numberplate = new VehicleNumberplate(newNumberPlate);
     await vehicle.info.save();
 
     vehicle.numberPlate = newNumberPlate.content;
     vehicle.numberPlateType = newNumberPlate.modelType;
 
   } else if (vehicle instanceof Vehicle) {
-    vehicle.numberplate = newNumberPlate;
+    vehicle.numberplate = new VehicleNumberplate(newNumberPlate);
     await vehicle.save();
   }
 

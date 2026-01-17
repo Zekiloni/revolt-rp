@@ -1,5 +1,5 @@
 import { appendFile } from 'fs';
-import { logger } from '../core/logger.config';
+import { logger } from '@revolt-rp/core';
 
 const saveFile = 'saved_positions.json';
 
@@ -21,7 +21,7 @@ export function savePlayerPosition(player: PlayerMp, name = 'Unknown'): void {
 
   appendFile(saveFile, content, (err) => {
     if (err) {
-      savePosLogger.error(`Error saving position: ${err.message}`);
+      savePosLogger.error(err);
     } else {
       savePosLogger.info(`Position saved: ${content}`);
     }

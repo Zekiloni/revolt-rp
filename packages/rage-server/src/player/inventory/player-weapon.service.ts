@@ -1,8 +1,8 @@
 import { CaliberType, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { Item } from '../../item/item.model';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { playerRemoveItemFromInventory } from './player-inventory.service';
 import { triggerBrowsers } from '@libertymp/rage-rpc';
+import { isUsableItem, Item } from '@revolt-rp/core';
 
 
 export const getPlayerAmmoItemByCaliber = (player: PlayerMp, caliber: CaliberType) => {
@@ -32,7 +32,8 @@ export const playerReloadWeapon = async (player: PlayerMp, weapon: number) => {
 
   const ammoItemHandler = ammoItem.data;
 
-  ammoItemHandler.use(player, ammoItem);
+  if (isUsableItem<PlayerMp, Item>(ammoItemHandler))
+    ammoItemHandler.use(player, ammoItem);
 
   await weaponItem.save();
 
@@ -64,4 +65,4 @@ export const playerUpdateWeapon = async (player: PlayerMp, weapon: number) => {
 
   item.weaponAmmo = player.getWeaponAmmo(weapon);
   await item.save();
-}
+};

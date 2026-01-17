@@ -1,5 +1,15 @@
-import { Item, ItemModel } from './item.model';
+import { Item, ItemModel } from '@revolt-rp/core';
+import { ItemSharedDataType } from '@revolt-rp/common';
 
+
+export const getItemObject = (item: Item) => {
+  return mp.objects.toArray()
+    .find(object => object.getVariable(ItemSharedDataType.ItemId) === item.id);
+};
+
+export const setItemObject = (item: Item, object: ObjectMp) => {
+  object.setVariable(ItemSharedDataType.ItemId, item.id);
+};
 
 export const getAllDroppedItems = async () => {
   return ItemModel.find({ dropped: true }).exec();
@@ -15,7 +25,7 @@ export const createItem = (itemName: string, quantity: number, options: Partial<
 
 
 export const destroyItem = async (item: Item) => {
-  const object = item.object;
+  const object = getItemObject(item);
   if (object && mp.objects.exists(object)) {
     object.destroy();
   }
@@ -29,12 +39,12 @@ export const destroyItemById = async (id: string) => {
     return;
 
   await destroyItem(item);
-}
+};
 
 
 export const isWeaponItem = async (item: Item) => {
   return item.data.isWeapon;
-}
+};
 
 
 export const getNearbyItem = async (player: PlayerMp, radius: number) => {
@@ -43,4 +53,4 @@ export const getNearbyItem = async (player: PlayerMp, radius: number) => {
     const distance = player.dist(item.position);
     return (distance <= radius && (!closestItem || distance < player.dist(closestItem.position))) ? item : closestItem;
   }, null);
-}
+};

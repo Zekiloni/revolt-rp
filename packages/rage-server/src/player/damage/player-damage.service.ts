@@ -4,9 +4,8 @@ import { getPlayerSelectedItem } from '../inventory/player-inventory.service';
 import { revivePlayer, setPlayerHealth, setPlayerWounded } from '../character/character.service';
 import { CaliberType, IPlayerDamageData, WeaponCauseNames } from '@revolt-rp/common';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
-import { characterConfig } from '../character/character.config';
 import { notifyPlayer } from '../util/player-notify.util';
-import { PlayerDeathModel } from './player-death.model';
+import { characterConfig, PlayerDeathModel } from '@revolt-rp/core';
 
 
 const playerDamageInfo = new Map<string, IPlayerDamageData<PlayerMp>[]>();

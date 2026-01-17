@@ -12,7 +12,12 @@ export const isWearableItem = (item: IItem | IProduct) => {
   return isEquipableItem(item) && hasWearableInfo(item);
 };
 
-export const getItemIcon = (item: IItem | IProduct) => {
+export const getItemIcon = (item: IItem | IProduct | IBaseItem) => {
+  if (!('data' in item)) {
+    const data = item as IBaseItem;
+    return `assets/images/items/${data.icon ?? data.model}.png`;
+  }
+
   const data = item.data as IBaseItem;
 
   if (data.icon) {

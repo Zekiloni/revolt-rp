@@ -1,9 +1,8 @@
-import { CaliberType, ItemType, PlayerSharedDataType } from '@revolt-rp/common';
-import { BaseItem } from './base-item.model';
-import { Item } from '../item.model';
+import { CaliberType, IUsableItem, ItemType, PlayerSharedDataType } from '@revolt-rp/common';
 import { WeaponItem } from './weapon-item.model';
+import { BaseItem, Item } from '@revolt-rp/core';
 
-export class AmmoItem extends BaseItem {
+export class AmmoItem extends BaseItem implements IUsableItem<PlayerMp, Item>{
   caliberType: CaliberType;
 
   constructor(name: string, description: string, caliberType: CaliberType, model: string, type: ItemType[], weight: number) {

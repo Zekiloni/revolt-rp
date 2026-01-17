@@ -1,12 +1,17 @@
-import { ItemType, PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { BaseItem } from './base-item.model';
-import { Item } from '../item.model';
-import { triggerClient } from '@libertymp/rage-rpc';
-import { playerAddAttachment, playerRemoveAttachment } from '../../player/util/player-attachment.util';
 import dayjs from 'dayjs';
+import { triggerClient } from '@libertymp/rage-rpc';
+import {
+  IUsableItem,
+  ItemType,
+  PlayerAttachmentTypeEnum,
+  PlayerSharedDataType,
+  ProcedureKey
+} from '@revolt-rp/common';
+import { BaseItem, Item } from '@revolt-rp/core';
+import { playerAddAttachment, playerRemoveAttachment } from '../../player/util/player-attachment.util';
 
 
-export class BankCardItem extends BaseItem {
+export class BankCardItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
   holType = PlayerAttachmentTypeEnum.HoldBankCard;
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {

@@ -19,7 +19,7 @@
           @switch (message.type) {
             @case (PhoneMessageType.Location) {
               <div class="w-full h-28">
-                <app-world-map (init)="mapOnInit($event, message)" />
+                <lib-world-map (init)="mapOnInit($event, message)" />
               </div>
               <button class="w-full" pButton size="small" icon="pi pi-map-marker"
                       (click)="navigateMeTo(message)"></button>

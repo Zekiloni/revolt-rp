@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DialogModule } from 'primeng/dialog';
-import { ButtonDirective } from 'primeng/button';
+import { Button, ButtonDirective } from 'primeng/button';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -15,11 +15,13 @@ import {
   PropertyType, purchasablePropertyTypes
 } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
+import { InputGroup } from 'primeng/inputgroup';
+import { InputGroupAddon } from 'primeng/inputgroupaddon';
 
 @Component({
   selector: 'app-create-property',
   standalone: true,
-  imports: [CommonModule, DialogModule, TranslatePipe, InputTextModule, ReactiveFormsModule, DropdownModule, ButtonDirective, InputNumberModule],
+  imports: [CommonModule, DialogModule, TranslatePipe, InputTextModule, ReactiveFormsModule, DropdownModule, ButtonDirective, InputNumberModule, InputGroup, InputGroupAddon, Button],
   templateUrl: './create-property.component.html',
   styleUrl: './create-property.component.css'
 })
@@ -53,6 +55,7 @@ export class CreatePropertyComponent {
       name: [null, []],
       type: [null, [Validators.required]],
       price: [null],
+      address: [null],
       parentProperty: [null]
     });
 
@@ -80,7 +83,12 @@ export class CreatePropertyComponent {
         this.form.removeControl('price');
       }
     });
-  };
+  }
+
+  loadAddress() {
+    this.rageClientService.callClient<string>(ProcedureKey.CLIENT_GET_STREET_NAME_AT_COORD)
+      .subscribe({ next: (address) => this.form.patchValue({ address }) });
+  }
 
   close() {
     this.rageClientService.triggerClient(ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, GameUiKey.CreateProperty);

@@ -3,6 +3,7 @@ export const enum ProcedureKey {
   BROWSER_HIDE_GAME_INTERFACE = 'browser_hideGameInterface',
   CLIENT_PLAYER_SHOW_INTERFACE = 'client_playerShowInterface',
   CLIENT_PLAYER_HIDE_INTERFACE = 'client_playerHideInterface',
+  CLIENT_PLAYER_INTERFACE_CLOSED = 'client_playerInterfaceClosed',
   BROWSER_NOTIFICATION = 'browser_notification',
 
   BROWSER_AUTHORIZATION_REMEMBER = 'browser_authSuggestion',
@@ -184,6 +185,7 @@ export const enum ProcedureKey {
   SERVER_GET_CATALOG_AVAILABLE_ITEMS = 'server_getCatalogAvailableItems',
   SERVER_CATALOG_ADD_PRODUCT = 'server_catalogAddProduct',
   SERVER_CATALOG_REMOVE_PRODUCT = 'server_catalogRemoveProduct',
+  SERVER_CATALOG_UPDATE_PRODUCT = 'server_catalogUpdateProduct',
 
   CLIENT_TOGGLE_CLOTHING_STORE = 'client_toggleClothingStore',
   CLIENT_CLOTHING_PREVIEW = 'client_clothingPreview',
@@ -254,6 +256,29 @@ export const enum ProcedureKey {
   BROWSER_UPDATE_PLAYERS = 'browser_updatePlayers',
 
   SERVER_REGISTER_VEHICLE = 'server_registerVehicle',
+  CLIENT_GET_STREET_NAME_AT_COORD = 'client_getStreetNameAtCoord',
+  CLIENT_USE_FISHING_ROD = 'client_useFishingRod',
+  BROWSER_FISHING_MINIGAME_UPDATE = 'browser_fishingMinigameUpdate',
+  SERVER_PLAYER_CATCH_FISH = 'server_playerCatchFish',
+  BROWSER_FISHING_SET_REWARD = 'browser_fishingSetReward',
+  SERVER_PLAYER_FISH_RESPONSE = 'server_playerFishResponse',
+  CLIENT_DRUG_USE_EFFECT = 'client_drugUseEffect',
+  CLIENT_WITHDRAWAL_SCREEN_EFFECT = 'client_withdrawalScreenEffect',
+  SERVER_PROPERTY_POINT_INTERACTION = 'server_propertyPointInteraction',
+  BROWSER_SET_EQUIPMENT_MENU = 'browser_setEquipmentMenu',
+  SERVER_PROPERTY_TAKE_EQUIPMENT = 'server_propertyTakeEquipment',
+  SERVER_TRACK_PHONE_NUMBER = 'server_trackPhoneNumber',
 
-  BROWSER_DMV_SET = 'browser_dmvSet',
+  BROWSER_ADD_AUDIO = 'browser_addAudio',
+  BROWSER_SET_AUDIO_VOLUME = 'browser_setVolume',
+  BROWSER_PAUSE_AUDIO = 'browser_pauseAudio',
+  BROWSER_RESUME_AUDIO = 'browser_resumeAudio',
+  BROWSER_DESTROY_AUDIO = 'browser_destroyAudio',
+  BROWSER_SET_MUFFLED = 'browser_setMuffled',
+  BROWSER_SET_AUDIO_POSITION = 'browser_setAudioPosition',
+  BROWSER_SET_LISTENER_POSITION = 'browser_setListenerPosition',
+  BROWSER_SET_LISTENER_ORIENTATION = 'browser_setListenerOrientation',
+  SERVER_VEHICLE_XMR_SET = 'server_vehicleXmrSet',
+  BROWSER_TOGGLE_XMR_CONTROL = 'browser_toggleXmrControl',
+
 }

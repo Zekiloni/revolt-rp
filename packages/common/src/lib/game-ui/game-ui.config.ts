@@ -1,7 +1,7 @@
-import { GameInterface } from './game-ui.model';
+import { IGameInterface } from './game-ui.model';
 import { GameUiKey } from './game-ui-key.enum';
 
-export const gameUiConfig: Record<GameUiKey, GameInterface> = {
+export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   [GameUiKey.Authorization]: {
     isActive: false,
     freezeControls: true,
@@ -39,14 +39,16 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     freezeControls: true,
     mouse: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.Inventory]: {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.BankMenu]: {
@@ -150,7 +152,8 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
     isActive: false,
     mouse: true,
     freezeControls: true,
-    disableChat: true
+    disableChat: true,
+    closeOnEscape: true
   },
 
   [GameUiKey.RentCatalog]: {
@@ -204,8 +207,8 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.MDC]: {
     isActive: false,
     mouse: true,
+    disableChat: true,
     freezeControls: true,
-    disableChat: true
   },
 
   [GameUiKey.PlateRecognition]: {
@@ -219,5 +222,17 @@ export const gameUiConfig: Record<GameUiKey, GameInterface> = {
   [GameUiKey.GarageMenu]: {
     isActive: false,
     mouse: true,
+  },
+
+  [GameUiKey.FishingMinigame]: {
+    isActive: false,
+    closeOnEscape: true,
+  },
+
+  [GameUiKey.EquipmentMenu]: {
+    isActive: false,
+    mouse: true,
+    closeOnEscape: true,
+    freezeControls: true
   }
 };

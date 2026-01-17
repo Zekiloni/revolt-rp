@@ -8,7 +8,7 @@ import {
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IProductAdd } from '@revolt-rp/common';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import {
@@ -43,7 +43,7 @@ export class AddProductComponent {
 
   filteredItems: string[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private translateService: TranslateService) {
     this.buildForm();
   }
 
@@ -57,7 +57,7 @@ export class AddProductComponent {
   filterItems(event: AutoCompleteCompleteEvent) {
     const query = event.query;
     this.filteredItems = this.availableItems.filter((item) =>
-      item.toLowerCase().includes(query.toLowerCase())
+      item.toLowerCase().includes(query.toLowerCase()) || this.translateService.instant(item).toLowerCase().includes(query.toLowerCase())
     );
   }
 

@@ -79,7 +79,7 @@
       <label for="accept-terms" class="ml-2">{{  'accept_terms' | translate }}</label>
     </div>
 
-    <app-select-payment-method [payment]="paymentMethod" />
+    <app-select-payment-method (paymentChange)="paymentMethod = $event" />
 
     <div class="p-4 mt-4 border-b border-surface">
       <div class="flex justify-between items-center mb-4">
@@ -88,7 +88,7 @@
       </div>
       <div class="flex justify-between items-center mb-4">
         <span class="text-surface-900 dark:text-surface-0">{{ 'total' | translate }}</span>
-        <span class="text-surface-900 dark:text-surface-0 text-green-500 font-bold">{{ duration * selectedVehicle.price | currency }}</span>
+        <span class="dark:text-surface-0 text-green-500 font-bold">{{ duration * selectedVehicle.price | currency }}</span>
       </div>
     </div>
 

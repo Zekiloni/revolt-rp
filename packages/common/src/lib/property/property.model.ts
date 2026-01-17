@@ -1,10 +1,9 @@
 import { Ref } from '@typegoose/typegoose';
 import { CommercialType, PropertyPointType, PropertyType, PublicServiceType } from './property.enums';
-import { Vector3 } from '../core.interface';
+import { IVector3 } from '../core.interface';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
 import { IDoor } from './door.model';
-import { IVehicle } from '../vehicle/vehicle.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IBaseItem } from '../item/registry/base-item.model';
 
@@ -18,7 +17,8 @@ export interface IProduct {
   name: string;
   stock: number;
   price: number;
-  data: IBaseItem | null;
+  ordered: number;
+  data?: IBaseItem | null;
   discount?: number;
 }
 
@@ -33,18 +33,24 @@ export interface IProductRemove {
   product: IProduct;
 }
 
+export interface IProductUpdate {
+  propertyId: string;
+  product: IProduct;
+}
+
 export interface IEntrance {
-  fromPosition: Vector3;
+  fromPosition: IVector3;
   dimension: number;
-  toPosition: Vector3;
+  toPosition: IVector3;
   locked: boolean;
 }
 
 export interface IPropertyPoint {
   id: string;
   type: PropertyPointType;
-  position: Vector3;
-  rotation: Vector3;
+  description?: string;
+  position: IVector3;
+  rotation: IVector3;
   dimension: number;
 }
 
@@ -55,6 +61,7 @@ export interface IPropertyCreate {
   type: PropertyType;
   subType?: CommercialType;
   parentProperty?: Ref<IProperty>;
+  address?: string;
   price?: number;
   spriteType?: number;
 }
@@ -72,6 +79,7 @@ export interface IPropertyVehicle {
   color?: [[number, number, number], [number, number, number]];
   liveryId?: number;
   bodyHealth?: number;
+  equipment?: string[];
 }
 
 export interface IPropertyVehicleCreate {
@@ -92,8 +100,9 @@ export interface IProperty extends Base {
   price?: number;
   spriteType?: number;
   forSale?: true;
-  position: Vector3;
-  interiorPosition: Vector3;
+  position: IVector3;
+  address?: string;
+  interiorPosition: IVector3;
   balance: number;
   entrances?: IEntrance[];
   points: IPropertyPoint[];

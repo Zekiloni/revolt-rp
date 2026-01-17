@@ -1,5 +1,25 @@
+export const waitForObjectToLoad = async (object: ObjectMp | PedMp) => {
+  /// mp.game.entity.isAnEntity(object.handle)
+  // for (let i = 0; object.handle === 0 && i < 25; i++) {
+  //   await mp.game.waitAsync(50);
+  // }
+
+  while (object.handle === 0) {
+    await mp.game.waitAsync(0);
+  }
+};
+
+
 export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number, freeFall = false) => {
-  if (!mp.game.streaming.isModelValid(mp.game.joaat(model)))
+  const hash = mp.game.joaat(model);
+  mp.gui.chat.push(`Model: ${model} isModelInCdimage... ${mp.game.streaming.isModelInCdimage(hash)}`);
+  mp.gui.chat.push(`Model: ${model} hasModelLoaded... ${mp.game.streaming.hasModelLoaded(hash)}`);
+  mp.gui.chat.push(`Model: ${model} requestModel... ${mp.game.streaming.requestModel(hash)}`);
+  mp.gui.chat.push(`Model: ${model} hasModelLoaded now ... ${mp.game.streaming.hasModelLoaded(hash)}`);
+  mp.gui.chat.push(`Model: ${model} isModelValid... ${mp.game.streaming.isModelValid(hash)}`);
+  const isModelValid = mp.game.streaming.isModelValid(hash);
+
+  if (!isModelValid)
     return;
 
   const newPos = new mp.Vector3(
@@ -8,13 +28,11 @@ export const getObjectGroundPosition = async (model: string, position: Vector3, 
     position.z
   );
 
-  const object = mp.objects.new(mp.game.joaat(model), new mp.Vector3(newPos.x, newPos.y, newPos.z),
+  const object = mp.objects.new(hash, new mp.Vector3(newPos.x, newPos.y, newPos.z),
     { alpha: 255, rotation: rotation, dimension }
   );
 
-  while (object.handle === 0) {
-    await mp.game.waitAsync(0);
-  }
+  await waitForObjectToLoad(object);
 
   if (freeFall) {
     const velocityVector = new mp.Vector3(

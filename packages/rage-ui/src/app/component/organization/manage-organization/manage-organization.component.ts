@@ -19,8 +19,7 @@ import {
 import { ManageRanksComponent } from './components/manage-ranks/manage-ranks.component';
 import { ICharacterWithActivity, ManageMembersComponent } from './components/manage-members';
 import { RageClientService } from '../../../domain/service/rage-client.service';
-import { WorldMapComponent } from '../../misc/world-map/world-map.component';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
+import { StaticAssetPipe, WorldMapComponent } from '@revolt-rp/common-ui';
 
 
 @Component({
@@ -141,6 +140,7 @@ export class ManageOrganizationComponent implements OnInit, OnDestroy {
       map.dragging.disable();
       map.touchZoom.disable();
       map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable()
       map.setView([this.organization.position.y, this.organization.position.x], 5);
     }
   }

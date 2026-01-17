@@ -1,0 +1,20 @@
+<div class="absolute-center bg-surface-0 dark:bg-surface-900 p-6 shadow rounded-border">
+
+  @for (item of equipment; track item.item) {
+    <div class="flex items-center justify-between mb-4 last:mb-0">
+      <div class="flex items-center">
+        <img [ngSrc]="getItemIcon(item.data)" imgFallback alt="{{ item.item }}"     width="75"
+             height="75"
+             class="w-32 h-32 shrink-0 mb-4" style="object-fit: cover" />
+        <span class="text-base font-medium">{{ item.item }}</span>
+      </div>
+      <button
+        class="px-4 py-2 bg-primary-600 text-white rounded hover:bg-primary-700"
+        (click)="take(item)"
+      >
+        take
+      </button>
+    </div>
+
+  }
+</div>

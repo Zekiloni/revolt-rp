@@ -1,6 +1,6 @@
-import { Ref } from '@typegoose/typegoose';
-import { BloodType, CharacterGender, CharacterSpawnType } from './character.enums';
-import { Vector3 } from '../../core.interface';
+import { prop, Ref } from '@typegoose/typegoose';
+import { AddictionType, BloodType, CharacterGender, CharacterSpawnType, SkillType } from './character.enums';
+import { IVector3 } from '../../core.interface';
 import { IOrganization, IOrganizationRank } from '../../organization/organization.model';
 import { ICharacterAppearance } from './char-appeaarance.model';
 import { IAccount } from '../account/account.model';
@@ -39,6 +39,28 @@ export interface ICharacterJob {
   createdAt: Date;
 }
 
+export interface ICharacterAddiction {
+  type: AddictionType;
+  level: number;
+  lastUsedAt: Date;
+  withdrawal?: {
+    lastHpDrainAt: Date;        // last HP loss tick
+    recoveryCheckAt: Date;      // last random decay (recovery) check
+  };
+}
+
+export interface ICharacterSkill {
+  type: SkillType;
+  level: number;
+}
+
+
+export interface IDrugEffect {
+  addictionType: AddictionType;
+  effectLevel: number;
+  duration: number;
+  startedAt: Date;
+}
 
 export interface ICharacter extends Base {
   firstName: string;
@@ -55,17 +77,19 @@ export interface ICharacter extends Base {
   health: number;
   accent?: string;
   isWounded: boolean;
+  mugshotUrl?: string;
   membership: ICharacterOrganization | null;
   isLeader: boolean;
   injuries: ICharacterInjury[];
   isCuffed: boolean;
   appearance: ICharacterAppearance;
   bloodType: BloodType;
+  drugs: IDrugEffect[];
   defaultSpawn: ICharacterSpawn;
   inventory: Ref<IItem>[];
   maskId: string;
   dnaId: string;
-  position: Vector3;
+  position: IVector3;
   heading: number;
   dimension: number;
   level: number;
@@ -79,13 +103,18 @@ export interface ICharacter extends Base {
   adminJailTime?: number;
   prisonTime?: number;
   drunk: number;
+  hunger: number;
+  stamina: number;
+  strength: number;
   thirst: number;
   deaths: number;
   kills: number;
   lastSessionAt?: Date;
+  addictions: ICharacterAddiction[];
+  skills: ICharacterSkill[];
   updatedAt?: Date;
   createdAt: Date;
   status?: ICharacterStatus;
   deletedAt?: Date;
-  lastExitType?: 'disconnect'| 'timeout' | 'kicked';
+  lastExitType?: 'disconnect' | 'timeout' | 'kicked';
 }

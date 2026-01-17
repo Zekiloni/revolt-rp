@@ -13,8 +13,8 @@ import { MessageService } from 'primeng/api';
 import { CharacterSelectorComponent } from '../character-selector';
 import { TranslatePipe } from '@ngx-translate/core';
 import { fadeInOutTrigger } from '../../domain/util/animation.util';
-import { StaticAssetPipe } from '../../domain/pipe/static-asset.pipe';
 import { InputText } from 'primeng/inputtext';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 type AuthForm = {

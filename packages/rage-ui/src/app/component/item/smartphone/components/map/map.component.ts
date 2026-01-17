@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import { CommonModule } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Component, Input, OnDestroy } from '@angular/core';
@@ -7,10 +7,10 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { ProcedureKey } from '@revolt-rp/common';
-import { WorldMapComponent } from '../../../../misc/world-map/world-map.component';
 import { RageClientService } from '../../../../../domain/service/rage-client.service';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { WorldMapComponent } from '@revolt-rp/common-ui';
 
 
 @Component({
@@ -27,7 +27,8 @@ export class MapComponent implements OnDestroy {
   currentLocation: L.Marker | null = null;
   firstTime = true;
 
-  constructor(private rageClientService: RageClientService) {
+  constructor(
+    private rageClientService: RageClientService,) {
   }
 
   private setCurrentPosition = (position: L.LatLng) => {

@@ -2,7 +2,7 @@ import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
   GameUiKey, IVehicleSellOffer,
-  IVehicleUpdateData,
+  IVehicleUpdateData, IVehicleXmrState,
   PlayerSharedDataType,
   ProcedureKey,
   VehicleIndicator,
@@ -21,7 +21,7 @@ import {
   toggleVehicleEngine,
   toggleVehicleHood,
   toggleVehicleIndicator,
-  toggleVehicleTrunk
+  toggleVehicleTrunk, updateVehicleXmr
 } from './vehicle.service';
 import { playAnimation } from '../player/util/player-animation.util';
 import { isVehicleTrunkOpen } from './vehicle-inventory.service';
@@ -29,7 +29,7 @@ import { hidePlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { t } from 'i18next';
 import { FilterQuery } from 'mongoose';
-import { Vehicle } from './vehicle.model';
+import { Vehicle } from '@revolt-rp/core';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {
@@ -154,6 +154,14 @@ function findVehicleHandler(query: FilterQuery<Vehicle>) {
   return findVehicle(query);
 }
 
+function setVehicleXmrHandler(update: IVehicleXmrState, { player }: ProcedureListenerInfo<PlayerMp>) {
+  const vehicle = player.vehicle;
+
+  if (!vehicle || player.seat !== RageEnums.VehicleSeat.DRIVER)
+    return;
+
+  updateVehicleXmr(vehicle, update);
+}
 
 mp.events.add({
   playerEnterVehicle: playerEnterVehicleHandler,
@@ -170,6 +178,7 @@ on(ProcedureKey.SERVER_VEHICLE_TOGGLE_HOOD, toggleVehicleHoodHandler);
 on(ProcedureKey.SERVER_PARK_VEHICLE, parkVehicleHandler);
 on(ProcedureKey.SERVER_VEHICLE_LOAD, loadVehicleHandler);
 on(ProcedureKey.SERVER_VEHICLE_SELL_OFFER, createVehicleSellOfferHandler);
+on(ProcedureKey.SERVER_VEHICLE_XMR_SET, setVehicleXmrHandler);
 register(ProcedureKey.SERVER_GET_PLAYER_VEHICLES, getPlayerVehiclesHandler);
 register(ProcedureKey.SERVER_FIND_VEHICLE, findVehicleHandler);
 

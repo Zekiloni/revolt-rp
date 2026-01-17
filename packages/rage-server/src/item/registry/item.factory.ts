@@ -1,6 +1,6 @@
 import { WeaponItem } from './weapon-item.model';
-import { CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
-import { DrinkItemModel } from './drink-item.model';
+import { AddictionType, CaliberType, ItemType, PlayerAttachmentTypeEnum } from '@revolt-rp/common';
+import { DrinkItem } from './drink.item.model';
 import { AmmoItem } from './ammo-item.model';
 import { BankCardItem } from './bank-card-item.model';
 import { WearableItem } from './clothing/wearable-item.model';
@@ -9,9 +9,13 @@ import { HandheldRadioItemModel } from './electronic/handheld-radio-item.model';
 import { SmartphoneItemModel } from './electronic/smartphone-item.model';
 import { LicenseItem } from './license-item.model';
 import { CuffItem } from './utility/cuff-item.model';
+import { FishingRodItem } from './utility/fishing-rod-item.model';
+import { MiscellaneousItem } from './miscellaneous-item.model';
+import { FoodItem } from './food.item.model';
+import { DrugItem } from './drug-item.model';
 
-new DrinkItemModel('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
-new DrinkItemModel('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
+new DrinkItem('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
+new DrinkItem('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
 
 
 new WeaponItem('Ruger Mark IV', 'items.ruger_mark_description.', RageEnums.Hashes.Weapon.PISTOL, CaliberType.CALIBER_22_LR, 'w_pi_pistol', [ItemType.WEAPON_PISTOL], 0.5);
@@ -188,4 +192,374 @@ new HandheldRadioItemModel('items.handheld_radio', 'items.handheld_radio_descrip
 new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'prop_amb_phone', [], 0.3);
 
 
+new FishingRodItem('items.fishing_rod', 'items.fishing_rod_description', 'prop_fishing_rod_01', 1.5);
+new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'prop_fishing_rod_02', 1.5);
+
+new MiscellaneousItem('items.fishing_bait', 'items.fishing_bait_description', 'prop_paints_can01', [ItemType.FISHING_BAIT], 0.3);
+
+new MiscellaneousItem('items.lighter', 'items.lighter_description', 'p_cs_lighter_01', [ItemType.LIGHTER, ItemType.PRODUCT_GROCERY], 0.045);
+new MiscellaneousItem('items.lighter_2', 'items.lighter_description', 'ex_prop_exec_lighter_01', [ItemType.LIGHTER, ItemType.PRODUCT_GROCERY], 0.045);
+new MiscellaneousItem('items.lighter_3', 'items.lighter_description', 'lux_prop_lighter_luxe', [ItemType.LIGHTER], 0.1);
+new MiscellaneousItem('items.lighter_4', 'items.lighter_description', 'v_res_tt_lighter', [ItemType.LIGHTER], 0.1);
+
+new MiscellaneousItem('items.bong', 'items.bong', 'prop_sh_bong_01', [ItemType.BONG], 0.2);
+new MiscellaneousItem('items.bong_2', 'items.bong', 'xm3_prop_xm3_bong_01a', [ItemType.BONG], 0.225);
+new MiscellaneousItem('items.bong_3', 'items.bong', 'sf_prop_sf_bong_01a', [ItemType.BONG], 0.22);
+
 new CuffItem();
+
+new DrugItem('Marijuana', 'Cannabis flower', AddictionType.Cannabis, 'bkr_prop_weed_smallbag_01a', 0.001, {
+  intensity: 0.5,
+  duration: 30,
+  effects: [
+    { type: 'health_regen', amount: 10, interval: 60, duration: 300 },
+    { type: 'addiction', amount: 0.2 }
+  ]
+});
+
+new DrugItem('Cocaine', 'Powder cocaine', AddictionType.Cocaine, 'xm3_prop_xm3_bag_coke_01a', 0.001, {
+  intensity: 1.0,
+  duration: 18,
+  effects: [
+    { type: 'strength', amount: 10 },
+    { type: 'health_regen', amount: 15, interval: 30, duration: 180 },
+    { type: 'addiction', amount: 1.2 }
+  ]
+});
+
+new DrugItem('Crack Cocaine', 'Crack rocks', AddictionType.Crack, 'h4_prop_h4_coke_powderbottle_01', 0.001, {
+  intensity: 1.2,
+  duration: 12,
+  effects: [
+    { type: 'strength', amount: 12 },
+    { type: 'health', amount: 10 },
+    { type: 'addiction', amount: 1.6 }
+  ]
+});
+
+new DrugItem('Ecstasy', 'MDMA pill', AddictionType.Ecstasy, 'v_club_vu_pills', 0.0002, {
+  intensity: 0.9,
+  duration: 60,
+  effects: [
+    { type: 'stamina', amount: 20 },
+    { type: 'health_regen', amount: 20, interval: 60, duration: 600 },
+    { type: 'addiction', amount: 0.8 }
+  ]
+});
+
+new DrugItem('Heroin', 'Heroin powder', AddictionType.Heroin, 'prop_heroin', 0.001, {
+  intensity: 1.3,
+  duration: 60,
+  effects: [
+    { type: 'health', amount: 25 },
+    { type: 'health_regen', amount: 25, interval: 120, duration: 600 },
+    { type: 'addiction', amount: 1.8 }
+  ]
+});
+
+new DrugItem('Methamphetamine', 'Meth crystals', AddictionType.Meth, 'prop_meth_bag_01', 0.001, {
+  intensity: 1.4,
+  duration: 48,
+  effects: [
+    { type: 'strength', amount: 15 },
+    { type: 'stamina', amount: 40 },
+    { type: 'addiction', amount: 2.1 }
+  ]
+});
+
+new DrugItem('Morphine', 'Morphine pill', AddictionType.Morphine, 'prop_cs_pills', 0.0003, {
+  intensity: 0.8,
+  duration: 30,
+  effects: [
+    { type: 'health', amount: 20 },
+    { type: 'health_regen', amount: 10, interval: 45, duration: 300 },
+    { type: 'addiction', amount: 1.0 }
+  ]
+});
+
+new DrugItem('Steroids', 'Dianabol pill', AddictionType.Dianabol, 'ng_proc_drug01a002', 0.00001, {
+  intensity: 0.4,
+  duration: 72,
+  effects: [
+    { type: 'strength', amount: 8 },
+    { type: 'stamina', amount: 25 },
+    { type: 'addiction', amount: 0.6 }
+  ]
+});
+
+new DrugItem('LSD Acid', 'LSD blotter', AddictionType.Acid, 'xm3_prop_xm3_lsd_bottle_03a', 0.000001, {
+  intensity: 0.3,
+  duration: 90,
+  effects: [
+    { type: 'health', amount: 5 },
+    { type: 'addiction', amount: 0.2 }
+  ]
+});
+
+new DrugItem('Shrooms', 'Magic mushrooms', AddictionType.Shrooms, 'prop_shrooms', 0.001, {
+  intensity: 0.4,
+  duration: 90,
+  effects: [
+    { type: 'health_regen', amount: 5, interval: 60, duration: 900 },
+    { type: 'addiction', amount: 0.3 }
+  ]
+});
+
+new DrugItem('PCP', 'PCP powder', AddictionType.PCP, 'prop_pcp', 0.001, {
+  intensity: 1.5,
+  duration: 30,
+  effects: [
+    { type: 'strength', amount: 18 },
+    { type: 'health', amount: 15 },
+    { type: 'addiction', amount: 1.7 }
+  ]
+});
+
+new FoodItem(
+  'items.fish_bass',
+  'items.fish_bass_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.5,
+  {
+    calories: 40, // Raw values (will be better when cooked)
+    hydration: 5,
+    requiresCooking: false, // Can be eaten raw but better cooked
+    cookingTime: 90000 // 1.5 minutes
+  }
+);
+
+new FoodItem(
+  'items.fish_perch',
+  'items.fish_perch_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.4,
+  {
+    calories: 35,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 80000
+  }
+);
+
+new FoodItem(
+  'items.fish_pike',
+  'items.fish_pike_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.7,
+  {
+    calories: 50,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 120000 // 2 minutes
+  }
+);
+
+// === PREMIUM FISH (Better nutrition) ===
+
+new FoodItem(
+  'items.fish_salmon',
+  'items.fish_salmon_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.8,
+  {
+    calories: 60, // High quality fish
+    hydration: 8,
+    requiresCooking: false, // Perfect for sushi
+    cookingTime: 100000
+  }
+);
+
+new FoodItem(
+  'items.fish_trout',
+  'items.fish_trout_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.6,
+  {
+    calories: 45,
+    hydration: 6,
+    requiresCooking: false,
+    cookingTime: 90000
+  }
+);
+
+new FoodItem(
+  'items.fish_tuna',
+  'items.fish_tuna_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  1.2,
+  {
+    calories: 70, // Large, nutritious fish
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 150000 // 2.5 minutes
+  }
+);
+
+// === RARE/EXOTIC FISH ===
+
+new FoodItem(
+  'items.fish_swordfish',
+  'items.fish_swordfish_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  2.0,
+  {
+    calories: 80,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 180000 // 3 minutes
+  }
+);
+
+new FoodItem(
+  'items.fish_marlin',
+  'items.fish_marlin_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  2.5,
+  {
+    calories: 85,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 200000
+  }
+);
+
+// === SMALL/BAIT FISH ===
+
+new FoodItem(
+  'items.fish_sardine',
+  'items.fish_sardine_description',
+  [ItemType.FISH, ItemType.FISHING_BAIT],
+  'bzzz_animal_fish002',
+  0.1,
+  {
+    calories: 15,
+    hydration: 3,
+    requiresCooking: false,
+    cookingTime: 40000
+  }
+);
+
+new FoodItem(
+  'items.fish_anchovy',
+  'items.fish_anchovy_description',
+  [ItemType.FISH, ItemType.FISHING_BAIT],
+  'bzzz_animal_fish002',
+  0.08,
+  {
+    calories: 12,
+    hydration: 3,
+    requiresCooking: false,
+    cookingTime: 30000
+  }
+);
+
+new FoodItem(
+  'items.fish_mackerel',
+  'items.fish_mackerel_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.5,
+  {
+    calories: 40,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 85000
+  }
+);
+
+// === SHELLFISH/SEAFOOD ===
+
+new FoodItem(
+  'items.seafood_crab',
+  'items.seafood_crab_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.4,
+  {
+    calories: 35,
+    hydration: 8,
+    requiresCooking: true, // Shellfish should be cooked
+    cookingTime: 120000
+  }
+);
+
+new FoodItem(
+  'items.seafood_lobster',
+  'items.seafood_lobster_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.8,
+  {
+    calories: 50,
+    hydration: 10,
+    requiresCooking: true,
+    cookingTime: 180000
+  }
+);
+
+new FoodItem(
+  'items.seafood_shrimp',
+  'items.seafood_shrimp_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.2,
+  {
+    calories: 25,
+    hydration: 6,
+    requiresCooking: true,
+    cookingTime: 60000 // 1 minute
+  }
+);
+
+// === FRESHWATER VARIETIES ===
+
+new FoodItem(
+  'items.fish_catfish',
+  'items.fish_catfish_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.9,
+  {
+    calories: 55,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 110000
+  }
+);
+
+new FoodItem(
+  'items.fish_carp',
+  'items.fish_carp_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  1.0,
+  {
+    calories: 48,
+    hydration: 5,
+    requiresCooking: false,
+    cookingTime: 120000
+  }
+);
+new FoodItem(
+  'items.fish_eel',
+  'items.fish_eel_description',
+  [ItemType.FISH],
+  'bzzz_animal_fish002',
+  0.6,
+  {
+    calories: 42,
+    hydration: 6,
+    requiresCooking: false,
+    cookingTime: 100000
+  }
+);
+
+

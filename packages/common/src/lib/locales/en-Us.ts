@@ -37,7 +37,7 @@ export const enUs = {
   'no_characters': 'No characters found.',
   'create_character': 'Create Character',
   'select': 'Select',
-  'last_seen_at:': 'Last seen at',
+  'last_seen_at': 'Last seen at',
   'characters': 'Characters',
   'next': 'Next',
   'back': 'Back',
@@ -556,6 +556,7 @@ export const enUs = {
   'parking_spot': 'Parking Spot',
   'preview_point': 'Preview Point',
   'delete_property_point': 'Are you sure you want to delete property point?',
+  'delete_product': 'Are you sure you want to delete product {{name}}?',
   'instructor': 'Instructor',
   'dmv_hint_head_to_vehicle': 'Head to the vehicle and get in.',
   'dmv_speeding': 'Please slow down.',
@@ -719,4 +720,5 @@ export const enUs = {
   'detected_speed': 'Detected speed',
   'renew_numberplate_hint': 'Renew your registration to extend validity for another {{days}} days',
   'register_vehicle_hint': 'Register your vehicle to receive a new number plate and legal status.',
+  'mdc_tracking_phone_number': 'Tracking Phone Number {{phoneNumber}}...',
 };

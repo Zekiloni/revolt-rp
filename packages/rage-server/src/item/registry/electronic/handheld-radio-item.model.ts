@@ -1,8 +1,7 @@
 import { triggerBrowsers } from '@libertymp/rage-rpc';
-import { GameUiKey, IHandheldRadioConfig, ItemType, ProcedureKey } from '@revolt-rp/common';
-import { BaseItem } from '../base-item.model';
-import { Item } from '../../item.model';
+import { GameUiKey, IHandheldRadioConfig, IUsableItem, ItemType, ProcedureKey } from '@revolt-rp/common';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';
+import { BaseItem, Item } from '@revolt-rp/core';
 
 
 const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
@@ -13,7 +12,7 @@ const DEFAULT_HANDHELD_RADII_CONFIG: IHandheldRadioConfig = {
 };
 
 
-export class HandheldRadioItemModel extends BaseItem {
+export class HandheldRadioItemModel extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.DEVICE_HANDHELD_RADIO, ...type], weight);
@@ -33,6 +32,6 @@ export class HandheldRadioItemModel extends BaseItem {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   use(_player: PlayerMp, _item: Item) {
-    throw new Error('Method not implemented.');
+    throw new Error('HandheldRadioItemModel.use not implemented.');
   }
 }

@@ -1,17 +1,16 @@
 import {
-  GameUiKey,
+  GameUiKey, IUsableItem,
   ItemType,
   PlayerAttachmentTypeEnum,
   PlayerPhoneState,
   PlayerSharedDataType
 } from '@revolt-rp/common';
-import { Item } from '../../item.model';
-import { BaseItem } from '../base-item.model';
 import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
 import { hidePlayerGameInterface, showPlayerGameInterface } from '../../../player/util/player.util';
+import { BaseItem, Item } from '@revolt-rp/core';
 
 
-export class SmartphoneItemModel extends BaseItem {
+export class SmartphoneItemModel extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [ItemType.DEVICE_SMARTPHONE, ...type], weight);

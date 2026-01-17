@@ -22,7 +22,7 @@ export const hidePlayerGameInterface = (player: PlayerMp, gameUiKey: GameUiKey) 
   triggerClient(player, ProcedureKey.CLIENT_PLAYER_HIDE_INTERFACE, gameUiKey);
 }
 
-export const createPlayerConfirmation = (player: PlayerMp, confirm: IConfirmation, timeoutSeconds = 5) => {
+export const createPlayerConfirmation = async (player: PlayerMp, confirm: IConfirmation, timeoutSeconds = 5) => {
   return callBrowsers<boolean>(player, ProcedureKey.BROWSER_CREATE_CONFIRMATION, confirm, {
     timeout: timeoutSeconds * 1000
   })

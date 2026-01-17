@@ -26,11 +26,11 @@ import {
   setPhoneMessages
 } from '../../../store/phone';
 import { RageClientService } from '../../../domain/service/rage-client.service';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { getPhoneDockTooltip } from '../../../domain/util/phone.util';
 import { phoneApplications } from '../../../domain/config/phone.config';
 import { PhoneCallComponent } from './components/phone-call';
 import { showGameInterface } from '../../../store/game-ui/game-ui.actions';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 export interface IApplication extends MenuItem {

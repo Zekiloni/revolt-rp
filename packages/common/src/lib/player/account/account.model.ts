@@ -1,10 +1,11 @@
 import { Ref } from '@typegoose/typegoose';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { ICharacter } from '../character/character.model';
+import { IWhitelist } from './whitelist.model';
 
 export enum AdminType {
   NONE = 0,
-  MODERATOR = 1,
+  TESTER = 1,
   JUNIOR_ADMIN = 2,
   ADMINISTRATOR = 3,
   SENIOR_ADMIN = 4,
@@ -20,7 +21,29 @@ export enum AccountPreferences   {
   MUTE_PM = 'toggle_pm',
 }
 
-export interface IAccount extends Base {
+
+export interface IAccountAuthorize {
+  username: string;
+  password: string;
+}
+
+
+export interface IAccountCreate {
+  username: string;
+  password: string;
+  emailAddress: string;
+}
+
+
+export interface IMailVerification {
+  account: Ref<IAccount>;
+  verificationCode: string;
+  createdAt: Date;
+  expiringAt: Date;
+  verifiedAt?: Date;
+}
+
+export interface IAccount<T = Ref<ICharacter>, E = Ref<IWhitelist>> extends Base {
   username: string;
   emailAddress?: string;
   password: string;
@@ -33,6 +56,7 @@ export interface IAccount extends Base {
   serial: string;
   socialClubUsername: string;
   discordId?: string;
+  discordUsername?: string;
   coins: number;
   socialClubId?: string;
   mutedUntil?: Date;
@@ -40,6 +64,7 @@ export interface IAccount extends Base {
   updatedAt?: Date;
   updatedBy?: string;
   createdAt: Date;
-  characters: Ref<(ICharacter)>[];
+  characters: T[];
+  whitelist: E[];
   preferences: AccountPreferences[];
 }

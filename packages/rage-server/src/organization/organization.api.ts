@@ -15,7 +15,7 @@ import {
   playerUpdateOrganizationMember, removePlayerFromOrganizationByCharacterId
 } from './organization.service';
 import { notifyPlayer } from '../player/util/player-notify.util';
-import { Organization } from './organization.model';
+import { Organization } from '../../../core/src/lib/persistence/model/organization.model';
 import { hidePlayerGameInterface } from '../player/util/player.util';
 
 

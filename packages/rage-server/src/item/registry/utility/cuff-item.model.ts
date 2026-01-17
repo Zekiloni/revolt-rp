@@ -1,15 +1,20 @@
-import { ItemType, PlayerAttachmentTypeEnum, PlayerSharedDataType, ProcedureKey } from '@revolt-rp/common';
-import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
-import { BaseItem } from '../base-item.model';
-import { Item } from '../../item.model';
 import { callClient } from '@libertymp/rage-rpc';
+import { BaseItem, Item } from '@revolt-rp/core';
+import {
+  IUsableItem,
+  ItemType,
+  PlayerAttachmentTypeEnum,
+  PlayerSharedDataType,
+  ProcedureKey
+} from '@revolt-rp/common';
+import { playerAddAttachment, playerRemoveAttachment } from '../../../player/util/player-attachment.util';
 import { setCuffed } from '../../../player/character/character.service';
 
 
-export class CuffItem extends BaseItem {
+export class CuffItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor() {
-    super('items.cuffs', 'items.cuffs_description', 'p_cs_cuffs_02_s', [ItemType.UTILITY], 0.2);
+    super('items.cuffs', 'items.cuffs_description', 'p_cs_cuffs_02_s', [ItemType.UTILITY, ItemType.MISCELLANEOUS], 0.2);
   }
 
   select(player: PlayerMp, item: Item) {

@@ -13,13 +13,12 @@ import {
   ProcedureKey,
   PropertyType,
 } from '@revolt-rp/common';
-import { WorldMapComponent } from '../../misc/world-map/world-map.component';
-import { StaticAssetPipe } from '../../../domain/pipe/static-asset.pipe';
 import { PropertySettingsComponent } from './components/property-settings';
 import { RageClientService } from '../../../domain/service/rage-client.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ManageCatalogComponent } from './components/manage-catalog';
 import { ManagePropertyVehiclesComponent } from './components/manage-property-vehicles';
+import { StaticAssetPipe, WorldMapComponent } from '@revolt-rp/common-ui';
 
 @Component({
   selector: 'app-manage-property',
@@ -113,6 +112,7 @@ export class ManagePropertyComponent implements OnInit, OnDestroy {
       map.dragging.disable();
       map.touchZoom.disable();
       map.scrollWheelZoom.disable();
+      map.doubleClickZoom.disable()
       map.setView([this.property.position.y, this.property.position.x], 5);
     }
   }

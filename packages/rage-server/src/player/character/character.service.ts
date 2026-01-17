@@ -1,5 +1,6 @@
 import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
+  AddictionType,
   BankAccountType,
   CharacterGender,
   CharacterSpawnType, defaultOutfits,
@@ -7,21 +8,19 @@ import {
   headOverlays as headOverlayInfo,
   ICharacterCreate, PlayerAttachmentTypeEnum,
   PlayerSharedDataType,
-  ProcedureKey
+  ProcedureKey, SkillType
 } from '@revolt-rp/common';
-import { characterConfig } from './character.config';
 import { createBankAccount, createBankCardItem } from '../../banking/banking.service';
 import { loadPlayerClothing } from '../inventory/player-clothing.service';
 import { getWearableItemByComponent } from '../../item/registry/clothing/clothing.util';
 import { playerGiveItem } from '../inventory/player-inventory.service';
 import { clearPlayerDamages } from '../damage/player-damage.service';
-import { Organization } from '../../organization/organization.model';
-import { Character } from './character.model';
-import { OrganizationRank } from '../../organization/rank/organization-rank.model';
 import { FilterQuery, UpdateQuery } from 'mongoose';
-import { CharacterModel } from '../../common/entity-ref';
-import { Property } from '../../property/property.model';
 import { playerAddAttachment, playerRemoveAttachment } from '../util/player-attachment.util';
+import { Character, characterConfig, CharacterModel, Organization, OrganizationRank, Property } from '@revolt-rp/core';
+import { getPropertyJob } from '../../property/property.service';
+import { getActiveArrestByCharacterId } from '../../organization/law/criminal-record/criminal-record.service';
+import { putInPrison } from '../../organization/law/prison.service';
 
 export const createCharacter = async (player: PlayerMp, characterCreate: ICharacterCreate) => {
   try {
@@ -176,7 +175,8 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
   if (initialSpawn) {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_CHARACTER_CREATOR, false);
 
-    player.character.position = characterConfig.defaultPosition;
+    const { x, y, z } = characterConfig.defaultPosition;
+    player.character.position = new mp.Vector3(x, y, z);
     player.character.dimension = characterConfig.defaultDimension;
 
     const bankAccount = await createBankAccount(player.character, BankAccountType.Main, characterConfig.defaultBankBalance);
@@ -187,15 +187,26 @@ export const spawnPlayerCharacter = async (player: PlayerMp, initialSpawn = fals
   } else {
     triggerClient(player, ProcedureKey.CLIENT_TOGGLE_PLAYER_AUTHORIZATION, false);
 
-    if (!player.character.isWounded) {
-      switch (player.character.defaultSpawn.type) {
-        case CharacterSpawnType.INITIAL_SPAWN: {
-          player.character.position = characterConfig.defaultPosition;
-          player.character.dimension = characterConfig.defaultDimension;
-          break;
-        }
+   const arrested =  await getActiveArrestByCharacterId(player.character.id)
+    if (arrested) {
+      const prison = (<Property>arrested.prisonProperty)
+      putInPrison(player, prison);
+    } else {
+      if (!player.character.isWounded) {
+        // TODO: Toggle spawn selection screen if multiple spawn types are available
+        switch (player.character.defaultSpawn.type) {
+          case CharacterSpawnType.INITIAL_SPAWN: {
+            const { x, y, z } = characterConfig.defaultPosition;
+            player.character.position = new mp.Vector3(x, y, z);
+            player.character.dimension = characterConfig.defaultDimension;
+            break;
+          }
 
-        default:
+          case CharacterSpawnType.LAST_POSITION: {
+            // Position is already set to last position
+            break;
+          }
+        }
       }
     }
   }
@@ -280,7 +291,7 @@ export const getPlayerOrganizationId = (player: PlayerMp) => {
 
 export const setPlayerJob = async (player: PlayerMp, property: Property | null) => {
   if (property) {
-    const job = property.job;
+    const job = getPropertyJob(property);
     if (job) {
       player.character.job = {
         jobKey: job.key,
@@ -303,4 +314,65 @@ export const setPlayerJob = async (player: PlayerMp, property: Property | null) 
 
 export const findCharacter = async (query: FilterQuery<Character>) => {
   return CharacterModel.findOne(query).exec();
+};
+
+export const getSkill = (character: Character, skillKey: SkillType): number => {
+  if (!character.skills) return 0;
+
+  const skill = character.skills.find(s => s.type === skillKey);
+  return skill ? skill.level : 0;
+};
+
+export const updateSkill = (character: Character, skillKey: SkillType, amount: number) => {
+  if (!character.skills) character.skills = [];
+
+  const skill = character.skills.find(s => s.type === skillKey);
+  if (skill) {
+    skill.level = Math.min(100, skill.level + amount);
+  } else {
+    character.skills.push({ type: skillKey, level: Math.min(100, amount) });
+  }
+};
+
+export const getAddiction = (character: Character, addictionKey: AddictionType): number => {
+  if (!character.addictions) return 0;
+
+  const addiction = character.addictions.find(a => a.type === addictionKey);
+  return addiction ? addiction.level : 0;
+};
+
+export const updateAddiction = (character: Character, addictionKey: AddictionType, amount: number) => {
+  if (!character.addictions) character.addictions = [];
+
+  const addiction = character.addictions.find(a => a.type === addictionKey);
+  if (addiction) {
+    addiction.level = Math.max(0, Math.min(100, addiction.level + amount));
+  } else {
+    character.addictions.push({
+      type: addictionKey,
+      level: Math.max(0, Math.min(100, amount)),
+      lastUsedAt: new Date()
+    });
+  }
+};
+
+export const getAddictionTolerance = (character: Character, addictionKey: AddictionType): number => {
+  if (!character.addictions) return 0;
+
+  const addiction = character.addictions?.find(a => a.type === addictionKey);
+  if (!addiction) return 0;
+
+  const tolerance = addiction.level * 0.6;
+
+  return Math.min(60, Math.max(0, tolerance));
+};
+
+export const setPlayerStamina = (player: PlayerMp, stamina: number) => {
+  player.character.stamina = Math.max(0, Math.min(100, stamina));
+  player.setVariable(PlayerSharedDataType.Stamina, player.character.stamina);
+};
+
+export const setPlayerStrength = (player: PlayerMp, strength: number) => {
+  player.character.strength = Math.max(0, Math.min(100, strength));
+  player.setVariable(PlayerSharedDataType.Strength, player.character.strength);
 };

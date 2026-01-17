@@ -12,17 +12,20 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 
 import RevoltPreset from './revolt-preset';
 
+import { routes } from './app.routes';
 import { phoneReducer } from './store/phone';
-import { BASE_HREf } from './domain/variables';
 import { environment } from '../environments/environment';
 import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
+import { API_BASE_HREF } from '@revolt-rp/common-ui';
+import { provideRouter, withHashLocation } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideEffects(),
+    provideRouter(routes, withHashLocation()),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimationsAsync(),
@@ -31,7 +34,7 @@ export const appConfig: ApplicationConfig = {
         preset: RevoltPreset,
         options: {
           ripple: true,
-          darkModeSelector: '.app-dark',
+          darkModeSelector: '.dark',
           cssLayer: {
             name: 'primeng',
             order: 'tailwind-base, primeng, tailwind-utilities'
@@ -50,9 +53,8 @@ export const appConfig: ApplicationConfig = {
       inventory: inventoryReducer,
       phone: phoneReducer
     }),
-    provideEffects(),
     {
-      provide: BASE_HREf,
+      provide: API_BASE_HREF,
       useValue: environment.API_BASE_HREF
     }
   ]

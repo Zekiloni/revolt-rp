@@ -1,13 +1,15 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
-import { triggerClient } from '@libertymp/rage-rpc';
+import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   CommercialType,
+  GameUiKey, IEquipment,
   IPropertyCreate,
   IPropertyPoint,
   IPropertyVehicle,
   IPropertyVehicleCreate,
   ProcedureKey,
+  propertyJobMap,
   PropertyPointType,
   PropertySharedDataType,
   PropertyType,
@@ -15,11 +17,19 @@ import {
   purchasablePropertyTypes,
   UtilityType
 } from '@revolt-rp/common';
+import {
+  Character,
+  equipmentConfig,
+  Organization,
+  Property,
+  propertyConfig,
+  PropertyModel,
+  PropertyOwner,
+  PropertyPoint,
+  PropertyVehicle
+} from '@revolt-rp/core';
 import { notifyPlayer, sendInfoMessage } from '../player/util/player-notify.util';
 import { getPlayerOrganizationId, giveMoney } from '../player/character/character.service';
-import { Property, PropertyOwner, PropertyPoint, PropertyVehicle } from './property.model';
-import { Character } from '../player/character/character.model';
-import { propertyConfig } from './property.config';
 import { openDmvMenu } from './public-service/dmv.service';
 import { openBankMenu } from '../banking/banking.service';
 import { isAnyVehicleOnPosition } from '../vehicle/vehicle.util';
@@ -27,12 +37,14 @@ import { toggleVehicleRentMenu } from './commercial/vehicle-rent.service';
 import { toggleGroceryStoreMenu } from './commercial/grocery-store.service';
 import { toggleClothingStoreMenu } from './commercial/clothing-store.service';
 import { toggleVehicleDealershipMenu } from './commercial/vehicle-dealership.service';
-import { PropertyModel } from '../common/entity-ref';
-import { openJobMenu } from '../job/base-job.service';
+import { getJob, openJobMenu } from '../job/base-job.service';
 import { toggleGarageMenu } from './garage/garage.service';
+import { showPlayerGameInterface } from '../player/util/player.util';
+import { hasPlayerItem, playerGiveItem } from '../player/inventory/player-inventory.service';
+import { calculateTaxRate } from '../banking/tax.util';
 
 
-const propertyMenuHandlers = {
+const propertyMainMenuHandlers = {
   [PropertyType.PublicService]: {
     [PublicServiceType.DMV]: openDmvMenu,
     [PublicServiceType.Bank]: openBankMenu
@@ -46,6 +58,12 @@ const propertyMenuHandlers = {
   [PropertyType.Garage]: toggleGarageMenu,
   [PropertyType.Utility]: {
     [UtilityType.RecyclingCenter]: openJobMenu
+  }
+};
+
+const propertyPointHandlers = {
+  [PropertyPointType.EquipmentPoint]: (player: PlayerMp, property: Property) => {
+    return equipmentPointInteraction(player, property);
   }
 };
 
@@ -71,7 +89,45 @@ export const getPropertiesByOwnerId = async (type: 'Character' | 'Organization',
 };
 
 export const getPropertyByPointId = async (pointId: string) => {
-  return PropertyModel.findOne({ 'points.id': pointId }).exec();
+  return PropertyModel.findOne({ 'points.id': pointId }).populate(['points', 'owner.entity']).exec();
+};
+
+export const getPropertyMarker = (property: Property) => {
+  return mp.markers.toArray().find(marker => marker.getVariable(PropertySharedDataType.PropertyId) === property.id);
+};
+
+export const getPropertyColShape = (property: Property) => {
+  return mp.colshapes.toArray().find(colShape => colShape.getVariable(PropertySharedDataType.PropertyId) === property.id);
+};
+
+
+export const setPropertyMarker = (property: Property, marker: MarkerMp) => {
+  marker.setVariable(PropertySharedDataType.PropertyId, property.id);
+};
+
+export const setPropertyPointMarker = (propertyPoint: PropertyPoint, marker: MarkerMp) => {
+  marker.setVariable(PropertySharedDataType.InteractionPointId, propertyPoint.id);
+  marker.setVariable(PropertySharedDataType.InteractionType, propertyPoint.type);
+};
+
+export const getPropertyPointMarker = (propertyPoint: PropertyPoint) => {
+  return mp.markers.toArray().find(marker =>
+    marker.getVariable(PropertySharedDataType.InteractionPointId) === propertyPoint.id);
+};
+
+export const setPropertyPointColShape = (property: Property, propertyPoint: PropertyPoint, colShape: ColshapeMp) => {
+  colShape.setVariable(PropertySharedDataType.InteractionPointId, propertyPoint.id);
+  colShape.setVariable(PropertySharedDataType.InteractionType, propertyPoint.type);
+  colShape.setVariable(PropertySharedDataType.PropertyId, property.id);
+};
+
+export const getPropertyPointColShape = (propertyPoint: PropertyPoint) => {
+  return mp.colshapes.toArray().find(colShape =>
+    colShape.getVariable(PropertySharedDataType.InteractionPointId) === propertyPoint.id);
+};
+
+export const setPropertyColShape = (property: Property, colShape: ColshapeMp) => {
+  colShape.setVariable(PropertySharedDataType.PropertyId, property.id);
 };
 
 export const isPropertyOwner = (property: Property, character: Character) => {
@@ -84,7 +140,6 @@ export const createProperty = async (position: Vector3, dimension: number, prope
     ...propertyCreate
   });
 
-
   initializeProperty(property);
 
   return property;
@@ -94,13 +149,14 @@ export const createProperty = async (position: Vector3, dimension: number, prope
 export const createPropertyPoint = async (property: Property, position: Vector3, rotation: Vector3, dimension: number, type: PropertyPointType = PropertyPointType.MainPoint) => {
   const point = new PropertyPoint({
     id: new Types.ObjectId().toString(),
-    position, rotation, dimension, type,
+    position, rotation, dimension, type
   });
 
-  point.colShape = mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension);
+  const colShape = mp.colshapes.newTube(position.x, position.y, position.z, 1.75, 1, dimension);
+  setPropertyPointColShape(property, point, colShape);
 
   if (visiblePropertyPointTypes.includes(type)) {
-    point.marker = createPropertyMarker(property);
+    setPropertyPointMarker(point, createPropertyMarker(property));
   }
 
   property.points.push(point);
@@ -110,17 +166,28 @@ export const createPropertyPoint = async (property: Property, position: Vector3,
 };
 
 
+export const getPropertyJob = (property: Property) => {
+  const jobKey = propertyJobMap[property.subType];
+  return jobKey ? getJob(jobKey) : undefined;
+};
+
 export const deletePropertyPoint = async (property: Property, pointId: string) => {
-  property.points = property.points.filter((point) => point.id !== pointId);
-  await property.save();
+  const point = property.points.find((point) => point.id === pointId);
 
-  const { colShape, marker } = property;
+  if (!point)
+    return false;
 
-  if (colShape && mp.colshapes.exists(colShape))
-    colShape.destroy();
+  const colshape = getPropertyPointColShape(point);
+  if (colshape && mp.colshapes.exists(colshape))
+    colshape.destroy();
 
+  const marker = getPropertyPointMarker(point);
   if (marker && mp.markers.exists(marker))
     marker.destroy();
+
+
+  property.points = property.points.filter((point) => point.id !== pointId);
+  await property.save();
 
   return true;
 };
@@ -137,7 +204,7 @@ export const updatePropertyPoint = async (property: Property, update: IPropertyP
 };
 
 export const destroyProperty = async (property: Property) => {
-  const colShape = property.colShape;
+  const colShape = getPropertyColShape(property);
 
   mp.players.forEachInRange(property.position, 2.0, (player) => {
     if (colShape.isPointWithin(player.position))
@@ -147,10 +214,12 @@ export const destroyProperty = async (property: Property) => {
   if (colShape && mp.colshapes.exists(colShape))
     colShape.destroy();
 
-  const marker = property.marker;
+  const marker = getPropertyMarker(property);
 
   if (marker && mp.markers.exists(marker))
     marker?.destroy();
+
+  property.points.forEach(point => deletePropertyPoint(property, point.id));
 
   return property.deleteOne();
 };
@@ -179,21 +248,23 @@ export const initializeProperty = (property: Property) => {
   colshape.setVariable(PropertySharedDataType.PropertyId, property.id);
   colshape.setVariable(PropertySharedDataType.InteractionType, PropertyPointType.MainPoint);
 
-  property.colShape = colshape;
-
-  property.marker = createPropertyMarker(property);
+  setPropertyColShape(property, colshape);
+  setPropertyMarker(property, createPropertyMarker(property));
 
   property.points.forEach((point) => {
-    point.colShape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+    const propertyPointColshape = mp.colshapes.newTube(point.position.x, point.position.y, point.position.z, 1.75, 1, point.dimension);
+    setPropertyPointColShape(property, point, propertyPointColshape);
 
     if (visiblePropertyPointTypes.includes(point.type)) {
-      point.marker = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
+      const markerMp = mp.markers.new(RageEnums.Marker.VERTICAL_CYLINDER,
         new mp.Vector3(point.position.x, point.position.y, point.position.z - 1),
         propertyConfig.markerScale, {
           color: propertyConfig.markerColor,
           dimension: point.dimension,
           visible: true
         });
+
+      setPropertyPointMarker(point, markerMp);
     }
   });
 };
@@ -312,18 +383,21 @@ export const propertyMainInteraction = (player: PlayerMp, property: Property) =>
   // TODO: enter interior
 };
 
-function propertyMenuInteraction(player: PlayerMp, property: Property) {
-  const menuHandler = propertyMenuHandlers[property.type]?.[property.subType] || propertyMenuHandlers[property.type];
+export const propertyPointInteraction = (player: PlayerMp, property: Property, propertyPointId: string) => {
+  const point = property.points.find(point => point.id === propertyPointId);
+  if (!point)
+    return;
 
-  console.log('DEBUG',
-    'property.type:', property.type,
-    'property.subType:', property.subType,
-    'handler for type:', propertyMenuHandlers[property.type],
-    'keys:', Object.keys(propertyMenuHandlers[property.type] || {})
-  );
+  const pointHandler = propertyPointHandlers[point.type];
+  if (pointHandler && typeof pointHandler === 'function') {
+    return pointHandler(player, property);
+  }
+};
+
+function propertyMenuInteraction(player: PlayerMp, property: Property) {
+  const menuHandler = propertyMainMenuHandlers[property.type]?.[property.subType] || propertyMainMenuHandlers[property.type];
 
   if (menuHandler && typeof menuHandler === 'function') {
-    console.log('opening menu handler', property.type, property.subType);
     return menuHandler(player, property);
   }
 }
@@ -374,3 +448,38 @@ export const updatePropertyVehicle = async (property: Property, update: IPropert
 export const getPropertyByVehicleId = async (vehicleId: string) => {
   return PropertyModel.findOne({ 'vehicles.id': vehicleId }).exec();
 };
+
+function equipmentPointInteraction(player: PlayerMp, property: Property) {
+  const propertyJob = getPropertyJob(property);
+
+  const key = propertyJob.key || (<Organization>property.owner.entity).type;
+
+  if (!equipmentConfig[key])
+    return;
+
+  const equipment = equipmentConfig[key];
+  showPlayerGameInterface(player, GameUiKey.EquipmentMenu, () => triggerBrowsers(player, ProcedureKey.BROWSER_SET_EQUIPMENT_MENU, {
+    property,
+    equipment
+  }));
+}
+
+
+export async function playerTakeEquipment(player: PlayerMp, property: Property, equipment: IEquipment) {
+  if (equipment.limit && hasPlayerItem(player, equipment.item, equipment.limit)) {
+    return notifyPlayer(player, { severity: 'error', summary: t('error'), detail: t('equipment_limit_reached', { item: equipment.item }) });
+  }
+
+  if (equipment.price && equipment.price > 0) {
+    if (player.character.cash < equipment.price) {
+      return notifyPlayer(player, { severity: 'error', detail: t('not_enough_money') });
+    }
+
+    await giveMoney(player, -equipment.price);
+    property.balance = (property.balance + (equipment.price - calculateTaxRate(property)));
+    await property.save();
+  }
+
+  const item = await playerGiveItem(player, equipment.item, equipment.quantity || 1, equipment.options);
+  notifyPlayer(player, { severity: 'success', summary: t('success'), detail: t('equipment_received', { item: item.name }) });
+}

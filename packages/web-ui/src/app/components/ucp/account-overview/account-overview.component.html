@@ -1,0 +1,154 @@
+@if ($accountId | async) {
+  @if ($account | async; as account) {
+    <section class="space-y-6">
+      <div
+        class="rounded-2xl border text-gray-900 border-gray-200 bg-surface-700 dark:text-gray-200 dark:border-white/10 backdrop-blur p-5">
+        <div class="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <h1 class="text-2xl lg:text-3xl font-bold">Welcome to UCP</h1>
+            <p class="text-gray-600 dark:text-gray-400">
+              Hello, <b>{{ account.username }}</b>. Use the sidebar to manage your account, characters and more.
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-1 rounded-md text-xs bg-emerald-500/10 text-emerald-700 border border-emerald-500/30">
+              Tester
+            </span>
+            <!--            <span [ngClass]="getApprovedBadgeClasses()">{{ getApprovedBadge() }}</span>-->
+            <!--            <span class="px-2 py-1 rounded-md text-xs bg-black/5 dark:bg-white/10 border border-gray-200 dark:border-white/10">-->
+            <!--              Master: <b>{{ account.username }}</b>-->
+            <!--            </span>-->
+          </div>
+        </div>
+      </div>
+      <div
+        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div class="text-sm text-gray-600 dark:text-gray-400">Master Account</div>
+            <div class="text-2xl font-semibold">{{ account.username }}</div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full md:w-auto">
+            <div
+              class="rounded-xl border bg-black/[.03] border-gray-200 dark:bg-white/[.03] dark:border-white/10 px-4 py-3">
+              <div class="text-xs uppercase tracking-wide text-gray-600 dark:text-gray-400"> Total Hours</div>
+              <div class="text-lg font-semibold">{{ getTotalHours(account) }}</div>
+            </div>
+            <div
+              class="rounded-xl border bg-black/[.03] border-gray-200 dark:bg-white/[.03] dark:border-white/10 px-4 py-3">
+              <div class="text-xs uppercase tracking-wide text-gray-600 dark:text-gray-400"> Characters</div>
+              <div class="text-lg font-semibold">{{ account.characters.length }} / {{ account.maxCharacters }}</div>
+            </div>
+            <div
+              class="rounded-xl border bg-black/[.03] border-gray-200 dark:bg-white/[.03] dark:border-white/10 px-4 py-3">
+              <div class="text-xs uppercase tracking-wide text-gray-600 dark:text-gray-400"> Registered At</div>
+              <div class="text-lg font-semibold">{{ account.createdAt | date: 'dd.MM.YYYY' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Select Character + Donations -->
+      <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <!-- Select Character -->
+        <div class="rounded-2xl p-card bg-surface-700 p-5">
+          <div class="flex items-center justify-between">
+            <h2 class="text-lg font-semibold">Select your character</h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+            Pick a character to enter its dashboard.
+          </p>
+
+          <div class="space-y-2">
+            @if (account.characters.length) {
+              @for (character of getCharacters(account); track character.id) {
+                <div
+                  class="flex items-center justify-between rounded-lg border border-gray-200  dark:border-white/10 bg-surface-800 px-3 py-2">
+                  <div>
+                    <div class="font-medium">{{ character.fullName }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">
+                      Level {{ character.level }} • Cash {{ character.cash | currency }}
+                    </div>
+                  </div>
+                  <button pButton type="button" label="Select" size="small"
+                          (click)="openCharacter(character.id)"></button>
+                </div>
+              }
+            } @else {
+              <div class="text-sm text-gray-500 py-6 text-center">
+                You have no characters yet. Use <b>Create new</b> to get started.
+              </div>
+            }
+          </div>
+        </div>
+
+        <!-- Donations -->
+        <div class="rounded-2xl p-card bg-surface-700 p-5">
+          <h2 class="text-lg font-semibold">Donate / Store</h2>
+          <p class="text-sm text-gray-600 dark:text-gray-400">
+            Keep Revolt Roleplay running and get cosmetic perks. Donations are optional and don’t provide unfair
+            advantages.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+            <!--            <app-donate-tier title="Bronze" price="$5" [perks]="['Donor badge', 'Discord role']"></app-donate-tier>-->
+            <!--            <app-donate-tier title="Silver" price="$10" [perks]="['All Bronze perks', 'Name change token']"></app-donate-tier>-->
+            <!--            <app-donate-tier title="Gold" price="$20" [perks]="['All Silver perks', 'Extra character slot']"></app-donate-tier>-->
+            <!--            <app-donate-tier title="Platinum" price="$35" [perks]="['All Gold perks', 'Custom plate (cosmetic)']"></app-donate-tier>-->
+          </div>
+
+          <div class="mt-4 flex items-center justify-end">
+            <button pButton label="Donations"></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div
+        class="rounded-2xl border bg-white/85 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur p-5">
+        <h3 class="text-base font-semibold mb-3">Settings</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <button pButton label="Change Password" icon="pi pi-lock" (click)="changePassword()" size="small" severity="contrast"></button>
+        </div>
+      </div>
+
+      <div
+        class="rounded-2xl border bg-white/80 text-gray-900 border-gray-200 dark:bg-[#0f1117]/70 dark:text-gray-200 dark:border-white/10 backdrop-blur shadow-[0_10px_40px_rgba(0,0,0,.15)] dark:shadow-[0_10px_40px_rgba(0,0,0,.35)] p-5">
+        <div class="flex items-center gap-3 mb-4">
+          <div
+            class="h-10 w-10 rounded-xl bg-black/5 border border-gray-200 dark:bg-white/5 dark:border-white/10 flex items-center justify-center">
+            <i class="pi pi-discord text-primary-500 dark:text-primary-400"></i>
+          </div>
+          <h3 class="text-lg font-semibold">Discord</h3>
+        </div>
+
+        @if (isDiscordLinked(account)) {
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div class="space-y-1">
+              <div class="text-sm text-gray-600 dark:text-gray-400">Linked as</div>
+              <div class="font-medium">{{ account.discordUsername || account.username }}</div>
+              <div class="text-xs text-gray-500">ID: {{ account.discordId }}</div>
+            </div>
+            <div class="flex gap-2">
+              <button class="h-10 px-4 rounded-lg bg-primary-500 text-black font-semibold hover:bg-primary-400 transition">
+                Re-link
+              </button>
+            </div>
+          </div>
+        } @else {
+          <div class="flex items-center justify-between flex-wrap gap-3">
+            <div class="text-gray-600 dark:text-gray-400">Your account is not linked with Discord.</div>
+            <button class="h-10 px-4 rounded-lg bg-primary-500 text-black font-semibold hover:bg-primary-400 transition">
+              Link Discord
+            </button>
+          </div>
+        }
+      </div>
+
+      <div>
+        <app-moderation-log [accountId]="account.id" />
+      </div>
+    </section>
+  }
+}

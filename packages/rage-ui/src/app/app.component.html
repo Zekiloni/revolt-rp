@@ -131,8 +131,16 @@
     <app-heli-cam @fadeInOut />
   }
 
-  @if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async; as isActive) {
+  @if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async) {
     <app-garage-menu />
+  }
+
+  @if ($isGameInterfaceActive(GameUiKey.EquipmentMenu) | async) {
+    <app-equipment-menu @fadeInOut />
+  }
+
+  @if ($isGameInterfaceActive(GameUiKey.FishingMinigame) | async) {
+    <app-fishing />
   }
 
   <app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
@@ -141,5 +149,7 @@
 
   <p-toast key="global"  />
   <p-confirmDialog key="global" />
+
+  <app-audio-3d />
 </main>
 

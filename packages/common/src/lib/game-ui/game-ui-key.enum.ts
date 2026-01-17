@@ -34,4 +34,6 @@ export enum GameUiKey {
   PlateRecognition = 'plateRecognition',
   HeliCam = 'heliCam',
   GarageMenu = 'garageMenu',
+  FishingMinigame = 'fishingMinigame',
+  EquipmentMenu = 'equipmentMenu',
 }

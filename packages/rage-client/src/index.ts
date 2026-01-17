@@ -21,6 +21,7 @@ import './player/inventory/player-inventory';
 import './player/inventory/player-item';
 import './player/inventory/player-weapon';
 import './player/inventory/player-phone';
+import './player/player-drugs';
 
 import './player/other/player-bubble';
 import './player/other/player-freeze';
@@ -46,10 +47,14 @@ import './player/admin/spectate';
 import './organization/organization-menu';
 
 import './property/property-core';
+import './property/property-point';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 
 import './job/garbage-collecting';
+import './job/fishing';
+
+import './audio/audio-sync';
 
 import './screenshoter';
 

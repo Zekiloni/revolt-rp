@@ -1,8 +1,7 @@
-import { BaseItem } from './base-item.model';
-import { ItemType } from '@revolt-rp/common';
-import { Item } from '../item.model';
+import { BaseItem, Item } from '@revolt-rp/core';
+import { IUsableItem, ItemType } from '@revolt-rp/common';
 
-export class LicenseItem extends BaseItem {
+export class LicenseItem extends BaseItem implements IUsableItem<PlayerMp, Item> {
 
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
     super(name, description, model, [...type], weight);

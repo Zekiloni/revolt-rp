@@ -1,0 +1,55 @@
+<section class="bg-[#0e0f13] py-24 border-t border-white/5">
+  <div class="container mx-auto max-w-5xl px-6">
+    <div class="grid gap-6 md:grid-cols-2">
+      @for (item of links; track item) {
+        <div
+          class="
+            relative bg-neutral-900/60 p-8 rounded-xl
+            shadow-[0_8px_30px_rgba(0,0,0,0.3)]
+            transition-all duration-300 hover:-translate-y-1
+            hover:shadow-[0_12px_40px_rgba(0,0,0,0.45)]
+            group
+          "
+        >
+          <!-- Glow behind card -->
+          <div
+            class="
+              pointer-events-none absolute inset-0 rounded-xl opacity-0
+              transition-opacity duration-300 group-hover:opacity-100
+            "
+            style="background: radial-gradient(70% 80% at 50% 60%, rgba(234,179,8,0.10), rgba(234,179,8,0) 60%); filter: blur(16px); z-index: -1;"
+          ></div>
+
+          <!-- Icon / Letter -->
+          <div class="mb-4 flex h-8 w-8 items-center justify-center rounded-md bg-yellow-500/15 text-yellow-400 font-semibold">
+            {{ item.id }}
+          </div>
+
+          <h3 class="text-2xl font-semibold text-white">{{ item.title }}</h3>
+          <p class="mt-2 text-gray-400">{{ item.desc }}</p>
+
+          <div class="mt-5">
+            <a
+              [href]="item.cta.href"
+              class="
+                inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm
+                font-medium text-gray-200 border border-white/0
+                transition-all duration-200
+                group-hover:border-yellow-500/40 group-hover:text-white
+              "
+            >
+              {{ item.cta.label }}
+              <svg
+                class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M12.293 3.293a1 1 0 011.414 0l4.999 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

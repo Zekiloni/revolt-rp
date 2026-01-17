@@ -1,6 +1,14 @@
-import './core/mongo-db';
-import './core/i18n.config';
-import './core/server-shutdown';
+import dotenv from 'dotenv';
+import { resolve } from 'path';
+
+dotenv.config({
+  path: resolve(`.env.${process.env['NODE_ENV'] || 'development'}`)
+});
+
+import { connect } from '@revolt-rp/core';
+
+import './main/i18n.config';
+import './main/server-shutdown';
 
 import './util/colshape.api';
 
@@ -24,6 +32,9 @@ import './player/inventory/phone/player-phone.command';
 import './player/offer/player-offer.api';
 import './player/payday/player-payday.api';
 import './player/damage/player-damage.api';
+import './player/player-drug.api';
+
+import './player/hobby/player-fishing.api';
 
 import './banking/banking.api';
 
@@ -55,5 +66,8 @@ import './job/sanitation-job.api';
 
 import './organization/law';
 
-
 import './test';
+
+(() => {
+  connect();
+})();

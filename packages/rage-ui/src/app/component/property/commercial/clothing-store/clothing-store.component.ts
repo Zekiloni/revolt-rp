@@ -11,11 +11,10 @@ import {
   IProperty,
   PaymentType,
   ProcedureKey,
-  IShopping, ICartItem
+  IShopping
 } from '@revolt-rp/common';
 import { RageClientService } from '../../../../domain/service/rage-client.service';
-import { getClothingIcon, getItemIcon } from '../../../../domain/util/item.util';
-import { StaticAssetPipe } from '../../../../domain/pipe/static-asset.pipe';
+import { getClothingIcon } from '../../../../domain/util/item.util';
 import { ScrollerModule } from 'primeng/scroller';
 import { ImageModule } from 'primeng/image';
 import { PaginatorModule, PaginatorState } from 'primeng/paginator';
@@ -25,6 +24,7 @@ import { Ripple } from 'primeng/ripple';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { StaticAssetPipe } from '@revolt-rp/common-ui';
 
 
 
