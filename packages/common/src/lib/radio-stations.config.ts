@@ -27,7 +27,7 @@ export const radioStationsConfig: IRadioStation[] = [
   // CLUB / DANCE
   { name: "[CLUB] Deep House Lounge", url: "http://198.15.94.34:8006/stream" },
   { name: "[DANCE] 90's Dance", url: "http://listen.livestreamingservice.com/181-90sdance_128k.mp3" },
-  { name: "[CLUB] Gay / Dance FM", url: "http://icepool.silvacast.com/GAYFM.mp3" },
+  { name: "[CLUB] Gay / Dance FM", url: "http://tuner.gayfm.de" },
   { name: "[EDM] DI.FM – House", url: "https://stream.di.fm/house" },
   { name: "[EDM] DI.FM – Deep House", url: "https://stream.di.fm/deephouse" },
   { name: "[EDM] Insomniac Radio", url: "https://playerservices.streamtheworld.com/api/livestream-redirect/INSOMNIAC.mp3" },
@@ -62,7 +62,7 @@ export const radioStationsConfig: IRadioStation[] = [
   // TALK / VARIETY
   { name: "[TALK] NPR News", url: "https://npr-ice.streamguys1.com/live.mp3" },
   { name: "[VARIETY] Radio Paradise", url: "https://stream.radioparadise.com/mp3-192" },
-  
+
   // ALTERNATIVE / CLASSIC
   { name: "[ALT] 90's Alternative", url: "http://listen.livestreamingservice.com/181-90salt_128k.mp3" },
 ]

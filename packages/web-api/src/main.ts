@@ -23,9 +23,18 @@ app.use(cors());
 app.use(compression());
 
 app.use('/assets', express.static(path.join(__dirname, 'assets'), {
-  maxAge: '15d',
-  etag: false
+  maxAge: 0,
+  etag: false,
+  lastModified: false,
+  cacheControl: false
 }));
+
+app.use('/assets', (req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
+  next();
+});
 
 app.use('/uploads', express.static(path.resolve(path.join(__dirname, 'uploads'))));
 

@@ -309,7 +309,7 @@ export const findVehicle = async (query: FilterQuery<Vehicle>) => {
 
 
 export const updateVehicleXmr = (vehicle: VehicleMp, xmrState: IVehicleXmrState) => {
-  let sound : IAudio3D | null = vehicle.getVariable<IAudio3D>(EntitySharedDataType.SOUND) ?? null;
+  let sound : IAudio3D | null
   if (xmrState.toggle) {
     sound  = {
       id: `vehicle_${vehicle.id}`,
@@ -325,18 +325,20 @@ export const updateVehicleXmr = (vehicle: VehicleMp, xmrState: IVehicleXmrState)
       paused: false,
       startedAt: Date.now()
     };
-  } else {
+  } else if (xmrState.toggle === false) {
     sound = null;
+  } else {
+    sound = vehicle.getVariable<IAudio3D>(EntitySharedDataType.SOUND);
+    if (sound && xmrState.volume !== undefined) {
+      sound.volume = xmrState.volume;
+    }
+
+    if (sound && xmrState.radioStationUrl !== undefined) {
+      sound.url = xmrState.radioStationUrl;
+      sound.startedAt = Date.now();
+    }
   }
 
-  if (sound && xmrState.volume !== undefined) {
-    sound.volume = xmrState.volume;
-  }
-
-  if (sound && xmrState.radioStationUrl !== undefined) {
-    sound.url = xmrState.radioStationUrl;
-    sound.startedAt = Date.now();
-  }
-
-  vehicle.setVariable(EntitySharedDataType.SOUND, null);
+  console.log('updateVehicleXmr', sound);
+  vehicle.setVariable(EntitySharedDataType.SOUND, sound);
 }

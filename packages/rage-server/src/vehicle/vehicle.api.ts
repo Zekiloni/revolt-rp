@@ -1,6 +1,6 @@
 import { on, ProcedureListenerInfo, register } from '@libertymp/rage-rpc';
 import {
-  AnimationFlag, EntitySharedDataType,
+  AnimationFlag,
   GameUiKey, IVehicleSellOffer,
   IVehicleUpdateData, IVehicleXmrState,
   PlayerSharedDataType,
@@ -29,7 +29,7 @@ import { hidePlayerGameInterface } from '../player/util/player.util';
 import { notifyPlayer } from '../player/util/player-notify.util';
 import { t } from 'i18next';
 import { FilterQuery } from 'mongoose';
-import { Vehicle } from '../../../core/src/lib/persistence/model/vehicle.model';
+import { Vehicle } from '@revolt-rp/core';
 
 
 async function playerEnterVehicleHandler(player: PlayerMp, vehicle: VehicleMp, seat: RageEnums.VehicleSeat) {

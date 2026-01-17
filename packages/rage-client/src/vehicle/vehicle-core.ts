@@ -9,8 +9,13 @@ import {
   VehicleIndicator,
   VehicleSharedDataType
 } from '@revolt-rp/common';
-import { isKeyBindRegistered, registerKeyBind, unregisterKeyBind } from '../core/keybind-manager';
-import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface } from '../core/browser';
+import {
+  isKeyBindRegistered,
+  registerKeyBind,
+  registerKeyBindWithRelease,
+  unregisterKeyBind, unregisterKeyBindWithRelease
+} from '../core/keybind-manager';
+import { browser, hideGameInterface, isGameInterfaceActive, showGameInterface, toggleCursor } from '../core/browser';
 import {
   getVehicleAcceleration,
   getVehicleClassName,
@@ -65,6 +70,11 @@ function toggleVehicleMenu() {
 
 function toggleSeatbelt() {
   triggerServer(ProcedureKey.SERVER_PLAYER_TOGGLE_SEATBELT);
+}
+
+function toggleXmrControl(toggle: boolean) {
+  triggerBrowser(browser, ProcedureKey.BROWSER_TOGGLE_XMR_CONTROL, toggle);
+  toggleCursor(false, toggle);
 }
 
 function toggleVehicleLeftIndicator() {
@@ -175,18 +185,19 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.B, true, toggleSeatbelt);
     }
 
+    mp.game.audio.setRadioToStationName("OFF");
+    mp.game.audio.setUserRadioControlEnabled(false);
+
     if (seat == RageEnums.VehicleSeat.DRIVER) {
       mp.players.local.setConfigFlag(241, true); // Disable player attempts to run engine causing glitch
       mp.players.local.setConfigFlag(429, true); // Disable turning off the engine when exiting a vehicle
 
-      registerKeyBind(HexKeyCodes.Y, true, toggleVehicleMenu, 0);
-
       if (mp.game.vehicle.isThisModelABicycle(vehicle.model)) {
         if (!vehicle.getIsEngineRunning())
           toggleVehicleEngine();
-
         return;
       }
+
 
       currentMileage = vehicle.getVariable(VehicleSharedDataType.Mileage) || 0.00;
       currentFuel = vehicle.getVariable(VehicleSharedDataType.Fuel) || 0;
@@ -194,6 +205,13 @@ function playerEnterVehicleHandler(vehicle: VehicleMp, seat: number) {
       registerKeyBind(HexKeyCodes.Y, false, toggleVehicleEngine, VEHICLE_ENGINE_TOGGLE_HOLD_TIME);
       registerKeyBind(HexKeyCodes.Left, true, toggleVehicleLeftIndicator);
       registerKeyBind(HexKeyCodes.Right, true, toggleVehicleRightIndicator);
+
+      registerKeyBind(HexKeyCodes.Y, true, toggleVehicleMenu, 0);
+      registerKeyBindWithRelease(
+        HexKeyCodes.Q,
+        () => toggleXmrControl(true),
+        () => toggleXmrControl(false),
+      );
 
       disablePlayerControl(VEHICLE_RADIO_CONTROLS);
 
@@ -227,6 +245,10 @@ function playerLeaveVehicleHandler(vehicle: VehicleMp, seat: number) {
 
       unregisterKeyBind(HexKeyCodes.Y, toggleVehicleMenu);
       toggleVehicleHud(false);
+      unregisterKeyBindWithRelease(
+        HexKeyCodes.Q,
+        () => toggleXmrControl(true)
+      );
 
       const vehicleUpdate: IVehicleUpdateData = {
         vehicleId: vehicle.remoteId,

@@ -1,9 +1,10 @@
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
-import { Component, OnDestroy, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IRadioStation, IVehicleXmrState, ProcedureKey, radioStationsConfig } from '@revolt-rp/common';
 import { RageClientService } from '../../../domain/service/rage-client.service';
+import { fadeInOutTrigger } from '../../../domain/util/animation.util';
 
 @Component({
   selector: 'app-vehicle-xmr',
@@ -11,13 +12,15 @@ import { RageClientService } from '../../../domain/service/rage-client.service';
   imports: [CommonModule, FormsModule],
   templateUrl: './vehicle-xmr.component.html',
   styleUrl: './vehicle-xmr.component.css',
+  animations: [fadeInOutTrigger],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class VehicleXmrComponent implements OnDestroy {
+export class VehicleXmrComponent implements OnInit, OnDestroy {
   // Using signals for better reactivity and performance (Angular 16+)
   radioOn = signal(false);
   radioStationIndex = signal(0);
   radioVolume = signal(0);
+  xmrControlsVisible = signal(false);
 
   readonly radioStations = radioStationsConfig;
 
@@ -55,7 +58,7 @@ export class VehicleXmrComponent implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(volume => {
-        this.updateXmrState({ volume });
+        this.updateXmrState({ volume: volume * 0.01});
       });
   }
 
@@ -67,7 +70,11 @@ export class VehicleXmrComponent implements OnDestroy {
   private changeRadioStation(radioStation: IRadioStation): void {
     if (!this.radioOn()) return;
 
+    console.log('Changing radio station to:', radioStation?.url);
     this.updateXmrState({ radioStationUrl: radioStation?.url });
+  }
+  setXmrVisibility = (visible: boolean) => {
+    this.xmrControlsVisible.set(visible)
   }
 
   updateXmrState(xmrState: IVehicleXmrState) {
@@ -104,9 +111,14 @@ export class VehicleXmrComponent implements OnDestroy {
     });
   }
 
+  ngOnInit() {
+    this.rageClientService.on(ProcedureKey.BROWSER_TOGGLE_XMR_CONTROL, this.setXmrVisibility);
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
     this.volume$.complete();
+    this.rageClientService.off(ProcedureKey.BROWSER_TOGGLE_XMR_CONTROL, this.setXmrVisibility);
   }
 }

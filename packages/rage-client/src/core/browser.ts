@@ -32,7 +32,7 @@ export const browser = mp.browsers.new(environment.BROWSER_URL);
   browser.markAsChat();
 })();
 
-function toggleCursor(freezeControls: boolean, mouse: boolean) {
+export function toggleCursor(freezeControls: boolean, mouse: boolean) {
   isCursorActive = mouse;
   frozenControls = freezeControls;
   setTimeout(() => mp.gui.cursor.show(freezeControls, mouse), CURSOR_TIMEOUT_MS);

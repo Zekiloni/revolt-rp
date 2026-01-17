@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { IAudio3D } from '@revolt-rp/common';
+import { AudioStreamApiService } from '@revolt-rp/common-ui';
 
 type  AudioSpot = IAudio3D & {
   audio: HTMLAudioElement;
@@ -9,6 +10,7 @@ type  AudioSpot = IAudio3D & {
 
 @Injectable({ providedIn: 'root' })
 export class Audio3dService {
+  private audioStreamApiService = inject(AudioStreamApiService);
   private audioContext: AudioContext | null = null;
   private audioSpots = new Map<string, AudioSpot>();
 
@@ -20,14 +22,35 @@ export class Audio3dService {
     this.createAudioContext();
 
     const { id, url, volume, range, loop, position: { x, y, z } } = audioCreate;
+
+    let streamUrl = url;
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      console.log('Using audio stream proxy for URL:', url);
+      streamUrl = this.audioStreamApiService.getAudioStreamUrl(url);
+      console.log('Proxied URL:', streamUrl);
+    }
+
     if (this.audioSpots.has(id)) {
       const spot = this.audioSpots.get(id)!;
       spot.audio.volume = volume;
+
+      if (spot.range !== range) {
+        spot.panner.maxDistance = range;
+        spot.range = range;
+      }
+      if (streamUrl !== spot.audio.src) {
+        spot.audio.src = streamUrl;
+        spot.audio.load();
+        spot.audio.play().catch(() => console.log('Audio failed to play', id));
+      }
+
       return;
     }
 
+    console.log('Adding 3D audio with ID:', id, 'URL:', url);
+
     const audio = new Audio();
-    audio.src = url;
+    audio.src = streamUrl;
     audio.crossOrigin = 'anonymous';
     audio.loop = loop;
     audio.volume = volume;

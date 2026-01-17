@@ -35,6 +35,10 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
   indicators: boolean[] = [false, false];
 
   updateInfo = (data: IVehicleHudUpdate) => {
+    if (data.type !== this.type) {
+      this.type = data.type;
+    }
+
     this.speed = data.speed;
     this.gear = data.gear;
     this.fuel = data.fuel;
@@ -52,6 +56,7 @@ export class VehicleHudComponent implements OnInit, OnDestroy {
 
     this.cdr.detectChanges()
   };
+
 
   ngOnInit() {
     this.rageClientService.on(ProcedureKey.BROWSER_UPDATE_VEHICLE_HUD, this.updateInfo);
