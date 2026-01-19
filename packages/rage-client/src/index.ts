@@ -19,6 +19,7 @@ import './player/player-damage';
 import './player/inventory/player-attachment';
 import './player/inventory/player-inventory';
 import './player/inventory/player-item';
+import './player/inventory/player-deploy-item';
 import './player/inventory/player-weapon';
 import './player/inventory/player-phone';
 import './player/player-drugs';

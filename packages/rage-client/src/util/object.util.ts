@@ -12,11 +12,6 @@ export const waitForObjectToLoad = async (object: ObjectMp | PedMp) => {
 
 export const getObjectGroundPosition = async (model: string, position: Vector3, heading: number, rotation: Vector3, dimension: number, freeFall = false) => {
   const hash = mp.game.joaat(model);
-  mp.gui.chat.push(`Model: ${model} isModelInCdimage... ${mp.game.streaming.isModelInCdimage(hash)}`);
-  mp.gui.chat.push(`Model: ${model} hasModelLoaded... ${mp.game.streaming.hasModelLoaded(hash)}`);
-  mp.gui.chat.push(`Model: ${model} requestModel... ${mp.game.streaming.requestModel(hash)}`);
-  mp.gui.chat.push(`Model: ${model} hasModelLoaded now ... ${mp.game.streaming.hasModelLoaded(hash)}`);
-  mp.gui.chat.push(`Model: ${model} isModelValid... ${mp.game.streaming.isModelValid(hash)}`);
   const isModelValid = mp.game.streaming.isModelValid(hash);
 
   if (!isModelValid)

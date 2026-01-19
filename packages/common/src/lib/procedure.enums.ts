@@ -280,5 +280,6 @@ export const enum ProcedureKey {
   BROWSER_SET_LISTENER_ORIENTATION = 'browser_setListenerOrientation',
   SERVER_VEHICLE_XMR_SET = 'server_vehicleXmrSet',
   BROWSER_TOGGLE_XMR_CONTROL = 'browser_toggleXmrControl',
+  CLIENT_PLAYER_DEPLOY_ITEM = 'client_playerDeployItem',
 
 }
