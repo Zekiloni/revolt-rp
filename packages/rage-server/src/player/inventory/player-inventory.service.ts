@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
-import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
+import { callClient, triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
   characterConfig,
@@ -110,7 +110,7 @@ export const playerGiveGun = async (player: PlayerMp, weapon: string, ammoCount:
     return;
 
   await playerGiveItem(player, ammoItem.name, ammoCount);
-}
+};
 
 export const clearPlayerInventory = async (player: PlayerMp) => {
   player.character.inventory.forEach((item: Item) => {
@@ -281,7 +281,7 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
   if (getPlayerSelectedItem(player)?.id === item.id) {
     if (item.localSlot > 5) {
       const itemHandler = item.data;
-      if (itemHandler &&  isSelectableItem<PlayerMp, Item>(itemHandler)) {
+      if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
         (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
@@ -314,6 +314,7 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
   const itemHandler = item.data;
 
   console.log('Item handler:', itemHandler ? itemHandler.name : 'None');
+  console.log('Is selectable item:', itemHandler ? isSelectableItem<PlayerMp, Item>(itemHandler) : 'N/A');
   if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
     (<ISelectableItem<PlayerMp, Item>>itemHandler).select(player, item);
@@ -469,3 +470,30 @@ export const hasPlayerItem = (
   return count >= limit;
 };
 
+export const playerDeployItem = async (player: PlayerMp, item: Item) => {
+  callClient<[Vector3, Vector3]>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: 6000 })
+    .then(async ([position, rotation]) => {
+      if (position && rotation) {
+        item.position = position;
+        item.rotation = rotation;
+        item.dimension = player.dimension;
+        item.dropped = true;
+        item.localSlot = null;
+
+        const object = mp.objects.new(mp.joaat(item.data.model), position, {
+          rotation, dimension: item.dimension, alpha: 255
+        });
+
+        console.log('Created object for deployed item:', object.id);
+        setItemObject(item, object);
+        await item.save();
+      }
+    }).catch(e => {
+
+    if (e && typeof e === 'string' && e.toLowerCase().includes('timeout')) {
+      if (player && item) {
+        playerDeployItem(player, item);
+      }
+    }
+  });
+};

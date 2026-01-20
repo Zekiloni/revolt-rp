@@ -13,6 +13,7 @@ import { FishingRodItem } from './utility/fishing-rod-item.model';
 import { MiscellaneousItem } from './miscellaneous-item.model';
 import { FoodItem } from './food.item.model';
 import { DrugItem } from './drug-item.model';
+import { SpeakerItemModel } from './electronic/speaker-item.model';
 
 new DrinkItem('Flow 0.3l', 'items.flow_water_bottle_description', [ItemType.PRODUCT_GROCERY], 'prop_ld_flow_bottle', 0.3, 0, PlayerAttachmentTypeEnum.HoldLdFlowBottle);
 new DrinkItem('Pißwasser 0.35l', 'items.pibwasser_beer_bottle_description', [ItemType.PRODUCT_GROCERY, ItemType.BEVERAGE], 'prop_amb_beer_bottle', 0.35, 4, PlayerAttachmentTypeEnum.HoldAmbBeerBottle);
@@ -190,7 +191,7 @@ new ArmourItem('items.equipment_kevlar_heavy', 'items.equipment_kevlar_heavy_des
 
 new HandheldRadioItemModel('items.handheld_radio', 'items.handheld_radio_description', 'prop_cs_hand_radio', [], 0.25);
 new SmartphoneItemModel('items.smartphone', 'items.smartphone_description', 'prop_amb_phone', [], 0.3);
-
+new SpeakerItemModel('items.portable_speaker', 'items.portable_speaker_description', 'prop_speaker_05', [], 1.5);
 
 new FishingRodItem('items.fishing_rod', 'items.fishing_rod_description', 'prop_fishing_rod_01', 1.5);
 new FishingRodItem('items.fishing_rod_02', 'items.fishing_rod_description', 'prop_fishing_rod_02', 1.5);
