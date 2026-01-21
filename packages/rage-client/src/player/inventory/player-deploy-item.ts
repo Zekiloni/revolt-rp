@@ -72,9 +72,9 @@ async function deployItemHandler(model: string): Promise<DeployResult> {
   await waitForObjectToLoad(object);
 
   object.setCollision(false, true);
+  object.setAlpha(175);
 
   mp.events.add('render', updatePlacement);
-  mp.gui.chat.push('^Left click to place, mouse wheel to rotate.');
 
   return new Promise(resolve => {
     if (!activeDeploy) return resolve(undefined);

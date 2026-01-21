@@ -26,6 +26,7 @@ import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { AmmoItem } from '../../item/registry/ammo-item.model';
 
+const DEPLOY_ITEM_TIMEOUT_MS = 60 * 1000;
 
 export const getPlayerSelectedItem = (player: PlayerMp) => {
   const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
@@ -471,7 +472,7 @@ export const hasPlayerItem = (
 };
 
 export const playerDeployItem = async (player: PlayerMp, item: Item) => {
-  callClient<[Vector3, Vector3] | undefined>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: 6000 })
+  callClient<[Vector3, Vector3] | undefined>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: DEPLOY_ITEM_TIMEOUT_MS})
     .then(async (coords) => {
       if (!coords)
         return;
