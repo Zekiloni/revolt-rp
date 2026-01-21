@@ -471,9 +471,16 @@ export const hasPlayerItem = (
 };
 
 export const playerDeployItem = async (player: PlayerMp, item: Item) => {
-  callClient<[Vector3, Vector3]>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: 6000 })
-    .then(async ([position, rotation]) => {
+  callClient<[Vector3, Vector3] | undefined>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: 6000 })
+    .then(async (coords) => {
+      if (!coords)
+        return;
+
+      console.log('Deploying item at coords:', coords);
+      const [position, rotation] = coords;
       if (position && rotation) {
+        console.log('Player deploying item:', item.name, 'at position:', position, 'with rotation:', rotation);
+        await playerRemoveItemFromInventory(player, item.id);
         item.position = position;
         item.rotation = rotation;
         item.dimension = player.dimension;
@@ -484,7 +491,6 @@ export const playerDeployItem = async (player: PlayerMp, item: Item) => {
           rotation, dimension: item.dimension, alpha: 255
         });
 
-        console.log('Created object for deployed item:', object.id);
         setItemObject(item, object);
         await item.save();
       }
@@ -497,3 +503,7 @@ export const playerDeployItem = async (player: PlayerMp, item: Item) => {
     }
   });
 };
+
+export const playerCancelDeployItem = async (player: PlayerMp) => {
+  callClient(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM_CANCEL);
+}

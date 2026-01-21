@@ -281,5 +281,6 @@ export const enum ProcedureKey {
   SERVER_VEHICLE_XMR_SET = 'server_vehicleXmrSet',
   BROWSER_TOGGLE_XMR_CONTROL = 'browser_toggleXmrControl',
   CLIENT_PLAYER_DEPLOY_ITEM = 'client_playerDeployItem',
+  CLIENT_PLAYER_DEPLOY_ITEM_CANCEL = "CLIENT_PLAYER_DEPLOY_ITEM_CANCEL",
 
 }

@@ -1,6 +1,6 @@
 import { BaseItem, Item } from '@revolt-rp/core';
 import { ISelectableItem, ItemType } from '@revolt-rp/common';
-import { playerDeployItem } from '../../../player/inventory/player-inventory.service';
+import { playerCancelDeployItem, playerDeployItem } from '../../../player/inventory/player-inventory.service';
 
 export class SpeakerItemModel extends BaseItem implements ISelectableItem<PlayerMp, Item> {
   constructor(name: string, description: string, model: string, type: ItemType[], weight: number) {
@@ -9,5 +9,12 @@ export class SpeakerItemModel extends BaseItem implements ISelectableItem<Player
 
   async select(player: PlayerMp, item: Item) {
     await playerDeployItem(player, item);
+  }
+
+  async deselect(player: PlayerMp, item: Item) {
+    if (item.dropped)
+      return;
+
+    await playerCancelDeployItem(player);
   }
 }
