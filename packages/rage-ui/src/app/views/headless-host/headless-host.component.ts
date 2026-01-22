@@ -11,8 +11,7 @@ const HEADLESS_COMPONENT_LOADERS: Partial<Record<GameUiKey, () => Promise<Type<a
   selector: 'app-headless-host',
   standalone: true,
   imports: [],
-  template: `
-    <ng-container #host />`,
+  template: `<ng-container #host />`,
 })
 export class HeadlessHostComponent implements OnInit {
   @ViewChild('host', { read: ViewContainerRef, static: true })

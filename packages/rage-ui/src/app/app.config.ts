@@ -1,6 +1,7 @@
 import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideRouter } from '@angular/router';
 
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
@@ -19,13 +20,12 @@ import { inventoryReducer } from './store/inventory/inventory.reducer';
 import { gameInterfaceReducer } from './store/game-ui/game-ui.reducer';
 import { RageClientService } from './domain/service/rage-client.service';
 import { API_BASE_HREF } from '@revolt-rp/common-ui';
-import { provideRouter, withHashLocation } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideStoreDevtools({ logOnly: !isDevMode() }),
     provideEffects(),
-    provideRouter(routes, withHashLocation()),
+    provideRouter(routes),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
     provideAnimationsAsync(),

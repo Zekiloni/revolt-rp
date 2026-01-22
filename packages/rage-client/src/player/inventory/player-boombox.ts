@@ -8,7 +8,7 @@ interface BoomboxInstance {
   browser: BrowserMp;
 }
 
-const boomboxes: BoomboxInstance[] = [];
+const speakerInstances: BoomboxInstance[] = [];
 
 
 const isSpeaker = (object: ObjectMp) => {
@@ -26,20 +26,21 @@ export const getClosestBoombox = (): ObjectMp | null => {
 };
 
 const startBoombox = (object: ObjectMp) => {
+  if (speakerInstances.find(b => b.object.handle === object.handle)) return;
   const browser = showGameInterface(GameUiKey.Speaker);
-  boomboxes.push({ object, browser: browser });
+  speakerInstances.push({ object, browser: browser });
 };
 
 const stopBoombox = (object: ObjectMp) => {
-  const index = boomboxes.findIndex(b => b.object === object);
+  const index = speakerInstances.findIndex(b => b.object === object);
   if (index === -1) return;
 
-  const boombox = boomboxes[index];
+  const boombox = speakerInstances[index];
   if (mp.browsers.exists(boombox.browser)) {
     boombox.browser.destroy();
   }
 
-  boomboxes.splice(index, 1);
+  speakerInstances.splice(index, 1);
 };
 
 const boomboxHandler = setInterval(() => {
@@ -47,26 +48,29 @@ const boomboxHandler = setInterval(() => {
   if (boombox) {
     if (distanceTo(boombox.position, mp.players.local.position) < 3 && mp.players.local.hasClearLosTo(boombox.handle, 17)) {
       startBoombox(boombox);
+      mp.gui.chat.push('Boombox in range');
     } else {
+      mp.gui.chat.push('Boombox out of range');
       stopBoombox(boombox);
     }
   } else {
-    boomboxes.forEach(b => stopBoombox(b.object));
+    speakerInstances.forEach(b => stopBoombox(b.object));
   }
 }, 1000);
 
 mp.events.add('render', () => {
-  boomboxes.forEach(b => {
-    const pos = new mp.Vector3(b.object.position.x, b.object.position.y, b.object.position.z + 1.0); // 1.0 above
+  speakerInstances.forEach(speaker => {
+    const pos = new mp.Vector3(speaker.object.position.x, speaker.object.position.y, speaker.object.position.z + 1.0); // 1.0 above
 
-    const screen = mp.game.graphics.world3dToScreen2d(pos);
-    if (!screen) return;
+    if (speaker.browser && mp.browsers.exists(speaker.browser)) {
+      const screen = mp.game.graphics.world3dToScreen2d(pos);
+      if (!screen) return;
 
-    const dict = b.browser.headlessTextureDict;
-    const name = b.browser.headlessTextureName;
-    const height = b.browser.headlessTextureHeightScale;
+      const dict = speaker.browser.headlessTextureDict;
+      const name = speaker.browser.headlessTextureName;
+      const height = speaker.browser.headlessTextureHeightScale;
 
-    // Draw small floating UI box
-    mp.game.graphics.drawSprite(dict, name, screen.x, screen.y, 0.15, height * 0.15, 0, 255, 255, 255, 255, false);
+      mp.game.graphics.drawSprite(dict, name, screen.x, screen.y, 0.3, height * 0.3, 0, 255, 255, 255, 255, false);
+    }
   });
 });
