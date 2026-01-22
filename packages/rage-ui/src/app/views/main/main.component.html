@@ -1,0 +1,152 @@
+@if ($isGameInterfaceActive(GameUiKey.Authorization) | async) {
+  <app-authorization @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.BanInfo) | async) {
+  <app-ban-info @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.CharacterCreator) | async) {
+  <app-character-creator @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.Hud) | async) {
+  <app-hud @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.HelpMenu) | async; as isActive) {
+  <app-help @fadeInOut [commands]="commands" [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.VehicleHud) | async) {
+  <app-vehicle-hud />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.Inventory) | async) {
+  <app-inventory @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.PlayerMenu) | async; as isActive) {
+  <app-player-menu [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.Offer) | async) {
+  <app-player-offer @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.BankMenu) | async) {
+  <app-bank-menu @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.ATM) | async) {
+  <app-bank-atm @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.AnimationMenu) | async) {
+  <app-animation-menu @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.DeathScreen) | async) {
+  <app-death-screen @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.DamageInfo)| async) {
+  <app-player-damage-info @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.CreateOrganization) | async; as isActive) {
+  <app-create-organization [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.ManageOrganization) | async; as isActive) {
+  <app-manage-organization [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.HandheldRadio) | async) {
+  <app-handheld-radio @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.CreateProperty) | async; as isActive) {
+  <app-create-property [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.PropertyInfo) | async) {
+  <app-property-info />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.ManageProperty) | async; as isActive) {
+  <app-manage-property [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.DmvMenu) | async) {
+  <app-dmv-menu @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.VehicleMenu) | async) {
+  <app-vehicle-menu @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.Trunk) | async) {
+  <app-vehicle-inventory />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.RentCatalog) | async) {
+  <app-rent-catalog @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.ManageVehicle) | async; as isActive) {
+  <app-manage-vehicle [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.GroceryStore) | async) {
+  <app-grocery-store @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.ClothingStore) | async; as isActive) {
+  <app-clothing-store [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.VehicleDealership) | async; as isActive) {
+  <app-vehicle-dealership [isActive]="isActive" />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.JobMenu) | async) {
+  <app-job-menu />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.GrafitiCreator) | async; as isActive) {
+  <app-grafiti-creator />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.MDC) | async) {
+  <app-mdc @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.PlateRecognition) | async) {
+  <app-plate-recognition @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.HeliCam) | async) {
+  <app-heli-cam @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.GarageMenu) | async) {
+  <app-garage-menu />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.EquipmentMenu) | async) {
+  <app-equipment-menu @fadeInOut />
+}
+
+@if ($isGameInterfaceActive(GameUiKey.FishingMinigame) | async) {
+  <app-fishing />
+}
+
+<app-smartphone [isActive]="($isGameInterfaceActive(GameUiKey.Smartphone) | async)!" />
+
+<app-text-chat [commands]="commands" />
+
+<p-toast key="global"  />
+<p-confirmDialog key="global" />
+
+<app-audio-3d />

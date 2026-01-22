@@ -1,3 +1,4 @@
 export const enum ItemSharedDataType {
-  ItemId = 'item_id'
+  ItemId = 'item_id',
+  ItemName = 'item_name',
 }

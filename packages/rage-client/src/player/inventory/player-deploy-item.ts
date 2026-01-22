@@ -13,6 +13,7 @@ let activeDeploy:
   | {
   model: string;
   resolve: (data: DeployResult) => void;
+  promise: Promise<DeployResult>;
   rotationZ: number;
 }
   | null = null;
@@ -57,12 +58,16 @@ function updatePlacement() {
 
 
 async function deployItemHandler(model: string): Promise<DeployResult> {
-  if (activeDeploy) return undefined;
+  if (activeDeploy) {
+    mp.gui.chat.push('Deploy already active, returning existing promise.');
+    return activeDeploy.promise; // ✅ THIS IS THE FIX
+  }
 
   activeDeploy = {
     model,
     resolve: () => {},
-    rotationZ: mp.players.local.getRotation(2).z
+    rotationZ: mp.players.local.getRotation(2).z,
+    promise: Promise.resolve(undefined) // placeholder
   };
 
   object = mp.objects.new(mp.game.joaat(model), mp.players.local.position, {
@@ -76,24 +81,24 @@ async function deployItemHandler(model: string): Promise<DeployResult> {
 
   mp.events.add('render', updatePlacement);
 
-  return new Promise(resolve => {
-    if (!activeDeploy) return resolve(undefined);
-
+  activeDeploy.promise = new Promise<DeployResult>(resolve => {
     activeDeploy.resolve = resolve;
 
     onMouseClick('left', 'down', () => {
       if (!activeDeploy || !object || !mp.objects.exists(object)) return;
 
-      const result: DeployResult = [
+      resolve([
         object.getCoords(false),
         object.getRotation(2)
-      ];
+      ]);
 
-      resolve(result);
       cancelDeployItemHandler();
     }, true);
   });
+
+  return activeDeploy.promise;
 }
+
 
 function cancelDeployItemHandler() {
   mp.events.remove('render', updatePlacement);
@@ -103,11 +108,7 @@ function cancelDeployItemHandler() {
   }
 
   object = null;
-
-  if (activeDeploy) {
-    activeDeploy.resolve(undefined);
-    activeDeploy = null;
-  }
+  activeDeploy = null;
 }
 
 

@@ -2,7 +2,10 @@ import { Component, OnInit, Type, ViewChild, ViewContainerRef } from '@angular/c
 import { ActivatedRoute } from '@angular/router';
 import { GameUiKey } from '@revolt-rp/common';
 
-const HEADLESS_COMPONENT_LOADERS: Partial<Record<GameUiKey, () => Promise<Type<never>>>> = {};
+const HEADLESS_COMPONENT_LOADERS: Partial<Record<GameUiKey, () => Promise<Type<any>>>> = {
+
+  [GameUiKey.Speaker]: async () => (await import('../../component/item/speaker/speaker.component')).SpeakerComponent,
+};
 
 @Component({
   selector: 'app-headless-host',
@@ -16,6 +19,7 @@ export class HeadlessHostComponent implements OnInit {
   host!: ViewContainerRef;
 
   constructor(private route: ActivatedRoute) {
+    console.log('HeadlessHostComponent initialized');
   }
 
   async ngOnInit() {
@@ -31,7 +35,7 @@ export class HeadlessHostComponent implements OnInit {
       return;
     }
 
-    const component: Type<never> = await loader();
+    const component: Type<any> = await loader();
 
     this.host.clear();
     this.host.createComponent(component);

@@ -9,6 +9,7 @@ export const getItemObject = (item: Item) => {
 
 export const setItemObject = (item: Item, object: ObjectMp) => {
   object.setVariable(ItemSharedDataType.ItemId, item.id);
+  object.setVariable(ItemSharedDataType.ItemName, item.name);
 };
 
 export const getAllDroppedItems = async () => {

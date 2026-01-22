@@ -474,12 +474,13 @@ export const hasPlayerItem = (
 export const playerDeployItem = async (player: PlayerMp, item: Item) => {
   callClient<[Vector3, Vector3] | undefined>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: DEPLOY_ITEM_TIMEOUT_MS})
     .then(async (coords) => {
+      console.log('Received deploy coords from client:', coords);
       if (!coords)
         return;
 
-      console.log('Deploying item at coords:', coords);
       const [position, rotation] = coords;
       if (position && rotation) {
+
         console.log('Player deploying item:', item.name, 'at position:', position, 'with rotation:', rotation);
         await playerRemoveItemFromInventory(player, item.id);
         item.position = position;
@@ -498,7 +499,7 @@ export const playerDeployItem = async (player: PlayerMp, item: Item) => {
     }).catch(e => {
 
     if (e && typeof e === 'string' && e.toLowerCase().includes('timeout')) {
-      if (player && item) {
+      if (player && mp.players.exists(player) && item) {
         playerDeployItem(player, item);
       }
     }
