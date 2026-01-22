@@ -22,6 +22,7 @@ import './player/inventory/player-item';
 import './player/inventory/player-deploy-item';
 import './player/inventory/player-weapon';
 import './player/inventory/player-phone';
+import './player/inventory/player-boombox';
 import './player/player-drugs';
 
 import './player/other/player-bubble';
