@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { IAudio3D } from '@revolt-rp/common';
 import { AudioStreamApiService } from '@revolt-rp/common-ui';
 
-type  AudioSpot = IAudio3D & {
+export type AudioSpot = IAudio3D & {
   audio: HTMLAudioElement;
   panner: PannerNode;
   biquadFilter: BiquadFilterNode;
@@ -195,5 +195,9 @@ export class Audio3dService {
     this.audioSpots.get(id)?.audio.play().catch(() => {
       console.log('Audio failed to play', id);
     });
+  }
+
+  getAudioSpot(id: string): AudioSpot | undefined {
+    return this.audioSpots.get(id);
   }
 }

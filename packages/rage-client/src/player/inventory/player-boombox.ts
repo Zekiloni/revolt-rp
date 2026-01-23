@@ -1,6 +1,8 @@
-import { GameUiKey, ItemSharedDataType } from '@revolt-rp/common';
+import { GameUiKey, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { distanceTo } from '../../util/vector.util';
-import { hideGameInterface, showGameInterface } from '../../core/browser';
+import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
+import { triggerBrowser } from '@libertymp/rage-rpc';
+import { getSoundId } from '../../audio/audio';
 
 
 interface BoomboxInstance {
@@ -29,6 +31,7 @@ const startBoombox = (object: ObjectMp) => {
   if (speakerInstances.find(b => b.object.handle === object.handle)) return;
   const browser = showGameInterface(GameUiKey.Speaker);
   speakerInstances.push({ object, browser: browser });
+  setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEAKER_AUDIO, getSoundId((object))), 250);
 };
 
 const stopBoombox = (object: ObjectMp) => {
@@ -60,7 +63,7 @@ const boomboxHandler = setInterval(() => {
 
 mp.events.add('render', () => {
   speakerInstances.forEach(speaker => {
-    const pos = new mp.Vector3(speaker.object.position.x, speaker.object.position.y, speaker.object.position.z + 1.0); // 1.0 above
+    const pos = new mp.Vector3(speaker.object.position.x, speaker.object.position.y, speaker.object.position.z + 1.0);
 
     if (speaker.browser && mp.browsers.exists(speaker.browser)) {
       const screen = mp.game.graphics.world3dToScreen2d(pos);
