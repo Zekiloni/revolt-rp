@@ -1,6 +1,6 @@
 import { GameUiKey, ItemSharedDataType, ProcedureKey } from '@revolt-rp/common';
 import { distanceTo } from '../../util/vector.util';
-import { browser, hideGameInterface, showGameInterface } from '../../core/browser';
+import {  showGameInterface } from '../../core/browser';
 import { triggerBrowser } from '@libertymp/rage-rpc';
 import { getSoundId } from '../../audio/audio';
 
@@ -31,7 +31,12 @@ const startBoombox = (object: ObjectMp) => {
   if (speakerInstances.find(b => b.object.handle === object.handle)) return;
   const browser = showGameInterface(GameUiKey.Speaker);
   speakerInstances.push({ object, browser: browser });
-  setTimeout(() => triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEAKER_AUDIO, getSoundId((object))), 250);
+  const soundId = getSoundId(object);
+
+  setTimeout(() => {
+    if (!mp.browsers.exists(browser)) return;
+    triggerBrowser(browser, ProcedureKey.BROWSER_SET_SPEAKER_AUDIO, soundId);
+  }, 250);
 };
 
 const stopBoombox = (object: ObjectMp) => {

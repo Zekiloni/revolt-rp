@@ -10,4 +10,5 @@ export interface IGameInterface {
   freezeControls?: true;
   closeOnEscape?: true;
   headless?: true;
+  resolution?: { width: number; height: number; };
 }
