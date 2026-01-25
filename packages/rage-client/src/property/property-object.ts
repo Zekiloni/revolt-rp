@@ -1,5 +1,5 @@
 import { on } from '@libertymp/rage-rpc';
-import { IDoor, isDoorPopulated, ProcedureKey } from '@revolt-rp/common';
+import { IDoorObject, isPopulated, ProcedureKey } from '@revolt-rp/common';
 
 export const detectDoorObject = () => {
   const entityFound = mp.game.player.getEntityIsFreeAimingAt();
@@ -7,26 +7,29 @@ export const detectDoorObject = () => {
     const handle = (entityFound as EntityMp)?.handle ?? (entityFound as number);
     const hash = mp.game.entity.getModel(handle);
     const position = mp.game.entity.getCoords(handle, false);
-    return { handle, hash, position, dimension: mp.players.local.dimension };
+    const rotation = mp.game.entity.getRotation(handle, 2);
+    return { handle, hash, position, rotation, dimension: mp.players.local.dimension };
   }
   return null;
 };
 
 
-on(ProcedureKey.CLIENT_DOORS_SYNC, (door: IDoor) => {
+function syncDoor(door: IDoorObject) {
   const visited = new Set<string>();
 
-  function syncDoor(d: IDoor) {
+  function handle(d: IDoorObject) {
     if (visited.has(d.id)) return;
     visited.add(d.id);
 
     const { x, y, z } = d.position;
     mp.game.object.setStateOfClosestDoorOfType(d.hash, x, y, z, closed, 0, false);
 
-    if (isDoorPopulated(d.parent)) {
-      syncDoor(d.parent);
+    if (d.parent && isPopulated(d.parent, 'hash')) {
+      handle(d.parent);
     }
   }
 
-  syncDoor(door);
-});
+  handle(door);
+}
+
+on(ProcedureKey.CLIENT_DOORS_SYNC, syncDoor);

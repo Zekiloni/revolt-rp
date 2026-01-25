@@ -1,4 +1,4 @@
-import { getModelForClass } from '@typegoose/typegoose';
+import { getDiscriminatorModelForClass, getModelForClass } from '@typegoose/typegoose';
 import { Account } from './account.model';
 import { Advertisement } from './advertisement.model';
 import { Ban } from './ban.model';
@@ -14,12 +14,21 @@ import { PhoneCall } from './phone-call.model';
 import { PhoneMessage } from './phone-message.model';
 import { PlayerDeath } from './player-death.model';
 import { Product } from './product.model';
-import { Property, PropertyOwner, PropertyPoint, PropertyVehicle } from './property.model';
+import {
+  DoorObject,
+  FurnitureObject,
+  Property,
+  PropertyObject,
+  PropertyOwner,
+  PropertyPoint,
+  PropertyVehicle, StaticObject
+} from './property.model';
 import { SobrietyTest } from './sobriety-test.model';
 import { Transaction } from './transaction.model';
 import { Vehicle, VehicleNumberplate } from './vehicle.model';
 import { Warrant } from './warrant.model';
 import { Whitelist } from './whitelist.model';
+import { ObjectType } from '@revolt-rp/common';
 
 export const AccountModel = getModelForClass(Account);
 export const WhiteListModel = getModelForClass(Whitelist);
@@ -36,8 +45,33 @@ export const OrganizationRankModel = getModelForClass(OrganizationRank);
 export const PhoneCallModel = getModelForClass(PhoneCall);
 export const PhoneMessageModel = getModelForClass(PhoneMessage);
 export const PlayerDeathModel = getModelForClass(PlayerDeath);
-export const ProductModel = getModelForClass(Product);
+
 export const PropertyModel = getModelForClass(Property);
+export const ProductModel = getModelForClass(Product);
+export const PropertyObjectModel =
+  getModelForClass(PropertyObject);
+
+export const DoorObjectModel =
+  getDiscriminatorModelForClass(
+    PropertyObjectModel,
+    DoorObject,
+    ObjectType.Door
+  );
+
+export const FurnitureObjectModel =
+  getDiscriminatorModelForClass(
+    PropertyObjectModel,
+    FurnitureObject,
+    ObjectType.Furniture
+  );
+
+export const StaticObjectModel =
+  getDiscriminatorModelForClass(
+    PropertyObjectModel,
+    StaticObject,
+    ObjectType.Static
+  );
+
 export const SobrietyTestModel = getModelForClass(SobrietyTest);
 export const TransactionModel = getModelForClass(Transaction);
 export const VehicleModel = getModelForClass(Vehicle);
@@ -65,6 +99,10 @@ export {
   PropertyOwner,
   PropertyPoint,
   PropertyVehicle,
+  PropertyObject,
+  DoorObject,
+  FurnitureObject,
+  StaticObject,
   SobrietyTest,
   Transaction,
   Vehicle,
