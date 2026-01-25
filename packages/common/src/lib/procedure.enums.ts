@@ -283,5 +283,8 @@ export const enum ProcedureKey {
   CLIENT_PLAYER_DEPLOY_ITEM = 'client_playerDeployItem',
   CLIENT_PLAYER_DEPLOY_ITEM_CANCEL = "CLIENT_PLAYER_DEPLOY_ITEM_CANCEL",
   BROWSER_SET_SPEAKER_AUDIO = 'browser_setSpeakerAudio',
+  BROWSER_TV_INIT = 'browser_tvInit',
+
+  CLIENT_DOORS_SYNC = 'client_doorsSync',
 
 }

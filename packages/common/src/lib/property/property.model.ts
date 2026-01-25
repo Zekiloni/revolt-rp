@@ -6,6 +6,7 @@ import { ICharacter } from '../player/character/character.model';
 import { IDoor } from './door.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IBaseItem } from '../item/registry/base-item.model';
+import { IItem } from '../item/item.model';
 
 export interface IPropertyOwner {
   type: 'Character' | 'Organization';
@@ -110,4 +111,15 @@ export interface IProperty extends Base {
   locked: boolean;
   catalog: IProduct[];
   vehicles: IPropertyVehicle[];
+}
+
+export interface IObject extends Base {
+  model: string;
+  position: IVector3;
+  rotation: IVector3;
+  dimension: number;
+  property: Ref<IProperty>;
+  items?: Ref<IItem>[];
+  createdAt: Date;
+  updatedAt?: Date;
 }

@@ -50,6 +50,7 @@ import './organization/organization-menu';
 
 import './property/property-core';
 import './property/property-point';
+import './property/property-door';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 
