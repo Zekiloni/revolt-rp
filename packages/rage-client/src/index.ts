@@ -36,6 +36,7 @@ import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';
 import './vehicle/driving-test';
 import './vehicle/seatbelt';
+import './vehicle/heli-rappel'
 
 import './vehicle/organization/law/plate-recognition';
 import './vehicle/organization/law/heli-cam';
