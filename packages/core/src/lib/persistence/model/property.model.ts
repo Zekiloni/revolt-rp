@@ -145,6 +145,9 @@ export class Property extends Document implements IProperty {
   @prop({ ref: () => Property, required: false })
   parentProperty?: Ref<Property>;
 
+  @prop({ ref: () => PropertyObject, default: [] })
+  objects: Ref<PropertyObject>[];
+
   createdAt: Date;
   updatedAt?: Date;
 }
@@ -169,9 +172,6 @@ export class PropertyObject extends Document implements IBaseObject {
 
   @prop({ required: true })
   dimension: number;
-
-  @prop({ ref: () => Property, required: true })
-  property: Ref<Property>;
 
   createdAt: Date;
   updatedAt?: Date;

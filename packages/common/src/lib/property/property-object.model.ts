@@ -22,7 +22,6 @@ export interface IBaseObject extends Base {
   position: IVector3;
   rotation: IVector3;
   dimension: number;
-  property: Ref<IProperty>;
 
   createdAt: Date;
   updatedAt?: Date;
