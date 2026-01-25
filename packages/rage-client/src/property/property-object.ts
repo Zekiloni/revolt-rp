@@ -1,17 +1,17 @@
 import { on } from '@libertymp/rage-rpc';
 import { IDoorObject, isPopulated, ProcedureKey } from '@revolt-rp/common';
 
-export const detectDoorObject = () => {
-  const entityFound = mp.game.player.getEntityIsFreeAimingAt();
-  if (entityFound) {
-    const handle = (entityFound as EntityMp)?.handle ?? (entityFound as number);
-    const hash = mp.game.entity.getModel(handle);
-    const position = mp.game.entity.getCoords(handle, false);
-    const rotation = mp.game.entity.getRotation(handle, 2);
-    return { handle, hash, position, rotation, dimension: mp.players.local.dimension };
-  }
-  return null;
-};
+// export const detectDoorObject = () => {
+//   const entityFound = mp.game.player.getEntityIsFreeAimingAt();
+//   if (entityFound) {
+//     const handle = (entityFound as EntityMp)?.handle ?? (entityFound as number);
+//     const hash = mp.game.entity.getModel(handle);
+//     const position = mp.game.entity.getCoords(handle, false);
+//     const rotation = mp.game.entity.getRotation(handle, 2);
+//     return { handle, hash, position, rotation, dimension: mp.players.local.dimension };
+//   }
+//   return null;
+// };
 
 
 function syncDoor(door: IDoorObject) {

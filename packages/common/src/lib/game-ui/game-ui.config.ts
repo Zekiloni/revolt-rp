@@ -239,5 +239,10 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
   [GameUiKey.Speaker]: {
     headless: true,
     isActive: false,
+  },
+
+  [GameUiKey.TV]: {
+    headless: true,
+    isActive: false,
   }
 };

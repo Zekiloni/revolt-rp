@@ -23,6 +23,7 @@ import './player/inventory/player-deploy-item';
 import './player/inventory/player-weapon';
 import './player/inventory/player-phone';
 import './player/inventory/player-boombox';
+import './player/inventory/player-tv';
 import './player/player-drugs';
 
 import './player/other/player-bubble';
@@ -50,7 +51,7 @@ import './organization/organization-menu';
 
 import './property/property-core';
 import './property/property-point';
-import './property/property-door';
+import './property/property-object';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 
