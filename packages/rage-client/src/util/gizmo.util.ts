@@ -1,15 +1,3 @@
-/**
- * 3D Gizmo System for RageMP
- * Integrated visual editor with proper TypeScript structure
- *
- * Features:
- * - Visual axis manipulation (X/Y/Z with color coding)
- * - Move and Rotate modes
- * - Ground placement, Save/Cancel functionality
- * - Keyboard shortcuts for mode switching
- */
-
-import { DataView } from './dataview.util';
 
 // Configuration
 const CONFIG = {
@@ -30,6 +18,15 @@ interface GizmoState {
   oldCursorPos: [number, number];
   screenResolution: { x: number; y: number };
 }
+
+
+// Export interface
+export interface GizmoResult {
+  handle: number;
+  position: Vector3;
+  rotation: Vector3;
+}
+
 
 interface ScreenBox {
   x: number;
@@ -423,13 +420,6 @@ async function gizmoLoop(entity: ObjectMp): Promise<void> {
   state.currentEntity = null;
 }
 
-// Export interface
-export interface GizmoResult {
-  handle: number;
-  position: Vector3;
-  rotation: Vector3;
-}
-
 export async function useGizmo(entity: ObjectMp): Promise<GizmoResult> {
   state.enabled = true;
   state.currentEntity = entity;
@@ -444,7 +434,6 @@ export async function useGizmo(entity: ObjectMp): Promise<GizmoResult> {
     rotation: entity.getRotation(0),
   };
 }
-
 
 
 // Event: Click handling
