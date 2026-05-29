@@ -3,7 +3,7 @@ import { triggerBrowser } from '../core/browser';
 
 export const sounds = new Map<string, IAudio3D & { entity: EntityMp }>();
 
-export const getSoundId = (entity: EntityMp) => {
+export const getSoundId = (entity: EntityMp | ObjectMp) => {
   return `${entity.type}_${entity.remoteId}`;
 };
 

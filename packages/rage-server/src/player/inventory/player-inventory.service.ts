@@ -1,6 +1,6 @@
 import { t } from 'i18next';
 import { Types } from 'mongoose';
-import { triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
+import { callClient, triggerBrowsers, triggerClient } from '@libertymp/rage-rpc';
 import {
   AnimationFlag,
   characterConfig,
@@ -26,6 +26,7 @@ import { WearableItem } from '../../item/registry/clothing/wearable-item.model';
 import { WeaponItem } from '../../item/registry/weapon-item.model';
 import { AmmoItem } from '../../item/registry/ammo-item.model';
 
+const DEPLOY_ITEM_TIMEOUT_MS = 60 * 1000;
 
 export const getPlayerSelectedItem = (player: PlayerMp) => {
   const selectedItemId = player.getVariable<string | null>(PlayerSharedDataType.SelectedItemId);
@@ -110,7 +111,7 @@ export const playerGiveGun = async (player: PlayerMp, weapon: string, ammoCount:
     return;
 
   await playerGiveItem(player, ammoItem.name, ammoCount);
-}
+};
 
 export const clearPlayerInventory = async (player: PlayerMp) => {
   player.character.inventory.forEach((item: Item) => {
@@ -281,7 +282,7 @@ export const playerChangeItemSlot = async (player: PlayerMp, itemId: string, slo
   if (getPlayerSelectedItem(player)?.id === item.id) {
     if (item.localSlot > 5) {
       const itemHandler = item.data;
-      if (itemHandler &&  isSelectableItem<PlayerMp, Item>(itemHandler)) {
+      if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
         (<ISelectableItem<PlayerMp, Item>>itemHandler).deselect(player, item);
       }
     }
@@ -314,6 +315,7 @@ export const playerSelectItem = async (player: PlayerMp, slot: number) => {
   const itemHandler = item.data;
 
   console.log('Item handler:', itemHandler ? itemHandler.name : 'None');
+  console.log('Is selectable item:', itemHandler ? isSelectableItem<PlayerMp, Item>(itemHandler) : 'N/A');
   if (itemHandler && isSelectableItem<PlayerMp, Item>(itemHandler)) {
     player.setVariable(PlayerSharedDataType.SelectedItemId, item.id);
     (<ISelectableItem<PlayerMp, Item>>itemHandler).select(player, item);
@@ -469,3 +471,41 @@ export const hasPlayerItem = (
   return count >= limit;
 };
 
+export const playerDeployItem = async (player: PlayerMp, item: Item) => {
+  callClient<[Vector3, Vector3] | undefined>(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM, item.data.model, { timeout: DEPLOY_ITEM_TIMEOUT_MS})
+    .then(async (coords) => {
+      console.log('Received deploy coords from client:', coords);
+      if (!coords)
+        return;
+
+      const [position, rotation] = coords;
+      if (position && rotation) {
+
+        console.log('Player deploying item:', item.name, 'at position:', position, 'with rotation:', rotation);
+        await playerRemoveItemFromInventory(player, item.id);
+        item.position = position;
+        item.rotation = rotation;
+        item.dimension = player.dimension;
+        item.dropped = true;
+        item.localSlot = null;
+
+        const object = mp.objects.new(mp.joaat(item.data.model), position, {
+          rotation, dimension: item.dimension, alpha: 255
+        });
+
+        setItemObject(item, object);
+        await item.save();
+      }
+    }).catch(e => {
+
+    if (e && typeof e === 'string' && e.toLowerCase().includes('timeout')) {
+      if (player && mp.players.exists(player) && item) {
+        playerDeployItem(player, item);
+      }
+    }
+  });
+};
+
+export const playerCancelDeployItem = async (player: PlayerMp) => {
+  callClient(player, ProcedureKey.CLIENT_PLAYER_DEPLOY_ITEM_CANCEL);
+}

@@ -99,7 +99,7 @@ export * from './lib/organization/member.model';
 export * from './lib/property/property.model';
 export * from './lib/property/property.enums';
 export * from './lib/property/property.config';
-export * from './lib/property/door.model';
+export * from './lib/property/property-object.model';
 
 export * from './lib/property/public-service/dmv';
 export * from './lib/property/commercial.model';

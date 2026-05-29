@@ -19,8 +19,11 @@ import './player/player-damage';
 import './player/inventory/player-attachment';
 import './player/inventory/player-inventory';
 import './player/inventory/player-item';
+import './player/inventory/player-deploy-item';
 import './player/inventory/player-weapon';
 import './player/inventory/player-phone';
+import './player/inventory/player-boombox';
+import './player/inventory/player-tv';
 import './player/player-drugs';
 
 import './player/other/player-bubble';
@@ -33,6 +36,7 @@ import './vehicle/vehicle-core';
 import './vehicle/vehicle.lock';
 import './vehicle/driving-test';
 import './vehicle/seatbelt';
+import './vehicle/heli-rappel'
 
 import './vehicle/organization/law/plate-recognition';
 import './vehicle/organization/law/heli-cam';
@@ -48,6 +52,7 @@ import './organization/organization-menu';
 
 import './property/property-core';
 import './property/property-point';
+import './property/property-object';
 import './property/clothing-store';
 import './property/vehicle-dealership';
 

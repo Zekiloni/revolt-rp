@@ -3,7 +3,6 @@ import { CommercialType, PropertyPointType, PropertyType, PublicServiceType } fr
 import { IVector3 } from '../core.interface';
 import { IOrganization } from '../organization/organization.model';
 import { ICharacter } from '../player/character/character.model';
-import { IDoor } from './door.model';
 import { Base } from '@typegoose/typegoose/lib/defaultClasses';
 import { IBaseItem } from '../item/registry/base-item.model';
 
@@ -106,8 +105,8 @@ export interface IProperty extends Base {
   balance: number;
   entrances?: IEntrance[];
   points: IPropertyPoint[];
-  doors?: Ref<IDoor>[];
   locked: boolean;
   catalog: IProduct[];
   vehicles: IPropertyVehicle[];
 }
+

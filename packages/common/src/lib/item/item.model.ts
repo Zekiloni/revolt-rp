@@ -29,6 +29,7 @@ export interface IItem extends Base {
   radioConfig?: IHandheldRadioConfig;
   documentInfo?: IDocumentInfo;
   phoneInfo?: IPhoneInfo;
+  items?: IItem[];
   createdAt: Date;
   updatedAt?: Date;
   readonly data?: IBaseItem;

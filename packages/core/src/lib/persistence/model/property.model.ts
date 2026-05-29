@@ -1,14 +1,13 @@
 import { Document, Types } from 'mongoose';
 import { modelOptions, prop, type Ref } from '@typegoose/typegoose';
 import {
-  CommercialType,
-  IDoor,
+  CommercialType, IBaseObject,
   IEntrance,
   IProperty,
   IPropertyOwner,
   IPropertyPoint,
   IPropertyVehicle,
-  IVector3,
+  IVector3, ObjectType,
   PropertyPointType,
   PropertyType,
   PublicServiceType,
@@ -17,6 +16,7 @@ import {
 import { Organization } from './organization.model';
 import { Character } from './character.model';
 import { Product } from './product.model';
+import { Item } from '@revolt-rp/core';
 
 
 const propertySubTypeEnum: (CommercialType | PublicServiceType | UtilityType)[] = [
@@ -55,15 +55,6 @@ export class PropertyPoint implements IPropertyPoint {
   constructor(init: IPropertyPoint) {
     Object.assign(this, init);
   }
-}
-
-export class Door implements IDoor {
-  id?: number;
-  objectId: number;
-  hashes?: number[];
-  position: IVector3[];
-  dimension: number;
-  locked: boolean;
 }
 
 export class PropertyVehicle implements IPropertyVehicle {
@@ -117,7 +108,6 @@ export class Property extends Document implements IProperty {
   @prop({ required: true })
   dimension: number;
 
-  doors: Ref<Door>[];
   entrances: IEntrance[];
 
   @prop({ required: false })
@@ -155,7 +145,73 @@ export class Property extends Document implements IProperty {
   @prop({ ref: () => Property, required: false })
   parentProperty?: Ref<Property>;
 
+  @prop({ ref: () => PropertyObject, default: [] })
+  objects: Ref<PropertyObject>[];
+
   createdAt: Date;
   updatedAt?: Date;
 }
 
+@modelOptions({
+  schemaOptions: {
+    timestamps: true,
+    discriminatorKey: 'type'
+  }
+})
+export class PropertyObject extends Document implements IBaseObject {
+  declare _id: Types.ObjectId;
+  declare id: string;
+
+  @prop({ enum: Object.values(ObjectType), required: true })
+  type: ObjectType;
+
+  @prop({ type: Object, required: true })
+  position: IVector3;
+
+  rotation: IVector3;
+
+  @prop({ required: true })
+  dimension: number;
+
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
+export class FurnitureObject extends PropertyObject {
+  @prop({ required: true })
+  model: string;
+
+  @prop({ type: Object, required: true })
+  rotation: IVector3;
+
+  @prop({ ref: () => Item, default: [] })
+  items?: Ref<Item>[];
+}
+
+export class DoorObject extends PropertyObject {
+  @prop({ required: true })
+  locked: boolean;
+
+  @prop({ required: true })
+  native: boolean;
+
+  @prop({ required: false })
+  hash?: number;
+
+  @prop({ required: false })
+  model?: string;
+
+  @prop({ type: Object, required: true })
+  rotation: IVector3;
+
+  @prop({ ref: () => DoorObject, required: false })
+  parent?: Ref<DoorObject>;
+}
+
+export class StaticObject extends PropertyObject {
+  @prop({ required: true })
+  model: string;
+
+  @prop({ type: Object, required: true })
+  rotation: IVector3;
+}

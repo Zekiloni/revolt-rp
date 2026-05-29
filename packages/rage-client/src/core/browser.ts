@@ -16,7 +16,6 @@ import { registerKeyBind } from './keybind-manager';
 import { disablePlayerControl, enablePlayerControl } from '../player/util/player-control.util';
 
 
-
 const CURSOR_TIMEOUT_MS = 100;
 const activeGameInterfaces: Set<GameUiKey> = new Set<GameUiKey>();
 
@@ -72,7 +71,10 @@ export function showGameInterface(interfaceKey: GameUiKey) {
   triggerBrowser(ProcedureKey.BROWSER_SHOW_GAME_INTERFACE, interfaceKey);
 
   if (gameUiConfigElement.headless) {
-    newBrowser = mp.browsers.newHeadless(`${environment.BROWSER_URL}/headless/${interfaceKey}`, 1920, 1080, false);
+    const url = `${environment.BROWSER_URL}/headless/${interfaceKey}`;
+    const width  = gameUiConfigElement.resolution?.width  ?? 1920;
+    const height = gameUiConfigElement.resolution?.height ?? 1080;
+    newBrowser = mp.browsers.newHeadless(url, width, height, false);
     headlessBrowsers.set(interfaceKey, newBrowser);
   }
 

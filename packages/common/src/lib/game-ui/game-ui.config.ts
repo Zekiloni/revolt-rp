@@ -234,5 +234,15 @@ export const gameUiConfig: Record<GameUiKey, IGameInterface> = {
     mouse: true,
     closeOnEscape: true,
     freezeControls: true
+  },
+
+  [GameUiKey.Speaker]: {
+    headless: true,
+    isActive: false,
+  },
+
+  [GameUiKey.TV]: {
+    headless: true,
+    isActive: false,
   }
 };

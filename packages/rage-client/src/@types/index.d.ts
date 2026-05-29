@@ -141,6 +141,11 @@ declare global {
   declare interface DiscordMp {
     requestOAuth2(applicationId: string): Promise<string>;
   }
+
+  declare interface EntityMp {
+    drawOutline?: boolean;
+    setMatrix([Vector3, Vector3, Vector3, Vector3]): void;
+  }
 }
 
 export {};

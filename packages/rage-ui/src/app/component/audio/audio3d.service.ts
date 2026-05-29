@@ -2,10 +2,11 @@ import { inject, Injectable } from '@angular/core';
 import { IAudio3D } from '@revolt-rp/common';
 import { AudioStreamApiService } from '@revolt-rp/common-ui';
 
-type  AudioSpot = IAudio3D & {
+export type AudioSpot = IAudio3D & {
   audio: HTMLAudioElement;
   panner: PannerNode;
   biquadFilter: BiquadFilterNode;
+  gainNode: GainNode;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -75,11 +76,20 @@ export class Audio3dService {
     const biquadFilter = new BiquadFilterNode(this.audioContext, { type: 'allpass' });
 
     const track = this.audioContext.createMediaElementSource(audio);
-    track.connect(panner).connect(biquadFilter).connect(this.audioContext.destination);
+    // track.connect(panner).connect(biquadFilter).connect(this.audioContext.destination);
+
+    const gainNode = this.audioContext.createGain();
+    gainNode.gain.value = volume;
+
+    track
+      .connect(panner)
+      .connect(biquadFilter)
+      .connect(gainNode)
+      .connect(this.audioContext.destination);
 
     audio.onloadeddata = () => audio.play().catch(() => console.log('Audio failed to play', id));
 
-    this.audioSpots.set(id, { ...audioCreate, id, audio, panner, biquadFilter, range });
+    this.audioSpots.set(id, { ...audioCreate, id, audio, panner, biquadFilter, range, gainNode });
   }
 
   removeAudio(id: string) {
@@ -90,6 +100,47 @@ export class Audio3dService {
     spot.panner.disconnect();
     spot.biquadFilter.disconnect();
     this.audioSpots.delete(id);
+  }
+
+  fadeAudio(
+    spot: AudioSpot,
+    targetVolume: number,
+    durationMs = 500
+  ) {
+    if (!spot || !this.audioContext) return;
+
+    const now = this.audioContext.currentTime;
+    const gain = spot.gainNode.gain;
+
+    // Cancel any previous automation
+    gain.cancelScheduledValues(now);
+
+    // Start from current value (important!)
+    gain.setValueAtTime(gain.value, now);
+
+    // Smooth fade
+    gain.linearRampToValueAtTime(
+      targetVolume,
+      now + durationMs / 1000
+    );
+  }
+
+  setAudioVolumeByDistance(spot: AudioSpot) {
+    if (!spot) return;
+
+    const listenerPos = this.audioContext?.listener.positionX.value ?? 0;
+    const listenerY = this.audioContext?.listener.positionY.value ?? 0;
+    const listenerZ = this.audioContext?.listener.positionZ.value ?? 0;
+
+    const dx = spot.panner.positionX.value - listenerPos;
+    const dy = spot.panner.positionY.value - listenerY;
+    const dz = spot.panner.positionZ.value - listenerZ;
+
+    const distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+    const maxDistance = spot.range;
+
+    const volume = Math.max(0, 1 - distance / maxDistance);
+    this.fadeAudio(spot, volume, 100);
   }
 
   setListenerPosition(x: number, y: number, z: number) {
@@ -120,6 +171,8 @@ export class Audio3dService {
     spot.panner.positionX.value = x;
     spot.panner.positionY.value = y;
     spot.panner.positionZ.value = z;
+
+    this.setAudioVolumeByDistance(spot);
   }
 
   setAudioMuffled(id: string, muffled: boolean) {
@@ -142,5 +195,9 @@ export class Audio3dService {
     this.audioSpots.get(id)?.audio.play().catch(() => {
       console.log('Audio failed to play', id);
     });
+  }
+
+  getAudioSpot(id: string): AudioSpot | undefined {
+    return this.audioSpots.get(id);
   }
 }

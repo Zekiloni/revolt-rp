@@ -4,6 +4,9 @@ const EPSILON = 0.0000001;
 
 const modulus = (p: Vector3) => Math.sqrt((p.x * p.x) + (p.y * p.y) + (p.z * p.z));
 
+export function snap(value: number, grid: number) {
+  return Math.round(value / grid) * grid;
+}
 
 export const getDistance = (vector1: Vector3, vector2: Vector3): number => {
   return mp.game.system.vdist(vector1.x, vector1.y, vector1.z, vector2.x, vector2.y, vector2.z);

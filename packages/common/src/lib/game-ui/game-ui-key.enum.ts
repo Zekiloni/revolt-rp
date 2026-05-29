@@ -36,4 +36,6 @@ export enum GameUiKey {
   GarageMenu = 'garageMenu',
   FishingMinigame = 'fishingMinigame',
   EquipmentMenu = 'equipmentMenu',
+  Speaker = 'speaker',
+  TV = "TV",
 }

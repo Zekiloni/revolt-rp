@@ -26,7 +26,9 @@ function defaultGamePrevents() {
   // Disabling weapon wheeel
   mp.game.controls.disableControlAction(RageEnums.InputGroup.INPUTGROUP_WEAPON_WHEEL_CYCLE, RageEnums.Controls.INPUT_SELECT_WEAPON, true);
 
-
+  if (mp.game.cam.isCinematicActive()) {
+    mp.game.cam.setCinematicModeActive(false);
+  }
   // Disabling props from falling / TODO
   // mp.game.invoke(RageEnums.Natives.PED.SET_PED_CAN_LOSE_PROPS_ON_DAMAGE, mp.players.local.handle ,false, 0);
   // mp.players.forEachInRange(mp.players.local.position, 75,

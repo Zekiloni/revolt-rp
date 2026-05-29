@@ -1,0 +1,110 @@
+<div class="w-full h-full  rounded-2xl
+     bg-surface-700/45  shadow
+border border-slate-700
+text-white p-5
+flex flex-col gap-4 overflow-hidden">
+  <!-- Tabs -->
+  <div class="grid grid-cols-2 border-b border-slate-600">
+    <button onclick="switchTab('player')" id="playerTab" class="tab-active flex items-center justify-center gap-2 py-3 text-sm font-medium text-white transition bg-slate-700">
+      <i class="pi pi-play text-xs"></i>
+      Player
+    </button>
+    <button onclick="switchTab('sync')" id="syncTab" class="flex items-center justify-center gap-2 py-3 text-sm font-medium text-slate-400 hover:text-white hover:bg-slate-600/50 transition">
+      <i class="pi pi-wifi text-xs"></i>
+      Sync
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="p-6 space-y-6">
+    <!-- Stream URL Input -->
+    <div>
+      <label class="block text-slate-300 text-sm font-medium mb-2">
+        Stream URL
+      </label>
+      <div class="flex gap-2">
+        <input
+          type="text"
+          id="streamUrl"
+          placeholder="Enter YouTube/Spotify URL..."
+          class="flex-1 bg-slate-600 text-white placeholder-slate-400 px-4 py-2.5 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+        />
+        <button class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2.5 rounded-lg transition font-bold text-xl">
+          +
+        </button>
+      </div>
+    </div>
+
+    <!-- Track Display -->
+    <div class="bg-slate-600 rounded-xl p-4">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="bg-gradient-to-br from-blue-500 to-purple-600 p-4 rounded-xl">
+          <i class="pi pi-music text-white text-3xl"></i>
+        </div>
+        <div class="flex-1">
+          <p class="text-white font-medium">No track playing</p>
+          <p class="text-slate-400 text-sm">Select a track to start</p>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-xs text-slate-400">
+          <span>0:00</span>
+          <span>0:00</span>
+        </div>
+        <div class="h-1 bg-slate-700 rounded-full overflow-hidden">
+          <div class="h-full w-0 bg-purple-500"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player Controls -->
+    <div class="flex items-center justify-center gap-4">
+      <button class="text-slate-400 hover:text-white transition">
+        <i class="pi pi-step-backward text-2xl"></i>
+      </button>
+      <button class="bg-purple-600 hover:bg-purple-700 p-4 rounded-full transition shadow-lg shadow-purple-600/30">
+        <i class="pi pi-play text-white text-2xl"></i>
+      </button>
+      <button class="text-slate-400 hover:text-white transition">
+        <i class="pi pi-step-forward text-2xl"></i>
+      </button>
+    </div>
+
+    <!-- Volume Control -->
+    <div>
+      <label class="block text-slate-300 text-sm font-medium mb-3">
+        Volume
+      </label>
+      <div class="flex items-center gap-3">
+        <i class="pi pi-volume-off text-slate-400"></i>
+        <div class="flex-1">
+          <input
+            type="range"
+            id="volumeSlider"
+            min="0"
+            max="100"
+            value="75"
+            class="volume-slider"
+            oninput="updateVolume(this.value)"
+          />
+        </div>
+        <i class="pi pi-volume-up text-slate-400"></i>
+        <span id="volumeValue" class="text-slate-300 text-sm font-medium w-10 text-right">75%</span>
+      </div>
+    </div>
+
+    <!-- Loop & Shuffle Buttons -->
+    <div class="grid grid-cols-2 gap-3">
+      <button onclick="toggleLoop()" id="loopBtn" class="flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition bg-slate-600 text-slate-300 hover:bg-slate-500">
+        <i class="pi pi-refresh text-sm"></i>
+        Loop
+      </button>
+      <button onclick="toggleShuffle()" id="shuffleBtn" class="flex items-center justify-center gap-2 py-3 rounded-lg font-medium transition bg-slate-600 text-slate-300 hover:bg-slate-500">
+        <i class="pi pi-sort-alt text-sm"></i>
+        Shuffle
+      </button>
+    </div>
+  </div>
+</div>
