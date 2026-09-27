@@ -8,7 +8,7 @@ dotenv.config();
 
 import compression from 'compression';
 import { connect } from '@revolt-rp/core';
-import controller from './controller';
+import controller from './modules';
 
 
 const host = process.env.HOST ?? 'localhost';

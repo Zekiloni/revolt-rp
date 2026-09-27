@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import { IAccountAuthorize } from '@revolt-rp/common';
 import { authConfig, getDiscordAuthUrl } from '@revolt-rp/core';
-import { getAccountById, getOrCreateByDiscord, login } from '../service/account.service';
-import { getIpFromRequest } from '../util/request.util';
-import { generateJwtToken } from '../service/auth.service';
-import { authenticate } from '../middleware/auth.middleware';
+import { getAccountById, getOrCreateByDiscord, login } from '../account/account.service';
+import { getIpFromRequest } from '../../util/request.util';
+import { generateJwtToken } from './auth.service';
+import { authenticate } from '../../core/auth.middleware';
 
 const router = Router();
 

@@ -166,9 +166,9 @@ export class PropertyObject extends Document implements IBaseObject {
   type: ObjectType;
 
   @prop({ type: Object, required: true })
-  position: IVector3;
+  declare position: IVector3;
 
-  rotation: IVector3;
+  declare rotation: IVector3;
 
   @prop({ required: true })
   dimension: number;
@@ -182,10 +182,10 @@ export class FurnitureObject extends PropertyObject {
   model: string;
 
   @prop({ type: Object, required: true })
-  rotation: IVector3;
+  declare rotation: IVector3;
 
-  @prop({ ref: () => Item, default: [] })
-  items?: Ref<Item>[];
+  @prop({ ref:'Item', default: [] })
+  items: Ref<Item>[];
 }
 
 export class DoorObject extends PropertyObject {
@@ -202,10 +202,10 @@ export class DoorObject extends PropertyObject {
   model?: string;
 
   @prop({ type: Object, required: true })
-  rotation: IVector3;
+  declare rotation: IVector3;
 
-  @prop({ ref: () => DoorObject, required: false })
-  parent?: Ref<DoorObject>;
+  // @prop({ ref: () => DoorObject, required: false })
+  // parent?: Ref<DoorObject>;
 }
 
 export class StaticObject extends PropertyObject {
@@ -213,5 +213,5 @@ export class StaticObject extends PropertyObject {
   model: string;
 
   @prop({ type: Object, required: true })
-  rotation: IVector3;
+  declare rotation: IVector3;
 }

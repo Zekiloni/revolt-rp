@@ -1,23 +1,23 @@
-name: Web API CI/CD Pipeline
+name: API CI/CD Pipeline
 
 on:
   push:
     branches:
       - master
     paths:
-      - 'packages/web-api/**'
+      - 'packages/api/**'
   pull_request:
     branches:
       - master
     paths:
-      - 'packages/web-api/**'
+      - 'packages/api/**'
   workflow_dispatch: # This is for manual triggering of the workflow
 
 jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/web-api
+      IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/api
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -30,8 +30,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build WEB:API
-        run: npx nx run web-api:build
+      - name: Build API
+        run: npx nx run api:build
 
       - name: Set up Docker Build
         uses: docker/setup-buildx-action@v3
@@ -47,14 +47,14 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: packages/web-api/Dockerfile
+          file: packages/api/Dockerfile
           push: true
           tags: ${{ env.IMAGE_NAME }}:latest
 
   deploy:
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/web-api
+      IMAGE_NAME: ghcr.io/zekiloni/revolt-rp/api
     needs: build
     steps:
       - name: Deploy to VPS
@@ -69,12 +69,12 @@ jobs:
             echo "Running commands on VPS"
             echo "${{ secrets.GHCR_ACCESS_TOKEN }}" | docker login ghcr.io --username ${{ github.actor }} --password-stdin
 
-            docker stop web_api || true
-            docker rm web_api || true
+            docker stop api || true
+            docker rm api || true
 
             docker images "${{ env.IMAGE_NAME }}" -q | xargs -I {} docker rmi -f {}
             docker pull ${{ env.IMAGE_NAME }}:latest
 
-            docker run -d --name web_api \
+            docker run -d --name api \
             -p 3000:3000 \
             "${{ env.IMAGE_NAME }}:latest"

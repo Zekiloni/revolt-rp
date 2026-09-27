@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build-many": "nx run-many --target=build --all --exclude=rage-ui"
+    "build-many": "nx run-many --target=build --all --exclude=rage-ui",
+    "fivem:build": "node tools/fivem/build.mjs",
+    "fivem:build:dev": "node tools/fivem/build.mjs --dev"
   },
   "private": true,
   "devDependencies": {
@@ -106,6 +108,7 @@
     "tailwindcss-primeui": "^0.6.1",
     "tslib": "^2.3.0",
     "ws": "^8.18.1",
+    "zod": "^4.6.5",
     "zone.js": "~0.15.0"
   }
 }

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAllProperties } from '../service/property.service';
+import { getAllProperties } from './property.service';
 
 const router = Router();
 

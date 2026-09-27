@@ -9,7 +9,7 @@ This README provides a technical overview, the repository layout, development an
 ## High level overview
 
 - Monorepo managed with NX-style layout (TypeScript + Node). Projects include server and client code, web UI, tooling and game resources.
-- Several packages use webpack for bundling; many TypeScript projects live under `packages/` and top-level apps (e.g., `web-ui`, `web-api`, `rage-client`, `rage-server`) have their own build configs.
+- Several packages use webpack for bundling; many TypeScript projects live under `packages/` and top-level apps (e.g., `web-ui`, `api`, `rage-client`, `rage-server`) have their own build configs.
 - The repo also contains native/runtime bits used by the game server (`dev-server/`), and packaged game resources (`game_resources/`, `client_packages/`).
 
 Goals of this document:
@@ -45,7 +45,7 @@ Goals of this document:
 
 Notes:
 - The repo uses TypeScript project references and workspace-level configuration (`tsconfig.base.json`, `nx.json`). Use `npx nx` where possible to leverage cached builds and affected commands.
-- Some projects include Dockerfiles (for example `web-api`, `discord-bot`, `web-ui`) to produce containers for deployment.
+- Some projects include Dockerfiles (for example `api`, `discord-bot`, `web-ui`) to produce containers for deployment.
 
 ---
 
@@ -64,7 +64,7 @@ Notes:
   - `rage-client/` — client-side game code.
   - `rage-server/` — server-side game logic.
   - `rage-ui/` — in-game UI code.
-  - `web-api/` — backend APIs and services.
+  - `api/` — backend APIs and services.
   - `web-ui/` — public website/admin UI.
   - `wiki/` — documentation and guides in Markdown.
 
@@ -81,7 +81,7 @@ Additional directories:
 - `rage-server`: contains server-side TypeScript, likely bundled with webpack. Runtime depends on `dev-server/` native runtime for local testing.
 - `rage-client`: client-side logic, built into game resources consumed by the game engine.
 - `web-ui`: React (or similar) based UI; includes Tailwind config.
-- `web-api`: Node/Express (or similar) API backend used by the web UI and external services.
+- `api`: Node/Express (or similar) API backend used by the web UI and external services.
 - `discord-bot`: bot code; check its Dockerfile for deployment specifics.
 
 ---
@@ -101,7 +101,7 @@ Assumptions: npm is used as package manager and `npx nx` is available. If your r
 
 - Serve (dev mode) a UI or API locally:
   - `npx nx serve web-ui`
-  - `npx nx serve web-api`
+  - `npx nx serve api`
 
 - Run tests for a project:
   - `npx nx test <project>`
@@ -110,9 +110,9 @@ Assumptions: npm is used as package manager and `npx nx` is available. If your r
   - `npx nx lint <project>`
   - `npx nx affected --target=lint`
 
-- Docker build & run (example for `web-api`):
-  - `docker build -f web-api/Dockerfile -t revolt/web-api:latest .`
-  - `docker run -p 3000:3000 revolt/web-api:latest`
+- Docker build & run (example for `api`):
+  - `docker build -f api/Dockerfile -t revolt/api:latest .`
+  - `docker run -p 3000:3000 revolt/api:latest`
 
 - Running the game server locally:
   - See `dev-server/` for the `ragemp-server.exe` and `conf.json` used to bootstrap the server. On Windows, run the provided server executable or use the provided `loader.mjs` in `dev-server/bin` when developing.

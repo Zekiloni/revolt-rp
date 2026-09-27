@@ -128,7 +128,7 @@ File: `scripts/dev.ps1`
 # Usage: Run this file from the repo root or double-click in Explorer.
 
 param(
-[string[]] $Services = @('web-api','web-ui')
+[string[]] $Services = @('api','web-ui')
 )
 
 $root = $PSScriptRoot

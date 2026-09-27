@@ -1,7 +1,7 @@
 import { AccountModel, BanModel, getDiscordAccessToken, getDiscordUserProfile, KickModel } from '@revolt-rp/core';
-import { compareSync } from 'bcryptjs';
+import { compareSync, hashSync } from 'bcryptjs';
 
-
+console.log('pw is ' + hashSync('kapakapa', 10));
 export const login = async (username: string, password: string) => {
   const account = await AccountModel.findOne({ username });
   if (!account) {

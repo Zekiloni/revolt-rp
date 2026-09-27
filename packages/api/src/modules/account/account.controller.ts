@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { getAccountById, getKickLogs, getBanLogs, updatePassword } from '../service/account.service';
-import { authenticate } from '../middleware/auth.middleware';
+import { getAccountById, getKickLogs, getBanLogs, updatePassword } from './account.service';
+import { authenticate } from '../../core/auth.middleware';
 
 const router = Router();
 

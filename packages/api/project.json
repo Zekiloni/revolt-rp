@@ -1,7 +1,7 @@
 {
-  "name": "web-api",
+  "name": "api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "packages/web-api/src",
+  "sourceRoot": "packages/api/src",
   "projectType": "application",
   "tags": [],
   "targets": {
@@ -10,22 +10,22 @@
       "defaultConfiguration": "development",
       "dependsOn": ["build"],
       "options": {
-        "buildTarget": "web-api:build",
+        "buildTarget": "api:build",
         "runBuildTargetDependencies": false,
         "watch": true
       },
       "configurations": {
         "development": {
-          "buildTarget": "web-api:build:development"
+          "buildTarget": "api:build:development"
         },
         "production": {
-          "buildTarget": "web-api:build:production"
+          "buildTarget": "api:build:production"
         }
       }
     },
     "docker-build": {
       "dependsOn": ["build"],
-      "command": "docker build -f packages/web-api/Dockerfile . -t web-api"
+      "command": "docker build -f packages/api/Dockerfile . -t api"
     }
   }
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { authenticate } from '../middleware/auth.middleware';
-import { getCharacterById } from '../service/character.service';
+import { authenticate } from '../../core/auth.middleware';
+import { getCharacterById } from './character.service';
 
 const router = Router();
 

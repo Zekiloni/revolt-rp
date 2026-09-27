@@ -64,6 +64,14 @@ export const authorizeAccount = async (player: PlayerMp, username: string, passw
   if (!account)
     throw new Error(t('account_doesnt_exist', { username }));
 
+  if (!account.socialClubId) {
+    account.socialClubId = player.rgscId;
+  }
+
+  if (!account.socialClubUsername) {
+    account.socialClubUsername = player.socialClub;
+  }
+
   if (!compareSync(password, account.password))
     throw new Error(t('incorrect_password'));
 

@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { WhitelistStatus } from '@revolt-rp/common';
-import { authenticate } from '../middleware/auth.middleware';
+import { authenticate } from '../../core/auth.middleware';
 import {
   getWhitelistByAccountId,
   createWhitelist,
   approveWhitelist,
   rejectWhitelist,
   getAllWhitelists, generateWhitelistTest
-} from '../service/whitelist.service';
-import { isAdministrator } from '../middleware/admin.middleware';
+} from './whitelist.service';
+import { isAdministrator } from '../../core/admin.middleware';
 
 
 const router = Router();

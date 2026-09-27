@@ -3,7 +3,7 @@ const { join } = require('path');
 
 module.exports = {
   output: {
-    path: join(__dirname, '../../dist/packages/web-api'),
+    path: join(__dirname, '../../dist/packages/api'),
   },
   resolve: {
     extensions: ['.ts', '.js'],
