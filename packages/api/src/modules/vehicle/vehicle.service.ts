@@ -30,10 +30,7 @@ export type UpdateVehicleResult =
 export const updateVehicle = async (id: string, input: VehicleUpdateInput): Promise<UpdateVehicleResult> => {
   const { rev, ...fields } = input;
 
-  const filter: FilterQuery<Vehicle> = { _id: id };
-  if (rev !== undefined) {
-    filter.rev = rev;
-  }
+  const filter: FilterQuery<Vehicle> = rev !== undefined ? { _id: id, rev } : { _id: id };
 
   const update: UpdateQuery<Vehicle> = {
     $set: fields,

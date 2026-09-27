@@ -17,7 +17,12 @@
     "paths": {
       "@revolt-rp/common": ["packages/common/src/index.ts"],
       "@revolt-rp/common-ui": ["packages/common-ui/src/index.ts"],
-      "@revolt-rp/core": ["packages/core/src/index.ts"]
+      "@revolt-rp/core": ["packages/core/src/index.ts"],
+      "@revolt-rp/api-contract": ["packages/api-contract/src/index.ts"],
+      "@revolt-rp/api-client": ["packages/api-client/src/index.ts"],
+      "@revolt-rp/game-abstraction": ["packages/game-abstraction/src/index.ts"],
+      "@revolt-rp/game-kernel": ["packages/game-kernel/src/index.ts"],
+      "@revolt-rp/platform-fivem": ["packages/platform-fivem/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

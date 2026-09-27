@@ -128,6 +128,9 @@ export class Vehicle extends Document implements IVehicle {
   @prop({ type: Boolean, required: false, default: true })
   isSpawned: boolean;
 
+  @prop({ type: Number, default: 0 })
+  rev: number;
+
   createdAt!: Date;
   updatedAt?: Date;
 

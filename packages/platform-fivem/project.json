@@ -1,0 +1,8 @@
+{
+  "name": "platform-fivem",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/platform-fivem/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {}
+}

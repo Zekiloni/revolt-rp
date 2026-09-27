@@ -48,6 +48,13 @@ dev-server
 /scripts/tools/input/
 /scripts/tools/output/
 
+# FiveM dev server (artifacts are downloaded manually, resources are build output)
+fivem-dev/FXServer.exe
+fivem-dev/citizen/
+fivem-dev/cache/
+fivem-dev/resources/*
+!fivem-dev/resources/.gitkeep
+
 **/.vitepress/cache
 /src/client/shared.ts
 /src/node/shared.ts
